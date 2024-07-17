@@ -157,21 +157,21 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 							try {
 								genCodeConstructeur(langueNom, langueConfig);
 							} catch(Exception ex) {
-								throw new RuntimeException(String.format("%s %s %s", classeNomSimple, classeLangueConfig.getString(ConfigCles.var_constructeur), classeNomSimple), ex);
+								throw new RuntimeException(String.format("%s %s %s", classeNomSimple, i18nGlobale.getString(I18n.var_constructeur), classeNomSimple), ex);
 							}
 						}
 						else if(BooleanUtils.isTrue(partEstMethode)) {
 							try {
 								genCodeMethode(langueNom, langueConfig);
 							} catch(Exception ex) {
-								throw new RuntimeException(String.format("%s %s %s", classeNomSimple, classeLangueConfig.getString(ConfigCles.var_methode), methodeVar), ex);
+								throw new RuntimeException(String.format("%s %s %s", classeNomSimple, i18nGlobale.getString(I18n.var_methode), methodeVar), ex);
 							}
 						}
 						else if(BooleanUtils.isTrue(partEstEntite)) {
 							try {
 								genCodeEntite(langueNom, langueConfig);
 							} catch(Exception ex) {
-								throw new RuntimeException(String.format("%s %s %s", classeNomSimple, classeLangueConfig.getString(ConfigCles.var_entite), entiteVar), ex);
+								throw new RuntimeException(String.format("%s %s %s", classeNomSimple, i18nGlobale.getString(I18n.var_entite), entiteVar), ex);
 							}
 						}
 //					}

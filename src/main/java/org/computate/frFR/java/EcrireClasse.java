@@ -61,7 +61,7 @@ public class EcrireClasse extends IndexerClasse {
 	 * r.enUS: languageName
 	 * r: ecrireClasse
 	 * r.enUS: writeClass
-	 * @param classeLangueConfig 
+	 * @param i18nGlobale 
 	 */   
 	public void ecrireClasse(String classeCheminAbsolu, String langueNom) throws Exception { 
 		SolrQuery rechercheSolr = new SolrQuery();   
@@ -504,31 +504,31 @@ public class EcrireClasse extends IndexerClasse {
 
 					StringBuilder c = new StringBuilder();
 					if(!classeTraduire)
-						c.append(classeLangueConfig.getString(ConfigCles.var_Traduire)).append(": ").append(classeTraduire).append("\n");
+						c.append(i18nGlobale.getString(I18n.var_Traduire)).append(": ").append(classeTraduire).append("\n");
 					if(!classeInitLoin)
-						c.append(classeLangueConfig.getString(ConfigCles.var_InitLoin)).append(": ").append(classeInitLoin).append("\n");
+						c.append(i18nGlobale.getString(I18n.var_InitLoin)).append(": ").append(classeInitLoin).append("\n");
 					if(classeModele)
-						c.append(classeLangueConfig.getString(ConfigCles.var_Modele)).append(": ").append(classeModele).append("\n");
+						c.append(i18nGlobale.getString(I18n.var_Modele)).append(": ").append(classeModele).append("\n");
 					if(classeApi)
-						c.append(classeLangueConfig.getString(ConfigCles.var_Api)).append(": ").append(classeApi).append("\n");
+						c.append(i18nGlobale.getString(I18n.var_Api)).append(": ").append(classeApi).append("\n");
 					if(classePage)
-						c.append(classeLangueConfig.getString(ConfigCles.var_Page)).append(": ").append(classePage).append("\n");
+						c.append(i18nGlobale.getString(I18n.var_Page)).append(": ").append(classePage).append("\n");
 					if(classePageSimple)
-						c.append(classeLangueConfig.getString(ConfigCles.var_PageSimple)).append(": ").append(classePageSimple).append("\n");
+						c.append(i18nGlobale.getString(I18n.var_PageSimple)).append(": ").append(classePageSimple).append("\n");
 					if(classeSauvegarde)
-						c.append(classeLangueConfig.getString(ConfigCles.var_Sauvegarde)).append(": ").append(classeSauvegarde).append("\n");
+						c.append(i18nGlobale.getString(I18n.var_Sauvegarde)).append(": ").append(classeSauvegarde).append("\n");
 					if(classePublicLire)
-						c.append(classeLangueConfig.getString(ConfigCles.var_PublicLire)).append(": ").append(classePublicLire).append("\n");
+						c.append(i18nGlobale.getString(I18n.var_PublicLire)).append(": ").append(classePublicLire).append("\n");
 					if(classeRoleSession)
-						c.append(classeLangueConfig.getString(ConfigCles.var_RoleSession)).append(": ").append(classeRoleSession).append("\n");
+						c.append(i18nGlobale.getString(I18n.var_RoleSession)).append(": ").append(classeRoleSession).append("\n");
 					if(classeRoleUtilisateur)
-						c.append(classeLangueConfig.getString(ConfigCles.var_RoleUtilisateur)).append(": ").append(classeRoleUtilisateur).append("\n");
+						c.append(i18nGlobale.getString(I18n.var_RoleUtilisateur)).append(": ").append(classeRoleUtilisateur).append("\n");
 					if(classeCouleur != null)
-						c.append(classeLangueConfig.getString(ConfigCles.var_Couleur)).append(": ").append(classeCouleur).append("\n");
+						c.append(i18nGlobale.getString(I18n.var_Couleur)).append(": ").append(classeCouleur).append("\n");
 					if(classeIconeGroupe != null)
-						c.append(classeLangueConfig.getString(ConfigCles.var_IconeGroupe)).append(": ").append(classeIconeGroupe).append("\n");
+						c.append(i18nGlobale.getString(I18n.var_IconeGroupe)).append(": ").append(classeIconeGroupe).append("\n");
 					if(classeIconeNom != null)
-						c.append(classeLangueConfig.getString(ConfigCles.var_IconeNom)).append(": ").append(classeIconeNom).append("\n");
+						c.append(i18nGlobale.getString(I18n.var_IconeNom)).append(": ").append(classeIconeNom).append("\n");
 					if(StringUtils.isNotBlank(classeCommentaire))
 						c.append("\n").append(classeCommentaire);
 
@@ -545,18 +545,18 @@ public class EcrireClasse extends IndexerClasse {
 								String classeRole = classeRoles.get(j);
 								String classeRoleLangue = classeRolesLangue.get(j);
 								if(classeRoleLangue.equals(langueNom))
-									c.append(classeLangueConfig.getString(ConfigCles.var_Role)).append(".").append(langueNom).append(": ").append(classeRole).append("\n");
+									c.append(i18nGlobale.getString(I18n.var_Role)).append(".").append(langueNom).append(": ").append(classeRole).append("\n");
 							}
 						}
 						if(StringUtils.isNotBlank(classeApiUri))
-							c.append(classeLangueConfig.getString(ConfigCles.var_ApiUri)).append(".").append(langueNom).append(": ").append(classeApiUri).append("\n");
+							c.append(i18nGlobale.getString(I18n.var_ApiUri)).append(".").append(langueNom).append(": ").append(classeApiUri).append("\n");
 						if(StringUtils.isNotBlank(classeApiTag))
-							c.append(classeLangueConfig.getString(ConfigCles.var_ApiTag)).append(".").append(langueNom).append(": ").append(classeApiTag).append("\n");
+							c.append(i18nGlobale.getString(I18n.var_ApiTag)).append(".").append(langueNom).append(": ").append(classeApiTag).append("\n");
 						if(StringUtils.isNotBlank(classeUnNom))
-							c.append(classeLangueConfig.getString(ConfigCles.var_UnNom)).append(".").append(langueNom).append(": ").append(classeUnNom).append("\n");
+							c.append(i18nGlobale.getString(I18n.var_UnNom)).append(".").append(langueNom).append(": ").append(classeUnNom).append("\n");
 						if(!langueNom.equals(classeLangueNom)) {
 							String classeNomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
-							c.append(classeLangueConfig.getString(ConfigCles.var_NomCanonique)).append(": ").append(classeNomCanonique).append("\n");
+							c.append(i18nGlobale.getString(I18n.var_NomCanonique)).append(": ").append(classeNomCanonique).append("\n");
 						}
 					}
 

@@ -1361,18 +1361,18 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(BooleanUtils.isTrue(classeInitLoin) && classePartsRequeteSite != null) {
 			wInitLoin.l(); 
 			wInitLoin.tl(1, "//////////////");
-			wInitLoin.tl(1, "// ", langueConfig.getString(ConfigCles.var_initLoin), " //");
+			wInitLoin.tl(1, "// ", langueConfig.getString(I18n.var_initLoin), " //");
 			wInitLoin.tl(1, "//////////////");
 
 			wInitLoin.l();
 			if(classePromesse) {
-				wInitLoin.tl(1, "public Future<Void> ", langueConfig.getString(ConfigCles.var_promesseLoin), classeNomSimple, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_) {");
+				wInitLoin.tl(1, "public Future<Void> ", langueConfig.getString(I18n.var_promesseLoin), classeNomSimple, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_) {");
 				if(classeContientRequeteSite)
-					wInitLoin.tl(2, "set", langueConfig.getString(ConfigCles.var_RequeteSite), "_(", langueConfig.getString(ConfigCles.var_requeteSite), "_);");
-				wInitLoin.tl(2, "return ", langueConfig.getString(ConfigCles.var_promesseLoin), classeNomSimple, "();");
+					wInitLoin.tl(2, "set", langueConfig.getString(I18n.var_RequeteSite), "_(", langueConfig.getString(I18n.var_requeteSite), "_);");
+				wInitLoin.tl(2, "return ", langueConfig.getString(I18n.var_promesseLoin), classeNomSimple, "();");
 				wInitLoin.tl(1, "}");
 			} else {
-				wInitLoin.t(1, "public ", classeNomSimple, " ", langueConfig.getString(ConfigCles.var_initLoin), classeNomSimple, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_)");
+				wInitLoin.t(1, "public ", classeNomSimple, " ", langueConfig.getString(I18n.var_initLoin), classeNomSimple, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_)");
 				if(classeInitLoinExceptions.size() > 0) {
 					wInitLoin.s(" throws ");
 					for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
@@ -1387,21 +1387,21 @@ public class EcrireGenClasse extends EcrireClasse {
 	//						if(contient", classePartsRequeteSite.nomSimple(langueNom), " && !StringUtils.equals(classeNomSimple, "", classePartsRequeteSite.nomSimple(langueNom), ""))
 	//							tl(2, "((", classeNomSimple, ")this).setRequeteSite_(requeteSite);");
 				if(classeContientRequeteSite)
-					wInitLoin.tl(2, "set", langueConfig.getString(ConfigCles.var_RequeteSite), "_(", langueConfig.getString(ConfigCles.var_requeteSite), "_);");
-				wInitLoin.tl(2, langueConfig.getString(ConfigCles.var_initLoin), classeNomSimple, "();");
+					wInitLoin.tl(2, "set", langueConfig.getString(I18n.var_RequeteSite), "_(", langueConfig.getString(I18n.var_requeteSite), "_);");
+				wInitLoin.tl(2, langueConfig.getString(I18n.var_initLoin), classeNomSimple, "();");
 				wInitLoin.tl(2, "return (", classeNomSimple, ")this;");
 				wInitLoin.tl(1, "}");
 			}
 
 			if(classePromesse) {
 				wInitLoin.l();
-				wInitLoin.tl(1, "public Future<Void> ", langueConfig.getString(ConfigCles.var_promesseLoin), classeNomSimple, "() {");
+				wInitLoin.tl(1, "public Future<Void> ", langueConfig.getString(I18n.var_promesseLoin), classeNomSimple, "() {");
 				wInitLoin.tl(2, "Promise<Void> promise = Promise.promise();");
 				if(classeInitLoinAvant) {
 					if(BooleanUtils.isTrue(classeEtendBase)) {
-						wInitLoin.tl(2, "super.", langueConfig.getString(ConfigCles.var_promesseLoin), classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_).onSuccess(a -> {");
+						wInitLoin.tl(2, "super.", langueConfig.getString(I18n.var_promesseLoin), classeNomSimpleSuperGenerique, "(", langueConfig.getString(I18n.var_requeteSite), "_).onSuccess(a -> {");
 						wInitLoin.tl(3, "Promise<Void> promise2 = Promise.promise();");
-						wInitLoin.tl(3, langueConfig.getString(ConfigCles.var_promesse), classeNomSimple, "(promise2);");
+						wInitLoin.tl(3, langueConfig.getString(I18n.var_promesse), classeNomSimple, "(promise2);");
 						wInitLoin.tl(3, "promise2.future().onSuccess(b -> {");
 						wInitLoin.tl(4, "promise.complete();");
 						wInitLoin.tl(3, "}).onFailure(ex -> {");
@@ -1413,10 +1413,10 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 				} else {
 					wInitLoin.tl(2, "Promise<Void> promise2 = Promise.promise();");
-					wInitLoin.tl(2, langueConfig.getString(ConfigCles.var_promesse), classeNomSimple, "(promise2);");
+					wInitLoin.tl(2, langueConfig.getString(I18n.var_promesse), classeNomSimple, "(promise2);");
 					wInitLoin.tl(2, "promise2.future().onSuccess(a -> {");
 					if(BooleanUtils.isTrue(classeEtendBase)) {
-						wInitLoin.tl(3, "super.", langueConfig.getString(ConfigCles.var_promesseLoin), classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_).onSuccess(b -> {");
+						wInitLoin.tl(3, "super.", langueConfig.getString(I18n.var_promesseLoin), classeNomSimpleSuperGenerique, "(", langueConfig.getString(I18n.var_requeteSite), "_).onSuccess(b -> {");
 						wInitLoin.tl(4, "promise.complete();");
 						wInitLoin.tl(3, "}).onFailure(ex -> {");
 						wInitLoin.tl(4, "promise.fail(ex);");
@@ -1432,7 +1432,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				wInitLoin.tl(1, "}");
 			} else {
 				wInitLoin.l();
-				wInitLoin.t(1, "public void ", langueConfig.getString(ConfigCles.var_initLoin), classeNomSimple, "()");
+				wInitLoin.t(1, "public void ", langueConfig.getString(I18n.var_initLoin), classeNomSimple, "()");
 				if(classeInitLoinExceptions.size() > 0) {
 					wInitLoin.s(" throws ");
 					for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
@@ -1446,19 +1446,19 @@ public class EcrireGenClasse extends EcrireClasse {
 				wInitLoin.l(" {");
 				if(classeInitLoinAvant) {
 					if(BooleanUtils.isTrue(classeEtendBase)) 
-						wInitLoin.tl(2, "super.", langueConfig.getString(ConfigCles.var_initLoin), classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_);");
+						wInitLoin.tl(2, "super.", langueConfig.getString(I18n.var_initLoin), classeNomSimpleSuperGenerique, "(", langueConfig.getString(I18n.var_requeteSite), "_);");
 				}
 				wInitLoin.tl(2, "init", classeNomSimple, "();");
 				if(!classeInitLoinAvant) {
 					if(BooleanUtils.isTrue(classeEtendBase)) 
-						wInitLoin.tl(2, "super.", langueConfig.getString(ConfigCles.var_initLoin), classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_);");
+						wInitLoin.tl(2, "super.", langueConfig.getString(I18n.var_initLoin), classeNomSimpleSuperGenerique, "(", langueConfig.getString(I18n.var_requeteSite), "_);");
 				}
 				wInitLoin.tl(1, "}");
 			}
 
 			wInitLoin.l();
 			if(classePromesse) {
-				wInitLoin.tl(1, "public Future<Void> ", langueConfig.getString(ConfigCles.var_promesse), classeNomSimple, "(Promise<Void> promise) {");
+				wInitLoin.tl(1, "public Future<Void> ", langueConfig.getString(I18n.var_promesse), classeNomSimple, "(Promise<Void> promise) {");
 				wInitLoin.tl(2, "Future.future(a -> a.complete()).compose(a -> {");
 				wInitLoin.tl(3, "Promise<Void> promise2 = Promise.promise();");
 				wInitLoin.tl(3, "try {");
@@ -1509,12 +1509,12 @@ public class EcrireGenClasse extends EcrireClasse {
 			o = wRequeteSite;
 			l(); 
 			tl(1, "/////////////////");
-			tl(1, "// ", langueConfig.getString(ConfigCles.var_requeteSite), " //");
+			tl(1, "// ", langueConfig.getString(I18n.var_requeteSite), " //");
 			tl(1, "/////////////////");
 			l(); 
-			tl(1, "public void ", langueConfig.getString(ConfigCles.var_requeteSite), classeNomSimple, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_) {");
+			tl(1, "public void ", langueConfig.getString(I18n.var_requeteSite), classeNomSimple, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_) {");
 			if(BooleanUtils.isTrue(classeEtendBase)) 
-				tl(3, "super.", langueConfig.getString(ConfigCles.var_requeteSite), classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_);");
+				tl(3, "super.", langueConfig.getString(I18n.var_requeteSite), classeNomSimpleSuperGenerique, "(", langueConfig.getString(I18n.var_requeteSite), "_);");
 		}
 	}
 
@@ -1542,22 +1542,22 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
 			l(); 
 			tl(1, "/////////////");
-			tl(1, "// ", langueConfig.getString(ConfigCles.var_obtenir), " //");
+			tl(1, "// ", langueConfig.getString(I18n.var_obtenir), " //");
 			tl(1, "/////////////");
 			tl(0);
 			t(1);
 			if(!classeEstBase)
 				s("@Override ");
-			l("public Object ", langueConfig.getString(ConfigCles.var_obtenir), langueConfig.getString(ConfigCles.var_PourClasse), "(String var) {");
+			l("public Object ", langueConfig.getString(I18n.var_obtenir), langueConfig.getString(I18n.var_PourClasse), "(String var) {");
 			tl(2, "String[] vars = StringUtils.split(var, \".\");");
 			tl(2, "Object o = null;");
 			tl(2, "for(String v : vars) {");
 			tl(3, "if(o == null)");
-			tl(4, "o = ", langueConfig.getString(ConfigCles.var_obtenir), classeNomSimple, "(v);");
+			tl(4, "o = ", langueConfig.getString(I18n.var_obtenir), classeNomSimple, "(v);");
 			if(activerVertx && classePartsModeleBase != null) {
 				tl(3, "else if(o instanceof ", classePartsModeleBase.nomSimple(langueNom), ") {");
 				tl(4, classePartsModeleBase.nomSimple(langueNom), " ", StringUtils.uncapitalize(classePartsModeleBase.nomSimple(langueNom)), " = (", classePartsModeleBase.nomSimple(langueNom), ")o;");
-				tl(4, "o = ", StringUtils.uncapitalize(classePartsModeleBase.nomSimple(langueNom)), ".", langueConfig.getString(ConfigCles.var_obtenir), langueConfig.getString(ConfigCles.var_PourClasse), "(v);");
+				tl(4, "o = ", StringUtils.uncapitalize(classePartsModeleBase.nomSimple(langueNom)), ".", langueConfig.getString(I18n.var_obtenir), langueConfig.getString(I18n.var_PourClasse), "(v);");
 				tl(3, "}");
 			}
 			tl(3, "else if(o instanceof Map) {");
@@ -1567,7 +1567,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "}");
 			tl(2, "return o;");
 			tl(1, "}");
-			tl(1, "public Object ", langueConfig.getString(ConfigCles.var_obtenir), classeNomSimple, "(String var) {");
+			tl(1, "public Object ", langueConfig.getString(I18n.var_obtenir), classeNomSimple, "(String var) {");
 			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
 			tl(2, "switch(var) {");
 		}
@@ -1599,13 +1599,13 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
 			l(); 
 			tl(1, "///////////////");
-			tl(1, "// ", langueConfig.getString(ConfigCles.var_attribuer), " //");
+			tl(1, "// ", langueConfig.getString(I18n.var_attribuer), " //");
 			tl(1, "///////////////");
 			tl(0);
 			t(1);
 			if(!classeEstBase)
 				s("@Override ");
-			s("public boolean ", langueConfig.getString(ConfigCles.var_attribuer), langueConfig.getString(ConfigCles.var_PourClasse), "(String var, Object val)");
+			s("public boolean ", langueConfig.getString(I18n.var_attribuer), langueConfig.getString(I18n.var_PourClasse), "(String var, Object val)");
 			if(classeInitLoinExceptions.size() > 0) {
 				s(" throws ");
 				for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
@@ -1621,17 +1621,17 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "Object o = null;");
 			tl(2, "for(String v : vars) {");
 			tl(3, "if(o == null)");
-			tl(4, "o = ", langueConfig.getString(ConfigCles.var_attribuer), classeNomSimple + "(v, val);");
+			tl(4, "o = ", langueConfig.getString(I18n.var_attribuer), classeNomSimple + "(v, val);");
 			if(activerVertx && classePartsModeleBase != null) {
 				tl(3, "else if(o instanceof ", classePartsModeleBase.nomSimple(langueNom), ") {");
 				tl(4, classePartsModeleBase.nomSimple(langueNom), " ", StringUtils.uncapitalize(classePartsModeleBase.nomSimple(langueNom)), " = (", classePartsModeleBase.nomSimple(langueNom), ")o;");
-				tl(4, "o = ", StringUtils.uncapitalize(classePartsModeleBase.nomSimple(langueNom)), ".", langueConfig.getString(ConfigCles.var_attribuer), langueConfig.getString(ConfigCles.var_PourClasse), "(v, val);");
+				tl(4, "o = ", StringUtils.uncapitalize(classePartsModeleBase.nomSimple(langueNom)), ".", langueConfig.getString(I18n.var_attribuer), langueConfig.getString(I18n.var_PourClasse), "(v, val);");
 				tl(3, "}");
 			}
 			tl(2, "}");
 			tl(2, "return o != null;");
 			tl(1, "}");
-			tl(1, "public Object ", langueConfig.getString(ConfigCles.var_attribuer), classeNomSimple, "(String var, Object val) {");
+			tl(1, "public Object ", langueConfig.getString(I18n.var_attribuer), classeNomSimple, "(String var, Object val) {");
 			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
 			tl(2, "switch(var) {");
 
@@ -1667,7 +1667,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			t(1);
 			if(!classeEstBase)
 				s("@Override ");
-			l("public void ", langueConfig.getString(ConfigCles.var_put), langueConfig.getString(ConfigCles.var_PourClasse), "(JsonObject requeteJson) {");
+			l("public void ", langueConfig.getString(I18n.var_put), langueConfig.getString(I18n.var_PourClasse), "(JsonObject requeteJson) {");
 			tl(2, "Set<String> vars = requeteJson.fieldNames();");
 			tl(2, "for(String var : vars) {");
 			tl(3, "put", classeNomSimple + "(requeteJson, var);");
@@ -1677,7 +1677,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			t(1);
 			if(!classeEstBase)
 				s("@Override ");
-			l("public Boolean ", langueConfig.getString(ConfigCles.var_put), classeNomSimple, "(JsonObject requeteJson, String var) {");
+			l("public Boolean ", langueConfig.getString(I18n.var_put), classeNomSimple, "(JsonObject requeteJson, String var) {");
 			tl(2, "switch(var) {");
 		}
 	}
@@ -2036,7 +2036,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		}
 		if(classePartsVerticle != null && classeNomSimple.equals(classePartsVerticle.nomSimple(langueNom))) {
 			l();
-			tl(1, "public static final String ", langueConfig.getString(ConfigCles.var_SITE_NOM), " = \"", siteNom, "\";");
+			tl(1, "public static final String ", langueConfig.getString(I18n.var_SITE_NOM), " = \"", siteNom, "\";");
 		}
 		if(classeValsVar != null && classeValsLangue != null && classeValsValeur != null) {
 			String classeValVarAncien = null;
@@ -2111,7 +2111,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				classeNomPluriel = classeDoc.getString("classeNomPluriel" + "_" + langueNom2 + "_stored_string");
 				classeNomVar = classeDoc.getString("classeNomVar" + "_" + langueNom2 + "_stored_string");
 				classeApiUri = classeDoc.getString("classeApiUri" + "_" + langueNom2 + "_stored_string");
-				classeApiUriPageRecherche = classeDoc.getString("classeApiUri" + langueConfig.getString(ConfigCles.var_PageRecherche) + "_" + langueNom2 + "_stored_string");
+				classeApiUriPageRecherche = classeDoc.getString("classeApiUri" + langueConfig.getString(I18n.var_PageRecherche) + "_" + langueNom2 + "_stored_string");
 				classeAdjectif = classeDoc.getString("classeAdjectif" + "_" + langueNom2 + "_stored_string");
 				classeAdjectifPluriel = classeDoc.getString("classeAdjectifPluriel" + "_" + langueNom2 + "_stored_string");
 				classeAdjectifVar = classeDoc.getString("classeAdjectifVar" + "_" + langueNom2 + "_stored_string");
@@ -2135,46 +2135,46 @@ public class EcrireGenClasse extends EcrireClasse {
 				classeDeNom = classeDoc.getString("classeDeNom" + "_" + langueNom2 + "_stored_string");
 
 				if(classeUri != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Uri), "_", langueNom2, " = ", q(classeUri), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_Uri), "_", langueNom2, " = ", q(classeUri), ";");
 
 				if(classeDescription != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Description), "_", langueNom2, " = ", q(classeDescription), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_Description), "_", langueNom2, " = ", q(classeDescription), ";");
 
 				if(classeUnNom != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_UnNom), "_", langueNom2, " = ", q(classeUnNom), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_UnNom), "_", langueNom2, " = ", q(classeUnNom), ";");
 				
 				if(classeCe != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Ce), "_", langueNom2, " = ", q(classeCe), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_Ce), "_", langueNom2, " = ", q(classeCe), ";");
 				
 				if(classeCeNom != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_CeNom), "_", langueNom2, " = ", q(classeCeNom), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_CeNom), "_", langueNom2, " = ", q(classeCeNom), ";");
 				
 				if(classeUn != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Un), "_", langueNom2, " = ", q(classeUn), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_Un), "_", langueNom2, " = ", q(classeUn), ";");
 				
 				if(classeLeNom != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_LeNom), "_", langueNom2, " = ", q(classeLeNom), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_LeNom), "_", langueNom2, " = ", q(classeLeNom), ";");
 				
 				if(classeNomSingulier != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomSingulier), "_", langueNom2, " = ", q(classeNomSingulier), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_NomSingulier), "_", langueNom2, " = ", q(classeNomSingulier), ";");
 				
 				if(classeNomPluriel != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomPluriel), "_", langueNom2, " = ", q(classeNomPluriel), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_NomPluriel), "_", langueNom2, " = ", q(classeNomPluriel), ";");
 				
 				if(classeNomActuel != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomActuel), "_", langueNom2, " = ", q(classeNomActuel), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_NomActuel), "_", langueNom2, " = ", q(classeNomActuel), ";");
 				
 				if(classeTous != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Tous), "_", langueNom2, " = ", q(classeTous), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_Tous), "_", langueNom2, " = ", q(classeTous), ";");
 				
 				if(classeTousNom != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_TousNom), "_", langueNom2, " = ", q(classeTousNom), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_TousNom), "_", langueNom2, " = ", q(classeTousNom), ";");
 				
 				if(classeRechercherTousNomPar != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_RechercherTousNomPar), "_", langueNom2, " = ", q(classeRechercherTousNomPar), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_RechercherTousNomPar), "_", langueNom2, " = ", q(classeRechercherTousNomPar), ";");
 				
 				if(classeRechercherTousNom != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_RechercherTousNom), "_", langueNom2, " = ", q(classeRechercherTousNom), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_RechercherTousNom), "_", langueNom2, " = ", q(classeRechercherTousNom), ";");
 				
 				if(classeH1 != null)
 					tl(1, "public static final String ", classeNomSimple, "_H1", "_", langueNom2, " = ", q(classeH1), ";");
@@ -2186,41 +2186,41 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(1, "public static final String ", classeNomSimple, "_H3", "_", langueNom2, " = ", q(classeH3), ";");
 				
 				if(classeTitre != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Titre), "_", langueNom2, " = ", q(classeTitre), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_Titre), "_", langueNom2, " = ", q(classeTitre), ";");
 				
 				if(classeLesNoms != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_LesNoms), "_", langueNom2, " = ", q(classeLesNoms), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_LesNoms), "_", langueNom2, " = ", q(classeLesNoms), ";");
 				
 				if(classeAucunNomTrouve != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_AucunNomTrouve), "_", langueNom2, " = ", q(classeAucunNomTrouve), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_AucunNomTrouve), "_", langueNom2, " = ", q(classeAucunNomTrouve), ";");
 				
 				if(classeNomVar != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomVar), "_", langueNom2, " = ", q(classeNomVar), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_NomVar), "_", langueNom2, " = ", q(classeNomVar), ";");
 				if(classeApiUri != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_ApiUri), "_", langueNom2, " = ", q(classeApiUri), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_ApiUri), "_", langueNom2, " = ", q(classeApiUri), ";");
 				if(classeApiUriPageRecherche != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_ApiUri), langueConfig.getString(ConfigCles.var_PageRecherche), "_", langueNom2, " = ", q(classeApiUriPageRecherche), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_ApiUri), langueConfig.getString(I18n.var_PageRecherche), "_", langueNom2, " = ", q(classeApiUriPageRecherche), ";");
 				
 				if(classeDeNom != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_DeNom), "_", langueNom2, " = ", q(classeDeNom), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_DeNom), "_", langueNom2, " = ", q(classeDeNom), ";");
 				
 				if(classeAdjectif != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Adjectif), "_", langueNom2, " = ", q(classeAdjectif), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_Adjectif), "_", langueNom2, " = ", q(classeAdjectif), ";");
 				
 				if(classeAdjectifPluriel != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_AdjectifPluriel), "_", langueNom2, " = ", q(classeAdjectifPluriel), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_AdjectifPluriel), "_", langueNom2, " = ", q(classeAdjectifPluriel), ";");
 				
 				if(classeAdjectifVar != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_AdjectifVar), "_", langueNom2, " = ", q(classeAdjectifVar), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_AdjectifVar), "_", langueNom2, " = ", q(classeAdjectifVar), ";");
 				
 				if(classeUnNomAdjectif != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_UnNomAdjectif), "_", langueNom2, " = ", q(classeUnNomAdjectif), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_UnNomAdjectif), "_", langueNom2, " = ", q(classeUnNomAdjectif), ";");
 				
 				if(classeNomAdjectifSingulier != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomAdjectifSingulier), "_", langueNom2, " = ", q(classeNomAdjectifSingulier), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_NomAdjectifSingulier), "_", langueNom2, " = ", q(classeNomAdjectifSingulier), ";");
 				
 				if(classeNomAdjectifPluriel != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomAdjectifPluriel), "_", langueNom2, " = ", q(classeNomAdjectifPluriel), ";");
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_NomAdjectifPluriel), "_", langueNom2, " = ", q(classeNomAdjectifPluriel), ";");
 
 				List<String> classeApiMethodes = Optional.ofNullable(Optional.ofNullable(doc.getJsonArray("classeApiMethodes_" + langueNom2 + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList())).orElse(Arrays.asList());
 				for(String classePageMethode : classeApiMethodes) {
@@ -2243,16 +2243,16 @@ public class EcrireGenClasse extends EcrireClasse {
 			
 			l();
 			if(classeCouleur != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Couleur), " = ", q(classeCouleur), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_Couleur), " = ", q(classeCouleur), ";");
 			
 			if(classeIconeGroupe != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_IconeGroupe), " = ", q(classeIconeGroupe), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_IconeGroupe), " = ", q(classeIconeGroupe), ";");
 			
 			if(classeIconeNom != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_IconeNom), " = ", q(classeIconeNom), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_IconeNom), " = ", q(classeIconeNom), ";");
 			
 			if(classeLignes != null)
-				tl(1, "public static final Integer ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Lignes), " = ", classeLignes, ";");
+				tl(1, "public static final Integer ", classeNomSimple, "_", langueConfig.getString(I18n.var_Lignes), " = ", classeLignes, ";");
 		}
 
 		if(classePage) {
@@ -3276,7 +3276,7 @@ public class EcrireGenClasse extends EcrireClasse {
 										entiteValsEcrivain.tl(2 + p, "{{ ", classeNomSimple, "['", entiteVar, entiteValVar, entiteValVarNumero, "_{{ lang }}'] }}");
 									}
 									else {
-										entiteValsEcrivain.tl(2 + p, "{{#if ", classeLangueConfig.getString(ConfigCles.var_utilisateurId), "}}", entiteVar, entiteValVar, entiteValVarNumero, "{{else}}", entiteValCode, "{{/if}}");
+										entiteValsEcrivain.tl(2 + p, "{{#if ", i18nGlobale.getString(I18n.var_utilisateurId), "}}", entiteVar, entiteValVar, entiteValVarNumero, "{{else}}", entiteValCode, "{{/if}}");
 //										if(classeEntiteVars.contains(classeLangueConfig.getString(ConfigCles.var_utilisateurId)))
 //											entiteValsEcrivain.tl(2 + p, "sx(utilisateurId == null ? ", entiteVar, entiteValVar, entiteValVarNumero, " : ", entiteValCode, ");");
 //										else
@@ -3320,7 +3320,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				t(1, "/**");
 			s(entiteValsEcrivain);
 				t(1);
-					s(langueConfig.getString(ConfigCles.str_L_entité_), entiteVar);
+					s(langueConfig.getString(I18n.str_L_entité_), entiteVar);
 				l();
 		
 				if(entiteCommentaire != null) {
@@ -3341,7 +3341,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(1, " *\t", " is defined as null before being initialized. ");
 				}
 				else {
-					tl(1, " *\t", langueConfig.getString(ConfigCles.str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut), ". ");
+					tl(1, " *\t", langueConfig.getString(I18n.str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut), ". ");
 				}
 				tl(1, " */");
 			}
@@ -3454,7 +3454,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(ecrireCommentaire) {
 				t(1, "/**");
 				t(1);
-				s("<br>", langueConfig.getString(ConfigCles.str_L_entité_), entiteVar);
+				s("<br>", langueConfig.getString(I18n.str_L_entité_), entiteVar);
 				l();
 		
 				if(entiteCommentaire != null) {
@@ -3472,21 +3472,21 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 		
 				if(entiteCouverture) {
-					tl(1, " * ", langueConfig.getString(ConfigCles.str__est_défini_comme_null_avant_d_être_initialisé__));
+					tl(1, " * ", langueConfig.getString(I18n.str__est_défini_comme_null_avant_d_être_initialisé__));
 				}
 				else {
-					tl(1, " * ", langueConfig.getString(ConfigCles.str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut), ". ");
+					tl(1, " * ", langueConfig.getString(I18n.str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut), ". ");
 				}
 		
 				// Lien vers Solr //
-				tl(1, " * <br><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstEntite_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=entiteVar_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(entiteVar), "\">", langueConfig.getString(ConfigCles.str_Trouver_l_entité_), entiteVar, langueConfig.getString(ConfigCles.str__dans_Solr), "</a>");
+				tl(1, " * <br><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstEntite_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=entiteVar_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(entiteVar), "\">", langueConfig.getString(I18n.str_Trouver_l_entité_), entiteVar, langueConfig.getString(I18n.str__dans_Solr), "</a>");
 				tl(1, " * <br>");
 		
 				if(entiteCouverture) {
-					tl(1, " * @param ", entiteVarParam, langueConfig.getString(ConfigCles.str__est_pour_envelopper_une_valeur_à_assigner_à_cette_entité_lors_de_l_initialisation__));
+					tl(1, " * @param ", entiteVarParam, langueConfig.getString(I18n.str__est_pour_envelopper_une_valeur_à_assigner_à_cette_entité_lors_de_l_initialisation__));
 				}
 				else {
-					tl(1, " * @param ", entiteVarParam, langueConfig.getString(ConfigCles.str__est_l_entité_déjà_construit__));
+					tl(1, " * @param ", entiteVarParam, langueConfig.getString(I18n.str__est_l_entité_déjà_construit__));
 				}
 		//		if(methodeExceptionsNomSimpleComplet != null && methodeExceptionsNomSimpleComplet.size() > 0) {
 		//
@@ -3546,13 +3546,13 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 
 					tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-					tl(2, entiteEstListe ? "String l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+					tl(2, entiteEstListe ? "String l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ", o);");
 					if(entiteEstListe) {
 						tl(2, "if(l != null)");
 						tl(3, "add", entiteVarCapitalise, "(l);");
 					}
 					tl(1, "}");
-					tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+					tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
 	
 					if(entiteSetTrim && entiteSetLower)
 						tl(2, "return StringUtils.trim(StringUtils.lowerCase(o));");
@@ -3586,13 +3586,13 @@ public class EcrireGenClasse extends EcrireClasse {
 						|| entiteEstListe && StringUtils.equals(entiteNomCanoniqueGenerique, Boolean.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-					tl(2, entiteEstListe ? "Boolean l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+					tl(2, entiteEstListe ? "Boolean l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ", o);");
 					if(entiteEstListe) {
 						tl(2, "if(l != null)");
 						tl(3, "add", entiteVarCapitalise, "(l);");
 					}
 					tl(1, "}");
-					tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+					tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
 					tl(2, "return Boolean.parseBoolean(o);");
 					tl(1, "}");
 					staticSet = true;
@@ -3603,13 +3603,13 @@ public class EcrireGenClasse extends EcrireClasse {
 						|| entiteEstListe && StringUtils.equals(entiteNomCanoniqueGenerique, Integer.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-					tl(2, entiteEstListe ? "Integer l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+					tl(2, entiteEstListe ? "Integer l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ", o);");
 					if(entiteEstListe) {
 						tl(2, "if(l != null)");
 						tl(3, "add", entiteVarCapitalise, "(l);");
 					}
 					tl(1, "}");
-					tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+					tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
 					tl(2, "if(NumberUtils.isParsable(o))");
 					tl(3, "return Integer.parseInt(o);");
 					tl(2, "return null;");
@@ -3622,13 +3622,13 @@ public class EcrireGenClasse extends EcrireClasse {
 						|| entiteEstListe && StringUtils.equals(entiteNomCanoniqueGenerique, Float.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-					tl(2, entiteEstListe ? "Float l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+					tl(2, entiteEstListe ? "Float l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ", o);");
 					if(entiteEstListe) {
 						tl(2, "if(l != null)");
 						tl(3, "add", entiteVarCapitalise, "(l);");
 					}
 					tl(1, "}");
-					tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+					tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
 					tl(2, "if(NumberUtils.isParsable(o))");
 					tl(3, "return Float.parseFloat(o);");
 					tl(2, "return null;");
@@ -3641,13 +3641,13 @@ public class EcrireGenClasse extends EcrireClasse {
 						|| entiteEstListe && StringUtils.equals(entiteNomCanoniqueGenerique, Double.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-					tl(2, entiteEstListe ? "Double l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+					tl(2, entiteEstListe ? "Double l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ", o);");
 					if(entiteEstListe) {
 						tl(2, "if(l != null)");
 						tl(3, "add", entiteVarCapitalise, "(l);");
 					}
 					tl(1, "}");
-					tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+					tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
 					tl(2, "if(NumberUtils.isParsable(o))");
 					tl(3, "return Double.parseDouble(o);");
 					tl(2, "return null;");
@@ -3660,13 +3660,13 @@ public class EcrireGenClasse extends EcrireClasse {
 						|| entiteEstListe && StringUtils.equals(entiteNomCanoniqueGenerique, BigDecimal.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-					tl(2, entiteEstListe ? "BigDecimal l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+					tl(2, entiteEstListe ? "BigDecimal l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ", o);");
 					if(entiteEstListe) {
 						tl(2, "if(l != null)");
 						tl(3, "add", entiteVarCapitalise, "(l);");
 					}
 					tl(1, "}");
-					tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+					tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
 					tl(2, "o = StringUtils.removeAll(o, \"[^\\\\d\\\\.]\");");
 					tl(2, "if(NumberUtils.isParsable(o))");
 					tl(3, "return new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.HALF_UP);");
@@ -3692,13 +3692,13 @@ public class EcrireGenClasse extends EcrireClasse {
 						|| entiteEstListe && StringUtils.equals(entiteNomCanoniqueGenerique, Long.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-					tl(2, entiteEstListe ? "Long l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+					tl(2, entiteEstListe ? "Long l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ", o);");
 					if(entiteEstListe) {
 						tl(2, "if(l != null)");
 						tl(3, "add", entiteVarCapitalise, "(l);");
 					}
 					tl(1, "}");
-					tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+					tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
 					tl(2, "if(NumberUtils.isParsable(o))");
 					tl(3, "return Long.parseLong(o);");
 					tl(2, "return null;");
@@ -3715,10 +3715,10 @@ public class EcrireGenClasse extends EcrireClasse {
 
 					if(entiteNomCanoniqueGenerique == null) {
 						tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-						tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+						tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ", o);");
 						tl(1, "}");
 					}
-					tl(1, "public static ", entiteNomCanoniqueGenerique == null ? entiteNomSimple : entiteNomSimpleGenerique, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+					tl(1, "public static ", entiteNomCanoniqueGenerique == null ? entiteNomSimple : entiteNomSimpleGenerique, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
 					tl(2, "if(o != null) {");
 					tl(3, "try {");
 					tl(4, entiteNomCanoniqueGenerique == null ? entiteNomSimple : entiteNomSimpleGenerique, " shape = null;");
@@ -3747,10 +3747,10 @@ public class EcrireGenClasse extends EcrireClasse {
 
 					if(entiteNomCanoniqueGenerique == null) {
 						tl(1, "public void set", entiteVarCapitalise, "(JsonObject o) {");
-						tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+						tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ", o);");
 						tl(1, "}");
 					}
-					tl(1, "public static ", entiteNomCanoniqueGenerique == null ? entiteNomSimple : entiteNomSimpleGenerique, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, JsonObject o) {");
+					tl(1, "public static ", entiteNomCanoniqueGenerique == null ? entiteNomSimple : entiteNomSimpleGenerique, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, JsonObject o) {");
 					tl(2, "if(o != null) {");
 					tl(3, "try {");
 					tl(4, entiteNomCanoniqueGenerique == null ? entiteNomSimple : entiteNomSimpleGenerique, " shape = new ", entiteNomCanoniqueGenerique == null ? entiteNomSimple : entiteNomSimpleGenerique, "();");
@@ -3784,9 +3784,9 @@ public class EcrireGenClasse extends EcrireClasse {
 					if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
 						tl(1, "@JsonIgnore");
 						tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-						tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+						tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ", o);");
 						tl(1, "}");
-						tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+						tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
 						tl(2, "if(o != null) {");
 						tl(4, "return new JsonObject(o);");
 						tl(2, "}");
@@ -3796,16 +3796,16 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 				}
 				else {
-					System.err.println(String.format("%s %s %s %s %s. ", langueConfig.getString(ConfigCles.var_classe), langueConfig.getString(ConfigCles.var_RequeteSite), langueConfig.getString(ConfigCles.var_manquante), langueConfig.getString(ConfigCles.var_dans), cheminSrcMainJava));
+					System.err.println(String.format("%s %s %s %s %s. ", langueConfig.getString(I18n.var_classe), langueConfig.getString(I18n.var_RequeteSite), langueConfig.getString(I18n.var_manquante), langueConfig.getString(I18n.var_dans), cheminSrcMainJava));
 				}
 		
 				// Setter JsonArray //
 				if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniqueVertxJsonArray)) {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-					tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+					tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ", o);");
 					tl(1, "}");
-					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
 					tl(2, "if(o != null) {");
 					tl(4, "return new JsonArray(o);");
 					tl(2, "}");
@@ -3821,9 +3821,9 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-					tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+					tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ", o);");
 					tl(1, "}");
-					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
 					tl(2, "return Timestamp.valueOf((LocalDateTime.parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER)));");
 					tl(1, "}");
 					staticSet = true;
@@ -3836,9 +3836,9 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-					tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+					tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ", o);");
 					tl(1, "}");
-					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
 					tl(2, "return Date.from(LocalDateTime.parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER).atZone(ZoneId.of(\"Z\")).toInstant());");
 					tl(1, "}");
 					staticSet = true;
@@ -3851,9 +3851,9 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-					tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+					tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ", o);");
 					tl(1, "}");
-					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
 					tl(2, "try {");
 					tl(3, "return o == null ? null : LocalTime.parse(o, DateTimeFormatter.ISO_TIME);");
 					tl(2, "} catch(Exception e) {");
@@ -3874,12 +3874,12 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-					tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+					tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ", o);");
 					tl(1, "}");
-					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
 					tl(2, "if(o != null) {");
 					tl(3, "if(o.contains(\"T\")) {");
-					tl(4, "return java.time.LocalDateTime.parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER).atZone(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toLocalDate();");
+					tl(4, "return java.time.LocalDateTime.parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER).atZone(ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), "))).toLocalDate();");
 					tl(3, "} else {");
 					tl(4, "return LocalDate.parse(o, DateTimeFormatter.ISO_DATE);");
 					tl(3, "}");
@@ -3889,7 +3889,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					if(classeContientRequeteSite) {
 					tl(1, "@JsonIgnore");
 						tl(1, "public void set", entiteVarCapitalise, "(Date o) {");
-						tl(2, "this.", entiteVar, " = o == null ? null : o.toInstant().atZone(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toLocalDate();");
+						tl(2, "this.", entiteVar, " = o == null ? null : o.toInstant().atZone(ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), "))).toLocalDate();");
 						tl(1, "}");
 					}
 					staticSet = true;
@@ -3906,21 +3906,21 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-					tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+					tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ", o);");
 					tl(1, "}");
-					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
 					tl(2, "if(StringUtils.endsWith(o, \"]\"))");
 					tl(3, "return o == null ? null : ZonedDateTime.parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".ZONED_DATE_TIME_FORMATTER);");
 					tl(2, "else if(StringUtils.endsWith(o, \"Z\"))");
-					tl(3, "return o == null ? null : Instant.parse(o).atZone(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteSite), "_).map(r -> r.get", langueConfig.getString(ConfigCles.var_Config), "()).map(config -> config.getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), ")).map(z -> ZoneId.of(z)).orElse(ZoneId.of(\"UTC\"))).truncatedTo(ChronoUnit.MILLIS);");
+					tl(3, "return o == null ? null : Instant.parse(o).atZone(Optional.ofNullable(", langueConfig.getString(I18n.var_requeteSite), "_).map(r -> r.get", langueConfig.getString(I18n.var_Config), "()).map(config -> config.getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), ")).map(z -> ZoneId.of(z)).orElse(ZoneId.of(\"UTC\"))).truncatedTo(ChronoUnit.MILLIS);");
 					tl(2, "else if(StringUtils.contains(o, \"T\"))");
 					tl(3, "return o == null ? null : ZonedDateTime.parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER).truncatedTo(ChronoUnit.MILLIS);");
 					tl(2, "else");
-					tl(3, "return o == null ? null : LocalDate.parse(o, DateTimeFormatter.ISO_DATE).atStartOfDay(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).truncatedTo(ChronoUnit.MILLIS);");
+					tl(3, "return o == null ? null : LocalDate.parse(o, DateTimeFormatter.ISO_DATE).atStartOfDay(ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), "))).truncatedTo(ChronoUnit.MILLIS);");
 					tl(1, "}");
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(Date o) {");
-					tl(2, "this.", entiteVar, " = o == null ? null : ZonedDateTime.ofInstant(o.toInstant(), ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).truncatedTo(ChronoUnit.MILLIS);");
+					tl(2, "this.", entiteVar, " = o == null ? null : ZonedDateTime.ofInstant(o.toInstant(), ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), "))).truncatedTo(ChronoUnit.MILLIS);");
 					tl(1, "}");
 					staticSet = true;
 				}
@@ -3936,21 +3936,21 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-					tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_, o);");
+					tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, o);");
 					tl(1, "}");
-					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
 					tl(2, "return o == null ? null : LocalDateTime.parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER).truncatedTo(ChronoUnit.MILLIS);");
 					tl(1, "}");
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(Date o) {");
-					tl(2, "this.", entiteVar, " = o == null ? null : LocalDateTime.ofInstant(o.toInstant(), ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).truncatedTo(ChronoUnit.MILLIS);");
+					tl(2, "this.", entiteVar, " = o == null ? null : LocalDateTime.ofInstant(o.toInstant(), ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), "))).truncatedTo(ChronoUnit.MILLIS);");
 					tl(1, "}");
 					staticSet = true;
 				}
 	
 				if(!staticSet && !entiteNomSimpleComplet.contains("<DEV>")) {
 					if((StringUtils.equalsAny(entiteNomSimple, "List", "ArrayList", "Stack"))) {
-						tl(1, "public static ", entiteNomSimpleGenerique, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+						tl(1, "public static ", entiteNomSimpleGenerique, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
 						if("String".equals(entiteNomSimpleGenerique)) {
 							tl(2, "return o;");
 						} else if(StringUtils.equals(entiteNomCanonique, Long.class.getCanonicalName())) {
@@ -3965,7 +3965,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 					else {
 						if(classePartsRequeteSite != null) {
-							tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+							tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
 							if("String".equals(entiteNomSimpleGenerique)) {
 								tl(2, "return o;");
 							} else if(StringUtils.equals(entiteNomCanonique, Long.class.getCanonicalName())) {
@@ -3979,13 +3979,13 @@ public class EcrireGenClasse extends EcrireClasse {
 							tl(1, "}");
 						}
 						else {
-							System.err.println(String.format("%s %s %s %s %s. ", langueConfig.getString(ConfigCles.var_classe), langueConfig.getString(ConfigCles.var_RequeteSite), langueConfig.getString(ConfigCles.var_manquante), langueConfig.getString(ConfigCles.var_dans), cheminSrcMainJava));
+							System.err.println(String.format("%s %s %s %s %s. ", langueConfig.getString(I18n.var_classe), langueConfig.getString(I18n.var_RequeteSite), langueConfig.getString(I18n.var_manquante), langueConfig.getString(I18n.var_dans), cheminSrcMainJava));
 						}
 					}
 				}
 			}
 			else {
-				System.err.println(String.format("%s %s %s %s %s. ", langueConfig.getString(ConfigCles.var_classe), langueConfig.getString(ConfigCles.var_RequeteSite), langueConfig.getString(ConfigCles.var_manquante), langueConfig.getString(ConfigCles.var_dans), cheminSrcMainJava));
+				System.err.println(String.format("%s %s %s %s %s. ", langueConfig.getString(I18n.var_classe), langueConfig.getString(I18n.var_RequeteSite), langueConfig.getString(I18n.var_manquante), langueConfig.getString(I18n.var_dans), cheminSrcMainJava));
 			}
 	
 			// Ajouter //
@@ -4178,7 +4178,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 					}
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
-					tl(2, entiteNomSimpleCompletGenerique, " p = Date.from(LocalDateTime.parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER).atZone(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toInstant());");
+					tl(2, entiteNomSimpleCompletGenerique, " p = Date.from(LocalDateTime.parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER).atZone(ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), "))).toInstant());");
 					tl(2, "add", entiteVarCapitalise, "(p);");
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
@@ -4205,7 +4205,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(Date o) {");
-					tl(2, entiteNomSimpleCompletGenerique, " p = o.toInstant().atZone(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toLocalDate();");
+					tl(2, entiteNomSimpleCompletGenerique, " p = o.toInstant().atZone(ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), "))).toLocalDate();");
 					tl(2, "add", entiteVarCapitalise, "(p);");
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
@@ -4232,7 +4232,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(Date o) {");
-					tl(2, entiteNomSimpleCompletGenerique, " p = ZonedDateTime.ofInstant(o.toInstant(), ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), ")));");
+					tl(2, entiteNomSimpleCompletGenerique, " p = ZonedDateTime.ofInstant(o.toInstant(), ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), ")));");
 					tl(2, "add", entiteVarCapitalise, "(p);");
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
@@ -4259,7 +4259,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(Date o) {");
-					tl(2, entiteNomSimpleCompletGenerique, " p = LocalDateTime.ofInstant(o.toInstant(), ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), ")));");
+					tl(2, entiteNomSimpleCompletGenerique, " p = LocalDateTime.ofInstant(o.toInstant(), ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), ")));");
 					tl(2, "add", entiteVarCapitalise, "(p);");
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
@@ -4288,7 +4288,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Initialiser //
 			if(entitePromesse) {
-				tl(1, "protected Future<", entiteNomSimpleComplet, "> ", entiteVar, langueConfig.getString(ConfigCles.var_Promesse), "() {");
+				tl(1, "protected Future<", entiteNomSimpleComplet, "> ", entiteVar, langueConfig.getString(I18n.var_Promesse), "() {");
 				tl(2, "Promise<", entiteNomSimpleComplet, "> promise = Promise.promise();");
 	
 				tl(2, "Promise<", entiteNomSimpleComplet, "> promise2 = Promise.promise();");
@@ -4296,7 +4296,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(2, "promise2.future().onSuccess(o -> {");
 				if(entiteInitLoin && entiteInitialise) {
 					tl(3, "if(o != null && ", entiteVar, " == null) {");
-					tl(4, "o.", langueConfig.getString(ConfigCles.var_promesseLoin), langueConfig.getString(ConfigCles.var_PourClasse), "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ").onSuccess(a -> {");
+					tl(4, "o.", langueConfig.getString(I18n.var_promesseLoin), langueConfig.getString(I18n.var_PourClasse), "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ").onSuccess(a -> {");
 					tl(5, "set", entiteVarCapitalise, "(o);");
 					tl(5, "promise.complete(o);");
 					tl(4, "}).onFailure(ex -> {");
@@ -4362,10 +4362,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(entiteInitLoin && entiteInitialise) {
 					if(entiteCouverture) {
 						tl(2, "if(", entiteVar, " != null)");
-						tl(3, entiteVar, ".", langueConfig.getString(ConfigCles.var_initLoin), langueConfig.getString(ConfigCles.var_PourClasse), "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ");");
+						tl(3, entiteVar, ".", langueConfig.getString(I18n.var_initLoin), langueConfig.getString(I18n.var_PourClasse), "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ");");
 					}
 					else {
-						tl(2, entiteVar, ".", langueConfig.getString(ConfigCles.var_initLoin), langueConfig.getString(ConfigCles.var_PourClasse), "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ");");
+						tl(2, entiteVar, ".", langueConfig.getString(I18n.var_initLoin), langueConfig.getString(I18n.var_PourClasse), "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ");");
 					}
 				}
 	
@@ -4411,78 +4411,78 @@ public class EcrireGenClasse extends EcrireClasse {
 					l();
 					if(classeContientRequeteSite && entiteNomSimple != null && entiteSolrNomCanonique != null) {
 						if(entiteNomSimple.equals("Timestamp")) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
 							tl(2, "return o == null ? null : ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(o.toInstant().atOffset(ZoneOffset.UTC));");
 							tl(1, "}");
 						}
 						else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
 							tl(2, "return o == null ? null : ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(o.toInstant().atOffset(ZoneOffset.UTC));");
 							tl(1, "}");
 						}
 						else if(entiteNomCanonique.toString().equals(LocalTime.class.getCanonicalName())) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
 							tl(2, "return o == null ? null : o.format(DateTimeFormatter.ISO_LOCAL_TIME);");
 							tl(1, "}");
 						}
 						else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
-							tl(2, "return o == null ? null : Date.from(o.atZone(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\")).toInstant());");
+							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+							tl(2, "return o == null ? null : Date.from(o.atZone(ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\")).toInstant());");
 							tl(1, "}");
 						}
 						else if(entiteNomSimple.toString().equals("LocalDate")) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
-							tl(2, "return o == null ? null : Date.from(o.atStartOfDay(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\")).toInstant());");
+							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+							tl(2, "return o == null ? null : Date.from(o.atStartOfDay(ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\")).toInstant());");
 							tl(1, "}");
 						}
 						else if(entiteNomSimple.toString().equals("Point")) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
 							tl(2, "return o;");
 							tl(1, "}");
 						}
 						else if(entiteNomSimple.toString().equals("Path")) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
 							tl(2, "return o;");
 							tl(1, "}");
 						}
 						else if(entiteNomSimple.toString().equals("Polygon")) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
 							tl(2, "return o;");
 							tl(1, "}");
 						}
 						else if(entiteNomSimple.toString().equals("JsonObject")) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
 							tl(2, "return o.toString();");
 							tl(1, "}");
 						}
 						else if(entiteNomSimple.toString().equals("JsonArray")) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
 							tl(2, "return o.toString();");
 							tl(1, "}");
 						}
 						else if(entiteNomSimple.toString().equals("BigDecimal")) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
 							tl(2, "return o == null ? null : o.doubleValue();");
 							tl(1, "}");
 						}
 						else if("java.util.List".equals(entiteNomCanonique) || "java.util.ArrayList".equals(entiteNomCanonique)) {
-							tl(1, "public static ", StringUtils.substringBeforeLast(StringUtils.substringAfter(entiteSolrNomSimple, "<"), ">"), " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleGenerique, " o) {");
+							tl(1, "public static ", StringUtils.substringBeforeLast(StringUtils.substringAfter(entiteSolrNomSimple, "<"), ">"), " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleGenerique, " o) {");
 							tl(2, "return o;");
 							tl(1, "}");
 						}
 						else if("java.util.Set".equals(entiteNomCanonique) || "java.util.HashSet".equals(entiteNomCanonique)) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
 							tl(2, "return new ArrayList<>(o);");
 							tl(1, "}");
 						}
 						else {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
 							tl(2, "return o;");
 							tl(1, "}");
 						}
 					}
 					else {
-						tl(1, "public static Object staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+						tl(1, "public static Object staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
 						tl(2, "return null;");
 						tl(1, "}");
 					}
@@ -4490,70 +4490,70 @@ public class EcrireGenClasse extends EcrireClasse {
 					l();
 					if(classeContientRequeteSite && entiteNomSimple != null && entiteSolrNomCanonique != null) {
 						if(entiteNomSimple.equals("Timestamp")) {
-							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
-							tl(2, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_, o));");
+							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
+							tl(2, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, o));");
 							tl(1, "}");
 						}
 						else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
-							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
-							tl(2, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_, o));");
+							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
+							tl(2, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, o));");
 							tl(1, "}");
 						}
 						else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
-							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
-							tl(2, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_, o));");
+							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
+							tl(2, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, o));");
 							tl(1, "}");
 						}
 						else if(entiteNomSimple.toString().equals("LocalDate")) {
-							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
+							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
 			//				tl(3, "doc.put(\"", entiteVar, "_suggested", "\", ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(", entiteVar, ".atStartOfDay(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\"))));");
-							tl(2, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_, o));");
+							tl(2, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, o));");
 							tl(1, "}");
 						}
 						else if(entiteSolrNomCanonique.toString().equals("String")) {
-							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
+							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
 							tl(2, "return o;");
 							tl(1, "}");
 						}
 						else if("java.util.List".equals(entiteNomCanonique) || "java.util.ArrayList".equals(entiteNomCanonique)) {
-							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", StringUtils.substringBeforeLast(StringUtils.substringAfter(entiteSolrNomSimple, "<"), ">"), " o) {");
+							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", StringUtils.substringBeforeLast(StringUtils.substringAfter(entiteSolrNomSimple, "<"), ">"), " o) {");
 							tl(2, "return o == null ? null : o.toString();");
 							tl(1, "}");
 						}
 						else if(entiteNomSimple.toString().equals("Path")) {
-							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ",entiteSolrNomSimple, " o) {");
+							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ",entiteSolrNomSimple, " o) {");
 							tl(2, "JsonArray pointsArray = new JsonArray();");
 							tl(2, "o.getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray.add(pointArray));");
 							tl(2, "return new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray).toString();");
 							tl(1, "}");
 						}
 						else if(entiteNomSimple.toString().equals("Polygon")) {
-							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ",entiteSolrNomSimple, " o) {");
+							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ",entiteSolrNomSimple, " o) {");
 							tl(2, "JsonArray pointsArray = new JsonArray();");
 							tl(2, "o.getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray.add(pointArray));");
 							tl(2, "return new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray).toString();");
 							tl(1, "}");
 						}
 						else {
-							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
+							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
 							tl(2, "return o == null ? null : o.toString();");
 							tl(1, "}");
 						}
 					}
 					else {
-						tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, Object o) {");
+						tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, Object o) {");
 						tl(2, "return null;");
 						tl(1, "}");
 					}
 		
 					l();
-					tl(1, "public static String staticSearchFq", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
-					tl(2, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_, o)).toString();");
+					tl(1, "public static String staticSearchFq", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
+					tl(2, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, o)).toString();");
 					tl(1, "}");
 				}
 			}
 			else {
-				System.err.println(String.format("%s %s %s %s %s. ", langueConfig.getString(ConfigCles.var_classe), langueConfig.getString(ConfigCles.var_RequeteSite), langueConfig.getString(ConfigCles.var_manquante), langueConfig.getString(ConfigCles.var_dans), cheminSrcMainJava));
+				System.err.println(String.format("%s %s %s %s %s. ", langueConfig.getString(I18n.var_classe), langueConfig.getString(I18n.var_RequeteSite), langueConfig.getString(I18n.var_manquante), langueConfig.getString(I18n.var_dans), cheminSrcMainJava));
 			}
 
 			//////////
@@ -4605,7 +4605,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				///////////////
 	
 				wStaticSet.tl(2, "case \"", entiteVar, "\":");
-				wStaticSet.tl(3, "return ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_, o);");
+				wStaticSet.tl(3, "return ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, o);");
 	
 				////////////////
 				// staticSearch //
@@ -4613,10 +4613,10 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 				wstaticSearch.tl(2, "case \"", entiteVar, "\":");
 				if("java.util.List".equals(entiteNomCanonique) || "java.util.ArrayList".equals(entiteNomCanonique)) {
-					wstaticSearch.tl(3, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_, (", entiteNomSimpleGenerique, ")o);");
+					wstaticSearch.tl(3, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, (", entiteNomSimpleGenerique, ")o);");
 				}
 				else {
-					wstaticSearch.tl(3, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_, (", entiteNomSimpleComplet, ")o);");
+					wstaticSearch.tl(3, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, (", entiteNomSimpleComplet, ")o);");
 				}
 	
 				///////////////////
@@ -4625,10 +4625,10 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 				wstaticSearchStr.tl(2, "case \"", entiteVar, "\":");
 				if("java.util.List".equals(entiteNomCanonique) || "java.util.ArrayList".equals(entiteNomCanonique)) {
-					wstaticSearchStr.tl(3, "return ", classeNomSimple, ".staticSearchStr", entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_, (", entiteSolrNomSimple == null ? "Object" : StringUtils.substringBeforeLast(StringUtils.substringAfter(entiteSolrNomSimple, "<"), ">"), ")o);");
+					wstaticSearchStr.tl(3, "return ", classeNomSimple, ".staticSearchStr", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, (", entiteSolrNomSimple == null ? "Object" : StringUtils.substringBeforeLast(StringUtils.substringAfter(entiteSolrNomSimple, "<"), ">"), ")o);");
 				}
 				else {
-					wstaticSearchStr.tl(3, "return ", classeNomSimple, ".staticSearchStr", entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_, (", entiteSolrNomSimple == null ? "Object" : entiteSolrNomSimple, ")o);");
+					wstaticSearchStr.tl(3, "return ", classeNomSimple, ".staticSearchStr", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, (", entiteSolrNomSimple == null ? "Object" : entiteSolrNomSimple, ")o);");
 				}
 	
 				//////////////////
@@ -4636,7 +4636,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				//////////////////
 	
 				wstaticSearchFq.tl(2, "case \"", entiteVar, "\":");
-				wstaticSearchFq.tl(3, "return ", classeNomSimple, ".staticSearchFq", entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_, o);");
+				wstaticSearchFq.tl(3, "return ", classeNomSimple, ".staticSearchFq", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, o);");
 			}
 	
 			////////////////////
@@ -4650,7 +4650,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				wInitLoin.tl(3, "return promise2.future();");
 				wInitLoin.tl(2, "}).compose(a -> {");
 				wInitLoin.tl(3, "Promise<Void> promise2 = Promise.promise();");
-				wInitLoin.tl(3, entiteVar, langueConfig.getString(ConfigCles.var_Promesse), "().onSuccess(", entiteVar, " -> {");
+				wInitLoin.tl(3, entiteVar, langueConfig.getString(I18n.var_Promesse), "().onSuccess(", entiteVar, " -> {");
 				wInitLoin.tl(4, "promise2.complete();");
 				wInitLoin.tl(3, "}).onFailure(ex -> {");
 				wInitLoin.tl(4, "promise2.fail(ex);");
@@ -4672,7 +4672,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(classeContientRequeteSite && entiteContientRequeteSite && classeInitLoin && entiteInitialise) {
 				o = wRequeteSite;
 				tl(2, "if(", entiteVar, " != null)");
-				tl(3, entiteVar, ".set", langueConfig.getString(ConfigCles.var_RequeteSite), "_(", langueConfig.getString(ConfigCles.var_requeteSite), "_);");
+				tl(3, entiteVar, ".set", langueConfig.getString(I18n.var_RequeteSite), "_(", langueConfig.getString(I18n.var_requeteSite), "_);");
 			}
 	
 			/////////////////
@@ -4709,7 +4709,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "doc.put(\"", entiteVar, "_suggested", "\", ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entiteNomSimple.toString().equals("LocalDate")) {
-						tl(3, "doc.put(\"", entiteVar, "_suggested", "\", ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(", entiteVar, ".atStartOfDay(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\"))));");
+						tl(3, "doc.put(\"", entiteVar, "_suggested", "\", ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(", entiteVar, ".atStartOfDay(ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\"))));");
 					}
 					else {
 						tl(3, "doc.put(\"", entiteVar, "_suggested", "\", ", entiteVar, ");");
@@ -4745,7 +4745,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entiteNomSimple.toString().equals("LocalDate")) {
-						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(", entiteVar, ".atStartOfDay(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\"))));");
+						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(", entiteVar, ".atStartOfDay(ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\"))));");
 					}
 					else if(entiteNomSimple.toString().equals("Point")) {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", String.format(\"%s,%s\", ", entiteVar, ".getX(), ", entiteVar, ".getY()));");
@@ -4826,7 +4826,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entiteNomSimple.toString().equals("LocalDate")) {
-						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(", entiteVar, ".atStartOfDay(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\"))));");
+						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(", entiteVar, ".atStartOfDay(ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\"))));");
 					}
 					else if(entiteNomSimple.toString().equals("Point")) {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\", new Point(", entiteVar, ".getPoint1(), ", entiteVar, ".getPoint2()));");
@@ -4914,23 +4914,23 @@ public class EcrireGenClasse extends EcrireClasse {
 
 			if(entiteAttribuer && !classesNomSimpleFacetFor.contains(entiteAttribuerNomSimple)) {
 				wIndexerFacetFor.l();
-				wIndexerFacetFor.tl(5, "if(\"", entiteAttribuerNomSimple, "\".equals(", langueConfig.getString(ConfigCles.var_classeNomSimple), "2) && ", classeModele ? classeVarClePrimaire : classeVarCleUnique, "2 != null) {");
-				wIndexerFacetFor.tl(6, langueConfig.getString(ConfigCles.var_ListeRecherche), "<", entiteAttribuerNomSimple, "> ", langueConfig.getString(ConfigCles.var_listeRecherche), "2 = new ", langueConfig.getString(ConfigCles.var_ListeRecherche), "<", entiteAttribuerNomSimple, ">();");
-				wIndexerFacetFor.tl(6, langueConfig.getString(ConfigCles.var_listeRecherche), "2.set", langueConfig.getString(ConfigCles.var_Stocker), "(true);");
-				wIndexerFacetFor.tl(6, langueConfig.getString(ConfigCles.var_listeRecherche), "2.q(\"*:*\");");
-				wIndexerFacetFor.tl(6, langueConfig.getString(ConfigCles.var_listeRecherche), "2.setC(", entiteAttribuerNomSimple, ".class);");
-				wIndexerFacetFor.tl(6, langueConfig.getString(ConfigCles.var_listeRecherche), "2.fq(\"", classeModele ? classeVarClePrimaire : classeVarCleUnique, "_docvalues_long:\" + ", classeModele ? classeVarClePrimaire : classeVarCleUnique, "2);");
-				wIndexerFacetFor.tl(6, langueConfig.getString(ConfigCles.var_listeRecherche), "2.rows(1L);");
+				wIndexerFacetFor.tl(5, "if(\"", entiteAttribuerNomSimple, "\".equals(", langueConfig.getString(I18n.var_classeNomSimple), "2) && ", classeModele ? classeVarClePrimaire : classeVarCleUnique, "2 != null) {");
+				wIndexerFacetFor.tl(6, langueConfig.getString(I18n.var_ListeRecherche), "<", entiteAttribuerNomSimple, "> ", langueConfig.getString(I18n.var_listeRecherche), "2 = new ", langueConfig.getString(I18n.var_ListeRecherche), "<", entiteAttribuerNomSimple, ">();");
+				wIndexerFacetFor.tl(6, langueConfig.getString(I18n.var_listeRecherche), "2.set", langueConfig.getString(I18n.var_Stocker), "(true);");
+				wIndexerFacetFor.tl(6, langueConfig.getString(I18n.var_listeRecherche), "2.q(\"*:*\");");
+				wIndexerFacetFor.tl(6, langueConfig.getString(I18n.var_listeRecherche), "2.setC(", entiteAttribuerNomSimple, ".class);");
+				wIndexerFacetFor.tl(6, langueConfig.getString(I18n.var_listeRecherche), "2.fq(\"", classeModele ? classeVarClePrimaire : classeVarCleUnique, "_docvalues_long:\" + ", classeModele ? classeVarClePrimaire : classeVarCleUnique, "2);");
+				wIndexerFacetFor.tl(6, langueConfig.getString(I18n.var_listeRecherche), "2.rows(1L);");
 				wIndexerFacetFor.tl(6, "futures.add(Future.future(promise2 -> {");
-				wIndexerFacetFor.tl(7, langueConfig.getString(ConfigCles.var_listeRecherche), "2.", langueConfig.getString(ConfigCles.var_promesseLoin), langueConfig.getString(ConfigCles.var_ListeRecherche), "(", langueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(b -> {");
-				wIndexerFacetFor.tl(8, entiteAttribuerNomSimple, " o2 = ", langueConfig.getString(ConfigCles.var_listeRecherche), "2.getList().stream().findFirst().orElse(null);");
+				wIndexerFacetFor.tl(7, langueConfig.getString(I18n.var_listeRecherche), "2.", langueConfig.getString(I18n.var_promesseLoin), langueConfig.getString(I18n.var_ListeRecherche), "(", langueConfig.getString(I18n.var_requeteSite), ").onSuccess(b -> {");
+				wIndexerFacetFor.tl(8, entiteAttribuerNomSimple, " o2 = ", langueConfig.getString(I18n.var_listeRecherche), "2.getList().stream().findFirst().orElse(null);");
 				wIndexerFacetFor.tl(8, "if(o2 != null) {");
 				wIndexerFacetFor.tl(9, "JsonObject params = new JsonObject();");
 				wIndexerFacetFor.tl(9, "params.put(\"body\", new JsonObject());");
 				wIndexerFacetFor.tl(9, "params.put(\"cookie\", new JsonObject());");
 				wIndexerFacetFor.tl(9, "params.put(\"path\", new JsonObject());");
 				wIndexerFacetFor.tl(9, "params.put(\"query\", new JsonObject().put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"pk:\" + pk2)).put(\"var\", new JsonArray().add(\"refresh:false\")));");
-				wIndexerFacetFor.tl(9, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", ", langueConfig.getString(ConfigCles.var_requeteSite), ".getUserPrincipal());");
+				wIndexerFacetFor.tl(9, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", ", langueConfig.getString(I18n.var_requeteSite), ".getUserPrincipal());");
 				wIndexerFacetFor.tl(9, "JsonObject json = new JsonObject().put(\"context\", context);");
 				wIndexerFacetFor.tl(9, "eventBus.request(\"", siteNom, "-", langueNom, "-", entiteAttribuerNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"patch", entiteAttribuerNomSimple, "Future\")).onSuccess(c -> {");
 				wIndexerFacetFor.tl(10, "JsonObject responseMessage = (JsonObject)c.body();");
@@ -4972,8 +4972,8 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(4, "if(o", classeNomSimple, ".get", entiteVarCapitalise, "() == null)");
 					tl(5, "o", classeNomSimple, ".set", entiteVarCapitalise, "(val == null ? null : (NumberUtils.isCreatable(val.toString()) ? Long.parseLong(val.toString()) : -1));");
 				}
-				tl(4, "if(!", langueConfig.getString(ConfigCles.var_sauvegardes), ".contains(\"", entiteVar, "\"))");
-				tl(5, langueConfig.getString(ConfigCles.var_sauvegardes), ".add(\"", entiteVar, "\");");
+				tl(4, "if(!", langueConfig.getString(I18n.var_sauvegardes), ".contains(\"", entiteVar, "\"))");
+				tl(5, langueConfig.getString(I18n.var_sauvegardes), ".add(\"", entiteVar, "\");");
 				tl(4, "return val;");
 			}	
 
@@ -5097,15 +5097,15 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(4, "if(val != null) {");
 						tl(5, "add", entiteVarCapitalise, "(val);");
 						tl(4, "}");
-						tl(4, "if(!", langueConfig.getString(ConfigCles.var_sauvegardes), ".contains(\"", entiteVar, "\")) {");
-						tl(5, "", langueConfig.getString(ConfigCles.var_sauvegardes), ".add(\"", entiteVar, "\");");
+						tl(4, "if(!", langueConfig.getString(I18n.var_sauvegardes), ".contains(\"", entiteVar, "\")) {");
+						tl(5, "", langueConfig.getString(I18n.var_sauvegardes), ".add(\"", entiteVar, "\");");
 						tl(4, "}");
 					}
 					else {
 						tl(4, "if(val != null) {");
 						tl(5, "set", entiteVarCapitalise, "(val);");
 						tl(4, "}");
-						tl(4, langueConfig.getString(ConfigCles.var_sauvegardes), ".add(\"", entiteVar, "\");");
+						tl(4, langueConfig.getString(I18n.var_sauvegardes), ".add(\"", entiteVar, "\");");
 					}
 					tl(4, "return val;");
 			}	
@@ -5118,7 +5118,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(4, "if(val instanceof ", entiteNomSimple, "<?>) {");
 						tl(5, "((", entiteNomSimpleComplet, ")val).stream().forEach(v -> add", entiteVarCapitalise, "(v));");
 						tl(4, "} else if(val instanceof JsonArray) {");
-						tl(5, "((JsonArray)val).stream().forEach(v -> add", entiteVarCapitalise, "(staticSet", entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_, v.toString())));");
+						tl(5, "((JsonArray)val).stream().forEach(v -> add", entiteVarCapitalise, "(staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, v.toString())));");
 						tl(4, "} else if(val instanceof ", entiteNomSimpleGenerique, "[]) {");
 						tl(5, "Arrays.asList((", entiteNomSimpleGenerique, "[])val).stream().forEach(v -> add", entiteVarCapitalise, "((", entiteNomSimpleGenerique, ")v));");
 						if(VAL_nomCanoniqueLong.equals(entiteNomCanoniqueGenerique)
@@ -5131,8 +5131,8 @@ public class EcrireGenClasse extends EcrireClasse {
 							tl(5, "Arrays.asList((Number[])val).stream().forEach(v -> set", entiteVarCapitalise, "((Number)v));");
 						}
 						tl(4, "}");
-						tl(4, "if(!", langueConfig.getString(ConfigCles.var_sauvegardes), ".contains(\"", entiteVar, "\")) {");
-						tl(5, "", langueConfig.getString(ConfigCles.var_sauvegardes), ".add(\"", entiteVar, "\");");
+						tl(4, "if(!", langueConfig.getString(I18n.var_sauvegardes), ".contains(\"", entiteVar, "\")) {");
+						tl(5, "", langueConfig.getString(I18n.var_sauvegardes), ".add(\"", entiteVar, "\");");
 						tl(4, "}");
 					}
 					else {
@@ -5160,7 +5160,7 @@ public class EcrireGenClasse extends EcrireClasse {
 							tl(4, "if(val instanceof String) {");
 							tl(5, "set", entiteVarCapitalise, "((String)val);");
 							tl(4, "} else if(val instanceof OffsetDateTime) {");
-							tl(5, "set", entiteVarCapitalise, "(((OffsetDateTime)val).atZoneSameInstant(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))));");
+							tl(5, "set", entiteVarCapitalise, "(((OffsetDateTime)val).atZoneSameInstant(ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), "))));");
 						} else {
 							tl(4, "if(val instanceof ", entiteNomSimpleComplet, ") {");
 							tl(5, "set", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val);");
@@ -5170,7 +5170,7 @@ public class EcrireGenClasse extends EcrireClasse {
 							}
 						}
 						tl(4, "}");
-						tl(4, langueConfig.getString(ConfigCles.var_sauvegardes), ".add(\"", entiteVar, "\");");
+						tl(4, langueConfig.getString(I18n.var_sauvegardes), ".add(\"", entiteVar, "\");");
 					}
 					tl(4, "return val;");
 			}	
@@ -5209,7 +5209,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(0);
 	
 					if(entiteSuggere) {
-						tl(3, "if(", langueConfig.getString(ConfigCles.var_sauvegardes), ".contains(\"", entiteVar, "\")) {");
+						tl(3, "if(", langueConfig.getString(I18n.var_sauvegardes), ".contains(\"", entiteVar, "\")) {");
 						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")doc.get(\"", entiteVar, "_suggested", "\");");
 						tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 						tl(3, "}");
@@ -5230,7 +5230,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 					}
 					else if(entiteCrypte) {
-						tl(3, "if(", langueConfig.getString(ConfigCles.var_sauvegardes), ".contains(\"", entiteVar, "\")) {");
+						tl(3, "if(", langueConfig.getString(I18n.var_sauvegardes), ".contains(\"", entiteVar, "\")) {");
 						if(siteCrypte)
 							tl(4, entiteSolrNomSimple, " ", entiteVar, " = requeteSite.decrypterStr((", entiteSolrNomSimple, ")doc.get(\"", entiteVar, "_encrypted", entiteSuffixeType, "\"));");
 						else
@@ -5247,7 +5247,7 @@ public class EcrireGenClasse extends EcrireClasse {
 							tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 					}
 					else {
-						tl(3, "if(", langueConfig.getString(ConfigCles.var_sauvegardes), ".contains(\"", entiteVar, "\")) {");
+						tl(3, "if(", langueConfig.getString(I18n.var_sauvegardes), ".contains(\"", entiteVar, "\")) {");
 						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")doc.get(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\");");
 						if(StringUtils.contains(entiteSolrNomCanonique, "<")) {
 							if(entiteCouverture) {
@@ -5308,7 +5308,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						else {
 							tl(2, "Optional.ofNullable((List<?>)doc.get(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\")).orElse(Arrays.asList()).stream().filter(v -> v != null).forEach(v -> {");
 						}
-						tl(3, "o", classeNomSimple, ".add", entiteVarCapitalise, "(", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_requeteSite), ", v.toString()));");
+						tl(3, "o", classeNomSimple, ".add", entiteVarCapitalise, "(", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), ", v.toString()));");
 						tl(2, "});");
 					}
 					else {
@@ -5330,9 +5330,9 @@ public class EcrireGenClasse extends EcrireClasse {
 			// varsFq //
 			else if(entiteIndexe 
 					&& entiteFacetsTrouves
-					&& !langueConfig.getString(ConfigCles.var_sessionId).equals(entiteVar)
-					&& !langueConfig.getString(ConfigCles.var_utilisateurCle).equals(entiteVar)
-					&& !langueConfig.getString(ConfigCles.var_sauvegardes).equals(entiteVar)
+					&& !langueConfig.getString(I18n.var_sessionId).equals(entiteVar)
+					&& !langueConfig.getString(I18n.var_utilisateurCle).equals(entiteVar)
+					&& !langueConfig.getString(I18n.var_sauvegardes).equals(entiteVar)
 					) {
 				wVarsFq.tl(2, "vars.add(VAR_", entiteVar, ");");
 				if(!entiteAttribuer && (
@@ -5355,7 +5355,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			// nomAffichageStatic //
 			////////////////////////
 
-			wNomAffichageStatic.tl(1, "public static final String ", langueConfig.getString(ConfigCles.var_NOM_AFFICHAGE), "_", entiteVar, " = \"", entiteNomAffichage, "\";");
+			wNomAffichageStatic.tl(1, "public static final String ", langueConfig.getString(I18n.var_NOM_AFFICHAGE), "_", entiteVar, " = \"", entiteNomAffichage, "\";");
 
 			if(entiteDescription != null) {
 				wDescriptionMethode.tl(2, "case VAR_", entiteVar, ":");
@@ -5395,7 +5395,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 
 			wNomAffichageMethode.tl(2, "case VAR_", entiteVar, ":");
-			wNomAffichageMethode.tl(3, "return ", langueConfig.getString(ConfigCles.var_NOM_AFFICHAGE), "_", entiteVar, ";");
+			wNomAffichageMethode.tl(3, "return ", langueConfig.getString(I18n.var_NOM_AFFICHAGE), "_", entiteVar, ";");
 	
 			if(entiteDefinir || entiteAttribuer || entiteIndexe || entiteStocke) {
 		
@@ -5407,7 +5407,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					wRequeteApi.tl(3, "if(!Objects.equals(", entiteVar, ", original.get", entiteVarCapitalise, "()) && ", entiteVar, " != null && original.get", entiteVarCapitalise, "() != null && ", entiteVar, ".compareTo(original.get", entiteVarCapitalise, "()) != 0)");
 				else
 					wRequeteApi.tl(3, "if(!Objects.equals(", entiteVar, ", original.get", entiteVarCapitalise, "()))");
-				wRequeteApi.tl(4, langueConfig.getString(ConfigCles.var_requeteApi), ".addVars(\"", entiteVar, "\");");
+				wRequeteApi.tl(4, langueConfig.getString(I18n.var_requeteApi), ".addVars(\"", entiteVar, "\");");
 		
 				//////////////
 				// hashCode //
@@ -5464,11 +5464,11 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(classeEtendBase)
 					wInitLoin.s("@Override ");
 				if(classePromesse) {
-					wInitLoin.l("public Future<Void> ", langueConfig.getString(ConfigCles.var_promesseLoin), langueConfig.getString(ConfigCles.var_PourClasse), "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_) {");
-					wInitLoin.tl(2, "return ", langueConfig.getString(ConfigCles.var_promesseLoin), classeNomSimple, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_);");
+					wInitLoin.l("public Future<Void> ", langueConfig.getString(I18n.var_promesseLoin), langueConfig.getString(I18n.var_PourClasse), "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_) {");
+					wInitLoin.tl(2, "return ", langueConfig.getString(I18n.var_promesseLoin), classeNomSimple, "(", langueConfig.getString(I18n.var_requeteSite), "_);");
 					wInitLoin.tl(1, "}");  
 				} else {
-					wInitLoin.s("public void ", langueConfig.getString(ConfigCles.var_initLoin), langueConfig.getString(ConfigCles.var_PourClasse), "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_)");
+					wInitLoin.s("public void ", langueConfig.getString(I18n.var_initLoin), langueConfig.getString(I18n.var_PourClasse), "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_)");
 					if(classeInitLoinExceptions.size() > 0) {
 						wInitLoin.s(" throws ");
 						for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
@@ -5480,7 +5480,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						}
 					}
 					wInitLoin.l(" {");
-					wInitLoin.tl(2, langueConfig.getString(ConfigCles.var_initLoin), classeNomSimple, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_);");
+					wInitLoin.tl(2, langueConfig.getString(I18n.var_initLoin), classeNomSimple, "(", langueConfig.getString(I18n.var_requeteSite), "_);");
 					wInitLoin.tl(1, "}");  
 				}
 			}
@@ -5493,8 +5493,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			o = wRequeteSite;
 			tl(1, "}");
 			l();
-			tl(1, "public void ", langueConfig.getString(ConfigCles.var_requeteSite), langueConfig.getString(ConfigCles.var_PourClasse), "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_) {");
-			tl(2, langueConfig.getString(ConfigCles.var_requeteSite), classeNomSimple, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_);");
+			tl(1, "public void ", langueConfig.getString(I18n.var_requeteSite), langueConfig.getString(I18n.var_PourClasse), "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_) {");
+			tl(2, langueConfig.getString(I18n.var_requeteSite), classeNomSimple, "(", langueConfig.getString(I18n.var_requeteSite), "_);");
 			tl(1, "}");  
 		}
 
@@ -5508,7 +5508,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return super.", langueConfig.getString(ConfigCles.var_obtenir), classeNomSimpleSuperGenerique, "(var);");
+				tl(4, "return super.", langueConfig.getString(I18n.var_obtenir), classeNomSimpleSuperGenerique, "(var);");
 
 			tl(2, "}");
 			tl(1, "}");
@@ -5524,7 +5524,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return super.", langueConfig.getString(ConfigCles.var_attribuer), classeNomSimpleSuperGenerique, "(var, val);");
+				tl(4, "return super.", langueConfig.getString(I18n.var_attribuer), classeNomSimpleSuperGenerique, "(var, val);");
 
 			tl(2, "}");
 			tl(1, "}");
@@ -5595,21 +5595,21 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "///////////////");
 			tl(0);
 			t(1);
-			s("public static Object staticSet", langueConfig.getString(ConfigCles.var_PourClasse), "(String ", langueConfig.getString(ConfigCles.var_entite), "Var, ", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o)");
+			s("public static Object staticSet", langueConfig.getString(I18n.var_PourClasse), "(String ", langueConfig.getString(I18n.var_entite), "Var, ", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o)");
 			l(" {");
-			tl(2, "return staticSet", classeNomSimple, "(", langueConfig.getString(ConfigCles.var_entite), "Var,  ", langueConfig.getString(ConfigCles.var_requeteSite), "_, o);");
+			tl(2, "return staticSet", classeNomSimple, "(", langueConfig.getString(I18n.var_entite), "Var,  ", langueConfig.getString(I18n.var_requeteSite), "_, o);");
 			tl(1, "}");
 			t(1);
-			s("public static Object staticSet", classeNomSimple, "(String ", langueConfig.getString(ConfigCles.var_entite), "Var, ", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o)");
+			s("public static Object staticSet", classeNomSimple, "(String ", langueConfig.getString(I18n.var_entite), "Var, ", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o)");
 			l(" {");
-			tl(2, "switch(", langueConfig.getString(ConfigCles.var_entite), "Var) {");
+			tl(2, "switch(", langueConfig.getString(I18n.var_entite), "Var) {");
 			s(wStaticSet.toString());
 			tl(3, "default:");
 
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return ", classeNomSimpleSuperGenerique, ".staticSet", classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_entite), "Var,  ", langueConfig.getString(ConfigCles.var_requeteSite), "_, o);");
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".staticSet", classeNomSimpleSuperGenerique, "(", langueConfig.getString(I18n.var_entite), "Var,  ", langueConfig.getString(I18n.var_requeteSite), "_, o);");
 
 			tl(2, "}");
 			tl(1, "}");
@@ -5620,21 +5620,21 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "////////////////");
 			tl(0);
 			t(1);
-			s("public static Object staticSearch", langueConfig.getString(ConfigCles.var_PourClasse), "(String ", langueConfig.getString(ConfigCles.var_entite), "Var, ", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, Object o)");
+			s("public static Object staticSearch", langueConfig.getString(I18n.var_PourClasse), "(String ", langueConfig.getString(I18n.var_entite), "Var, ", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, Object o)");
 			l(" {");
-			tl(2, "return staticSearch", classeNomSimple, "(", langueConfig.getString(ConfigCles.var_entite), "Var,  ", langueConfig.getString(ConfigCles.var_requeteSite), "_, o);");
+			tl(2, "return staticSearch", classeNomSimple, "(", langueConfig.getString(I18n.var_entite), "Var,  ", langueConfig.getString(I18n.var_requeteSite), "_, o);");
 			tl(1, "}");
 			t(1);
-			s("public static Object staticSearch", classeNomSimple, "(String ", langueConfig.getString(ConfigCles.var_entite), "Var, ", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, Object o)");
+			s("public static Object staticSearch", classeNomSimple, "(String ", langueConfig.getString(I18n.var_entite), "Var, ", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, Object o)");
 			l(" {");
-			tl(2, "switch(", langueConfig.getString(ConfigCles.var_entite), "Var) {");
+			tl(2, "switch(", langueConfig.getString(I18n.var_entite), "Var) {");
 			s(wstaticSearch.toString());
 			tl(3, "default:");
 
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return ", classeNomSimpleSuperGenerique, ".staticSearch", classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_entite), "Var,  ", langueConfig.getString(ConfigCles.var_requeteSite), "_, o);");
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".staticSearch", classeNomSimpleSuperGenerique, "(", langueConfig.getString(I18n.var_entite), "Var,  ", langueConfig.getString(I18n.var_requeteSite), "_, o);");
 
 			tl(2, "}");
 			tl(1, "}");
@@ -5645,21 +5645,21 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "///////////////////");
 			tl(0);
 			t(1);
-			s("public static String staticSearchStr", langueConfig.getString(ConfigCles.var_PourClasse), "(String ", langueConfig.getString(ConfigCles.var_entite), "Var, ", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, Object o)");
+			s("public static String staticSearchStr", langueConfig.getString(I18n.var_PourClasse), "(String ", langueConfig.getString(I18n.var_entite), "Var, ", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, Object o)");
 			l(" {");
-			tl(2, "return staticSearchStr", classeNomSimple, "(", langueConfig.getString(ConfigCles.var_entite), "Var,  ", langueConfig.getString(ConfigCles.var_requeteSite), "_, o);");
+			tl(2, "return staticSearchStr", classeNomSimple, "(", langueConfig.getString(I18n.var_entite), "Var,  ", langueConfig.getString(I18n.var_requeteSite), "_, o);");
 			tl(1, "}");
 			t(1);
-			s("public static String staticSearchStr", classeNomSimple, "(String ", langueConfig.getString(ConfigCles.var_entite), "Var, ", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, Object o)");
+			s("public static String staticSearchStr", classeNomSimple, "(String ", langueConfig.getString(I18n.var_entite), "Var, ", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, Object o)");
 			l(" {");
-			tl(2, "switch(", langueConfig.getString(ConfigCles.var_entite), "Var) {");
+			tl(2, "switch(", langueConfig.getString(I18n.var_entite), "Var) {");
 			s(wstaticSearchStr.toString());
 			tl(3, "default:");
 
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return ", classeNomSimpleSuperGenerique, ".staticSearchStr", classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_entite), "Var,  ", langueConfig.getString(ConfigCles.var_requeteSite), "_, o);");
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".staticSearchStr", classeNomSimpleSuperGenerique, "(", langueConfig.getString(I18n.var_entite), "Var,  ", langueConfig.getString(I18n.var_requeteSite), "_, o);");
 
 			tl(2, "}");
 			tl(1, "}");
@@ -5670,21 +5670,21 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "//////////////////");
 			tl(0);
 			t(1);
-			s("public static String staticSearchFq", langueConfig.getString(ConfigCles.var_PourClasse), "(String ", langueConfig.getString(ConfigCles.var_entite), "Var, ", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o)");
+			s("public static String staticSearchFq", langueConfig.getString(I18n.var_PourClasse), "(String ", langueConfig.getString(I18n.var_entite), "Var, ", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o)");
 			l(" {");
-			tl(2, "return staticSearchFq", classeNomSimple, "(", langueConfig.getString(ConfigCles.var_entite), "Var,  ", langueConfig.getString(ConfigCles.var_requeteSite), "_, o);");
+			tl(2, "return staticSearchFq", classeNomSimple, "(", langueConfig.getString(I18n.var_entite), "Var,  ", langueConfig.getString(I18n.var_requeteSite), "_, o);");
 			tl(1, "}");
 			t(1);
-			s("public static String staticSearchFq", classeNomSimple, "(String ", langueConfig.getString(ConfigCles.var_entite), "Var, ", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o)");
+			s("public static String staticSearchFq", classeNomSimple, "(String ", langueConfig.getString(I18n.var_entite), "Var, ", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o)");
 			l(" {");
-			tl(2, "switch(", langueConfig.getString(ConfigCles.var_entite), "Var) {");
+			tl(2, "switch(", langueConfig.getString(I18n.var_entite), "Var) {");
 			s(wstaticSearchFq.toString());
 			tl(3, "default:");
 
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return ", classeNomSimpleSuperGenerique, ".staticSearchFq", classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_entite), "Var,  ", langueConfig.getString(ConfigCles.var_requeteSite), "_, o);");
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".staticSearchFq", classeNomSimpleSuperGenerique, "(", langueConfig.getString(I18n.var_entite), "Var,  ", langueConfig.getString(I18n.var_requeteSite), "_, o);");
 
 			tl(2, "}");
 			tl(1, "}");
@@ -5700,13 +5700,13 @@ public class EcrireGenClasse extends EcrireClasse {
 				) {
 			l(); 
 			tl(1, "/////////////");
-			tl(1, "// ", langueConfig.getString(ConfigCles.var_definir), " //");
+			tl(1, "// ", langueConfig.getString(I18n.var_definir), " //");
 			tl(1, "/////////////");
 			tl(0);
 			t(1);
 			if(!classeEstBase)
 				s("@Override ");
-			s("public boolean ", langueConfig.getString(ConfigCles.var_definir), langueConfig.getString(ConfigCles.var_PourClasse), "(String var, Object val)");
+			s("public boolean ", langueConfig.getString(I18n.var_definir), langueConfig.getString(I18n.var_PourClasse), "(String var, Object val)");
 			if(classeInitLoinExceptions.size() > 0) {
 				s(" throws ");
 				for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
@@ -5723,18 +5723,18 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "if(val != null) {");
 			tl(3, "for(String v : vars) {");
 			tl(4, "if(o == null)");
-			tl(5, "o = ", langueConfig.getString(ConfigCles.var_definir), "", classeNomSimple, "(v, val);");
+			tl(5, "o = ", langueConfig.getString(I18n.var_definir), "", classeNomSimple, "(v, val);");
 			if(activerVertx && classePartsModeleBase != null) {
 				tl(4, "else if(o instanceof ", classePartsModeleBase.nomSimple(langueNom), ") {");
 				tl(5, classePartsModeleBase.nomSimple(langueNom), " o", classePartsModeleBase.nomSimple(langueNom), " = (", classePartsModeleBase.nomSimple(langueNom), ")o;");
-				tl(5, "o = o", classePartsModeleBase.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_definir), langueConfig.getString(ConfigCles.var_PourClasse), "(v, val);");
+				tl(5, "o = o", classePartsModeleBase.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_definir), langueConfig.getString(I18n.var_PourClasse), "(v, val);");
 				tl(4, "}");
 			}
 			tl(3, "}");
 			tl(2, "}");
 			tl(2, "return o != null;");
 			tl(1, "}");
-			tl(1, "public Object ", langueConfig.getString(ConfigCles.var_definir), "", classeNomSimple, "(String var, Object val) {");
+			tl(1, "public Object ", langueConfig.getString(I18n.var_definir), "", classeNomSimple, "(String var, Object val) {");
 //			tl(2, "switch(var.toLowerCase()) {");
 			tl(2, "String varLower = var.toLowerCase();");
 			s(wDefinirObjet.toString());
@@ -5746,7 +5746,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(classeEstBase)
 				tl(wDefinirObjet.getEmpty() ? 2 : 3, "return null;");
 			else
-				tl(wDefinirObjet.getEmpty() ? 2 : 3, "return super.", langueConfig.getString(ConfigCles.var_definir), "", classeNomSimpleSuperGenerique, "(var, val);");
+				tl(wDefinirObjet.getEmpty() ? 2 : 3, "return super.", langueConfig.getString(I18n.var_definir), "", classeNomSimpleSuperGenerique, "(var, val);");
 
 			if(!wDefinirObjet.getEmpty()) {
 				tl(2, "}");
@@ -5771,24 +5771,24 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(classeIndexe) {
 			l(); 
 			tl(1, "/////////////");
-			tl(1, "// ", langueConfig.getString(ConfigCles.var_peupler), " //");
+			tl(1, "// ", langueConfig.getString(I18n.var_peupler), " //");
 			tl(1, "/////////////");
 			tl(0);
 			t(1);
 			if(BooleanUtils.isTrue(classeEtendBase))
 				s("@Override ");
-			l("public void ", langueConfig.getString(ConfigCles.var_peupler), langueConfig.getString(ConfigCles.var_PourClasse), "(SolrResponse.Doc doc) {");
-			tl(2, langueConfig.getString(ConfigCles.var_peupler), classeNomSimple, "(doc);");
+			l("public void ", langueConfig.getString(I18n.var_peupler), langueConfig.getString(I18n.var_PourClasse), "(SolrResponse.Doc doc) {");
+			tl(2, langueConfig.getString(I18n.var_peupler), classeNomSimple, "(doc);");
 			tl(1, "}");
-			tl(1, "public void ", langueConfig.getString(ConfigCles.var_peupler), classeNomSimple, "(SolrResponse.Doc doc) {");
+			tl(1, "public void ", langueConfig.getString(I18n.var_peupler), classeNomSimple, "(SolrResponse.Doc doc) {");
 			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
-			tl(2, "", langueConfig.getString(ConfigCles.var_sauvegardes), " = Optional.ofNullable((ArrayList<String>)doc.get(\"", langueConfig.getString(ConfigCles.var_sauvegardes), "_docvalues_strings\")).orElse(new ArrayList<String>());");
-			tl(2, "if(", langueConfig.getString(ConfigCles.var_sauvegardes), " != null) {");
+			tl(2, "", langueConfig.getString(I18n.var_sauvegardes), " = Optional.ofNullable((ArrayList<String>)doc.get(\"", langueConfig.getString(I18n.var_sauvegardes), "_docvalues_strings\")).orElse(new ArrayList<String>());");
+			tl(2, "if(", langueConfig.getString(I18n.var_sauvegardes), " != null) {");
 			s(wPeupler.toString());
 			tl(2, "}");
 			if(BooleanUtils.isTrue(classeEtendBase)) {
 				tl(0);
-				tl(2, "super.", langueConfig.getString(ConfigCles.var_peupler), classeNomSimpleSuperGenerique, "(doc);");
+				tl(2, "super.", langueConfig.getString(I18n.var_peupler), classeNomSimpleSuperGenerique, "(doc);");
 			}
 
 			tl(1, "}");
@@ -5833,10 +5833,10 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(classeIndexe && classePartsRequeteSite != null) {
 
 			tl(0);
-			tl(1, "public void ", langueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(JsonObject doc) {");
+			tl(1, "public void ", langueConfig.getString(I18n.var_indexer), classeNomSimple, "(JsonObject doc) {");
 			s(wIndexer.toString());
 			if(classeEtendBase && !classeEstBase) {
-				tl(2, "super.", langueConfig.getString(ConfigCles.var_indexer), "", classeNomSimpleSuperGenerique, "(doc);");
+				tl(2, "super.", langueConfig.getString(I18n.var_indexer), "", classeNomSimpleSuperGenerique, "(doc);");
 				tl(0);
 			}
 			l("\t}");
@@ -5845,44 +5845,44 @@ public class EcrireGenClasse extends EcrireClasse {
 			// var //
 			/////////
 			l();
-			tl(1, "public static String var", langueConfig.getString(ConfigCles.var_Stocke), classeNomSimple, "(String ", langueConfig.getString(ConfigCles.var_entite), "Var) {");
-			tl(2, "switch(", langueConfig.getString(ConfigCles.var_entite), "Var) {");
+			tl(1, "public static String var", langueConfig.getString(I18n.var_Stocke), classeNomSimple, "(String ", langueConfig.getString(I18n.var_entite), "Var) {");
+			tl(2, "switch(", langueConfig.getString(I18n.var_entite), "Var) {");
 			s(wVarStocke);
 			tl(3, "default:");
 			if(classeEstBase)
 //				tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" ", langueConfig.getString(ConfigCles.var_nest_pas_une_entite_Stocke), ". \", ", langueConfig.getString(ConfigCles.var_entite), "Var));");
 				tl(4, "return null;");
 			else
-				tl(4, "return ", classeNomSimpleSuperGenerique, ".var", langueConfig.getString(ConfigCles.var_Stocke), classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_entite), "Var);");
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".var", langueConfig.getString(I18n.var_Stocke), classeNomSimpleSuperGenerique, "(", langueConfig.getString(I18n.var_entite), "Var);");
 			tl(2, "}");
 			tl(1, "}");
 			l();
-			tl(1, "public static String var", langueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(String ", langueConfig.getString(ConfigCles.var_entite), "Var) {");
-			tl(2, "switch(", langueConfig.getString(ConfigCles.var_entite), "Var) {");
+			tl(1, "public static String var", langueConfig.getString(I18n.var_Indexe), classeNomSimple, "(String ", langueConfig.getString(I18n.var_entite), "Var) {");
+			tl(2, "switch(", langueConfig.getString(I18n.var_entite), "Var) {");
 			s(wVarIndexe);
 			tl(3, "default:");
 			if(classeEstBase)
 //				tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" ", langueConfig.getString(ConfigCles.var_nest_pas_une_entite_indexe), ". \", ", langueConfig.getString(ConfigCles.var_entite), "Var));");
 				tl(4, "return null;");
 			else
-				tl(4, "return ", classeNomSimpleSuperGenerique, ".var", langueConfig.getString(ConfigCles.var_Indexe), classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_entite), "Var);");
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".var", langueConfig.getString(I18n.var_Indexe), classeNomSimpleSuperGenerique, "(", langueConfig.getString(I18n.var_entite), "Var);");
 			tl(2, "}");
 			tl(1, "}");
 			l();
-			tl(1, "public static String ", langueConfig.getString(ConfigCles.var_recherche), "Var", classeNomSimple, "(String ", langueConfig.getString(ConfigCles.var_recherche), "Var) {");
-			tl(2, "switch(", langueConfig.getString(ConfigCles.var_recherche), "Var) {");
+			tl(1, "public static String ", langueConfig.getString(I18n.var_recherche), "Var", classeNomSimple, "(String ", langueConfig.getString(I18n.var_recherche), "Var) {");
+			tl(2, "switch(", langueConfig.getString(I18n.var_recherche), "Var) {");
 			s(wRechercheVar);
 			tl(3, "default:");
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_recherche), "Var", classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_recherche), "Var);");
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(I18n.var_recherche), "Var", classeNomSimpleSuperGenerique, "(", langueConfig.getString(I18n.var_recherche), "Var);");
 			tl(2, "}");
 			tl(1, "}");
 
 			l();
-			tl(1, "public static String var", langueConfig.getString(ConfigCles.var_Recherche), classeNomSimple, "(String ", langueConfig.getString(ConfigCles.var_entite), "Var) {");
-			tl(2, "switch(", langueConfig.getString(ConfigCles.var_entite), "Var) {");
+			tl(1, "public static String var", langueConfig.getString(I18n.var_Recherche), classeNomSimple, "(String ", langueConfig.getString(I18n.var_entite), "Var) {");
+			tl(2, "switch(", langueConfig.getString(I18n.var_entite), "Var) {");
 			s(wVarRecherche);
 			s(wVarSuggere);
 			tl(3, "default:");
@@ -5890,20 +5890,20 @@ public class EcrireGenClasse extends EcrireClasse {
 //				tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" ", langueConfig.getString(ConfigCles.var_nest_pas_une_entite_indexe), ". \", ", langueConfig.getString(ConfigCles.var_entite), "Var));");
 				tl(4, "return null;");
 			else
-				tl(4, "return ", classeNomSimpleSuperGenerique, ".var", langueConfig.getString(ConfigCles.var_Recherche), classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_entite), "Var);");
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".var", langueConfig.getString(I18n.var_Recherche), classeNomSimpleSuperGenerique, "(", langueConfig.getString(I18n.var_entite), "Var);");
 			tl(2, "}");
 			tl(1, "}");
 
 			l();
-			tl(1, "public static String var", langueConfig.getString(ConfigCles.var_Suggere), classeNomSimple, "(String ", langueConfig.getString(ConfigCles.var_entite), "Var) {");
-			tl(2, "switch(", langueConfig.getString(ConfigCles.var_entite), "Var) {");
+			tl(1, "public static String var", langueConfig.getString(I18n.var_Suggere), classeNomSimple, "(String ", langueConfig.getString(I18n.var_entite), "Var) {");
+			tl(2, "switch(", langueConfig.getString(I18n.var_entite), "Var) {");
 			s(wVarSuggere);
 			tl(3, "default:");
 			if(classeEstBase)
 //				tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" ", langueConfig.getString(ConfigCles.var_nest_pas_une_entite_indexe), ". \", ", langueConfig.getString(ConfigCles.var_entite), "Var));");
 				tl(4, "return null;");
 			else
-				tl(4, "return ", classeNomSimpleSuperGenerique, ".var", langueConfig.getString(ConfigCles.var_Suggere), classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_entite), "Var);");
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".var", langueConfig.getString(I18n.var_Suggere), classeNomSimpleSuperGenerique, "(", langueConfig.getString(I18n.var_entite), "Var);");
 			tl(2, "}");
 			tl(1, "}");
 		}
@@ -5914,25 +5914,25 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(classeIndexe) {
 			l(); 
 			tl(1, "/////////////");
-			tl(1, "// ", langueConfig.getString(ConfigCles.var_stocker), " //");
+			tl(1, "// ", langueConfig.getString(I18n.var_stocker), " //");
 			tl(1, "/////////////");
 			tl(0);
 			t(1);
 			if(BooleanUtils.isTrue(classeEtendBase))
 				s("@Override ");
-			l("public void ", langueConfig.getString(ConfigCles.var_stocker), langueConfig.getString(ConfigCles.var_PourClasse), "(SolrResponse.Doc doc) {");
+			l("public void ", langueConfig.getString(I18n.var_stocker), langueConfig.getString(I18n.var_PourClasse), "(SolrResponse.Doc doc) {");
 			if(classeIndexe) {
-			tl(2, langueConfig.getString(ConfigCles.var_stocker), classeNomSimple, "(doc);");
+			tl(2, langueConfig.getString(I18n.var_stocker), classeNomSimple, "(doc);");
 			}
 			tl(1, "}");
-			tl(1, "public void ", langueConfig.getString(ConfigCles.var_stocker), classeNomSimple, "(SolrResponse.Doc doc) {");
+			tl(1, "public void ", langueConfig.getString(I18n.var_stocker), classeNomSimple, "(SolrResponse.Doc doc) {");
 			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
-			tl(2, classePartsRequeteSite.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteSite), " = o", classeNomSimple, ".get", classeLangueConfig.getString(ConfigCles.var_RequeteSite), "_();");
+			tl(2, classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), " = o", classeNomSimple, ".get", i18nGlobale.getString(I18n.var_RequeteSite), "_();");
 			l();
 			s(wStocker.toString());
 			if(BooleanUtils.isTrue(classeEtendBase)) {
 				tl(0);
-				tl(2, "super.", langueConfig.getString(ConfigCles.var_stocker), classeNomSimpleSuperGenerique, "(doc);");
+				tl(2, "super.", langueConfig.getString(I18n.var_stocker), classeNomSimpleSuperGenerique, "(doc);");
 			}
 
 			tl(1, "}");
@@ -5975,23 +5975,23 @@ public class EcrireGenClasse extends EcrireClasse {
 				//////////////////
 				l(); 
 				tl(1, "//////////////////");
-				tl(1, "// ", langueConfig.getString(ConfigCles.var_requeteApi), " //");
+				tl(1, "// ", langueConfig.getString(I18n.var_requeteApi), " //");
 				tl(1, "//////////////////");
 				l();
-				tl(1, "public void ", langueConfig.getString(ConfigCles.var_requeteApi), classeNomSimple, "() {");
-				tl(2, langueConfig.getString(ConfigCles.var_RequeteApi), " ", langueConfig.getString(ConfigCles.var_requeteApi), " = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteSite), "_).map(r -> r.get", langueConfig.getString(ConfigCles.var_RequeteApi), "_()).orElse(null);");
-				tl(2, "Object o = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteApi), ").map(", langueConfig.getString(ConfigCles.var_RequeteApi), "::getOriginal).orElse(null);");
+				tl(1, "public void ", langueConfig.getString(I18n.var_requeteApi), classeNomSimple, "() {");
+				tl(2, langueConfig.getString(I18n.var_RequeteApi), " ", langueConfig.getString(I18n.var_requeteApi), " = Optional.ofNullable(", langueConfig.getString(I18n.var_requeteSite), "_).map(r -> r.get", langueConfig.getString(I18n.var_RequeteApi), "_()).orElse(null);");
+				tl(2, "Object o = Optional.ofNullable(", langueConfig.getString(I18n.var_requeteApi), ").map(", langueConfig.getString(I18n.var_RequeteApi), "::getOriginal).orElse(null);");
 				tl(2, "if(o != null && o instanceof ", classeNomSimple, ") {");
 				tl(3, classeNomSimple, " original = (", classeNomSimple, ")o;");
 				s(wRequeteApi.toString());
 				if(BooleanUtils.isTrue(classeEtendBase)) {
-					tl(3, "super.", langueConfig.getString(ConfigCles.var_requeteApi), classeNomSimpleSuperGenerique, "();");
+					tl(3, "super.", langueConfig.getString(I18n.var_requeteApi), classeNomSimpleSuperGenerique, "();");
 				}
 				tl(2, "}");
 				tl(1, "}");
 			}
 			else {
-				System.err.println(String.format("%s %s %s %s %s. ", langueConfig.getString(ConfigCles.var_classe), langueConfig.getString(ConfigCles.var_RequeteSite), langueConfig.getString(ConfigCles.var_manquante), langueConfig.getString(ConfigCles.var_dans), cheminSrcMainJava));
+				System.err.println(String.format("%s %s %s %s %s. ", langueConfig.getString(I18n.var_classe), langueConfig.getString(I18n.var_RequeteSite), langueConfig.getString(I18n.var_manquante), langueConfig.getString(I18n.var_dans), cheminSrcMainJava));
 			}
 		}
 
@@ -6017,11 +6017,11 @@ public class EcrireGenClasse extends EcrireClasse {
 		}
 
 		l();
-		tl(1, "public static final String ", langueConfig.getString(ConfigCles.var_CLASSE_NOM_SIMPLE), " = \"", classeNomSimple, "\";");
+		tl(1, "public static final String ", langueConfig.getString(I18n.var_CLASSE_NOM_SIMPLE), " = \"", classeNomSimple, "\";");
 		if(classeApi) {
-			tl(1, "public static final String ", classeLangueConfig.getString(ConfigCles.var_CLASSE_API_ADDRESSE), "_", classeNomSimple, " = \"", siteNom, "-", classeLangueNom, "-", classeNomSimple, "\";");
-			tl(1, "public static String get", classeLangueConfig.getString(ConfigCles.var_ClasseApiAddresse), "() {");
-			tl(2, "return ", classeLangueConfig.getString(ConfigCles.var_CLASSE_API_ADDRESSE), "_", classeNomSimple, ";");
+			tl(1, "public static final String ", i18nGlobale.getString(I18n.var_CLASSE_API_ADDRESSE), "_", classeNomSimple, " = \"", siteNom, "-", classeLangueNom, "-", classeNomSimple, "\";");
+			tl(1, "public static String get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "() {");
+			tl(2, "return ", i18nGlobale.getString(I18n.var_CLASSE_API_ADDRESSE), "_", classeNomSimple, ";");
 			tl(1, "}");
 		}
 		s(wVarsStatic);
@@ -6032,7 +6032,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			////////////
 	
 			l();
-			tl(1, "public static List<String> varsQ", langueConfig.getString(ConfigCles.var_PourClasse), "() {");
+			tl(1, "public static List<String> varsQ", langueConfig.getString(I18n.var_PourClasse), "() {");
 			tl(2, "return ", classeNomSimple, ".varsQ", classeNomSimple, "(new ArrayList<String>());");
 			tl(1, "}");
 			tl(1, "public static List<String> varsQ", classeNomSimple, "(List<String> vars) {");
@@ -6047,7 +6047,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			////////////
 	
 			l();
-			tl(1, "public static List<String> varsFq", langueConfig.getString(ConfigCles.var_PourClasse), "() {");
+			tl(1, "public static List<String> varsFq", langueConfig.getString(I18n.var_PourClasse), "() {");
 			tl(2, "return ", classeNomSimple, ".varsFq", classeNomSimple, "(new ArrayList<String>());");
 			tl(1, "}");
 			tl(1, "public static List<String> varsFq", classeNomSimple, "(List<String> vars) {");
@@ -6062,13 +6062,13 @@ public class EcrireGenClasse extends EcrireClasse {
 			///////////////
 	
 			l();
-			tl(1, "public static List<String> vars", langueConfig.getString(ConfigCles.var_Gamme), langueConfig.getString(ConfigCles.var_PourClasse), "() {");
-			tl(2, "return ", classeNomSimple, ".vars", langueConfig.getString(ConfigCles.var_Gamme), classeNomSimple, "(new ArrayList<String>());");
+			tl(1, "public static List<String> vars", langueConfig.getString(I18n.var_Gamme), langueConfig.getString(I18n.var_PourClasse), "() {");
+			tl(2, "return ", classeNomSimple, ".vars", langueConfig.getString(I18n.var_Gamme), classeNomSimple, "(new ArrayList<String>());");
 			tl(1, "}");
-			tl(1, "public static List<String> vars", langueConfig.getString(ConfigCles.var_Gamme), classeNomSimple, "(List<String> vars) {");
+			tl(1, "public static List<String> vars", langueConfig.getString(I18n.var_Gamme), classeNomSimple, "(List<String> vars) {");
 			s(wVarsGamme);
 			if(!classeEstBase)
-				tl(2, classeNomSimpleSuperGenerique, ".vars", langueConfig.getString(ConfigCles.var_Gamme), classeNomSimpleSuperGenerique, "(vars);");
+				tl(2, classeNomSimpleSuperGenerique, ".vars", langueConfig.getString(I18n.var_Gamme), classeNomSimpleSuperGenerique, "(vars);");
 			tl(2, "return vars;");
 			tl(1, "}");
 		}
@@ -6081,10 +6081,10 @@ public class EcrireGenClasse extends EcrireClasse {
 		s(wNomAffichageStatic);
 
 		l();
-		tl(1, "public static String ", langueConfig.getString(ConfigCles.var_nomAffichage), langueConfig.getString(ConfigCles.var_PourClasse), "(String var) {");
-		tl(2, "return ", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), classeNomSimple, "(var);");
+		tl(1, "public static String ", langueConfig.getString(I18n.var_nomAffichage), langueConfig.getString(I18n.var_PourClasse), "(String var) {");
+		tl(2, "return ", classeNomSimple, ".", langueConfig.getString(I18n.var_nomAffichage), classeNomSimple, "(var);");
 		tl(1, "}");
-		tl(1, "public static String ", langueConfig.getString(ConfigCles.var_nomAffichage), classeNomSimple, "(String var) {");
+		tl(1, "public static String ", langueConfig.getString(I18n.var_nomAffichage), classeNomSimple, "(String var) {");
 		tl(2, "switch(var) {");
 		s(wNomAffichageMethode.toString());
 		tl(2, "default:");
@@ -6092,7 +6092,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(classeEstBase)
 			tl(3, "return null;");
 		else
-			tl(3, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_nomAffichage), classeNomSimpleSuperGenerique, "(var);");
+			tl(3, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(I18n.var_nomAffichage), classeNomSimpleSuperGenerique, "(var);");
 		tl(2, "}");
 		tl(1, "}");
 
@@ -6102,14 +6102,14 @@ public class EcrireGenClasse extends EcrireClasse {
 			// Description //
 			/////////////////
 			l();
-			tl(1, "public static String ", langueConfig.getString(ConfigCles.var_description), classeNomSimple, "(String var) {");
+			tl(1, "public static String ", langueConfig.getString(I18n.var_description), classeNomSimple, "(String var) {");
 			tl(2, "switch(var) {");
 			s(wDescriptionMethode);
 			tl(3, "default:");
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_description), classeNomSimpleSuperGenerique, "(var);");
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(I18n.var_description), classeNomSimpleSuperGenerique, "(var);");
 			tl(2, "}");
 			tl(1, "}");
 	
@@ -6117,14 +6117,14 @@ public class EcrireGenClasse extends EcrireClasse {
 			// ClasseNomSimple //
 			/////////////////////
 			l();
-			tl(1, "public static String ", langueConfig.getString(ConfigCles.var_classeNomSimple), classeNomSimple, "(String var) {");
+			tl(1, "public static String ", langueConfig.getString(I18n.var_classeNomSimple), classeNomSimple, "(String var) {");
 			tl(2, "switch(var) {");
 			s(wClasseNomSimpleMethode);
 			tl(3, "default:");
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_classeNomSimple), classeNomSimpleSuperGenerique, "(var);");
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(I18n.var_classeNomSimple), classeNomSimpleSuperGenerique, "(var);");
 			tl(2, "}");
 			tl(1, "}");
 	
@@ -6132,14 +6132,14 @@ public class EcrireGenClasse extends EcrireClasse {
 			// HtmColonne //
 			/////////////////
 			l();
-			tl(1, "public static Integer ", langueConfig.getString(ConfigCles.var_htmColonne), classeNomSimple, "(String var) {");
+			tl(1, "public static Integer ", langueConfig.getString(I18n.var_htmColonne), classeNomSimple, "(String var) {");
 			tl(2, "switch(var) {");
 			s(wHtmColonneMethode);
 			tl(3, "default:");
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_htmColonne), classeNomSimpleSuperGenerique, "(var);");
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(I18n.var_htmColonne), classeNomSimpleSuperGenerique, "(var);");
 			tl(2, "}");
 			tl(1, "}");
 	
@@ -6147,14 +6147,14 @@ public class EcrireGenClasse extends EcrireClasse {
 			// HtmLigne //
 			///////////////
 			l();
-			tl(1, "public static Integer ", langueConfig.getString(ConfigCles.var_htmLigne), classeNomSimple, "(String var) {");
+			tl(1, "public static Integer ", langueConfig.getString(I18n.var_htmLigne), classeNomSimple, "(String var) {");
 			tl(2, "switch(var) {");
 			s(wHtmLigneMethode);
 			tl(3, "default:");
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_htmLigne), classeNomSimpleSuperGenerique, "(var);");
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(I18n.var_htmLigne), classeNomSimpleSuperGenerique, "(var);");
 			tl(2, "}");
 			tl(1, "}");
 	
@@ -6162,14 +6162,14 @@ public class EcrireGenClasse extends EcrireClasse {
 			// HtmCellule //
 			/////////////////
 			l();
-			tl(1, "public static Integer ", langueConfig.getString(ConfigCles.var_htmCellule), classeNomSimple, "(String var) {");
+			tl(1, "public static Integer ", langueConfig.getString(I18n.var_htmCellule), classeNomSimple, "(String var) {");
 			tl(2, "switch(var) {");
 			s(wHtmCelluleMethode);
 			tl(3, "default:");
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_htmCellule), classeNomSimpleSuperGenerique, "(var);");
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(I18n.var_htmCellule), classeNomSimpleSuperGenerique, "(var);");
 			tl(2, "}");
 			tl(1, "}");
 	
@@ -6177,14 +6177,14 @@ public class EcrireGenClasse extends EcrireClasse {
 			// LongeurMin //
 			////////////////
 			l();
-			tl(1, "public static Integer ", langueConfig.getString(ConfigCles.var_longeurMin), classeNomSimple, "(String var) {");
+			tl(1, "public static Integer ", langueConfig.getString(I18n.var_longeurMin), classeNomSimple, "(String var) {");
 			tl(2, "switch(var) {");
 			s(wLongeurMinMethode);
 			tl(3, "default:");
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_longeurMin), classeNomSimpleSuperGenerique, "(var);");
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(I18n.var_longeurMin), classeNomSimpleSuperGenerique, "(var);");
 			tl(2, "}");
 			tl(1, "}");
 	
@@ -6192,14 +6192,14 @@ public class EcrireGenClasse extends EcrireClasse {
 			// LongeurMax //
 			////////////////
 			l();
-			tl(1, "public static Integer ", langueConfig.getString(ConfigCles.var_longeurMax), classeNomSimple, "(String var) {");
+			tl(1, "public static Integer ", langueConfig.getString(I18n.var_longeurMax), classeNomSimple, "(String var) {");
 			tl(2, "switch(var) {");
 			s(wLongeurMaxMethode);
 			tl(3, "default:");
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_longeurMax), classeNomSimpleSuperGenerique, "(var);");
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(I18n.var_longeurMax), classeNomSimpleSuperGenerique, "(var);");
 			tl(2, "}");
 			tl(1, "}");
 	
@@ -6207,14 +6207,14 @@ public class EcrireGenClasse extends EcrireClasse {
 			// Max //
 			/////////
 			l();
-			tl(1, "public static Integer ", langueConfig.getString(ConfigCles.var_max), classeNomSimple, "(String var) {");
+			tl(1, "public static Integer ", langueConfig.getString(I18n.var_max), classeNomSimple, "(String var) {");
 			tl(2, "switch(var) {");
 			s(wMaxMethode);
 			tl(3, "default:");
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_max), classeNomSimpleSuperGenerique, "(var);");
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(I18n.var_max), classeNomSimpleSuperGenerique, "(var);");
 			tl(2, "}");
 			tl(1, "}");
 	
@@ -6222,14 +6222,14 @@ public class EcrireGenClasse extends EcrireClasse {
 			// Min //
 			/////////
 			l();
-			tl(1, "public static Integer ", langueConfig.getString(ConfigCles.var_min), classeNomSimple, "(String var) {");
+			tl(1, "public static Integer ", langueConfig.getString(I18n.var_min), classeNomSimple, "(String var) {");
 			tl(2, "switch(var) {");
 			s(wMinMethode);
 			tl(3, "default:");
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_min), classeNomSimpleSuperGenerique, "(var);");
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(I18n.var_min), classeNomSimpleSuperGenerique, "(var);");
 			tl(2, "}");
 			tl(1, "}");
 		}
@@ -6635,18 +6635,18 @@ public class EcrireGenClasse extends EcrireClasse {
 		}
 
 		wClasseDescription.tl(0, "<p>");
-		wClasseDescription.tl(0, langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_la_classe_), classeNomSimple, langueConfig.getString(ConfigCles.str__dans_Solr), ": ");
+		wClasseDescription.tl(0, langueConfig.getString(I18n.str_Supprimer_), langueConfig.getString(I18n.str_la_classe_), classeNomSimple, langueConfig.getString(I18n.str__dans_Solr), ": ");
 		wClasseDescription.tl(0, "curl -k '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
 		wClasseDescription.tl(0, "</p>");
 		wClasseDescription.tl(0, "<p>");
-		wClasseDescription.tl(0, langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_l_ensemble_), classeNomEnsemble, langueConfig.getString(ConfigCles.str__dans_Solr), ": ");
+		wClasseDescription.tl(0, langueConfig.getString(I18n.str_Supprimer_), langueConfig.getString(I18n.str_l_ensemble_), classeNomEnsemble, langueConfig.getString(I18n.str__dans_Solr), ": ");
 		wClasseDescription.tl(0, "curl -k '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomEnsemble_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomEnsemble), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
 		wClasseDescription.tl(0, "</p>");
 		wClasseDescription.tl(0, "<p>");
-		wClasseDescription.tl(0, langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_le_projet_), siteNom, langueConfig.getString(ConfigCles.str__dans_Solr), ": ");
+		wClasseDescription.tl(0, langueConfig.getString(I18n.str_Supprimer_), langueConfig.getString(I18n.str_le_projet_), siteNom, langueConfig.getString(I18n.str__dans_Solr), ": ");
 		wClasseDescription.tl(0, "curl -k '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;siteNom_indexed_string:", ClientUtils.escapeQueryChars(siteNom), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
 		wClasseDescription.tl(0, "</p>");
-		wClasseDescription.l(langueConfig.getString(ConfigCles.str_Genere), ": true");
+		wClasseDescription.l(langueConfig.getString(I18n.str_Genere), ": true");
 
 		if(o != null) {
 			ecrireCommentairePart(wClasseTodos.toString(), 0); 

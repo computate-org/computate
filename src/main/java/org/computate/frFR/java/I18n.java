@@ -13,7 +13,7 @@
  */
 package org.computate.frFR.java;
 
-public class ConfigCles {
+public class I18n {
 
 	public static final String str_a_démarré = "str_a_démarré";
 	public static final String str_a_échoué = "str_a_échoué";

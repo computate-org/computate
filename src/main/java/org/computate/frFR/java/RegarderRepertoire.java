@@ -226,7 +226,7 @@ public class RegarderRepertoire {
 				indexerClasses(SITE_SRC, classeLangueConfig);
 				indexerClasses(SITE_SRC, classeLangueConfig);
 				indexerClasses(SITE_SRC, classeLangueConfig);
-				System.out.println(classeLangueConfig.getString(ConfigCles.str_Pret));
+				System.out.println(classeLangueConfig.getString(I18n.str_Pret));
 				regarderRepertoire.traiterEvenements(classeLangueConfig);
 			} else {
 				indexerClasses(SITE_SRC, classeLangueConfig);
@@ -266,7 +266,7 @@ public class RegarderRepertoire {
 					regarderClasse.initRegarderClasseBase(classeLangueNom, classeLangueConfig);
 					SolrInputDocument classeDoc = new SolrInputDocument();
 					regarderClasse.indexerClasse(cheminStr, classeDoc, classeLangueNom);
-					System.out.println(String.format("%s %s", classeLangueConfig.getString(ConfigCles.var_Indexe), cheminStr));
+					System.out.println(String.format("%s %s", classeLangueConfig.getString(I18n.var_Indexe), cheminStr));
 				} catch(Exception ex) {
 					System.err.println(String.format("An exception occured while indexing files: %s", ExceptionUtils.getStackTrace(ex)));
 				}
@@ -299,7 +299,7 @@ public class RegarderRepertoire {
 					SolrInputDocument classeDoc = new SolrInputDocument();
 					regarderClasse.indexerClasse(cheminStr, classeDoc, classeLangueNom);
 					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, classeLangueNom, classeLangueNom, classeLangueConfig);
-					System.out.println(String.format("%s %s", classeLangueConfig.getString(ConfigCles.var_Indexe), cheminStr));
+					System.out.println(String.format("%s %s", classeLangueConfig.getString(I18n.var_Indexe), cheminStr));
 				} catch(Exception ex) {
 					System.err.println(String.format("An exception occured while indexing files: %s", ExceptionUtils.getStackTrace(ex)));
 				}
@@ -356,7 +356,7 @@ public class RegarderRepertoire {
 	 */
 	public void initialiserRegarderRepertoire(JsonObject classeLangueConfig) throws Exception {
 		observateur = FileSystems.getDefault().newWatchService();
-		String cheminRelatifARegarder = configuration.getString(classeLangueConfig.getString(ConfigCles.var_CHEMINS_RELATIFS_A_REGARDER));
+		String cheminRelatifARegarder = configuration.getString(classeLangueConfig.getString(I18n.var_CHEMINS_RELATIFS_A_REGARDER));
 		String cheminARegarder = SITE_SRC + "/" + cheminRelatifARegarder;
 		cheminsARegarder.add(cheminARegarder);
 
@@ -397,9 +397,9 @@ public class RegarderRepertoire {
 			try {
 				chemins.add(enregistrerTout(Paths.get(cheminARegarder)));
 				if(REGARDER)
-					LOG.info("{}: {}", classeLangueConfig.getString(ConfigCles.var_Regarder), cheminARegarder);
+					LOG.info("{}: {}", classeLangueConfig.getString(I18n.var_Regarder), cheminARegarder);
 				else
-					LOG.info("{}: {}", classeLangueConfig.getString(ConfigCles.var_Generer), cheminARegarder);
+					LOG.info("{}: {}", classeLangueConfig.getString(I18n.var_Generer), cheminARegarder);
 			} catch (IOException e) { 
 				LOG.error("Erreur à ajouter chemin pour regarder.", e);
 			}
@@ -538,7 +538,7 @@ public class RegarderRepertoire {
 	 */
 	protected void traiterEvenements(JsonObject classeLangueConfig) {
 		for(String cheminARegarder : cheminsARegarder)
-			System.out.println(classeLangueConfig.getString(ConfigCles.var_Regarder) + " " + cheminARegarder);
+			System.out.println(classeLangueConfig.getString(I18n.var_Regarder) + " " + cheminARegarder);
 		for (;;) {
 
 			WatchKey regarderCle;

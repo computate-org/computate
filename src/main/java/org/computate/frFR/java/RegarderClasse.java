@@ -170,15 +170,15 @@ public class RegarderClasse extends EcrireToutesClasses {
 			regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu, classeDoc, classeLangueNom);
 			String classeNomSimple = Optional.ofNullable(classeDoc.get("classeNomSimple_enUS_stored_string")).map(o -> (String)o.getValue()).orElse(null);
 //			Date classeModifie = Optional.ofNullable(classeDoc.get("modifiee_stored_date")).map(o -> (Date)o.getValue()).orElse(null);
-			String siteUrlBase = siteConfig.getString(classeLangueConfig.getString(ConfigCles.var_SITE_URL_BASE));
+			String siteUrlBase = siteConfig.getString(classeLangueConfig.getString(I18n.var_SITE_URL_BASE));
 //			String siteLangue = siteConfig.getString(classeLangueConfig.getString(ConfigCles.var_LANGUE_NOM));
 //			String siteZoneStr = siteConfig.getString(classeLangueConfig.getString(ConfigCles.var_SITE_ZONE));
 //			ZoneId siteZone = ZoneId.of(siteZoneStr);
 //			String classeModifieStr = ZonedDateTime.ofInstant(classeModifie.toInstant(), siteZone).format(ComputateZonedDateTimeSerializer.ZONED_DATE_TIME_FORMATTER.withZone(ZoneId.of(siteConfig.getString(ComputateConfigKeys.SITE_ZONE))));
 			Boolean classeTraduire = Optional.ofNullable(classeDoc.get("classeTraduire_stored_boolean")).map(o -> (Boolean)o.getValue()).orElse(null);
 			if(classeTraduire) {
-				String url = String.format(classeLangueConfig.getString(ConfigCles.str_chemin_absolu_url), siteUrlBase, classeNomSimple);
-				String log = String.format(classeLangueConfig.getString(ConfigCles.str_chemin_absolu), classeNomSimple);
+				String url = String.format(classeLangueConfig.getString(I18n.str_chemin_absolu_url), siteUrlBase, classeNomSimple);
+				String log = String.format(classeLangueConfig.getString(I18n.str_chemin_absolu), classeNomSimple);
 				System.out.println(log);
 			}
 //			for(String langueNom : regarderClasse.autresLangues) {

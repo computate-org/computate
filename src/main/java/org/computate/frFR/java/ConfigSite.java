@@ -162,7 +162,7 @@ public class ConfigSite {
 
 	public String classeLangueNom;
 
-	public JsonObject classeLangueConfig;
+	public JsonObject i18nGlobale;
 
 	public String langueNomGlobale;
 	protected void _langueNomGlobale() throws Exception {
@@ -222,7 +222,7 @@ public class ConfigSite {
 	 * r.enUS: sitePath r: siteNom r.enUS: siteName
 	 **/
 	protected void _configChemin() throws Exception {
-		configChemin = System.getenv(classeLangueConfig.getString("var_VARS_CHEMIN"));
+		configChemin = System.getenv(i18nGlobale.getString("var_VARS_CHEMIN"));
 	}
 
 	/**
@@ -234,7 +234,7 @@ public class ConfigSite {
 	 * r: fichierConfig r.enUS: configFile
 	 **/
 	protected void _config() throws Exception {
-		config = getConfiguration(jinjava, classeLangueConfig);
+		config = getConfiguration(jinjava, i18nGlobale);
 	}
 
 	/**
@@ -248,7 +248,7 @@ public class ConfigSite {
 	 **/
 	protected void _siteNom() throws Exception {
 		if (siteNom == null)
-			siteNom = config.getString(langueConfigGlobale.getString(ConfigCles.var_SITE_NOM));
+			siteNom = config.getString(langueConfigGlobale.getString(I18n.var_SITE_NOM));
 	}
 
 	/**
@@ -262,7 +262,7 @@ public class ConfigSite {
 	 **/
 	protected void _siteChemin() throws Exception {
 		if (siteChemin == null)
-			siteChemin = config.getString(langueConfigGlobale.getString(ConfigCles.var_SITE_SRC));
+			siteChemin = config.getString(langueConfigGlobale.getString(I18n.var_SITE_SRC));
 	}
 
 	/**
@@ -432,7 +432,7 @@ public class ConfigSite {
 	 **/
 	protected void _autresLangues() throws Exception {
 		autresLangues = Optional.ofNullable(config
-				.getJsonArray(langueConfigGlobale.getString(ConfigCles.var_AUTRES_LANGUES)))
+				.getJsonArray(langueConfigGlobale.getString(I18n.var_AUTRES_LANGUES)))
 				.orElse(new JsonArray())
 				.stream().map(o -> o.toString()).toArray(String[]::new);
 	}
@@ -484,7 +484,7 @@ public class ConfigSite {
 	 * siteName
 	 **/
 	protected void _nomDomaine() throws Exception {
-		nomDomaine = config.getString(langueConfigGlobale.getString(ConfigCles.var_NOM_DOMAINE));
+		nomDomaine = config.getString(langueConfigGlobale.getString(I18n.var_NOM_DOMAINE));
 	}
 
 	/**
@@ -497,7 +497,7 @@ public class ConfigSite {
 	 * domainName r: siteUrlBase r.enUS: siteBaseUrl
 	 **/
 	protected void _siteUrlBase() throws Exception {
-		siteUrlBase = config.getString(langueConfigGlobale.getString(ConfigCles.var_SITE_URL_BASE));
+		siteUrlBase = config.getString(langueConfigGlobale.getString(I18n.var_SITE_URL_BASE));
 	}
 
 	/**
@@ -507,7 +507,7 @@ public class ConfigSite {
 	/**
 	 **/
 	protected void _computateEnsembleRecherchePrefixe() throws Exception {
-		computateEnsembleRecherchePrefixe = config.getString(langueConfigGlobale.getString(ConfigCles.var_COMPUTATE_ENSEMBLE_RECHERCHE_PREFIXE), "org.computate.search org.computate.vertx ");
+		computateEnsembleRecherchePrefixe = config.getString(langueConfigGlobale.getString(I18n.var_COMPUTATE_ENSEMBLE_RECHERCHE_PREFIXE), "org.computate.search org.computate.vertx ");
 	}
 
 	/**
@@ -523,7 +523,7 @@ public class ConfigSite {
 	 **/
 	protected void _nomEnsembleDomaine() throws Exception {
 		nomEnsembleDomaine = config
-				.getString(langueConfigGlobale.getString(ConfigCles.var_SITE_JAVA_ENSEMBLE));
+				.getString(langueConfigGlobale.getString(I18n.var_SITE_JAVA_ENSEMBLE));
 		if (StringUtils.isEmpty(nomEnsembleDomaine)) {
 			String[] partis = StringUtils.split(nomDomaine, ".");
 			ArrayUtils.reverse(partis);
@@ -543,14 +543,14 @@ public class ConfigSite {
 	 **/
 	protected void _nomFichierConfig() throws Exception {
 		nomFichierConfig = config.getString(
-				langueConfigGlobale.getString(ConfigCles.var_NOM_FICHIER_CONFIG), siteNom + ".yaml");
+				langueConfigGlobale.getString(I18n.var_NOM_FICHIER_CONFIG), siteNom + ".yaml");
 	}
 
 	public String siteZone;
 
 	protected void _siteZone() throws Exception {
 		siteZone = config.getString(
-				langueConfigGlobale.getString(ConfigCles.var_SITE_ZONE));
+				langueConfigGlobale.getString(I18n.var_SITE_ZONE));
 	}
 
 	/**
@@ -570,14 +570,14 @@ public class ConfigSite {
 
 	protected void _solrUtilisateur() throws Exception {
 		solrUtilisateur = config
-				.getString(langueConfigGlobale.getString(ConfigCles.var_SOLR_UTILISATEUR));
+				.getString(langueConfigGlobale.getString(I18n.var_SOLR_UTILISATEUR));
 	}
 
 	public String solrMotDePasse;
 
 	protected void _solrMotDePasse() throws Exception {
 		solrMotDePasse = config
-				.getString(langueConfigGlobale.getString(ConfigCles.var_SOLR_MOT_DE_PASSE));
+				.getString(langueConfigGlobale.getString(I18n.var_SOLR_MOT_DE_PASSE));
 	}
 
 	/**
@@ -586,7 +586,7 @@ public class ConfigSite {
 	 **/
 	protected void _solrUrlComputate() throws Exception {
 		solrUrlComputate = config
-				.getString(langueConfigGlobale.getString(ConfigCles.var_SOLR_URL_COMPUTATE));
+				.getString(langueConfigGlobale.getString(I18n.var_SOLR_URL_COMPUTATE));
 	}
 
 	/**
@@ -670,7 +670,7 @@ public class ConfigSite {
 	 * r.enUS: siteName
 	 **/
 	protected void _siteCrypte() throws Exception {
-		siteCrypte = config.getBoolean(langueConfigGlobale.getString(ConfigCles.var_SITE_CRYPTE),
+		siteCrypte = config.getBoolean(langueConfigGlobale.getString(I18n.var_SITE_CRYPTE),
 				false);
 	}
 
@@ -754,7 +754,7 @@ public class ConfigSite {
 	 * siteNom r.enUS: siteName
 	 **/
 	protected void _siteEcrireMethodes() throws Exception {
-		List<String> o = Optional.ofNullable(config.getJsonArray(langueConfigGlobale.getString(ConfigCles.var_SITE_ECRIRE_METHODES)))
+		List<String> o = Optional.ofNullable(config.getJsonArray(langueConfigGlobale.getString(I18n.var_SITE_ECRIRE_METHODES)))
 				.orElse(new JsonArray())
 				.stream().map(i -> i.toString()).collect(Collectors.toList());
 		if (o != null)
@@ -765,7 +765,7 @@ public class ConfigSite {
 	/**
 	 **/
 	protected void _authPolitiqueGranulee() throws Exception {
-		authPolitiqueGranulee = config.getBoolean(langueConfigGlobale.getString(ConfigCles.var_AUTH_POLITIQUE_GRANULEE), false);
+		authPolitiqueGranulee = config.getBoolean(langueConfigGlobale.getString(I18n.var_AUTH_POLITIQUE_GRANULEE), false);
 	}
 
 	/**
@@ -777,40 +777,40 @@ public class ConfigSite {
 	 * Var.enUS: _writeApi r: ecrireApi r.enUS: writeApi r: siteNom r.enUS: siteName
 	 **/
 	protected void _ecrireApi() throws Exception {
-		ecrireApi = config.getBoolean(langueConfigGlobale.getString(ConfigCles.var_ECRIRE_API), true);
+		ecrireApi = config.getBoolean(langueConfigGlobale.getString(I18n.var_ECRIRE_API), true);
 	}
 
 	public Boolean ecrireCommentaire;
 
 	protected void _ecrireCommentaire() throws Exception {
 		ecrireCommentaire = config
-				.getBoolean(langueConfigGlobale.getString(ConfigCles.var_ECRIRE_COMMENTAIRE), true);
+				.getBoolean(langueConfigGlobale.getString(I18n.var_ECRIRE_COMMENTAIRE), true);
 	}
 
 	public Boolean activerLog;
 
 	protected void _activerLog() throws Exception {
-		activerLog = config.getBoolean( langueConfigGlobale.getString(ConfigCles.var_ACTIVER_LOG), true);
+		activerLog = config.getBoolean( langueConfigGlobale.getString(I18n.var_ACTIVER_LOG), true);
 	}
 
 	public Boolean activerSupprime;
 
 	protected void _activerSupprime() throws Exception {
-		activerSupprime = config.getBoolean( langueConfigGlobale.getString(ConfigCles.var_ACTIVER_SUPPRIME), true);
+		activerSupprime = config.getBoolean( langueConfigGlobale.getString(I18n.var_ACTIVER_SUPPRIME), true);
 	}
 
 	public Boolean activerArchive;
 
 	protected void _activerArchive() throws Exception {
 		activerArchive = config.getBoolean(
-				langueConfigGlobale.getString(ConfigCles.var_ACTIVER_ARCHIVE), true);
+				langueConfigGlobale.getString(I18n.var_ACTIVER_ARCHIVE), true);
 	}
 
 	public Boolean activerUtilisateurCle;
 
 	protected void _activerUtilisateurCle() throws Exception {
 		activerUtilisateurCle = config.getBoolean(
-				langueConfigGlobale.getString(ConfigCles.var_ACTIVER_UTILISATEUR_CLE),
+				langueConfigGlobale.getString(I18n.var_ACTIVER_UTILISATEUR_CLE),
 				true);
 	}
 
@@ -818,35 +818,35 @@ public class ConfigSite {
 
 	protected void _activerSessionId() throws Exception {
 		activerSessionId = config.getBoolean(
-				langueConfigGlobale.getString(ConfigCles.var_ACTIVER_SESSION_ID),
+				langueConfigGlobale.getString(I18n.var_ACTIVER_SESSION_ID),
 				true);
 	}
 
 	public Boolean activerRoleAdmin;
 
 	protected void _activerRoleAdmin() throws Exception {
-		activerRoleAdmin = config.getBoolean(langueConfigGlobale.getString(ConfigCles.var_ACTIVER_ROLE_ADMIN), true);
+		activerRoleAdmin = config.getBoolean(langueConfigGlobale.getString(I18n.var_ACTIVER_ROLE_ADMIN), true);
 	}
 
 	public Boolean activerOpenIdConnect;
 
 	protected void _activerOpenIdConnect() throws Exception {
 		activerOpenIdConnect = config.getBoolean(
-				langueConfigGlobale.getString(ConfigCles.var_ACTIVER_OPENID_CONNECT), true);
+				langueConfigGlobale.getString(I18n.var_ACTIVER_OPENID_CONNECT), true);
 	}
 
 	public Boolean activerQuarkus;
 
 	protected void _activerQuarkus() throws Exception {
 		activerQuarkus = config.getBoolean(
-				langueConfigGlobale.getString(ConfigCles.var_ACTIVER_QUARKUS), false);
+				langueConfigGlobale.getString(I18n.var_ACTIVER_QUARKUS), false);
 	}
 
 	public Boolean activerVertx;
 
 	protected void _activerVertx() throws Exception {
 		activerVertx = config.getBoolean(
-				langueConfigGlobale.getString(ConfigCles.var_ACTIVER_VERTX), true);
+				langueConfigGlobale.getString(I18n.var_ACTIVER_VERTX), true);
 	}
 
 	/**

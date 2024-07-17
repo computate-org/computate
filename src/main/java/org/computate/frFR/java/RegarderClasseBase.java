@@ -64,7 +64,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */ 
 	@Override protected void _siteChemin() throws Exception {
 		if(siteChemin == null) {
-			siteChemin = config.getString(langueConfigGlobale.getString(ConfigCles.var_SITE_SRC));
+			siteChemin = config.getString(langueConfigGlobale.getString(I18n.var_SITE_SRC));
 			if(siteChemin == null)
 				siteChemin = args[0]; 
 		}
@@ -92,7 +92,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */  
 	protected void _classeCheminAbsolu() throws Exception {
 		if(classeCheminAbsolu == null) {
-			classeCheminAbsolu = config.getString(langueConfigGlobale.getString(ConfigCles.var_CLASSE_CHEMIN_ABSOLU)); 
+			classeCheminAbsolu = config.getString(langueConfigGlobale.getString(I18n.var_CLASSE_CHEMIN_ABSOLU)); 
 			if(classeCheminAbsolu == null)
 				classeCheminAbsolu = args[1];
 		}
@@ -119,7 +119,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */  
 	protected void _siteChemins() throws Exception {
 		for(String langueNom : toutesLangues) { 
-			String siteCheminLangue = config.getString(langueConfigGlobale.getString(ConfigCles.var_SITE_SRC) + "_" + langueNom); 
+			String siteCheminLangue = config.getString(langueConfigGlobale.getString(I18n.var_SITE_SRC) + "_" + langueNom); 
 			if(StringUtils.isEmpty(siteCheminLangue)) {
 				siteChemins.put(langueNom, siteChemin);
 			}
@@ -223,7 +223,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */
 	public void initRegarderClasseBase(String classeLangueNom, JsonObject classeLangueConfig) throws Exception {
 		this.classeLangueNom = classeLangueNom;
-		this.classeLangueConfig = classeLangueConfig;
+		this.i18nGlobale = classeLangueConfig;
 
 		initConfigSite();
 		_classeCheminAbsolu();
