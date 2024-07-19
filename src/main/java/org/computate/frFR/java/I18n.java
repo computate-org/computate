@@ -18,6 +18,13 @@ public class I18n {
 	public static final String str_a_démarré = "str_a_démarré";
 	public static final String str_a_échoué = "str_a_échoué";
 	public static final String str_a_réussi = "str_a_réussi";
+	public static final String str_Afficher_la_moitie_des_resultats = "str_Afficher_la_moitie_des_resultats";
+	public static final String str_Afficher_le_double_des_resultats = "str_Afficher_le_double_des_resultats";
+	public static final String str_Afficher_les_resultats_precedents = "str_Afficher_les_resultats_precedents";
+	public static final String str_Afficher_les_resultats_suivants = "str_Afficher_les_resultats_suivants";
+	public static final String str_Afficher_les_resultats_sous_forme_de_liste = "str_Afficher_les_resultats_sous_forme_de_liste";
+	public static final String str_Afficher_les_resultats_sous_forme_de_cartes = "str_Afficher_les_resultats_sous_forme_de_cartes";
+	public static final String str_Afficher_les_resultats_sous_forme_de_details = "str_Afficher_les_resultats_sous_forme_de_details";
 	public static final String str_API = "str_API";
 	public static final String str_chemin_absolu = "str_chemin_absolu";
 	public static final String str_chemin_absolu_url = "str_chemin_absolu_url";
@@ -30,7 +37,6 @@ public class I18n {
 	public static final String str_DDDashMMDashYYYY_HHColonmm = "str_DDDashMMDashYYYY_HHColonmm";
 	public static final String str_ddDashMMDashyyyy_HHColonmm_VV = "str_ddDashMMDashyyyy_HHColonmm_VV";
 	public static final String str_deuxPoints = "str_deuxPoints";
-	public static final String str_Doubler_le_nombre_de_resultats_affiches = "str_Doubler_le_nombre_de_resultats_affiches";
 	public static final String str_Dupliquer_ = "str_Dupliquer_";
 	public static final String str_EEE_d_MMM_yyyy = "str_EEE_d_MMM_yyyy";
 	public static final String str_EEE_d_MMM_yyyy_HAposhAposmmColonss_zz = "str_EEE_d_MMM_yyyy_HAposhAposmmColonss_zz";
