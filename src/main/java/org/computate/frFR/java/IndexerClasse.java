@@ -21,6 +21,8 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.text.Normalizer;
 import java.text.NumberFormat;
@@ -5583,7 +5585,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						wSmartDataModel.l("}");
 
 						wSmartDataModel.l();
-						System.out.println(wSmartDataModel);
+						FileUtils.writeStringToFile(new File(classeCheminAbsolu), wSmartDataModel.toString(), "UTF-8");
 					}
 				}
 			}
