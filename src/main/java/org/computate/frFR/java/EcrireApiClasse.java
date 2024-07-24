@@ -428,6 +428,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				rechercheSolr.setRows(1000000);
 				String fqClassesSuperEtMoi = "(" + classesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 				rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
+				rechercheSolr.addFilterQuery("entiteEstSubstitue_indexed_boolean:false");
 				rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
 				QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
 				SolrDocumentList rechercheListe = rechercheReponse.getResults();
@@ -1881,63 +1882,63 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(5, "try {");
 						}
 					}
-					else {
-						if(authPolitiqueGranulee) {
-							tl(3, "webClient.post(");
-							tl(5, "config.getInteger(ComputateConfigKeys.AUTH_PORT)");
-							tl(5, ", config.getString(ComputateConfigKeys.AUTH_HOST_NAME)");
-							tl(5, ", config.getString(ComputateConfigKeys.AUTH_TOKEN_URI)");
-							tl(5, ")");
-							tl(5, ".ssl(config.getBoolean(ComputateConfigKeys.AUTH_SSL))");
-							tl(5, ".putHeader(\"Authorization\", String.format(\"Bearer %s\", siteRequest.getUser().principal().getString(\"access_token\")))");
-							tl(5, ".expect(ResponsePredicate.status(200))");
-							tl(5, ".sendForm(MultiMap.caseInsensitiveMultiMap()");
-							tl(7, ".add(\"grant_type\", \"urn:ietf:params:oauth:grant-type:uma-ticket\")");
-							tl(7, ".add(\"audience\", config.getString(ComputateConfigKeys.AUTH_CLIENT))");
-							tl(7, ".add(\"response_mode\", \"permissions\")");
-							if(classeApiMethode.equals(classeApiMethodeMethode)) {
-								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"", classeApiMethode, "\"))");
-							} else {
-								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_ADMIN), ")))");
-								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), ")))");
-								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"GET\"))");
-								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"POST\"))");
-								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"PATCH\"))");
-							}
-							tl(3, ").onFailure(ex -> {");
-							tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
-							tl(4, "eventHandler.handle(Future.succeededFuture(");
-							tl(5, "new ServiceResponse(403, \"FORBIDDEN\",");
-							tl(6, "Buffer.buffer().appendString(");
-							tl(7, "new JsonObject()");
-							tl(8, ".put(\"errorCode\", \"403\")");
-							tl(8, ".put(\"errorMessage\", msg)");
-							tl(8, ".encodePrettily()");
-							tl(7, "), MultiMap.caseInsensitiveMultiMap()");
-							tl(5, ")");
-							tl(4, "));");
-							tl(3, "}).onSuccess(authorizationDecision -> {");
-							tl(4, "try {");
-							tl(5, "JsonArray scopes = authorizationDecision.bodyAsJsonArray().stream().findFirst().map(decision -> ((JsonObject)decision).getJsonArray(\"scopes\")).orElse(new JsonArray());");
-							tl(5, "if(!scopes.contains(\"", classeApiMethodeMethode, "\")) {");
-							tl(6, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
-							tl(6, "eventHandler.handle(Future.succeededFuture(");
-							tl(7, "new ServiceResponse(403, \"FORBIDDEN\",");
-							tl(8, "Buffer.buffer().appendString(");
-							tl(9, "new JsonObject()");
-							tl(10, ".put(\"errorCode\", \"403\")");
-							tl(10, ".put(\"errorMessage\", msg)");
-							tl(10, ".encodePrettily()");
-							tl(9, "), MultiMap.caseInsensitiveMultiMap()");
-							tl(7, ")");
-							tl(6, "));");
-							tl(5, "} else {");
-							tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".setScopes(scopes.stream().map(o -> o.toString()).collect(Collectors.toList()));");
-						} else {
-							tl(4, "{");
-							tl(5, "try {");
-						}
-					}
+					// else {
+					// 	if(authPolitiqueGranulee) {
+					// 		tl(3, "webClient.post(");
+					// 		tl(5, "config.getInteger(ComputateConfigKeys.AUTH_PORT)");
+					// 		tl(5, ", config.getString(ComputateConfigKeys.AUTH_HOST_NAME)");
+					// 		tl(5, ", config.getString(ComputateConfigKeys.AUTH_TOKEN_URI)");
+					// 		tl(5, ")");
+					// 		tl(5, ".ssl(config.getBoolean(ComputateConfigKeys.AUTH_SSL))");
+					// 		tl(5, ".putHeader(\"Authorization\", String.format(\"Bearer %s\", siteRequest.getUser().principal().getString(\"access_token\")))");
+					// 		tl(5, ".expect(ResponsePredicate.status(200))");
+					// 		tl(5, ".sendForm(MultiMap.caseInsensitiveMultiMap()");
+					// 		tl(7, ".add(\"grant_type\", \"urn:ietf:params:oauth:grant-type:uma-ticket\")");
+					// 		tl(7, ".add(\"audience\", config.getString(ComputateConfigKeys.AUTH_CLIENT))");
+					// 		tl(7, ".add(\"response_mode\", \"permissions\")");
+					// 		if(classeApiMethode.equals(classeApiMethodeMethode)) {
+					// 			tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"", classeApiMethode, "\"))");
+					// 		} else {
+					// 			tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_ADMIN), ")))");
+					// 			tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), ")))");
+					// 			tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"GET\"))");
+					// 			tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"POST\"))");
+					// 			tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"PATCH\"))");
+					// 		}
+					// 		tl(3, ").onFailure(ex -> {");
+					// 		tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
+					// 		tl(4, "eventHandler.handle(Future.succeededFuture(");
+					// 		tl(5, "new ServiceResponse(403, \"FORBIDDEN\",");
+					// 		tl(6, "Buffer.buffer().appendString(");
+					// 		tl(7, "new JsonObject()");
+					// 		tl(8, ".put(\"errorCode\", \"403\")");
+					// 		tl(8, ".put(\"errorMessage\", msg)");
+					// 		tl(8, ".encodePrettily()");
+					// 		tl(7, "), MultiMap.caseInsensitiveMultiMap()");
+					// 		tl(5, ")");
+					// 		tl(4, "));");
+					// 		tl(3, "}).onSuccess(authorizationDecision -> {");
+					// 		tl(4, "try {");
+					// 		tl(5, "JsonArray scopes = authorizationDecision.bodyAsJsonArray().stream().findFirst().map(decision -> ((JsonObject)decision).getJsonArray(\"scopes\")).orElse(new JsonArray());");
+					// 		tl(5, "if(!scopes.contains(\"", classeApiMethodeMethode, "\")) {");
+					// 		tl(6, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
+					// 		tl(6, "eventHandler.handle(Future.succeededFuture(");
+					// 		tl(7, "new ServiceResponse(403, \"FORBIDDEN\",");
+					// 		tl(8, "Buffer.buffer().appendString(");
+					// 		tl(9, "new JsonObject()");
+					// 		tl(10, ".put(\"errorCode\", \"403\")");
+					// 		tl(10, ".put(\"errorMessage\", msg)");
+					// 		tl(10, ".encodePrettily()");
+					// 		tl(9, "), MultiMap.caseInsensitiveMultiMap()");
+					// 		tl(7, ")");
+					// 		tl(6, "));");
+					// 		tl(5, "} else {");
+					// 		tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".setScopes(scopes.stream().map(o -> o.toString()).collect(Collectors.toList()));");
+					// 	} else {
+					// 		tl(4, "{");
+					// 		tl(5, "try {");
+					// 	}
+					// }
 
 					if(classeApiMethode.contains("POST")) {
 
@@ -2122,19 +2123,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(6, "});");
 					}
 
-					if(authPolitiqueGranulee) {
-						tl(5, "}");
-						tl(4, "} catch(Exception ex) {");
-						tl(5, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-						tl(5, i18nGlobale.getString(I18n.var_erreur), "(null, ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ", ex);");
-						tl(4, "}");
-					} else {
-						tl(5, "} catch(Exception ex) {");
-						tl(6, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-						tl(6, i18nGlobale.getString(I18n.var_erreur), "(null, ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ", ex);");
-						tl(5, "}");
-						tl(4, "}");
-					}
 
 					if(
 							StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH") 
@@ -2150,11 +2138,24 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								&& ( classeRoles.size() > 0 || classeRoleLires.size() > 0)
 							)
 							) {
-						tl(3, "});");
-					} else {
 						if(authPolitiqueGranulee) {
-							tl(3, "});");
+							tl(5, "}");
+							tl(4, "} catch(Exception ex) {");
+							tl(5, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+							tl(5, i18nGlobale.getString(I18n.var_erreur), "(null, ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ", ex);");
+							tl(4, "}");
+						} else {
+							tl(5, "} catch(Exception ex) {");
+							tl(6, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+							tl(6, i18nGlobale.getString(I18n.var_erreur), "(null, ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ", ex);");
+							tl(5, "}");
+							tl(4, "}");
 						}
+						tl(3, "});");
+					// } else {
+					// 	if(authPolitiqueGranulee) {
+					// 		tl(3, "});");
+					// 	}
 					}
 
 					tl(2, "}).onFailure(ex -> {");
@@ -3200,6 +3201,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							if(!classePageSimple)
 								tl(3, "page.set", i18nGlobale.getString(I18n.var_ListeRecherche), classeApiClasseNomSimple, "_(", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ");");
 							tl(3, "page.set", i18nGlobale.getString(I18n.var_RequeteSite), "_(", i18nGlobale.getString(I18n.var_requeteSite), ");");
+							tl(3, "page.set", i18nGlobale.getString(I18n.var_RequeteService), "(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "()", ");");
 							tl(3, "page.", i18nGlobale.getString(I18n.var_promesseLoin), classePageNomSimpleMethode, "(", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(a -> {");
 							tl(4, "try {");
 							tl(5, "JsonObject ctx = ComputateConfigKeys.getPageContext(config);");
@@ -3340,6 +3342,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				rechercheSolr.setRows(1000000);
 				String fqClassesSuperEtMoi = "(" + classesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 				rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
+				rechercheSolr.addFilterQuery("entiteEstSubstitue_indexed_boolean:false");
 				rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
 				QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
 				SolrDocumentList rechercheListe = rechercheReponse.getResults();

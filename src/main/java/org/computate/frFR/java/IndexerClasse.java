@@ -2873,17 +2873,34 @@ public class IndexerClasse extends RegarderClasseBase {
 					}
 
 					List<JavaClass> methodeExceptionsQdox = methodeQdox.getExceptions();
+					JavaMethod methodeQdoxActuelle = null;
+					String methodeCommentaireActuelle = null;
 	
-					if(classeEtendGen && !methodeEstSubstitue && !methodeQdox.isStatic() && !methodeQdox.isFinal() && methodeQdox.getDeclaringClass().equals(classeQdox) 
+					if(classeEtendGen && !methodeQdox.isStatic() && !methodeQdox.isFinal() && methodeQdox.getDeclaringClass().equals(classeQdox) 
 							&& methodeQdox.isProtected() && methodeParamsQdox.size() == 1 && classeQdoxRetour.isVoid()
 							&& StringUtils.startsWith(methodeQdox.getName(), "_")) {
 
+						JavaClass entiteClasseQdox = methodeParamsQdox.get(0).getJavaClass();
+						String entiteVar = StringUtils.substringAfter(methodeQdox.getName(), "_");
+
+						if(methodeEstSubstitue) {
+							// est entite substitué
+							JavaMethod methodeQdoxTmp = classeQdox.getSuperJavaClass().getSuperJavaClass().getMethodBySignature(methodeQdox.getName(), Arrays.asList(entiteClasseQdox));
+							if(methodeQdoxTmp != null) {
+								methodeQdoxActuelle = methodeQdox;
+								methodeQdox = methodeQdoxTmp;
+								methodeCommentaireActuelle = methodeCommentaire;
+								methodeCommentaire = methodeQdox.getComment();
+							}
+						}
+
 						// est Entite. 
 						SolrInputDocument entiteDoc = classeDocClone.deepCopy();
-						String entiteVar = indexerStockerSolr(classeLangueNom, entiteDoc, "entiteVar", StringUtils.substringAfter(methodeQdox.getName(), "_"));
+
+						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteVar", entiteVar);
+						indexerStockerSolr(entiteDoc, "entiteEstSubstitue", methodeEstSubstitue);
 						indexerStockerListeSolr(classeLangueNom, classeDoc, "classeEntiteVars", entiteVar);
 						String entiteVarCapitalise = indexerStockerSolr(classeLangueNom, entiteDoc, "entiteVarCapitalise", StringUtils.capitalize(entiteVar));
-						JavaClass entiteClasseQdox = methodeParamsQdox.get(0).getJavaClass();
 						ClasseParts entiteClasseParts = ClasseParts.initClasseParts(this, entiteClasseQdox, classeLangueNom);
 						Boolean entiteCouverture = false;
 						Boolean entitePromesse = false;
@@ -3345,6 +3362,8 @@ public class IndexerClasse extends RegarderClasseBase {
 
 						{ 
 							String str = regex("^" + i18nGlobale.getString(I18n.var_HtmColonne) + ":\\s*(.*)$", methodeCommentaire);
+							if(str == null && methodeCommentaireActuelle != null)
+								str = regex("^" + i18nGlobale.getString(I18n.var_HtmColonne) + ":\\s*(.*)$", methodeCommentaireActuelle);
 							if(NumberUtils.isCreatable(str)) {
 								indexerStockerSolr(entiteDoc, "entiteHtmColonne", Integer.parseInt(str));
 								entiteHtml = true;
@@ -3422,6 +3441,7 @@ public class IndexerClasse extends RegarderClasseBase {
 									rechercheSolrVar.addFilterQuery("entiteVar_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(entiteVarUrl));
 									rechercheSolrVar.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
 									rechercheSolrVar.addFilterQuery("partEstEntite_indexed_boolean:true");
+									rechercheSolrVar.addFilterQuery("entiteEstSubstitue_indexed_boolean:false");
 									QueryResponse reponseRechercheVar = clientSolrComputate.query(rechercheSolrVar);
 									SolrDocumentList listeRechercheVar = reponseRechercheVar.getResults();
 	
@@ -3471,6 +3491,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								rechercheSolrVar.addFilterQuery("entiteVar_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(entiteAttribuerVar));
 								rechercheSolrVar.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
 								rechercheSolrVar.addFilterQuery("partEstEntite_indexed_boolean:true");
+								rechercheSolrVar.addFilterQuery("entiteEstSubstitue_indexed_boolean:false");
 								QueryResponse reponseRechercheVar = clientSolrComputate.query(rechercheSolrVar);
 								SolrDocumentList listeRechercheVar = reponseRechercheVar.getResults();
 

@@ -925,6 +925,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				rechercheSolr.setRows(1000000);
 				String fqClassesSuperEtMoi = "(" + classesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 				rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
+				rechercheSolr.addFilterQuery("entiteEstSubstitue_indexed_boolean:false");
 				rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
 //					rechercheSolr.addFilterQuery("entiteHtmLigne_indexed_int:[* TO *]");
 				rechercheSolr.addSort("entiteHtmLigne_indexed_int", ORDER.asc);
@@ -2086,6 +2087,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				rechercheSolr.setRows(1000000);
 				String fqClassesSuperEtMoi = "(" + classesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 				rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
+				// rechercheSolr.addFilterQuery("entiteEstSubstitue_indexed_boolean:false");
 				rechercheSolr.addFilterQuery("classeNomCanonique_" + this.langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
 				rechercheSolr.addFilterQuery("entiteHtmColonne_indexed_int:[* TO *]");
 				rechercheSolr.addSort("entiteHtmColonne_indexed_int", ORDER.asc);
@@ -2198,6 +2200,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				rechercheSolr.setRows(1000000);
 				String fqClassesSuperEtMoi = "(" + classesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 				rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
+				rechercheSolr.addFilterQuery("entiteEstSubstitue_indexed_boolean:false");
 				rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
 				rechercheSolr.addSort("entiteHtmLigne_indexed_int", ORDER.asc);
 				rechercheSolr.addSort("entiteHtmCellule_indexed_int", ORDER.asc);
@@ -2796,6 +2799,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							rechercheSolr.setRows(1000000);
 							String fqClassesSuperEtMoi = "(" + classesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 							rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
+							rechercheSolr.addFilterQuery("entiteEstSubstitue_indexed_boolean:false");
 							rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
 							rechercheSolr.addFilterQuery("(entiteSuggere_indexed_boolean:true OR entiteAttribuer_indexed_boolean:true)");
 							QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
@@ -3034,7 +3038,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(5, "});");
 				tl(4, "} else {");
 				tl(5, "window.", StringUtils.uncapitalize(classeNomSimple), " = JSON.parse(document.querySelector('.", i18nPage.getString(I18n.var_page), i18nPage.getString(I18n.var_Formulaire), " .", StringUtils.uncapitalize(classeNomSimple), "')?.value);");
-				tl(4, "{% if ", classeVarClePrimaire, " is defined %}");
+				tl(4, "{% if ", classeVarClePrimaire == null ? classeVarCleUnique : classeVarClePrimaire, " is defined %}");
 				s(wJsInit);
 				tl(4, "{% endif %}");
 				tl(4, "}");
@@ -3360,11 +3364,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(6, "</div>");
 
 			tl(7, "{{ htm", i18nPage.getString(I18n.var_BoutonsPagination), classePageNomSimple, "() }}");
-			tl(6, "<div class=\"grid-mode-details\" id=\"site-results-grid\">");
+			tl(6, "<div class=\"grid-mode-details\">");
 			tl(6, "<div>");
 			tl(8, "<i class=\"fa", StringUtils.substring(classeIconeGroupe, 0, 1), " fa-", classeIconeNom, " site-result-icon \"></i>");
 			s(wTh);
 			tl(7, "</div>");
+			tl(6, "</div>");
+			tl(6, "<div class=\"grid-mode-details\" id=\"site-results-grid\">");
+			// tl(6, "<div>");
+			// tl(8, "<i class=\"fa", StringUtils.substring(classeIconeGroupe, 0, 1), " fa-", classeIconeNom, " site-result-icon \"></i>");
+			// s(wTh);
+			// tl(7, "</div>");
 //				TODO
 //				tl(2, "Map<String, Map<String, List<String>>> highlighting = ", langueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, ".getResponse().getHighlighting();");
 			tl(7, "{% for item in ", i18nPage.getString(I18n.var_liste), classeApiClasseNomSimple, "%}");
