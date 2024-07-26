@@ -3020,7 +3020,8 @@ public class EcrireGenClasse extends EcrireClasse {
 		methodeExceptionsNomSimpleComplet = Optional.ofNullable(doc.getJsonArray("methodeExceptionsNomSimpleComplet_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 		entiteFacets = Optional.ofNullable(doc.getJsonArray("entiteFacets_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 
-		if(entiteNomCanonique != null) {
+		Boolean entiteEstSubstitue = doc.getBoolean("entiteEstSubstitue_stored_boolean");
+		if(entiteNomCanonique != null && !entiteEstSubstitue) {
 			entiteSolrNomCanonique = doc.getString("entiteSolrNomCanonique_stored_string");
 			entiteSolrNomSimple = doc.getString("entiteSolrNomSimple_stored_string");
 			entiteNomSimpleVertxJson = doc.getString("entiteNomSimpleVertxJson_stored_string");
