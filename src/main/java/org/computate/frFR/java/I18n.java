@@ -130,7 +130,6 @@ public class I18n {
 	public static final String var_Bouton = "var_Bouton";
 	public static final String var_BoutonsPagination = "var_BoutonsPagination";
 	public static final String var_BoutonsRecherche = "var_BoutonsRecherche";
-	public static final String var_PageBase = "var_PageBase";
 	public static final String var_calendrier = "var_calendrier";
 	public static final String var_Calendrier = "var_Calendrier";
 	public static final String var_Ce = "var_Ce";
@@ -251,6 +250,7 @@ public class I18n {
 	public static final String var_Gamme = "var_Gamme";
 	public static final String var_Generer = "var_Generer";
 	public static final String var_generer = "var_generer";
+	public static final String var_genererCorpsPage = "var_genererCorpsPage";
 	public static final String var_gestionnaireEvenements = "var_gestionnaireEvenements";
 	public static final String var_GestionnaireEvenements = "var_GestionnaireEvenements";
 	public static final String var_graphique = "var_graphique";
@@ -380,10 +380,12 @@ public class I18n {
 	public static final String var_pageActuel = "var_pageActuel";
 	public static final String var_page = "var_page";
 	public static final String var_Page = "var_Page";
+	public static final String var_PageBase = "var_PageBase";
 	public static final String var_PagePart = "var_PagePart";
 	public static final String var_PageRecherche = "var_PageRecherche";
 	public static final String var_PageSimple = "var_PageSimple";
 	public static final String var_PageSuper = "var_PageSuper";
+	public static final String var_PageTemplates = "var_PageTemplates";
 	public static final String var_peupler = "var_peupler";
 	public static final String var_Peupler = "var_Peupler";
 	public static final String var_pivot = "var_pivot";

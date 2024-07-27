@@ -325,6 +325,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: classModel
 	 */
 	protected Boolean classeModele;
+	protected String classePageTemplates;
 
 	protected Boolean classeApi;
 	protected String classeApiUri;
@@ -467,6 +468,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	protected ToutEcrivain wDefinirObjet;
 
+	protected ToutEcrivain wPageTemplates;
 	protected ToutEcrivain wApiGet;
 
 	/**
@@ -1297,6 +1299,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		wMaxMethode = ToutEcrivain.create();
 
 		wPageEntites = ToutEcrivain.create();
+		wPageTemplates = ToutEcrivain.create();
 		wApiGet = ToutEcrivain.create();
 		wApiGenererGet = ToutEcrivain.create();
 		wApiAvantPost = ToutEcrivain.create();

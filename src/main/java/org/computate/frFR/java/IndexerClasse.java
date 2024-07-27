@@ -2244,6 +2244,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		Boolean classePage = regexTrouve("^" + i18nGlobale.getString(I18n.var_Page) + ": \\s*(true)$", classeCommentaire);
 		Boolean classePageSimple = indexerStockerSolr(classeDoc, "classePageSimple", regexTrouve("^" + i18nGlobale.getString(I18n.var_PageSimple) + ": \\s*(true)$", classeCommentaire));
 		Boolean classeSauvegarde = indexerStockerSolr(classeDoc, "classeSauvegarde", regexTrouve("^" + i18nGlobale.getString(I18n.var_Sauvegarde) + ":\\s*(true)$", classeCommentaire) || classeModele || classeFiware);
+		indexerStockerSolr(langueNomGlobale, classeDoc, "classePageTemplates", regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_PageTemplates), classeCommentaire));
 		String classeApiClasseNomSimple = regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_ApiClasse), classeCommentaire, classeNomSimple);
 
 				if(classeApiClasseNomSimple != null) {
@@ -5013,6 +5014,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.nio.file.Files", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "com.google.common.io.Resources", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.nio.charset.StandardCharsets", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.computate.vertx.request.ComputateSiteRequest", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.computate.vertx.config.ComputateConfigKeys", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.Vertx", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.reactivestreams.ReactiveReadStream", classeLangueNom), classeLangueNom);

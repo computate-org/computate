@@ -469,6 +469,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							entiteNomSimpleComplet = (String)doc.get("entiteNomSimpleComplet_" + classeLangueNom + "_stored_string");
 							entiteNomSimpleCompletGenerique = (String)doc.get("entiteNomSimpleCompletGenerique_" + classeLangueNom + "_stored_string");
 							entiteNomSimple = (String)doc.get("entiteNomSimple_" + classeLangueNom + "_stored_string");
+
+							/////////////////////////
+							// classePageTemplates //
+							/////////////////////////
+
+							if(classePageTemplates != null && entiteDefinir) {
+								wPageTemplates.tl(3, "page.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, ctx.getString(", classeNomSimple, ".VAR_", entiteVar, ")));");
+							}
 	
 							/////////////////
 							// codeApiGet //
@@ -3954,6 +3962,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(2, "return ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_API_ADDRESSE), "_", classeNomSimple, ";");
 				tl(1, "}");
 			}
+
 			///////////////
 			// recharger //
 			///////////////
@@ -4022,6 +4031,47 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(3, "}");
 				tl(2, "} catch(Exception ex) {");
 				tl(3, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_recharger), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+				tl(3, "promise.fail(ex);");
+				tl(2, "}");
+				tl(2, "return promise.future();");
+				tl(1, "}");
+			}
+
+			/////////////////////////
+			// classePageTemplates //
+			/////////////////////////
+			if(classePageTemplates != null) {
+				l();
+				tl(1, "@Override");
+				tl(1, "public Future<JsonObject> ", i18nGlobale.getString(I18n.var_genererCorpsPage), "(ComputateSiteRequest ", i18nGlobale.getString(I18n.var_requeteSite), ", JsonObject ctx, String resourceUri, String templateUri, String ", i18nGlobale.getString(I18n.var_classeNomSimple), ") {");
+				tl(2, "Promise<JsonObject> promise = Promise.promise();");
+				tl(2, "try {");
+				tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), "2 = (", classePartsRequeteSite.nomSimple(classeLangueNom), ")", i18nGlobale.getString(I18n.var_requeteSite), ";");
+				tl(3, "String siteBaseUrl = config.getString(ComputateConfigKeys.SITE_BASE_URL);");
+				tl(3, "String uri = ctx.getString(", classeNomSimple, ".VAR_uri);");
+				tl(3, "String url = String.format(\"%s%s\", siteBaseUrl, uri);");
+				tl(3, "String pageId = StringUtils.substringBeforeLast(StringUtils.substringAfterLast(resourceUri, \"/\"), \".\");");
+				tl(3, classeNomSimple, " page = new ", classeNomSimple, "();");
+				tl(3, "page.set", i18nGlobale.getString(I18n.var_RequeteSite), "_((", i18nGlobale.getString(I18n.var_RequeteSite), ")", i18nGlobale.getString(I18n.var_requeteSite), ");");
+				tl(3, "page.persistForClass(", classeNomSimple, ".VAR_resourceUri, resourceUri);");
+				tl(3, "page.persistForClass(", classeNomSimple, ".VAR_templateUri, templateUri);");
+				tl(3, "page.persistForClass(", classeNomSimple, ".VAR_pageId, pageId);");
+				l();
+				s(wPageTemplates);
+				l();
+				tl(3, "page.promiseDeepForClass((", i18nGlobale.getString(I18n.var_RequeteSite), ")", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(a -> {");
+				tl(4, "try {");
+				tl(5, "promise.complete(JsonObject.mapFrom(page));");
+				tl(4, "} catch(Exception ex) {");
+				tl(5, "LOG.error(String.format(importModelFail, classSimpleName), ex);");
+				tl(5, "promise.fail(ex);");
+				tl(4, "}");
+				tl(3, "}).onFailure(ex -> {");
+				tl(4, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_genererCorpsPage), " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+				tl(4, "promise.fail(ex);");
+				tl(3, "});");
+				tl(2, "} catch(Exception ex) {");
+				tl(3, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_genererCorpsPage), " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
 				tl(3, "promise.fail(ex);");
 				tl(2, "}");
 				tl(2, "return promise.future();");

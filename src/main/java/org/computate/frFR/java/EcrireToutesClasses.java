@@ -305,6 +305,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		classeRoleSession = (Boolean)doc.getBoolean("classeRoleSession_stored_boolean");
 		classeRoleUtilisateur = (Boolean)doc.getBoolean("classeRoleUtilisateur_stored_boolean");
 		classeRoleChacun = (Boolean)doc.getBoolean("classeRoleChacun_stored_boolean");
+		classePageTemplates = doc.getString("classePageTemplates_" + langueNom + "_stored_string");
 
 		classeSessionEcrire = (Boolean)doc.getBoolean("classeSessionEcrire_stored_boolean");
 		classeUtilisateurEcrire = (Boolean)doc.getBoolean("classeUtilisateurEcrire_stored_boolean");
