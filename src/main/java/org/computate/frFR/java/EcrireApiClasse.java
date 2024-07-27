@@ -296,8 +296,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(8, "protected WebClient ", i18nGlobale.getString(I18n.var_clientWeb), ";");
 
-			auteurGenApiService.tl(1, "static void ", i18nGlobale.getString(I18n.var_enregistrer), "Service(EventBus eventBus, JsonObject config, WorkerExecutor ", i18nGlobale.getString(I18n.var_executeurTravailleur), ", PgPool pgPool, KafkaProducer<String, String> kafkaProducer, WebClient ", i18nGlobale.getString(I18n.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", Jinjava jinjava" : "", ", Vertx vertx) {");
-			auteurGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", classeNomSimple, ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "()).register(", classeNomSimpleGenApiService, ".class, new ", classeNomSimpleApiServiceImpl, "(eventBus, config, ", i18nGlobale.getString(I18n.var_executeurTravailleur), ", pgPool, kafkaProducer, ", i18nGlobale.getString(I18n.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", jinjava" : "", "));");
+			auteurGenApiService.tl(1, "static ", classeNomSimpleApiServiceImpl, " ", i18nGlobale.getString(I18n.var_enregistrer), "Service(EventBus eventBus, JsonObject config, WorkerExecutor ", i18nGlobale.getString(I18n.var_executeurTravailleur), ", PgPool pgPool, KafkaProducer<String, String> kafkaProducer, WebClient ", i18nGlobale.getString(I18n.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", Jinjava jinjava" : "", ", Vertx vertx) {");
+			auteurGenApiService.tl(2, classeNomSimpleApiServiceImpl, " api =  new ", classeNomSimpleApiServiceImpl, "(eventBus, config, ", i18nGlobale.getString(I18n.var_executeurTravailleur), ", pgPool, kafkaProducer, ", i18nGlobale.getString(I18n.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", jinjava" : "", ");");
+			auteurGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", classeNomSimple, ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "()).register(", classeNomSimpleGenApiService, ".class, api);");
+			auteurGenApiService.tl(2, "return api;");
 			auteurGenApiService.tl(1, "}");
 			auteurGenApiService.l();
 			for(String classeApiMethode : classeApiMethodes) {
