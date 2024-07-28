@@ -2489,16 +2489,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						}
 					}
 				}
-				l("{% extends \"", classeLangueNom, "/", classeGenPageNomSimple, ".htm\" %}");
+				l("{% extends \"", classeGenPageTemplate, "\" %}");
 			}
 
 			o = auteurGenPageJinja;
 
 			if(!classePageSimple) {
-				l("{% extends \"", classeLangueNom, "/", classePageSuperNomSimple, ".htm\" ", 
-						// , "Object".equals(classeNomSimpleSuperGenerique) ? "" : (
-						// 		" " + StringUtils.uncapitalize(classeNomSimpleSuperGenerique) + "_=" + uncapitalizeClasseApiClasseNomSimple + "_"), 
-						"%}");
+				l("{% extends \"", classePageSuperTemplate, "\" %}");
 			}
 
 			l();

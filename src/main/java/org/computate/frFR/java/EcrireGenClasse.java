@@ -179,6 +179,9 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: classSimpleName
 	 */
 	protected String classeNomSimple;
+	protected String classePageTemplate;
+	protected String classeGenPageTemplate;
+	protected String classePageSuperTemplate;
 
 	protected String uncapitalizeClasseNomSimple;
 

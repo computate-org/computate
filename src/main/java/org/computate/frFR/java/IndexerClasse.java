@@ -5259,7 +5259,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	
 							String classePageCheminCss = concat(siteChemin, "-static/css/", langueNom, "/", classePageNomSimpleMethode, ".css");
 							String classePageCheminJs = concat(siteChemin, "-static/js/", langueNom, "/", classePageNomSimpleMethode, ".js");
-							String classePageCheminJinja = concat(siteChemin, "-static/template/", langueNom, "/", classePageNomSimpleMethode, ".htm");
+							String classePageCheminJinja = concat(siteChemin, "-static/template/", langueNom.substring(0, 2), "-", langueNom.substring(2, 4).toLowerCase(), "/", classePageNomSimpleMethode, ".htm");
 				
 							indexerStockerSolr(langueNom, classeDoc, "classePageCheminCss" + classeApiMethode, classePageCheminCss); 
 							indexerStockerSolr(langueNom, classeDoc, "classePageCheminJs" + classeApiMethode, classePageCheminJs); 
@@ -5305,8 +5305,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageChemin", classePageChemin); 
 			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminCss", concat(siteChemin, "-static/css/", langueNomGlobale, "/", classePageNomSimple, ".css"));
 			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJs", concat(siteChemin, "-static/js/", langueNomGlobale, "/", classePageNomSimple, ".js"));
-			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJinja", concat(siteChemin, "/src/main/resources/templates/", langueNomGlobale, "/", classePageNomSimple, ".htm"));
-			indexerStockerSolr(langueNomGlobale, classeDoc, "classeGenPageCheminJinja", concat(siteChemin, "/src/main/resources/templates/", langueNomGlobale, "/", classeGenPageNomSimple, ".htm"));
+			String classePageTemplate = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageTemplate", concat(langueNomGlobale.substring(0, 2), "-", langueNomGlobale.substring(2, 4).toLowerCase(), "/", classePageNomSimple, ".htm"));
+			String classePageCheminJinja = concat(siteChemin, "/src/main/resources/templates/", classePageTemplate);
+			String classeGenPageTemplate = indexerStockerSolr(langueNomGlobale, classeDoc, "classeGenPageTemplate", concat(langueNomGlobale.substring(0, 2), "-", langueNomGlobale.substring(2, 4).toLowerCase(), "/", classeGenPageNomSimple, ".htm"));
+			String classeGenPageCheminJinja = concat(siteChemin, "/src/main/resources/templates/", classeGenPageTemplate);
+			String classePageSuperTemplate = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageSuperTemplate", concat(langueNomGlobale.substring(0, 2), "-", langueNomGlobale.substring(2, 4).toLowerCase(), "/", classePageSuperNomSimple, ".htm"));
+			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJinja", classePageCheminJinja);
+			indexerStockerSolr(langueNomGlobale, classeDoc, "classeGenPageCheminJinja", classeGenPageCheminJinja);
 			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageLangueNom", langueNomGlobale); 
 
 			if(classePageSuperNomSimple != null) {

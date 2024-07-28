@@ -3155,7 +3155,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					if(classePageNomCanoniqueMethode != null) {
 						l();
 						tl(1, "public String ", i18nGlobale.getString(I18n.var_template), classeApiMethode, classeNomSimple, "() {");
-						tl(2, "return \"/", classeLangueNom, "/", classePageNomSimpleMethode, ".htm\";");
+						tl(2, "return \"", classePageTemplate, "\";");
 						t(1, "}");
 					}
 					l();
