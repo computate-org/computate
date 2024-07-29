@@ -3392,7 +3392,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(6, "{%- endmacro htmBody", i18nPage.getString(I18n.var_Tous), classePageNomSimple, "() %}");
 
 			tl(0, "{%- macro htm", i18nPage.getString(I18n.var_BoutonsRecherche), classePageNomSimple, "() %}");
-			tl(4, "<sl-button-group id=\"htm", i18nPage.getString(I18n.var_BoutonsRecherche), "\">");
+			tl(4, "<div id=\"htm", i18nPage.getString(I18n.var_BoutonsRecherche), "\">");
 
 			//////////////
 			// bouton q //
@@ -3466,73 +3466,75 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(6, "</sl-button>");
 			tl(5, "</sl-tooltip>");
 
-			tl(4, "</sl-button-group>");
+			tl(4, "</div>");
 			tl(0, "{%- endmacro htm", i18nPage.getString(I18n.var_BoutonsRecherche), classePageNomSimple, "() %}");
 			l();
 			tl(0, "{%- macro htm", i18nPage.getString(I18n.var_BoutonsPagination), classePageNomSimple, "() %}");
 			tl(6, "<div id=\"htm", i18nPage.getString(I18n.var_BoutonsPagination), "\">");
-			tl(7, "<sl-button-group id=\"htm", i18nPage.getString(I18n.var_BoutonsPagination), "\">");
-			tl(8, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_precedents), classeNomAdjectifPluriel), "\">");
-			t(9, "<sl-button");
+
+			tl(7, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_sous_forme_de_details), classeNomAdjectifPluriel), "\">");
+			tl(8, "<sl-button id=\"grid-toggle-details\">");
+			tl(9, "<i class=\"fa-solid fa-list\"></i>");
+			tl(8, "</sl-button>");
+			tl(7, "</sl-tooltip>");
+			tl(7, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_sous_forme_de_liste), classeNomAdjectifPluriel), "\">");
+			tl(8, "<sl-button id=\"grid-toggle-list\">");
+			tl(9, "<i class=\"fa-solid fa-bars\"></i>");
+			tl(8, "</sl-button>");
+			tl(7, "</sl-tooltip>");
+			tl(7, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_sous_forme_de_cartes), classeNomAdjectifPluriel), "\">");
+			tl(8, "<sl-button id=\"grid-toggle-card\">");
+			tl(9, "<i class=\"fa-solid fa-grid\"></i>");
+			tl(8, "</sl-button>");
+			tl(7, "</sl-tooltip>");
+
+			tl(7, "<sl-divider vertical></sl-divider>");
+
+			tl(7, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_precedents), classeNomAdjectifPluriel), "\">");
+			t(8, "<sl-button");
 			s("{% if pagination.page", i18nPage.getString(I18n.var_Precedent), " is defined %}");
 			s(" href=\"{{pageUri}}?start={{pagination.page", i18nPage.getString(I18n.var_Precedent), ".", i18nPage.getString(I18n.var_debut), "}}&amp;rows={{pagination.", i18nPage.getString(I18n.var_lignes), "}}\"");
 			s("{% else %}");
 			s(" disabled");
 			s("{% endif %}");
 			l(">");
-			tl(10, "<i slot=\"prefix\" class=\"fas fa-arrow-square-left \"></i>");
-			tl(9, "</sl-button>");
-			tl(8, "</sl-tooltip>");
-			tl(8, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_la_moitie_des_resultats), classeNomAdjectifPluriel), "\">");
-			t(9, "<sl-button");
+			tl(9, "<i slot=\"prefix\" class=\"fas fa-arrow-square-left \"></i>");
+			tl(8, "</sl-button>");
+			tl(7, "</sl-tooltip>");
+			tl(7, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_la_moitie_des_resultats), classeNomAdjectifPluriel), "\">");
+			t(8, "<sl-button");
 			s("{% if pagination.", i18nPage.getString(I18n.var_lignes), i18nPage.getString(I18n.var_Precedent), " >= pagination['1L'] %}");
 			s(" href=\"{{pageUri}}?start={{pagination.", i18nPage.getString(I18n.var_debut), "}}&amp;rows={{ pagination.", i18nPage.getString(I18n.var_lignes), i18nPage.getString(I18n.var_Precedent), " }}\"");
 			s("{% else %}");
 			s(" disabled");
 			s("{% endif %}");
 			l(">");
-			tl(10, "<i slot=\"prefix\" class=\"fas fa-minus-square \"></i>");
-			tl(9, "</sl-button>");
-			tl(8, "</sl-tooltip>");
+			tl(9, "<i slot=\"prefix\" class=\"fas fa-minus-square \"></i>");
+			tl(8, "</sl-button>");
+			tl(7, "</sl-tooltip>");
 
-			tl(8, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_le_double_des_resultats), classeNomAdjectifPluriel), "\">");
-			t(9, "<sl-button");
+			tl(7, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_le_double_des_resultats), classeNomAdjectifPluriel), "\">");
+			t(8, "<sl-button");
 			s(" href=\"{{pageUri}}?start={{pagination.", i18nPage.getString(I18n.var_debut), "}}&amp;rows={{ pagination.", i18nPage.getString(I18n.var_lignes), i18nPage.getString(I18n.var_Prochaine), " }}\"");
 			l(">");
-			tl(10, "<i slot=\"prefix\" class=\"fas fa-plus-square \"></i>");
-			tl(9, "</sl-button>");
-			tl(8, "</sl-tooltip>");
-			tl(8, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_suivants), classeNomAdjectifPluriel), "\">");
-			t(9, "<sl-button");
+			tl(9, "<i slot=\"prefix\" class=\"fas fa-plus-square \"></i>");
+			tl(8, "</sl-button>");
+			tl(7, "</sl-tooltip>");
+			tl(7, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_suivants), classeNomAdjectifPluriel), "\">");
+			t(8, "<sl-button");
 			s("{% if pagination.page", i18nPage.getString(I18n.var_Prochaine), " is defined %}");
 			s(" href=\"{{pageUri}}?start={{pagination.page", i18nPage.getString(I18n.var_Prochaine), ".", i18nPage.getString(I18n.var_debut), "}}&amp;rows={{pagination.", i18nPage.getString(I18n.var_lignes), "}}\"");
 			s("{% else %}");
 			s(" disabled");
 			s("{% endif %}");
 			l(">");
-			tl(10, "<i slot=\"prefix\" class=\"fas fa-arrow-square-right \"></i>");
-			tl(9, "</sl-button>");
-			tl(8, "</sl-tooltip>");
-			tl(8, "<div>{{ pagination.", i18nPage.getString(I18n.var_debut), "Num }} - {{ pagination.", i18nPage.getString(I18n.var_fin), "Num }} ", i18nPage.getString(I18n.var_de), " {{ pagination.", i18nPage.getString(I18n.var_numTrouve), " }}</div>");
-			tl(7, "</sl-button-group>");
+			tl(9, "<i slot=\"prefix\" class=\"fas fa-arrow-square-right \"></i>");
+			tl(8, "</sl-button>");
+			tl(7, "</sl-tooltip>");
+
 			tl(7, "<sl-divider vertical></sl-divider>");
-			tl(7, "<sl-button-group>");
-			tl(8, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_sous_forme_de_details), classeNomAdjectifPluriel), "\">");
-			tl(9, "<sl-button id=\"grid-toggle-details\">");
-			tl(10, "<i class=\"fa-solid fa-list\"></i>");
-			tl(9, "</sl-button>");
-			tl(8, "</sl-tooltip>");
-			tl(8, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_sous_forme_de_liste), classeNomAdjectifPluriel), "\">");
-			tl(9, "<sl-button id=\"grid-toggle-list\">");
-			tl(10, "<i class=\"fa-solid fa-bars\"></i>");
-			tl(9, "</sl-button>");
-			tl(8, "</sl-tooltip>");
-			tl(8, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_sous_forme_de_cartes), classeNomAdjectifPluriel), "\">");
-			tl(9, "<sl-button id=\"grid-toggle-card\">");
-			tl(10, "<i class=\"fa-solid fa-grid\"></i>");
-			tl(9, "</sl-button>");
-			tl(8, "</sl-tooltip>");
-			tl(7, "</sl-button-group>");
+
+			tl(7, "<div>{{ pagination.", i18nPage.getString(I18n.var_debut), "Num }} - {{ pagination.", i18nPage.getString(I18n.var_fin), "Num }} ", i18nPage.getString(I18n.var_de), " {{ pagination.", i18nPage.getString(I18n.var_numTrouve), " }}</div>");
 			tl(6, "</div>");
 			tl(0, "{%- endmacro htm", i18nPage.getString(I18n.var_BoutonsPagination), classePageNomSimple, "() %}");
 
