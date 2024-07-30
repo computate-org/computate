@@ -3572,7 +3572,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			///////////////
 
 			tl(5, "<sl-drawer placement=\"end\" id=\"siteSidebarToggle", i18nPage.getString(I18n.var_Recherche), "\">");
-			tl(6, "<div class=\"w3-bar w3-", classeCouleur, " \">");
+			tl(6, "<div>");
 			tl(7, "<span class=\"w3-bar-item \">");
 			t(7, "<i class=\"fad fa-magnifying-glass \"></i>");
 			l(" ", i18nPage.getString(I18n.var_Recherche), "</span>");
@@ -3678,7 +3678,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			////////////////
 
 			tl(5, "<sl-drawer placement=\"end\" id=\"siteSidebarToggle", i18nPage.getString(I18n.var_Filtres), "\">");
-			tl(6, "<div class=\"w3-bar w3-", classeCouleur, " \">");
+			tl(6, "<div>");
 			tl(7, "<span class=\"w3-bar-item \">");
 			t(7, "<i class=\"fad fa-filters \"></i>");
 			l(" ", i18nPage.getString(I18n.var_Filtres), "</span>");
@@ -3899,7 +3899,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			///////////////////
 
 			tl(5, "<sl-drawer placement=\"end\" id=\"siteSidebarToggle", i18nPage.getString(I18n.var_Pivot), "\">");
-			tl(6, "<div class=\"w3-bar w3-", classeCouleur, " \">");
+			tl(6, "<div>");
 			tl(7, "<span class=\"w3-bar-item \">");
 			t(7, "<i class=\"fad fa-table-pivot \"></i>");
 			l(" ", i18nPage.getString(I18n.var_Pivot), "</span>");
@@ -3972,7 +3972,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			//////////////////////////
 
 			tl(5, "<sl-drawer placement=\"end\" id=\"siteSidebarToggle", i18nPage.getString(I18n.var_ListeChamps), "\">");
-			tl(6, "<div class=\"w3-bar w3-", classeCouleur, " \">");
+			tl(6, "<div>");
 			tl(7, "<span class=\"w3-bar-item \">");
 			t(7, "<i class=\"fad fa-list-ul \"></i>");
 			l(" ", i18nPage.getString(I18n.str_Liste_Champs), "</span>");
@@ -4043,7 +4043,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			///////////////////
 
 			tl(5, "<sl-drawer placement=\"end\" id=\"siteSidebarToggle", i18nPage.getString(I18n.var_Stats), "\">");
-			tl(6, "<div class=\"w3-bar w3-", classeCouleur, " \">");
+			tl(6, "<div>");
 			tl(7, "<span class=\"w3-bar-item \">");
 			t(8, "<i class=\"fad fa-chart-candlestick \"></i>");
 			tl(8, " ", i18nPage.getString(I18n.str_Stats), "</span>");
