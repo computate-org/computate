@@ -5553,6 +5553,9 @@ public class IndexerClasse extends RegarderClasseBase {
 									wSmartDataModel.l("	 * Description: ", description.replace("\r\n", " ").replace("\n", " "), "");
 								wSmartDataModel.l("	 * HtmRow: ", row, "");
 								wSmartDataModel.l("	 * HtmCell: ", cell, "");
+								if("name".equals(fieldName)) {
+									wSmartDataModel.l("	 * HtmColumn: 1");
+								}
 								wSmartDataModel.l("	 * Facet: true");
 								wSmartDataModel.l("	 **/");
 								wSmartDataModel.l("	protected void _", fieldName, "(Wrap<", javaType, "> w) {}");
