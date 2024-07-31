@@ -370,8 +370,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		classeContexte = (Boolean)doc.getBoolean("classeContexte_stored_boolean");
 		classeCouleur = doc.getString("classeCouleur_stored_string");
 		classeEntiteCouleur = doc.getString("classeEntiteCouleur_stored_string");
-		classeIconeGroupe = doc.getString("classeIconeGroupe_stored_string");
-		classeIconeNom = doc.getString("classeIconeNom_stored_string");
+		classeIcone = doc.getString("classeIcone_stored_string");
 		classeLignes = (Integer)doc.getInteger("classeLignes_stored_int");
 		classeOrdre = (Integer)doc.getInteger("classeOrdre_stored_int");
 		classeOrdreSql = (Integer)doc.getInteger("classeOrdreSql_stored_int");

@@ -840,15 +840,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeCouleur;
 	protected String classeEntiteCouleur;
 
-	/**
-	 * Var.enUS: contextIconGroup
-	 */
-	protected String classeIconeGroupe;
-
-	/**
-	 * Var.enUS: contextIconName
-	 */
-	protected String classeIconeNom;
+	protected String classeIcone;
 
 	protected Integer classeLignes;
 	protected Integer classeOrdre;
@@ -931,9 +923,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	String entiteAttribuerContexteCouleur;
 
-	String entiteAttribuerContexteIconeGroupe;
-
-	String entiteAttribuerContexteIconeNom;
+	String entiteAttribuerContexteIcone;
 
 	List<String> classeTrisVar;
 
@@ -2243,19 +2233,15 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 
 			classeCouleur = classeDoc.getString("classeCouleur_stored_string");
-			classeIconeGroupe = classeDoc.getString("classeIconeGroupe_stored_string");
-			classeIconeNom = classeDoc.getString("classeIconeNom_stored_string");
+			classeIcone = classeDoc.getString("classeIcone_stored_string");
 			classeLignes = (Integer)classeDoc.getInteger("classeLignes_stored_int");
 			
 			l();
 			if(classeCouleur != null)
 				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_Couleur), " = ", q(classeCouleur), ";");
 			
-			if(classeIconeGroupe != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_IconeGroupe), " = ", q(classeIconeGroupe), ";");
-			
-			if(classeIconeNom != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_IconeNom), " = ", q(classeIconeNom), ";");
+			if(classeIcone != null)
+				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_Icone), " = ", q(classeIcone), ";");
 			
 			if(classeLignes != null)
 				tl(1, "public static final Integer ", classeNomSimple, "_", langueConfig.getString(I18n.var_Lignes), " = ", classeLignes, ";");
@@ -3086,8 +3072,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			entiteAttribuerContexteUnNom = doc.getString("entiteAttribuerContexteUnNom_" + langueNom + "_stored_string");
 			entiteAttribuerContexteNomPluriel = doc.getString("entiteAttribuerContexteNomPluriel_" + langueNom + "_stored_string");
 			entiteAttribuerContexteCouleur = doc.getString("entiteAttribuerContexteCouleur_stored_string");
-			entiteAttribuerContexteIconeGroupe = doc.getString("entiteAttribuerContexteIconeGroupe_stored_string");
-			entiteAttribuerContexteIconeNom = doc.getString("entiteAttribuerContexteIconeNom_stored_string");
+			entiteAttribuerContexteIcone = doc.getString("entiteAttribuerContexteIcone_stored_string");
 			entiteAttribuerPageUri = doc.getString("entiteAttribuerPageUri_" + langueNom + "_stored_string");
 			entiteTypeJson = doc.getString("entiteTypeJson_stored_string");
 	
@@ -6454,24 +6439,6 @@ public class EcrireGenClasse extends EcrireClasse {
 		ecrireClasseCommentaireChamp(langueNom, classeRef, "Couleur", "description", wClasseDescription
 				, classeCouleur != null
 				, classeCouleur, classeNomSimple, classeCouleur, classeCouleur
-				);
-
-		ecrireClasseCommentaireChamp(langueNom, classeRef, "IconeGroupe", "commentaire", wClasseDescription
-				, true
-				, classeIconeGroupe
-				);
-		ecrireClasseCommentaireChamp(langueNom, classeRef, "IconeGroupe", "description", wClasseDescription
-				, classeIconeGroupe != null
-				, classeIconeGroupe, classeNomSimple, classeIconeGroupe, classeIconeGroupe, classeIconeGroupe, classeIconeGroupe
-				);
-
-		ecrireClasseCommentaireChamp(langueNom, classeRef, "IconeNom", "commentaire", wClasseDescription
-				, true
-				, classeIconeNom
-				);
-		ecrireClasseCommentaireChamp(langueNom, classeRef, "IconeNom", "description", wClasseDescription
-				, classeIconeNom != null
-				, classeIconeNom, classeNomSimple, classeIconeNom, classeIconeGroupe, classeIconeGroupe, classeIconeNom, classeIconeGroupe, classeIconeNom, classeIconeGroupe, classeIconeNom
 				);
 
 		ecrireClasseCommentaireChamp(langueNom, classeRef, "Indexe", "commentaire", wClasseDescription

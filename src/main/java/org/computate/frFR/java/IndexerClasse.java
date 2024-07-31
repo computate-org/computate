@@ -685,15 +685,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	 */
 	private String classeCouleur;
 
-	/**
-	 * Var.enUS: contextIconGroup
-	 */
-	private String classeIconeGroupe;
-
-	/**
-	 * Var.enUS: contextIconName
-	 */
-	private String classeIconeNom;
+	private String classeIcone;
 
 	private Integer classeLignes;
 	private Integer classeOrdre;
@@ -3549,8 +3541,7 @@ public class IndexerClasse extends RegarderClasseBase {
 										}
 									}
 									indexerStockerSolr(entiteDoc, "entiteAttribuerContexteCouleur", (String)docClasse.get("classeCouleur_stored_string"));
-									indexerStockerSolr(entiteDoc, "entiteAttribuerContexteIconeGroupe", (String)docClasse.get("classeIconeGroupe_stored_string"));
-									indexerStockerSolr(entiteDoc, "entiteAttribuerContexteIconeNom", (String)docClasse.get("classeIconeNom_stored_string"));
+									indexerStockerSolr(entiteDoc, "entiteAttribuerContexteIcone", (String)docClasse.get("classeIcone_stored_string"));
 									indexerStockerSolr(entiteDoc, "entiteAttribuerContexteRows", (Integer)docClasse.get("classeLignes_stored_int"));
 
 									String entiteOperationIdPATCH = regexLangue(classeLangueNom, "(classe)?ApiOperationIdPATCH", classeCommentaire, "patch" + classeNomSimple);
@@ -5629,13 +5620,9 @@ public class IndexerClasse extends RegarderClasseBase {
 			if(classeCouleur != null)
 				indexerStockerSolr(classeDoc, "classeCouleur", classeCouleur); 
 
-			classeIconeGroupe = regex("^" + i18nGlobale.getString(I18n.var_IconeGroupe) + ":\\s*(.*)", classeCommentaire);
-			if(classeIconeGroupe != null)
-				indexerStockerSolr(classeDoc, "classeIconeGroupe", classeIconeGroupe); 
-
-			classeIconeNom = regex("^" + i18nGlobale.getString(I18n.var_IconeNom) + ":\\s*(.*)", classeCommentaire);
-			if(classeIconeNom != null)
-				indexerStockerSolr(classeDoc, "classeIconeNom", classeIconeNom); 
+			classeIcone = regex("^" + i18nGlobale.getString(I18n.var_Icone) + ":\\s*(.*)", classeCommentaire);
+			if(classeIcone != null)
+				indexerStockerSolr(classeDoc, "classeIcone", classeIcone); 
 
 			String classeLignesStr = regex("^" + i18nGlobale.getString(I18n.var_Lignes) + ":\\s*(.*)", classeCommentaire);
 			if(NumberUtils.isParsable(classeLignesStr))

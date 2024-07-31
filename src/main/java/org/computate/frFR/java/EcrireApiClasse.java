@@ -4056,7 +4056,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(3, "page.set", i18nGlobale.getString(I18n.var_RequeteSite), "_((", i18nGlobale.getString(I18n.var_RequeteSite), ")", i18nGlobale.getString(I18n.var_requeteSite), ");");
 				tl(3, "page.persistForClass(", classeNomSimple, ".VAR_resourceUri, resourceUri);");
 				tl(3, "page.persistForClass(", classeNomSimple, ".VAR_templateUri, templateUri);");
-				tl(3, "page.persistForClass(", classeNomSimple, ".VAR_pageId, pageId);");
 				l();
 				s(wPageTemplates);
 				l();

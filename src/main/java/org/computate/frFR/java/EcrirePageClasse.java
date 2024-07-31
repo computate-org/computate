@@ -702,8 +702,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(entiteNomAffichage != null) {
 					tl(12, "<div class=\"w3-cell-row \">");
 					tl(13, "<a href=\"", entiteAttribuerPageUri, "?fq=", entiteAttribuerVar, ":{{", uncapitalizeClasseNomSimple, "_.", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}\" class=\"w3-cell w3-btn w3-center h4 w3-block h4 w3-", entiteAttribuerContexteCouleur, " w3-hover-", entiteAttribuerContexteCouleur, " \">");
-					if(entiteAttribuerContexteIconeGroupe != null && entiteAttribuerContexteIconeNom != null)
-						tl(14, "<i class=\"fa", StringUtils.substring(entiteAttribuerContexteIconeGroupe, 0, 1), " fa-", entiteAttribuerContexteIconeNom, " \"></i>");
+					if(entiteAttribuerContexteIcone != null)
+						tl(14, entiteAttribuerContexteIcone);
 					tl(14, entiteNomAffichage);
 					tl(13, "</a>");
 					tl(12, "</div>");
@@ -997,8 +997,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							entiteAttribuerContexteUnNom = (String)entiteDocumentSolr.get("entiteAttribuerContexteUnNom_" + langueNom + "_stored_string");
 							entiteAttribuerContexteNomPluriel = (String)entiteDocumentSolr.get("entiteAttribuerContexteNomPluriel_" + langueNom + "_stored_string");
 							entiteAttribuerContexteCouleur = (String)entiteDocumentSolr.get("entiteAttribuerContexteCouleur_stored_string");
-							entiteAttribuerContexteIconeGroupe = (String)entiteDocumentSolr.get("entiteAttribuerContexteIconeGroupe_stored_string");
-							entiteAttribuerContexteIconeNom = (String)entiteDocumentSolr.get("entiteAttribuerContexteIconeNom_stored_string");
+							entiteAttribuerContexteIcone = (String)entiteDocumentSolr.get("entiteAttribuerContexteIcone_stored_string");
 							entiteAttribuerTypeJson = (String)entiteDocumentSolr.get("entiteAttribuerTypeJson_stored_string");
 							entiteImageBase64Url = (String)entiteDocumentSolr.get("entiteImageBase64Url_" + langueNom + "_stored_string");
 							entiteNomSimpleVertxJson = (String)entiteDocumentSolr.get("entiteNomSimpleVertxJson_stored_string");
@@ -2042,24 +2041,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "}");
 			}
 
-			if(StringUtils.isNotBlank(classeIconeGroupe)) {
+			if(StringUtils.isNotBlank(classeIcone)) {
 				l();
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
-				tl(1, "protected void _", langueConfig.getString(I18n.var_classe), langueConfig.getString(I18n.var_Icone), langueConfig.getString(I18n.var_Groupe), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
-				tl(3, "c.o(", q(classeIconeGroupe), ");");
+				tl(1, "protected void _", langueConfig.getString(I18n.var_classe), langueConfig.getString(I18n.var_Icone), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
+				tl(3, "c.o(", q(classeIcone), ");");
 				tl(1, "}");
 			}
 
-			if(StringUtils.isNotBlank(classeIconeNom)) {
-				l();
-				if(classePageSuperNomSimple != null)
-					tl(1, "@Override");
-				tl(1, "protected void _", langueConfig.getString(I18n.var_classe), langueConfig.getString(I18n.var_Icone), langueConfig.getString(I18n.var_Nom), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
-				tl(3, "c.o(", q(classeIconeNom), ");");
-				tl(1, "}");
-			}
-//
 //			l();
 //			if(classePageSuperNomSimple != null)
 //				tl(1, "@Override");
@@ -2940,7 +2930,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										entiteOperationIdPATCH = (String)entiteDocumentSolr.get("entiteOperationIdPATCH_" + langueNom + "_stored_string");
 										entiteTypeJson = (String)entiteDocumentSolr.get("entiteTypeJson_stored_string");
 										entiteAttribuerTypeJson = (String)entiteDocumentSolr.get("entiteAttribuerTypeJson_stored_string");
-										entiteAttribuerContexteIconeNom = (String)entiteDocumentSolr.get("entiteAttribuerContexteIconeNom_stored_string");
+										entiteAttribuerContexteIcone = (String)entiteDocumentSolr.get("entiteAttribuerContexteIcone_stored_string");
 										entiteAttribuerTrisVar = (List<String>)entiteDocumentSolr.get("entiteAttribuerTrisVar_" + langueNom + "_stored_strings");
 										entiteAttribuerTrisSuffixeType = (List<String>)entiteDocumentSolr.get("entiteAttribuerTrisSuffixeType_stored_strings");
 										entiteAttribuerContexteUnNom = (String)entiteDocumentSolr.get("entiteAttribuerContexteUnNom_" + langueNom + "_stored_string");
@@ -2952,13 +2942,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											auteurPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {");
 											auteurPageJs.tl(2, "$list.empty();");
 											auteurPageJs.tl(2, "data['list'].forEach((o, i) => {");
-											auteurPageJs.tl(3, "var $i = document.querySelector('<i>').setAttribute('class', 'fa", StringUtils.substring(classeIconeGroupe, 0, 1), " fa-", classeIconeNom, " ');");
-											auteurPageJs.t(3, "var $span = document.querySelector('<span>').setAttribute('class', '').text(");
+											auteurPageJs.tl(3, "var $i = document.querySelector('", classeIcone, "');");
+											auteurPageJs.t(3, "var $span = document.createElement('<span>').setAttribute('class', '').text(");
 											if(classeVarTitre != null)
 												auteurPageJs.s("o['", classeVarTitre, "']");
 											auteurPageJs.l(");");
-											auteurPageJs.tl(3, "var $li = document.querySelector('<li>');");
-											auteurPageJs.tl(3, "var $a = document.querySelector('<a>').setAttribute('href', o['", classeVarUrlPk, "']);");
+											auteurPageJs.tl(3, "var $li = document.createElement('<li>');");
+											auteurPageJs.tl(3, "var $a = document.createElement('<a>').setAttribute('href', o['", classeVarUrlPk, "']);");
 											auteurPageJs.tl(3, "$a.append($i);");
 											auteurPageJs.tl(3, "$a.append($span);");
 											auteurPageJs.tl(3, "$li.append($a);");
@@ -2976,22 +2966,22 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											auteurPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {");
 											auteurPageJs.tl(2, "$list.empty();");
 											auteurPageJs.tl(2, "data['list'].forEach((o, i) => {");
-											auteurPageJs.tl(3, "var $i = document.querySelector('<i>').setAttribute('class', 'fa", StringUtils.substring(entiteAttribuerContexteIconeGroupe, 0, 1), " fa-", entiteAttribuerContexteIconeNom, " ');");
-											auteurPageJs.t(3, "var $span = document.querySelector('<span>').setAttribute('class', '').text(");
+											auteurPageJs.tl(3, "var $i = document.createElement('", entiteAttribuerContexteIcone, "');");
+											auteurPageJs.t(3, "var $span = document.createElement('<span>').setAttribute('class', '').text(");
 											if(entiteAttribuerVarTitre != null)
 												auteurPageJs.s("o['", entiteAttribuerVarTitre, "']");
 											auteurPageJs.l(");");
 
 											if(entiteAttribuerVarUrlPk != null)
-												auteurPageJs.tl(3, "var $a = document.querySelector('<a>').setAttribute('id', o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "']).setAttribute('href', o['", entiteAttribuerVarUrlPk, "']);");
+												auteurPageJs.tl(3, "var $a = document.createElement('<a>').setAttribute('id', o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "']).setAttribute('href', o['", entiteAttribuerVarUrlPk, "']);");
 											else
-												auteurPageJs.tl(3, "var $a = document.querySelector('<span>');");
+												auteurPageJs.tl(3, "var $a = document.createElement('<span>');");
 
 											auteurPageJs.tl(3, "$a.append($i);");
 											auteurPageJs.tl(3, "$a.append($span);");
 											auteurPageJs.tl(3, "var val = o['", entiteAttribuerVar, "'];");
 											auteurPageJs.tl(3, "var checked = pk == null ? false : Array.isArray(val) ? val.includes(", classeModele ? classeVarClePrimaire : classeVarCleUnique, ".toString()) : val == ", classeModele ? classeVarClePrimaire : classeVarCleUnique, ";");
-											auteurPageJs.tl(3, "var $input = document.querySelector('<sl-input>');");
+											auteurPageJs.tl(3, "var $input = document.createElement('<sl-input>');");
 											auteurPageJs.tl(3, "$input.setAttribute('id', '", classeApiMethodeMethode, "_", entiteVar, "_' + ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " + '_", entiteAttribuerVar, "_' + o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "']);");
 											auteurPageJs.tl(3, "$input.setAttribute('value', o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "']);");
 											auteurPageJs.tl(3, "$input.setAttribute('class', '", i18nPage.getString(I18n.var_valeur), entiteVarCapitalise, " w3-check ');");
@@ -3015,7 +3005,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											auteurPageJs.tl(3, "$input.setAttribute('type', 'checkbox');");
 											auteurPageJs.tl(3, "if(checked)");
 											auteurPageJs.tl(4, "$input.setAttribute('checked', 'checked');");
-											auteurPageJs.tl(3, "var $li = document.querySelector('<li>');");
+											auteurPageJs.tl(3, "var $li = document.createElement('<li>');");
 											if(entiteAttribuerTrisVar != null && entiteAttribuerTrisSuffixeType != null && entiteAttribuerTrisSuffixeType.size() > 0 && "_double".equals(entiteAttribuerTrisSuffixeType.get(0))) {
 												for(String entiteAttribuerTriVar : entiteAttribuerTrisVar) {
 													auteurPageJs.tl(3, "var ", entiteAttribuerTriVar, " = o['", entiteAttribuerTriVar, "'];");
@@ -3029,8 +3019,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 													auteurPageJs.l();
 													if(entiteAttribuerTriVarAncien != null)
 														auteurPageJs.tl(3, "if(", entiteAttribuerTriVarAncien, " != null) {");
-													auteurPageJs.tl(k, "$sort = document.querySelector('<span>').setAttribute('class', 'w3-text-grey ').setAttribute('style', 'padding-right: 8px; ');");
-													auteurPageJs.tl(k, "var $sortInput = document.querySelector('<sl-input>')");
+													auteurPageJs.tl(k, "$sort = document.createElement('<span>').setAttribute('class', 'w3-text-grey ').setAttribute('style', 'padding-right: 8px; ');");
+													auteurPageJs.tl(k, "var $sortInput = document.createElement('<sl-input>')");
 													auteurPageJs.tl(k, "$sortInput.setAttribute('class', 'w3-tiny ');");
 													auteurPageJs.tl(k, "$sortInput.setAttribute('style', 'width: 4em; ');");
 													auteurPageJs.tl(k, "$sortInput.setAttribute('id', \"", i18nPage.getString(I18n.var_attribuer), "_\" + o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "'] + \"_", i18nPage.getString(I18n.var_tri), "_", entiteAttribuerTriVar, "\");");
@@ -3363,7 +3353,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(7, "{{ htm", i18nPage.getString(I18n.var_BoutonsPagination), classePageNomSimple, "() }}");
 			tl(6, "<div class=\"grid-mode-details\">");
 			tl(6, "<div>");
-			tl(8, "<i class=\"fa", StringUtils.substring(classeIconeGroupe, 0, 1), " fa-", classeIconeNom, " site-result-icon \"></i>");
+			tl(8, classeIcone);
 			s(wTh);
 			tl(7, "</div>");
 			tl(6, "</div>");
@@ -3381,7 +3371,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //				tl(3, "List<String> highlightList = highlights == null ? null : highlights.get(highlights.keySet().stream().findFirst().orElse(null));");
 //				tl(3, "String uri = ", classeEntiteVars.contains("pageUri") ? "o.getPageUri()" : (q(classePageUriMethode, "/") + " + o.get" + StringUtils.capitalize(classeVarClePrimaire) + "()"), ";");
 			tl(7, "<a href=\"{{ item.", classeVarUrlPk, " }}\">");
-			tl(8, "<i class=\"fa", StringUtils.substring(classeIconeGroupe, 0, 1), " fa-", classeIconeNom, " site-result-icon \"></i>");
+			tl(8, classeIcone);
 			s(wTd);
 			tl(7, "</a>");
 			tl(7, "{% endfor %}");
@@ -4416,8 +4406,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				// voir tous //
 				tl(5, "<div class=\"\">");
 				tl(6, "<a href=\"", classePageUriMethode, "\" class=\"\">");
-				if(classeIconeGroupe != null && classeIconeNom != null)
-					tl(7, "<i class=\"fa", StringUtils.substring(classeIconeGroupe, 0, 1), " fa-", classeIconeNom, "\"></i>");
+				if(classeIcone != null)
+					tl(7, classeIcone);
 				tl(7, i18nPage.getString(I18n.var_voir), " ", classeTousNom);
 				tl(6, "</a>");
 				tl(5, "</div>");
@@ -4451,16 +4441,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(3, "var numFound = parseInt(json['numFound']);");
 				auteurPageJs.tl(3, "var numPATCH = parseInt(json['numPATCH']);");
 				auteurPageJs.tl(3, "var percent = Math.floor( numPATCH / numFound * 100 ) + '%';");
-				auteurPageJs.tl(3, "var $box = document.querySelector('<div>').setAttribute('class', 'w3-quarter box-' + id + ' ').setAttribute('id', 'box-' + id).setAttribute('data-numPATCH', numPATCH);");
-				auteurPageJs.tl(3, "var $margin = document.querySelector('<div>').setAttribute('class', 'w3-margin ').setAttribute('id', 'margin-' + id);");
-				auteurPageJs.tl(3, "var $card = document.querySelector('<div>').setAttribute('class', 'w3-card w3-white ').setAttribute('id', 'card-' + id);");
-				auteurPageJs.tl(3, "var $header = document.querySelector('<div>').setAttribute('class', 'w3-container fa-", classeCouleur, " ').setAttribute('id', 'header-' + id);");
-				auteurPageJs.tl(3, "var $i = document.querySelector('<i>').setAttribute('class', 'fa", StringUtils.substring(classeIconeGroupe, 0, 1), " fa-", classeIconeNom, " w3-margin-right ').setAttribute('id', 'icon-' + id);");
-				auteurPageJs.tl(3, "var $headerSpan = document.querySelector('<span>').setAttribute('class', '').text('", i18nPage.getString(I18n.var_modifier), " ", classeNomAdjectifPluriel, " ", i18nPage.getString(I18n.var_dans), " ' + json.", i18nPage.getString(I18n.var_tempsRestant), ");");
-				auteurPageJs.tl(3, "var $x = document.querySelector('<span>').setAttribute('class', 'w3-button w3-display-topright ').setAttribute('onclick', '$(\"#card-' + id + '\").classList.add(\"display-none\"); ').setAttribute('id', 'x-' + id);");
-				auteurPageJs.tl(3, "var $body = document.querySelector('<div>').setAttribute('class', 'w3-container w3-padding ').setAttribute('id', 'text-' + id);");
-				auteurPageJs.tl(3, "var $bar = document.querySelector('<div>').setAttribute('class', 'w3-light-gray ').setAttribute('id', 'bar-' + id);");
-				auteurPageJs.tl(3, "var $progress = document.querySelector('<div>').setAttribute('class', 'w3-", classeCouleur, " ').setAttribute('style', 'height: 24px; width: ' + percent + '; ').setAttribute('id', 'progress-' + id).text(numPATCH + '/' + numFound);");
+				auteurPageJs.tl(3, "var $box = document.createElement('<div>').setAttribute('class', 'w3-quarter box-' + id + ' ').setAttribute('id', 'box-' + id).setAttribute('data-numPATCH', numPATCH);");
+				auteurPageJs.tl(3, "var $margin = document.createElement('<div>').setAttribute('class', 'w3-margin ').setAttribute('id', 'margin-' + id);");
+				auteurPageJs.tl(3, "var $card = document.createElement('<div>').setAttribute('class', 'w3-card w3-white ').setAttribute('id', 'card-' + id);");
+				auteurPageJs.tl(3, "var $header = document.createElement('<div>').setAttribute('class', 'w3-container fa-", classeCouleur, " ').setAttribute('id', 'header-' + id);");
+				auteurPageJs.tl(3, "var $i = document.createElement('", classeIcone, ");");
+				auteurPageJs.tl(3, "var $headerSpan = document.createElement('<span>').setAttribute('class', '').text('", i18nPage.getString(I18n.var_modifier), " ", classeNomAdjectifPluriel, " ", i18nPage.getString(I18n.var_dans), " ' + json.", i18nPage.getString(I18n.var_tempsRestant), ");");
+				auteurPageJs.tl(3, "var $x = document.createElement('<span>').setAttribute('class', 'w3-button w3-display-topright ').setAttribute('onclick', '$(\"#card-' + id + '\").classList.add(\"display-none\"); ').setAttribute('id', 'x-' + id);");
+				auteurPageJs.tl(3, "var $body = document.createElement('<div>').setAttribute('class', 'w3-container w3-padding ').setAttribute('id', 'text-' + id);");
+				auteurPageJs.tl(3, "var $bar = document.createElement('<div>').setAttribute('class', 'w3-light-gray ').setAttribute('id', 'bar-' + id);");
+				auteurPageJs.tl(3, "var $progress = document.createElement('<div>').setAttribute('class', 'w3-", classeCouleur, " ').setAttribute('style', 'height: 24px; width: ' + percent + '; ').setAttribute('id', 'progress-' + id).text(numPATCH + '/' + numFound);");
 				auteurPageJs.tl(3, "$card.append($header);");
 				auteurPageJs.tl(3, "$header.append($i);");
 				auteurPageJs.tl(3, "$header.append($headerSpan);");
