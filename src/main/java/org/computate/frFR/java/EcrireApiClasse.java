@@ -4052,7 +4052,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(3, "String siteBaseUrl = config.getString(ComputateConfigKeys.SITE_BASE_URL);");
 				tl(3, "String uri = ctx.getString(", classeNomSimple, ".VAR_uri);");
 				tl(3, "String url = String.format(\"%s%s\", siteBaseUrl, uri);");
-				tl(3, "String pageId = StringUtils.substringBeforeLast(StringUtils.substringAfterLast(resourceUri, \"/\"), \".\");");
 				tl(3, classeNomSimple, " page = new ", classeNomSimple, "();");
 				tl(3, "page.set", i18nGlobale.getString(I18n.var_RequeteSite), "_((", i18nGlobale.getString(I18n.var_RequeteSite), ")", i18nGlobale.getString(I18n.var_requeteSite), ");");
 				tl(3, "page.persistForClass(", classeNomSimple, ".VAR_resourceUri, resourceUri);");
