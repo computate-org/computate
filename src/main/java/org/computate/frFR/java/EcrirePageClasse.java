@@ -3274,7 +3274,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					l();
 					l("{%- macro htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() %}");
 					{ tl(4, "<", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "div" : "sl-dialog", " id=\"", classeApiOperationIdMethode, i18nPage.getString(I18n.var_Dialogue), "\" label=\"", methodeTitreValeurs, "\">");
-						{ tl(5, "<", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "div" : "form", " id=\"htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "\">");
+						{ tl(5, "<", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "sl-details" : "form", " id=\"htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "\">");
 							if(!i18nPage.getString(I18n.var_PageRecherche).equals(classeApiMethode)) {
 								if("POST".equals(classeApiMethode)) {
 									tl(6, "<div class=\"\">", i18nPage.getString(I18n.str_Vous_pouvez_remplacer_les_valeurs_par_defaut_ci_dessous), "</div>");
@@ -3324,7 +3324,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								}
 							}
 							tl(6, "{{ htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
-						} tl(5, "</", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "div" : "form", ">");
+						} tl(5, "</", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "sl-details" : "form", ">");
 					} tl(4, "</", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "div" : "sl-dialog", ">");
 					l("{%- endmacro %}");
 				}
@@ -3336,12 +3336,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			tl(6, "{%- macro htmBody", i18nPage.getString(I18n.var_Tous), classePageNomSimple, "() %}");
 			tl(6, "<h1>");
-			tl(7, "<a href=\"{{pageUri}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", classeCouleur, " w3-hover-", classeCouleur, "\">");
-			tl(8, "{% if ", i18nPage.getString(I18n.var_classeIconeClassesCss), " is defined %}");
-			tl(9, "<i class=\"{{ ", i18nPage.getString(I18n.var_classeIconeClassesCss), " }} site-menu-icon \"></i>");
-			tl(8, "{% endif %}");
+			tl(7, "<sl-button variant=\"text\" size=\"large\" href=\"{{pageUri}}\">");
+			tl(8, classeIcone);
 			tl(8, "<span class=\"\">", classeNomAdjectifPluriel, "</span>");
-			tl(7, "</a>");
+			tl(7, "</sl-button>");
 			tl(6, "</h1>");
 			tl(6, "{{ htm", i18nPage.getString(I18n.var_BoutonsRecherche), classePageNomSimple, "() }}");
 
@@ -3462,67 +3460,69 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "{%- macro htm", i18nPage.getString(I18n.var_BoutonsPagination), classePageNomSimple, "() %}");
 			tl(6, "<div id=\"htm", i18nPage.getString(I18n.var_BoutonsPagination), "\">");
 
-			tl(7, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_sous_forme_de_details), classeNomAdjectifPluriel), "\">");
-			tl(8, "<sl-button id=\"grid-toggle-details\">");
-			tl(9, "<i class=\"fa-solid fa-list\"></i>");
-			tl(8, "</sl-button>");
-			tl(7, "</sl-tooltip>");
-			tl(7, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_sous_forme_de_liste), classeNomAdjectifPluriel), "\">");
-			tl(8, "<sl-button id=\"grid-toggle-list\">");
-			tl(9, "<i class=\"fa-solid fa-bars\"></i>");
-			tl(8, "</sl-button>");
-			tl(7, "</sl-tooltip>");
-			tl(7, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_sous_forme_de_cartes), classeNomAdjectifPluriel), "\">");
-			tl(8, "<sl-button id=\"grid-toggle-card\">");
-			tl(9, "<i class=\"fa-solid fa-grid\"></i>");
-			tl(8, "</sl-button>");
-			tl(7, "</sl-tooltip>");
+			tl(7, "<sl-button-group>");
+			tl(8, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_sous_forme_de_details), classeNomAdjectifPluriel), "\" pill>");
+			tl(9, "<sl-button id=\"grid-toggle-details\">");
+			tl(10, "<i class=\"fa-solid fa-list\"></i>");
+			tl(9, "</sl-button>");
+			tl(8, "</sl-tooltip>");
+			tl(8, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_sous_forme_de_liste), classeNomAdjectifPluriel), "\">");
+			tl(9, "<sl-button id=\"grid-toggle-list\">");
+			tl(10, "<i class=\"fa-solid fa-bars\"></i>");
+			tl(9, "</sl-button>");
+			tl(8, "</sl-tooltip>");
+			tl(8, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_sous_forme_de_cartes), classeNomAdjectifPluriel), "\" pill>");
+			tl(9, "<sl-button id=\"grid-toggle-card\">");
+			tl(10, "<i class=\"fa-solid fa-grid\"></i>");
+			tl(9, "</sl-button>");
+			tl(8, "</sl-tooltip>");
+			tl(7, "</sl-button-group>");
 
-			tl(7, "<sl-divider vertical></sl-divider>");
-
-			tl(7, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_precedents), classeNomAdjectifPluriel), "\">");
-			t(8, "<sl-button");
+			tl(7, "<sl-button-group>");
+			tl(8, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_precedents), classeNomAdjectifPluriel), "\">");
+			t(9, "<sl-button");
 			s("{% if pagination.page", i18nPage.getString(I18n.var_Precedent), " is defined %}");
 			s(" href=\"{{pageUri}}?start={{pagination.page", i18nPage.getString(I18n.var_Precedent), ".", i18nPage.getString(I18n.var_debut), "}}&amp;rows={{pagination.", i18nPage.getString(I18n.var_lignes), "}}\"");
 			s("{% else %}");
 			s(" disabled");
 			s("{% endif %}");
 			l(">");
-			tl(9, "<i slot=\"prefix\" class=\"fas fa-arrow-square-left \"></i>");
-			tl(8, "</sl-button>");
-			tl(7, "</sl-tooltip>");
-			tl(7, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_la_moitie_des_resultats), classeNomAdjectifPluriel), "\">");
-			t(8, "<sl-button");
+			tl(10, "<i slot=\"prefix\" class=\"fas fa-arrow-square-left \"></i>");
+			tl(9, "</sl-button>");
+			tl(8, "</sl-tooltip>");
+
+			tl(8, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_la_moitie_des_resultats), classeNomAdjectifPluriel), "\">");
+			t(9, "<sl-button");
 			s("{% if pagination.", i18nPage.getString(I18n.var_lignes), i18nPage.getString(I18n.var_Precedent), " >= pagination['1L'] %}");
 			s(" href=\"{{pageUri}}?start={{pagination.", i18nPage.getString(I18n.var_debut), "}}&amp;rows={{ pagination.", i18nPage.getString(I18n.var_lignes), i18nPage.getString(I18n.var_Precedent), " }}\"");
 			s("{% else %}");
 			s(" disabled");
 			s("{% endif %}");
 			l(">");
-			tl(9, "<i slot=\"prefix\" class=\"fas fa-minus-square \"></i>");
-			tl(8, "</sl-button>");
-			tl(7, "</sl-tooltip>");
+			tl(10, "<i slot=\"prefix\" class=\"fas fa-minus-square \"></i>");
+			tl(9, "</sl-button>");
+			tl(8, "</sl-tooltip>");
 
-			tl(7, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_le_double_des_resultats), classeNomAdjectifPluriel), "\">");
-			t(8, "<sl-button");
+			tl(8, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_le_double_des_resultats), classeNomAdjectifPluriel), "\">");
+			t(9, "<sl-button");
 			s(" href=\"{{pageUri}}?start={{pagination.", i18nPage.getString(I18n.var_debut), "}}&amp;rows={{ pagination.", i18nPage.getString(I18n.var_lignes), i18nPage.getString(I18n.var_Prochaine), " }}\"");
 			l(">");
-			tl(9, "<i slot=\"prefix\" class=\"fas fa-plus-square \"></i>");
-			tl(8, "</sl-button>");
-			tl(7, "</sl-tooltip>");
-			tl(7, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_suivants), classeNomAdjectifPluriel), "\">");
-			t(8, "<sl-button");
+			tl(10, "<i slot=\"prefix\" class=\"fas fa-plus-square \"></i>");
+			tl(9, "</sl-button>");
+			tl(8, "</sl-tooltip>");
+
+			tl(8, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_suivants), classeNomAdjectifPluriel), "\">");
+			t(9, "<sl-button");
 			s("{% if pagination.page", i18nPage.getString(I18n.var_Prochaine), " is defined %}");
 			s(" href=\"{{pageUri}}?start={{pagination.page", i18nPage.getString(I18n.var_Prochaine), ".", i18nPage.getString(I18n.var_debut), "}}&amp;rows={{pagination.", i18nPage.getString(I18n.var_lignes), "}}\"");
 			s("{% else %}");
 			s(" disabled");
 			s("{% endif %}");
 			l(">");
-			tl(9, "<i slot=\"prefix\" class=\"fas fa-arrow-square-right \"></i>");
-			tl(8, "</sl-button>");
-			tl(7, "</sl-tooltip>");
-
-			tl(7, "<sl-divider vertical></sl-divider>");
+			tl(10, "<i slot=\"prefix\" class=\"fas fa-arrow-square-right \"></i>");
+			tl(9, "</sl-button>");
+			tl(8, "</sl-tooltip>");
+			tl(7, "</sl-button-group>");
 
 			tl(7, "<div>{{ pagination.", i18nPage.getString(I18n.var_debut), "Num }} - {{ pagination.", i18nPage.getString(I18n.var_fin), "Num }} ", i18nPage.getString(I18n.var_de), " {{ pagination.", i18nPage.getString(I18n.var_numTrouve), " }}</div>");
 			tl(6, "</div>");
@@ -4174,12 +4174,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			///////////////////
 
 			tl(4, "<h1>");
-			tl(5, "<a href=\"{{pageUri}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", classeCouleur, " w3-hover-", classeCouleur, "\">");
-			tl(1, "{% if ", i18nPage.getString(I18n.var_classeIconeClassesCss), " is defined %}");
-			tl(7, "<i class=\"{{ ", i18nPage.getString(I18n.var_classeIconeClassesCss), " }} site-menu-icon \"></i>");
-			tl(1, "{% endif %}");
+			tl(5, "<sl-button variant=\"text\" size=\"large\" href=\"{{pageUri}}\">");
+			tl(6, classeIcone);
 			tl(6, "<span class=\"\">", classeNomAdjectifPluriel, "</span>");
-			tl(5, "</a>");
+			tl(5, "</sl-button>");
 			tl(4, "</h1>");
 			tl(4, "{{ htm", i18nPage.getString(I18n.var_BoutonsRecherche), classePageNomSimple, "() }}");
 			tl(4, "<h2>");
@@ -4202,12 +4200,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			///////////////////
 	
 			tl(4, "<h1>");
-			tl(5, "<a href=\"{{pageUri}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", classeCouleur, " w3-hover-", classeCouleur, "\">");
-			tl(3, "{% if ", i18nPage.getString(I18n.var_classeIconeClassesCss), " is defined %}");
-			tl(7, "<i class=\"{{ ", i18nPage.getString(I18n.var_classeIconeClassesCss), " }} site-menu-icon \"></i>");
-			tl(3, "{% endif %}");
+			tl(5, "<sl-button variant=\"text\" size=\"large\" href=\"{{pageUri}}\">");
+			tl(6, classeIcone);
 			tl(6, "<span class=\"\">", classeNomAdjectifSingulier, "</span>");
-			tl(5, "</a>");
+			tl(5, "</sl-button>");
 			tl(4, "</h1>");
 			tl(4, "{{ htm", i18nPage.getString(I18n.var_BoutonsRecherche), classePageNomSimple, "() }}");
 			tl(4, "<h2 class=\"w3-center \">");
@@ -4342,7 +4338,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					}
 				}
 
-				tl(4, "{%- block htm", i18nPage.getString(I18n.var_Suggere), classePageNomSimple, " %}{%- endblock %}");
 				tl(4, "{%- endblock htm", i18nPage.getString(I18n.var_Formulaires), classePageNomSimple, " %}");
 			}
 
@@ -4445,7 +4440,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(3, "var $margin = document.createElement('<div>').setAttribute('class', 'w3-margin ').setAttribute('id', 'margin-' + id);");
 				auteurPageJs.tl(3, "var $card = document.createElement('<div>').setAttribute('class', 'w3-card w3-white ').setAttribute('id', 'card-' + id);");
 				auteurPageJs.tl(3, "var $header = document.createElement('<div>').setAttribute('class', 'w3-container fa-", classeCouleur, " ').setAttribute('id', 'header-' + id);");
-				auteurPageJs.tl(3, "var $i = document.createElement('", classeIcone, ");");
+				auteurPageJs.tl(3, "var $i = document.createElement('", classeIcone, "');");
 				auteurPageJs.tl(3, "var $headerSpan = document.createElement('<span>').setAttribute('class', '').text('", i18nPage.getString(I18n.var_modifier), " ", classeNomAdjectifPluriel, " ", i18nPage.getString(I18n.var_dans), " ' + json.", i18nPage.getString(I18n.var_tempsRestant), ");");
 				auteurPageJs.tl(3, "var $x = document.createElement('<span>').setAttribute('class', 'w3-button w3-display-topright ').setAttribute('onclick', '$(\"#card-' + id + '\").classList.add(\"display-none\"); ').setAttribute('id', 'x-' + id);");
 				auteurPageJs.tl(3, "var $body = document.createElement('<div>').setAttribute('class', 'w3-container w3-padding ').setAttribute('id', 'text-' + id);");
