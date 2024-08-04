@@ -671,6 +671,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain auteurPageClasse = null;
 	protected ToutEcrivain auteurPageCss = null;
 	protected ToutEcrivain auteurPageJs = null;
+	protected ToutEcrivain auteurPageJsModule = null;
 	protected ToutEcrivain auteurPageJinja = null;
 	protected ToutEcrivain auteurGenPageJinja = null;
 	protected ToutEcrivain auteurGenPageJinjaEntite = null;
@@ -1174,6 +1175,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	String classePageLangueNom;
 
 	String classePageCheminJs;
+	String classePageCheminJsModule;
 
 	String uncapitalizeClasseApiClasseNomSimple;
 
@@ -1207,6 +1209,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	ToutEcrivain wFormPage;
 	ToutEcrivain wFormPATCH;
 	ToutEcrivain wJsInit;
+	ToutEcrivain wJsModuleInit;
 	ToutEcrivain wWebsocket;
 	ToutEcrivain wWebsocketInput1;
 	ToutEcrivain wWebsocketInput2;
@@ -2252,6 +2255,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			classePageChemin = classeDoc.getString("classePageChemin"  + "_" + langueNom + "_stored_string");
 			classePageCheminCss = classeDoc.getString("classePageCheminCss"  + "_" + langueNom + "_stored_string");
 			classePageCheminJs = classeDoc.getString("classePageCheminJs"  + "_" + langueNom + "_stored_string");
+			classePageCheminJsModule = classeDoc.getString("classePageCheminJsModule"  + "_" + langueNom + "_stored_string");
 			classePageCheminJinja = classeDoc.getString("classePageCheminJinja"  + "_" + langueNom + "_stored_string");
 			classeGenPageCheminJinja = classeDoc.getString("classeGenPageCheminJinja"  + "_" + langueNom + "_stored_string");
 		
@@ -2259,6 +2263,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			File classePageFichier = null;
 			File classePageFichierCss = null;
 			File classePageFichierJs = null;
+			File classePageFichierJsModule = null;
 			File classePageFichierJinja = null;
 			File classeGenPageFichierJinja = null;
 
@@ -2270,6 +2275,8 @@ public class EcrireGenClasse extends EcrireClasse {
 				classePageFichierCss = new File(classePageCheminCss);
 			if(classePageCheminJs != null)
 				classePageFichierJs = new File(classePageCheminJs);
+			if(classePageCheminJsModule != null)
+				classePageFichierJsModule = new File(classePageCheminJsModule);
 			if(classePageCheminJinja != null)
 				classePageFichierJinja = new File(classePageCheminJinja);
 			if(classeGenPageCheminJinja != null)
@@ -2286,6 +2293,10 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(classePageFichierJs != null) {
 				classePageFichierJs.getParentFile().mkdirs();
 				auteurPageJs = ToutEcrivain.create(classePageFichierJs, "  ");
+			}
+			if(classePageFichierJsModule != null) {
+				classePageFichierJsModule.getParentFile().mkdirs();
+				auteurPageJsModule = ToutEcrivain.create(classePageFichierJsModule, "  ");
 			}
 			if(classePageFichierJinja != null && (!classePageFichierJinja.exists() || classePageFichierJinja.length() == 0L)) {
 				classePageFichierJinja.getParentFile().mkdirs();

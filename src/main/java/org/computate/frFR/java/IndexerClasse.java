@@ -5299,6 +5299,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageChemin", classePageChemin); 
 			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminCss", concat(siteChemin, "-static/css/", langueNomGlobale, "/", classePageNomSimple, ".css"));
 			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJs", concat(siteChemin, "-static/js/", langueNomGlobale, "/", classePageNomSimple, ".js"));
+			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJsModule", concat(siteChemin, "-static/js/", langueNomGlobale, "/", classePageNomSimple, "Module.js"));
 			String classePageTemplate = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageTemplate", concat(langueNomGlobale.substring(0, 2), "-", langueNomGlobale.substring(2, 4).toLowerCase(), "/", classePageNomSimple, ".htm"));
 			String classePageCheminJinja = concat(siteChemin, "/src/main/resources/templates/", classePageTemplate);
 			String classeGenPageTemplate = indexerStockerSolr(langueNomGlobale, classeDoc, "classeGenPageTemplate", concat(langueNomGlobale.substring(0, 2), "-", langueNomGlobale.substring(2, 4).toLowerCase(), "/", classeGenPageNomSimple, ".htm"));
