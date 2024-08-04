@@ -3298,7 +3298,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 					l();
 					l("{%- macro htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() %}");
-					tl(6, "<sl-button type=\"submit\" variant=\"primary\"");
+					tl(6, "<sl-button slot=\"footer\" type=\"submit\" variant=\"primary\"");
 					tl(8, "id=\"htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "\"");
 					tl(8, ">", methodeTitreValeurs, "</sl-button>");
 					l("{%- endmacro %}");
@@ -4447,7 +4447,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(3, "var $box = document.createElement('<div>').setAttribute('class', 'w3-quarter box-' + id + ' ').setAttribute('id', 'box-' + id).setAttribute('data-numPATCH', numPATCH);");
 				auteurPageJs.tl(3, "var $margin = document.createElement('<div>').setAttribute('class', 'w3-margin ').setAttribute('id', 'margin-' + id);");
 				auteurPageJs.tl(3, "var $card = document.createElement('<div>').setAttribute('class', 'w3-card w3-white ').setAttribute('id', 'card-' + id);");
-				
+
 				auteurPageJs.tl(3, "var $header = document.createElement('<div>').setAttribute('class', 'w3-container fa-", classeCouleur, " ').setAttribute('id', 'header-' + id);");
 				auteurPageJs.tl(3, "var $i = document.createElement('", classeIcone, "');");
 				auteurPageJs.tl(3, "var $headerSpan = document.createElement('<span>').setAttribute('class', '').text('", i18nPage.getString(I18n.var_modifier), " ", classeNomAdjectifPluriel, " ", i18nPage.getString(I18n.var_dans), " ' + json.", i18nPage.getString(I18n.var_tempsRestant), ");");
