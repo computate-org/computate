@@ -3799,8 +3799,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(8, "{% for key, value in varsFq.items() %}");
 			tl(9, "<div class=\"\">");
 			t(10, "<label for=\"fq", classeNomSimple, "_{{ key }}\">");
-			s("{{ ", i18nPage.getString(I18n.var_nomAffichage), " }}");
-			s("<sup> ({{ ", i18nPage.getString(I18n.var_classeNomSimple), " }})</sup>");
+			s("{{ value.", i18nPage.getString(I18n.var_nomAffichage), " }}");
+			s("<sup> ({{ value.", i18nPage.getString(I18n.var_classeNomSimple), " }})</sup>");
 			l("</label>");
 
 			tl(10, "<div>");
@@ -3808,24 +3808,24 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(12, "<button");
 			s(" id=\"buttonFacet", classeNomSimple, "_{{ key }}\"");
 			s(" class=\"\"");
-			s(" onclick=\"facetFieldChange('", classeNomSimple, "', value); \"");
+			s(" onclick=\"facetFieldChange('", classeNomSimple, "', this); \"");
 			s(" title=\"", i18nPage.getString(I18n.str_voir_valeurs), " ", "\"");
-			s(" data-var=\"{{ var }}\"");
-			s(" data-clear=\"{% if facetField is defined %}true{% else %}false{% endif %}\"");
+			s(" data-var=\"{{ value.var }}\"");
+			s(" data-clear=\"{% if value.facetField is defined %}true{% else %}false{% endif %}\"");
 			l("><i class=\"fas fa-list \"></i></button>");
 			tl(11, "</div>");
 
 			tl(11, "<div>");
 			t(12, "<sl-input");
 			s(" id=\"fq", classeNomSimple, "_{{ key }}\"");
-			s(" placeholder=\"{{ displayName }}\"");
+			s(" placeholder=\"{{ value.displayName }}\"");
 			s(" class=\"\"");
 
 			s(" onchange=\"fqChange('", classeNomSimple, "', value); \"");
 
-			s(" data-var=\"{{ var }}\"");
+			s(" data-var=\"{{ value.var }}\"");
 			s(" autocomplete=\"off=\"");
-			s(" value=\"{{ val }}\"");
+			s(" value=\"{{ value.val }}\"");
 			l("></sl-input>");
 			tl(11, "</div>");
 			tl(10, "</div>");
@@ -3837,17 +3837,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(10, "<div");
 			s(" class=\"pageSearchVal \"");
 			s(" id=\"pageSearchVal-fq", classeNomSimple, "_{{ key }}\"");
-			l(">{% if val is defined %}fq={{ var }}:{{ val | urlencode() }}{% endif %}</div>");
+			l(">{% if val is defined %}fq={{ value.var }}:{{ value.val | urlencode() }}{% endif %}</div>");
 			t(10, "<div");
 			s(" class=\"pageSearchVal \"");
 			s(" id=\"pageSearchVal-buttonFacet", classeNomSimple, "_{{ key }}\"");
-			l(">{% if facetField.var is defined %}facet.field={{ facetField.var }}{% endif %}</div>");
+			l(">{% if value.facetField.var is defined %}facet.field={{ value.facetField.var }}{% endif %}</div>");
 
 			t(10, "<ol");
 			s(" class=\"pageFacetField pageFacetField", classeNomSimple, "_{{ key }} \"");
 			s(" id=\"pageFacetField", classeNomSimple, "_{{ key }}\"");
 			l(">");
-			tl(0, "{% for item in facetField.counts %}");
+			tl(0, "{% for item in value.facetField.counts %}");
 			t(11, "<li");
 			s(" class=\"cursor-pointer \"");
 			s(" data-class=\"", classeNomSimple, "\"");
