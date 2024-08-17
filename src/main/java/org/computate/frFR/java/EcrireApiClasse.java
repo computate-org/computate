@@ -3525,6 +3525,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".q(\"*:*\");");
 			tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".setC(", classeApiClasseNomSimple, ".class);");
 			tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".set", i18nGlobale.getString(I18n.var_RequeteSite), "_(", i18nGlobale.getString(I18n.var_requeteSite), ");");
+			tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".facetMinCount(1);");
 			tl(3, "if(", i18nGlobale.getString(I18n.var_entite), i18nGlobale.getString(I18n.var_Liste), " != null) {");
 			tl(4, "for(String v : ", i18nGlobale.getString(I18n.var_entite), i18nGlobale.getString(I18n.var_Liste), ") {");
 			tl(5, i18nGlobale.getString(I18n.var_listeRecherche), ".fl(", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), classeNomSimple, "(v));");

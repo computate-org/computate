@@ -18,6 +18,7 @@ public class I18n {
 	public static final String str_a_démarré = "str_a_démarré";
 	public static final String str_a_échoué = "str_a_échoué";
 	public static final String str_a_réussi = "str_a_réussi";
+	public static final String str_Afficher_ = "str_Afficher_";
 	public static final String str_Afficher_la_moitie_des_resultats = "str_Afficher_la_moitie_des_resultats";
 	public static final String str_Afficher_le_double_des_resultats = "str_Afficher_le_double_des_resultats";
 	public static final String str_Afficher_les_resultats_precedents = "str_Afficher_les_resultats_precedents";
@@ -69,6 +70,8 @@ public class I18n {
 	public static final String str_Rechercher = "str_Rechercher";
 	public static final String str_Rechercher_ = "str_Rechercher_";
 	public static final String str_Remplacer_ = "str_Remplacer_";
+	public static final String str_retourner = "str_retourner";
+	public static final String str_retourner_a_ = "str_retourner_a_";
 	public static final String str_roles_requis = "str_roles_requis";
 	public static final String str_Stats = "str_Stats";
 	public static final String str_Supprimer = "str_Supprimer";
