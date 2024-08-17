@@ -3662,7 +3662,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(9, "</sl-button>");
 			tl(8, "</sl-tooltip>");
 			tl(7, "</sl-button-group>");
-			tl(7, "<div>{{ pagination.", i18nPage.getString(I18n.var_debut), "Num }} – {{ pagination.", i18nPage.getString(I18n.var_fin), "Num }} ", i18nPage.getString(I18n.var_de), " {{ pagination.", i18nPage.getString(I18n.var_numTrouve), " }}</div>");
+			tl(7, "<div>{{ pagination.", i18nPage.getString(I18n.var_debut), "Num }} –— {{ pagination.", i18nPage.getString(I18n.var_fin), "Num }} ", i18nPage.getString(I18n.var_de), " {{ pagination.", i18nPage.getString(I18n.var_numTrouve), " }}</div>");
 			tl(6, "</div>");
 			tl(0, "{%- endmacro htm", i18nPage.getString(I18n.var_BoutonsPagination), classePageNomSimple, "() %}");
 
@@ -4380,13 +4380,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// htmBodyCount0 //
 			///////////////////
 
-			tl(4, "<h1>");
+			tl(4, "<div>");
 			tl(5, "<sl-tooltip content=\"", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "\">");
 			tl(6, "<sl-button href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
 			tl(7, "<i class=\"fa-solid fa-angle-left\"></i>");
 			tl(7, classeTousNom);
 			tl(6, "</sl-button>");
 			tl(5, "</sl-tooltip>");
+			tl(4, "</div>");
+			tl(4, "<h1>");
 			tl(5, classeIcone);
 			tl(6, "<span>", classeNomAdjectifPluriel, "</span>");
 			tl(4, "</h1>");
@@ -4412,13 +4414,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// htmBodyCount1 //
 			///////////////////
 	
-			tl(4, "<h1>");
+			tl(4, "<div>");
 			tl(5, "<sl-tooltip content=\"", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "\">");
 			tl(6, "<sl-button href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
 			tl(7, "<i class=\"fa-solid fa-angle-left\"></i>");
 			tl(7, classeTousNom);
 			tl(6, "</sl-button>");
 			tl(5, "</sl-tooltip>");
+			tl(4, "</div>");
+			tl(4, "<h1>");
 			tl(5, classeIcone);
 			tl(5, "{{", uncapitalizeClasseApiClasseNomSimple, "_.", i18nPage.getString(I18n.var_objetTitre), "}}");
 			tl(4, "</h1>");
