@@ -2604,15 +2604,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "{%- endblock htmStyle", classePageSuperNomSimple, " %}");
 			l();
 			tl(0, "{%- block htmScripts", classePageSuperNomSimple, " %}");
-			// tl(0, "{{ super() }}");
+			tl(0, "{{ super() }}");
 			tl(0, "{%- block htmScripts", classePageNomSimple, " %}");
-			tl(2, "<script src=\"{{", i18nPage.getString(I18n.var_statiqueUrlBase), "}}/js/", langueNom, "/", classePageNomSimple, ".js\"></script>");
-			tl(2, "{% if ", classeVarClePrimaire == null ? classeVarCleUnique : classeVarClePrimaire, " is defined %}");
-			tl(2, "<script type=\"module\" src=\"{{", i18nPage.getString(I18n.var_statiqueUrlBase), "}}/js/", langueNom, "/", classePageNomSimple, "Module.js\"></script>");
-			tl(2, "{% endif %}");
-			if(classeAttribuerNomSimplePages != null) {
-				for(String classeAttribuerNomSimplePage : classeAttribuerNomSimplePages) {
-					t(2).l("<script src=\"{{", i18nPage.getString(I18n.var_statiqueUrlBase), "}}/js/", langueNom, "/", classeAttribuerNomSimplePage, ".js\"></script>");
+			if(classeApi) {
+				tl(2, "<script src=\"{{", i18nPage.getString(I18n.var_statiqueUrlBase), "}}/js/", langueNom, "/", classePageNomSimple, ".js\"></script>");
+				tl(2, "{% if ", classeVarClePrimaire == null ? classeVarCleUnique : classeVarClePrimaire, " is defined %}");
+				tl(2, "<script type=\"module\" src=\"{{", i18nPage.getString(I18n.var_statiqueUrlBase), "}}/js/", langueNom, "/", classePageNomSimple, "Module.js\"></script>");
+				tl(2, "{% endif %}");
+				if(classeAttribuerNomSimplePages != null) {
+					for(String classeAttribuerNomSimplePage : classeAttribuerNomSimplePages) {
+						t(2).l("<script src=\"{{", i18nPage.getString(I18n.var_statiqueUrlBase), "}}/js/", langueNom, "/", classeAttribuerNomSimplePage, ".js\"></script>");
+					}
 				}
 			}
 			tl(0, "{%- endblock htmScripts", classePageNomSimple, " %}");
