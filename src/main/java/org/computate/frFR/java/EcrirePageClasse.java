@@ -296,7 +296,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.tl(7, "{%- if \"PATCH\" in ", langueConfig.getString(I18n.var_portees), " %}");
 					wForm.tl(8, "{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(I18n.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(I18n.var_rolePourEcrire), "Bool=true, ", langueConfig.getString(I18n.var_rolePourLire), "Bool=true) }}");
 					wForm.tl(7, "{%- else %}");
-					wForm.tl(8, "{%- if \"GET\" ", langueConfig.getString(I18n.var_portees), " %}");
+					wForm.tl(8, "{%- if \"GET\" in ", langueConfig.getString(I18n.var_portees), " %}");
 					wForm.tl(9, "{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(I18n.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(I18n.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(I18n.var_rolePourLire), "Bool=true) }}");
 					wForm.tl(8, "{%- else %}");
 					wForm.tl(9, "{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(I18n.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(I18n.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(I18n.var_rolePourLire), "Bool=false) }}");
