@@ -2237,6 +2237,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		Boolean classePageSimple = indexerStockerSolr(classeDoc, "classePageSimple", regexTrouve("^" + i18nGlobale.getString(I18n.var_PageSimple) + ": \\s*(true)$", classeCommentaire));
 		Boolean classeSauvegarde = indexerStockerSolr(classeDoc, "classeSauvegarde", regexTrouve("^" + i18nGlobale.getString(I18n.var_Sauvegarde) + ":\\s*(true)$", classeCommentaire) || classeModele || classeFiware);
 		indexerStockerSolr(langueNomGlobale, classeDoc, "classePageTemplates", regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_PageTemplates), classeCommentaire));
+		indexerStockerSolr(langueNomGlobale, classeDoc, "classePageTemplatesUtilisateur", regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_PageTemplatesUtilisateur), classeCommentaire));
 		String classeApiClasseNomSimple = regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_ApiClasse), classeCommentaire, classeNomSimple);
 
 				if(classeApiClasseNomSimple != null) {
@@ -4964,6 +4965,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.WorkerExecutor", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.eventbus.EventBus", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.pgclient.PgPool", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.computate.vertx.openapi.ComputateOAuth2AuthHandlerImpl", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.kafka.client.producer.KafkaProducer", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.mqtt.MqttClient", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.amqp.AmqpSender", classeLangueNom), classeLangueNom);
