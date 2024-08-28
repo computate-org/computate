@@ -209,6 +209,7 @@ public class I18n {
 	public static final String var_DeNom = "var_DeNom";
 	public static final String var_dernier = "var_dernier";
 	public static final String var_Dernier = "var_Dernier";
+	public static final String var_desattribuer = "var_desattribuer";
 	public static final String var_Description = "var_Description";
 	public static final String var_description = "var_description";
 	public static final String var_DescriptionAlternatif = "var_DescriptionAlternatif";

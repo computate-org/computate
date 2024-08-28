@@ -438,9 +438,6 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected ToutEcrivain wObtenir;
 
-	/**
-	 * Var.enUS: wAttribute
-	 */
 	protected ToutEcrivain wAttribuer;
 
 	protected ToutEcrivain wAttribuerSql;
@@ -485,6 +482,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain wApiAvantPost;
 
 	protected ToutEcrivain wApiGenererPost;
+
+	protected ToutEcrivain wApiGenererDelete;
 
 	protected ToutEcrivain wApiGenererPutImport;
 
@@ -1194,6 +1193,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	ToutEcrivain wPUTFusion;
 	ToutEcrivain wPUTCopie;
 	ToutEcrivain wPATCH;
+	ToutEcrivain wDELETE;
 	ToutEcrivain wSuggere;
 	ToutEcrivain wGetters;
 	ToutEcrivain wTh;
@@ -1208,6 +1208,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	ToutEcrivain wFormPUTCopie;
 	ToutEcrivain wFormPage;
 	ToutEcrivain wFormPATCH;
+	ToutEcrivain wFormDELETE;
 	ToutEcrivain wJsInit;
 	ToutEcrivain wJsModuleInit;
 	ToutEcrivain wWebsocket;
@@ -1300,6 +1301,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		wApiGenererGet = ToutEcrivain.create();
 		wApiAvantPost = ToutEcrivain.create();
 		wApiGenererPost = ToutEcrivain.create();
+		wApiGenererDelete = ToutEcrivain.create();
 		wApiGenererPutImport = ToutEcrivain.create();
 		wApiGenererPutCopie = ToutEcrivain.create();
 		wApiGenererPutFusion = ToutEcrivain.create();

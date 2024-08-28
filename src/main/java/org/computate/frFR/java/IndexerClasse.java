@@ -5112,6 +5112,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_Recherche))
 								|| StringUtils.contains(classeApiMethode, "PATCH")
 								|| StringUtils.contains(classeApiMethode, "PUT")
+								|| StringUtils.contains(classeApiMethode, "DELETE")
 								) {
 							if(StringUtils.isBlank(classeApiMotCleMethode))
 								classeApiMotCleMethode = StringUtils.substringAfterLast(classeApiUriMethode, "/");
@@ -5138,6 +5139,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							if(StringUtils.contains(classeApiMethode, "POST")
 									|| StringUtils.contains(classeApiMethode, "PATCH")
 									|| StringUtils.contains(classeApiMethode, "PUT")
+									|| StringUtils.contains(classeApiMethode, "DELETE")
 									) {
 								indexerStockerSolr(langueNom, classeDoc, "classeApiTypeMediaRequete" + classeApiMethode, classeApiTypeMediaRequeteMethode);
 							}
