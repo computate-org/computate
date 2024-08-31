@@ -230,8 +230,8 @@ public class RegarderRepertoire {
 				regarderRepertoire.traiterEvenements(classeLangueConfig);
 			} else {
 				indexerClasses(SITE_SRC, classeLangueConfig);
-				indexerClasses(SITE_SRC, classeLangueConfig);
 				if(GENERER) {
+					indexerEcrireClasses(SITE_SRC, classeLangueConfig);
 					indexerEcrireClasses(SITE_SRC, classeLangueConfig);
 				} else {
 					indexerClasses(SITE_SRC, classeLangueConfig);
