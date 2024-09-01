@@ -316,6 +316,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		classeSessionLire = (Boolean)doc.getBoolean("classeSessionLire_stored_boolean");
 		classeUtilisateurLire = (Boolean)doc.getBoolean("classeUtilisateurLire_stored_boolean");
 		classePublicLire = (Boolean)doc.getBoolean("classePublicLire_stored_boolean");
+		classePageRecherchePublicLire = (Boolean)doc.getBoolean("classePageRecherchePublicLire_stored_boolean");
 
 		classeRolesTrouves = BooleanUtils.isTrue((Boolean)doc.getBoolean("classeRolesTrouves_stored_boolean"));
 		List<String> classeRolesTemp = Optional.ofNullable(doc.getJsonArray("classeRoles_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());

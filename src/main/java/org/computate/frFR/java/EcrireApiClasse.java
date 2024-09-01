@@ -1931,7 +1931,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				String classeApiTypeMedia200Methode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
 				String classeApiTypeMediaRequeteMethode = classeDoc.getString("classeApiTypeMediaRequete" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
 				String classePageLangueNom = classeDoc.getString("classePageLangueNom" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+
 				if(classePageLangueNom == null || classePageLangueNom.equals(classeLangueNom)) {
+
+					///////////////////
+					// /modele/{id}: //
+					///////////////////
+
 					l();
 					tl(1, "// ", classeApiMethode, " //");
 					if(classePageNomCanoniqueMethode != null) {
@@ -1941,7 +1947,178 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"))
 							s("JsonObject body, ");
 						l("ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), ", Handler<AsyncResult<ServiceResponse>> ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ") {");
-						tl(2, classeApiOperationIdMethode, "(", i18nGlobale.getString(I18n.var_requeteService), ", ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ");");
+						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
+						if(
+								StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") 
+									&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
+									&& (
+									classeRoles.size() > 0
+								)
+								|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") && (
+									BooleanUtils.isNotTrue(classeRoleSession) 
+									&& BooleanUtils.isNotTrue(classePublicLire) 
+									&& BooleanUtils.isNotTrue(classeRoleUtilisateur) 
+									&& BooleanUtils.isNotTrue(classeRoleChacun) 
+									&& ( classeRoles.size() > 0 || classeRoleLires.size() > 0)
+								)
+								) {
+							if(authPolitiqueGranulee) {
+								tl(3, "webClient.post(");
+								tl(5, "config.getInteger(ComputateConfigKeys.AUTH_PORT)");
+								tl(5, ", config.getString(ComputateConfigKeys.AUTH_HOST_NAME)");
+								tl(5, ", config.getString(ComputateConfigKeys.AUTH_TOKEN_URI)");
+								tl(5, ")");
+								tl(5, ".ssl(config.getBoolean(ComputateConfigKeys.AUTH_SSL))");
+								tl(5, ".putHeader(\"Authorization\", String.format(\"Bearer %s\", siteRequest.getUser().principal().getString(\"access_token\")))");
+								tl(5, ".expect(ResponsePredicate.status(200))");
+								tl(5, ".sendForm(MultiMap.caseInsensitiveMultiMap()");
+								tl(7, ".add(\"grant_type\", \"urn:ietf:params:oauth:grant-type:uma-ticket\")");
+								tl(7, ".add(\"audience\", config.getString(ComputateConfigKeys.AUTH_CLIENT))");
+								tl(7, ".add(\"response_mode\", \"permissions\")");
+								if(classeApiMethode.equals(classeApiMethodeMethode)) {
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"", classeApiMethode, "\"))");
+								} else {
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_ADMIN), ")))");
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), ")))");
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"GET\"))");
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"POST\"))");
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"DELETE\"))");
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"PATCH\"))");
+								}
+								tl(3, ").onFailure(ex -> {");
+								tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
+								tl(4, "eventHandler.handle(Future.succeededFuture(");
+								tl(5, "new ServiceResponse(403, \"FORBIDDEN\",");
+								tl(6, "Buffer.buffer().appendString(");
+								tl(7, "new JsonObject()");
+								tl(8, ".put(\"errorCode\", \"403\")");
+								tl(8, ".put(\"errorMessage\", msg)");
+								tl(8, ".encodePrettily()");
+								tl(7, "), MultiMap.caseInsensitiveMultiMap()");
+								tl(5, ")");
+								tl(4, "));");
+								tl(3, "}).onSuccess(authorizationDecision -> {");
+								tl(4, "try {");
+								tl(5, "JsonArray scopes = authorizationDecision.bodyAsJsonArray().stream().findFirst().map(decision -> ((JsonObject)decision).getJsonArray(\"scopes\")).orElse(new JsonArray());");
+								tl(5, "if(!scopes.contains(\"", classeApiMethodeMethode, "\")) {");
+								tl(6, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
+								tl(6, "eventHandler.handle(Future.succeededFuture(");
+								tl(7, "new ServiceResponse(403, \"FORBIDDEN\",");
+								tl(8, "Buffer.buffer().appendString(");
+								tl(9, "new JsonObject()");
+								tl(10, ".put(\"errorCode\", \"403\")");
+								tl(10, ".put(\"errorMessage\", msg)");
+								tl(10, ".encodePrettily()");
+								tl(9, "), MultiMap.caseInsensitiveMultiMap()");
+								tl(7, ")");
+								tl(6, "));");
+								tl(5, "} else {");
+								tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".setScopes(scopes.stream().map(o -> o.toString()).collect(Collectors.toList()));");
+							} else {
+								tl(3, "authorizationProvider.getAuthorizations(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_Utilisateur), "()).onFailure(ex -> {");
+								tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
+								tl(4, "eventHandler.handle(Future.succeededFuture(");
+								tl(5, "new ServiceResponse(403, \"FORBIDDEN\",");
+								tl(6, "Buffer.buffer().appendString(");
+								tl(7, "new JsonObject()");
+								tl(8, ".put(\"errorCode\", \"403\")");
+								tl(8, ".put(\"errorMessage\", msg)");
+								tl(8, ".encodePrettily()");
+								tl(7, "), MultiMap.caseInsensitiveMultiMap()");
+								tl(5, ")");
+								tl(4, "));");
+								tl(3, "}).onSuccess(b -> {");
+								tl(4, "if(");
+								tl(6, "!Optional.ofNullable(config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_ROLE_REQUIS), " + \"_", classeNomSimple, "\")).map(v -> RoleBasedAuthorization.create(v).match(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_Utilisateur), "())).orElse(false)");
+								tl(6, StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") ? "||" : "&&", " !Optional.ofNullable(Optional.ofNullable(config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_ROLE_LIRE_REQUIS), " + \"_", classeNomSimple, "\")).orElse(config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_ROLE_REQUIS), " + \"_", classeNomSimple, "\"))).map(v -> RoleBasedAuthorization.create(v).match(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_Utilisateur), "())).orElse(false)");
+								tl(6, ") {");
+								tl(5, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
+								tl(5, "eventHandler.handle(Future.succeededFuture(");
+								tl(6, "new ServiceResponse(403, \"FORBIDDEN\",");
+								tl(7, "Buffer.buffer().appendString(");
+								tl(8, "new JsonObject()");
+								tl(9, ".put(\"errorCode\", \"403\")");
+								tl(9, ".put(\"errorMessage\", msg)");
+								tl(9, ".encodePrettily()");
+								tl(8, "), MultiMap.caseInsensitiveMultiMap()");
+								tl(6, ")");
+								tl(5, "));");
+								tl(4, "} else {");
+								tl(5, "try {");
+							}
+						}
+						tl(6, i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", i18nGlobale.getString(I18n.var_requeteSite), ", false, true, false).onSuccess(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, " -> {");
+						tl(7, i18nGlobale.getString(I18n.var_reponse), "200", classeApiMethode, classeNomSimple, "(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ").onSuccess(", i18nGlobale.getString(I18n.var_reponse), " -> {");
+						tl(8, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture(", i18nGlobale.getString(I18n.var_reponse), "));");
+						tl(8, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_réussi), ". \"));");
+						tl(7, "}).onFailure(ex -> {");
+						tl(8, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+						tl(8, i18nGlobale.getString(I18n.var_erreur), "(", i18nGlobale.getString(I18n.var_requeteSite), ", ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ", ex);");
+						tl(7, "});");
+						tl(6, "}).onFailure(ex -> {");
+						tl(7, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+						tl(7, i18nGlobale.getString(I18n.var_erreur), "(", i18nGlobale.getString(I18n.var_requeteSite), ", ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ", ex);");
+						tl(6, "});");
+
+					if(
+							StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") 
+								&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
+								&& (
+								classeRoles.size() > 0
+							)
+							|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") && (
+								BooleanUtils.isNotTrue(classeRoleSession) 
+								&& BooleanUtils.isNotTrue(classePublicLire) 
+								&& BooleanUtils.isNotTrue(classeRoleUtilisateur) 
+								&& BooleanUtils.isNotTrue(classeRoleChacun) 
+								&& ( classeRoles.size() > 0 || classeRoleLires.size() > 0)
+							)
+							) {
+						if(authPolitiqueGranulee) {
+							tl(5, "}");
+							tl(4, "} catch(Exception ex) {");
+							tl(5, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+							tl(5, i18nGlobale.getString(I18n.var_erreur), "(null, ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ", ex);");
+							tl(4, "}");
+						} else {
+							tl(5, "} catch(Exception ex) {");
+							tl(6, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+							tl(6, i18nGlobale.getString(I18n.var_erreur), "(null, ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ", ex);");
+							tl(5, "}");
+							tl(4, "}");
+						}
+						tl(3, "});");
+					}
+
+					tl(2, "}).onFailure(ex -> {");
+					if(activerOpenIdConnect) {
+						tl(3, "if(\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\")) {");
+						tl(4, "try {");
+						tl(5, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture(new ServiceResponse(302, \"Found\", null, MultiMap.caseInsensitiveMultiMap().add(HttpHeaders.LOCATION, \"/", i18nGlobale.getString(I18n.var_deconnexion), "?redirect_uri=\" + URLEncoder.encode(serviceRequest.getExtra().getString(\"uri\"), \"UTF-8\")))));");
+						tl(4, "} catch(Exception ex2) {");
+						tl(5, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \", ex2));");
+						tl(5, i18nGlobale.getString(I18n.var_erreur), "(null, ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ", ex2);");
+						tl(4, "}");
+						tl(3, "} else if(StringUtils.startsWith(ex.getMessage(), \"401 UNAUTHORIZED \")) {");
+						tl(4, "eventHandler.handle(Future.succeededFuture(");
+						tl(5, "new ServiceResponse(401, \"UNAUTHORIZED\",");
+						tl(6, "Buffer.buffer().appendString(");
+						tl(7, "new JsonObject()");
+						tl(8, ".put(\"errorCode\", \"401\")");
+						tl(8, ".put(\"errorMessage\", \"SSO Resource Permission check returned DENY\")");
+						tl(8, ".encodePrettily()");
+						tl(7, "), MultiMap.caseInsensitiveMultiMap()");
+						tl(7, ")");
+						tl(5, "));");
+						tl(3, "} else {");
+						tl(4, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+						tl(4, i18nGlobale.getString(I18n.var_erreur), "(null, ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ", ex);");
+						tl(3, "}");
+					} else {
+						tl(3, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+						tl(3, i18nGlobale.getString(I18n.var_erreur), "(null, ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ", ex);");
+					}
+					tl(2, "});");
 						tl(1, "}");
 					}
 
@@ -1967,12 +2144,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") && (
 								BooleanUtils.isNotTrue(classeRoleSession) 
 								&& BooleanUtils.isNotTrue(classePublicLire) 
+								&& BooleanUtils.isNotTrue(classePageRecherchePublicLire && classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) 
 								&& BooleanUtils.isNotTrue(classeRoleUtilisateur) 
 								&& BooleanUtils.isNotTrue(classeRoleChacun) 
 								&& ( classeRoles.size() > 0 || classeRoleLires.size() > 0)
 							)
 							) {
-						l();
 						if(authPolitiqueGranulee) {
 							tl(3, "webClient.post(");
 							tl(5, "config.getInteger(ComputateConfigKeys.AUTH_PORT)");
@@ -2058,65 +2235,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(5, "try {");
 						}
 					}
-					// else {
-					// 	if(authPolitiqueGranulee) {
-					// 		tl(3, "webClient.post(");
-					// 		tl(5, "config.getInteger(ComputateConfigKeys.AUTH_PORT)");
-					// 		tl(5, ", config.getString(ComputateConfigKeys.AUTH_HOST_NAME)");
-					// 		tl(5, ", config.getString(ComputateConfigKeys.AUTH_TOKEN_URI)");
-					// 		tl(5, ")");
-					// 		tl(5, ".ssl(config.getBoolean(ComputateConfigKeys.AUTH_SSL))");
-					// 		tl(5, ".putHeader(\"Authorization\", String.format(\"Bearer %s\", siteRequest.getUser().principal().getString(\"access_token\")))");
-					// 		tl(5, ".expect(ResponsePredicate.status(200))");
-					// 		tl(5, ".sendForm(MultiMap.caseInsensitiveMultiMap()");
-					// 		tl(7, ".add(\"grant_type\", \"urn:ietf:params:oauth:grant-type:uma-ticket\")");
-					// 		tl(7, ".add(\"audience\", config.getString(ComputateConfigKeys.AUTH_CLIENT))");
-					// 		tl(7, ".add(\"response_mode\", \"permissions\")");
-					// 		if(classeApiMethode.equals(classeApiMethodeMethode)) {
-					// 			tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"", classeApiMethode, "\"))");
-					// 		} else {
-					// 			tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_ADMIN), ")))");
-					// 			tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), ")))");
-					// 			tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"GET\"))");
-					// 			tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"POST\"))");
-					// 			tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"PATCH\"))");
-					// 		}
-					// 		tl(3, ").onFailure(ex -> {");
-					// 		tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
-					// 		tl(4, "eventHandler.handle(Future.succeededFuture(");
-					// 		tl(5, "new ServiceResponse(403, \"FORBIDDEN\",");
-					// 		tl(6, "Buffer.buffer().appendString(");
-					// 		tl(7, "new JsonObject()");
-					// 		tl(8, ".put(\"errorCode\", \"403\")");
-					// 		tl(8, ".put(\"errorMessage\", msg)");
-					// 		tl(8, ".encodePrettily()");
-					// 		tl(7, "), MultiMap.caseInsensitiveMultiMap()");
-					// 		tl(5, ")");
-					// 		tl(4, "));");
-					// 		tl(3, "}).onSuccess(authorizationDecision -> {");
-					// 		tl(4, "try {");
-					// 		tl(5, "JsonArray scopes = authorizationDecision.bodyAsJsonArray().stream().findFirst().map(decision -> ((JsonObject)decision).getJsonArray(\"scopes\")).orElse(new JsonArray());");
-					// 		tl(5, "if(!scopes.contains(\"", classeApiMethodeMethode, "\")) {");
-					// 		tl(6, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
-					// 		tl(6, "eventHandler.handle(Future.succeededFuture(");
-					// 		tl(7, "new ServiceResponse(403, \"FORBIDDEN\",");
-					// 		tl(8, "Buffer.buffer().appendString(");
-					// 		tl(9, "new JsonObject()");
-					// 		tl(10, ".put(\"errorCode\", \"403\")");
-					// 		tl(10, ".put(\"errorMessage\", msg)");
-					// 		tl(10, ".encodePrettily()");
-					// 		tl(9, "), MultiMap.caseInsensitiveMultiMap()");
-					// 		tl(7, ")");
-					// 		tl(6, "));");
-					// 		tl(5, "} else {");
-					// 		tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".setScopes(scopes.stream().map(o -> o.toString()).collect(Collectors.toList()));");
-					// 	} else {
-					// 		tl(4, "{");
-					// 		tl(5, "try {");
-					// 	}
-					// }
 
 					if(classeApiMethode.contains("POST")) {
+
+						//////////////
+						// /modele: //
+						//////////////
 
 						tl(6, classePartsRequeteApi.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
 						tl(6, i18nGlobale.getString(I18n.var_requeteApi), ".setRows(1L);");
@@ -2322,7 +2446,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(6, "});");
 					}
 
-
 					if(
 							StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") 
 								&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
@@ -2332,6 +2455,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") && (
 								BooleanUtils.isNotTrue(classeRoleSession) 
 								&& BooleanUtils.isNotTrue(classePublicLire) 
+								&& BooleanUtils.isNotTrue(classePageRecherchePublicLire && classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) 
 								&& BooleanUtils.isNotTrue(classeRoleUtilisateur) 
 								&& BooleanUtils.isNotTrue(classeRoleChacun) 
 								&& ( classeRoles.size() > 0 || classeRoleLires.size() > 0)
@@ -2351,10 +2475,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(4, "}");
 						}
 						tl(3, "});");
-					// } else {
-					// 	if(authPolitiqueGranulee) {
-					// 		tl(3, "});");
-					// 	}
 					}
 
 					tl(2, "}).onFailure(ex -> {");
@@ -2723,8 +2843,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".set", i18nGlobale.getString(I18n.var_Stocker), "(true);");
 							tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".q(\"*:*\");");
 							tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".setC(", classeNomSimple, ".class);");
-							if(activerSupprime)
-								tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"", i18nGlobale.getString(I18n.var_supprime), "_docvalues_boolean:false\");");
 							if(activerArchive)
 								tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"", i18nGlobale.getString(I18n.var_archive), "_docvalues_boolean:false\");");
 							tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"", classeApiMethode.equals("PUTImport") ? classeVarInheritClePrimaire + "_docvalues_string" : classeVarClePrimaire + "_docvalues_long", ":\" + SearchTool.escapeQueryChars(", classeVarInheritClePrimaire, "));");
@@ -4463,7 +4581,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				l();
 				tl(3, "page.promiseDeepForClass((", i18nGlobale.getString(I18n.var_RequeteSite), ")", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(a -> {");
 				tl(4, "try {");
-				tl(5, "promise.complete(JsonObject.mapFrom(page));");
+				tl(5, "JsonObject data = JsonObject.mapFrom(page);");
+				tl(5, "data.put(", classeNomSimple, ".VAR_", classeModele ? classeVarClePrimaire : classeVarCleUnique, ", uri);");
+				tl(5, "promise.complete(data);");
 				tl(4, "} catch(Exception ex) {");
 				tl(5, "LOG.error(String.format(importModelFail, classSimpleName), ex);");
 				tl(5, "promise.fail(ex);");

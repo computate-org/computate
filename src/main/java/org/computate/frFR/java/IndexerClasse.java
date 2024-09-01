@@ -2423,6 +2423,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, Map.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 
 		Boolean classePublicLire = false;
+		Boolean classePageRecherchePublicLire = false;
 		Boolean classeRoleSession = false;
 		Boolean classeRoleUtilisateur = false;
 		Boolean classeRoleChacun = false;
@@ -2447,6 +2448,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 
 			classePublicLire = indexerStockerSolr(classeDoc, "classePublicLire", regexTrouve("^" + i18nGlobale.getString(I18n.var_PublicLire) + ":\\s*(true)$", classeCommentaire));
+			classePageRecherchePublicLire = indexerStockerSolr(classeDoc, "classePageRecherchePublicLire", regexTrouve("^" + i18nGlobale.getString(I18n.var_PageRecherchePublicLire) + ":\\s*(true)$", classeCommentaire));
 			classeRoleSession = indexerStockerSolr(classeDoc, "classeRoleSession", regexTrouve("^" + i18nGlobale.getString(I18n.var_RoleSession) + ":\\s*(true)$", classeCommentaire));
 			classeRoleUtilisateur = indexerStockerSolr(classeDoc, "classeRoleUtilisateur", regexTrouve("^" + i18nGlobale.getString(I18n.var_RoleUtilisateur) + ":\\s*(true)$", classeCommentaire));
 			classeRoleChacun = indexerStockerSolr(classeDoc, "classeRoleChacun", regexTrouve("^" + i18nGlobale.getString(I18n.var_RoleChacun) + ":\\s*(true)$", classeCommentaire));

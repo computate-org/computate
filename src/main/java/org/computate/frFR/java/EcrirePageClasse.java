@@ -655,36 +655,36 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(8, "</form>");
 			tl(1, "{%- endif %}");
 
-			if(entiteAttribuer) {
-				// tl(1, "{%- else %}");
-			}
-			else if(classeUtilisateurEcrire && classeSessionEcrire || classePublicLire) {
-				// tl(1, "{%- else %}");
-				tl(8, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}", (entiteVarUrl == null ? "</span>" : "</a>"));
-			}
-			else if(classeUtilisateurEcrire) {
-				if(classeRolesTrouves || classeRoleLiresTrouves) {
-					// tl(1, "{%- else %}");
-					tl(8, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
-				}
-				else {
-					// tl(1, "{%- else %}");
-					tl(8, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
-				}
-			}
-			else if(classeSessionEcrire) {
-				// tl(1, "{%- else %}");
-				tl(8, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
-			}
-			else if(classeRolesTrouves || classeRoleLiresTrouves) {
-					// tl(1, "{%- else %}");
-				tl(1, "{%- if ", langueConfig.getString(I18n.var_utilisateur), langueConfig.getString(I18n.var_Cle), " in ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(I18n.var_utilisateur), langueConfig.getString(I18n.var_Cle), "s %}");
-				tl(8, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
-				tl(1, "{%- endif %}");
-			}
-			else {
-//								tl(3, "sx(htm", entiteVarCapitalise, "());");
-			}
+// 			if(entiteAttribuer) {
+// 				// tl(1, "{%- else %}");
+// 			}
+// 			else if(classeUtilisateurEcrire && classeSessionEcrire || classePublicLire) {
+// 				// tl(1, "{%- else %}");
+// 				tl(8, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}", (entiteVarUrl == null ? "</span>" : "</a>"));
+// 			}
+// 			else if(classeUtilisateurEcrire) {
+// 				if(classeRolesTrouves || classeRoleLiresTrouves) {
+// 					// tl(1, "{%- else %}");
+// 					tl(8, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
+// 				}
+// 				else {
+// 					// tl(1, "{%- else %}");
+// 					tl(8, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
+// 				}
+// 			}
+// 			else if(classeSessionEcrire) {
+// 				// tl(1, "{%- else %}");
+// 				tl(8, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
+// 			}
+// 			else if(classeRolesTrouves || classeRoleLiresTrouves) {
+// 					// tl(1, "{%- else %}");
+// 				tl(1, "{%- if ", langueConfig.getString(I18n.var_utilisateur), langueConfig.getString(I18n.var_Cle), " in ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(I18n.var_utilisateur), langueConfig.getString(I18n.var_Cle), "s %}");
+// 				tl(8, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
+// 				tl(1, "{%- endif %}");
+// 			}
+// 			else {
+// //								tl(3, "sx(htm", entiteVarCapitalise, "());");
+// 			}
 
 			// tl(0, "{%- else %}");
 			// 	tl(6, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
@@ -4564,7 +4564,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(4, "{%- endblock htm", i18nPage.getString(I18n.var_Formulaire), classePageNomSimple, " %}");
 			}
 
-			tl(4, "</div>");
 			tl(3, "{%- endblock htmBody", i18nPage.getString(I18n.var_Milieu), classePageNomSimple, " %}");
 			tl(3, "{%- endblock htmBody", i18nPage.getString(I18n.var_Milieu), classePageSuperNomSimple, " %}");
 			l();

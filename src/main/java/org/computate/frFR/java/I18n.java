@@ -396,6 +396,7 @@ public class I18n {
 	public static final String var_PageBase = "var_PageBase";
 	public static final String var_PagePart = "var_PagePart";
 	public static final String var_PageRecherche = "var_PageRecherche";
+	public static final String var_PageRecherchePublicLire = "var_PageRecherchePublicLire";
 	public static final String var_PageSimple = "var_PageSimple";
 	public static final String var_PageSuper = "var_PageSuper";
 	public static final String var_PageTemplates = "var_PageTemplates";
