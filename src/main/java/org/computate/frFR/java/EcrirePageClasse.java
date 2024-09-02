@@ -2209,7 +2209,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								wTh.tl(7, "</sl-dropdown>");
 	
 //								wTd.tl(4, "{% if get", langueConfig.getString(ConfigCles.var_Colonne), entiteVarCapitalise, " is defined %}");
-								wTd.t(8, "<div>");
+
+								if(wTd.getEmpty()) {
+									wTd.t(8, "<div>");
+									wTd.tl(9, classeIcone);
+								} else {
+									wTd.t(8, "<div>");
+								}
 
 								if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
 									wTd.s("<sl-format-date weekday=\"short\" month=\"short\" day=\"numeric\" year=\"numeric\" hour=\"numeric\" minute=\"numeric\" second=\"numeric\" time-zone-name=\"short\" date=\"{{ formatZonedDateTime(item.", entiteVar, ", \"yyyy-MM-dd'T'HH:mm:ss.SSSX\", defaultLocaleId, \"UTC\") }}\"></sl-format-date>");
@@ -3541,13 +3547,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(6, "{{ htm", i18nPage.getString(I18n.var_Formulaires), classePageNomSimple, "() }}");
 			tl(6, "<sl-divider></sl-divider>");
 			tl(6, "{{ htm", i18nPage.getString(I18n.var_BoutonsPagination), classePageNomSimple, "() }}");
-			tl(6, "<div class=\"grid-mode-details\">");
-			tl(6, "<div>");
-			tl(8, classeIcone);
-			s(wTh);
-			tl(7, "</div>");
-			tl(6, "</div>");
-			tl(6, "<div class=\"grid-mode-details\" id=\"site-results-grid\">");
+			// tl(6, "<div class=\"grid-mode-details\">");
+			// tl(6, "<div>");
+			// tl(8, classeIcone);
+			// s(wTh);
+			// tl(7, "</div>");
+			// tl(6, "</div>");
+			tl(6, "<div class=\"grid-mode-details border-radius-x-large\" id=\"site-results-grid\">");
 			// tl(6, "<div>");
 			// tl(8, "<i class=\"fa", StringUtils.substring(classeIconeGroupe, 0, 1), " fa-", classeIconeNom, " site-result-icon \"></i>");
 			// s(wTh);
@@ -3561,7 +3567,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //				tl(3, "List<String> highlightList = highlights == null ? null : highlights.get(highlights.keySet().stream().findFirst().orElse(null));");
 //				tl(3, "String uri = ", classeEntiteVars.contains("pageUri") ? "o.getPageUri()" : (q(classePageUriMethode, "/") + " + o.get" + StringUtils.capitalize(classeVarClePrimaire) + "()"), ";");
 			tl(7, "<a href=\"{{ item.", classeVarUrlPk, " }}\">");
-			tl(8, classeIcone);
 			s(wTd);
 			tl(7, "</a>");
 			tl(7, "{% endfor %}");
@@ -3652,23 +3657,23 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "{%- macro htm", i18nPage.getString(I18n.var_BoutonsPagination), classePageNomSimple, "() %}");
 			tl(6, "<div id=\"htm", i18nPage.getString(I18n.var_BoutonsPagination), "\">");
 
-			tl(7, "<sl-button-group>");
-			tl(8, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_sous_forme_de_details), classeNomAdjectifPluriel), "\" pill>");
-			tl(9, "<sl-button pill id=\"grid-toggle-details\">");
-			tl(10, "<i class=\"fa-solid fa-list\"></i>");
-			tl(9, "</sl-button>");
-			tl(8, "</sl-tooltip>");
-			tl(8, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_sous_forme_de_liste), classeNomAdjectifPluriel), "\">");
-			tl(9, "<sl-button id=\"grid-toggle-list\">");
-			tl(10, "<i class=\"fa-solid fa-bars\"></i>");
-			tl(9, "</sl-button>");
-			tl(8, "</sl-tooltip>");
-			tl(8, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_sous_forme_de_cartes), classeNomAdjectifPluriel), "\" pill>");
-			tl(9, "<sl-button pill id=\"grid-toggle-card\">");
-			tl(10, "<i class=\"fa-solid fa-grid\"></i>");
-			tl(9, "</sl-button>");
-			tl(8, "</sl-tooltip>");
-			tl(7, "</sl-button-group>");
+			// tl(7, "<sl-button-group>");
+			// tl(8, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_sous_forme_de_details), classeNomAdjectifPluriel), "\" pill>");
+			// tl(9, "<sl-button pill id=\"grid-toggle-details\">");
+			// tl(10, "<i class=\"fa-solid fa-list\"></i>");
+			// tl(9, "</sl-button>");
+			// tl(8, "</sl-tooltip>");
+			// tl(8, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_sous_forme_de_liste), classeNomAdjectifPluriel), "\">");
+			// tl(9, "<sl-button id=\"grid-toggle-list\">");
+			// tl(10, "<i class=\"fa-solid fa-bars\"></i>");
+			// tl(9, "</sl-button>");
+			// tl(8, "</sl-tooltip>");
+			// tl(8, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_sous_forme_de_cartes), classeNomAdjectifPluriel), "\" pill>");
+			// tl(9, "<sl-button pill id=\"grid-toggle-card\">");
+			// tl(10, "<i class=\"fa-solid fa-grid\"></i>");
+			// tl(9, "</sl-button>");
+			// tl(8, "</sl-tooltip>");
+			// tl(7, "</sl-button-group>");
 
 			tl(7, "<sl-button-group>");
 			tl(8, "<sl-tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_precedents), classeNomAdjectifPluriel), "\">");
