@@ -2996,7 +2996,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(4, "vars", classeNomSimple, "(", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(a -> {");
 								tl(5, i18nGlobale.getString(I18n.var_creer), classeNomSimple, "(", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(", uncapitalizeClasseNomSimple, " -> {");
 								tl(6, "sql", classeApiMethode, classeNomSimple, "(", uncapitalizeClasseNomSimple, ", inheritPk).onSuccess(b -> {");
-								tl(7, i18nGlobale.getString(I18n.var_definir), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(c -> {");
+								tl(7, i18nGlobale.getString(I18n.var_definir), classeNomSimple, "(", uncapitalizeClasseNomSimple, ", false).onSuccess(c -> {");
 								tl(8, i18nGlobale.getString(I18n.var_attribuer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(d -> {");
 								tl(9, i18nGlobale.getString(I18n.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(o2 -> {");
 								tl(10, "promise1.complete(", uncapitalizeClasseNomSimple, ");");
@@ -3140,7 +3140,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 
 							tl(4, i18nGlobale.getString(I18n.var_creer), classeNomSimple, "(", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(", uncapitalizeClasseNomSimple, " -> {");
 							tl(5, "sql", classeApiMethode, classeNomSimple, "(", uncapitalizeClasseNomSimple, ", jsonObject).onSuccess(b -> {");
-							tl(6, i18nGlobale.getString(I18n.var_definir), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(c -> {");
+							tl(6, i18nGlobale.getString(I18n.var_definir), classeNomSimple, "(", uncapitalizeClasseNomSimple, ", false).onSuccess(c -> {");
 							tl(7, i18nGlobale.getString(I18n.var_attribuer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(d -> {");
 							tl(8, i18nGlobale.getString(I18n.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(o2 -> {");
 							tl(9, "promise1.complete(", uncapitalizeClasseNomSimple, ");");
@@ -3207,7 +3207,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_ConnexionSql), "(", i18nGlobale.getString(I18n.var_connexionSql), ");");
 								tl(4, "vars", classeNomSimple, "(", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(a -> {");
 								tl(5, "sql", classeApiMethode, classeNomSimple, "(o, inheritPk).onSuccess(", uncapitalizeClasseNomSimple, " -> {");
-								tl(6, i18nGlobale.getString(I18n.var_definir), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(c -> {");
+								tl(6, i18nGlobale.getString(I18n.var_definir), classeNomSimple, "(", uncapitalizeClasseNomSimple, ", true).onSuccess(c -> {");
 								tl(7, i18nGlobale.getString(I18n.var_attribuer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(d -> {");
 								tl(8, i18nGlobale.getString(I18n.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(o2 -> {");
 								tl(9, "if(", i18nGlobale.getString(I18n.var_requeteApi), " != null) {");
@@ -3279,8 +3279,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					if(classeModele) {
 						if(classeApiMethode.contains("POST")) {
 							l();
-							tl(1, "public Future<Void> sql", classeApiMethode, classeNomSimple, "(", classeNomSimple, " o, Boolean inheritPk) {");
-							tl(2, "Promise<Void> promise = Promise.promise();");
+							tl(1, "public Future<", classeNomSimple, "> sql", classeApiMethode, classeNomSimple, "(", classeNomSimple, " o, Boolean inheritPk) {");
+							tl(2, "Promise<", classeNomSimple, "> promise = Promise.promise();");
 							tl(2, "try {");
 							tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), " = o.get", i18nGlobale.getString(I18n.var_RequeteSite), "_();");
 							tl(3, classePartsRequeteApi.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteApi), " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteApi), "_();");
@@ -3354,7 +3354,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "}");
 							tl(3, "CompositeFuture.all(futures1).onSuccess(a -> {");
 							tl(4, "CompositeFuture.all(futures2).onSuccess(b -> {");
-							tl(5, "promise.complete();");
+							tl(5, "promise.complete(o2);");
 							tl(4, "}).onFailure(ex -> {");
 							tl(5, "LOG.error(String.format(\"sql", classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
 							tl(5, "promise.fail(ex);");
@@ -4268,7 +4268,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			/////////////
 			l();
 			if(classeModele) {
-				tl(1, "public Future<Void> ", i18nGlobale.getString(I18n.var_definir), classeNomSimple, "(", classeNomSimple, " o) {");
+				tl(1, "public Future<Void> ", i18nGlobale.getString(I18n.var_definir), classeNomSimple, "(", classeNomSimple, " o, Boolean patch) {");
 				tl(2, "Promise<Void> promise = Promise.promise();");
 				tl(2, "try {");
 				tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), " = o.get", i18nGlobale.getString(I18n.var_RequeteSite), "_();");

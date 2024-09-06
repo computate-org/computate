@@ -3349,6 +3349,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(0, "{%- block websocket", classePageSuperNomSimple, " %}");
 				tl(0, "{%- block websocket", classePageNomSimple, " %}");
 				tl(4, "window.eventBus = new EventBus('/eventbus');");
+				tl(4, "window.eventBus.enableReconnect(true);");
 				tl(4, "websocket", classeApiClasseNomSimple, "(websocket", classeApiClasseNomSimple, "Inner);");
 				tl(0, "{%- endblock websocket", classePageNomSimple, " %}");
 				tl(0, "{%- endblock websocket", classePageSuperNomSimple, " %}");

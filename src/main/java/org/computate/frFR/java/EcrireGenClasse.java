@@ -509,6 +509,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain wNomAffichageMethode;
 	protected ToutEcrivain wClasseNomSimpleMethode;
 	protected ToutEcrivain wDescriptionMethode;
+	protected ToutEcrivain wNgsiTypeMethode;
 	protected ToutEcrivain wHtmColonneMethode;
 	protected ToutEcrivain wHtmLigneMethode;
 	protected ToutEcrivain wHtmCelluleMethode;
@@ -955,6 +956,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: entityDescription
 	 */
 	String entiteDescription;
+	String entiteNgsiType;
 
 	Integer entiteHtmLigne;
 	Integer entiteHtmCellule;
@@ -1288,6 +1290,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		wClasseNomSimpleMethode = ToutEcrivain.create();
 		wDescriptionMethode = ToutEcrivain.create();
+		wNgsiTypeMethode = ToutEcrivain.create();
 		wHtmColonneMethode = ToutEcrivain.create();
 		wHtmLigneMethode = ToutEcrivain.create();
 		wHtmCelluleMethode = ToutEcrivain.create();
@@ -3006,6 +3009,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		entiteVar = doc.getString("entiteVar_" + langueNom + "_stored_string");
 		entiteVarUrl = doc.getString("entiteVarUrl_" + langueNom + "_stored_string");
 		entiteDescription = doc.getString("entiteDescription_" + langueNom + "_stored_string");
+		entiteNgsiType = doc.getString("entiteNgsiType_stored_string");
 		entiteSuffixeType = doc.getString("entiteSuffixeType_stored_string");
 		entiteVarCapitalise = doc.getString("entiteVarCapitalise_" + langueNom + "_stored_string");
 		entiteAttribuerVarSuggere = doc.getString("entiteAttribuerVarSuggere_" + langueNom + "_stored_string");
@@ -5367,6 +5371,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				wDescriptionMethode.tl(2, "case VAR_", entiteVar, ":");
 				wDescriptionMethode.tl(3, "return \"", StringEscapeUtils.escapeJava(entiteDescription), "\";");
 			}
+			if(entiteNgsiType != null) {
+				wNgsiTypeMethode.tl(2, "case VAR_", entiteVar, ":");
+				wNgsiTypeMethode.tl(3, "return \"", StringEscapeUtils.escapeJava(entiteNgsiType), "\";");
+			}
 			if(entiteNomSimple != null) {
 				wClasseNomSimpleMethode.tl(2, "case VAR_", entiteVar, ":");
 				wClasseNomSimpleMethode.tl(3, "return \"", entiteNomSimple, "\";");
@@ -5571,6 +5579,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		wNomAffichageStatic.flushClose();
 		wNomAffichageMethode.flushClose();
 		wDescriptionMethode.flushClose();
+		wNgsiTypeMethode.flushClose();
 		wClasseNomSimpleMethode.flushClose();
 		wHtmColonneMethode.flushClose();
 		wHtmLigneMethode.flushClose();
@@ -6133,6 +6142,21 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(I18n.var_classeNomSimple), classeNomSimpleSuperGenerique, "(var);");
 			tl(2, "}");
 			tl(1, "}");
+	
+			//////////////
+			// NgsiType //
+			//////////////
+			if(classeFiware) {
+
+				l();
+				tl(1, "public static String ngsiType(String var) {");
+				tl(2, "switch(var) {");
+				s(wNgsiTypeMethode);
+				tl(3, "default:");
+					tl(4, "return null;");
+				tl(2, "}");
+				tl(1, "}");
+			}
 	
 			/////////////////
 			// HtmColonne //
