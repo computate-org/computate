@@ -385,7 +385,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				// if(entiteDescription != null)
 				// 	tl(16, "title=\"", entiteDescription, " (", langueConfig.getString(ConfigCles.var_DDDashMMDashYYYY), ")\"");
 //				tl(5, "value=\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", langueConfig.getString(ConfigCles.var_ddDashMMDashyyyy), "\").format(", entiteVar, "));");
-				tl(11, "value=\"{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}\"");
+				tl(11, "value=\"{{", uncapitalizeClasseNomSimple, "_.", entiteVar, " | e }}\"");
 				tl(1, "{%- if 'Page' == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " %}");
 				tl(1, "{%- endif %}");
 				tl(11, "data-", classeModele ? classeVarClePrimaire : classeVarCleUnique, "=\"{{ ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " }}\"");
@@ -417,7 +417,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(11, "data-timeformat=\"", langueConfig.getString(I18n.str_ddDashMMDashyyyy_HHColonmm_VV), "\"");
 				tl(11, "id=\"{{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 //				tl(4, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", langueConfig.getString(ConfigCles.var_EEE_d_MMM_yyyy_HAposhAposmmColonss_zz_VV), "\").format(", entiteVar, "));");
-				tl(11, "value=\"{%- if ", uncapitalizeClasseNomSimple, "_.", entiteVar, " is defined %}{{ formatZonedDateTime(", uncapitalizeClasseNomSimple, "_.", entiteVar, ", \"", langueConfig.getString(I18n.str_ddDashMMDashyyyy_HHColonmm_VV), "\", defaultLocaleId, defaultZoneId) }}{%- endif %}\"");
+				tl(11, "value=\"{%- if ", uncapitalizeClasseNomSimple, "_.", entiteVar, " is defined %}{{ formatZonedDateTime(", uncapitalizeClasseNomSimple, "_.", entiteVar, ", \"", langueConfig.getString(I18n.str_ddDashMMDashyyyy_HHColonmm_VV), "\", defaultLocaleId, defaultZoneId) | e }}{%- endif %}\"");
 				tl(1, "{%- if 'Page' == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " %}");
 				tl(1, "{%- endif %}");
 				tl(11, "data-", classeModele ? classeVarClePrimaire : classeVarCleUnique, "=\"{{ ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " }}\"");
@@ -453,7 +453,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(11, "class=\"label-on-left timepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " \"");
 				tl(11, "placeholder=\"", langueConfig.getString(I18n.var_HHColonMM), "\"");
 				tl(11, "id=\"{{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
-				tl(11, "value=\"{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}\"");
+				tl(11, "value=\"{{", uncapitalizeClasseNomSimple, "_.", entiteVar, " | e }}\"");
 				tl(11, "data-", classeModele ? classeVarClePrimaire : classeVarCleUnique, "=\"{{ ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " }}\"");
 				tl(11, "></sl-input>");
 			}
@@ -546,7 +546,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 				tl(10, "<h5>", langueConfig.getString(I18n.str_Télécharger_image), "</h5>");
 				tl(10, "<form method=\"POST\" enctype=\"multipart/form-data\" action=\"", entiteImageBase64Url, "\" class=\"\">");
-				tl(11, "<input type=\"hidden\" name=\"", classeModele ? classeVarClePrimaire : classeVarCleUnique, "\" value=\"{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}\"/>");
+				tl(11, "<input type=\"hidden\" name=\"", classeModele ? classeVarClePrimaire : classeVarCleUnique, "\" value=\"{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, " | e }}\"/>");
 				tl(11, "<input type=\"hidden\" name=\"", langueConfig.getString(I18n.var_classeNomSimple), "\" value=\"", classeNomSimple, "\"/>");
 				tl(11, "<sl-input name=\"", langueConfig.getString(I18n.var_fichier), "\" type=\"file\" onchange=\"fetch('", entiteImageBase64Url, "', { method: 'POST', body: new FormData(this.form)}); \"></sl-input>");
 				tl(10, "</form>");
@@ -594,7 +594,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			}
 			else {
 				if(entiteMultiligne)
-					tl(9, "<sl-textarea");
+					tl(9, "<sl-textarea resize=\"auto\"");
 				else {
 					tl(9, "<sl-input");
 				}
@@ -632,14 +632,20 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "{%- endif %}");
 
 				if(entiteMultiligne) {
-					tl(11, ">", "{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}");
+					tl(0, "{%- if \"Page\" == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " %}");
+					if("JsonArray".equals(entiteNomSimpleVertxJson) || "JsonObject".equals(entiteNomSimpleVertxJson))
+						tl(11, "value=\"{{ to", entiteNomSimpleVertxJson, "String(", uncapitalizeClasseNomSimple, "_.", entiteVar, ") | e }}\"");
+					else
+						tl(11, "value=\"{{", uncapitalizeClasseNomSimple, "_.", entiteVar, " | e }}\"");
+					tl(0, "{%- endif %}");
+					tl(11, ">");
 				}
 				else {
 					tl(1, "{%- if \"Page\" == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " %}");
 					if("JsonArray".equals(entiteNomSimpleVertxJson) || "JsonObject".equals(entiteNomSimpleVertxJson))
-						tl(11, "value=\"{{ to", entiteNomSimpleVertxJson, "String(", uncapitalizeClasseNomSimple, "_.", entiteVar, ") }}\"");
+						tl(11, "value=\"{{ to", entiteNomSimpleVertxJson, "String(", uncapitalizeClasseNomSimple, "_.", entiteVar, ") | e }}\"");
 					else
-						tl(11, "value=\"{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}\"");
+						tl(11, "value=\"{{", uncapitalizeClasseNomSimple, "_.", entiteVar, " | e }}\"");
 					tl(1, "{%- endif %}");
 				}
 
@@ -3349,6 +3355,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(0, "{%- block websocket", classePageSuperNomSimple, " %}");
 				tl(0, "{%- block websocket", classePageNomSimple, " %}");
 				tl(4, "window.eventBus = new EventBus('/eventbus');");
+				tl(4, "window.eventBus.enableReconnect(true);");
 				tl(4, "websocket", classeApiClasseNomSimple, "(websocket", classeApiClasseNomSimple, "Inner);");
 				tl(0, "{%- endblock websocket", classePageNomSimple, " %}");
 				tl(0, "{%- endblock websocket", classePageSuperNomSimple, " %}");
