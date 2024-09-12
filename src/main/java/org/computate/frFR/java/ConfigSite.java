@@ -74,6 +74,7 @@ import io.kubernetes.client.openapi.ApiClient;
 import io.kubernetes.client.openapi.Configuration;
 import io.kubernetes.client.openapi.apis.CoreV1Api;
 import io.kubernetes.client.openapi.models.V1Secret;
+import io.kubernetes.client.util.ClientBuilder;
 import io.kubernetes.client.util.Config;
 
 
@@ -97,7 +98,12 @@ public class ConfigSite {
 		Logger LOG = LoggerFactory.getLogger(ConfigSite.class);
 		try {
 			if("kubernetes.core.k8s".equals(type)) {
-				ApiClient client = Config.defaultClient();
+				ApiClient client;
+				try {
+					client = ClientBuilder.cluster().build();
+				} catch(Throwable ex) {
+					client = Config.defaultClient();
+				}
 				Configuration.setDefaultApiClient(client);
 				CoreV1Api api = new CoreV1Api();
 				if("Secret".equals(kind)) {
