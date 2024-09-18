@@ -1062,6 +1062,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							entiteAttribuerTypeJson = (String)entiteDocumentSolr.get("entiteAttribuerTypeJson_stored_string");
 							entiteImageBase64Url = (String)entiteDocumentSolr.get("entiteImageBase64Url_" + langueNom + "_stored_string");
 							entiteNomSimpleVertxJson = (String)entiteDocumentSolr.get("entiteNomSimpleVertxJson_stored_string");
+							entiteFacetsTrouves = Optional.ofNullable((Boolean)entiteDocumentSolr.get("entiteFacetsTrouves_stored_boolean")).orElse(false);
 
 							wFormRecherche.l(entiteVar);
 							if(entiteHtml) {
@@ -1104,7 +1105,22 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								if(entiteSignature) {
 									wJsModuleInit.tl(4, "document.querySelector('#signatureInput", classeNomSimple, "' + pk + '", entiteVar, "').jSignature({'height':200}).bind('change', function(e){ patch{{", langueConfig.getString(I18n.var_classeNomSimple), "}}Val([{ name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":' + ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " }], 'set", entiteVarCapitalise, "', document.querySelector('#signatureInput", classeNomSimple, "' + pk + '", entiteVar, "').jSignature('getData', 'default'), this);");
 								} else {
+									wJsModuleInit.l();
 									wJsModuleInit.tl(5, "// PATCH ", entiteVar);
+									//STUFF0
+									if(!entiteTexte && !entiteSuggere && entiteIndexe 
+											&& entiteFacetsTrouves
+											&& !langueConfig.getString(I18n.var_sessionId).equals(entiteVar)
+											&& !langueConfig.getString(I18n.var_utilisateurCle).equals(entiteVar)
+											&& !langueConfig.getString(I18n.var_sauvegardes).equals(entiteVar)
+											) {
+										wJsModuleInit.tl(5, "document.querySelector('#buttonFacet", classeNomSimple, "_", entiteVar, "')?.addEventListener('click', (event) => {");
+										wJsModuleInit.tl(6, "facetFieldChange('", classeNomSimple, "', event.target);");
+										wJsModuleInit.tl(5, "});");
+										wJsModuleInit.tl(5, "document.querySelector('#pageFacetPivot", classeNomSimple, "_", entiteVar, "')?.addEventListener('sl-change', (event) => {");
+										wJsModuleInit.tl(6, "facetPivotChange('", classeNomSimple, "', event.target);");
+										wJsModuleInit.tl(5, "});");
+									}
 
 									if("Boolean".equals(entiteNomSimple) && entiteVar.equals(langueConfig.getString(I18n.var_archive))) {
 										wJsModuleInit.tl(5, "document.querySelector('#", langueConfig.getString(I18n.var_Page), "_", entiteVar, "')?.addEventListener('click', (event) => {");
@@ -3437,7 +3453,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					}
 
 					l();
-					//STUFF3
 					s("{%- macro htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() %}");
 					if(!classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche))) {
 						// s("<sl-tooltip content=\"", methodeTitreValeurs, "\">");
@@ -3467,14 +3482,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 					l();
 					l("{%- macro htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() %}");
-					//STUFF3
 					tl(6, "<sl-button slot=\"footer\" type=\"submit\" variant=\"primary\"");
 					tl(8, "id=\"htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "\"");
 					tl(8, ">", methodeTitreValeurs, "</sl-button>");
 					l("{%- endmacro %}");
 
 					l();
-					//STUFF3
 					l("{%- macro htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() %}");
 					{ tl(4, "<", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "div" : "sl-dialog", " id=\"", classeApiOperationIdMethode, i18nPage.getString(I18n.var_Dialogue), "\" label=\"", methodeTitreValeurs, "\">");
 						{ tl(5, "<", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "div" : "form", " id=\"htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "\" class=\"round-first-and-last-row-x-large \">");
@@ -4028,7 +4041,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(10, "<div class=\"display-flex \">");
 			t(11, "<sl-button");
 			s(" id=\"buttonFacet", classeNomSimple, "_{{ key }}\"");
-			s(" onclick=\"facetFieldChange('", classeNomSimple, "', this); \"");
 			s(" title=\"", i18nPage.getString(I18n.str_voir_valeurs), " ", "\"");
 			s(" data-var=\"{{ value.var }}\"");
 			s(" data-clear=\"{% if value.facetField is defined %}true{% else %}false{% endif %}\"");
@@ -4257,10 +4269,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(8, "<sl-checkbox");
 			s(" name=\"pageFacetPivot\"");
 			s(" class=\"pageFacetPivot \"");
+			//STUFF0
 			s(" id=\"pageFacetPivot", classeNomSimple, "_{{ key }}\"");
 			s(" value=\"{{ value.var }}\"");
 			s("{% if ", i18nPage.getString(I18n.var_pivot), " is defined %} checked=\"checked\"{% endif %}");
-			s(" onclick=\"facetPivotChange('", classeNomSimple, "', value); \"");
 			l(">{{ value.", i18nPage.getString(I18n.var_nomAffichage), " }}</sl-checkbox>");
 			tl(7, "</div>");
 			tl(7, "{% endfor %}");
@@ -4447,10 +4459,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// htmBodyGraphiqueEmplacement //
 			/////////////////////////////////
 
-			l();
-			tl(4, "{%- block htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, " %}");
-			tl(4, "<div id=\"htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, "\" class=\"htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), " \"></div>");
-			tl(4, "{%- endblock htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, " %}");
+			if(classeVarEmplacement != null) {
+				l();
+				tl(4, "{%- block htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, " %}");
+				tl(4, "<div id=\"htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, "\" class=\"htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), " \"></div>");
+				tl(4, "{%- endblock htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, " %}");
+			}
 
 			//////////////////////
 			// htmBodyGraphique //
@@ -4458,7 +4472,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			l();
 			tl(4, "{%- block htmBody", i18nPage.getString(I18n.var_Graphique), classePageNomSimple, " %}");
-			tl(4, "<div id=\"htmBody", i18nPage.getString(I18n.var_Graphique), classePageSuperNomSimple, "\" class=\"htmBody", i18nPage.getString(I18n.var_Graphique), " \"></div>");
+			tl(4, "<div id=\"htmBody", i18nPage.getString(I18n.var_Graphique), classePageNomSimple, "\" class=\"htmBody", i18nPage.getString(I18n.var_Graphique), " \"></div>");
 			tl(4, "{%- endblock htmBody", i18nPage.getString(I18n.var_Graphique), classePageNomSimple, " %}");
 
 			tl(4, "<div class=\"pageContent \">");
@@ -4766,7 +4780,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(4, "var pivot1Var", i18nPage.getString(I18n.var_Indexe), " = pivot1Name;");
 				auteurPageJs.tl(4, "if(pivot1Var", i18nPage.getString(I18n.var_Indexe), ".includes(','))");
 				auteurPageJs.tl(5, "pivot1Var", i18nPage.getString(I18n.var_Indexe), " = pivot1Var", i18nPage.getString(I18n.var_Indexe), ".substring(0, pivot1Var", i18nPage.getString(I18n.var_Indexe), ".indexOf(','));");
-				auteurPageJs.tl(4, "var pivot1VarObj = Object.values(window.varsFq).querySelector(o => o.varIndexed === pivot1Var", i18nPage.getString(I18n.var_Indexe), ");");
+				auteurPageJs.tl(4, "var pivot1VarObj = Object.values(window.varsFq).filter(o => o.varIndexed === pivot1Var", i18nPage.getString(I18n.var_Indexe), ")[0];");
 				auteurPageJs.tl(4, "var pivot1VarFq = pivot1VarObj ? pivot1VarObj.var : 'classSimpleName';");
 				auteurPageJs.tl(4, "var pivot1Map = facetCounts.facetPivot.pivotMap[pivot1Name].pivotMap;");
 				auteurPageJs.tl(4, "var pivot1Vals = Object.keys(pivot1Map);");
@@ -4779,7 +4793,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(5, "}");
 				auteurPageJs.tl(5, "if(pivot1Vals.length > 0 && pivot1Map[pivot1Vals[0]].pivotMap && Object.keys(pivot1Map[pivot1Vals[0]].pivotMap).length > 0) {");
 				auteurPageJs.tl(6, "var pivot2Var", i18nPage.getString(I18n.var_Indexe), " = pivot1Map[pivot1Vals[0]].pivotMap[Object.keys(pivot1Map[pivot1Vals[0]].pivotMap)[0]].field;");
-				auteurPageJs.tl(6, "var pivot2VarObj = Object.values(window.varsFq).querySelector(o => o.varIndexed === pivot2Var", i18nPage.getString(I18n.var_Indexe), ");");
+				auteurPageJs.tl(6, "var pivot2VarObj = Object.values(window.varsFq).filter(o => o.varIndexed === pivot2Var", i18nPage.getString(I18n.var_Indexe), ")[0];");
 				auteurPageJs.tl(6, "var pivot2VarFq = pivot2VarObj ? pivot2VarObj.var : 'classSimpleName';");
 				auteurPageJs.tl(6, "layout['yaxis'] = {");
 				auteurPageJs.tl(7, "title: pivot2VarObj.displayName");
@@ -4846,8 +4860,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(7, "data.push(trace);");
 				auteurPageJs.tl(6, "});");
 				auteurPageJs.tl(5, "}");
+				auteurPageJs.tl(5, "Plotly.react('htmBody", i18nPage.getString(I18n.var_Graphique), classePageNomSimple, "', data, layout);");
 				auteurPageJs.tl(4, "}");
-				auteurPageJs.tl(4, "Plotly.react('htmBody", i18nPage.getString(I18n.var_Graphique), classePageSuperNomSimple, "', data, layout);");
 				auteurPageJs.tl(3, "}");
 				auteurPageJs.tl(2, "}");
 
@@ -4977,7 +4991,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// auteurPageJsModule. tl(4, ", customElements.whenDefined('sl-textarea')");
 			auteurPageJsModule.tl(2, "]).then(() => {");
 
-			//STUFF3
 			for(String classeApiMethode : classeApiMethodes) {
 				String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
 				String classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
