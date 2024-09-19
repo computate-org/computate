@@ -300,8 +300,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(8, "protected WebClient ", i18nGlobale.getString(I18n.var_clientWeb), ";");
 
-			auteurGenApiService.tl(1, "static ", classeNomSimpleApiServiceImpl, " ", i18nGlobale.getString(I18n.var_enregistrer), "Service(EventBus eventBus, JsonObject config, WorkerExecutor ", i18nGlobale.getString(I18n.var_executeurTravailleur), ", ComputateOAuth2AuthHandlerImpl oauth2AuthHandler, PgPool pgPool, KafkaProducer<String, String> kafkaProducer, MqttClient mqttClient, AmqpSender amqpSender, RabbitMQClient rabbitmqClient, WebClient ", i18nGlobale.getString(I18n.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", Jinjava jinjava" : "", ", Vertx vertx) {");
-			auteurGenApiService.tl(2, classeNomSimpleApiServiceImpl, " api =  new ", classeNomSimpleApiServiceImpl, "(eventBus, config, ", i18nGlobale.getString(I18n.var_executeurTravailleur), ", oauth2AuthHandler, pgPool, kafkaProducer, mqttClient, amqpSender, rabbitmqClient, ", i18nGlobale.getString(I18n.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", jinjava" : "", ");");
+			auteurGenApiService.tl(1, "static ", classeNomSimpleApiServiceImpl, " ", i18nGlobale.getString(I18n.var_enregistrer), "Service(Vertx vertx, JsonObject config, WorkerExecutor ", i18nGlobale.getString(I18n.var_executeurTravailleur), ", ComputateOAuth2AuthHandlerImpl oauth2AuthHandler, PgPool pgPool, KafkaProducer<String, String> kafkaProducer, MqttClient mqttClient, AmqpSender amqpSender, RabbitMQClient rabbitmqClient, WebClient ", i18nGlobale.getString(I18n.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", Jinjava jinjava" : "", ") {");
+			auteurGenApiService.tl(2, classeNomSimpleApiServiceImpl, " api =  new ", classeNomSimpleApiServiceImpl, "(vertx, config, ", i18nGlobale.getString(I18n.var_executeurTravailleur), ", oauth2AuthHandler, pgPool, kafkaProducer, mqttClient, amqpSender, rabbitmqClient, ", i18nGlobale.getString(I18n.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", jinjava" : "", ");");
 			auteurGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", classeNomSimple, ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "()).register(", classeNomSimpleGenApiService, ".class, api);");
 			auteurGenApiService.tl(2, "return api;");
 			auteurGenApiService.tl(1, "}");
@@ -373,7 +373,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				auteurApiServiceImpl.l("import io.vertx.ext.auth.oauth2.OAuth2Auth;");
 			}
 			auteurApiServiceImpl.l("import io.vertx.ext.web.client.WebClient;");
-			auteurApiServiceImpl.l("import io.vertx.core.eventbus.EventBus;");
+			auteurApiServiceImpl.l("import io.vertx.core.Vertx;");
 			auteurApiServiceImpl.l("import io.vertx.core.WorkerExecutor;");
 			auteurApiServiceImpl.l("import io.vertx.core.json.JsonObject;");
 			auteurApiServiceImpl.l("import io.vertx.pgclient.PgPool;");
@@ -404,8 +404,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurApiServiceImpl.l(" **/");
 			auteurApiServiceImpl.l("public class ", classeNomSimpleApiServiceImpl, " extends ", classeNomSimpleGenApiServiceImpl, " {");
 			auteurApiServiceImpl.l();
-			auteurApiServiceImpl.tl(1, "public ", classeNomSimpleApiServiceImpl, "(EventBus eventBus, JsonObject config, WorkerExecutor ", i18nGlobale.getString(I18n.var_executeurTravailleur), ", ComputateOAuth2AuthHandlerImpl oauth2AuthHandler, PgPool pgPool, KafkaProducer<String, String> kafkaProducer, MqttClient mqttClient, AmqpSender amqpSender, RabbitMQClient rabbitmqClient, WebClient ", i18nGlobale.getString(I18n.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", Jinjava jinjava" : "", ") {");
-			auteurApiServiceImpl.tl(2, "super(eventBus, config, ", i18nGlobale.getString(I18n.var_executeurTravailleur), ", oauth2AuthHandler, pgPool, kafkaProducer, mqttClient, amqpSender, rabbitmqClient, ", i18nGlobale.getString(I18n.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", jinjava" : "", ");");
+			auteurApiServiceImpl.tl(1, "public ", classeNomSimpleApiServiceImpl, "(Vertx vertx, JsonObject config, WorkerExecutor ", i18nGlobale.getString(I18n.var_executeurTravailleur), ", ComputateOAuth2AuthHandlerImpl oauth2AuthHandler, PgPool pgPool, KafkaProducer<String, String> kafkaProducer, MqttClient mqttClient, AmqpSender amqpSender, RabbitMQClient rabbitmqClient, WebClient ", i18nGlobale.getString(I18n.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", Jinjava jinjava" : "", ") {");
+			auteurApiServiceImpl.tl(2, "super(vertx, config, ", i18nGlobale.getString(I18n.var_executeurTravailleur), ", oauth2AuthHandler, pgPool, kafkaProducer, mqttClient, amqpSender, rabbitmqClient, ", i18nGlobale.getString(I18n.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", jinjava" : "", ");");
 			auteurApiServiceImpl.tl(1, "}");
 			auteurApiServiceImpl.l("}");
 
@@ -1918,8 +1918,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(1, "protected static final Logger LOG = LoggerFactory.getLogger(", classeNomSimpleGenApiServiceImpl, ".class);");
 			l();
-			tl(1, "public ", classeNomSimpleGenApiServiceImpl, "(EventBus eventBus, JsonObject config, WorkerExecutor ", i18nGlobale.getString(I18n.var_executeurTravailleur), ", ComputateOAuth2AuthHandlerImpl oauth2AuthHandler, PgPool pgPool, KafkaProducer<String, String> kafkaProducer, MqttClient mqttClient, AmqpSender amqpSender, RabbitMQClient rabbitmqClient, WebClient ", i18nGlobale.getString(I18n.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", Jinjava jinjava" : "", ") {");
-			tl(2, "super(eventBus, config, ", i18nGlobale.getString(I18n.var_executeurTravailleur), ", oauth2AuthHandler, pgPool, kafkaProducer, mqttClient, amqpSender, rabbitmqClient, ", i18nGlobale.getString(I18n.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", jinjava" : "", ");");
+			tl(1, "public ", classeNomSimpleGenApiServiceImpl, "(Vertx vertx, JsonObject config, WorkerExecutor ", i18nGlobale.getString(I18n.var_executeurTravailleur), ", ComputateOAuth2AuthHandlerImpl oauth2AuthHandler, PgPool pgPool, KafkaProducer<String, String> kafkaProducer, MqttClient mqttClient, AmqpSender amqpSender, RabbitMQClient rabbitmqClient, WebClient ", i18nGlobale.getString(I18n.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", Jinjava jinjava" : "", ") {");
+			tl(2, "super(vertx, config, ", i18nGlobale.getString(I18n.var_executeurTravailleur), ", oauth2AuthHandler, pgPool, kafkaProducer, mqttClient, amqpSender, rabbitmqClient, ", i18nGlobale.getString(I18n.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", jinjava" : "", ");");
 			tl(1, "}");
 
 			for(String classeApiMethode : classeApiMethodes) {
