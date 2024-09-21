@@ -2229,7 +2229,10 @@ public class IndexerClasse extends RegarderClasseBase {
 		Integer partNumero = 1;
 
 		indexerStockerSolr(classeDoc, "classeEstAbstrait", classeQdox.isAbstract()); 
-		Boolean classeModele = indexerStockerSolr(classeDoc, "classeModele", regexTrouve("^" + i18nGlobale.getString(I18n.var_Modele) + ": \\s*(true)$", classeCommentaire));
+		//STUFF0
+		Boolean classeModele = indexerStockerSolr(classeDoc, "classeModele", 
+				regexTrouve("^" + i18nGlobale.getString(I18n.var_Modele) + ": \\s*(true)$", classeCommentaire) 
+				|| classeSuperDoc != null && (BooleanUtils.isTrue((Boolean)classeSuperDoc.get("classeModele_stored_boolean"))));
 		Boolean classeFiware = indexerStockerSolr(classeDoc, "classeFiware", regexTrouve("^Fiware: \\s*(true)$", classeCommentaire));
 		String classeModeleAlternatif = indexerStockerSolr(classeDoc, "classeModeleAlternatif", regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_ModeleAlternatif), classeCommentaire, classeNomSimple));
 		Boolean classeApi = indexerStockerSolr(classeDoc, "classeApi", regexTrouve("^(classe)?Api: \\s*(true)$", classeCommentaire));
