@@ -3489,7 +3489,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 		
 				// Lien vers Solr //
-				tl(1, " * <br><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstEntite_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=entiteVar_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(entiteVar), "\">", langueConfig.getString(I18n.str_Trouver_l_entité_), entiteVar, langueConfig.getString(I18n.str__dans_Solr), "</a>");
+				tl(1, " * <br><a href=\"https://solr.apps-crc.testing/select?q=*:*&fq=partEstEntite_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=entiteVar_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(entiteVar), "\">", langueConfig.getString(I18n.str_Trouver_l_entité_), entiteVar, langueConfig.getString(I18n.str__dans_Solr), "</a>");
 				tl(1, " * <br>");
 		
 				if(entiteCouverture) {
@@ -6403,7 +6403,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				);
 		ecrireClasseCommentaireChamp(langueNom, classeRef, "02_etend", "description", wClasseDescription
 				, classeEtendGen
-				, classeNomSimpleGen, solrUrlComputate, langueNom, ClientUtils.escapeQueryChars(classeNomCanonique), classeNomSimple
+				, classeNomSimpleGen, "https://solr.apps-crc.testing", langueNom, ClientUtils.escapeQueryChars(classeNomCanonique), classeNomSimple
 				);
 
 		ecrireClasseCommentaireChamp(langueNom, classeRef, "03_classeNomSimpleSuperGenerique", "commentaire", wClasseDescription
@@ -6648,15 +6648,15 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		wClasseDescription.tl(0, "<p>");
 		wClasseDescription.tl(0, langueConfig.getString(I18n.str_Supprimer_), langueConfig.getString(I18n.str_la_classe_), classeNomSimple, langueConfig.getString(I18n.str__dans_Solr), ": ");
-		wClasseDescription.tl(0, "curl -k '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
+		wClasseDescription.tl(0, "curl -k 'https://solr.apps-crc.testing/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
 		wClasseDescription.tl(0, "</p>");
 		wClasseDescription.tl(0, "<p>");
 		wClasseDescription.tl(0, langueConfig.getString(I18n.str_Supprimer_), langueConfig.getString(I18n.str_l_ensemble_), classeNomEnsemble, langueConfig.getString(I18n.str__dans_Solr), ": ");
-		wClasseDescription.tl(0, "curl -k '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomEnsemble_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomEnsemble), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
+		wClasseDescription.tl(0, "curl -k 'https://solr.apps-crc.testing/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomEnsemble_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomEnsemble), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
 		wClasseDescription.tl(0, "</p>");
 		wClasseDescription.tl(0, "<p>");
 		wClasseDescription.tl(0, langueConfig.getString(I18n.str_Supprimer_), langueConfig.getString(I18n.str_le_projet_), siteNom, langueConfig.getString(I18n.str__dans_Solr), ": ");
-		wClasseDescription.tl(0, "curl -k '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;siteNom_indexed_string:", ClientUtils.escapeQueryChars(siteNom), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
+		wClasseDescription.tl(0, "curl -k 'https://solr.apps-crc.testing/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;siteNom_indexed_string:", ClientUtils.escapeQueryChars(siteNom), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
 		wClasseDescription.tl(0, "</p>");
 		wClasseDescription.l(langueConfig.getString(I18n.str_Genere), ": true");
 
