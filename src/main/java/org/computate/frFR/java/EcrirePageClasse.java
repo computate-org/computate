@@ -4072,24 +4072,26 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" id=\"pageSearchVal-buttonFacet", classeNomSimple, "_{{ key }}\"");
 			l(">{% if value.facetField.var is defined %}facet.field={{ value.facetField.var }}{% endif %}</div>");
 
-			t(10, "<ol");
+			t(10, "<div");
 			s(" class=\"pageFacetField pageFacetField", classeNomSimple, "_{{ key }} \"");
 			s(" id=\"pageFacetField", classeNomSimple, "_{{ key }}\"");
 			l(">");
 			tl(0, "{% for facetFieldKey, facetFieldValue in value.facetField.counts.items() %}");
-			t(11, "<li");
+			t(11, "<sl-tooltip content=\"", String.format(i18nPage.getString(I18n.str_au_total_avec_), "{{ facetFieldValue | e }}", classeNomSingulier, "{{ value.facetField.var | e }}", "{{ facetFieldKey | e }}"), "\">");
+			t(12, "<div");
 			s(" class=\"cursor-pointer \"");
 			s(" data-class=\"", classeNomSimple, "\"");
 			s(" data-var=\"{{ value.facetField.var }}\"");
 			s(" data-val=\"{{ facetFieldKey }}\"");
 			s(" onclick=\"fqReplace('", classeNomSimple, "', facetFieldValue); \"");
 			s(">");
-			s("{{ facetFieldKey }}");
-			s(": ");
 			s("{{ facetFieldValue }}");
-			l("</li>");
+			s(": ");
+			s("{{ facetFieldKey }}");
+			l("</div>");
+			t(11, "</sl-tooltip>");
 			tl(0, "{% endfor %}");
-			tl(10, "</ol>");
+			tl(10, "</div>");
 
 			tl(9, "</div>");
 			tl(8, "{% endfor %}");

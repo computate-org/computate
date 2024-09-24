@@ -1,5 +1,3 @@
-str_confirmer_supprimer: "Voulez-vous vraiment supprimer cela ?"
-str_confirmer_archiver: "Voulez-vous vraiment archiver cela ?"
 str_a_démarré: "a démarré"
 str_a_échoué: "a échoué"
 str_a_réussi: "a réussi"
@@ -12,8 +10,11 @@ str_Afficher_les_resultats_sous_forme_de_liste: "Afficher les résultats sous fo
 str_Afficher_les_resultats_sous_forme_de_cartes: "Afficher les résultats sous forme de cartes"
 str_Afficher_les_resultats_sous_forme_de_details: "Afficher les résultats sous forme de détails"
 str_API: "API"
+str_au_total_avec_: '%s %s total avec %s « %s »'
 str_chemin_absolu: "%s touché"
 str_chemin_absolu_url: "%s/classe-java/%s"
+str_confirmer_supprimer: "Voulez-vous vraiment supprimer cela ?"
+str_confirmer_archiver: "Voulez-vous vraiment archiver cela ?"
 str_créé_nouveau: "créé nouveau"
 str_Creer: "Créer"
 str_Creer_: "Créer "

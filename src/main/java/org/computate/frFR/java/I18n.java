@@ -27,6 +27,7 @@ public class I18n {
 	public static final String str_Afficher_les_resultats_sous_forme_de_cartes = "str_Afficher_les_resultats_sous_forme_de_cartes";
 	public static final String str_Afficher_les_resultats_sous_forme_de_details = "str_Afficher_les_resultats_sous_forme_de_details";
 	public static final String str_API = "str_API";
+	public static final String str_au_total_avec_ = "str_au_total_avec_";
 	public static final String str_chemin_absolu = "str_chemin_absolu";
 	public static final String str_chemin_absolu_url = "str_chemin_absolu_url";
 	public static final String str_confirmer_supprimer = "str_confirmer_supprimer";
