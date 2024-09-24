@@ -4331,7 +4331,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(7, "}");
 				tl(6, "}");
 				tl(5, "});");
-				tl(5, "promise.complete();");
+				tl(5, "o.", i18nGlobale.getString(I18n.var_promesseLoin), i18nGlobale.getString(I18n.var_PourClasse), "(", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(a -> {");
+				tl(6, "promise.complete();");
+				tl(5, "}).onFailure(ex -> {");
+				tl(6, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_definir), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+				tl(6, "promise.fail(ex);");
+				tl(5, "});");
 				tl(4, "} catch(Exception ex) {");
 				tl(5, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_definir), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
 				tl(5, "promise.fail(ex);");
