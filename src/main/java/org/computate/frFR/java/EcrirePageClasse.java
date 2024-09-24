@@ -1114,6 +1114,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											&& !langueConfig.getString(I18n.var_utilisateurCle).equals(entiteVar)
 											&& !langueConfig.getString(I18n.var_sauvegardes).equals(entiteVar)
 											) {
+										wJsModuleInit.tl(5, "document.querySelector('#fq", classeNomSimple, "_", entiteVar, "')?.addEventListener('sl-change', (event) => {");
+										wJsModuleInit.tl(6, "fqChange('", classeNomSimple, "', event.target);");
+										wJsModuleInit.tl(5, "});");
 										wJsModuleInit.tl(5, "document.querySelector('#buttonFacet", classeNomSimple, "_", entiteVar, "')?.addEventListener('click', (event) => {");
 										wJsModuleInit.tl(6, "facetFieldChange('", classeNomSimple, "', event.target);");
 										wJsModuleInit.tl(5, "});");
@@ -4066,7 +4069,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(10, "<div");
 			s(" class=\"pageSearchVal \"");
 			s(" id=\"pageSearchVal-fq", classeNomSimple, "_{{ key }}\"");
-			l(">{% if val is defined %}fq={{ value.var }}:{{ value.val | urlencode() }}{% endif %}</div>");
+			l(">{% if value.val is defined %}fq={{ value.var }}:{{ value.val | urlencode() }}{% endif %}</div>");
 			t(10, "<div");
 			s(" class=\"pageSearchVal \"");
 			s(" id=\"pageSearchVal-buttonFacet", classeNomSimple, "_{{ key }}\"");
@@ -4077,19 +4080,19 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" id=\"pageFacetField", classeNomSimple, "_{{ key }}\"");
 			l(">");
 			tl(0, "{% for facetFieldKey, facetFieldValue in value.facetField.counts.items() %}");
-			t(11, "<sl-tooltip content=\"", String.format(i18nPage.getString(I18n.str_au_total_avec_), "{{ facetFieldValue | e }}", classeNomSingulier, "{{ value.facetField.var | e }}", "{{ facetFieldKey | e }}"), "\">");
+			tl(11, "<sl-tooltip content=\"", String.format(i18nPage.getString(I18n.str_au_total_avec_), "{{ facetFieldValue | e }}", classeNomSingulier, "{{ value.facetField.var | e }}", "{{ facetFieldKey | e }}"), "\">");
 			t(12, "<div");
 			s(" class=\"cursor-pointer \"");
 			s(" data-class=\"", classeNomSimple, "\"");
 			s(" data-var=\"{{ value.facetField.var }}\"");
 			s(" data-val=\"{{ facetFieldKey }}\"");
-			s(" onclick=\"fqReplace('", classeNomSimple, "', facetFieldValue); \"");
+			s(" onclick=\"fqReplace('", classeNomSimple, "', this); \"");
 			s(">");
 			s("{{ facetFieldValue }}");
 			s(": ");
 			s("{{ facetFieldKey }}");
 			l("</div>");
-			t(11, "</sl-tooltip>");
+			tl(11, "</sl-tooltip>");
 			tl(0, "{% endfor %}");
 			tl(10, "</div>");
 
