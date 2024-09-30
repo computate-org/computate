@@ -5,7 +5,7 @@
 
 	<properties>
 		<solr.version>8.11.1</solr.version>
-		<computate.version>4.4.4.2</computate.version>
+		<computate.version>4.5.8.0</computate.version>
 
 		<maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
 		<maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
@@ -38,7 +38,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.computate</groupId>
 	<artifactId>computate</artifactId>
-	<version>4.4.4.2</version>
+	<version>4.5.8.0</version>
 	<packaging>jar</packaging>
 	<name>Computate Vert.x Code Generation Tools</name>
 	<description>Code that generates more code as you save. Internationalized. Integrated with Solr search. A new way to write code to make persistence easier. </description>
