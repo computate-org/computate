@@ -283,6 +283,8 @@ public class I18n {
 	public static final String var_htmLegende = "var_htmLegende";
 	public static final String var_htmLigne = "var_htmLigne";
 	public static final String var_HtmLigne = "var_HtmLigne";
+	public static final String var_HtmLigneTitre = "var_HtmLigneTitre";
+	public static final String var_HtmLigneTitreOuvert = "var_HtmLigneTitreOuvert";
 	public static final String var_IconeGroupe = "var_IconeGroupe";
 	public static final String var_Icone = "var_Icone";
 	public static final String var_IconeNom = "var_IconeNom";

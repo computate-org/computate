@@ -1042,6 +1042,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	Map<String, String> entiteHtmLigneTitreActuelMap;
 	Map<String, Boolean> entiteHtmLigneVerticaleActuelMap;
 	String entiteHtmLigneTitre;
+	String entiteHtmLigneTitreOuvert;
 	String entiteHtmLigneEnTeteExpression;
 	Boolean entiteHtmLigneVerticale;
 
@@ -3099,6 +3100,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			entiteHtmColonne = doc.getInteger("entiteHtmColonne_stored_int");
 			entiteHtmLigne = doc.getInteger("entiteHtmLigne_stored_int");
 			entiteHtmLigneTitre = doc.getString("entiteHtmLigneTitre_stored_string");
+			entiteHtmLigneTitreOuvert = doc.getString("entiteHtmLigneTitre_stored_string");
 			entiteHtmLigneVerticale = doc.getBoolean("entiteHtmLigneVerticale_stored_boolean");
 			entiteHtmLigneEnTeteExpression = doc.getString("entiteHtmLigneEnTeteExpression_stored_string");
 			entiteHtmCellule = doc.getInteger("entiteHtmCellule_stored_int");
@@ -3489,7 +3491,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 		
 				// Lien vers Solr //
-				tl(1, " * <br><a href=\"https://solr.apps-crc.testing/select?q=*:*&fq=partEstEntite_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=entiteVar_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(entiteVar), "\">", langueConfig.getString(I18n.str_Trouver_l_entité_), entiteVar, langueConfig.getString(I18n.str__dans_Solr), "</a>");
+				tl(1, " * <br><a href=\"https://solr.apps-crc.testing/solr/#/computate/query?q=*:*&fq=partEstEntite_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=entiteVar_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(entiteVar), "\">", langueConfig.getString(I18n.str_Trouver_l_entité_), entiteVar, langueConfig.getString(I18n.str__dans_Solr), "</a>");
 				tl(1, " * <br>");
 		
 				if(entiteCouverture) {

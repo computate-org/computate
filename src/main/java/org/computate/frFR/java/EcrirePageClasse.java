@@ -188,7 +188,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						entiteHtmLigneVerticaleActuelMap.put(classeApiMethodeMethode, true);
 						// wForm.tl(7, "<!-- BooleanUtils.isTrue(entiteHtmLigneVerticale) -->");
 						if(!entiteHtmLigneTitreAncien.equals(entiteHtmLigneTitreActuel)) {
-							wForm.t(6, "<sl-details class=\"", i18nGlobale.getString(I18n.var_HtmLigne), "\" id=\"").sx(genererId(entiteHtmLigneTitre)).l("\">");
+							wForm.t(6, "<sl-details ", entiteHtmLigneTitreOuvert == null ? "" : "open ", "class=\"", i18nGlobale.getString(I18n.var_HtmLigne), "\" id=\"").sx(genererId(entiteHtmLigneTitre)).l("\">");
 							wForm.tl(7, "<div slot=\"summary\">");
 							wForm.t(8, "<span>");
 							wForm.sx(entiteHtmLigneTitre);
@@ -223,7 +223,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					} else {
 						entiteHtmLigneVerticaleActuelMap.put(classeApiMethodeMethode, false);
 						if(!entiteHtmLigneTitreAncien.equals(entiteHtmLigneTitreActuel)) {
-							wForm.t(6, "<sl-details class=\"", i18nGlobale.getString(I18n.var_HtmLigne), "\" id=\"").sx(genererId(entiteHtmLigneTitre)).l("\">");
+							wForm.t(6, "<sl-details ", entiteHtmLigneTitreOuvert == null ? "" : "open ", "class=\"", i18nGlobale.getString(I18n.var_HtmLigne), "\" id=\"").sx(genererId(entiteHtmLigneTitre)).l("\">");
 							wForm.tl(7, "<div slot=\"summary\">");
 							wForm.t(8, "<span>");
 							wForm.sx(entiteHtmLigneTitre);
@@ -1027,6 +1027,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							entiteHtml = (Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean");
 							entiteHtmLigne = (Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int");
 							entiteHtmLigneTitre = (String)entiteDocumentSolr.get("entiteHtmLigneTitre_stored_string");
+							entiteHtmLigneTitreOuvert = (String)entiteDocumentSolr.get("entiteHtmLigneTitreOuvert_stored_string");
 							entiteHtmLigneVerticale = (Boolean)entiteDocumentSolr.get("entiteHtmLigneVerticale_stored_boolean");
 							entiteHtmLigneEnTeteExpression = (String)entiteDocumentSolr.get("entiteHtmLigneEnTeteExpression_stored_string");
 							entiteHtmCellule = (Integer)entiteDocumentSolr.get("entiteHtmCellule_stored_int");
@@ -3069,6 +3070,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										entiteNomAffichage = (String)entiteDocumentSolr.get("entiteNomAffichage_" + langueNom + "_stored_string");
 										entiteHtmLigne = (Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int");
 										entiteHtmLigneTitre = (String)entiteDocumentSolr.get("entiteHtmLigneTitre_stored_string");
+										entiteHtmLigneTitreOuvert = (String)entiteDocumentSolr.get("entiteHtmLigneTitreOuvert_stored_string");
 										entiteHtmLigneVerticale = (Boolean)entiteDocumentSolr.get("entiteHtmLigneVerticale_stored_boolean");
 										entiteHtmLigneEnTeteExpression = (String)entiteDocumentSolr.get("entiteHtmLigneEnTeteExpression_stored_string");
 										entiteCouverture = (Boolean)entiteDocumentSolr.get("entiteCouverture_stored_boolean");

@@ -3374,7 +3374,8 @@ public class IndexerClasse extends RegarderClasseBase {
 								Integer i = Integer.parseInt(str);
 								indexerStockerSolr(entiteDoc, "entiteHtmLigne", i);
 								entiteHtml = true;
-								indexerStockerSolr(entiteDoc, "entiteHtmLigneTitre", regex("^" + i18nGlobale.getString(I18n.var_HtmLigne) + i18nGlobale.getString(I18n.var_Titre) + ":\\s*(.*)$", methodeCommentaire));
+								String entiteHtmLigneTitreOuvert = indexerStockerSolr(entiteDoc, "entiteHtmLigneTitreOuvert", regex("^" + i18nGlobale.getString(I18n.var_HtmLigneTitreOuvert) + ":\\s*(.*)$", methodeCommentaire));
+								indexerStockerSolr(entiteDoc, "entiteHtmLigneTitre", regex("^" + i18nGlobale.getString(I18n.var_HtmLigneTitre) + ":\\s*(.*)$", methodeCommentaire, entiteHtmLigneTitreOuvert));
 								indexerStockerSolr(entiteDoc, "entiteHtmLigneEnTeteExpression", regex("^" + i18nGlobale.getString(I18n.var_HtmLigne) + i18nGlobale.getString(I18n.var_EnTeteExpression) + ":\\s*(.*)$", methodeCommentaire));
 								if(regexTrouve("^" + i18nGlobale.getString(I18n.var_HtmLigne) + i18nGlobale.getString(I18n.var_Verticale) + ":\\s*(true)$", methodeCommentaire))
 									indexerStockerSolr(entiteDoc, "entiteHtmLigneVerticale", true);
