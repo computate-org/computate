@@ -194,9 +194,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							wForm.sx(entiteHtmLigneTitre);
 							wForm.l("</span>");
 							wForm.tl(7, "</div>");
-							wForm.tl(7, "<div>");
+							wForm.tl(7, "<div class=\"grid-with-subgrid-2col \">");
 						} else {
-							wForm.tl(7, "<div>");
+							wForm.tl(7, "<div class=\"grid-with-subgrid-2col \">");
 						}
 						// wForm.tl(8, "<table class=\"w3-table-all \">");
 						if(entiteHtmLigneTitre != null) {
@@ -229,9 +229,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							wForm.sx(entiteHtmLigneTitre);
 							wForm.l("</span>");
 							wForm.tl(7, "</div>");
-							wForm.tl(7, "<div>");
+							wForm.tl(7, "<div class=\"grid-with-subgrid-2col \">");
 						} else {
-							wForm.tl(7, "<div stuff=\"", entiteHtmLigneTitreAncien, "-", entiteHtmLigneTitreActuel, "\">");
+							wForm.tl(7, "<div class=\"grid-with-subgrid-2col \">");
 						}
 						entiteHtmLigneTitreActuelMap.put(classeApiMethodeMethode, entiteHtmLigneTitreActuel);
 					}
@@ -324,7 +324,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// tl(0, "{%- if ", langueConfig.getString(I18n.var_rolePourEcrire), "Bool == true %}");
 
 			tl(1, "{%- if 'Page' == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " %}");
-			tl(8, "<form id=\"", langueConfig.getString(I18n.var_Page), langueConfig.getString(I18n.var_Formulaire), "_", entiteVar, "\">");
+			tl(8, "<form class=\"subgrid-2col \" id=\"", langueConfig.getString(I18n.var_Page), langueConfig.getString(I18n.var_Formulaire), "_", entiteVar, "\">");
 			tl(1, "{%- endif %}");
 			if(entiteAttribuer) {
 				tl(1, "{%- if '", langueConfig.getString(I18n.var_PUTCopie), "' == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " %}");
