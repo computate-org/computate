@@ -991,6 +991,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	Boolean entiteStocke;
 
 	Boolean entiteVarTitre;
+	Boolean entiteLien;
 
 	Boolean entiteVarH1;
 

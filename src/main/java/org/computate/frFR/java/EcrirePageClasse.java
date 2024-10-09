@@ -475,7 +475,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(11, "class=\"label-on-left {{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, " class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " \"");
 					tl(11, "name=\"set", entiteVarCapitalise, "\"");
 					tl(11, "data-", classeModele ? classeVarClePrimaire : classeVarCleUnique, "=\"{{ ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " }}\"");
-					tl(11, "data-val=\"{{ ", uncapitalizeClasseNomSimple, "_.", entiteVar, " }}\"");
+					tl(11, "data-val=\"{{ ", uncapitalizeClasseNomSimple, "_.", entiteVar, " | e }}\"");
 					t(11, ">");
 					if(entiteNomAffichage != null) {
 						sx(entiteNomAffichage);
@@ -593,6 +593,30 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			}
 			else {
+				//STUFF1
+				if(entiteLien) {
+					tl(1, "{%- if 'Page' == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " %}");
+					tl(9, "<sl-button");
+					tl(11, "id=\"{{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
+
+					if(entiteNomAffichage != null) {
+						tl(11, "placeholder=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
+						tl(11, "label=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
+					}
+					if(entiteDescription != null) {
+						t(11, "help-text=\"").sx(entiteDescription).l("\"");
+					}
+
+					tl(11, "class=\"label-on-left {{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, " class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " \"");
+					tl(11, "name=\"set", entiteVarCapitalise, "\"");
+					tl(11, "href=\"{{ ", uncapitalizeClasseNomSimple, "_.", entiteVar, " | e }}\"");
+					t(11, ">");
+					if(entiteNomAffichage != null) {
+						sx(entiteNomAffichage);
+					}
+					l("</sl-button>");
+					tl(1, "{%- else %}");
+				}
 				if(entiteMultiligne)
 					tl(9, "<sl-textarea resize=\"auto\"");
 				else {
@@ -655,6 +679,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(11, "></sl-input>");
 
 				l();
+				if(entiteLien) {
+					tl(1, "{%- endif %}");
+				}
 			}
 
 			tl(1, "{%- if 'Page' == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " %}");
@@ -1038,6 +1065,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							entiteIndexe = (Boolean)entiteDocumentSolr.get("entiteIndexe_stored_boolean");
 							entiteStocke = (Boolean)entiteDocumentSolr.get("entiteStocke_stored_boolean");
 							entiteVarTitre = (Boolean)entiteDocumentSolr.get("entiteVarTitre_stored_boolean");
+							entiteLien = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteLien_stored_boolean"));
 							entiteVarH1 = (Boolean)entiteDocumentSolr.get("entiteVarH1_stored_boolean");
 							entiteVarH2 = (Boolean)entiteDocumentSolr.get("entiteVarH2_stored_boolean");
 							entiteVarH3 = (Boolean)entiteDocumentSolr.get("entiteVarH3_stored_boolean");
@@ -1108,7 +1136,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								} else {
 									wJsModuleInit.l();
 									wJsModuleInit.tl(5, "// PATCH ", entiteVar);
-									//STUFF0
 									if(!entiteTexte && !entiteSuggere && entiteIndexe 
 											&& entiteFacetsTrouves
 											&& !langueConfig.getString(I18n.var_sessionId).equals(entiteVar)
@@ -2207,6 +2234,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							Boolean entiteMultiligne = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteMultiligne_stored_boolean"));
 							Boolean entiteHighlighting = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHighlighting_stored_boolean"));
 							Boolean entiteVarTitre = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteVarTitre_stored_boolean"));
+							Boolean entiteLien = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteLien_stored_boolean"));
 							Boolean entiteFacetsTrouves = Optional.ofNullable((Boolean)entiteDocumentSolr.get("entiteFacetsTrouves_stored_boolean")).orElse(false);
 							List<String> entiteFacets = Optional.ofNullable((List<String>)entiteDocumentSolr.get("entiteFacets_stored_strings")).orElse(Arrays.asList());
 							if(entiteHtml) {
@@ -4276,7 +4304,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(8, "<sl-checkbox");
 			s(" name=\"pageFacetPivot\"");
 			s(" class=\"pageFacetPivot \"");
-			//STUFF0
 			s(" id=\"pageFacetPivot", classeNomSimple, "_{{ key }}\"");
 			s(" value=\"{{ value.var }}\"");
 			s("{% if ", i18nPage.getString(I18n.var_pivot), " is defined %} checked=\"checked\"{% endif %}");

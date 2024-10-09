@@ -314,6 +314,7 @@ public class I18n {
 	public static final String var_LeNomAdjectif = "var_LeNomAdjectif";
 	public static final String var_LeNom = "var_LeNom";
 	public static final String var_LesNoms = "var_LesNoms";
+	public static final String var_Lien = "var_Lien";
 	public static final String var_Ligne = "var_Ligne";
 	public static final String var_lignes = "var_lignes";
 	public static final String var_Lignes = "var_Lignes";
