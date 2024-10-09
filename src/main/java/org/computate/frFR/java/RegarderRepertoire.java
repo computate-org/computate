@@ -205,7 +205,9 @@ public class RegarderRepertoire {
 			String SITE_NOM = regarderRepertoire.configuration.getString(classeLangueConfig.getString("var_SITE_NOM"));
 			String SITE_SRC = regarderRepertoire.configuration.getString(classeLangueConfig.getString("var_SITE_SRC"));
 			Boolean REGARDER = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_REGARDER"))).orElse("true"));
+			Boolean REGARDER_MAINTENANT = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_REGARDER_MAINTENANT"))).orElse("false"));
 			Boolean GENERER = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_GENERER"))).orElse("true"));
+			Boolean GENERER_MAINTENANT = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_GENERER_MAINTENANT"))).orElse("false"));
 
 			regarderRepertoire.langueNom = lang;
 			regarderRepertoire.SITE_NOM = SITE_NOM;
@@ -222,16 +224,22 @@ public class RegarderRepertoire {
 			regarderRepertoire.initialiserRegarderRepertoire(classeLangueConfig);
 			regarderRepertoire.ajouterCheminsARegarder(classeLangueConfig, REGARDER);
 
-			if(REGARDER) {
-				indexerClasses(SITE_SRC, classeLangueConfig);
-				indexerClasses(SITE_SRC, classeLangueConfig);
-				indexerClasses(SITE_SRC, classeLangueConfig);
+			if(REGARDER || REGARDER_MAINTENANT) {
+				if(!REGARDER_MAINTENANT) {
+					indexerClasses(SITE_SRC, classeLangueConfig);
+					indexerClasses(SITE_SRC, classeLangueConfig);
+					indexerClasses(SITE_SRC, classeLangueConfig);
+				}
 				System.out.println(classeLangueConfig.getString(I18n.str_Pret));
 				regarderRepertoire.traiterEvenements(classeLangueConfig);
 			} else {
-				indexerClasses(SITE_SRC, classeLangueConfig);
+				if(!GENERER_MAINTENANT) {
+					indexerClasses(SITE_SRC, classeLangueConfig);
+				}
 				if(GENERER) {
-					indexerEcrireClasses(SITE_SRC, classeLangueConfig);
+					if(!GENERER_MAINTENANT) {
+						indexerEcrireClasses(SITE_SRC, classeLangueConfig);
+					}
 					indexerEcrireClasses(SITE_SRC, classeLangueConfig);
 				} else {
 					indexerClasses(SITE_SRC, classeLangueConfig);

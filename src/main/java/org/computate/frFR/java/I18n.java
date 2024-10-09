@@ -264,6 +264,7 @@ public class I18n {
 	public static final String var_Gamme = "var_Gamme";
 	public static final String var_Generer = "var_Generer";
 	public static final String var_generer = "var_generer";
+	public static final String var_GENERER_MAINTENANT = "var_GENERER_MAINTENANT";
 	public static final String var_genererCorpsPage = "var_genererCorpsPage";
 	public static final String var_gestionnaireEvenements = "var_gestionnaireEvenements";
 	public static final String var_GestionnaireEvenements = "var_GestionnaireEvenements";
@@ -436,6 +437,7 @@ public class I18n {
 	public static final String var_RechercherTousNom = "var_RechercherTousNom";
 	public static final String var_rechercheSolr = "var_rechercheSolr";
 	public static final String var_Regarder = "var_Regarder";
+	public static final String var_REGARDER_MAINTENANT = "var_REGARDER_MAINTENANT";
 	public static final String var_relations = "var_relations";
 	public static final String var_relier = "var_relier";
 	public static final String var_reponseRecherche = "var_reponseRecherche";
