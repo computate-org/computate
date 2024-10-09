@@ -607,7 +607,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						t(11, "help-text=\"").sx(entiteDescription).l("\"");
 					}
 
-					tl(11, "class=\"label-on-left {{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, " class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " \"");
+					tl(11, "class=\"button-on-left {{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, " class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " \"");
 					tl(11, "name=\"set", entiteVarCapitalise, "\"");
 					tl(11, "href=\"{{ ", uncapitalizeClasseNomSimple, "_.", entiteVar, " | e }}\"");
 					t(11, ">");
@@ -615,6 +615,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						sx(entiteNomAffichage);
 					}
 					l("</sl-button>");
+					t(11, "<div class=\"button-description-on-right \">");
+						sx(entiteDescription);
+					l("</div>");
 					tl(1, "{%- else %}");
 				}
 				if(entiteMultiligne)
