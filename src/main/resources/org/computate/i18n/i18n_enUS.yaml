@@ -56,7 +56,7 @@ classe:
         Whenever this Java class is modified or touched, the watch service installed as described in the README, indexes all the information about this Java class in a local Apache Solr Search Engine. 
         If you are running the service, you can see the indexed data about this Java Class here: 
         </p>
-        <p><a href="%s/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeNomCanonique_%s_indexed_string:%s">Find the class %s in Solr. </a></p>
+        <p><a href="%s/solr/computate/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeNomCanonique_%s_indexed_string:%s">Find the class %s in Solr. </a></p>
         <p>
         The extended class ending with "Gen" did not exist at first, but was automatically created by the same watch service based on the data retrieved from the local Apache Server search engine. 
         The extended class contains many generated fields, getters, setters, initialization code, and helper methods to help build a website and API fast, reactive, and scalable. 
@@ -343,8 +343,10 @@ var_a: "to"
 var_attribuer: "relate"
 var_Attribuer: "Relate"
 var_AucunNomTrouve: "NoNameFound"
+var_AuthGroupe: "AuthGroup"
 var_authPorteeAdmin: "authScopeAdmin"
 var_authPorteeSuperAdmin: "authScopeSuperAdmin"
+var_AuthPortees: "AuthScopes"
 var_authRoleAdmin: "authRoleAdmin"
 var_authRoleSuperAdmin: "authRoleSuperAdmin"
 var_AUTH_PORTEE_ADMIN: "AUTH_SCOPE_ADMIN"

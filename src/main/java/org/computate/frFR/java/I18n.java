@@ -126,8 +126,10 @@ public class I18n {
 	public static final String var_attribuer = "var_attribuer";
 	public static final String var_Attribuer = "var_Attribuer";
 	public static final String var_AucunNomTrouve = "var_AucunNomTrouve";
+	public static final String var_AuthGroupe = "var_AuthGroupe";
 	public static final String var_authPorteeAdmin = "var_authPorteeAdmin";
 	public static final String var_authPorteeSuperAdmin = "var_authPorteeSuperAdmin";
+	public static final String var_AuthPortees = "var_AuthPortees";
 	public static final String var_authRoleAdmin = "var_authRoleAdmin";
 	public static final String var_authRoleSuperAdmin = "var_authRoleSuperAdmin";
 	public static final String var_AUTH_PORTEE_ADMIN = "var_AUTH_PORTEE_ADMIN";

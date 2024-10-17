@@ -4948,6 +4948,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsGenAjouter(classePartsCouverture, classeLangueNom);
 
 		String classeNomSimpleLangue = (String)classeDoc.get("classeNomSimple_" + langueNomGlobale + "_stored_string").getValue();
+		Boolean classeAuth = false;
 
 		if(classeApi) {
 
@@ -5072,6 +5073,18 @@ public class IndexerClasse extends RegarderClasseBase {
 //					classePartsGenApiAjouter(ClasseParts.initClasseParts(this, classePartsUtilisateurSite.nomCanonique(classeLangueNom) + StringUtils.capitalize(classeLangueNom) + "ApiServiceImpl", classeLangueNom), classeLangueNom);
 
 				classePartsGenApiAjouter(classePartsListeRecherche, classeLangueNom);
+
+				JsonObject classeAuthGroupeObjet = regexYamlObject(i18nGlobale.getString(I18n.var_AuthGroupe), classeCommentaire);
+				if(classeAuthGroupeObjet != null) {
+					classeAuth = true;
+					for(String classeAuthGroupe : classeAuthGroupeObjet.fieldNames()) {
+						JsonObject groupePortees = Optional.ofNullable(classeAuthGroupeObjet.getJsonObject(classeAuthGroupe)).orElse(new JsonObject());
+						indexerStockerListeSolr(langueNom, classeDoc, "classeAuthGroupes", classeAuthGroupe); 
+						for(String portee : groupePortees.fieldNames()) {
+							indexerStockerListeSolr(langueNom, classeDoc, String.format("classeAuthPortees_%s", classeAuthGroupe), portee); 
+						}
+					}
+				}
 
 				JsonObject apiMethodeObjet = regexYamlObject(i18nGlobale.getString(I18n.var_ApiMethode), classeCommentaire);
 				for(String classeApiMethode : apiMethodeObjet.fieldNames()) {
@@ -5284,6 +5297,8 @@ public class IndexerClasse extends RegarderClasseBase {
 				}
 			}
 		}
+		indexerStockerSolr(classeDoc, "classeAuth", classeAuth);
+		
 
 		if(classePage) {
 			String classePageNomSimple = classeNomSimpleLangue + i18nGlobale.getString(I18n.var_Page);
