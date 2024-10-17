@@ -1010,14 +1010,22 @@ public class ConfigSite {
 
 	public JsonObject regexYamlObject(String champ, String texte) {
 		Yaml yaml = new Yaml();
-		Map<String, Object> map = yaml.load(regexYamlString(champ, texte));
-		return new JsonObject(map);
+		String str = regexYamlString(champ, texte);
+		if(str != null) {
+			Map<String, Object> map = yaml.load(str);
+			return new JsonObject(map);
+		}
+		return null;
 	}
 
 	public JsonArray regexYamlArray(String champ, String texte) {
 		Yaml yaml = new Yaml();
-		List<Object> map = yaml.load(regexYamlString(champ, texte));
-		return new JsonArray(map);
+		String str = regexYamlString(champ, texte);
+		if(str != null) {
+			List<Object> list = yaml.load(str);
+			return new JsonArray(list);
+		}
+		return null;
 	}
 
 	public String regexYamlString(String champ, String texte) {
