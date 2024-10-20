@@ -520,9 +520,9 @@ public class EcrireClasse extends IndexerClasse {
 					if(classePublicLire)
 						c.append(i18nGlobale.getString(I18n.var_PublicLire)).append(": ").append(classePublicLire).append("\n");
 					if(classeRoleSession)
-						c.append(i18nGlobale.getString(I18n.var_RoleSession)).append(": ").append(classeRoleSession).append("\n");
+						c.append(i18nGlobale.getString(I18n.var_AuthSession)).append(": ").append(classeRoleSession).append("\n");
 					if(classeRoleUtilisateur)
-						c.append(i18nGlobale.getString(I18n.var_RoleUtilisateur)).append(": ").append(classeRoleUtilisateur).append("\n");
+						c.append(i18nGlobale.getString(I18n.var_AuthUtilisateur)).append(": ").append(classeRoleUtilisateur).append("\n");
 					if(classeCouleur != null)
 						c.append(i18nGlobale.getString(I18n.var_Couleur)).append(": ").append(classeCouleur).append("\n");
 					if(classeIconeGroupe != null)

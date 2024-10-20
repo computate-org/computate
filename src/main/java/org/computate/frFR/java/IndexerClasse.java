@@ -2452,9 +2452,9 @@ public class IndexerClasse extends RegarderClasseBase {
 
 			classePublicLire = indexerStockerSolr(classeDoc, "classePublicLire", regexTrouve("^" + i18nGlobale.getString(I18n.var_PublicLire) + ":\\s*(true)$", classeCommentaire));
 			classePageRecherchePublicLire = indexerStockerSolr(classeDoc, "classePageRecherchePublicLire", regexTrouve("^" + i18nGlobale.getString(I18n.var_PageRecherchePublicLire) + ":\\s*(true)$", classeCommentaire));
-			classeRoleSession = indexerStockerSolr(classeDoc, "classeRoleSession", regexTrouve("^" + i18nGlobale.getString(I18n.var_RoleSession) + ":\\s*(true)$", classeCommentaire));
-			classeRoleUtilisateur = indexerStockerSolr(classeDoc, "classeRoleUtilisateur", regexTrouve("^" + i18nGlobale.getString(I18n.var_RoleUtilisateur) + ":\\s*(true)$", classeCommentaire));
-			classeRoleChacun = indexerStockerSolr(classeDoc, "classeRoleChacun", regexTrouve("^" + i18nGlobale.getString(I18n.var_RoleChacun) + ":\\s*(true)$", classeCommentaire));
+			classeRoleSession = indexerStockerSolr(classeDoc, "classeRoleSession", regexTrouve("^" + i18nGlobale.getString(I18n.var_AuthSession) + ":\\s*(true)$", classeCommentaire));
+			classeRoleUtilisateur = indexerStockerSolr(classeDoc, "classeRoleUtilisateur", regexTrouve("^" + i18nGlobale.getString(I18n.var_AuthUtilisateur) + ":\\s*(true)$", classeCommentaire));
+			classeRoleChacun = indexerStockerSolr(classeDoc, "classeRoleChacun", regexTrouve("^" + i18nGlobale.getString(I18n.var_AuthChacun) + ":\\s*(true)$", classeCommentaire));
 
 			Matcher classeRolesRecherche = Pattern.compile("^" + i18nGlobale.getString(I18n.var_Role) + "(\\.([^:\n]+))?:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
 			classeRolesTrouves = classeRolesRecherche.find();
@@ -2470,7 +2470,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 			indexerStockerSolr(classeDoc, "classeRolesTrouves", classeRolesTrouves); 
 
-			Matcher classeRoleLiresRecherche = Pattern.compile("^" + i18nGlobale.getString(I18n.var_RoleLire) + "\\.([^:\n]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
+			Matcher classeRoleLiresRecherche = Pattern.compile("^" + i18nGlobale.getString(I18n.var_AuthLire) + "\\.([^:\n]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
 			boolean classeRoleLiresTrouves = classeRoleLiresRecherche.find();
 			boolean classeRoleLiresTrouvesActuel = classeRoleLiresTrouves;
 			while(classeRoleLiresTrouvesActuel) {
@@ -5074,6 +5074,14 @@ public class IndexerClasse extends RegarderClasseBase {
 
 				classePartsGenApiAjouter(classePartsListeRecherche, classeLangueNom);
 
+				JsonObject classeAuthClientDefautObjet = regexYamlObject(i18nGlobale.getString(I18n.var_AuthClientDefaut), classeCommentaire);
+				if(classeAuthClientDefautObjet != null) {
+					classeAuth = true;
+					for(String portee : classeAuthClientDefautObjet.fieldNames()) {
+						indexerStockerListeSolr(langueNom, classeDoc, "classeAuthClientPortees", portee); 
+					}
+				}
+
 				JsonObject classeAuthGroupeObjet = regexYamlObject(i18nGlobale.getString(I18n.var_AuthGroupe), classeCommentaire);
 				if(classeAuthGroupeObjet != null) {
 					classeAuth = true;
@@ -5110,7 +5118,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						classeApiMethodeMethode = indexerStockerSolr(langueNom, classeDoc, "classeApiMethode" + classeApiMethode, apiMethode.getString(i18nGlobale.getString(I18n.var_ApiMethode), classeApiMethodeMethode));
 		
 						String classeApiUriMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_ApiUri));
-						Boolean classeRoleUtilisateurMethode = indexerStockerSolr(langueNom, classeDoc, "classeRoleUtilisateur" + classeApiMethode, apiMethode.getBoolean(i18nGlobale.getString(I18n.var_RoleUtilisateur), true));
+						Boolean classeRoleUtilisateurMethode = indexerStockerSolr(langueNom, classeDoc, "classeRoleUtilisateur" + classeApiMethode, apiMethode.getBoolean(i18nGlobale.getString(I18n.var_AuthUtilisateur), true));
 		
 						indexerStockerSolr(langueNom, classeDoc, "classeApiOperationId" + classeApiMethode, apiMethode.getString(i18nGlobale.getString(I18n.var_ApiOperationId), StringUtils.lowerCase(classeApiMethode) + classeNomSimpleLangue));
 						indexerStockerSolr(langueNom, classeDoc, "classeApiOperationId" + classeApiMethode + "Requete", apiMethode.getString(i18nGlobale.getString(I18n.var_ApiOperationIdRequete), classeApiMethode + classeNomSimpleLangue + i18nGlobale.getString(I18n.var_Requete)));

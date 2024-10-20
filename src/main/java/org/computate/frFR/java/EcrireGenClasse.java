@@ -364,9 +364,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected Boolean classePublicLire;
 	protected Boolean classePageRecherchePublicLire;
 
-	/**
-	 * Var.enUS: classRolesFound
-	 */
+	protected Boolean classeAuth;
 	protected Boolean classeRolesTrouves;
 
 	protected List<String> classeRoles;

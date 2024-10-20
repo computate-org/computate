@@ -1951,14 +1951,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") 
 									&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
 									&& (
-									classeRoles.size() > 0
+									classeAuth
 								)
 								|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") && (
 									BooleanUtils.isNotTrue(classeRoleSession) 
 									&& BooleanUtils.isNotTrue(classePublicLire) 
 									&& BooleanUtils.isNotTrue(classeRoleUtilisateur) 
 									&& BooleanUtils.isNotTrue(classeRoleChacun) 
-									&& ( classeRoles.size() > 0 || classeRoleLires.size() > 0)
+									&& classeAuth
 								)
 								) {
 							if(authPolitiqueGranulee) {
@@ -2063,14 +2063,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") 
 								&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
 								&& (
-								classeRoles.size() > 0
+								classeAuth
 							)
 							|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") && (
 								BooleanUtils.isNotTrue(classeRoleSession) 
 								&& BooleanUtils.isNotTrue(classePublicLire) 
 								&& BooleanUtils.isNotTrue(classeRoleUtilisateur) 
 								&& BooleanUtils.isNotTrue(classeRoleChacun) 
-								&& ( classeRoles.size() > 0 || classeRoleLires.size() > 0)
+								&& classeAuth
 							)
 							) {
 						if(authPolitiqueGranulee) {
@@ -2138,7 +2138,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") 
 								&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
 								&& (
-								classeRoles.size() > 0
+								classeAuth
 							)
 							|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") && (
 								BooleanUtils.isNotTrue(classeRoleSession) 
@@ -2146,7 +2146,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								&& BooleanUtils.isNotTrue(classePageRecherchePublicLire && classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) 
 								&& BooleanUtils.isNotTrue(classeRoleUtilisateur) 
 								&& BooleanUtils.isNotTrue(classeRoleChacun) 
-								&& ( classeRoles.size() > 0 || classeRoleLires.size() > 0)
+								&& classeAuth
 							)
 							) {
 						if(authPolitiqueGranulee) {
@@ -2449,7 +2449,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") 
 								&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
 								&& (
-								classeRoles.size() > 0
+								classeAuth
 							)
 							|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") && (
 								BooleanUtils.isNotTrue(classeRoleSession) 
@@ -2457,7 +2457,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								&& BooleanUtils.isNotTrue(classePageRecherchePublicLire && classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) 
 								&& BooleanUtils.isNotTrue(classeRoleUtilisateur) 
 								&& BooleanUtils.isNotTrue(classeRoleChacun) 
-								&& ( classeRoles.size() > 0 || classeRoleLires.size() > 0)
+								&& classeAuth
 							)
 							) {
 						if(authPolitiqueGranulee) {
@@ -4022,7 +4022,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"", classeVarId, "_docvalues_string:\" + SearchTool.escapeQueryChars(id));");
 				tl(3, "}");
 			}
-			if(classeRoles.size() > 0 && (classeRoleSession || classeRoleUtilisateur)) {
+			if(classeAuth && (classeRoleSession || classeRoleUtilisateur)) {
 				l();
 				tl(3, "if(!Optional.ofNullable(config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_ROLE_REQUIS), " + \"_", classeNomSimple, "\")).map(v -> RoleBasedAuthorization.create(v).match(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_Utilisateur), "())).orElse(false)) {");
 				tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getSessionId()).orElse(\"-----\")) + \" OR \" + \"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getSessionId", i18nGlobale.getString(I18n.var_Avant), "()).orElse(\"-----\"))");
