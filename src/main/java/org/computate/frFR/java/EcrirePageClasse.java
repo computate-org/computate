@@ -262,7 +262,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.tl(7, "{%- endif %}");
 				}
 				else if(classeUtilisateurEcrire) {
-					if(classeRolesTrouves || classeRoleLiresTrouves) {
+					if(classeAuth) {
 						wForm.l();
 						wForm.tl(7, "{%- if \"PATCH\" in ", langueConfig.getString(I18n.var_portees), " %}");
 						wForm.tl(8, "{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(I18n.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(I18n.var_authPourEcrire), "Bool=true, ", langueConfig.getString(I18n.var_authPourLire), "Bool=true) }}");
@@ -291,7 +291,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.tl(8, "{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(I18n.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(I18n.var_authPourEcrire), "Bool=false, ", langueConfig.getString(I18n.var_authPourLire), "Bool=false) }}");
 					wForm.tl(7, "{%- endif %}");
 				}
-				else if(classeRolesTrouves || classeRoleLiresTrouves) {
+				else if(classeAuth) {
 					wForm.l();
 					wForm.tl(7, "{%- if \"PATCH\" in ", langueConfig.getString(I18n.var_portees), " %}");
 					wForm.tl(8, "{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(I18n.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(I18n.var_authPourEcrire), "Bool=true, ", langueConfig.getString(I18n.var_authPourLire), "Bool=true) }}");

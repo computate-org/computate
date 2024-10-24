@@ -5495,12 +5495,25 @@ public class IndexerClasse extends RegarderClasseBase {
 						wSmartDataModel.l(" *   GET:");
 						wSmartDataModel.l(" *   PATCH:");
 						wSmartDataModel.l(" *   POST:");
+						wSmartDataModel.l(" *   DELETE:");
 						wSmartDataModel.l(" *   PUTImport:");
 						wSmartDataModel.l(" *   SearchPage:");
 						wSmartDataModel.l(" *     Page: ", classeNomSimple, "Page");
 						wSmartDataModel.l(" *     ApiUri: /", classeNomSimple);
-						wSmartDataModel.l(" *");
-						wSmartDataModel.l(" * Role: SiteAdmin");
+						wSmartDataModel.l(" * AuthGroup:");
+						wSmartDataModel.l(" *   SuperAdmin:");
+						wSmartDataModel.l(" *     POST:");
+						wSmartDataModel.l(" *     PATCH:");
+						wSmartDataModel.l(" *     GET:");
+						wSmartDataModel.l(" *     DELETE:");
+						wSmartDataModel.l(" *     SuperAdmin:");
+						wSmartDataModel.l(" *     SiteAdmin:");
+						wSmartDataModel.l(" *   SiteAdmin:");
+						wSmartDataModel.l(" *     POST:");
+						wSmartDataModel.l(" *     PATCH:");
+						wSmartDataModel.l(" *     GET:");
+						wSmartDataModel.l(" *     DELETE:");
+						wSmartDataModel.l(" *     SiteAdmin:");
 						wSmartDataModel.l(" *");
 						wSmartDataModel.l(" * AName: a ", classeNomSimple);
 						wSmartDataModel.l(" * Color: 2017-shaded-spruce");
@@ -5512,7 +5525,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	
 						Integer row = 3;
 						Integer cell = 1;
-						for(String fieldName : properties.fieldNames()) {
+						ArrayList<String> fieldNames = new ArrayList<>(properties.fieldNames());
+						for(Integer i = 0; i < properties.size(); i++) {
+							String fieldName = fieldNames.get(i);
 							if(!fieldName.equals("id") && !fieldName.equals("type")) {
 								JsonObject field = properties.getJsonObject(fieldName);
 								String jsonType = field.getString("type");
@@ -5581,6 +5596,8 @@ public class IndexerClasse extends RegarderClasseBase {
 								wSmartDataModel.l("	 * DisplayName: ", StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(fieldName), " ").toLowerCase(), "");
 								if(description != null)
 									wSmartDataModel.l("	 * Description: ", description.replace("\r\n", " ").replace("\n", " "), "");
+								if(i == 0)
+									wSmartDataModel.l(String.format("	 * HtmRowTitle: %s details", classeSmartDataModel));
 								wSmartDataModel.l("	 * HtmRow: ", row, "");
 								wSmartDataModel.l("	 * HtmCell: ", cell, "");
 								if("name".equals(fieldName)) {
@@ -5590,10 +5607,10 @@ public class IndexerClasse extends RegarderClasseBase {
 								wSmartDataModel.l("	 **/");
 								wSmartDataModel.l("	protected void _", fieldName, "(Wrap<", javaType, "> w) {}");
 								cell++;
-								if(cell > 3) {
-									row++;
-									cell = 1;
-								}
+								// if(cell > 3) {
+								// 	row++;
+								// 	cell = 1;
+								// }
 								wSmartDataModel.l();
 							}
 						}
