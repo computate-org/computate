@@ -5597,7 +5597,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								if(description != null)
 									wSmartDataModel.l("	 * Description: ", description.replace("\r\n", " ").replace("\n", " "), "");
 								if(i == 0)
-									wSmartDataModel.l(String.format("	 * HtmRowTitle: %s details", classeSmartDataModel));
+									wSmartDataModel.l(String.format("	 * HtmRowTitleOpen: %s details", classeSmartDataModel));
 								wSmartDataModel.l("	 * HtmRow: ", row, "");
 								wSmartDataModel.l("	 * HtmCell: ", cell, "");
 								if("name".equals(fieldName)) {

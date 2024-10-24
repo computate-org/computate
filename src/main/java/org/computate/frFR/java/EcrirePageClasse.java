@@ -593,14 +593,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			}
 			else {
-				//STUFF1
 				if(entiteLien) {
 					tl(1, "{%- if 'Page' == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " %}");
 					tl(9, "<sl-button");
 					tl(11, "id=\"{{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 
 					if(entiteNomAffichage != null) {
-						tl(11, "placeholder=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
+						tl(11, "placeholder=\"[", entiteNomSimple, "] ", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 						tl(11, "label=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 					}
 					if(entiteDescription != null) {
@@ -633,7 +632,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 
 				if(entiteNomAffichage != null) {
-					tl(11, "placeholder=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
+					tl(11, "placeholder=\"[", entiteNomSimple, "] ", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 					tl(11, "label=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 				}
 				if(entiteDescription != null) {
