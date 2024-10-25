@@ -39,6 +39,8 @@ public class I18n {
 	public static final String str_DDDashMMDashYYYY_HHColonMM = "str_DDDashMMDashYYYY_HHColonMM";
 	public static final String str_DDDashMMDashYYYY_HHColonmm = "str_DDDashMMDashYYYY_HHColonmm";
 	public static final String str_ddDashMMDashyyyy_HHColonmm_VV = "str_ddDashMMDashyyyy_HHColonmm_VV";
+	public static final String str_de = "str_de";
+	public static final String str_Definir = "str_Definir";
 	public static final String str_deuxPoints = "str_deuxPoints";
 	public static final String str_Dupliquer = "str_Dupliquer";
 	public static final String str_Dupliquer_ = "str_Dupliquer_";
@@ -101,6 +103,7 @@ public class I18n {
 	public static final String var_AdjectifPluriel = "var_AdjectifPluriel";
 	public static final String var_AdjectifVar = "var_AdjectifVar";
 	public static final String var_Admin = "var_Admin";
+	public static final String var_Aire = "var_Aire";
 	public static final String var_ajouter = "var_ajouter";
 	public static final String var_Ajouter = "var_Ajouter";
 	public static final String var_ajouterErreur = "var_ajouterErreur";

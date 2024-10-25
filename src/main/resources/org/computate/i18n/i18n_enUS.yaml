@@ -251,6 +251,8 @@ classe:
         <p>This class contains a comment <b>"AName.%s: %s"</b>, which identifies the language context to describe a %s as "%s". 
         </p>
 
+str_de: "of"
+str_Definir: "Set"
 str_deuxPoints: ": "
 str_Dupliquer: "Duplicate"
 str_Dupliquer_: "Duplicate "
@@ -316,6 +318,7 @@ var_AdjectifPluriel: "AdjectivePlural"
 var_AdjectifVar: "AdjectiveVar"
 var_Admin: "Admin"
 var_a_échoué: "failed"
+var_Aire: "Area"
 var_ajouter: "add"
 var_Ajouter: "Add"
 var_ajouterErreur: "addError"

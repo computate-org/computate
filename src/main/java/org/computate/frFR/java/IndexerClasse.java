@@ -1962,6 +1962,10 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeVarEmplacementCouleur = null;
 		String classeVarEmplacementTitre = null;
 		String classeVarEmplacementUrl = null;
+		String classeVarAire = null;
+		String classeVarAireCouleur = null;
+		String classeVarAireTitre = null;
+		String classeVarAireUrl = null;
 
 		String classeNomCanoniqueSuper = Object.class.getCanonicalName();
 		Boolean classeSuperErreur = false;
@@ -3298,6 +3302,10 @@ public class IndexerClasse extends RegarderClasseBase {
 						Boolean entiteEmplacementCouleur = indexerStockerSolr(entiteDoc, "entiteEmplacementCouler", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Couleur) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteEmplacementTitre = indexerStockerSolr(entiteDoc, "entiteEmplacementTitre", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Titre) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteEmplacementUrl = indexerStockerSolr(entiteDoc, "entiteEmplacementUrl", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Url) + ":\\s*(true)$", methodeCommentaire));
+						Boolean entiteAire = indexerStockerSolr(entiteDoc, "entiteAire", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + ":\\s*(true)$", methodeCommentaire));
+						Boolean entiteAireCouleur = indexerStockerSolr(entiteDoc, "entiteAireCouler", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + i18nGlobale.getString(I18n.var_Couleur) + ":\\s*(true)$", methodeCommentaire));
+						Boolean entiteAireTitre = indexerStockerSolr(entiteDoc, "entiteAireTitre", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + i18nGlobale.getString(I18n.var_Titre) + ":\\s*(true)$", methodeCommentaire));
+						Boolean entiteAireUrl = indexerStockerSolr(entiteDoc, "entiteAireUrl", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + i18nGlobale.getString(I18n.var_Url) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteCrypte = indexerStockerSolr(entiteDoc, "entiteCrypte", regexTrouve("^" + i18nGlobale.getString(I18n.var_Crypte) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteSuggere = indexerStockerSolr(entiteDoc, "entiteSuggere", regexTrouve("^" + i18nGlobale.getString(I18n.var_Suggere) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarUrlId = indexerStockerSolr(entiteDoc, "entiteVarUrlId", regexTrouve("^VarUrlId:\\s*(true)$", methodeCommentaire));
@@ -4368,6 +4376,18 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteEmplacementUrl) {
 							classeVarEmplacementUrl = stockerSolr(classeLangueNom, classeDoc, "classeVarEmplacementUrl", entiteVar);
 						}
+						if(entiteAire) {
+							classeVarAire = stockerSolr(classeLangueNom, classeDoc, "classeVarAire", entiteVar);
+						}
+						if(entiteAireCouleur) {
+							classeVarAireCouleur = stockerSolr(classeLangueNom, classeDoc, "classeVarAireCouleur", entiteVar);
+						}
+						if(entiteAireTitre) {
+							classeVarAireTitre = stockerSolr(classeLangueNom, classeDoc, "classeVarAireTitre", entiteVar);
+						}
+						if(entiteAireUrl) {
+							classeVarAireUrl = stockerSolr(classeLangueNom, classeDoc, "classeVarAireUrl", entiteVar);
+						}
 						if(entiteSuggere && entiteVar.equals(i18nGlobale.getString(I18n.var_objetSuggere))) {
 							classeVarSuggere = stockerSolr(classeLangueNom, classeDoc, "classeVarSuggere", entiteVar);
 						}
@@ -4779,6 +4799,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				}
 			}
 		}
+
 		if(classeVarEmplacement == null && classeSuperDoc != null) {
 			classeVarEmplacement = (String)classeSuperDoc.get("classeVarEmplacement_" + classeLangueNom + "_stored_string");
 			if(classeVarEmplacement != null) {
@@ -4835,6 +4856,64 @@ public class IndexerClasse extends RegarderClasseBase {
 				}
 			}
 		}
+
+		if(classeVarAire == null && classeSuperDoc != null) {
+			classeVarAire = (String)classeSuperDoc.get("classeVarAire_" + classeLangueNom + "_stored_string");
+			if(classeVarAire != null) {
+				stockerSolr(classeLangueNom, classeDoc, "classeVarAire", classeVarAire);
+				if(classeTraduire) {
+					for(String langueNom : classeAutresLangues) {  
+						String classeVarAireLangue = (String)classeSuperDoc.get("classeVarAire_" + langueNom + "_stored_string");
+						if(classeVarAireLangue != null) {
+							stockerSolr(langueNom, classeDoc, "classeVarAire", classeVarAireLangue);
+						}
+					}
+				}
+			}
+		}
+		if(classeVarAireCouleur == null && classeSuperDoc != null) {
+			classeVarAireCouleur = (String)classeSuperDoc.get("classeVarAireCouleur_" + classeLangueNom + "_stored_string");
+			if(classeVarAireCouleur != null) {
+				stockerSolr(classeLangueNom, classeDoc, "classeVarAireCouleur", classeVarAireCouleur);
+				if(classeTraduire) {
+					for(String langueNom : classeAutresLangues) {  
+						String classeVarAireCouleurLangue = (String)classeSuperDoc.get("classeVarAireCouleur_" + langueNom + "_stored_string");
+						if(classeVarAireCouleurLangue != null) {
+							stockerSolr(langueNom, classeDoc, "classeVarAireCouleur", classeVarAireCouleurLangue);
+						}
+					}
+				}
+			}
+		}
+		if(classeVarAireTitre == null && classeSuperDoc != null) {
+			classeVarAireTitre = (String)classeSuperDoc.get("classeVarAireTitre_" + classeLangueNom + "_stored_string");
+			if(classeVarAireTitre != null) {
+				stockerSolr(classeLangueNom, classeDoc, "classeVarAireTitre", classeVarAireTitre);
+				if(classeTraduire) {
+					for(String langueNom : classeAutresLangues) {  
+						String classeVarAireTitreLangue = (String)classeSuperDoc.get("classeVarAireTitre_" + langueNom + "_stored_string");
+						if(classeVarAireTitreLangue != null) {
+							stockerSolr(langueNom, classeDoc, "classeVarAireTitre", classeVarAireTitreLangue);
+						}
+					}
+				}
+			}
+		}
+		if(classeVarAireUrl == null && classeSuperDoc != null) {
+			classeVarAireUrl = (String)classeSuperDoc.get("classeVarAireUrl_" + classeLangueNom + "_stored_string");
+			if(classeVarAireUrl != null) {
+				stockerSolr(classeLangueNom, classeDoc, "classeVarAireUrl", classeVarAireUrl);
+				if(classeTraduire) {
+					for(String langueNom : classeAutresLangues) {  
+						String classeVarAireUrlLangue = (String)classeSuperDoc.get("classeVarAireUrl_" + langueNom + "_stored_string");
+						if(classeVarAireUrlLangue != null) {
+							stockerSolr(langueNom, classeDoc, "classeVarAireUrl", classeVarAireUrlLangue);
+						}
+					}
+				}
+			}
+		}
+
 		if(classeVarModifie == null && classeSuperDoc != null) {
 			classeVarModifie = (String)classeSuperDoc.get("classeVarModifie_" + classeLangueNom + "_stored_string");
 			if(classeVarModifie != null) {
