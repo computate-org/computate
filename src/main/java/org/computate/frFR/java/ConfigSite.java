@@ -544,6 +544,15 @@ public class ConfigSite {
 		}
 	}
 
+	public String composantsWebPrefixe;
+	protected void _composantsWebPrefixe() throws Exception {
+		composantsWebPrefixe = config
+				.getString(langueConfigGlobale.getString(I18n.var_COMPOSANTS_WEB_PREFIXE));
+		if (StringUtils.isEmpty(composantsWebPrefixe)) {
+			composantsWebPrefixe = "sl-";
+		}
+	}
+
 	/**
 	 * Var.enUS: configFileName enUS: The name of the config file which defaults to
 	 * the siteName followed by ".yaml".
@@ -907,6 +916,7 @@ public class ConfigSite {
 		_computateEnsembleRecherchePrefixe();
 		_nomDomaine();
 		_nomEnsembleDomaine();
+		_composantsWebPrefixe();
 		_nomFichierConfig();
 		_siteZone();
 //		_versionMaven();
