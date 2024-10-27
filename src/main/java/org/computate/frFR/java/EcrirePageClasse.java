@@ -264,7 +264,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.tl(7, "{%- endif %}");
 				}
 				else if(classeUtilisateurEcrire) {
-					if(classeRolesTrouves || classeRoleLiresTrouves) {
+					if(classeAuth) {
 						wForm.l();
 						wForm.tl(7, "{%- if \"PATCH\" in ", langueConfig.getString(I18n.var_portees), " %}");
 						wForm.tl(8, "{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(I18n.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(I18n.var_authPourEcrire), "Bool=true, ", langueConfig.getString(I18n.var_authPourLire), "Bool=true) }}");
@@ -293,7 +293,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.tl(8, "{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(I18n.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(I18n.var_authPourEcrire), "Bool=false, ", langueConfig.getString(I18n.var_authPourLire), "Bool=false) }}");
 					wForm.tl(7, "{%- endif %}");
 				}
-				else if(classeRolesTrouves || classeRoleLiresTrouves) {
+				else if(classeAuth) {
 					wForm.l();
 					wForm.tl(7, "{%- if \"PATCH\" in ", langueConfig.getString(I18n.var_portees), " %}");
 					wForm.tl(8, "{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(I18n.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(I18n.var_authPourEcrire), "Bool=true, ", langueConfig.getString(I18n.var_authPourLire), "Bool=true) }}");
@@ -595,14 +595,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			}
 			else {
-				//STUFF1
 				if(entiteLien) {
 					tl(1, "{%- if 'Page' == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " %}");
 					tl(9, "<sl-button");
 					tl(11, "id=\"{{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 
 					if(entiteNomAffichage != null) {
-						tl(11, "placeholder=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
+						tl(11, "placeholder=\"[", entiteNomSimple, "] ", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 						tl(11, "label=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 					}
 					if(entiteDescription != null) {
@@ -635,7 +634,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 
 				if(entiteNomAffichage != null) {
-					tl(11, "placeholder=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
+					tl(11, "placeholder=\"[", entiteNomSimple, "] ", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 					tl(11, "label=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 				}
 				if(entiteDescription != null) {
@@ -2709,23 +2708,37 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				l("{%- endblock ", i18nPage.getString(I18n.var_htmInfobulle), classePageNomSimple, " %}`;");
 				tl(3, "}");
 
-				if(classeVarEmplacement != null) {
+				if(classeVarEmplacement != null || classeVarAire != null) {
 					l();
 					tl(3, "function ", i18nPage.getString(I18n.var_jsLegende), classeNomSimple, "(map) {");
 					tl(0, "{%- block ", i18nPage.getString(I18n.var_jsLegende), classePageNomSimple, " %}");
 					tl(4, "var div = L.DomUtil.create('div', 'info legend');");
 					tl(4, "var htm = '';");
 					tl(4, "window.", i18nPage.getString(I18n.var_liste), classeNomSimple, ".forEach((", StringUtils.uncapitalize(classeNomSimple), ", index) => {");
-					tl(5, "if(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ") {");
-					tl(6, "var shapes = [];");
-					tl(6, "if(Array.isArray(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, "))");
-					tl(7, "shapes = shapes.concat(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ");");
-					tl(6, "else");
-					tl(7, "shapes.push(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ");");
-					tl(6, "shapes.forEach(function(shape, index) {");
-					tl(7, "htm += ", i18nPage.getString(I18n.var_htmLegende), classeNomSimple, "(map, shape, ", StringUtils.uncapitalize(classeNomSimple), ", index, shapes.length);");
-					tl(6, "});");
-					tl(5, "}");
+					if(classeVarEmplacement != null) {
+						tl(5, "if(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ") {");
+						tl(6, "var shapes = [];");
+						tl(6, "if(Array.isArray(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, "))");
+						tl(7, "shapes = shapes.concat(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ");");
+						tl(6, "else");
+						tl(7, "shapes.push(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ");");
+						tl(6, "shapes.forEach(function(shape, index) {");
+						tl(7, "htm += ", i18nPage.getString(I18n.var_htmLegende), classeNomSimple, "(map, shape, ", StringUtils.uncapitalize(classeNomSimple), ", index, shapes.length);");
+						tl(6, "});");
+						tl(5, "}");
+					}
+					if(classeVarAire != null) {
+						tl(5, "if(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarAire, ") {");
+						tl(6, "var shapes = [];");
+						tl(6, "if(Array.isArray(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarAire, "))");
+						tl(7, "shapes = shapes.concat(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarAire, ");");
+						tl(6, "else");
+						tl(7, "shapes.push(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarAire, ");");
+						tl(6, "shapes.forEach(function(shape, index) {");
+						tl(7, "htm += ", i18nPage.getString(I18n.var_htmLegende), classeNomSimple, "(map, shape, ", StringUtils.uncapitalize(classeNomSimple), ", index, shapes.length);");
+						tl(6, "});");
+						tl(5, "}");
+					}
 					tl(4, "});");
 					tl(4, "div.innerHTML = htm;");
 					tl(4, "return div;");
@@ -2733,9 +2746,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(3, "}");
 					l();
 					tl(3, "function ", i18nPage.getString(I18n.var_htmLegende), classeNomSimple, "(map, shape, ", StringUtils.uncapitalize(classeNomSimple), ", index, count) {");
-					tl(4, "var color = ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacementCouleur, "[index];");
-					tl(4, "var title = ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacementTitre, "[index];");
-					tl(4, "var url = ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacementUrl, "[index];");
+					tl(4, "var color = ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement != null ? classeVarEmplacementCouleur : classeVarAireCouleur, "[index];");
+					tl(4, "var title = ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement != null ? classeVarEmplacementTitre : classeVarAireTitre, "[index];");
+					tl(4, "var url = ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement != null ? classeVarEmplacementUrl : classeVarAireUrl, "[index];");
 					tl(4, "var htm = '';");
 					tl(4, "htm += `<div class=\"cursor-pointer \" style=\"max-width: 400px; \">");
 					tl(0, "`;");
@@ -4905,7 +4918,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(2, "}");
 
 				// Maps
-				if(classeVarEmplacement != null) {
+				if(classeVarEmplacement != null || classeVarAire != null) {
 					auteurPageJs.l();
 					auteurPageJs.tl(2, "// ", i18nPage.getString(I18n.var_Graphique), " ", i18nPage.getString(I18n.var_Emplacement));
 					auteurPageJs.tl(2, "window.mapLayers = {};");
@@ -4917,29 +4930,56 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(2, "if(window.map", classeNomSimple, ") {");
 					auteurPageJs.tl(3, "window.geoJSON", classeNomSimple, ".clearLayers();");
 					auteurPageJs.tl(3, "window.", i18nPage.getString(I18n.var_liste), classeNomSimple, ".forEach((", StringUtils.uncapitalize(classeNomSimple), ", index) => {");
-					auteurPageJs.tl(4, "if(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ") {");
-					auteurPageJs.tl(5, "var shapes = [];");
-					auteurPageJs.tl(5, "if(Array.isArray(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, "))");
-					auteurPageJs.tl(6, "shapes = shapes.concat(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ");");
-					auteurPageJs.tl(5, "else");
-					auteurPageJs.tl(6, "shapes.push(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ");");
-					auteurPageJs.tl(5, "shapes.forEach(function(shape, index) {");
-					auteurPageJs.tl(6, "var features = [{");
-					auteurPageJs.tl(7, "\"type\": \"Feature\"");
-					auteurPageJs.tl(7, ", \"properties\": ", StringUtils.uncapitalize(classeNomSimple));
-					auteurPageJs.tl(7, ", \"geometry\": shape");
-					auteurPageJs.tl(7, ", \"index\": index");
-					auteurPageJs.tl(6, "}];");
-					auteurPageJs.tl(6, "var layer = L.geoJSON(features, {");
-					auteurPageJs.tl(7, "onEachFeature: onEachFeature");
-					auteurPageJs.tl(7, ", style: ", i18nPage.getString(I18n.var_jsStyle), classeNomSimple, "");
-					auteurPageJs.tl(7, ", pointToLayer: function(feature, latlng) {");
-					auteurPageJs.tl(8, "return L.circleMarker(latlng, ", i18nPage.getString(I18n.var_jsStyle), classeNomSimple, "(feature));");
-					auteurPageJs.tl(7, "}");
-					auteurPageJs.tl(6, "});");
-					auteurPageJs.tl(6, "window.geoJSON", classeNomSimple, ".addLayer(layer);");
-					auteurPageJs.tl(5, "});");
-					auteurPageJs.tl(4, "}");
+					if(classeVarEmplacement != null) {
+						auteurPageJs.tl(4, "if(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ") {");
+						auteurPageJs.tl(5, "var shapes = [];");
+						auteurPageJs.tl(5, "if(Array.isArray(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, "))");
+						auteurPageJs.tl(6, "shapes = shapes.concat(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ");");
+						auteurPageJs.tl(5, "else");
+						auteurPageJs.tl(6, "shapes.push(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ");");
+						auteurPageJs.tl(5, "shapes.forEach(function(shape, index) {");
+						auteurPageJs.tl(6, "var features = [{");
+						auteurPageJs.tl(7, "\"type\": \"Feature\"");
+						auteurPageJs.tl(7, ", \"properties\": ", StringUtils.uncapitalize(classeNomSimple));
+						auteurPageJs.tl(7, ", \"geometry\": shape");
+						auteurPageJs.tl(7, ", \"index\": index");
+						auteurPageJs.tl(6, "}];");
+						auteurPageJs.tl(6, "var layer = L.geoJSON(features, {");
+						auteurPageJs.tl(7, "onEachFeature: onEachFeature");
+						auteurPageJs.tl(7, ", style: ", i18nPage.getString(I18n.var_jsStyle), classeNomSimple, "");
+						auteurPageJs.tl(7, ", pointToLayer: function(feature, latlng) {");
+						auteurPageJs.tl(8, "return L.circleMarker(latlng, ", i18nPage.getString(I18n.var_jsStyle), classeNomSimple, "(feature));");
+						auteurPageJs.tl(7, "}");
+						auteurPageJs.tl(6, "});");
+						auteurPageJs.tl(6, "window.geoJSON", classeNomSimple, ".addLayer(layer);");
+						auteurPageJs.tl(5, "});");
+						auteurPageJs.tl(4, "}");
+					}
+					if(classeVarAire != null) {
+						auteurPageJs.tl(4, "if(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarAire, ") {");
+						auteurPageJs.tl(5, "var shapes = [];");
+						auteurPageJs.tl(5, "if(Array.isArray(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarAire, "))");
+						auteurPageJs.tl(6, "shapes = shapes.concat(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarAire, ");");
+						auteurPageJs.tl(5, "else");
+						auteurPageJs.tl(6, "shapes.push(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarAire, ");");
+						auteurPageJs.tl(5, "shapes.forEach(function(shape, index) {");
+						auteurPageJs.tl(6, "var features = [{");
+						auteurPageJs.tl(7, "\"type\": \"Feature\"");
+						auteurPageJs.tl(7, ", \"properties\": ", StringUtils.uncapitalize(classeNomSimple));
+						auteurPageJs.tl(7, ", \"geometry\": shape");
+						auteurPageJs.tl(7, ", \"index\": index");
+						auteurPageJs.tl(6, "}];");
+						auteurPageJs.tl(6, "var layer = L.geoJSON(features, {");
+						auteurPageJs.tl(7, "onEachFeature: onEachFeature");
+						auteurPageJs.tl(7, ", style: ", i18nPage.getString(I18n.var_jsStyle), classeNomSimple, "");
+						auteurPageJs.tl(7, ", pointToLayer: function(feature, latlng) {");
+						auteurPageJs.tl(8, "return L.circleMarker(latlng, ", i18nPage.getString(I18n.var_jsStyle), classeNomSimple, "(feature));");
+						auteurPageJs.tl(7, "}");
+						auteurPageJs.tl(6, "});");
+						auteurPageJs.tl(6, "window.geoJSON", classeNomSimple, ".addLayer(layer);");
+						auteurPageJs.tl(5, "});");
+						auteurPageJs.tl(4, "}");
+					}
 					auteurPageJs.tl(3, "});");
 					auteurPageJs.tl(2, "} else {");
 					auteurPageJs.tl(3, "window.map", classeNomSimple, " = L.map('htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, "', {closePopupOnClick: false});");
@@ -4967,38 +5007,102 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(3, "window.geoJSON", classeNomSimple, " = L.geoJSON().addTo(window.map", classeNomSimple, ");");
 					//auteurPageJs.tl(3, "window.geoJSONLayerGroup", classeNomSimple, " = L.LayerGroup();");
 					auteurPageJs.tl(3, "window.", i18nPage.getString(I18n.var_liste), classeNomSimple, ".forEach((", StringUtils.uncapitalize(classeNomSimple), ", index) => {");
-					auteurPageJs.tl(4, "if(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ") {");
-					auteurPageJs.tl(5, "var shapes = [];");
-					auteurPageJs.tl(5, "if(Array.isArray(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, "))");
-					auteurPageJs.tl(6, "shapes = shapes.concat(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ");");
-					auteurPageJs.tl(5, "else");
-					auteurPageJs.tl(6, "shapes.push(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ");");
-					auteurPageJs.tl(5, "shapes.forEach(shape => {");
-					auteurPageJs.tl(6, "var features = [{");
-					auteurPageJs.tl(7, "\"type\": \"Feature\"");
-					auteurPageJs.tl(7, ", \"properties\": ", StringUtils.uncapitalize(classeNomSimple));
-					auteurPageJs.tl(7, ", \"geometry\": shape");
-					auteurPageJs.tl(7, ", \"index\": index");
-					auteurPageJs.tl(6, "}];");
-					auteurPageJs.tl(6, "var layer = L.geoJSON(features, {");
-					auteurPageJs.tl(7, "onEachFeature: onEachFeature");
-					auteurPageJs.tl(7, ", style: ", i18nPage.getString(I18n.var_jsStyle), classeNomSimple, "");
-					auteurPageJs.tl(7, ", pointToLayer: function(feature, latlng) {");
-					auteurPageJs.tl(8, "return L.circleMarker(latlng, ", i18nPage.getString(I18n.var_jsStyle), classeNomSimple, "(feature));");
-					auteurPageJs.tl(7, "}");
-					auteurPageJs.tl(6, "});");
-					auteurPageJs.tl(6, "window.geoJSON", classeNomSimple, ".addLayer(layer);");
+					if(classeVarEmplacement != null) {
+						auteurPageJs.tl(4, "if(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ") {");
+						auteurPageJs.tl(5, "var shapes = [];");
+						auteurPageJs.tl(5, "if(Array.isArray(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, "))");
+						auteurPageJs.tl(6, "shapes = shapes.concat(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ");");
+						auteurPageJs.tl(5, "else");
+						auteurPageJs.tl(6, "shapes.push(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ");");
+						auteurPageJs.tl(5, "shapes.forEach(shape => {");
+						auteurPageJs.tl(6, "var features = [{");
+						auteurPageJs.tl(7, "\"type\": \"Feature\"");
+						auteurPageJs.tl(7, ", \"properties\": ", StringUtils.uncapitalize(classeNomSimple));
+						auteurPageJs.tl(7, ", \"geometry\": shape");
+						auteurPageJs.tl(7, ", \"index\": index");
+						auteurPageJs.tl(6, "}];");
+						auteurPageJs.tl(6, "var layer = L.geoJSON(features, {");
+						auteurPageJs.tl(7, "onEachFeature: onEachFeature");
+						auteurPageJs.tl(7, ", style: ", i18nPage.getString(I18n.var_jsStyle), classeNomSimple, "");
+						auteurPageJs.tl(7, ", pointToLayer: function(feature, latlng) {");
+						auteurPageJs.tl(8, "return L.circleMarker(latlng, ", i18nPage.getString(I18n.var_jsStyle), classeNomSimple, "(feature));");
+						auteurPageJs.tl(7, "}");
+						auteurPageJs.tl(6, "});");
+						auteurPageJs.tl(6, "window.geoJSON", classeNomSimple, ".addLayer(layer);");
+						auteurPageJs.tl(5, "});");
+						auteurPageJs.tl(4, "}");
+					}
+					if(classeVarAire != null) {
+						auteurPageJs.tl(4, "if(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarAire, ") {");
+						auteurPageJs.tl(5, "var shapes = [];");
+						auteurPageJs.tl(5, "if(Array.isArray(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarAire, "))");
+						auteurPageJs.tl(6, "shapes = shapes.concat(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarAire, ");");
+						auteurPageJs.tl(5, "else");
+						auteurPageJs.tl(6, "shapes.push(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarAire, ");");
+						auteurPageJs.tl(5, "shapes.forEach(shape => {");
+						auteurPageJs.tl(6, "var features = [{");
+						auteurPageJs.tl(7, "\"type\": \"Feature\"");
+						auteurPageJs.tl(7, ", \"properties\": ", StringUtils.uncapitalize(classeNomSimple));
+						auteurPageJs.tl(7, ", \"geometry\": shape");
+						auteurPageJs.tl(7, ", \"index\": index");
+						auteurPageJs.tl(6, "}];");
+						auteurPageJs.tl(6, "var layer = L.geoJSON(features, {");
+						auteurPageJs.tl(7, "onEachFeature: onEachFeature");
+						auteurPageJs.tl(7, ", style: ", i18nPage.getString(I18n.var_jsStyle), classeNomSimple, "");
+						auteurPageJs.tl(7, ", pointToLayer: function(feature, latlng) {");
+						auteurPageJs.tl(8, "return L.circleMarker(latlng, ", i18nPage.getString(I18n.var_jsStyle), classeNomSimple, "(feature));");
+						auteurPageJs.tl(7, "}");
+						auteurPageJs.tl(6, "});");
+						auteurPageJs.tl(6, "window.geoJSON", classeNomSimple, ".addLayer(layer);");
+						auteurPageJs.tl(5, "});");
+						auteurPageJs.tl(4, "}");
+					}
+					auteurPageJs.tl(3, "});");
+					auteurPageJs.tl(3, "window.map", classeNomSimple, ".on('contextmenu', function(e) {");
+					auteurPageJs.tl(4, "var htm = '';");
+					auteurPageJs.tl(4, "if(window.", i18nPage.getString(I18n.var_liste), classeNomSimple, ".length == 1) {");
+					auteurPageJs.tl(5, "window.", i18nPage.getString(I18n.var_liste), classeNomSimple, ".forEach((", StringUtils.uncapitalize(classeNomSimple), ", index) => {");
+					if(classeVarEmplacement != null) {
+						auteurPageJs.tl(6, "htm += '<div><button"
+								, " onclick=\"patch", i18nPage.getString(I18n.var_Emplacement), "(event.target, "
+								, "{ &quot;coordinates&quot;: [ ' + e.latlng.lng + ', ' + e.latlng.lat + ' ], &quot;type&quot;: &quot;Point&quot; }"
+								, ");\">"
+								, i18nPage.getString(I18n.str_Definir), " ", classeVarEmplacement, " ", i18nPage.getString(I18n.str_de), " ' + ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarTitre, " + '</button></div>';");
+					}
+					// if(classeVarAire != null) {
+					// 	auteurPageJs.tl(4, "if(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarAire, ") {");
+					// 	auteurPageJs.tl(5, "if(!Array.isArray(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarAire, ")) {");
+					// 	auteurPageJs.tl(6, "htm += '<div><sl-button>Set ' + ", StringUtils.uncapitalize(classeNomSimple), " + ' of ' + ", StringUtils.uncapitalize(classeNomSimple), " + '</sl-button></div>'");
+					// 	auteurPageJs.tl(5, "}");
+					// 	auteurPageJs.tl(4, "}");
+					// }
 					auteurPageJs.tl(5, "});");
 					auteurPageJs.tl(4, "}");
+					auteurPageJs.tl(4, "var popup = L.popup()");
+					auteurPageJs.tl(6, ".setLatLng(e.latlng)");
+					auteurPageJs.tl(6, ".openOn(window.map", classeNomSimple, ")");
+					auteurPageJs.tl(6, ".setContent(htm);");
 					auteurPageJs.tl(3, "});");
 					auteurPageJs.tl(3, "window.map", classeNomSimple, ".on('popupopen', function(e) {");
-					auteurPageJs.tl(4, "var feature = e.popup._source.feature;");
-					auteurPageJs.tl(4, i18nPage.getString(I18n.var_jsInfobulle), classeNomSimple, "(e, feature);");
+					auteurPageJs.tl(4, "if(e.popup._source) {");
+					auteurPageJs.tl(5, "var feature = e.popup._source.feature;");
+					auteurPageJs.tl(5, i18nPage.getString(I18n.var_jsInfobulle), classeNomSimple, "(e, feature);");
+					auteurPageJs.tl(4, "}");
 					auteurPageJs.tl(3, "});");
 					auteurPageJs.tl(2, "}");
 				}
 				auteurPageJs.tl(1, "}");
 				auteurPageJs.tl(0, "}");
+				if(classeVarEmplacement != null) {
+					auteurPageJs.tl(0, "function patch", i18nPage.getString(I18n.var_Emplacement), "(target, ", classeVarEmplacement, ") {");
+					auteurPageJs.tl(1, "patch", classeNomSimple, "Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":' + ", StringUtils.uncapitalize(classeNomSimple), ".", classeModele ? classeVarClePrimaire : classeVarCleUnique, " }]");
+					auteurPageJs.tl(3, ", 'set", StringUtils.capitalize(classeVarEmplacement), "', ", classeVarEmplacement);
+					auteurPageJs.tl(3, ", target");
+					auteurPageJs.tl(3, ", function(", i18nPage.getString(I18n.var_reponse), ", e) { ", i18nPage.getString(I18n.var_ajouterLueur), "(target); }");
+					auteurPageJs.tl(3, ", function(", i18nPage.getString(I18n.var_reponse), ", e) { ", i18nPage.getString(I18n.var_ajouterErreur), "(target); }");
+					auteurPageJs.tl(3, ");");
+					auteurPageJs.tl(0, "}");
+				}
 				auteurPageJs.l();
 				auteurPageJs.tl(0, "function animate", i18nPage.getString(I18n.var_Stats), "() {");
 				auteurPageJs.tl(1, "document.querySelector('#pageSearchVal-fq", classeNomSimple, "_time').innerText = '';");

@@ -198,10 +198,16 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeVarClePrimaire;
 
 	protected String classeVarInheritClePrimaire;
+
 	protected String classeVarEmplacement;
 	protected String classeVarEmplacementCouleur;
 	protected String classeVarEmplacementTitre;
 	protected String classeVarEmplacementUrl;
+
+	protected String classeVarAire;
+	protected String classeVarAireCouleur;
+	protected String classeVarAireTitre;
+	protected String classeVarAireUrl;
 
 	/**
 	 */
