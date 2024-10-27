@@ -31,6 +31,8 @@ import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 
+import org.computate.i18n.I18n;
+
 /**
  * NomCanonique.enUS: org.computate.enUS.java.WriteClass
  * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 

@@ -62,6 +62,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.pgclient.data.Point;
 
+import org.computate.i18n.I18n;
+
 /**  
  * NomCanonique.enUS: org.computate.enUS.java.WriteGenClass
  * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 

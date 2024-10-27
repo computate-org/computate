@@ -28,6 +28,8 @@ import com.hubspot.jinjava.JinjavaConfig;
 
 import io.vertx.core.json.JsonObject;
 
+import org.computate.i18n.I18n;
+
 /**
  * NomCanonique.enUS: org.computate.enUS.java.WatchClass
  */     
@@ -62,9 +64,10 @@ public class RegarderClasse extends EcrireToutesClasses {
 			RegarderClasse regarderClasse = new RegarderClasse();
 			String classeLangueNom = StringUtils.defaultString(System.getenv("SITE_LANG"), "frFR");
 			String appComputate = System.getenv("COMPUTATE_SRC");
+			String appComputateVertx = System.getenv("COMPUTATE_VERTX_SRC");
 
 			Jinjava jinjava = ConfigSite.getJinjava();
-			JsonObject classeLangueConfig = ConfigSite.getLangueConfigGlobale(jinjava, appComputate, classeLangueNom);
+			JsonObject classeLangueConfig = ConfigSite.getLangueConfigGlobale(jinjava, appComputateVertx, classeLangueNom);
 			JsonObject siteConfig = ConfigSite.getConfiguration(jinjava, classeLangueConfig);
 
 			regarderClasse.args = args;
@@ -163,6 +166,7 @@ public class RegarderClasse extends EcrireToutesClasses {
 	 */   
 	public static SolrInputDocument regarderClasse(JsonObject classeLangueConfig, JsonObject siteConfig, RegarderClasse regarderClasse, String classeLangueNom) throws Exception {
 		String appComputate = System.getenv("COMPUTATE_SRC");
+		String appComputateVertx = System.getenv("COMPUTATE_VERTX_SRC");
 
 		if(new File(regarderClasse.classeCheminAbsolu).isFile() && regarderClasse.classeCheminAbsolu.endsWith(".java")) {
 			SolrInputDocument classeDoc = new SolrInputDocument();

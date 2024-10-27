@@ -77,6 +77,8 @@ import io.kubernetes.client.openapi.models.V1Secret;
 import io.kubernetes.client.util.ClientBuilder;
 import io.kubernetes.client.util.Config;
 
+import org.computate.i18n.I18n;
+
 
 /**
  * NomCanonique.enUS: org.computate.enUS.java.SiteConfig enUS: Loads the
@@ -180,8 +182,13 @@ public class ConfigSite {
 		appComputate = System.getenv("COMPUTATE_SRC");
 	}
 
-	public static JsonObject getLangueConfigGlobale(Jinjava jinjava, String appComputate, String langueNomGlobale) throws Exception {
-		File configFichier = new File(String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputate, langueNomGlobale));
+	public String appComputateVertx;
+	protected void _appComputateVertx() throws Exception {
+		appComputateVertx = System.getenv("COMPUTATE_VERTX_SRC");
+	}
+
+	public static JsonObject getLangueConfigGlobale(Jinjava jinjava, String appComputateVertx, String langueNomGlobale) throws Exception {
+		File configFichier = new File(String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputateVertx, langueNomGlobale));
 		String template = Files.readString(configFichier.toPath());
 		Yaml yaml = new Yaml();
 		HashMap<String, Object> ctx = new HashMap<>();
@@ -215,7 +222,7 @@ public class ConfigSite {
 
 	public JsonObject langueConfigGlobale;
 	protected void _langueConfigGlobale() throws Exception {
-		langueConfigGlobale = getLangueConfigGlobale(jinjava, appComputate, langueNomGlobale);
+		langueConfigGlobale = getLangueConfigGlobale(jinjava, appComputateVertx, langueNomGlobale);
 	}
 
 	/**
@@ -879,6 +886,7 @@ public class ConfigSite {
 	 **/
 	public void initConfigSite() throws Exception {
 		_langueNomGlobale();
+		_appComputateVertx();
 		_appComputate();
 		_jinjava();
 		_langueConfigGlobale();

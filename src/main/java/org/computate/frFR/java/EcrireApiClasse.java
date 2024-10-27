@@ -34,6 +34,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.api.service.ServiceRequest;
 
+import org.computate.i18n.I18n;
+
 /**   
  * NomCanonique.enUS: org.computate.enUS.java.WriteApiClass
  * 

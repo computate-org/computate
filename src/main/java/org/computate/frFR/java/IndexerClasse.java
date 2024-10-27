@@ -78,6 +78,7 @@ import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
 import org.computate.search.wrap.Wrap;
 import org.computate.vertx.api.ApiRequest;
+import org.computate.i18n.I18n;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
