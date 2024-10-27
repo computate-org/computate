@@ -57,6 +57,8 @@ import com.hubspot.jinjava.loader.FileLocator;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+import org.computate.i18n.I18n;
+
 /**
  * NomCanonique.enUS: org.computate.enUS.java.WatchDirectory
  */    
@@ -162,6 +164,7 @@ public class RegarderRepertoire {
 	 */
 	protected String SITE_SRC;
 	protected String COMPUTATE_SRC;
+	protected String COMPUTATE_VERTX_SRC;
 
 	 /**
 	 * r: SITE_NOM
@@ -197,8 +200,9 @@ public class RegarderRepertoire {
 		try {
 			String lang = Optional.ofNullable(System.getenv("SITE_LANG")).orElse("frFR");
 			String appComputate = System.getenv("COMPUTATE_SRC");
+			String appComputateVertx = System.getenv("COMPUTATE_VERTX_SRC");
 			Jinjava jinjava = ConfigSite.getJinjava();
-			JsonObject classeLangueConfig = ConfigSite.getLangueConfigGlobale(jinjava, appComputate, lang);
+			JsonObject classeLangueConfig = ConfigSite.getLangueConfigGlobale(jinjava, appComputateVertx, lang);
 			RegarderRepertoire regarderRepertoire = new RegarderRepertoire();
 			regarderRepertoire.configuration = ConfigSite.getConfiguration(jinjava, classeLangueConfig);
 
@@ -213,6 +217,7 @@ public class RegarderRepertoire {
 			regarderRepertoire.SITE_NOM = SITE_NOM;
 			regarderRepertoire.SITE_SRC = SITE_SRC;
 			regarderRepertoire.COMPUTATE_SRC = appComputate;
+			regarderRepertoire.COMPUTATE_VERTX_SRC = appComputateVertx;
 			regarderRepertoire.classeCheminRepertoireAppli = SITE_SRC;
 
 			regarderRepertoire.cheminSrcMainJava = SITE_SRC + "/src/main/java";
@@ -285,6 +290,7 @@ public class RegarderRepertoire {
 
 	public static void indexerEcrireClasses(String SITE_SRC, JsonObject classeLangueConfig) throws Exception {
 		String appComputate = System.getenv("COMPUTATE_SRC");
+		String appComputateVertx = System.getenv("COMPUTATE_VERTX_SRC");
 		String classeLangueNom = StringUtils.defaultString(System.getenv("SITE_LANG"), "frFR");
 		File dir = new File(String.format("%s/src/main/java", SITE_SRC));
 
