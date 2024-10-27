@@ -3648,7 +3648,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(6, "{%- endmacro htmBody", i18nPage.getString(I18n.var_Tous), classePageNomSimple, "() %}");
 
 			tl(0, "{%- macro htm", i18nPage.getString(I18n.var_BoutonsRecherche), classePageNomSimple, "() %}");
-			tl(4, "<div id=\"htm", i18nPage.getString(I18n.var_BoutonsRecherche), "\">");
+			tl(4, "<div id=\"htm", i18nPage.getString(I18n.var_BoutonsRecherche), "\" class=\"round-first-and-last-column-pill \">");
 
 			//////////////
 			// bouton q //
@@ -3803,7 +3803,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			tl(6, "<", composantsWebPrefixe, "divider></", composantsWebPrefixe, "divider>");
 
-			tl(6, "<div id=\"htm", i18nPage.getString(I18n.var_Bouton), i18nPage.getString(I18n.var_Groupe), "\">");
+			tl(6, "<div id=\"htm", i18nPage.getString(I18n.var_Bouton), i18nPage.getString(I18n.var_Groupe), "\" class=\"round-first-and-last-column-pill \">");
 
 			// recharger 1 //
 			s("{% if ", uncapitalizeClasseApiClasseNomSimple, "Count == 1 %}");
@@ -5088,6 +5088,25 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(5, "var feature = e.popup._source.feature;");
 					auteurPageJs.tl(5, i18nPage.getString(I18n.var_jsInfobulle), classeNomSimple, "(e, feature);");
 					auteurPageJs.tl(4, "}");
+					auteurPageJs.tl(3, "});");
+					auteurPageJs.tl(3, "const drawnItems = new L.FeatureGroup();");
+					auteurPageJs.tl(3, "window.map", classeNomSimple, ".addLayer(drawnItems);");
+					auteurPageJs.tl(3, "const drawControl = new L.Control.Draw({");
+					auteurPageJs.tl(4, "edit: {");
+					auteurPageJs.tl(5, "featureGroup: drawnItems");
+					auteurPageJs.tl(4, "},");
+					auteurPageJs.tl(4, "draw: {");
+					auteurPageJs.tl(5, "polygon: true");
+					auteurPageJs.tl(5, ", polygon: true");
+					auteurPageJs.tl(5, ", polyline: true");
+					auteurPageJs.tl(5, ", rectangle: true");
+					auteurPageJs.tl(5, ", circle: true");
+					auteurPageJs.tl(5, ", marker: true");
+					auteurPageJs.tl(4, "}");
+					auteurPageJs.tl(3, "});");
+					auteurPageJs.tl(3, "window.map", classeNomSimple, ".addControl(drawControl);");
+					auteurPageJs.tl(3, "window.map", classeNomSimple, ".on(L.Draw.Event.CREATED, function (event) {");
+					auteurPageJs.tl(4, "drawnItems.addLayer(event.layer);");
 					auteurPageJs.tl(3, "});");
 					auteurPageJs.tl(2, "}");
 				}
