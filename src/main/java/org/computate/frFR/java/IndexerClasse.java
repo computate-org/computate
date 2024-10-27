@@ -5726,7 +5726,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						wSmartDataModel.l("	@Override");
 						wSmartDataModel.l("	protected void _objectTitle(Wrap<String> w) {");
 						wSmartDataModel.l("		StringBuilder b = new StringBuilder();");
-						wSmartDataModel.l("		b.append(Optional.ofNullable(entityShortId).map(s -> String.format(\"%s - %s\", ", classeNomSimple, "_NameAdjectiveSingular_enUS, s)).orElse(pk.toString()));");
+						wSmartDataModel.l("		b.append(Optional.ofNullable(entityShortId).map(s -> String.format(\"%s — %s\", ", classeNomSimple, "_NameAdjectiveSingular_enUS, s)).orElse(pk.toString()));");
 						wSmartDataModel.l("		w.o(b.toString().trim());");
 						wSmartDataModel.l("	}");
 						wSmartDataModel.l("");
