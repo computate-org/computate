@@ -14,10 +14,7 @@
 package org.computate.frFR.java;      
 
 import java.io.File;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -38,11 +35,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.text.translate.AggregateTranslator;
 import org.apache.commons.text.translate.CharSequenceTranslator;
@@ -50,19 +45,12 @@ import org.apache.commons.text.translate.EntityArrays;
 import org.apache.commons.text.translate.LookupTranslator;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
+import org.computate.i18n.I18n;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.pgclient.data.Point;
-
-import org.computate.i18n.I18n;
 
 /**  
  * NomCanonique.enUS: org.computate.enUS.java.WriteGenClass
@@ -674,13 +662,20 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain auteurGenClasse;
 	protected ToutEcrivain auteurGenClasseDebut;
 	protected ToutEcrivain auteurGenClasseFin;
-	protected ToutEcrivain auteurPageGenClasse = null;
+	protected ToutEcrivain auteurGenPageClasse = null;
 	protected ToutEcrivain auteurPageClasse = null;
 	protected ToutEcrivain auteurPageCss = null;
 	protected ToutEcrivain auteurPageJs = null;
 	protected ToutEcrivain auteurPageJsModule = null;
-	protected ToutEcrivain auteurPageJinja = null;
-	protected ToutEcrivain auteurGenPageJinja = null;
+	// protected ToutEcrivain auteurPageJinja = null;
+	// protected ToutEcrivain auteurGenPageJinja = null;
+	protected ToutEcrivain auteurBarreLateraleJinja = null;
+	protected ToutEcrivain auteurPageRechercheJinja = null;
+	protected ToutEcrivain auteurGenPageRechercheJinja = null;
+	protected ToutEcrivain auteurPageEditionJinja = null;
+	protected ToutEcrivain auteurGenPageEditionJinja = null;
+	protected ToutEcrivain auteurPageAffichageJinja = null;
+	protected ToutEcrivain auteurPageUtilisateurJinja = null;
 	protected ToutEcrivain auteurGenPageJinjaEntite = null;
 	protected ToutEcrivain auteurWebsocket = null;
 
@@ -1176,9 +1171,28 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	String classeGenPageChemin;
 
-	String classePageCheminJinja;
+	String classeBarreLateraleTemplate;
+	String classeBarreLateraleCheminJinja;
 
-	String classeGenPageCheminJinja;
+	String classePageRechercheTemplate;
+	String classePageRechercheCheminJinja;
+
+	String classeGenPageRechercheSuperTemplate;
+	String classeGenPageRechercheTemplate;
+	String classeGenPageRechercheCheminJinja;
+
+	String classePageEditionTemplate;
+	String classePageEditionCheminJinja;
+
+	String classeGenPageEditionSuperTemplate;
+	String classeGenPageEditionTemplate;
+	String classeGenPageEditionCheminJinja;
+
+	String classePageAffichageTemplate;
+	String classePageAffichageCheminJinja;
+
+	String classePageUtilisateurTemplate;
+	String classePageUtilisateurCheminJinja;
 
 	String classePageUriMethode;
 
@@ -1206,7 +1220,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	ToutEcrivain wPATCH;
 	ToutEcrivain wDELETE;
 	ToutEcrivain wSuggere;
-	ToutEcrivain wGetters;
+	// ToutEcrivain wGetters;
 	ToutEcrivain wTh;
 	ToutEcrivain wTd;
 	ToutEcrivain wFoot;
@@ -2270,19 +2284,45 @@ public class EcrireGenClasse extends EcrireClasse {
 			classePageCheminCss = classeDoc.getString("classePageCheminCss"  + "_" + langueNom + "_stored_string");
 			classePageCheminJs = classeDoc.getString("classePageCheminJs"  + "_" + langueNom + "_stored_string");
 			classePageCheminJsModule = classeDoc.getString("classePageCheminJsModule"  + "_" + langueNom + "_stored_string");
-			classePageCheminJinja = classeDoc.getString("classePageCheminJinja"  + "_" + langueNom + "_stored_string");
-			classeGenPageCheminJinja = classeDoc.getString("classeGenPageCheminJinja"  + "_" + langueNom + "_stored_string");
+
+			classeBarreLateraleTemplate = classeDoc.getString("classeBarreLateraleTemplate" + "_" + langueNom + "_stored_string");
+			classeBarreLateraleCheminJinja = classeDoc.getString("classeBarreLateraleCheminJinja" + "_" + langueNom + "_stored_string");
+
+			classePageRechercheTemplate = classeDoc.getString(String.format("classe%sTemplate", i18nGlobale.getString(I18n.var_PageRecherche)) + "_" + langueNom + "_stored_string");
+			classePageRechercheCheminJinja = classeDoc.getString(String.format("classe%sCheminJinja", i18nGlobale.getString(I18n.var_PageRecherche)) + "_" + langueNom + "_stored_string");
+
+			classeGenPageRechercheSuperTemplate = classeDoc.getString("classePageSuperPageTemplate" + "_" + langueNom + "_stored_string");
+			classeGenPageRechercheTemplate = classeDoc.getString(String.format("classeGen%sTemplate", i18nGlobale.getString(I18n.var_PageRecherche)) + "_" + langueNom + "_stored_string");
+			classeGenPageRechercheCheminJinja = classeDoc.getString(String.format("classeGen%sCheminJinja", i18nGlobale.getString(I18n.var_PageRecherche)) + "_" + langueNom + "_stored_string");
+
+			classePageEditionTemplate = classeDoc.getString(String.format("classe%sTemplate", i18nGlobale.getString(I18n.var_PageEdition)) + "_" + langueNom + "_stored_string");
+			classePageEditionCheminJinja = classeDoc.getString(String.format("classe%sCheminJinja", i18nGlobale.getString(I18n.var_PageEdition)) + "_" + langueNom + "_stored_string");
+
+			classeGenPageEditionSuperTemplate = classeDoc.getString("classePageSuperPageTemplate" + "_" + langueNom + "_stored_string");
+			classeGenPageEditionTemplate = classeDoc.getString(String.format("classeGen%sTemplate", i18nGlobale.getString(I18n.var_PageEdition)) + "_" + langueNom + "_stored_string");
+			classeGenPageEditionCheminJinja = classeDoc.getString(String.format("classeGen%sCheminJinja", i18nGlobale.getString(I18n.var_PageEdition)) + "_" + langueNom + "_stored_string");
+
+			classePageAffichageTemplate = classeDoc.getString(String.format("classe%sTemplate", i18nGlobale.getString(I18n.var_PageAffichage)) + "_" + langueNom + "_stored_string");
+			classePageAffichageCheminJinja = classeDoc.getString(String.format("classe%sCheminJinja", i18nGlobale.getString(I18n.var_PageAffichage)) + "_" + langueNom + "_stored_string");
+
+			classePageUtilisateurTemplate = classeDoc.getString(String.format("classe%sTemplate", i18nGlobale.getString(I18n.var_PageUtilisateur)) + "_" + langueNom + "_stored_string");
+			classePageUtilisateurCheminJinja = classeDoc.getString(String.format("classe%sCheminJinja", i18nGlobale.getString(I18n.var_PageUtilisateur)) + "_" + langueNom + "_stored_string");
 		
-			File classePageFichierGen = null;
+			File classeGenPageFichier = null;
 			File classePageFichier = null;
 			File classePageFichierCss = null;
 			File classePageFichierJs = null;
 			File classePageFichierJsModule = null;
-			File classePageFichierJinja = null;
-			File classeGenPageFichierJinja = null;
+			File classeBarreLateraleFichierJinja = null;
+			File classePageRechercheFichierJinja = null;
+			File classeGenPageRechercheFichierJinja = null;
+			File classePageEditionFichierJinja = null;
+			File classeGenPageEditionFichierJinja = null;
+			File classePageAffichageFichierJinja = null;
+			File classePageUtilisateurFichierJinja = null;
 
 			if(classeGenPageChemin != null)
-				classePageFichierGen = new File(classeGenPageChemin);
+				classeGenPageFichier = new File(classeGenPageChemin);
 			if(classePageChemin != null)
 				classePageFichier = new File(classePageChemin);
 			if(classePageCheminCss != null)
@@ -2291,13 +2331,25 @@ public class EcrireGenClasse extends EcrireClasse {
 				classePageFichierJs = new File(classePageCheminJs);
 			if(classePageCheminJsModule != null)
 				classePageFichierJsModule = new File(classePageCheminJsModule);
-			if(classePageCheminJinja != null)
-				classePageFichierJinja = new File(classePageCheminJinja);
-			if(classeGenPageCheminJinja != null)
-				classeGenPageFichierJinja = new File(classeGenPageCheminJinja);
 
-			if(classePageFichierGen != null)
-				auteurPageGenClasse = ToutEcrivain.create(classePageFichierGen, "  ");
+			if(classeBarreLateraleCheminJinja != null)
+				classeBarreLateraleFichierJinja = new File(classeBarreLateraleCheminJinja);
+
+			if(classePageRechercheCheminJinja != null)
+				classePageRechercheFichierJinja = new File(classePageRechercheCheminJinja);
+			if(classeGenPageRechercheCheminJinja != null)
+				classeGenPageRechercheFichierJinja = new File(classeGenPageRechercheCheminJinja);
+			if(classePageEditionCheminJinja != null)
+				classePageEditionFichierJinja = new File(classePageEditionCheminJinja);
+			if(classeGenPageEditionCheminJinja != null)
+				classeGenPageEditionFichierJinja = new File(classeGenPageEditionCheminJinja);
+			if(classePageAffichageCheminJinja != null)
+				classePageAffichageFichierJinja = new File(classePageAffichageCheminJinja);
+			if(classePageUtilisateurCheminJinja != null)
+				classePageUtilisateurFichierJinja = new File(classePageUtilisateurCheminJinja);
+
+			if(classeGenPageFichier != null)
+				auteurGenPageClasse = ToutEcrivain.create(classeGenPageFichier, "  ");
 			if(classePageFichier != null && (!classePageFichier.exists() || classePageFichier.length() == 0L))
 				auteurPageClasse = ToutEcrivain.create(classePageFichier, "  ");
 			if(classePageFichierCss != null) {
@@ -2312,14 +2364,39 @@ public class EcrireGenClasse extends EcrireClasse {
 				classePageFichierJsModule.getParentFile().mkdirs();
 				auteurPageJsModule = ToutEcrivain.create(classePageFichierJsModule, "  ");
 			}
-			if(classePageFichierJinja != null && (!classePageFichierJinja.exists() || classePageFichierJinja.length() == 0L)) {
-				classePageFichierJinja.getParentFile().mkdirs();
-				auteurPageJinja = ToutEcrivain.create(classePageFichierJinja, "  ");
+
+			if(classeBarreLateraleFichierJinja != null) {
+				classeGenPageRechercheFichierJinja.getParentFile().mkdirs();
+				auteurBarreLateraleJinja = ToutEcrivain.create(classeBarreLateraleFichierJinja, "  ");
 			}
-			if(classeGenPageFichierJinja != null) {
-				classeGenPageFichierJinja.getParentFile().mkdirs();
-				auteurGenPageJinja = ToutEcrivain.create(classeGenPageFichierJinja, "  ");
+
+			if(classePageRechercheFichierJinja != null && (!classePageRechercheFichierJinja.exists() || classePageRechercheFichierJinja.length() == 0L)) {
+				classePageRechercheFichierJinja.getParentFile().mkdirs();
+				auteurPageRechercheJinja = ToutEcrivain.create(classePageRechercheFichierJinja, "  ");
+			}
+			if(classeGenPageRechercheFichierJinja != null) {
+				classeGenPageRechercheFichierJinja.getParentFile().mkdirs();
+				auteurGenPageRechercheJinja = ToutEcrivain.create(classeGenPageRechercheFichierJinja, "  ");
 				auteurGenPageJinjaEntite = ToutEcrivain.create("  ");
+			}
+
+			if(classePageEditionFichierJinja != null && (!classePageEditionFichierJinja.exists() || classePageEditionFichierJinja.length() == 0L)) {
+				classePageEditionFichierJinja.getParentFile().mkdirs();
+				auteurPageEditionJinja = ToutEcrivain.create(classePageEditionFichierJinja, "  ");
+			}
+			if(classeGenPageEditionFichierJinja != null) {
+				classeGenPageEditionFichierJinja.getParentFile().mkdirs();
+				auteurGenPageEditionJinja = ToutEcrivain.create(classeGenPageEditionFichierJinja, "  ");
+			}
+
+			if(classePageAffichageFichierJinja != null && (!classePageAffichageFichierJinja.exists() || classePageAffichageFichierJinja.length() == 0L)) {
+				classePageAffichageFichierJinja.getParentFile().mkdirs();
+				auteurPageAffichageJinja = ToutEcrivain.create(classePageAffichageFichierJinja, "  ");
+			}
+
+			if(classePageUtilisateurFichierJinja != null && (!classePageUtilisateurFichierJinja.exists() || classePageUtilisateurFichierJinja.length() == 0L)) {
+				classePageUtilisateurFichierJinja.getParentFile().mkdirs();
+				auteurPageUtilisateurJinja = ToutEcrivain.create(classePageUtilisateurFichierJinja, "  ");
 			}
 		}
 	}

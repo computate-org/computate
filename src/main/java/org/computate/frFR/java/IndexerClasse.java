@@ -1925,8 +1925,15 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		indexerStockerSolr(classeDoc, "siteChemin", siteChemin);
 		indexerStockerSolr(classeDoc, "siteNom", siteNom);
-		JavaClass classeQdox = bricoleur.getClassByName(classeNomCanonique.toString());
-		JavaClass classeQdoxSuper = classeQdox.getSuperJavaClass();
+		JavaClass classeQdox = null;
+		JavaClass classeQdoxSuper = null;
+		try {
+			classeQdox = bricoleur.getClassByName(classeNomCanonique.toString());
+			classeQdoxSuper = classeQdox.getSuperJavaClass();
+		} catch(Throwable ex) {
+			LOG.error(String.format(i18nGlobale.getString(I18n.str_Erreur_lors_de_lanalyse_de_la_classe), classeNomCanonique), ex);
+			ExceptionUtils.rethrow(ex);
+		}
 		JavaClass classeQdoxString = bricoleur.getClassByName(String.class.getCanonicalName());
 
 		Boolean classeMotsClesTrouves = false;
@@ -2234,16 +2241,31 @@ public class IndexerClasse extends RegarderClasseBase {
 		Integer partNumero = 1;
 
 		indexerStockerSolr(classeDoc, "classeEstAbstrait", classeQdox.isAbstract()); 
-		//STUFF0
 		Boolean classeModele = indexerStockerSolr(classeDoc, "classeModele", 
 				regexTrouve("^" + i18nGlobale.getString(I18n.var_Modele) + ": \\s*(true)$", classeCommentaire) 
 				|| classeSuperDoc != null && (BooleanUtils.isTrue((Boolean)classeSuperDoc.get("classeModele_stored_boolean"))));
 		Boolean classeFiware = indexerStockerSolr(classeDoc, "classeFiware", regexTrouve("^Fiware: \\s*(true)$", classeCommentaire));
 		String classeModeleAlternatif = indexerStockerSolr(classeDoc, "classeModeleAlternatif", regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_ModeleAlternatif), classeCommentaire, classeNomSimple));
-		Boolean classeApi = indexerStockerSolr(classeDoc, "classeApi", regexTrouve("^(classe)?Api: \\s*(true)$", classeCommentaire));
-		Boolean classePage = regexTrouve("^" + i18nGlobale.getString(I18n.var_Page) + ": \\s*(true)$", classeCommentaire);
+		//STUFF0
+		String classeUriPageRecherche = indexerStockerSolr(classeDoc, "classeUriPageRecherche", regex("^" + i18nGlobale.getString(I18n.var_UriPageRecherche) + ": (.*)", classeCommentaire));
+		String classeUriPageAffichage = indexerStockerSolr(classeDoc, "classeUriPageAffichage", regex("^" + i18nGlobale.getString(I18n.var_UriPageAffichage) + ": (.*)", classeCommentaire));
+		String classeUriPageUtilisateur = indexerStockerSolr(classeDoc, "classeUriPageUtilisateur", regex("^" + i18nGlobale.getString(I18n.var_UriPageUtilisateur) + ": (.*)", classeCommentaire));
+		String classeUriPageEdition = indexerStockerSolr(classeDoc, "classeUriPageEdition", regex("^" + i18nGlobale.getString(I18n.var_UriPageEdition) + ": (.*)", classeCommentaire, classeUriPageRecherche));
+		Boolean classeApi = indexerStockerSolr(classeDoc, "classeApi", regexTrouve("^(classe)?Api: \\s*(true)$", classeCommentaire)
+				|| classeUriPageRecherche != null
+				|| classeUriPageEdition != null
+				|| classeUriPageAffichage != null
+				|| classeUriPageUtilisateur != null
+				);
+		Boolean classePage = regexTrouve("^" + i18nGlobale.getString(I18n.var_Page) + ": \\s*(true)$", classeCommentaire)
+				|| classeUriPageRecherche != null
+				|| classeUriPageEdition != null
+				|| classeUriPageAffichage != null
+				|| classeUriPageUtilisateur != null
+				;
 		Boolean classePageSimple = indexerStockerSolr(classeDoc, "classePageSimple", regexTrouve("^" + i18nGlobale.getString(I18n.var_PageSimple) + ": \\s*(true)$", classeCommentaire));
 		Boolean classeSauvegarde = indexerStockerSolr(classeDoc, "classeSauvegarde", regexTrouve("^" + i18nGlobale.getString(I18n.var_Sauvegarde) + ":\\s*(true)$", classeCommentaire) || classeModele || classeFiware);
+		indexerStockerSolr(langueNomGlobale, classeDoc, "classePageTemplate", regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_PageTemplate), classeCommentaire));
 		indexerStockerSolr(langueNomGlobale, classeDoc, "classePageTemplates", regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_PageTemplates), classeCommentaire));
 		indexerStockerSolr(langueNomGlobale, classeDoc, "classePageTemplatesUtilisateur", regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_PageTemplatesUtilisateur), classeCommentaire));
 		String classeApiClasseNomSimple = regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_ApiClasse), classeCommentaire, classeNomSimple);
@@ -2654,7 +2676,13 @@ public class IndexerClasse extends RegarderClasseBase {
 		indexerStockerSolr(classeDoc, "partEstClasse", true);
 		indexerStockerSolr(classeDoc, "partNumero", partNumero);
 
-		String classeCodeSourceComplet = classeQdox.getCodeBlock();
+		String classeCodeSourceComplet = null;
+		try {
+			classeCodeSourceComplet = classeQdox.getCodeBlock();
+		} catch(Throwable ex) {
+			LOG.error(String.format(i18nGlobale.getString(I18n.str_Erreur_lors_de_lanalyse_de_la_classe), classeQdox.getCanonicalName()), ex);
+			ExceptionUtils.rethrow(ex);
+		}
 		stockerSolr(classeLangueNom, classeDoc, "classeCodeSourceDebut", regex("([\\s\\S]*?class " + classeNomSimple + "[^\\{]*[;\\{])", classeCodeSourceComplet, 1));
 		stockerSolr(classeLangueNom, classeDoc, "classeCodeSourceFin", "}\n");
 
@@ -5029,9 +5057,128 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		String classeNomSimpleLangue = (String)classeDoc.get("classeNomSimple_" + langueNomGlobale + "_stored_string").getValue();
 		Boolean classeAuth = false;
+		String classePageNomSimple = null;
+
+		if(classePage) {
+			//STUFF0
+			classePageNomSimple = classeNomSimpleLangue + i18nGlobale.getString(I18n.var_Page);
+			String classePageSuperNomSimple = regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_PageSuper), classeCommentaire, "Object");
+			String classeNomEnsembleLangue = (String)classeDoc.get("classeNomEnsemble_" + langueNomGlobale + "_indexed_string").getValue();
+			String classePageNomCanonique = (String)classeDoc.get("classeNomCanonique_" + langueNomGlobale + "_stored_string").getValue() + i18nGlobale.getString(I18n.var_Page);
+			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageNomCanonique", classePageNomCanonique);
+			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageNomSimple", classePageNomSimple);
+
+			String classeGenPageNomSimple;
+			String classeGenPageChemin;
+			if(StringUtils.contains(classePageNomSimple, "Page")) {
+				classeGenPageNomSimple = StringUtils.substringBeforeLast(classePageNomSimple, "Page") + "GenPage" + StringUtils.substringAfterLast(classePageNomSimple, "Page");
+				classeGenPageChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
+			}
+			else {
+				classeGenPageNomSimple = "Gen" + classePageNomSimple;
+				classeGenPageChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
+			}
+			indexerStockerSolr(langueNomGlobale, classeDoc, "classeGenPageNomSimple", classeGenPageNomSimple);
+			String classeGenPageNomCanonique = classeNomEnsembleLangue + "." + classeGenPageNomSimple;
+			indexerStockerSolr(langueNomGlobale, classeDoc, "classeGenPageNomCanonique", classeGenPageNomCanonique);
+			String classePageChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classePageNomSimple, ".java");
+			indexerStockerSolr(langueNomGlobale, classeDoc, "classeGenPageChemin", classeGenPageChemin); 
+			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageChemin", classePageChemin); 
+			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminCss", concat(siteChemin, "-static/css/", langueNomGlobale, "/", classePageNomSimple, ".css"));
+			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJs", concat(siteChemin, "-static/js/", langueNomGlobale, "/", classePageNomSimple, ".js"));
+			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJsModule", concat(siteChemin, "-static/js/", langueNomGlobale, "/", classePageNomSimple, "Module.js"));
+			// String classePageTemplate = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageTemplate", concat(langueNomGlobale.substring(0, 2), "-", langueNomGlobale.substring(2, 4).toLowerCase(), "/", classePageNomSimple, ".htm"));
+			// String classePageCheminJinja = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJinja", concat(siteChemin, "/src/main/resources/templates/", classePageTemplate));
+			// String classeGenPageTemplate = indexerStockerSolr(langueNomGlobale, classeDoc, "classeGenPageTemplate", concat(langueNomGlobale.substring(0, 2), "-", langueNomGlobale.substring(2, 4).toLowerCase(), "/", classeGenPageNomSimple, ".htm"));
+			// String classeGenPageCheminJinja = indexerStockerSolr(langueNomGlobale, classeDoc, "classeGenPageCheminJinja", concat(siteChemin, "/src/main/resources/templates/", classeGenPageTemplate));
+			// String classePageSuperTemplate = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageSuperTemplate", concat(langueNomGlobale.substring(0, 2), "-", langueNomGlobale.substring(2, 4).toLowerCase(), "/", classePageSuperNomSimple, ".htm"));
+			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageLangueNom", langueNomGlobale); 
+
+			if(classePageSuperNomSimple != null) {
+				SolrQuery recherchePageSuper = new SolrQuery();   
+				recherchePageSuper.setQuery("*:*");
+				recherchePageSuper.setRows(1);
+				recherchePageSuper.addFilterQuery("classeNomSimple_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classePageSuperNomSimple));
+				recherchePageSuper.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
+				recherchePageSuper.addFilterQuery("partEstClasse_indexed_boolean:true");
+				recherchePageSuper.addFilterQuery("langueNom_indexed_string:" + ClientUtils.escapeQueryChars(classeLangueNom));
+				QueryResponse reponseRecherchePageSuper = clientSolrComputate.query(recherchePageSuper);
+				SolrDocumentList listeRecherchePageSuper = reponseRecherchePageSuper.getResults();
+
+				if(listeRecherchePageSuper.size() > 0) {
+					SolrDocument docPageSuper = listeRecherchePageSuper.get(0);
+					String classePageSuperNomCanoniqueMethode = (String)docPageSuper.get("classeNomCanonique_" + classeLangueNom + "_stored_string");
+					String classePageSuperPageTemplate = (String)docPageSuper.get("classePageTemplate_" + classeLangueNom + "_stored_string");
+					indexerStockerSolr(langueNomGlobale, classeDoc, "classePageSuperNomCanonique", classePageSuperNomCanoniqueMethode);
+					indexerStockerSolr(langueNomGlobale, classeDoc, "classePageSuperNomSimple", classePageSuperNomSimple);
+					indexerStockerSolr(langueNomGlobale, classeDoc, "classePageSuperPageTemplate", classePageSuperPageTemplate);
+					classePartsGenPageAjouter(ClasseParts.initClasseParts(this, classePageSuperNomCanoniqueMethode, classeLangueNom), classeLangueNom);
+				}
+				else {
+					if(classePartsMiseEnPage != null) {
+						indexerStockerSolr(langueNomGlobale, classeDoc, "classePageSuperNomCanonique", (String)classePartsMiseEnPage.nomCanonique(classeLangueNom));
+						indexerStockerSolr(langueNomGlobale, classeDoc, "classePageSuperNomSimple", (String)classePartsMiseEnPage.nomSimple(classeLangueNom));
+						classePartsGenPageAjouter(classePartsMiseEnPage, classeLangueNom);
+					}
+				}
+			}
+			else {
+				if(classePartsMiseEnPage != null) {
+					indexerStockerSolr(langueNomGlobale, classeDoc, "classePageSuperNomCanonique", (String)classePartsMiseEnPage.nomCanonique(classeLangueNom));
+					indexerStockerSolr(langueNomGlobale, classeDoc, "classePageSuperNomSimple", (String)classePartsMiseEnPage.nomSimple(classeLangueNom));
+					classePartsGenPageAjouter(classePartsMiseEnPage, classeLangueNom);
+				}
+			}
+
+			classePartsGenPageAjouter(classePartsRequeteSite, classeLangueNom);
+			classePartsGenPageAjouter(classePartsUtilisateurSite, classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.io.IOException", classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.http.HttpServerRequest", classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.http.HttpServerResponse", classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(classePartsListeRecherche, classeLangueNom);
+			classePartsGenPageAjouter(classePartsCouverture, classeLangueNom);
+			classePartsGenPageAjouter(classePartsMiseEnPage, classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, LocalDateTime.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, LocalTime.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, LocalDate.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, ZonedDateTime.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, DateTimeFormatter.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.time.temporal.ChronoUnit", classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Duration.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Instant.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Locale.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.JsonObject", classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.api.service.ServiceRequest", classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.JsonArray", classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.net.URLDecoder", classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.exception.ExceptionUtils", classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, StringUtils.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Map.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, List.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Optional.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Stream.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Collectors.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Arrays.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, BigDecimal.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, RoundingMode.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, MathContext.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Objects.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.Promise", classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, classePartsConfigCles.nomCanonique(classeLangueNom), classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "org.computate.search.response.solr.SolrResponse", classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.util.HashMap", classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "org.computate.search.tool.TimeTool", classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "org.computate.search.tool.SearchTool", classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.time.ZoneId", classeLangueNom), classeLangueNom);
+	
+			for(ClasseParts classePartGenPage : classePartsGenPage.values()) {
+				indexerStockerListeSolr(langueNomGlobale, classeDoc, "classeImportationsGenPage", classePartGenPage.nomCanonique(classeLangueNom));
+			}
+		}
 
 		if(classeApi) {
 
+			String classePageRechercheTemplate = null;
 			for(String langueNom : toutesLangues) {
 				String classeApiUri = indexerStockerSolrRegex(langueNom, classeDoc, "classeApiUri", "ApiUri", classeCommentaire);
 				String classeApiTag = indexerStockerSolrRegex(langueNom, classeDoc, "classeApiTag", "ApiTag", classeCommentaire);
@@ -5175,6 +5322,33 @@ public class IndexerClasse extends RegarderClasseBase {
 				}
 
 				JsonObject apiMethodeObjet = regexYamlObject(i18nGlobale.getString(I18n.var_ApiMethode), classeCommentaire);
+
+				//STUFF0
+				if(classeUriPageRecherche != null && !apiMethodeObjet.containsKey(i18nGlobale.getString(I18n.var_PageRecherche))) {
+					apiMethodeObjet.put(i18nGlobale.getString(I18n.var_PageRecherche), new JsonObject()
+							.put(i18nGlobale.getString(I18n.var_ApiUri), classeUriPageRecherche)
+							.put(i18nGlobale.getString(I18n.var_Page), classePageNomSimple)
+					);
+				}
+				if(classeUriPageEdition != null && !apiMethodeObjet.containsKey(i18nGlobale.getString(I18n.var_PageEdition))) {
+					apiMethodeObjet.put(i18nGlobale.getString(I18n.var_PageEdition), new JsonObject()
+							.put(i18nGlobale.getString(I18n.var_ApiUri), classeUriPageEdition)
+							.put(i18nGlobale.getString(I18n.var_Page), classePageNomSimple)
+					);
+				}
+				if(classeUriPageAffichage != null && !apiMethodeObjet.containsKey(i18nGlobale.getString(I18n.var_PageAffichage))) {
+					apiMethodeObjet.put(i18nGlobale.getString(I18n.var_PageAffichage), new JsonObject()
+							.put(i18nGlobale.getString(I18n.var_ApiUri), classeUriPageAffichage)
+							.put(i18nGlobale.getString(I18n.var_Page), classePageNomSimple)
+					);
+				}
+				if(classeUriPageUtilisateur != null && !apiMethodeObjet.containsKey(i18nGlobale.getString(I18n.var_PageUtilisateur))) {
+					apiMethodeObjet.put(i18nGlobale.getString(I18n.var_PageUtilisateur), new JsonObject()
+							.put(i18nGlobale.getString(I18n.var_ApiUri), classeUriPageUtilisateur)
+							.put(i18nGlobale.getString(I18n.var_Page), classePageNomSimple)
+					);
+				}
+
 				for(String classeApiMethode : apiMethodeObjet.fieldNames()) {
 					JsonObject apiMethode = Optional.ofNullable(apiMethodeObjet.getJsonObject(classeApiMethode)).orElse(new JsonObject());
 					String classeApiMethodeLangue = apiMethode.getString(i18nGlobale.getString(I18n.var_Langue));
@@ -5197,7 +5371,9 @@ public class IndexerClasse extends RegarderClasseBase {
 		
 						classeApiMethodeMethode = indexerStockerSolr(langueNom, classeDoc, "classeApiMethode" + classeApiMethode, apiMethode.getString(i18nGlobale.getString(I18n.var_ApiMethode), classeApiMethodeMethode));
 		
+						//STUFF0
 						String classeApiUriMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_ApiUri));
+						String classePageMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_Page));
 						Boolean classeRoleUtilisateurMethode = indexerStockerSolr(langueNom, classeDoc, "classeRoleUtilisateur" + classeApiMethode, apiMethode.getBoolean(i18nGlobale.getString(I18n.var_AuthUtilisateur), true));
 		
 						indexerStockerSolr(langueNom, classeDoc, "classeApiOperationId" + classeApiMethode, apiMethode.getString(i18nGlobale.getString(I18n.var_ApiOperationId), StringUtils.lowerCase(classeApiMethode) + classeNomSimpleLangue));
@@ -5218,22 +5394,47 @@ public class IndexerClasse extends RegarderClasseBase {
 						String classeApiTypeMedia200Methode = apiMethode.getString(i18nGlobale.getString(I18n.var_ApiTypeMedia) + "200", classePageNomSimpleMethode == null ? "application/json" : "text/html");
 						String classeApiMotCleMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_ApiMotCle));
 						if(StringUtils.contains(classeApiMethode, "POST")
-								|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_Recherche))
+								|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageRecherche))
+								|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageEdition))
+								|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageAffichage))
+								|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageUtilisateur))
 								|| StringUtils.contains(classeApiMethode, "PATCH")
 								|| StringUtils.contains(classeApiMethode, "PUT")
 								|| StringUtils.contains(classeApiMethode, "DELETE")
 								) {
 							if(StringUtils.isBlank(classeApiMotCleMethode))
 								classeApiMotCleMethode = StringUtils.substringAfterLast(classeApiUriMethode, "/");
-							if(StringUtils.isBlank(classeApiUriMethode)) {
-								if("PUTImport".equals(classeApiMethode))
-									classeApiUriMethode = classeApiUri + "-import";
-								else if(i18nGlobale.getString(I18n.var_PUTCopie).equals(classeApiMethode))
-									classeApiUriMethode = classeApiUri + "/" + i18nGlobale.getString(I18n.var_copie);
-								else if(i18nGlobale.getString(I18n.var_PUTFusion).equals(classeApiMethode))
-									classeApiUriMethode = classeApiUri + "/" + i18nGlobale.getString(I18n.var_fusion);
-								else
+
+							if("PUTImport".equals(classeApiMethode))
+								classeApiUriMethode = classeApiUri + "-import";
+							else if(i18nGlobale.getString(I18n.var_PUTCopie).equals(classeApiMethode))
+								classeApiUriMethode = classeApiUri + "/" + i18nGlobale.getString(I18n.var_copie);
+							else if(i18nGlobale.getString(I18n.var_PUTFusion).equals(classeApiMethode))
+								classeApiUriMethode = classeApiUri + "/" + i18nGlobale.getString(I18n.var_fusion);
+							else {
+								//STUFF0
+								if(classePageMethode != null) {
+									String classePageNomFichier = String.format("%s.htm", classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition)) ? i18nGlobale.getString(I18n.var_Edition) : i18nGlobale.getString(I18n.var_Recherche));
+									String classeGenPageNomFichier = String.format("Gen%s", classePageNomFichier);
+									String classePageTemplateMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_PageTemplate), String.format("%s/%s", classeApiUriMethode.substring(1), classePageNomFichier));
+									if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageRecherche))) {
+										classePageRechercheTemplate = classePageTemplateMethode;
+									}
+
+									indexerStockerSolr(langueNomGlobale, classeDoc, String.format("classe%sTemplate", classeApiMethode), classePageTemplateMethode);
+									indexerStockerSolr(langueNomGlobale, classeDoc, String.format("classe%sCheminJinja", classeApiMethode), String.format("%s/%s", templateChemin, classePageTemplateMethode));
+									if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageRecherche))
+											|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
+											) {
+										String classeGenPageTemplateMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_PageTemplate), String.format("%s/%s", classeApiUriMethode.substring(1), classeGenPageNomFichier));
+										String classeGenPageTemplate = indexerStockerSolr(langueNomGlobale, classeDoc, String.format("classeGen%sTemplate", classeApiMethode), classeGenPageTemplateMethode);
+										indexerStockerSolr(langueNomGlobale, classeDoc, String.format("classeGen%sCheminJinja", classeApiMethode), String.format("%s/%s", templateChemin, classeGenPageTemplate));
+									}
+									// classeApiUriMethode = classeUriPageRecherche;
+								}
+								if(classeApiUriMethode == null) {
 									classeApiUriMethode = classeApiUri;
+								}
 							}
 						}
 						else {
@@ -5366,12 +5567,13 @@ public class IndexerClasse extends RegarderClasseBase {
 	
 							String classePageCheminCss = concat(siteChemin, "-static/css/", langueNom, "/", classePageNomSimpleMethode, ".css");
 							String classePageCheminJs = concat(siteChemin, "-static/js/", langueNom, "/", classePageNomSimpleMethode, ".js");
-							String classePageCheminJinja = concat(siteChemin, "-static/template/", langueNom.substring(0, 2), "-", langueNom.substring(2, 4).toLowerCase(), "/", classePageNomSimpleMethode, ".htm");
+							// String classePageCheminJinja = concat(siteChemin, "-static/template/", langueNom.substring(0, 2), "-", langueNom.substring(2, 4).toLowerCase(), "/", classePageNomSimpleMethode, ".htm");
 				
 							indexerStockerSolr(langueNom, classeDoc, "classePageCheminCss" + classeApiMethode, classePageCheminCss); 
 							indexerStockerSolr(langueNom, classeDoc, "classePageCheminJs" + classeApiMethode, classePageCheminJs); 
-							indexerStockerSolr(langueNom, classeDoc, "classePageCheminJinja" + classeApiMethode, classePageCheminJinja); 
+							// indexerStockerSolr(langueNom, classeDoc, "classePageCheminJinja" + classeApiMethode, classePageCheminJinja); 
 							indexerStockerSolr(langueNom, classeDoc, "classePageLangueNom" + classeApiMethode, classePageLangueNom); 
+							//STUFF0
 							classePage = true;
 						}
 					}
@@ -5384,125 +5586,16 @@ public class IndexerClasse extends RegarderClasseBase {
 					indexerStockerListeSolr(langueNom, classeDoc, "classeImportationsGenApi", classePartGenApi.nomCanonique(langueNom));
 				}
 			}
+
+			if(classePage && classePageRechercheTemplate != null) {
+				String classePageRechercheTemplateRepertoire = StringUtils.substringBeforeLast(classePageRechercheTemplate, "/");
+				String classeBarreLateraleTemplate = String.format("%s/%s.htm", classePageRechercheTemplateRepertoire, i18nGlobale.getString(I18n.var_BarreLaterale));
+				indexerStockerSolr(langueNomGlobale, classeDoc, "classeBarreLateraleTemplate", classeBarreLateraleTemplate);
+				indexerStockerSolr(langueNomGlobale, classeDoc, "classeBarreLateraleCheminJinja", String.format("%s/%s", templateChemin, classeBarreLateraleTemplate));
+			}
 		}
+
 		indexerStockerSolr(classeDoc, "classeAuth", classeAuth);
-		
-
-		if(classePage) {
-			String classePageNomSimple = classeNomSimpleLangue + i18nGlobale.getString(I18n.var_Page);
-			String classePageSuperNomSimple = regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_PageSuper), classeCommentaire, "Object");
-			String classeNomEnsembleLangue = (String)classeDoc.get("classeNomEnsemble_" + langueNomGlobale + "_indexed_string").getValue();
-			String classePageNomCanonique = (String)classeDoc.get("classeNomCanonique_" + langueNomGlobale + "_stored_string").getValue() + i18nGlobale.getString(I18n.var_Page);
-			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageNomCanonique", classePageNomCanonique);
-			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageNomSimple", classePageNomSimple);
-
-			String classeGenPageNomSimple;
-			String classeGenPageChemin;
-			if(StringUtils.contains(classePageNomSimple, "Page")) {
-				classeGenPageNomSimple = StringUtils.substringBeforeLast(classePageNomSimple, "Page") + "GenPage" + StringUtils.substringAfterLast(classePageNomSimple, "Page");
-				classeGenPageChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
-			}
-			else {
-				classeGenPageNomSimple = "Gen" + classePageNomSimple;
-				classeGenPageChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
-			}
-			indexerStockerSolr(langueNomGlobale, classeDoc, "classeGenPageNomSimple", classeGenPageNomSimple);
-			String classeGenPageNomCanonique = classeNomEnsembleLangue + "." + classeGenPageNomSimple;
-			indexerStockerSolr(langueNomGlobale, classeDoc, "classeGenPageNomCanonique", classeGenPageNomCanonique);
-			String classePageChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classePageNomSimple, ".java");
-			indexerStockerSolr(langueNomGlobale, classeDoc, "classeGenPageChemin", classeGenPageChemin); 
-			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageChemin", classePageChemin); 
-			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminCss", concat(siteChemin, "-static/css/", langueNomGlobale, "/", classePageNomSimple, ".css"));
-			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJs", concat(siteChemin, "-static/js/", langueNomGlobale, "/", classePageNomSimple, ".js"));
-			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJsModule", concat(siteChemin, "-static/js/", langueNomGlobale, "/", classePageNomSimple, "Module.js"));
-			String classePageTemplate = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageTemplate", concat(langueNomGlobale.substring(0, 2), "-", langueNomGlobale.substring(2, 4).toLowerCase(), "/", classePageNomSimple, ".htm"));
-			String classePageCheminJinja = concat(siteChemin, "/src/main/resources/templates/", classePageTemplate);
-			String classeGenPageTemplate = indexerStockerSolr(langueNomGlobale, classeDoc, "classeGenPageTemplate", concat(langueNomGlobale.substring(0, 2), "-", langueNomGlobale.substring(2, 4).toLowerCase(), "/", classeGenPageNomSimple, ".htm"));
-			String classeGenPageCheminJinja = concat(siteChemin, "/src/main/resources/templates/", classeGenPageTemplate);
-			String classePageSuperTemplate = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageSuperTemplate", concat(langueNomGlobale.substring(0, 2), "-", langueNomGlobale.substring(2, 4).toLowerCase(), "/", classePageSuperNomSimple, ".htm"));
-			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJinja", classePageCheminJinja);
-			indexerStockerSolr(langueNomGlobale, classeDoc, "classeGenPageCheminJinja", classeGenPageCheminJinja);
-			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageLangueNom", langueNomGlobale); 
-
-			if(classePageSuperNomSimple != null) {
-				SolrQuery recherchePageSuper = new SolrQuery();   
-				recherchePageSuper.setQuery("*:*");
-				recherchePageSuper.setRows(1);
-				recherchePageSuper.addFilterQuery("classeNomSimple_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classePageSuperNomSimple));
-				recherchePageSuper.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
-				recherchePageSuper.addFilterQuery("partEstClasse_indexed_boolean:true");
-				recherchePageSuper.addFilterQuery("langueNom_indexed_string:" + ClientUtils.escapeQueryChars(classeLangueNom));
-				QueryResponse reponseRecherchePageSuper = clientSolrComputate.query(recherchePageSuper);
-				SolrDocumentList listeRecherchePageSuper = reponseRecherchePageSuper.getResults();
-
-				if(listeRecherchePageSuper.size() > 0) {
-					SolrDocument docPageSuper = listeRecherchePageSuper.get(0);
-					String classePageSuperNomCanoniqueMethode = (String)docPageSuper.get("classeNomCanonique_" + classeLangueNom + "_stored_string");
-					indexerStockerSolr(langueNomGlobale, classeDoc, "classePageSuperNomCanonique", classePageSuperNomCanoniqueMethode);
-					indexerStockerSolr(langueNomGlobale, classeDoc, "classePageSuperNomSimple", classePageSuperNomSimple);
-					classePartsGenPageAjouter(ClasseParts.initClasseParts(this, classePageSuperNomCanoniqueMethode, classeLangueNom), classeLangueNom);
-				}
-				else {
-					if(classePartsMiseEnPage != null) {
-						indexerStockerSolr(langueNomGlobale, classeDoc, "classePageSuperNomCanonique", (String)classePartsMiseEnPage.nomCanonique(classeLangueNom));
-						indexerStockerSolr(langueNomGlobale, classeDoc, "classePageSuperNomSimple", (String)classePartsMiseEnPage.nomSimple(classeLangueNom));
-						classePartsGenPageAjouter(classePartsMiseEnPage, classeLangueNom);
-					}
-				}
-			}
-			else {
-				if(classePartsMiseEnPage != null) {
-					indexerStockerSolr(langueNomGlobale, classeDoc, "classePageSuperNomCanonique", (String)classePartsMiseEnPage.nomCanonique(classeLangueNom));
-					indexerStockerSolr(langueNomGlobale, classeDoc, "classePageSuperNomSimple", (String)classePartsMiseEnPage.nomSimple(classeLangueNom));
-					classePartsGenPageAjouter(classePartsMiseEnPage, classeLangueNom);
-				}
-			}
-
-			classePartsGenPageAjouter(classePartsRequeteSite, classeLangueNom);
-			classePartsGenPageAjouter(classePartsUtilisateurSite, classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.io.IOException", classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.http.HttpServerRequest", classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.http.HttpServerResponse", classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(classePartsListeRecherche, classeLangueNom);
-			classePartsGenPageAjouter(classePartsCouverture, classeLangueNom);
-			classePartsGenPageAjouter(classePartsMiseEnPage, classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, LocalDateTime.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, LocalTime.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, LocalDate.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, ZonedDateTime.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, DateTimeFormatter.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.time.temporal.ChronoUnit", classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Duration.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Instant.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Locale.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.JsonObject", classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.api.service.ServiceRequest", classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.JsonArray", classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.net.URLDecoder", classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.exception.ExceptionUtils", classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, StringUtils.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Map.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, List.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Optional.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Stream.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Collectors.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Arrays.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, BigDecimal.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, RoundingMode.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, MathContext.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Objects.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.Promise", classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, classePartsConfigCles.nomCanonique(classeLangueNom), classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "org.computate.search.response.solr.SolrResponse", classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.util.HashMap", classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "org.computate.search.tool.TimeTool", classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "org.computate.search.tool.SearchTool", classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.time.ZoneId", classeLangueNom), classeLangueNom);
-	
-			for(ClasseParts classePartGenPage : classePartsGenPage.values()) {
-				indexerStockerListeSolr(langueNomGlobale, classeDoc, "classeImportationsGenPage", classePartGenPage.nomCanonique(classeLangueNom));
-			}
-		}
 
 		String classeSmartDataModelStr = regex("^SmartDataModel:\\s(.*)", classeCommentaire);
 

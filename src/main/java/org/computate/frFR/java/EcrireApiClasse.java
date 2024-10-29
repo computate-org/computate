@@ -265,15 +265,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			}
 			auteurGenApiService.l();
 			auteurGenApiService.l("/**");
-			String hackathonMission = classeDoc.getString("hackathonMissionGenApiService_stored_string");
-			String hackathonColumn = classeDoc.getString("hackathonColumnGenApiService_stored_string");
-			String hackathonLabels = classeDoc.getString("hackathonLabelsGenApiService_stored_string");
-			if(hackathonMission != null)
-				auteurGenApiService.l(String.format(" * Map.hackathonMission: %s", hackathonMission));
-			if(hackathonColumn != null)
-				auteurGenApiService.l(String.format(" * Map.hackathonColumn: %s", hackathonColumn));
-			if(hackathonLabels != null)
-				auteurGenApiService.l(String.format(" * Map.hackathonLabels: %s", hackathonLabels));
 			auteurGenApiService.l(" * ", i18nGlobale.getString(I18n.var_Traduire), ": false");
 			for(String langueNom : classeAutresLangues) {
 				String classeNomCanoniqueGenApiServiceLangue = classeDoc.getString("classeNomCanoniqueGenApiService_" + langueNom + "_stored_string");
@@ -389,15 +380,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //			auteurGenApiService.l("import ", classeNomEnsemble, ".", classeNomSimple, "ApiServiceVertxEBProxy;");
 			auteurApiServiceImpl.l();
 			auteurApiServiceImpl.l("/**");
-			String hackathonMission = classeDoc.getString("hackathonMissionApiServiceImpl_stored_string");
-			String hackathonColumn = classeDoc.getString("hackathonColumnApiServiceImpl_stored_string");
-			String hackathonLabels = classeDoc.getString("hackathonLabelsApiServiceImpl_stored_string");
-			if(hackathonMission != null)
-				auteurApiServiceImpl.l(String.format(" * Map.hackathonMission: %s", hackathonMission));
-			if(hackathonColumn != null)
-				auteurApiServiceImpl.l(String.format(" * Map.hackathonColumn: %s", hackathonColumn));
-			if(hackathonLabels != null)
-				auteurApiServiceImpl.l(String.format(" * Map.hackathonLabels: %s", hackathonLabels));
 			auteurApiServiceImpl.l(" * ", i18nGlobale.getString(I18n.var_Traduire), ": false");
 			for(String langueNom : classeAutresLangues) {
 				String classeNomCanoniqueApiServiceImplLangue = classeDoc.getString("classeNomCanoniqueApiServiceImpl_" + langueNom + "_stored_string");
@@ -1897,15 +1879,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			o = auteurGenApiServiceImpl;
 			l();
 			l("/**");
-			String hackathonMission = classeDoc.getString("hackathonMissionGenApiServiceImpl_stored_string");
-			String hackathonColumn = classeDoc.getString("hackathonColumnGenApiServiceImpl_stored_string");
-			String hackathonLabels = classeDoc.getString("hackathonLabelsGenApiServiceImpl_stored_string");
-			if(hackathonMission != null)
-				l(String.format(" * Map.hackathonMission: %s", hackathonMission));
-			if(hackathonColumn != null)
-				l(String.format(" * Map.hackathonColumn: %s", hackathonColumn));
-			if(hackathonLabels != null)
-				l(String.format(" * Map.hackathonLabels: %s", hackathonLabels));
 			l(" * ", i18nGlobale.getString(I18n.var_Traduire), ": false");
 			for(String langueNom : classeAutresLangues) {
 				String classeNomCanoniqueGenApiServiceImplLangue = classeDoc.getString("classeNomCanoniqueGenApiServiceImpl_" + langueNom + "_stored_string");
@@ -1932,6 +1905,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				String classeApiTypeMedia200Methode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
 				String classeApiTypeMediaRequeteMethode = classeDoc.getString("classeApiTypeMediaRequete" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
 				String classePageLangueNom = classeDoc.getString("classePageLangueNom" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+				String classeSearchPageTemplate = classeDoc.getString("classe" + classeApiMethode + "Template_" + classeLangueNom + "_stored_string");
 
 				if(classePageLangueNom == null || classePageLangueNom.equals(classeLangueNom)) {
 
@@ -3629,7 +3603,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					if(classePageNomCanoniqueMethode != null) {
 						l();
 						tl(1, "public String ", i18nGlobale.getString(I18n.var_template), classeApiMethode, classeNomSimple, "() {");
-						tl(2, "return \"", classePageTemplate, "\";");
+						tl(2, "return \"", classeSearchPageTemplate, "\";");
 						t(1, "}");
 					}
 					l();

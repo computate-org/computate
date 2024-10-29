@@ -278,6 +278,12 @@ public class ConfigSite {
 			siteChemin = config.getString(langueConfigGlobale.getString(I18n.var_SITE_SRC));
 	}
 
+	public String templateChemin;
+	protected void _templateChemin() throws Exception {
+		if (templateChemin == null)
+			templateChemin = config.getString(langueConfigGlobale.getString(I18n.var_TEMPLATE_CHEMIN));
+	}
+
 	/**
 	 * Var.enUS: srcMainJavaPath enUS: The absolute path to the /src/main/java
 	 * directory.
@@ -903,6 +909,7 @@ public class ConfigSite {
 		_config();
 		_siteNom();
 		_siteChemin();
+		_templateChemin();
 		_cheminSrcMainJava();
 		_cheminSrcMainResources();
 		_cheminSrcGenJava();
