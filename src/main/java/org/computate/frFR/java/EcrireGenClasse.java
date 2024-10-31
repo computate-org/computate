@@ -206,10 +206,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected String classeVarId;
 
-	/**
-	 * Var.enUS: classVarUniqueKey
-	 */
 	protected String classeVarCleUnique;
+	protected String classeVarClePrimaireUnique;
 
 	/**
 	 * Var.enUS: classVarModified
@@ -666,10 +664,14 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain auteurPageClasse = null;
 	protected ToutEcrivain auteurPageCss = null;
 	protected ToutEcrivain auteurPageJs = null;
-	protected ToutEcrivain auteurPageJsModule = null;
+	protected ToutEcrivain auteurPageJsRecherche = null;
+	protected ToutEcrivain auteurPageJsEdition = null;
 	// protected ToutEcrivain auteurPageJinja = null;
 	// protected ToutEcrivain auteurGenPageJinja = null;
 	protected ToutEcrivain auteurBarreLateraleJinja = null;
+	protected ToutEcrivain auteurBoutonsRechercheJinja = null;
+	protected ToutEcrivain auteurFormulaireRechercheJinja = null;
+	protected ToutEcrivain auteurRechercheSuggereJinja = null;
 	protected ToutEcrivain auteurPageRechercheJinja = null;
 	protected ToutEcrivain auteurGenPageRechercheJinja = null;
 	protected ToutEcrivain auteurPageEditionJinja = null;
@@ -1167,12 +1169,19 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	String classePageChemin;
 
-	String classePageCheminCss;
-
 	String classeGenPageChemin;
 
-	String classeBarreLateraleTemplate;
-	String classeBarreLateraleCheminJinja;
+	String classePageBarreLateraleTemplate;
+	String classePageBarreLateraleCheminJinja;
+
+	String classePageBoutonsRechercheTemplate;
+	String classePageBoutonsRechercheCheminJinja;
+
+	String classePageFormulaireRechercheTemplate;
+	String classePageFormulaireRechercheCheminJinja;
+
+	String classePageRechercheSuggereTemplate;
+	String classePageRechercheSuggereCheminJinja;
 
 	String classePageRechercheTemplate;
 	String classePageRechercheCheminJinja;
@@ -1198,8 +1207,15 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	String classePageLangueNom;
 
+	String classePageUriCss;
+	String classePageUriJs;
+	String classePageUriJsRecherche;
+	String classePageUriJsEdition;
+
+	String classePageCheminCss;
 	String classePageCheminJs;
-	String classePageCheminJsModule;
+	String classePageCheminJsRecherche;
+	String classePageCheminJsEdition;
 
 	String uncapitalizeClasseApiClasseNomSimple;
 
@@ -1235,7 +1251,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	ToutEcrivain wFormPATCH;
 	ToutEcrivain wFormDELETE;
 	ToutEcrivain wJsInit;
-	ToutEcrivain wJsModuleInit;
+	ToutEcrivain wJsRechercheInit;
+	ToutEcrivain wJsEditionInit;
 	ToutEcrivain wWebsocket;
 	ToutEcrivain wWebsocketInput1;
 	ToutEcrivain wWebsocketInput2;
@@ -2281,12 +2298,28 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(classePage) {
 			classeGenPageChemin = classeDoc.getString("classeGenPageChemin"  + "_" + langueNom + "_stored_string");
 			classePageChemin = classeDoc.getString("classePageChemin"  + "_" + langueNom + "_stored_string");
+
+			classePageUriCss = classeDoc.getString("classePageUriCss"  + "_" + langueNom + "_stored_string");
+			classePageUriJs = classeDoc.getString("classePageUriJs"  + "_" + langueNom + "_stored_string");
+			classePageUriJsRecherche = classeDoc.getString("classePageUriJsRecherche"  + "_" + langueNom + "_stored_string");
+			classePageUriJsEdition = classeDoc.getString("classePageUriJsEdition"  + "_" + langueNom + "_stored_string");
+
 			classePageCheminCss = classeDoc.getString("classePageCheminCss"  + "_" + langueNom + "_stored_string");
 			classePageCheminJs = classeDoc.getString("classePageCheminJs"  + "_" + langueNom + "_stored_string");
-			classePageCheminJsModule = classeDoc.getString("classePageCheminJsModule"  + "_" + langueNom + "_stored_string");
+			classePageCheminJsRecherche = classeDoc.getString("classePageCheminJsRecherche"  + "_" + langueNom + "_stored_string");
+			classePageCheminJsEdition = classeDoc.getString("classePageCheminJsEdition"  + "_" + langueNom + "_stored_string");
 
-			classeBarreLateraleTemplate = classeDoc.getString("classeBarreLateraleTemplate" + "_" + langueNom + "_stored_string");
-			classeBarreLateraleCheminJinja = classeDoc.getString("classeBarreLateraleCheminJinja" + "_" + langueNom + "_stored_string");
+			classePageBarreLateraleTemplate = classeDoc.getString("classePageBarreLateraleTemplate" + "_" + langueNom + "_stored_string");
+			classePageBarreLateraleCheminJinja = classeDoc.getString("classePageBarreLateraleCheminJinja" + "_" + langueNom + "_stored_string");
+
+			classePageBoutonsRechercheTemplate = classeDoc.getString("classePageBoutonsRechercheTemplate" + "_" + langueNom + "_stored_string");
+			classePageBoutonsRechercheCheminJinja = classeDoc.getString("classePageBoutonsRechercheCheminJinja" + "_" + langueNom + "_stored_string");
+
+			classePageFormulaireRechercheTemplate = classeDoc.getString("classePageFormulaireRechercheTemplate" + "_" + langueNom + "_stored_string");
+			classePageFormulaireRechercheCheminJinja = classeDoc.getString("classePageFormulaireRechercheCheminJinja" + "_" + langueNom + "_stored_string");
+
+			classePageRechercheSuggereTemplate = classeDoc.getString("classePageRechercheSuggereTemplate" + "_" + langueNom + "_stored_string");
+			classePageRechercheSuggereCheminJinja = classeDoc.getString("classePageRechercheSuggereCheminJinja" + "_" + langueNom + "_stored_string");
 
 			classePageRechercheTemplate = classeDoc.getString(String.format("classe%sTemplate", i18nGlobale.getString(I18n.var_PageRecherche)) + "_" + langueNom + "_stored_string");
 			classePageRechercheCheminJinja = classeDoc.getString(String.format("classe%sCheminJinja", i18nGlobale.getString(I18n.var_PageRecherche)) + "_" + langueNom + "_stored_string");
@@ -2312,8 +2345,12 @@ public class EcrireGenClasse extends EcrireClasse {
 			File classePageFichier = null;
 			File classePageFichierCss = null;
 			File classePageFichierJs = null;
-			File classePageFichierJsModule = null;
-			File classeBarreLateraleFichierJinja = null;
+			File classePageFichierJsRecherche = null;
+			File classePageFichierJsEdition = null;
+			File classePageBarreLateraleFichierJinja = null;
+			File classePageBoutonsRechercheFichierJinja = null;
+			File classePageFormulaireRechercheFichierJinja = null;
+			File classePageRechercheSuggereFichierJinja = null;
 			File classePageRechercheFichierJinja = null;
 			File classeGenPageRechercheFichierJinja = null;
 			File classePageEditionFichierJinja = null;
@@ -2329,11 +2366,22 @@ public class EcrireGenClasse extends EcrireClasse {
 				classePageFichierCss = new File(classePageCheminCss);
 			if(classePageCheminJs != null)
 				classePageFichierJs = new File(classePageCheminJs);
-			if(classePageCheminJsModule != null)
-				classePageFichierJsModule = new File(classePageCheminJsModule);
+			if(classePageCheminJsRecherche != null)
+				classePageFichierJsRecherche = new File(classePageCheminJsRecherche);
+			if(classePageCheminJsEdition != null)
+				classePageFichierJsEdition = new File(classePageCheminJsEdition);
 
-			if(classeBarreLateraleCheminJinja != null)
-				classeBarreLateraleFichierJinja = new File(classeBarreLateraleCheminJinja);
+			if(classePageBarreLateraleCheminJinja != null)
+				classePageBarreLateraleFichierJinja = new File(classePageBarreLateraleCheminJinja);
+
+			if(classePageBoutonsRechercheCheminJinja != null)
+				classePageBoutonsRechercheFichierJinja = new File(classePageBoutonsRechercheCheminJinja);
+
+			if(classePageFormulaireRechercheCheminJinja != null)
+				classePageFormulaireRechercheFichierJinja = new File(classePageFormulaireRechercheCheminJinja);
+
+			if(classePageRechercheSuggereCheminJinja != null)
+				classePageRechercheSuggereFichierJinja = new File(classePageRechercheSuggereCheminJinja);
 
 			if(classePageRechercheCheminJinja != null)
 				classePageRechercheFichierJinja = new File(classePageRechercheCheminJinja);
@@ -2360,14 +2408,33 @@ public class EcrireGenClasse extends EcrireClasse {
 				classePageFichierJs.getParentFile().mkdirs();
 				auteurPageJs = ToutEcrivain.create(classePageFichierJs, "  ");
 			}
-			if(classePageFichierJsModule != null) {
-				classePageFichierJsModule.getParentFile().mkdirs();
-				auteurPageJsModule = ToutEcrivain.create(classePageFichierJsModule, "  ");
+			if(classePageFichierJsRecherche != null) {
+				classePageFichierJsRecherche.getParentFile().mkdirs();
+				auteurPageJsRecherche = ToutEcrivain.create(classePageFichierJsRecherche, "  ");
+			}
+			if(classePageFichierJsEdition != null) {
+				classePageFichierJsEdition.getParentFile().mkdirs();
+				auteurPageJsEdition = ToutEcrivain.create(classePageFichierJsEdition, "  ");
 			}
 
-			if(classeBarreLateraleFichierJinja != null) {
+			if(classePageBarreLateraleFichierJinja != null) {
 				classeGenPageRechercheFichierJinja.getParentFile().mkdirs();
-				auteurBarreLateraleJinja = ToutEcrivain.create(classeBarreLateraleFichierJinja, "  ");
+				auteurBarreLateraleJinja = ToutEcrivain.create(classePageBarreLateraleFichierJinja, "  ");
+			}
+
+			if(classePageBoutonsRechercheFichierJinja != null) {
+				classeGenPageRechercheFichierJinja.getParentFile().mkdirs();
+				auteurBoutonsRechercheJinja = ToutEcrivain.create(classePageBoutonsRechercheFichierJinja, "  ");
+			}
+
+			if(classePageFormulaireRechercheFichierJinja != null) {
+				classeGenPageRechercheFichierJinja.getParentFile().mkdirs();
+				auteurFormulaireRechercheJinja = ToutEcrivain.create(classePageFormulaireRechercheFichierJinja, "  ");
+			}
+
+			if(classePageRechercheSuggereFichierJinja != null) {
+				classeGenPageRechercheFichierJinja.getParentFile().mkdirs();
+				auteurRechercheSuggereJinja = ToutEcrivain.create(classePageRechercheSuggereFichierJinja, "  ");
 			}
 
 			if(classePageRechercheFichierJinja != null && (!classePageRechercheFichierJinja.exists() || classePageRechercheFichierJinja.length() == 0L)) {
@@ -3892,7 +3959,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 				}
 				else {
-					System.err.println(String.format("%s %s %s %s %s. ", langueConfig.getString(I18n.var_classe), langueConfig.getString(I18n.var_RequeteSite), langueConfig.getString(I18n.var_manquante), langueConfig.getString(I18n.var_dans), cheminSrcMainJava));
+					LOG.error(String.format("%s %s %s %s %s. ", langueConfig.getString(I18n.var_classe), langueConfig.getString(I18n.var_RequeteSite), langueConfig.getString(I18n.var_manquante), langueConfig.getString(I18n.var_dans), cheminSrcMainJava));
 				}
 		
 				// Setter JsonArray //
@@ -4075,13 +4142,13 @@ public class EcrireGenClasse extends EcrireClasse {
 							tl(1, "}");
 						}
 						else {
-							System.err.println(String.format("%s %s %s %s %s. ", langueConfig.getString(I18n.var_classe), langueConfig.getString(I18n.var_RequeteSite), langueConfig.getString(I18n.var_manquante), langueConfig.getString(I18n.var_dans), cheminSrcMainJava));
+							LOG.error(String.format("%s %s %s %s %s. ", langueConfig.getString(I18n.var_classe), langueConfig.getString(I18n.var_RequeteSite), langueConfig.getString(I18n.var_manquante), langueConfig.getString(I18n.var_dans), cheminSrcMainJava));
 						}
 					}
 				}
 			}
 			else {
-				System.err.println(String.format("%s %s %s %s %s. ", langueConfig.getString(I18n.var_classe), langueConfig.getString(I18n.var_RequeteSite), langueConfig.getString(I18n.var_manquante), langueConfig.getString(I18n.var_dans), cheminSrcMainJava));
+				LOG.error(String.format("%s %s %s %s %s. ", langueConfig.getString(I18n.var_classe), langueConfig.getString(I18n.var_RequeteSite), langueConfig.getString(I18n.var_manquante), langueConfig.getString(I18n.var_dans), cheminSrcMainJava));
 			}
 	
 			// Ajouter //
@@ -4649,7 +4716,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 			}
 			else {
-				System.err.println(String.format("%s %s %s %s %s. ", langueConfig.getString(I18n.var_classe), langueConfig.getString(I18n.var_RequeteSite), langueConfig.getString(I18n.var_manquante), langueConfig.getString(I18n.var_dans), cheminSrcMainJava));
+				LOG.error(String.format("%s %s %s %s %s. ", langueConfig.getString(I18n.var_classe), langueConfig.getString(I18n.var_RequeteSite), langueConfig.getString(I18n.var_manquante), langueConfig.getString(I18n.var_dans), cheminSrcMainJava));
 			}
 
 			//////////
@@ -6092,7 +6159,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "}");
 			}
 			else {
-				System.err.println(String.format("%s %s %s %s %s. ", langueConfig.getString(I18n.var_classe), langueConfig.getString(I18n.var_RequeteSite), langueConfig.getString(I18n.var_manquante), langueConfig.getString(I18n.var_dans), cheminSrcMainJava));
+				LOG.error(String.format("%s %s %s %s %s. ", langueConfig.getString(I18n.var_classe), langueConfig.getString(I18n.var_RequeteSite), langueConfig.getString(I18n.var_manquante), langueConfig.getString(I18n.var_dans), cheminSrcMainJava));
 			}
 		}
 

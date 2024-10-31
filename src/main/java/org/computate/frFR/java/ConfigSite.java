@@ -278,6 +278,12 @@ public class ConfigSite {
 			siteChemin = config.getString(langueConfigGlobale.getString(I18n.var_SITE_SRC));
 	}
 
+	public String cheminStatique;
+	protected void _cheminStatique() throws Exception {
+		if (cheminStatique == null)
+			cheminStatique = config.getString(langueConfigGlobale.getString(I18n.var_CHEMIN_STATIQUE));
+	}
+
 	public String templateChemin;
 	protected void _templateChemin() throws Exception {
 		if (templateChemin == null)
@@ -909,6 +915,7 @@ public class ConfigSite {
 		_config();
 		_siteNom();
 		_siteChemin();
+		_cheminStatique();
 		_templateChemin();
 		_cheminSrcMainJava();
 		_cheminSrcMainResources();

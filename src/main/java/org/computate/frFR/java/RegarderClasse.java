@@ -88,9 +88,8 @@ public class RegarderClasse extends EcrireToutesClasses {
 //						System.out.println(String.format(classeLangueConfig.getString(ConfigCles.str_chemin_absolu), classeNomSimple, siteUrlBase, id));
 						regarderClasse2.indexerClasse(classeCheminGen, classeDoc2, classeLangueNom);
 					}
-					catch(Exception e) {
-						System.err.println("Erreur pendant traiterEvenements. ");
-						System.err.println(ExceptionUtils.getStackTrace(e));
+					catch(Exception ex) {
+						LOG.error("Erreur pendant traiterEvenements. ", ex);
 					}
 				}
 				if(classePageChemin != null) {
@@ -104,9 +103,8 @@ public class RegarderClasse extends EcrireToutesClasses {
 //						System.out.println(classeLangueConfig.getString(ConfigCles.str_chemin_absolu) + " : " + classePageGenChemin);
 						regarderClasse2.indexerClasse(classePageGenChemin, classeDoc2, classeLangueNom);
 					}
-					catch(Exception e) {
-						System.err.println("Erreur pendant traiterEvenements. ");
-						System.err.println(ExceptionUtils.getStackTrace(e));
+					catch(Exception ex) {
+						LOG.error("Erreur pendant traiterEvenements. ", ex);
 					}
 				}
 				if(classeGenPageChemin != null) {
@@ -120,16 +118,14 @@ public class RegarderClasse extends EcrireToutesClasses {
 //						System.out.println(classeLangueConfig.getString(ConfigCles.str_chemin_absolu) + " : " + classeGenPageGenChemin);
 						regarderClasse2.indexerClasse(classeGenPageGenChemin, classeDoc2, classeLangueNom);
 					}
-					catch(Exception e) {
-						System.err.println("Erreur pendant traiterEvenements. ");
-						System.err.println(ExceptionUtils.getStackTrace(e));
+					catch(Exception ex) {
+						LOG.error("Erreur pendant traiterEvenements. ", ex);
 					}
 				}
 			}
 		}
-		catch(Exception e) {
-			System.err.println("Erreur pendant traiterEvenements. ");
-			System.err.println(ExceptionUtils.getStackTrace(e));
+		catch(Exception ex) {
+			LOG.error("Erreur pendant traiterEvenements. ", ex);
 		}
 	}
 	

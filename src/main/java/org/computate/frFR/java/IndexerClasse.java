@@ -757,7 +757,9 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 					}
 				}
-			} catch (Exception e) {
+			} catch (Throwable ex) {
+				LOG.error(String.format(i18nGlobale.getString(I18n.str_Erreur_lors_de_lanalyse_de_la_classe), classeSuper.getCanonicalName()), ex);
+				ExceptionUtils.rethrow(ex);
 			}
 		}
 	}
@@ -1979,7 +1981,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		Boolean classeSuperErreur = false;
 		try {
 			classeNomCanoniqueSuper = classeQdoxSuper.getCanonicalName();
-		} catch (Exception e) {
+		} catch (Throwable ex) {
 			classeSuperErreur = true;
 		}
 
@@ -2007,7 +2009,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeNomCompletSuper = Object.class.getCanonicalName();
 		try {
 			classeNomCompletSuper = indexerStockerSolr(classeLangueNom, classeDoc, "classeNomCompletSuper", classeQdoxSuper.getGenericCanonicalName());
-		} catch (Exception e) {
+		} catch (Throwable ex) {
 			if(classeQdoxSuper != null && classeQdoxSuper.getGenericFullyQualifiedName().contains("<"))
 				classeNomCompletSuper = indexerStockerSolr(classeLangueNom, classeDoc, "classeNomCompletSuper", classeQdoxSuper.getGenericFullyQualifiedName());
 		}
@@ -2058,7 +2060,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		try {
 			classeContientRequeteSite = classeQdox.getMethodBySignature("get" + i18nGlobale.getString(I18n.var_RequeteSite) +"_", new ArrayList<JavaType>(), true) != null
 					|| classePartsBase != null && BooleanUtils.isTrue((Boolean)classePartsBase.getDocumentSolr().get("classeContientRequeteSite_stored_boolean"));
-		} catch (Exception e) {
+		} catch (Throwable ex) {
 			// TODO ctate fix this to pull from solr. 
 		}
 		indexerStockerSolr(classeDoc, "classeContientRequeteSite", classeContientRequeteSite);
@@ -2574,57 +2576,57 @@ public class IndexerClasse extends RegarderClasseBase {
 					if("Integer".equals(classeMapCleType) && NumberUtils.isCreatable(classeMapValeur)) {
 						try {
 							indexerStockerSolr(classeDoc, classeMapCleParts[1], Integer.parseInt(classeMapValeur));
-						} catch (Exception e) {
-							System.err.println(ExceptionUtils.getStackTrace(e));
+						} catch (Throwable ex) {
+							LOG.error(i18nGlobale.getString(I18n.str_Erreur_lors_de_lanalyse_de_la_classe), ex);
 						}
 					}
 					else if("Double".equals(classeMapCleType) && NumberUtils.isCreatable(classeMapValeur)) {
 						try {
 							indexerStockerSolr(classeDoc, classeMapCleParts[1], Double.parseDouble(classeMapValeur));
-						} catch (Exception e) {
-							System.err.println(ExceptionUtils.getStackTrace(e));
+						} catch (Throwable ex) {
+							LOG.error(i18nGlobale.getString(I18n.str_Erreur_lors_de_lanalyse_de_la_classe), ex);
 						}
 					}
 					else if("Long".equals(classeMapCleType) && NumberUtils.isCreatable(classeMapValeur)) {
 						try {
 							indexerStockerSolr(classeDoc, classeMapCleParts[1], Long.parseLong(classeMapValeur));
-						} catch (Exception e) {
-							System.err.println(ExceptionUtils.getStackTrace(e));
+						} catch (Throwable ex) {
+							LOG.error(i18nGlobale.getString(I18n.str_Erreur_lors_de_lanalyse_de_la_classe), ex);
 						}
 					}
 					else if("Boolean".equals(classeMapCleType)) {
 						try {
 							indexerStockerSolr(classeDoc, classeMapCleParts[1], Boolean.parseBoolean(classeMapValeur));
-						} catch (Exception e) {
-							System.err.println(ExceptionUtils.getStackTrace(e));
+						} catch (Throwable ex) {
+							LOG.error(i18nGlobale.getString(I18n.str_Erreur_lors_de_lanalyse_de_la_classe), ex);
 						}
 					}
 					else if("ZonedDateTime".equals(classeMapCleType) && NumberUtils.isCreatable(classeMapValeur)) {
 						try {
 							indexerStockerSolr(classeDoc, classeMapCleParts[1], Date.from(ZonedDateTime.parse(classeMapValeur, DateTimeFormatter.ISO_OFFSET_DATE_TIME).toInstant()));
-						} catch (Exception e) {
-							System.err.println(ExceptionUtils.getStackTrace(e));
+						} catch (Throwable ex) {
+							LOG.error(i18nGlobale.getString(I18n.str_Erreur_lors_de_lanalyse_de_la_classe), ex);
 						}
 					}
 					else if("LocalDateTime".equals(classeMapCleType) && NumberUtils.isCreatable(classeMapValeur)) {
 						try {
 							indexerStockerSolr(classeDoc, classeMapCleParts[1], Date.from(LocalDateTime.parse(classeMapValeur, DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(ZoneId.systemDefault()).toInstant()));
-						} catch (Exception e) {
-							System.err.println(ExceptionUtils.getStackTrace(e));
+						} catch (Throwable ex) {
+							LOG.error(i18nGlobale.getString(I18n.str_Erreur_lors_de_lanalyse_de_la_classe), ex);
 						}
 					}
 					else if("LocalDate".equals(classeMapCleType) && NumberUtils.isCreatable(classeMapValeur)) {
 						try {
 							indexerStockerSolr(classeDoc, classeMapCleParts[1], Date.from(LocalDate.parse(classeMapValeur, DateTimeFormatter.ISO_OFFSET_DATE).atStartOfDay(ZoneId.systemDefault()).toInstant()));
-						} catch (Exception e) {
-							System.err.println(ExceptionUtils.getStackTrace(e));
+						} catch (Throwable ex) {
+							LOG.error(i18nGlobale.getString(I18n.str_Erreur_lors_de_lanalyse_de_la_classe), ex);
 						}
 					}
 					else if("LocalTime".equals(classeMapCleType) && NumberUtils.isCreatable(classeMapValeur)) {
 						try {
 							indexerStockerSolr(classeDoc, classeMapCleParts[1], classeMapValeur);
-						} catch (Exception e) {
-							System.err.println(ExceptionUtils.getStackTrace(e));
+						} catch (Throwable ex) {
+							LOG.error(i18nGlobale.getString(I18n.str_Erreur_lors_de_lanalyse_de_la_classe), ex);
 						}
 					}
 					else {
@@ -3026,7 +3028,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						JavaMethod entiteSetter = null;
 						try {
 							entiteSetter = classeQdox.getMethodBySignature("set" + entiteVarCapitalise, new ArrayList<JavaType>() {{ add(classeQdoxString); }}, true);
-						} catch (Exception e) {
+						} catch (Throwable ex) {
 						}
 						
 						JavaClass entiteClasseQdoxBase = null;
@@ -3257,57 +3259,57 @@ public class IndexerClasse extends RegarderClasseBase {
 									if("Integer".equals(entiteMapCleType) && NumberUtils.isCreatable(entiteMapValeur)) {
 										try {
 											indexerStockerSolr(entiteDoc, entiteMapCleParts[1], Integer.parseInt(entiteMapValeur));
-										} catch (Exception e) {
-											System.err.println(ExceptionUtils.getStackTrace(e));
+										} catch (Throwable ex) {
+											LOG.error(i18nGlobale.getString(I18n.str_Erreur_lors_de_lanalyse_de_la_classe), ex);
 										}
 									}
 									else if("Double".equals(entiteMapCleType) && NumberUtils.isCreatable(entiteMapValeur)) {
 										try {
 											indexerStockerSolr(entiteDoc, entiteMapCleParts[1], Double.parseDouble(entiteMapValeur));
-										} catch (Exception e) {
-											System.err.println(ExceptionUtils.getStackTrace(e));
+										} catch (Throwable ex) {
+											LOG.error(i18nGlobale.getString(I18n.str_Erreur_lors_de_lanalyse_de_la_classe), ex);
 										}
 									}
 									else if("Long".equals(entiteMapCleType) && NumberUtils.isCreatable(entiteMapValeur)) {
 										try {
 											indexerStockerSolr(entiteDoc, entiteMapCleParts[1], Long.parseLong(entiteMapValeur));
-										} catch (Exception e) {
-											System.err.println(ExceptionUtils.getStackTrace(e));
+										} catch (Throwable ex) {
+											LOG.error(i18nGlobale.getString(I18n.str_Erreur_lors_de_lanalyse_de_la_classe), ex);
 										}
 									}
 									else if("Boolean".equals(entiteMapCleType)) {
 										try {
 											indexerStockerSolr(entiteDoc, entiteMapCleParts[1], Boolean.parseBoolean(entiteMapValeur));
-										} catch (Exception e) {
-											System.err.println(ExceptionUtils.getStackTrace(e));
+										} catch (Throwable ex) {
+											LOG.error(i18nGlobale.getString(I18n.str_Erreur_lors_de_lanalyse_de_la_classe), ex);
 										}
 									}
 									else if("ZonedDateTime".equals(entiteMapCleType) && NumberUtils.isCreatable(entiteMapValeur)) {
 										try {
 											indexerStockerSolr(entiteDoc, entiteMapCleParts[1], Date.from(ZonedDateTime.parse(entiteMapValeur, DateTimeFormatter.ISO_OFFSET_DATE_TIME).toInstant()));
-										} catch (Exception e) {
-											System.err.println(ExceptionUtils.getStackTrace(e));
+										} catch (Throwable ex) {
+											LOG.error(i18nGlobale.getString(I18n.str_Erreur_lors_de_lanalyse_de_la_classe), ex);
 										}
 									}
 									else if("LocalDateTime".equals(entiteMapCleType) && NumberUtils.isCreatable(entiteMapValeur)) {
 										try {
 											indexerStockerSolr(entiteDoc, entiteMapCleParts[1], Date.from(LocalDateTime.parse(entiteMapValeur, DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(ZoneId.systemDefault()).toInstant()));
-										} catch (Exception e) {
-											System.err.println(ExceptionUtils.getStackTrace(e));
+										} catch (Throwable ex) {
+											LOG.error(i18nGlobale.getString(I18n.str_Erreur_lors_de_lanalyse_de_la_classe), ex);
 										}
 									}
 									else if("LocalDate".equals(entiteMapCleType) && NumberUtils.isCreatable(entiteMapValeur)) {
 										try {
 											indexerStockerSolr(entiteDoc, entiteMapCleParts[1], Date.from(LocalDate.parse(entiteMapValeur, DateTimeFormatter.ISO_OFFSET_DATE).atStartOfDay(ZoneId.systemDefault()).toInstant()));
-										} catch (Exception e) {
-											System.err.println(ExceptionUtils.getStackTrace(e));
+										} catch (Throwable ex) {
+											LOG.error(i18nGlobale.getString(I18n.str_Erreur_lors_de_lanalyse_de_la_classe), ex);
 										}
 									}
 									else if("LocalTime".equals(entiteMapCleType) && NumberUtils.isCreatable(entiteMapValeur)) {
 										try {
 											indexerStockerSolr(entiteDoc, entiteMapCleParts[1], entiteMapValeur);
-										} catch (Exception e) {
-											System.err.println(ExceptionUtils.getStackTrace(e));
+										} catch (Throwable ex) {
+											LOG.error(i18nGlobale.getString(I18n.str_Erreur_lors_de_lanalyse_de_la_classe), ex);
 										}
 									}
 									else {
@@ -5084,9 +5086,6 @@ public class IndexerClasse extends RegarderClasseBase {
 			String classePageChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classePageNomSimple, ".java");
 			indexerStockerSolr(langueNomGlobale, classeDoc, "classeGenPageChemin", classeGenPageChemin); 
 			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageChemin", classePageChemin); 
-			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminCss", concat(siteChemin, "-static/css/", langueNomGlobale, "/", classePageNomSimple, ".css"));
-			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJs", concat(siteChemin, "-static/js/", langueNomGlobale, "/", classePageNomSimple, ".js"));
-			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJsModule", concat(siteChemin, "-static/js/", langueNomGlobale, "/", classePageNomSimple, "Module.js"));
 			// String classePageTemplate = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageTemplate", concat(langueNomGlobale.substring(0, 2), "-", langueNomGlobale.substring(2, 4).toLowerCase(), "/", classePageNomSimple, ".htm"));
 			// String classePageCheminJinja = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJinja", concat(siteChemin, "/src/main/resources/templates/", classePageTemplate));
 			// String classeGenPageTemplate = indexerStockerSolr(langueNomGlobale, classeDoc, "classeGenPageTemplate", concat(langueNomGlobale.substring(0, 2), "-", langueNomGlobale.substring(2, 4).toLowerCase(), "/", classeGenPageNomSimple, ".htm"));
@@ -5420,6 +5419,17 @@ public class IndexerClasse extends RegarderClasseBase {
 									if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageRecherche))) {
 										classePageRechercheTemplate = classePageTemplateMethode;
 									}
+									if(classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) {
+										String classePageUriCss = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriCss", concat("/css/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple, ".css"));
+										String classePageUriJs = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriJs", concat("/js/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple, ".js"));
+										String classePageUriJsRecherche = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriJsRecherche", concat("/js/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple, i18nGlobale.getString(I18n.var_Recherche), ".js"));
+										String classePageUriJsEdition = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriJsEdition", concat("/js/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple,  i18nGlobale.getString(I18n.var_Edition), ".js"));
+
+										String classePageCheminCss = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminCss", concat(cheminStatique, classePageUriCss));
+										String classePageCheminJs = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJs", concat(cheminStatique, classePageUriJs));
+										String classePageCheminJsRecherche = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJsRecherche", concat(cheminStatique, classePageUriJsRecherche));
+										String classePageCheminJsEdition = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJsEdition", concat(cheminStatique, classePageUriJsEdition));
+									}
 
 									indexerStockerSolr(langueNomGlobale, classeDoc, String.format("classe%sTemplate", classeApiMethode), classePageTemplateMethode);
 									indexerStockerSolr(langueNomGlobale, classeDoc, String.format("classe%sCheminJinja", classeApiMethode), String.format("%s/%s", templateChemin, classePageTemplateMethode));
@@ -5589,9 +5599,22 @@ public class IndexerClasse extends RegarderClasseBase {
 
 			if(classePage && classePageRechercheTemplate != null) {
 				String classePageRechercheTemplateRepertoire = StringUtils.substringBeforeLast(classePageRechercheTemplate, "/");
-				String classeBarreLateraleTemplate = String.format("%s/%s.htm", classePageRechercheTemplateRepertoire, i18nGlobale.getString(I18n.var_BarreLaterale));
-				indexerStockerSolr(langueNomGlobale, classeDoc, "classeBarreLateraleTemplate", classeBarreLateraleTemplate);
-				indexerStockerSolr(langueNomGlobale, classeDoc, "classeBarreLateraleCheminJinja", String.format("%s/%s", templateChemin, classeBarreLateraleTemplate));
+
+				String classePageBarreLateraleTemplate = String.format("%s/%s.htm", classePageRechercheTemplateRepertoire, i18nGlobale.getString(I18n.var_BarreLaterale));
+				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageBarreLateraleTemplate", classePageBarreLateraleTemplate);
+				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageBarreLateraleCheminJinja", String.format("%s/%s", templateChemin, classePageBarreLateraleTemplate));
+
+				String classePageBoutonsRechercheTemplate = String.format("%s/%s.htm", classePageRechercheTemplateRepertoire, i18nGlobale.getString(I18n.var_BoutonsRecherche));
+				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageBoutonsRechercheTemplate", classePageBoutonsRechercheTemplate);
+				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageBoutonsRechercheCheminJinja", String.format("%s/%s", templateChemin, classePageBoutonsRechercheTemplate));
+
+				String classePageFormulaireRechercheTemplate = String.format("%s/%s.htm", classePageRechercheTemplateRepertoire, i18nGlobale.getString(I18n.var_FormulaireRecherche));
+				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageFormulaireRechercheTemplate", classePageFormulaireRechercheTemplate);
+				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageFormulaireRechercheCheminJinja", String.format("%s/%s", templateChemin, classePageFormulaireRechercheTemplate));
+
+				String classePageRechercheSuggereTemplate = String.format("%s/%s.htm", classePageRechercheTemplateRepertoire, i18nGlobale.getString(I18n.var_RechercheSuggere));
+				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageRechercheSuggereTemplate", classePageRechercheSuggereTemplate);
+				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageRechercheSuggereCheminJinja", String.format("%s/%s", templateChemin, classePageRechercheSuggereTemplate));
 			}
 		}
 
@@ -6212,7 +6235,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	public String encodeUrl(String s) {
 		try {
 			return URLEncoder.encode(s, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
+		} catch (UnsupportedEncodingException ex) {
+			LOG.error(i18nGlobale.getString(I18n.str_Erreur_lors_de_lanalyse_de_la_classe), ex);
+			ExceptionUtils.rethrow(ex);
 			return "";
 		}
 	}
