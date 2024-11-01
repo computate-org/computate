@@ -880,6 +880,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		classeVarCleUnique = classeDoc.getString("classeVarCleUnique"   + "_" + langueNom + "_stored_string");
 		classeVarClePrimaireUnique = classeVarClePrimaire == null ? classeVarCleUnique : classeVarClePrimaire;
 		classeGenPageChemin = classeDoc.getString("classeGenPageChemin"   + "_" + langueNom + "_stored_string");
+		classePageAvecTemplate = classeDoc.getBoolean("classePageAvecTemplate_stored_boolean");
 
 		classePageChemin = classeDoc.getString("classePageChemin"   + "_" + langueNom + "_stored_string");
 		classePageUriCss = classeDoc.getString("classePageUriCss"   + "_" + langueNom + "_stored_string");
@@ -1929,6 +1930,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				l();
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
+				tl(1, "protected void _default", langueConfig.getString(I18n.var_Tri), "Vars(List<String> l) {");
+				tl(2, "Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getSorts()).orElse(Arrays.asList()).forEach(var", langueConfig.getString(I18n.var_Tri), "Str -> {");
+				tl(3, "String var", langueConfig.getString(I18n.var_Tri), langueConfig.getString(I18n.var_Parties), "[] = var", langueConfig.getString(I18n.var_Tri), "Str.split(\" \");");
+				tl(3, "String var", langueConfig.getString(I18n.var_Tri), " = ", classeNomSimple, ".", langueConfig.getString(I18n.var_recherche), "Var", classeNomSimple, "(var", langueConfig.getString(I18n.var_Tri), langueConfig.getString(I18n.var_Parties), "[0]);");
+				tl(3, "String var", langueConfig.getString(I18n.var_Tri), langueConfig.getString(I18n.var_Direction), " = var", langueConfig.getString(I18n.var_Tri), langueConfig.getString(I18n.var_Parties), "[1];");
+				tl(3, "l.add(String.format(\"%s %s\", var", langueConfig.getString(I18n.var_Tri), ", var", langueConfig.getString(I18n.var_Tri), langueConfig.getString(I18n.var_Direction), "));");
+				tl(2, "});");
+				tl(1, "}");
+				l();
+				if(classePageSuperNomSimple != null)
+					tl(1, "@Override");
 				tl(1, "protected void _default", langueConfig.getString(I18n.var_ListeChamps), "Vars(List<String> l) {");
 				tl(2, "Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getFields()).orElse(Arrays.asList()).forEach(var", langueConfig.getString(I18n.var_Stocke), " -> {");
 				tl(3, "String var", langueConfig.getString(I18n.var_Stocke), "2 = var", langueConfig.getString(I18n.var_Stocke), ";");
@@ -2214,14 +2226,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								if("Boolean".equals(entiteNomSimple)) {
 									jsVal = ".checked";
 								}
-								wTh.tl(7, "<", composantsWebPrefixe, "dropdown>");
+								//STUFF3
+								wTh.tl(7, "<", composantsWebPrefixe, "dropdown id=\"htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "_", entiteVar, "\">");
 								wTh.tl(8, "<", composantsWebPrefixe, "button slot=\"trigger\" caret>", entiteNomAffichage, "</", composantsWebPrefixe, "button>");
 								wTh.tl(8, "<", composantsWebPrefixe, "menu>");
-								wTh.tl(9, "<", composantsWebPrefixe, "menu-item>");
+								wTh.tl(9, "<", composantsWebPrefixe, "menu-item type=\"checkbox\" data-action=\"", i18nPage.getString(I18n.var_tri), "\">");
 								wTh.tl(10, "<i class=\"fa-solid fa-arrow-down-a-z\"></i>");
 								wTh.t(10).sx(String.format(i18nPage.getString(I18n.str_trier_par___croissante), entiteNomAffichage)).l();
 								wTh.tl(9, "</", composantsWebPrefixe, "menu-item>");
-								wTh.tl(9, "<", composantsWebPrefixe, "menu-item>");
+								wTh.tl(9, "<", composantsWebPrefixe, "menu-item type=\"checkbox\" data-action=\"", i18nPage.getString(I18n.var_tri), "\">");
 								wTh.tl(10, "<i class=\"fa-solid fa-arrow-down-z-a\"></i>");
 								wTh.t(10).sx(String.format(i18nPage.getString(I18n.str_trier_par___decroissante), entiteNomAffichage)).l();
 								wTh.tl(9, "</", composantsWebPrefixe, "menu-item>");
@@ -2275,6 +2288,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							}
 							wFoot.tl(8, "</div>");
 							wFoot.tl(7, "{% endif %}");
+
+							//STUFF3
+							auteurPageJsRecherche.l();
+							auteurPageJsRecherche.tl(5, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "_", entiteVar, "')?.addEventListener('sl-select', (event) => {");
+							auteurPageJsRecherche.tl(6, "const item = event.detail.item;");
+							auteurPageJsRecherche.tl(6, "const action = item.getAttribute('data-action');");
+							auteurPageJsRecherche.tl(6, "if (action === '", i18nPage.getString(I18n.var_tri), "') {");
+							auteurPageJsRecherche.tl(7, i18nPage.getString(I18n.var_tri), "('", classeNomSimple, "', item.value, item.checked);");
+							auteurPageJsRecherche.tl(6, "}");
+							auteurPageJsRecherche.tl(5, "});");
 						}
 						rechercheSolr.setStart(i.intValue() + rechercheLignes);
 						rechercheReponse = clientSolrComputate.query(rechercheSolr);
@@ -2635,6 +2658,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					}
 				}
 
+				ecrirePageEditionJinja(langueNom, i18nPage);
+			}
+
+			if(classePageAvecTemplate) {
 				//STUFF0
 				//STUFF1
 
@@ -2643,86 +2670,89 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				ecrirePageFormulaireRecherche(langueNom, i18nPage);
 	
 				ecrirePageRechercheJinja(langueNom, i18nPage);
-				ecrirePageEditionJinja(langueNom, i18nPage);
+				//STUFF1
+			}
 	
-				o = auteurGenPageClasse;
+			o = auteurGenPageClasse;
 
-				tl(0, "}");
+			tl(0, "}");
 
-				wTh.flushClose();
+			wTh.flushClose();
 
-				auteurGenPageClasse.flushClose();
-				if(auteurPageClasse != null) {
-					auteurPageClasse.flushClose();
-				}
+			auteurGenPageClasse.flushClose();
+			if(auteurPageClasse != null) {
+				auteurPageClasse.flushClose();
+			}
+			if(auteurPageCss != null)
 				auteurPageCss.flushClose();
+			if(auteurPageJs != null)
 				auteurPageJs.flushClose();
+			if(auteurPageJsRecherche != null)
 				auteurPageJsRecherche.flushClose();
+			if(auteurPageJsEdition != null)
 				auteurPageJsEdition.flushClose();
 
-				if(auteurBarreLateraleJinja != null) {
-					auteurBarreLateraleJinja.flushClose();
-				}
+			if(auteurBarreLateraleJinja != null) {
+				auteurBarreLateraleJinja.flushClose();
+			}
 
-				if(auteurBoutonsRechercheJinja != null) {
-					auteurBoutonsRechercheJinja.flushClose();
-				}
+			if(auteurBoutonsRechercheJinja != null) {
+				auteurBoutonsRechercheJinja.flushClose();
+			}
 
-				if(auteurFormulaireRechercheJinja != null) {
-					auteurFormulaireRechercheJinja.flushClose();
-				}
+			if(auteurFormulaireRechercheJinja != null) {
+				auteurFormulaireRechercheJinja.flushClose();
+			}
 
-				if(auteurRechercheSuggereJinja != null) {
-					auteurRechercheSuggereJinja.flushClose();
-				}
+			if(auteurRechercheSuggereJinja != null) {
+				auteurRechercheSuggereJinja.flushClose();
+			}
 
-				if(auteurPageRechercheJinja != null) {
-					auteurPageRechercheJinja.flushClose();
-				}
-				if(auteurGenPageRechercheJinja != null) {
-					auteurGenPageRechercheJinja.flushClose();
-				}
-				if(auteurPageEditionJinja != null) {
-					auteurPageEditionJinja.flushClose();
-				}
-				if(auteurGenPageEditionJinja != null) {
-					auteurGenPageEditionJinja.flushClose();
-				}
-				if(auteurPageAffichageJinja != null) {
-					auteurPageAffichageJinja.flushClose();
-				}
-				if(auteurPageUtilisateurJinja != null) {
-					auteurPageUtilisateurJinja.flushClose();
-				}
+			if(auteurPageRechercheJinja != null) {
+				auteurPageRechercheJinja.flushClose();
+			}
+			if(auteurGenPageRechercheJinja != null) {
+				auteurGenPageRechercheJinja.flushClose();
+			}
+			if(auteurPageEditionJinja != null) {
+				auteurPageEditionJinja.flushClose();
+			}
+			if(auteurGenPageEditionJinja != null) {
+				auteurGenPageEditionJinja.flushClose();
+			}
+			if(auteurPageAffichageJinja != null) {
+				auteurPageAffichageJinja.flushClose();
+			}
+			if(auteurPageUtilisateurJinja != null) {
+				auteurPageUtilisateurJinja.flushClose();
+			}
 
-				{
-					RegarderClasse regarderClasse = new RegarderClasse();
-					regarderClasse.siteChemin = siteChemin;
-					regarderClasse.siteNom = siteNom;
-					regarderClasse.classeCheminAbsolu = classePageChemin;
-					regarderClasse.cheminSrcGenJava = cheminSrcGenJava;
-					regarderClasse.cheminSrcMainJava = cheminSrcMainJava;
-					regarderClasse.cheminSrcMainResources = cheminSrcMainResources;
-					regarderClasse.initRegarderClasseBase(classeLangueNom, i18nGlobale); 
-					SolrInputDocument classeDoc = new SolrInputDocument();
-					regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu, classeDoc, langueNom);
-					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom, langueNom, i18nPage);
-				}
+			{
+				RegarderClasse regarderClasse = new RegarderClasse();
+				regarderClasse.siteChemin = siteChemin;
+				regarderClasse.siteNom = siteNom;
+				regarderClasse.classeCheminAbsolu = classePageChemin;
+				regarderClasse.cheminSrcGenJava = cheminSrcGenJava;
+				regarderClasse.cheminSrcMainJava = cheminSrcMainJava;
+				regarderClasse.cheminSrcMainResources = cheminSrcMainResources;
+				regarderClasse.initRegarderClasseBase(classeLangueNom, i18nGlobale); 
+				SolrInputDocument classeDoc = new SolrInputDocument();
+				regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu, classeDoc, langueNom);
+				regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom, langueNom, i18nPage);
+			}
 
-				{
-					RegarderClasse regarderClasse = new RegarderClasse();
-					regarderClasse.siteChemin = siteChemin;
-					regarderClasse.siteNom = siteNom;
-					regarderClasse.classeCheminAbsolu = classeGenPageChemin;
-					regarderClasse.cheminSrcGenJava = cheminSrcGenJava;
-					regarderClasse.cheminSrcMainJava = cheminSrcMainJava;
-					regarderClasse.cheminSrcMainResources = cheminSrcMainResources;
-					regarderClasse.initRegarderClasseBase(classeLangueNom, i18nGlobale); 
-					SolrInputDocument classeDoc = new SolrInputDocument();
-					regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu, classeDoc, langueNom);
-					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom, langueNom, i18nPage);
-				}
-				//STUFF1
+			{
+				RegarderClasse regarderClasse = new RegarderClasse();
+				regarderClasse.siteChemin = siteChemin;
+				regarderClasse.siteNom = siteNom;
+				regarderClasse.classeCheminAbsolu = classeGenPageChemin;
+				regarderClasse.cheminSrcGenJava = cheminSrcGenJava;
+				regarderClasse.cheminSrcMainJava = cheminSrcMainJava;
+				regarderClasse.cheminSrcMainResources = cheminSrcMainResources;
+				regarderClasse.initRegarderClasseBase(classeLangueNom, i18nGlobale); 
+				SolrInputDocument classeDoc = new SolrInputDocument();
+				regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu, classeDoc, langueNom);
+				regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom, langueNom, i18nPage);
 			}
 		}
 	}
@@ -2943,7 +2973,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(5, "paramChange('", classeNomSimple, "', event.target, document.querySelector('#q", classeNomSimple, "Div_", i18nPage.getString(I18n.var_debut), "'));");
 
 				//STUFF3
-				l();
+				auteurPageJsRecherche.l();
 				auteurPageJsRecherche.tl(5, "document.querySelector('#pageFacet", i18nPage.getString(I18n.var_Gamme), classeNomSimple, "')?.addEventListener('sl-change', (event) => {");
 				auteurPageJsRecherche.tl(6, "facet", i18nPage.getString(I18n.var_Gamme), "Change('", classeNomSimple, "', event.target.value);");
 				auteurPageJsRecherche.tl(5, "});");
@@ -4434,6 +4464,63 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(6, "</div>");
 		tl(5, "</", composantsWebPrefixe, "drawer>");
 
+		////////////////
+		// htmBodyTri //
+		////////////////
+
+		//STUFF3
+		tl(5, "<", composantsWebPrefixe, "drawer placement=\"end\" id=\"site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Tri), "\">");
+		tl(6, "<div>");
+		tl(7, "<i class=\"fad fa-solid fa-arrow-down-a-z \"></i>");
+		tl(7, i18nPage.getString(I18n.str_Tri));
+		tl(6, "</div>");
+		tl(6, "<div>");
+
+		tl(7, "{%- block htmBody", i18nPage.getString(I18n.var_Tri), classePageNomSimple, " %}");
+
+		t(7, "<div");
+		s(" style=\"display: none; \"");
+		s(" id=\"pageSearchVal-", i18nPage.getString(I18n.var_Tri), classeNomSimple, "Hidden\"");
+		l(">");
+		tl(8, "{% for item in default", i18nPage.getString(I18n.var_Tri), "Vars %}");
+		t(9, "<div");
+		s(" class=\"pageSearchVal-", i18nPage.getString(I18n.var_Tri), classeNomSimple, "Hidden \"");
+		s(" id=\"pageSearchVal-", i18nPage.getString(I18n.var_Tri), classeNomSimple, "Hidden_{{ item }}\"");
+		l(">{{ item }}</div>");
+		tl(8, "{% endfor %}");
+		tl(7, "</div>");
+
+		t(7, "<div");
+		s(" id=\"pageSearchVal-", i18nPage.getString(I18n.var_Tri), classeNomSimple, "\"");
+		l(">");
+		tl(8, "{% if default", i18nPage.getString(I18n.var_Tri), "Vars is defined and default", i18nPage.getString(I18n.var_Tri), "Vars.length > 0 %}");
+		t(9, "<div");
+		s(" class=\"pageSearchVal pageSearchVal-", i18nPage.getString(I18n.var_Tri), classeNomSimple, " \"");
+		s(" id=\"pageSearchVal-", i18nPage.getString(I18n.var_Tri), classeNomSimple, "_1\"");
+		s(">facet.pivot={!range=r1}");
+		s("{% for item in default", i18nPage.getString(I18n.var_Tri), "Vars %}");
+		s("{% if loop.index > 0 %},{% endif %}{{ item }}");
+		s("{% endfor %}");
+		l("</div>");
+		tl(8, "{% endif %}");
+		tl(7, "</div>");
+
+		tl(7, "{% for key, value in varsFq.items() %}");
+		tl(7, "<div>");
+		t(8, "<", composantsWebPrefixe, "checkbox");
+		s(" name=\"pageFacetTri\"");
+		s(" class=\"pageFacetTri \"");
+		s(" id=\"pageFacetTri", classeNomSimple, "_{{ key }}\"");
+		s(" value=\"{{ value.var }}\"");
+		s("{% if ", i18nPage.getString(I18n.var_pivot), " is defined %} checked=\"checked\"{% endif %}");
+		l(">{{ value.", i18nPage.getString(I18n.var_nomAffichage), " }}</", composantsWebPrefixe, "checkbox>");
+		tl(7, "</div>");
+		tl(7, "{% endfor %}");
+		
+		tl(7, "{%- endblock htmBody", i18nPage.getString(I18n.var_Tri), classePageNomSimple, " %}");
+		tl(6, "</div>");
+		tl(5, "</", composantsWebPrefixe, "drawer>");
+
 		///////////////////
 		// sidebar gamme //
 		///////////////////
@@ -4538,7 +4625,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(8, "</tr>");
 		tl(7, "</table>");
 
-		//STUFF3
 		t(7, "<", composantsWebPrefixe, "radio-group id=\"pageFacet", i18nPage.getString(I18n.var_Gamme), classeNomSimple, "\">");
 		tl(8, "{% for key, value in vars", i18nPage.getString(I18n.var_Gamme), ".items() %}");
 		t(8, "<", composantsWebPrefixe, "radio");
@@ -4864,6 +4950,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		s("<", composantsWebPrefixe, "button onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Filtres), "').show(); \">");
 		s("<i slot=\"prefix\" class=\"fad fa-filters hover-box-shadow \"></i> ");
 		s(i18nPage.getString(I18n.var_Filtres));
+		s("</", composantsWebPrefixe, "button>");
+		// s("</", composantsWebPrefixe, "tooltip>");
+
+		///////////////
+		// bouton fq //
+		///////////////
+		// s("<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Filtres_et_nombres_de_facettes_pour_), classeNomAdjectifPluriel, "\">");
+		s("<", composantsWebPrefixe, "button onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Tri), "').show(); \">");
+		s("<i slot=\"prefix\" class=\"fa-solid fa-arrow-down-a-z hover-box-shadow \"></i> ");
+		s(i18nPage.getString(I18n.str_Tri));
 		s("</", composantsWebPrefixe, "button>");
 		// s("</", composantsWebPrefixe, "tooltip>");
 

@@ -2265,6 +2265,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				|| classeUriPageAffichage != null
 				|| classeUriPageUtilisateur != null
 				;
+		Boolean classePageAvecTemplate = false;
 		Boolean classePageSimple = indexerStockerSolr(classeDoc, "classePageSimple", regexTrouve("^" + i18nGlobale.getString(I18n.var_PageSimple) + ": \\s*(true)$", classeCommentaire));
 		Boolean classeSauvegarde = indexerStockerSolr(classeDoc, "classeSauvegarde", regexTrouve("^" + i18nGlobale.getString(I18n.var_Sauvegarde) + ":\\s*(true)$", classeCommentaire) || classeModele || classeFiware);
 		indexerStockerSolr(langueNomGlobale, classeDoc, "classePageTemplate", regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_PageTemplate), classeCommentaire));
@@ -5351,6 +5352,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				for(String classeApiMethode : apiMethodeObjet.fieldNames()) {
 					JsonObject apiMethode = Optional.ofNullable(apiMethodeObjet.getJsonObject(classeApiMethode)).orElse(new JsonObject());
 					String classeApiMethodeLangue = apiMethode.getString(i18nGlobale.getString(I18n.var_Langue));
+					Boolean classePageAvecTemplateMethode = false;
 	
 					if(classeApiMethodeLangue == null || StringUtils.equals(classeApiMethodeLangue, langueNom)) {
 
@@ -5401,6 +5403,14 @@ public class IndexerClasse extends RegarderClasseBase {
 								|| StringUtils.contains(classeApiMethode, "PUT")
 								|| StringUtils.contains(classeApiMethode, "DELETE")
 								) {
+							if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageRecherche))
+									|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageEdition))
+									|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageAffichage))
+									|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageUtilisateur))
+									) {
+								classePageAvecTemplate = true;
+								classePageAvecTemplateMethode = true;
+							}
 							if(StringUtils.isBlank(classeApiMotCleMethode))
 								classeApiMotCleMethode = StringUtils.substringAfterLast(classeApiUriMethode, "/");
 
@@ -5413,8 +5423,8 @@ public class IndexerClasse extends RegarderClasseBase {
 							else {
 								//STUFF0
 								if(classePageMethode != null) {
-									String classePageNomFichier = String.format("%s.htm", classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition)) ? i18nGlobale.getString(I18n.var_Edition) : i18nGlobale.getString(I18n.var_Recherche));
-									String classeGenPageNomFichier = String.format("Gen%s", classePageNomFichier);
+									String classePageNomFichier = String.format("%s%s.htm", classeNomSimple, classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition)) ? i18nGlobale.getString(I18n.var_Edition) : i18nGlobale.getString(I18n.var_Recherche));
+									String classeGenPageNomFichier = String.format("%sGen%s.htm", classeNomSimple, classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition)) ? i18nGlobale.getString(I18n.var_Edition) : i18nGlobale.getString(I18n.var_Recherche));
 									String classePageTemplateMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_PageTemplate), String.format("%s/%s", classeApiUriMethode.substring(1), classePageNomFichier));
 									if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageRecherche))) {
 										classePageRechercheTemplate = classePageTemplateMethode;
@@ -5552,8 +5562,11 @@ public class IndexerClasse extends RegarderClasseBase {
 								if(listeRecherchePageSuper.size() > 0) {
 									SolrDocument docPageSuper = listeRecherchePageSuper.get(0);
 									String classePageSuperNomCanoniqueMethode = (String)docPageSuper.get("classeNomCanonique_" + classePageLangueNom + "_stored_string");
+									String classePageSuperTemplate = (String)docPageSuper.get("classePageTemplate_" + classePageLangueNom + "_stored_string");
+
 									indexerStockerSolr(langueNom, classeDoc, "classePageSuperNomCanonique" + classeApiMethode, classePageSuperNomCanoniqueMethode);
 									indexerStockerSolr(langueNom, classeDoc, "classePageSuperNomSimple" + classeApiMethode, classePageSuperNomSimpleMethode);
+									indexerStockerSolr(langueNom, classeDoc, "classePageSuperTemplate" + classeApiMethode, classePageSuperTemplate);
 									classePartsGenPageAjouter(ClasseParts.initClasseParts(this, classePageSuperNomCanoniqueMethode, classePageLangueNom), classeLangueNom);
 								}
 								else {
@@ -5587,6 +5600,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							classePage = true;
 						}
 					}
+					indexerStockerSolr(classeDoc, String.format("classePageAvecTemplate%s", classeApiMethode), classePageAvecTemplateMethode);
 				}
 		
 				for(ClasseParts classePartGenApi : classePartsGenApi.values()) {
@@ -5600,23 +5614,24 @@ public class IndexerClasse extends RegarderClasseBase {
 			if(classePage && classePageRechercheTemplate != null) {
 				String classePageRechercheTemplateRepertoire = StringUtils.substringBeforeLast(classePageRechercheTemplate, "/");
 
-				String classePageBarreLateraleTemplate = String.format("%s/%s.htm", classePageRechercheTemplateRepertoire, i18nGlobale.getString(I18n.var_BarreLaterale));
+				String classePageBarreLateraleTemplate = String.format("%s/%s%s.htm", classePageRechercheTemplateRepertoire, classeNomSimple, i18nGlobale.getString(I18n.var_BarreLaterale));
 				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageBarreLateraleTemplate", classePageBarreLateraleTemplate);
 				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageBarreLateraleCheminJinja", String.format("%s/%s", templateChemin, classePageBarreLateraleTemplate));
 
-				String classePageBoutonsRechercheTemplate = String.format("%s/%s.htm", classePageRechercheTemplateRepertoire, i18nGlobale.getString(I18n.var_BoutonsRecherche));
+				String classePageBoutonsRechercheTemplate = String.format("%s/%s%s.htm", classePageRechercheTemplateRepertoire, classeNomSimple, i18nGlobale.getString(I18n.var_BoutonsRecherche));
 				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageBoutonsRechercheTemplate", classePageBoutonsRechercheTemplate);
 				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageBoutonsRechercheCheminJinja", String.format("%s/%s", templateChemin, classePageBoutonsRechercheTemplate));
 
-				String classePageFormulaireRechercheTemplate = String.format("%s/%s.htm", classePageRechercheTemplateRepertoire, i18nGlobale.getString(I18n.var_FormulaireRecherche));
+				String classePageFormulaireRechercheTemplate = String.format("%s/%s%s.htm", classePageRechercheTemplateRepertoire, classeNomSimple, i18nGlobale.getString(I18n.var_FormulaireRecherche));
 				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageFormulaireRechercheTemplate", classePageFormulaireRechercheTemplate);
 				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageFormulaireRechercheCheminJinja", String.format("%s/%s", templateChemin, classePageFormulaireRechercheTemplate));
 
-				String classePageRechercheSuggereTemplate = String.format("%s/%s.htm", classePageRechercheTemplateRepertoire, i18nGlobale.getString(I18n.var_RechercheSuggere));
+				String classePageRechercheSuggereTemplate = String.format("%s/%s%s.htm", classePageRechercheTemplateRepertoire, classeNomSimple, i18nGlobale.getString(I18n.var_RechercheSuggere));
 				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageRechercheSuggereTemplate", classePageRechercheSuggereTemplate);
 				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageRechercheSuggereCheminJinja", String.format("%s/%s", templateChemin, classePageRechercheSuggereTemplate));
 			}
 		}
+		indexerStockerSolr(classeDoc, "classePageAvecTemplate", classePageAvecTemplate);
 
 		indexerStockerSolr(classeDoc, "classeAuth", classeAuth);
 

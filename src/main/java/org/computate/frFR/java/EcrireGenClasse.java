@@ -1211,6 +1211,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	String classePageUriJs;
 	String classePageUriJsRecherche;
 	String classePageUriJsEdition;
+	Boolean classePageAvecTemplate;
 
 	String classePageCheminCss;
 	String classePageCheminJs;
@@ -2298,6 +2299,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(classePage) {
 			classeGenPageChemin = classeDoc.getString("classeGenPageChemin"  + "_" + langueNom + "_stored_string");
 			classePageChemin = classeDoc.getString("classePageChemin"  + "_" + langueNom + "_stored_string");
+			classePageAvecTemplate = classeDoc.getBoolean("classePageAvecTemplate_stored_boolean");
 
 			classePageUriCss = classeDoc.getString("classePageUriCss"  + "_" + langueNom + "_stored_string");
 			classePageUriJs = classeDoc.getString("classePageUriJs"  + "_" + langueNom + "_stored_string");

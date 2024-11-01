@@ -1905,7 +1905,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				String classeApiTypeMedia200Methode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
 				String classeApiTypeMediaRequeteMethode = classeDoc.getString("classeApiTypeMediaRequete" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
 				String classePageLangueNom = classeDoc.getString("classePageLangueNom" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
-				String classeSearchPageTemplate = classeDoc.getString("classe" + classeApiMethode + "Template_" + classeLangueNom + "_stored_string");
+				String classePageRechercheTemplate = classeDoc.getString("classe" + classeApiMethode + "Template_" + classeLangueNom + "_stored_string");
+				Boolean classePageAvecTemplateMethode = classeDoc.getBoolean("classePageAvecTemplate" + classeApiMethode + "_stored_boolean");
 
 				if(classePageLangueNom == null || classePageLangueNom.equals(classeLangueNom)) {
 
@@ -2330,7 +2331,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(7, i18nGlobale.getString(I18n.var_erreur), "(", i18nGlobale.getString(I18n.var_requeteSite), ", ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ", ex);");
 						tl(6, "});");
 					}
-					else if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_Recherche))) {
+					else if(classePageAvecTemplateMethode || classeApiMethode.contains(i18nGlobale.getString(I18n.var_Recherche))) {
 						tl(6, i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", i18nGlobale.getString(I18n.var_requeteSite), ", false, true, false).onSuccess(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, " -> {");
 						tl(7, i18nGlobale.getString(I18n.var_reponse), "200", classeApiMethode, classeNomSimple, "(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ").onSuccess(", i18nGlobale.getString(I18n.var_reponse), " -> {");
 						tl(8, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture(", i18nGlobale.getString(I18n.var_reponse), "));");
@@ -3603,7 +3604,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					if(classePageNomCanoniqueMethode != null) {
 						l();
 						tl(1, "public String ", i18nGlobale.getString(I18n.var_template), classeApiMethode, classeNomSimple, "() {");
-						tl(2, "return \"", classeSearchPageTemplate, "\";");
+						tl(2, "return \"", classePageRechercheTemplate, "\";");
 						t(1, "}");
 					}
 					l();
@@ -3617,7 +3618,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						s(classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite));
 					else if(classeApiMethode.contains("PATCH") || classeApiMethode.contains("DELETE"))
 						s(classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite));
-					else if(classeApiMethode.contains("GET") || classeApiMethode.contains(i18nGlobale.getString(I18n.var_Recherche)))
+					else if(classeApiMethode.contains("GET") || classePageAvecTemplateMethode || classeApiMethode.contains(i18nGlobale.getString(I18n.var_Recherche)))
 						s(classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, "> ", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple);
 					else
 						s(classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite));
@@ -3633,14 +3634,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					}
 					else if(classeApiMethode.contains("PATCH") || classeApiMethode.contains("DELETE") || classeApiMethode.contains("PUT")) {
 					}
-					else if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_Recherche)) || classeApiMethode.contains("GET")) {
+					else if(classePageAvecTemplateMethode || classeApiMethode.contains(i18nGlobale.getString(I18n.var_Recherche)) || classeApiMethode.contains("GET")) {
 						tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), " = ", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ".get", i18nGlobale.getString(I18n.var_RequeteSite), "_(", classePartsRequeteSite.nomSimple(classeLangueNom), ".class);");
 					}
 					else {
 					}
 	
 	
-					if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_Recherche))) {
+					if(classePageAvecTemplateMethode || classeApiMethode.contains(i18nGlobale.getString(I18n.var_Recherche))) {
 						if(classePageNomCanoniqueMethode != null) {
 							if(classePartsToutEcrivain == null)
 								throw new RuntimeException(String.format("%s %s %s %s %s. ", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_ToutEcrivain), i18nGlobale.getString(I18n.var_manquante), i18nGlobale.getString(I18n.var_dans), cheminSrcMainJava));
@@ -3735,7 +3736,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "JsonObject json = new JsonObject();");
 					}
 	
-					if((classeApiMethode.contains("GET") || classeApiMethode.contains(i18nGlobale.getString(I18n.var_Recherche))) && classePageNomCanoniqueMethode != null) {
+					if((classeApiMethode.contains("GET") || classePageAvecTemplateMethode || classeApiMethode.contains(i18nGlobale.getString(I18n.var_Recherche))) && classePageNomCanoniqueMethode != null) {
 						tl(5, "promise.complete(new ServiceResponse(200, \"OK\", buffer, ", i18nGlobale.getString(I18n.var_requeteEnTetes), "));");
 						tl(4, "} catch(Exception ex) {");
 						tl(5, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_reponse), "200", classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
@@ -3755,7 +3756,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(2, "}");
 					tl(2, "return promise.future();");
 					tl(1, "}");
-					if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_Recherche)) && classePageNomCanoniqueMethode == null) {
+					if(classePageAvecTemplateMethode || classeApiMethode.contains(i18nGlobale.getString(I18n.var_Recherche)) && classePageNomCanoniqueMethode == null) {
 						tl(1, "public void ", i18nGlobale.getString(I18n.var_reponse), "Pivot", classeApiMethode, classeNomSimple, "(List<SolrResponse.Pivot> pivots, JsonArray pivotArray) {");
 						tl(2, "if(pivots != null) {");
 						tl(3, "for(SolrResponse.Pivot pivotField : pivots) {");
