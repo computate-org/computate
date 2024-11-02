@@ -5622,6 +5622,10 @@ public class IndexerClasse extends RegarderClasseBase {
 				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageBoutonsRechercheTemplate", classePageBoutonsRechercheTemplate);
 				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageBoutonsRechercheCheminJinja", String.format("%s/%s", templateChemin, classePageBoutonsRechercheTemplate));
 
+				String classePageBoutonsPaginationTemplate = String.format("%s/%s%s.htm", classePageRechercheTemplateRepertoire, classeNomSimple, i18nGlobale.getString(I18n.var_BoutonsPagination));
+				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageBoutonsPaginationTemplate", classePageBoutonsPaginationTemplate);
+				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageBoutonsPaginationCheminJinja", String.format("%s/%s", templateChemin, classePageBoutonsPaginationTemplate));
+
 				String classePageFormulaireRechercheTemplate = String.format("%s/%s%s.htm", classePageRechercheTemplateRepertoire, classeNomSimple, i18nGlobale.getString(I18n.var_FormulaireRecherche));
 				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageFormulaireRechercheTemplate", classePageFormulaireRechercheTemplate);
 				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageFormulaireRechercheCheminJinja", String.format("%s/%s", templateChemin, classePageFormulaireRechercheTemplate));

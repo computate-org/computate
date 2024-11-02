@@ -2668,6 +2668,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				ecrirePageBarreLaterale(langueNom, i18nPage);
 				ecrirePageBoutonsRecherche(langueNom, i18nPage);
 				ecrirePageFormulaireRecherche(langueNom, i18nPage);
+				ecrirePageBoutonsPagination(langueNom, i18nPage);
 	
 				ecrirePageRechercheJinja(langueNom, i18nPage);
 				//STUFF1
@@ -2698,6 +2699,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			if(auteurBoutonsRechercheJinja != null) {
 				auteurBoutonsRechercheJinja.flushClose();
+			}
+
+			if(auteurBoutonsPaginationJinja != null) {
+				auteurBoutonsPaginationJinja.flushClose();
 			}
 
 			if(auteurFormulaireRechercheJinja != null) {
@@ -5012,12 +5017,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		s(">");
 		s("<i slot=\"prefix\" class=\"fad fa-brackets-curly hover-box-shadow \"></i> ");
 		s(i18nPage.getString(I18n.var_Api));
-		s("</", composantsWebPrefixe, "button>");
+		l("</", composantsWebPrefixe, "button>");
 		// s("</", composantsWebPrefixe, "tooltip>");
 
 		tl(4, "</div>");
-		l();
-		tl(6, "<div id=\"htm", i18nPage.getString(I18n.var_BoutonsPagination), "\">");
 
 		// tl(7, "<", composantsWebPrefixe, "button-group>");
 		// tl(8, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_sous_forme_de_details), classeNomAdjectifPluriel), "\" pill>");
@@ -5037,6 +5040,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// tl(8, "</", composantsWebPrefixe, "tooltip>");
 		// tl(7, "</", composantsWebPrefixe, "button-group>");
 
+		o = oAncien;
+	}
+
+	public void ecrirePageBoutonsPagination(String langueNom, JsonObject i18nPage) throws Exception {
+		ToutEcrivain oAncien = o;
+
+		o = auteurBoutonsPaginationJinja;
+
+		l();
+		tl(6, "<div id=\"htm", i18nPage.getString(I18n.var_BoutonsPagination), "\">");
 		tl(7, "<", composantsWebPrefixe, "button-group>");
 		tl(8, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_precedents), classeNomAdjectifPluriel), "\">");
 		t(9, "<", composantsWebPrefixe, "button pill");
@@ -5082,7 +5095,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(9, "</", composantsWebPrefixe, "button>");
 		tl(8, "</", composantsWebPrefixe, "tooltip>");
 		tl(7, "</", composantsWebPrefixe, "button-group>");
-		tl(6, "<div>{{ pagination.", i18nPage.getString(I18n.var_debut), "Num }} – {{ pagination.", i18nPage.getString(I18n.var_fin), "Num }} ", i18nPage.getString(I18n.var_de), " {{ pagination.", i18nPage.getString(I18n.var_numTrouve), " }}</div>");
+		tl(7, "<div>{{ pagination.", i18nPage.getString(I18n.var_debut), "Num }} – {{ pagination.", i18nPage.getString(I18n.var_fin), "Num }} ", i18nPage.getString(I18n.var_de), " {{ pagination.", i18nPage.getString(I18n.var_numTrouve), " }}</div>");
 		tl(6, "</div>");
 
 		o = oAncien;
@@ -5164,8 +5177,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 		// formulaires
 
-		tl(0, "{%- include ", classePageBoutonsRechercheTemplate, " %}");
-		tl(0, "{%- include ", classePageFormulaireRechercheTemplate, " %}");
+		tl(0, "{% include ", classePageBoutonsRechercheTemplate, " %}");
+		tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
+		tl(0, "{% include ", classePageBoutonsPaginationTemplate, " %}");
 
 		// tl(6, "<", composantsWebPrefixe, "divider></", composantsWebPrefixe, "divider>");
 		// tl(6, "{{ htm", i18nPage.getString(I18n.var_BoutonsPagination), classePageNomSimple, "() }}");
@@ -5217,7 +5231,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(0, "{%- block htmTitle", classePageSuperNomSimple, " %}");
 		tl(0, "{%- block htmTitle", classePageNomSimple, " %}");
 		t(2, "<title>");
-		s(classeNomAdjectifSingulier);
+		s("{{ ", uncapitalizeClasseApiClasseNomSimple, "_.", i18nPage.getString(I18n.var_objetTitre), " }}");
 		l("</title>");
 		tl(0, "{%- endblock htmTitle", classePageNomSimple, " %}");
 		tl(0, "{%- endblock htmTitle", classePageSuperNomSimple, " %}");
@@ -5262,14 +5276,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(6, "</", composantsWebPrefixe, "button>");
 		tl(5, "</", composantsWebPrefixe, "tooltip>");
 		tl(4, "</div>");
+
+		tl(0, "{% include ", classePageBoutonsRechercheTemplate, " %}");
+		tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
+
 		tl(4, "<h1>");
 		tl(5, classeIcone);
 		tl(5, "{{", uncapitalizeClasseApiClasseNomSimple, "_.", i18nPage.getString(I18n.var_objetTitre), "}}");
 		tl(4, "</h1>");
-
-		tl(0, "{%- include ", classePageBoutonsRechercheTemplate, " %}");
-		tl(0, "{%- include ", classePageFormulaireRechercheTemplate, " %}");
-
 		tl(2, "{% else %}");
 		ecrirePageRechercheAucun(langueNom, i18nPage);
 		tl(2, "{% endif %}");
