@@ -2240,34 +2240,59 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								wTh.tl(9, "</", composantsWebPrefixe, "menu-item>");
 								wTh.tl(8, "</", composantsWebPrefixe, "menu>");
 								wTh.tl(7, "</", composantsWebPrefixe, "dropdown>");
-								if(wTd.getEmpty()) {
-									wTd.tl(8, "<div>");
-									wTd.tl(9, classeIcone);
-								} else {
-									wTd.tl(8, "<div>");
-								}
 
-								wTd.t(9);
-								if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
-									wTd.l("<", composantsWebPrefixe, "format-date weekday=\"short\" month=\"short\" day=\"numeric\" year=\"numeric\" hour=\"numeric\" minute=\"numeric\" second=\"numeric\" time-zone-name=\"short\" date=\"{{ formatZonedDateTime(item.", entiteVar, ", \"yyyy-MM-dd'T'HH:mm:ss.SSSX\", defaultLocaleId, \"UTC\") }}\"></", composantsWebPrefixe, "format-date>");
-								} else if(StringUtils.equals(entiteNomCanonique, LocalDate.class.getCanonicalName())) {
-									wTd.l("{{ formatLocalDate(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
-								} else if(StringUtils.equals(entiteNomCanonique, LocalDateTime.class.getCanonicalName())) {
-									wTd.l("{{ formatLocalDateTime(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
-								} else if(StringUtils.equals(entiteNomCanonique, LocalTime.class.getCanonicalName())) {
-									wTd.l("{{ formatLocalTime(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
-								} else if(StringUtils.equals(entiteNomCanonique, BigDecimal.class.getCanonicalName())) {
-									wTd.l("{{ formatNumber(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
+								if(entiteLien) {
+									wTd.tl(9, "<", composantsWebPrefixe, "button");
+									wTd.tl(11, "id=\"{{", i18nPage.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
+
+									if(entiteNomAffichage != null) {
+										wTd.tl(11, "placeholder=\"[", entiteNomSimple, "] ", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
+										wTd.tl(11, "label=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
+									}
+									if(entiteDescription != null) {
+										wTd.t(11, "help-text=\"").sx(entiteDescription).l("\"");
+									}
+
+									wTd.tl(11, "class=\"button-on-left {{", i18nPage.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, " class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " \"");
+									wTd.tl(11, "name=\"set", entiteVarCapitalise, "\"");
+									wTd.tl(11, "href=\"{{ item.", entiteVar, " | e }}\"");
+									wTd.t(11, ">");
+									if(entiteNomAffichage != null) {
+										wTd.sx(entiteNomAffichage);
+									}
+									wTd.l("</", composantsWebPrefixe, "button>");
 								} else {
-									wTd.l("{{ item.", entiteVar, " }}");
-								}
-								wTd.tl(8, "</div>");
-								if(entiteHighlighting) {
-									wTd.tl(8, "{% if highlightList is defined %}");
-									wTd.tl(8, "<div class=\"site-highlight \">");
-										wTd.tl(9, "StringUtils.join(highlightList, \" ... \")");
-									wTd.tl(8, "</div>");
-									wTd.tl(8, "{% endif %}");
+									if(wTd.getEmpty()) {
+										wTd.tl(8, "<a href=\"{{ item.", classeVarUrlPk, " }}\">");
+										// wTd.tl(8, "<div>");
+										wTd.tl(9, classeIcone);
+									} else {
+										wTd.tl(8, "<a href=\"{{ item.", classeVarUrlPk, " }}\">");
+										// wTd.tl(8, "<div>");
+									}
+									wTd.t(9);
+									if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
+										wTd.l("<", composantsWebPrefixe, "format-date weekday=\"short\" month=\"short\" day=\"numeric\" year=\"numeric\" hour=\"numeric\" minute=\"numeric\" second=\"numeric\" time-zone-name=\"short\" date=\"{{ formatZonedDateTime(item.", entiteVar, ", \"yyyy-MM-dd'T'HH:mm:ss.SSSX\", defaultLocaleId, \"UTC\") }}\"></", composantsWebPrefixe, "format-date>");
+									} else if(StringUtils.equals(entiteNomCanonique, LocalDate.class.getCanonicalName())) {
+										wTd.l("{{ formatLocalDate(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
+									} else if(StringUtils.equals(entiteNomCanonique, LocalDateTime.class.getCanonicalName())) {
+										wTd.l("{{ formatLocalDateTime(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
+									} else if(StringUtils.equals(entiteNomCanonique, LocalTime.class.getCanonicalName())) {
+										wTd.l("{{ formatLocalTime(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
+									} else if(StringUtils.equals(entiteNomCanonique, BigDecimal.class.getCanonicalName())) {
+										wTd.l("{{ formatNumber(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
+									} else {
+										wTd.l("{{ item.", entiteVar, " }}");
+									}
+									// wTd.tl(8, "</div>");
+									wTd.tl(8, "</a>");
+									if(entiteHighlighting) {
+										wTd.tl(8, "{% if highlightList is defined %}");
+										wTd.tl(8, "<div class=\"site-highlight \">");
+											wTd.tl(9, "StringUtils.join(highlightList, \" ... \")");
+										wTd.tl(8, "</div>");
+										wTd.tl(8, "{% endif %}");
+									}
 								}
 							}
 
@@ -2606,7 +2631,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 						l();
 						l("{%- macro htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() %}");
-						{ tl(4, "<", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "div" : "", composantsWebPrefixe, "dialog", " id=\"", classeApiOperationIdMethode, i18nPage.getString(I18n.var_Dialogue), "\" label=\"", methodeTitreValeurs, "\">");
+						{ tl(4, "<", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "div" : composantsWebPrefixe + "dialog", " id=\"", classeApiOperationIdMethode, i18nPage.getString(I18n.var_Dialogue), "\" label=\"", methodeTitreValeurs, "\">");
 							{ tl(5, "<", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "div" : "form", " id=\"htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "\" class=\"round-first-and-last-row-x-large \">");
 								if(!i18nPage.getString(I18n.var_PageRecherche).equals(classeApiMethode)) {
 									if("POST".equals(classeApiMethode)) {
@@ -2653,7 +2678,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							if(!classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche))) {
 								tl(5, "{{ htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
 							}
-						} tl(4, "</", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "div" : "", composantsWebPrefixe, "dialog", ">");
+						} tl(4, "</", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "div" : composantsWebPrefixe + "dialog", ">");
 						l("{%- endmacro %}");
 					}
 				}
@@ -4127,38 +4152,38 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 		// formulaires //
 
-		tl(1, "{% if ", i18nPage.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
-		tl(2, "{% if \"PATCH\" in ", i18nGlobale.getString(I18n.var_portees), " %}");
+		tl(0, "{% if ", i18nPage.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
+		tl(1, "{% if \"PATCH\" in ", i18nGlobale.getString(I18n.var_portees), " %}");
 
 		tl(6, "<", composantsWebPrefixe, "divider></", composantsWebPrefixe, "divider>");
 
 		tl(6, "<div id=\"htm", i18nPage.getString(I18n.var_Bouton), i18nPage.getString(I18n.var_Groupe), "\" class=\"round-first-and-last-column-pill \">");
 
 		// recharger 1 //
-		t(7, "{% if ", uncapitalizeClasseApiClasseNomSimple, "Count == 1 %}");
+		t(2, "{% if ", uncapitalizeClasseApiClasseNomSimple, "Count == 1 %}");
 		// s("<", composantsWebPrefixe, "tooltip content=\"", i18nPage.getString(I18n.str_Recharger), " ", classeCeNom, "\">");
-		s("<", composantsWebPrefixe, "button id=\"", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "\"");
-		s(" onclick=\"patch{{", i18nPage.getString(I18n.var_classeNomSimple), "}}Vals( [ {name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' } ], {}, this, function() { ", i18nPage.getString(I18n.var_ajouterLueur), "(document.querySelector('#", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "')); }, function() { ", i18nPage.getString(I18n.var_ajouterErreur), "(document.querySelector('#", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "')); }); return false; \">");
-		s("<i slot=\"prefix\" class=\"fas fa-sync-alt \"></i>");
-		s(i18nPage.getString(I18n.var_recharger));
-		s("</", composantsWebPrefixe, "button>");
-		// s("</", composantsWebPrefixe, "tooltip>");
-		s("{% endif %}");
+		tl(7, "<", composantsWebPrefixe, "button id=\"", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "\"");
+		tl(9, " onclick=\"patch{{", i18nPage.getString(I18n.var_classeNomSimple), "}}Vals( [ {name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' } ], {}, this, function() { ", i18nPage.getString(I18n.var_ajouterLueur), "(document.querySelector('#", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "')); }, function() { ", i18nPage.getString(I18n.var_ajouterErreur), "(document.querySelector('#", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "')); }); return false; \">");
+		tl(8, "<i slot=\"prefix\" class=\"fas fa-sync-alt \"></i>");
+		tl(8, i18nPage.getString(I18n.var_recharger));
+		tl(7, "</", composantsWebPrefixe, "button>");
+		// tl(9, "</", composantsWebPrefixe, "tooltip>");
+		tl(2, "{% endif %}");
 
 		// recharger tous //
-		s("{% if ", uncapitalizeClasseApiClasseNomSimple, "Count > 0 %}");
-		// s("<", composantsWebPrefixe, "tooltip content=\"", i18nPage.getString(I18n.str_Recharger), " ", classeTousNom, "\">");
-		s("<", composantsWebPrefixe, "button id=\"", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeTous)), classeGenPageNomSimple, "{{id}}\"");
-		s(" onclick=\"patch{{", i18nPage.getString(I18n.var_classeNomSimple), "}}Vals([], {}, this, function() { ", i18nPage.getString(I18n.var_ajouterLueur), "(document.querySelector('#", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeTous)), classeGenPageNomSimple, "{{id}}')); }, function() { ", i18nPage.getString(I18n.var_ajouterErreur), "(document.querySelector('#", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeTous)), classeGenPageNomSimple, "{{id}}')); }); \"");
-		s(">");
-		s("<i slot=\"prefix\" class=\"fa-kit fa-solid-arrows-rotate-rotate\"></i>");
-		s(i18nPage.getString(I18n.str_Recharger), " ", classeTous);
-		s("</", composantsWebPrefixe, "button>");
-		// s("</", composantsWebPrefixe, "tooltip>");
-		s("{% endif %}");
+		tl(2, "{% if ", uncapitalizeClasseApiClasseNomSimple, "Count > 0 %}");
+		// tl(9, "<", composantsWebPrefixe, "tooltip content=\"", i18nPage.getString(I18n.str_Recharger), " ", classeTousNom, "\">");
+		tl(7, "<", composantsWebPrefixe, "button id=\"", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeTous)), classeGenPageNomSimple, "{{id}}\"");
+		tl(9, " onclick=\"patch{{", i18nPage.getString(I18n.var_classeNomSimple), "}}Vals([], {}, this, function() { ", i18nPage.getString(I18n.var_ajouterLueur), "(document.querySelector('#", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeTous)), classeGenPageNomSimple, "{{id}}')); }, function() { ", i18nPage.getString(I18n.var_ajouterErreur), "(document.querySelector('#", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeTous)), classeGenPageNomSimple, "{{id}}')); }); \"");
+		tl(9, ">");
+		tl(8, "<i slot=\"prefix\" class=\"fa-kit fa-solid-arrows-rotate-rotate\"></i>");
+		tl(8, i18nPage.getString(I18n.str_Recharger), " ", classeTous);
+		tl(7, "</", composantsWebPrefixe, "button>");
+		// tl(9, "</", composantsWebPrefixe, "tooltip>");
+		tl(2, "{% endif %}");
 
-		s("{% endif %}");
-		s("{% endif %}");
+		tl(1, "{% endif %}");
+		tl(0, "{% endif %}");
 
 		// formulaires //
 
@@ -4170,50 +4195,49 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			if(classeApiMethode.equals("POST")) {
 				if(activerRoleAdmin) {
-					s("{% if ", i18nPage.getString(I18n.var_AUTH_PORTEE_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
+					tl(0, "{% if ", i18nPage.getString(I18n.var_AUTH_PORTEE_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
 				}
-				s("{%- if ", uncapitalizeClasseApiClasseNomSimple, "Count == 1 %}");
-				s("{%- if ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " is defined %}");
-				s("{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
-				s("{%- else %}");
-				s("{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
-				s("{%- endif %}");
-				s("{%- else %}");
-				s("{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
-				s("{%- endif %}");
+				tl(1, "{%- if ", uncapitalizeClasseApiClasseNomSimple, "Count == 1 %}");
+				tl(2, "{%- if ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " is defined %}");
+				tl(3, "{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
+				tl(2, "{%- else %}");
+				tl(3, "{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
+				tl(2, "{%- endif %}");
+				tl(1, "{%- else %}");
+				tl(2, "{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
+				tl(1, "{%- endif %}");
 				if(activerRoleAdmin) {
-					s("{%- endif %}");
+					tl(0, "{%- endif %}");
 				}
 			} else if(classeApiMethode.equals("DELETE")) {
 				if(activerRoleAdmin) {
-					s("{% if ", i18nPage.getString(I18n.var_AUTH_PORTEE_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
+					tl(0, "{% if ", i18nPage.getString(I18n.var_AUTH_PORTEE_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
 				}
-				s("{%- if ", uncapitalizeClasseApiClasseNomSimple, "Count == 1 %}");
-				s("{%- if ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " is defined %}");
-				s("{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
-				s("{%- else %}");
-				s("{%- endif %}");
-				s("{%- else %}");
-				s("{%- endif %}");
+				tl(1, "{%- if ", uncapitalizeClasseApiClasseNomSimple, "Count == 1 %}");
+				tl(2, "{%- if ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " is defined %}");
+				tl(3, "{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
+				tl(2, "{%- else %}");
+				tl(2, "{%- endif %}");
+				tl(1, "{%- else %}");
+				tl(1, "{%- endif %}");
 				if(activerRoleAdmin) {
-					s("{%- endif %}");
+					tl(0, "{%- endif %}");
 				}
 			} else if(classeApiMethode.equals("PATCH")) {
-				s("{%- if ", i18nPage.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
-				s("{%- if ", uncapitalizeClasseApiClasseNomSimple, "Count > 0 %}");
-				s("{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
-				s("{%- endif %}");
-				s("{%- endif %}");
+				tl(0, "{%- if ", i18nPage.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
+				tl(1, "{%- if ", uncapitalizeClasseApiClasseNomSimple, "Count > 0 %}");
+				tl(2, "{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
+				tl(1, "{%- endif %}");
+				tl(0, "{%- endif %}");
 			} else if(classeApiMethode.equals(i18nPage.getString(I18n.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
-				s("{%- if ", i18nPage.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
-				s("{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
-				s("{%- endif %}");
+				tl(0, "{%- if ", i18nPage.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
+				tl(1, "{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
+				tl(0, "{%- endif %}");
 			} else if(classeApiMethode.equals(i18nPage.getString(I18n.var_PUTCopie))) {
-				s("{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
+				tl(0, "{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
 			}
 		}
 		l();
-		tl(6, "</div>");
 
 		for(String classeApiMethode : classeApiMethodes) {
 			String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
@@ -4223,46 +4247,46 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			if(classeApiMethode.equals("POST")) {
 				if(activerRoleAdmin) {
-					tl(3, "{% if ", i18nPage.getString(I18n.var_AUTH_PORTEE_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
+					tl(0, "{% if ", i18nPage.getString(I18n.var_AUTH_PORTEE_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
 				}
-				tl(4, "{%- if ", uncapitalizeClasseApiClasseNomSimple, "Count == 1 %}");
-				tl(5, "{%- if ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " is defined %}");
-				tl(6, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
-				tl(5, "{%- else %}");
-				tl(6, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
-				tl(5, "{%- endif %}");
-				tl(4, "{%- else %}");
-				tl(5, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
-				tl(4, "{%- endif %}");
+				tl(1, "{%- if ", uncapitalizeClasseApiClasseNomSimple, "Count == 1 %}");
+				tl(2, "{%- if ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " is defined %}");
+				tl(3, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
+				tl(2, "{%- else %}");
+				tl(3, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
+				tl(2, "{%- endif %}");
+				tl(1, "{%- else %}");
+				tl(2, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
+				tl(1, "{%- endif %}");
 				if(activerRoleAdmin) {
-					tl(3, "{%- endif %}");
+					tl(0, "{%- endif %}");
 				}
 			} else if(classeApiMethode.equals("DELETE")) {
 				if(activerRoleAdmin) {
-					tl(3, "{% if ", i18nPage.getString(I18n.var_AUTH_PORTEE_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
+					tl(0, "{% if ", i18nPage.getString(I18n.var_AUTH_PORTEE_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
 				}
-				tl(4, "{%- if ", uncapitalizeClasseApiClasseNomSimple, "Count == 1 %}");
-				tl(5, "{%- if ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " is defined %}");
-				tl(6, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
-				tl(5, "{%- else %}");
-				tl(5, "{%- endif %}");
-				tl(4, "{%- else %}");
-				tl(4, "{%- endif %}");
+				tl(1, "{%- if ", uncapitalizeClasseApiClasseNomSimple, "Count == 1 %}");
+				tl(2, "{%- if ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " is defined %}");
+				tl(3, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
+				tl(2, "{%- else %}");
+				tl(2, "{%- endif %}");
+				tl(1, "{%- else %}");
+				tl(1, "{%- endif %}");
 				if(activerRoleAdmin) {
-					tl(3, "{%- endif %}");
+					tl(0, "{%- endif %}");
 				}
 			} else if(classeApiMethode.equals("PATCH")) {
-				tl(3, "{%- if ", i18nPage.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
-				tl(4, "{%- if ", uncapitalizeClasseApiClasseNomSimple, "Count > 0 %}");
-				tl(5, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
-				tl(4, "{%- endif %}");
-				tl(3, "{%- endif %}");
+				tl(0, "{%- if ", i18nPage.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
+				tl(1, "{%- if ", uncapitalizeClasseApiClasseNomSimple, "Count > 0 %}");
+				tl(2, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
+				tl(1, "{%- endif %}");
+				tl(0, "{%- endif %}");
 			} else if(classeApiMethode.equals(i18nPage.getString(I18n.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
-				tl(3, "{%- if ", i18nPage.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
-				tl(4, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
-				tl(3, "{%- endif %}");
+				tl(0, "{%- if ", i18nPage.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
+				tl(1, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
+				tl(0, "{%- endif %}");
 			} else if(classeApiMethode.equals(i18nPage.getString(I18n.var_PUTCopie))) {
-				tl(3, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
+				tl(0, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
 			}
 		}
 
@@ -5196,9 +5220,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //			tl(3, "Map<String, List<String>> highlights = highlighting == null ? null : highlighting.get(o.getId());");
 //			tl(3, "List<String> highlightList = highlights == null ? null : highlights.get(highlights.keySet().stream().findFirst().orElse(null));");
 //			tl(3, "String uri = ", classeEntiteVars.contains("pageUri") ? "o.getPageUri()" : (q(classePageUriMethode, "/") + " + o.get" + StringUtils.capitalize(classeVarClePrimaire) + "()"), ";");
-		tl(6, "<a href=\"{{ item.", classeVarUrlPk, " }}\">");
+		tl(6, "<div>");
+		// tl(6, "<a href=\"{{ item.", classeVarUrlPk, " }}\">");
 		s(wTd);
-		tl(6, "</a>");
+		// tl(6, "</a>");
+		tl(6, "</div>");
 		tl(6, "{% endfor %}");
 //			TODO
 //			tl(3, "SimpleOrderedMap facets = (SimpleOrderedMap)Optional.ofNullable(", langueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, ".getResponse()).map(QueryResponse::getResponse).map(r -> r.get(\"facets\")).orElse(new SimpleOrderedMap());");
