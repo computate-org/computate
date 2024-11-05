@@ -611,12 +611,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(11, "class=\"button-on-left {{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, " class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " \"");
 					tl(11, "name=\"set", entiteVarCapitalise, "\"");
 					tl(11, "href=\"{{ ", uncapitalizeClasseNomSimple, "_.", entiteVar, " | e }}\"");
-					t(11, ">");
-					if(entiteNomAffichage != null) {
-						sx(entiteNomAffichage);
+					tl(11, ">");
+					if(entiteIcone != null) {
+						tl(10, entiteIcone);
 					}
-					l("</", composantsWebPrefixe, "button>");
-					t(11, "<div class=\"button-description-on-right \">");
+					if(entiteNomAffichage != null) {
+						t(10).sx(entiteNomAffichage).l();
+					}
+					tl(9, "</", composantsWebPrefixe, "button>");
+					t(9, "<div class=\"button-description-on-right \">");
 						sx(entiteDescription);
 					l("</div>");
 					tl(1, "{%- else %}");
@@ -1063,6 +1066,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								entiteNomSimpleComplet = (String)entiteDocumentSolr.get("entiteNomSimpleComplet_" + langueNom + "_stored_string");
 								entiteDescription = (String)entiteDocumentSolr.get("entiteDescription_" + langueNom + "_stored_string");
 								entiteNomAffichage = (String)entiteDocumentSolr.get("entiteNomAffichage_" + langueNom + "_stored_string");
+								entiteIcone = (String)entiteDocumentSolr.get("entiteIcone_stored_string");
 								entiteHtml = (Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean");
 								entiteHtmLigne = (Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int");
 								entiteHtmLigneTitre = (String)entiteDocumentSolr.get("entiteHtmLigneTitre_stored_string");
@@ -2201,6 +2205,49 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				Integer rechercheLigneActuel;
 	
 				if(rechercheListe.size() > 0) {
+					auteurPageCss.tl(0, "#site-results-grid > :is(a, div) {");
+					auteurPageCss.tl(1, "display: grid;");
+					auteurPageCss.tl(1, "grid-template-columns: subgrid;");
+					auteurPageCss.tl(1, "grid-column: 1 / span ", rechercheListe.size(), ";");
+					auteurPageCss.tl(0, "}");
+					auteurPageCss.tl(0, "@media (max-width:800px) {");
+					auteurPageCss.tl(1, "#site-results-grid > :is(a, div) {");
+					auteurPageCss.tl(2, "grid-column: 1 / span 1;");
+					auteurPageCss.tl(1, "}");
+					auteurPageCss.tl(0, "}");
+
+					auteurPageCss.tl(0, "#site-results-grid.grid-mode-details > :is(a, div) {");
+					auteurPageCss.tl(1, "align-items: center;");
+					auteurPageCss.tl(0, "}");
+					auteurPageCss.tl(0, "#site-results-grid > :is(a, div):is(:hover, :active):not(:first-child) {");
+					auteurPageCss.tl(1, "background-color: var(--sl-color-primary-300);");
+					auteurPageCss.tl(0, "}");
+					auteurPageCss.tl(0, "#site-results-grid {");
+					auteurPageCss.tl(1, "display: grid;");
+					auteurPageCss.tl(1, "gap: 1rem;");
+					auteurPageCss.tl(1, "overflow: auto;");
+					auteurPageCss.tl(1, "padding: var(--sl-spacing-small);");
+					auteurPageCss.tl(1, "margin-block-start: var(--sl-spacing-medium);");
+					auteurPageCss.tl(1, "background-color: var(--sl-color-neutral-200);");
+					auteurPageCss.tl(0, "}");
+					auteurPageCss.tl(0, "#site-results-grid > :is(a, div) {");
+					auteurPageCss.tl(1, "border-radius: var(--sl-border-radius-large);");
+					auteurPageCss.tl(1, "background-color: var(--sl-color-neutral-0);");
+					auteurPageCss.tl(1, "color: inherit;");
+					auteurPageCss.tl(1, "text-decoration: none;");
+					auteurPageCss.tl(1, "grid-gap: 2rem 1rem;");
+					auteurPageCss.tl(1, "padding: var(--sl-spacing-small);");
+					auteurPageCss.tl(1, "& > div:first-child {");
+					auteurPageCss.tl(2, "font-size: var(--sl-font-size-large);");
+					auteurPageCss.tl(2, "font-weight: var(--sl-font-weight-bold);");
+					auteurPageCss.tl(1, "}");
+					auteurPageCss.tl(0, "}");
+					auteurPageCss.tl(0, "#site-results-grid > :is(a, div) > a {");
+					auteurPageCss.tl(1, "display: flex;");
+					auteurPageCss.tl(1, "align-items: center;");
+					auteurPageCss.tl(1, "height: 100%;");
+					auteurPageCss.tl(0, "}");
+
 					for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=rechercheLignes) {
 						for(Integer j = 0; j < rechercheListe.size(); j++) {
 							SolrDocument entiteDocumentSolr = rechercheListe.get(j);
@@ -2213,6 +2260,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							String entiteNomSimpleComplet = (String)entiteDocumentSolr.get("entiteNomSimpleComplet_" + langueNom + "_stored_string");
 							String entiteDescription = (String)entiteDocumentSolr.get("entiteDescription_" + langueNom + "_stored_string");
 							String entiteNomAffichage = (String)entiteDocumentSolr.get("entiteNomAffichage_" + langueNom + "_stored_string");
+							String entiteIcone = (String)entiteDocumentSolr.get("entiteIcone_stored_string");
 							Boolean entiteHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean"));
 							String entiteFormatHtm = (String)entiteDocumentSolr.get("entiteFormatHtm_stored_string");
 							Boolean entiteMultiligne = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteMultiligne_stored_boolean"));
@@ -2227,50 +2275,57 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									jsVal = ".checked";
 								}
 								//STUFF3
-								wTh.tl(7, "<", composantsWebPrefixe, "dropdown id=\"htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "_", entiteVar, "\">");
-								wTh.tl(8, "<", composantsWebPrefixe, "button slot=\"trigger\" caret>", entiteNomAffichage, "</", composantsWebPrefixe, "button>");
-								wTh.tl(8, "<", composantsWebPrefixe, "menu>");
-								wTh.tl(9, "<", composantsWebPrefixe, "menu-item type=\"checkbox\" data-action=\"", i18nPage.getString(I18n.var_tri), "\">");
-								wTh.tl(10, "<i class=\"fa-solid fa-arrow-down-a-z\"></i>");
-								wTh.t(10).sx(String.format(i18nPage.getString(I18n.str_trier_par___croissante), entiteNomAffichage)).l();
-								wTh.tl(9, "</", composantsWebPrefixe, "menu-item>");
-								wTh.tl(9, "<", composantsWebPrefixe, "menu-item type=\"checkbox\" data-action=\"", i18nPage.getString(I18n.var_tri), "\">");
-								wTh.tl(10, "<i class=\"fa-solid fa-arrow-down-z-a\"></i>");
-								wTh.t(10).sx(String.format(i18nPage.getString(I18n.str_trier_par___decroissante), entiteNomAffichage)).l();
-								wTh.tl(9, "</", composantsWebPrefixe, "menu-item>");
-								wTh.tl(8, "</", composantsWebPrefixe, "menu>");
-								wTh.tl(7, "</", composantsWebPrefixe, "dropdown>");
+								if(entiteLien) {
+									wTh.tl(7, "<div></div>");
+								} else {
+									wTh.tl(7, "<", composantsWebPrefixe, "dropdown id=\"htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "_", entiteVar, "\">");
+									wTh.tl(8, "<", composantsWebPrefixe, "button slot=\"trigger\" caret>", entiteNomAffichage, "</", composantsWebPrefixe, "button>");
+									wTh.tl(8, "<", composantsWebPrefixe, "menu>");
+									wTh.tl(9, "<", composantsWebPrefixe, "menu-item type=\"checkbox\" data-action=\"", i18nPage.getString(I18n.var_tri), "\">");
+									wTh.tl(10, "<i class=\"fa-solid fa-arrow-down-a-z\"></i>");
+									wTh.t(10).sx(String.format(i18nPage.getString(I18n.str_trier_par___croissante), entiteNomAffichage)).l();
+									wTh.tl(9, "</", composantsWebPrefixe, "menu-item>");
+									wTh.tl(9, "<", composantsWebPrefixe, "menu-item type=\"checkbox\" data-action=\"", i18nPage.getString(I18n.var_tri), "\">");
+									wTh.tl(10, "<i class=\"fa-solid fa-arrow-down-z-a\"></i>");
+									wTh.t(10).sx(String.format(i18nPage.getString(I18n.str_trier_par___decroissante), entiteNomAffichage)).l();
+									wTh.tl(9, "</", composantsWebPrefixe, "menu-item>");
+									wTh.tl(8, "</", composantsWebPrefixe, "menu>");
+									wTh.tl(7, "</", composantsWebPrefixe, "dropdown>");
+								}
 
 								if(entiteLien) {
-									wTd.tl(9, "<", composantsWebPrefixe, "button");
-									wTd.tl(11, "id=\"{{", i18nPage.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
+									wTd.tl(7, "<", composantsWebPrefixe, "button");
+									wTd.tl(9, "id=\"{{", i18nPage.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 
 									if(entiteNomAffichage != null) {
-										wTd.tl(11, "placeholder=\"[", entiteNomSimple, "] ", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
-										wTd.tl(11, "label=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
+										wTd.tl(9, "placeholder=\"[", entiteNomSimple, "] ", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
+										wTd.tl(9, "label=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 									}
 									if(entiteDescription != null) {
-										wTd.t(11, "help-text=\"").sx(entiteDescription).l("\"");
+										wTd.t(9, "help-text=\"").sx(entiteDescription).l("\"");
 									}
 
-									wTd.tl(11, "class=\"button-on-left {{", i18nPage.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, " class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " \"");
-									wTd.tl(11, "name=\"set", entiteVarCapitalise, "\"");
-									wTd.tl(11, "href=\"{{ item.", entiteVar, " | e }}\"");
-									wTd.t(11, ">");
-									if(entiteNomAffichage != null) {
-										wTd.sx(entiteNomAffichage);
+									wTd.tl(9, "class=\"button-on-left {{", i18nPage.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, " class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " \"");
+									wTd.tl(9, "name=\"set", entiteVarCapitalise, "\"");
+									wTd.tl(9, "href=\"{{ item.", entiteVar, " | e }}\"");
+									wTd.tl(9, ">");
+									if(entiteIcone != null) {
+										wTd.tl(8, entiteIcone);
 									}
-									wTd.l("</", composantsWebPrefixe, "button>");
+									if(entiteNomAffichage != null) {
+										wTd.t(8).sx(entiteNomAffichage).l();
+									}
+									wTd.tl(7, "</", composantsWebPrefixe, "button>");
 								} else {
 									if(wTd.getEmpty()) {
-										wTd.tl(8, "<a href=\"{{ item.", classeVarUrlPk, " }}\">");
+										wTd.tl(7, "<a href=\"{{ item.", classeVarUrlPk, " }}\">");
 										// wTd.tl(8, "<div>");
-										wTd.tl(9, classeIcone);
+										wTd.tl(8, classeIcone);
 									} else {
-										wTd.tl(8, "<a href=\"{{ item.", classeVarUrlPk, " }}\">");
+										wTd.tl(7, "<a href=\"{{ item.", classeVarUrlPk, " }}\">");
 										// wTd.tl(8, "<div>");
 									}
-									wTd.t(9);
+									wTd.t(7);
 									if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
 										wTd.l("<", composantsWebPrefixe, "format-date weekday=\"short\" month=\"short\" day=\"numeric\" year=\"numeric\" hour=\"numeric\" minute=\"numeric\" second=\"numeric\" time-zone-name=\"short\" date=\"{{ formatZonedDateTime(item.", entiteVar, ", \"yyyy-MM-dd'T'HH:mm:ss.SSSX\", defaultLocaleId, \"UTC\") }}\"></", composantsWebPrefixe, "format-date>");
 									} else if(StringUtils.equals(entiteNomCanonique, LocalDate.class.getCanonicalName())) {
@@ -2285,13 +2340,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										wTd.l("{{ item.", entiteVar, " }}");
 									}
 									// wTd.tl(8, "</div>");
-									wTd.tl(8, "</a>");
+									wTd.tl(7, "</a>");
 									if(entiteHighlighting) {
-										wTd.tl(8, "{% if highlightList is defined %}");
-										wTd.tl(8, "<div class=\"site-highlight \">");
-											wTd.tl(9, "StringUtils.join(highlightList, \" ... \")");
-										wTd.tl(8, "</div>");
-										wTd.tl(8, "{% endif %}");
+										wTd.tl(7, "{% if highlightList is defined %}");
+										wTd.tl(7, "<div class=\"site-highlight \">");
+											wTd.tl(8, "StringUtils.join(highlightList, \" ... \")");
+										wTd.tl(7, "</div>");
+										wTd.tl(7, "{% endif %}");
 									}
 								}
 							}
@@ -2358,6 +2413,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							entiteNomSimpleComplet = (String)entiteDocumentSolr.get("entiteNomSimpleComplet_" + langueNom + "_stored_string");
 							entiteDescription = (String)entiteDocumentSolr.get("entiteDescription_" + langueNom + "_stored_string");
 							entiteNomAffichage = (String)entiteDocumentSolr.get("entiteNomAffichage_" + langueNom + "_stored_string");
+							entiteIcone = (String)entiteDocumentSolr.get("entiteIcone_stored_string");
 							entiteHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean"));
 							entiteMultiligne = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteMultiligne_stored_boolean"));
 							entiteIndexe = (Boolean)entiteDocumentSolr.get("entiteIndexe_stored_boolean");
@@ -2791,6 +2847,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			l();
 			tl(0, "{%- block htmStyles", classePageSuperNomSimple, " %}");
 			tl(0, "{{ super() }}");
+			tl(2, "<link rel=\"stylesheet\" href=\"{{ ", i18nPage.getString(I18n.var_statiqueUrlBase), " }}", classePageUriCss, "\"/>");
 			tl(0, "{%- block htmStyles", classePageNomSimple, " %}");
 			tl(0, "{%- endblock htmStyles", classePageNomSimple, " %}");
 			tl(0, "{%- endblock htmStyles", classePageSuperNomSimple, " %}");
@@ -3415,6 +3472,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								entiteNomSimpleComplet = (String)entiteDocumentSolr.get("entiteNomSimpleComplet_" + langueNom + "_stored_string");
 								entiteDescription = (String)entiteDocumentSolr.get("entiteDescription_" + langueNom + "_stored_string");
 								entiteNomAffichage = (String)entiteDocumentSolr.get("entiteNomAffichage_" + langueNom + "_stored_string");
+								entiteIcone = (String)entiteDocumentSolr.get("entiteIcone_stored_string");
 								entiteHtmLigne = (Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int");
 								entiteHtmLigneTitre = (String)entiteDocumentSolr.get("entiteHtmLigneTitre_stored_string");
 								entiteHtmLigneTitreOuvert = (String)entiteDocumentSolr.get("entiteHtmLigneTitreOuvert_stored_string");

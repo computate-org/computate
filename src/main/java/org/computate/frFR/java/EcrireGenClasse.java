@@ -955,6 +955,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: entityDisplayName
 	 */
 	String entiteNomAffichage;
+	String entiteIcone;
 
 	/**
 	 * Var.enUS: entityDescription
