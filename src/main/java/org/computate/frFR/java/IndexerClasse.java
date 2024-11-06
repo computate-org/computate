@@ -2248,7 +2248,6 @@ public class IndexerClasse extends RegarderClasseBase {
 				|| classeSuperDoc != null && (BooleanUtils.isTrue((Boolean)classeSuperDoc.get("classeModele_stored_boolean"))));
 		Boolean classeFiware = indexerStockerSolr(classeDoc, "classeFiware", regexTrouve("^Fiware: \\s*(true)$", classeCommentaire));
 		String classeModeleAlternatif = indexerStockerSolr(classeDoc, "classeModeleAlternatif", regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_ModeleAlternatif), classeCommentaire, classeNomSimple));
-		//STUFF0
 		String classeUriPageRecherche = indexerStockerSolr(classeDoc, "classeUriPageRecherche", regex("^" + i18nGlobale.getString(I18n.var_UriPageRecherche) + ": (.*)", classeCommentaire));
 		String classeUriPageAffichage = indexerStockerSolr(classeDoc, "classeUriPageAffichage", regex("^" + i18nGlobale.getString(I18n.var_UriPageAffichage) + ": (.*)", classeCommentaire));
 		String classeUriPageUtilisateur = indexerStockerSolr(classeDoc, "classeUriPageUtilisateur", regex("^" + i18nGlobale.getString(I18n.var_UriPageUtilisateur) + ": (.*)", classeCommentaire));
@@ -2463,20 +2462,44 @@ public class IndexerClasse extends RegarderClasseBase {
 		Boolean classeRolesTrouves = false;
 		
 		if(classeCommentaire != null) {
-
-			Matcher classeValsRecherche = Pattern.compile("^Val(:([^:\n]+):)?\\.(\\w+)\\.([^:\n]+):(.*)", Pattern.MULTILINE).matcher(classeCommentaire);
+			String motif = "^Val(:([^:\n]+):)?\\.(\\w+)(\\.([^:\n]+))?: ([>|-]{0,2}(\\d*)\\n)?([\\s\\S]*?)(\\n^\\w|\\Z)";
+			Matcher classeValsRecherche = Pattern.compile(motif, Pattern.MULTILINE).matcher(classeCommentaire);
 			boolean classeValsTrouves = classeValsRecherche.find();
 			while(classeValsTrouves) {
 				String classeValVar = classeValsRecherche.group(3);
-				String classeValLangue = classeValsRecherche.group(4);
+				String classeValLangue = classeValsRecherche.group(5);
 				String classeValCode = classeValsRecherche.group(2);
-				String classeValValeur = classeValsRecherche.group(5);
+				String classeValValeur = null;
+				String groupe1 = classeValsRecherche.group(6);
+				String groupe2 = classeValsRecherche.group(7);
+				String groupe3 = classeValsRecherche.group(8);
+				Integer spaces = 2;
+				if(groupe2 != null && groupe2.length() > 0)
+					spaces = Integer.parseInt(groupe2);
+				classeValValeur = groupe3.replaceAll("^" + String.join("", Collections.nCopies(spaces, " ")), "").replaceAll("\n" + String.join("", Collections.nCopies(spaces, " ")), "\n");
+
+				if(groupe1 != null && groupe1.contains(">"))
+					classeValValeur = classeValValeur.replaceAll("\\n([^\\n])", " $1");
+
+				if(groupe1 != null && groupe1.contains("-"))
+					classeValValeur = classeValValeur.replaceAll("\\n+\\Z", "");
+				else if(groupe1 != null && !groupe1.contains("+"))
+					classeValValeur = classeValValeur.replaceAll("\\n\\Z", "");
+
 				if(classeValCode == null)
 					classeValCode = "";
-				stockerListeSolr(classeDoc, "classeValsVar", classeValVar);
-				stockerListeSolr(classeDoc, "classeValsLangue", classeValLangue);
-				stockerListeSolr(classeDoc, "classeValsCode", classeValCode);
-				stockerListeSolr(classeDoc, "classeValsValeur", classeValValeur);
+				if(classeValLangue == null) {
+					stockerListeSolr(classeDoc, "classeValsVar", classeValVar);
+					stockerListeSolr(classeDoc, "classeValsLangue", classeLangueNom);
+					stockerListeSolr(classeDoc, "classeValsCode", classeValCode);
+					stockerListeSolr(classeDoc, "classeValsValeur", classeValValeur);
+				}
+				else {
+					stockerListeSolr(classeDoc, "classeValsVar", classeValVar);
+					stockerListeSolr(classeDoc, "classeValsLangue", classeValLangue);
+					stockerListeSolr(classeDoc, "classeValsCode", classeValCode);
+					stockerListeSolr(classeDoc, "classeValsValeur", classeValValeur);
+				}
 				classeValsTrouves = classeValsRecherche.find();
 			}
 
@@ -3167,14 +3190,30 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 
 						if(methodeCommentaire != null) {
-
-							Matcher entiteValsRecherche = Pattern.compile("^Val(:([^:\n]+):)?\\.(\\w+)(\\.([^:\n]+))?:(.*)", Pattern.MULTILINE).matcher(methodeCommentaire);
+							String motif = "^Val(:([^:\n]+):)?\\.(\\w+)(\\.([^:\n]+))?: ([>|-]{0,2}(\\d*)\\n)?([\\s\\S]*?)(\\n^\\w|\\Z)";
+							Matcher entiteValsRecherche = Pattern.compile(motif, Pattern.MULTILINE).matcher(methodeCommentaire);
 							boolean entiteValsTrouves = entiteValsRecherche.find();
 							while(entiteValsTrouves) {
 								String entiteValVar = entiteValsRecherche.group(3);
 								String entiteValLangue = entiteValsRecherche.group(5);
 								String entiteValCode = entiteValsRecherche.group(2);
-								String entiteValValeur = entiteValsRecherche.group(6);
+								String entiteValValeur = null;
+								String groupe1 = entiteValsRecherche.group(6);
+								String groupe2 = entiteValsRecherche.group(7);
+								String groupe3 = entiteValsRecherche.group(8);
+								Integer spaces = 2;
+								if(groupe2 != null && groupe2.length() > 0)
+									spaces = Integer.parseInt(groupe2);
+								entiteValValeur = groupe3.replaceAll("^" + String.join("", Collections.nCopies(spaces, " ")), "").replaceAll("\n" + String.join("", Collections.nCopies(spaces, " ")), "\n");
+
+								if(groupe1 != null && groupe1.contains(">"))
+									entiteValValeur = entiteValValeur.replaceAll("\\n([^\\n])", " $1");
+
+								if(groupe1 != null && groupe1.contains("-"))
+									entiteValValeur = entiteValValeur.replaceAll("\\n+\\Z", "");
+								else if(groupe1 != null && !groupe1.contains("+"))
+									entiteValValeur = entiteValValeur.replaceAll("\\n\\Z", "");
+
 								if(entiteValCode == null)
 									entiteValCode = "";
 								if(entiteValLangue == null) {
@@ -4716,19 +4755,35 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 
 						if(methodeCommentaire != null) {
-
-							Matcher methodeValsRecherche = Pattern.compile("^Val(:([^:\n]+):)?\\.(\\w+)(\\.([^:\n]+))?:(.*)", Pattern.MULTILINE).matcher(methodeCommentaire);
+							String motif = "^Val(:([^:\n]+):)?\\.(\\w+)(\\.([^:\n]+))?: ([>|-]{0,2}(\\d*)\\n)?([\\s\\S]*?)(\\n^\\w|\\Z)";
+							Matcher methodeValsRecherche = Pattern.compile(motif, Pattern.MULTILINE).matcher(methodeCommentaire);
 							boolean methodeValsTrouves = methodeValsRecherche.find();
 							while(methodeValsTrouves) {
 								String methodeValVar = methodeValsRecherche.group(3);
 								String methodeValLangue = methodeValsRecherche.group(5);
 								String methodeValCode = methodeValsRecherche.group(2);
-								String methodeValValeur = methodeValsRecherche.group(6);
+								String methodeValValeur = null;
+								String groupe1 = methodeValsRecherche.group(6);
+								String groupe2 = methodeValsRecherche.group(7);
+								String groupe3 = methodeValsRecherche.group(8);
+								Integer spaces = 2;
+								if(groupe2 != null && groupe2.length() > 0)
+									spaces = Integer.parseInt(groupe2);
+								methodeValValeur = groupe3.replaceAll("^" + String.join("", Collections.nCopies(spaces, " ")), "").replaceAll("\n" + String.join("", Collections.nCopies(spaces, " ")), "\n");
+
+								if(groupe1 != null && groupe1.contains(">"))
+									methodeValValeur = methodeValValeur.replaceAll("\\n([^\\n])", " $1");
+
+								if(groupe1 != null && groupe1.contains("-"))
+									methodeValValeur = methodeValValeur.replaceAll("\\n+\\Z", "");
+								else if(groupe1 != null && !groupe1.contains("+"))
+									methodeValValeur = methodeValValeur.replaceAll("\\n\\Z", "");
+
 								if(methodeValCode == null)
 									methodeValCode = "";
 								if(methodeValLangue == null) {
 									stockerListeSolr(methodeDoc, "methodeValsVar", methodeValVar);
-									stockerListeSolr(methodeDoc, "methodeValsLangue", "");
+									stockerListeSolr(methodeDoc, "methodeValsLangue", classeLangueNom);
 									stockerListeSolr(methodeDoc, "methodeValsCode", methodeValCode);
 									stockerListeSolr(methodeDoc, "methodeValsValeur", methodeValValeur);
 								}
@@ -5064,7 +5119,6 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classePageNomSimple = null;
 
 		if(classePage) {
-			//STUFF0
 			classePageNomSimple = classeNomSimpleLangue + i18nGlobale.getString(I18n.var_Page);
 			String classePageSuperNomSimple = regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_PageSuper), classeCommentaire, "Object");
 			String classeNomEnsembleLangue = (String)classeDoc.get("classeNomEnsemble_" + langueNomGlobale + "_indexed_string").getValue();
@@ -5324,7 +5378,6 @@ public class IndexerClasse extends RegarderClasseBase {
 
 				JsonObject apiMethodeObjet = regexYamlObject(i18nGlobale.getString(I18n.var_ApiMethode), classeCommentaire);
 
-				//STUFF0
 				if(classeUriPageRecherche != null && !apiMethodeObjet.containsKey(i18nGlobale.getString(I18n.var_PageRecherche))) {
 					apiMethodeObjet.put(i18nGlobale.getString(I18n.var_PageRecherche), new JsonObject()
 							.put(i18nGlobale.getString(I18n.var_ApiUri), classeUriPageRecherche)
@@ -5373,7 +5426,6 @@ public class IndexerClasse extends RegarderClasseBase {
 		
 						classeApiMethodeMethode = indexerStockerSolr(langueNom, classeDoc, "classeApiMethode" + classeApiMethode, apiMethode.getString(i18nGlobale.getString(I18n.var_ApiMethode), classeApiMethodeMethode));
 		
-						//STUFF0
 						String classeApiUriMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_ApiUri));
 						String classePageMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_Page));
 						Boolean classeRoleUtilisateurMethode = indexerStockerSolr(langueNom, classeDoc, "classeRoleUtilisateur" + classeApiMethode, apiMethode.getBoolean(i18nGlobale.getString(I18n.var_AuthUtilisateur), true));
@@ -5422,7 +5474,6 @@ public class IndexerClasse extends RegarderClasseBase {
 							else if(i18nGlobale.getString(I18n.var_PUTFusion).equals(classeApiMethode))
 								classeApiUriMethode = classeApiUri + "/" + i18nGlobale.getString(I18n.var_fusion);
 							else {
-								//STUFF0
 								if(classePageMethode != null) {
 									// String classePageNomFichier = String.format("%s%s.htm", classeNomSimple, 
 									// 		classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
@@ -5612,7 +5663,6 @@ public class IndexerClasse extends RegarderClasseBase {
 							indexerStockerSolr(langueNom, classeDoc, "classePageCheminJs" + classeApiMethode, classePageCheminJs); 
 							// indexerStockerSolr(langueNom, classeDoc, "classePageCheminJinja" + classeApiMethode, classePageCheminJinja); 
 							indexerStockerSolr(langueNom, classeDoc, "classePageLangueNom" + classeApiMethode, classePageLangueNom); 
-							//STUFF0
 							classePage = true;
 						}
 					}

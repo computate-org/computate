@@ -1063,7 +1063,7 @@ public class ConfigSite {
 	public String regexYamlString(String champ, String texte) {
 		String o = null;
 		if (champ != null && texte != null) {
-			String motif = "^" + champ + ": ?([>|-]{0,2}(\\d*)\\n)?([\\s\\S]*?)(^\\w|\\Z)";
+			String motif = "^" + champ + ": ?([>|-]{0,2}(\\d*)\\n)?([\\s\\S]*?)(\\n^\\w|\\Z)";
 			Matcher m = Pattern.compile(motif, Pattern.MULTILINE).matcher(texte);
 			boolean trouve = m.find();
 			if (trouve) {
