@@ -2462,7 +2462,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		Boolean classeRolesTrouves = false;
 		
 		if(classeCommentaire != null) {
-			String motif = "^Val(:([^:\n]+):)?\\.(\\w+)(\\.([^:\n]+))?: ([>|-]{0,2}(\\d*)\\n)?([\\s\\S]*?)(\\n^\\w|\\Z)";
+			String motif = "^Val(:([^:\\n]+):)?\\.(\\w+)(\\.([^:\\n]+))?: ([>|-]{0,2}(\\d*)\\n)?([\\s\\S]*?)(?=\\n^\\w|\\Z)";
 			Matcher classeValsRecherche = Pattern.compile(motif, Pattern.MULTILINE).matcher(classeCommentaire);
 			boolean classeValsTrouves = classeValsRecherche.find();
 			while(classeValsTrouves) {
@@ -3190,7 +3190,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 
 						if(methodeCommentaire != null) {
-							String motif = "^Val(:([^:\n]+):)?\\.(\\w+)(\\.([^:\n]+))?: ([>|-]{0,2}(\\d*)\\n)?([\\s\\S]*?)(\\n^\\w|\\Z)";
+							String motif = "^Val(:([^:\\n]+):)?\\.(\\w+)(\\.([^:\\n]+))?: ([>|-]{0,2}(\\d*)\\n)?([\\s\\S]*?)(?=\\n^\\w|\\Z)";
 							Matcher entiteValsRecherche = Pattern.compile(motif, Pattern.MULTILINE).matcher(methodeCommentaire);
 							boolean entiteValsTrouves = entiteValsRecherche.find();
 							while(entiteValsTrouves) {
@@ -4755,7 +4755,8 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 
 						if(methodeCommentaire != null) {
-							String motif = "^Val(:([^:\n]+):)?\\.(\\w+)(\\.([^:\n]+))?: ([>|-]{0,2}(\\d*)\\n)?([\\s\\S]*?)(\\n^\\w|\\Z)";
+							String motif = "^Val(:([^:\\n]+):)?\\.(\\w+)(\\.([^:\\n]+))?: ([>|-]{0,2}(\\d*)\\n)?([\\s\\S]*?)(?=\\n^\\w|\\Z)";
+							String motif = "^Val(:([^:\\n]+):)?\\.(\\w+)(\\.([^:\\n]+))?: ([>|-]{0,2}(\\d*)\\n)?([\\s\\S]*?)(?=\\n^\\w|\\Z)";
 							Matcher methodeValsRecherche = Pattern.compile(motif, Pattern.MULTILINE).matcher(methodeCommentaire);
 							boolean methodeValsTrouves = methodeValsRecherche.find();
 							while(methodeValsTrouves) {
