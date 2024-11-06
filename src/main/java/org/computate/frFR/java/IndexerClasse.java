@@ -5424,34 +5424,49 @@ public class IndexerClasse extends RegarderClasseBase {
 							else {
 								//STUFF0
 								if(classePageMethode != null) {
-									String classePageNomFichier = String.format("%s%s.htm", classeNomSimple, classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition)) ? i18nGlobale.getString(I18n.var_Edition) : i18nGlobale.getString(I18n.var_Recherche));
-									String classeGenPageNomFichier = String.format("%sGen%s.htm", classeNomSimple, classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition)) ? i18nGlobale.getString(I18n.var_Edition) : i18nGlobale.getString(I18n.var_Recherche));
-									String classePageTemplateMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_PageTemplate), String.format("%s/%s", classeApiUriMethode.substring(1), classePageNomFichier));
-									if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageRecherche))) {
-										classePageRechercheTemplate = classePageTemplateMethode;
-									}
-									if(classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) {
-										String classePageUriCss = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriCss", concat("/css/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple, ".css"));
-										String classePageUriJs = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriJs", concat("/js/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple, ".js"));
-										String classePageUriJsRecherche = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriJsRecherche", concat("/js/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple, i18nGlobale.getString(I18n.var_Recherche), ".js"));
-										String classePageUriJsEdition = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriJsEdition", concat("/js/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple,  i18nGlobale.getString(I18n.var_Edition), ".js"));
+									// String classePageNomFichier = String.format("%s%s.htm", classeNomSimple, 
+									// 		classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
+									// 		|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageAffichage))
+									// 		|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageUtilisateur))
+									// 		? i18nGlobale.getString(I18n.var_Edition) : i18nGlobale.getString(I18n.var_Recherche));
+									// String classeGenPageNomFichier = String.format("%sGen%s.htm", classeNomSimple, 
+									// 		classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
+									// 		|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageAffichage))
+									// 		|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageUtilisateur))
+									// 		? i18nGlobale.getString(I18n.var_Edition) : i18nGlobale.getString(I18n.var_Recherche));
+									String classePageTemplateMethode = null;
+									if(
+											classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
+											|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageRecherche))
+											) {
+										String classePageNomFichier = String.format("%s%s.htm", classeNomSimple, classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition)) ? i18nGlobale.getString(I18n.var_Edition) : i18nGlobale.getString(I18n.var_Recherche));
+										String classeGenPageNomFichier = String.format("%sGen%s.htm", classeNomSimple, classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition)) ? i18nGlobale.getString(I18n.var_Edition) : i18nGlobale.getString(I18n.var_Recherche));
+										classePageTemplateMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_PageTemplate), String.format("%s/%s", classeApiUriMethode.substring(1), classePageNomFichier));
 
-										String classePageCheminCss = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminCss", concat(cheminStatique, classePageUriCss));
-										String classePageCheminJs = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJs", concat(cheminStatique, classePageUriJs));
-										String classePageCheminJsRecherche = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJsRecherche", concat(cheminStatique, classePageUriJsRecherche));
-										String classePageCheminJsEdition = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJsEdition", concat(cheminStatique, classePageUriJsEdition));
+										if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageRecherche))) {
+											classePageRechercheTemplate = classePageTemplateMethode;
+										}
+										if(classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) {
+											String classePageUriCss = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriCss", concat("/css/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple, ".css"));
+											String classePageUriJs = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriJs", concat("/js/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple, ".js"));
+											String classePageUriJsRecherche = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriJsRecherche", concat("/js/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple, i18nGlobale.getString(I18n.var_Recherche), ".js"));
+											String classePageUriJsEdition = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriJsEdition", concat("/js/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple,  i18nGlobale.getString(I18n.var_Edition), ".js"));
+
+											indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminCss", concat(cheminStatique, classePageUriCss));
+											indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJs", concat(cheminStatique, classePageUriJs));
+											indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJsRecherche", concat(cheminStatique, classePageUriJsRecherche));
+											indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJsEdition", concat(cheminStatique, classePageUriJsEdition));
+										}
+
+										String classeGenPageTemplateMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_PageTemplate), String.format("%s/%s", classeApiUriMethode.substring(1), classeGenPageNomFichier));
+										String classeGenPageTemplate = indexerStockerSolr(langueNomGlobale, classeDoc, String.format("classeGen%sTemplate", classeApiMethode), classeGenPageTemplateMethode);
+										indexerStockerSolr(langueNomGlobale, classeDoc, String.format("classeGen%sCheminJinja", classeApiMethode), String.format("%s/%s", templateChemin, classeGenPageTemplate));
+									} else {
+										classePageTemplateMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_PageTemplate), "%s.htm");
 									}
 
 									indexerStockerSolr(langueNomGlobale, classeDoc, String.format("classe%sTemplate", classeApiMethode), classePageTemplateMethode);
 									indexerStockerSolr(langueNomGlobale, classeDoc, String.format("classe%sCheminJinja", classeApiMethode), String.format("%s/%s", templateChemin, classePageTemplateMethode));
-									if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageRecherche))
-											|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
-											) {
-										String classeGenPageTemplateMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_PageTemplate), String.format("%s/%s", classeApiUriMethode.substring(1), classeGenPageNomFichier));
-										String classeGenPageTemplate = indexerStockerSolr(langueNomGlobale, classeDoc, String.format("classeGen%sTemplate", classeApiMethode), classeGenPageTemplateMethode);
-										indexerStockerSolr(langueNomGlobale, classeDoc, String.format("classeGen%sCheminJinja", classeApiMethode), String.format("%s/%s", templateChemin, classeGenPageTemplate));
-									}
-									// classeApiUriMethode = classeUriPageRecherche;
 								}
 								if(classeApiUriMethode == null) {
 									classeApiUriMethode = classeApiUri;

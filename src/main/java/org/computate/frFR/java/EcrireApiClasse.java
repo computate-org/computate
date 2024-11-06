@@ -262,6 +262,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			if(activerOpenIdConnect) {
 				auteurGenApiService.l("import io.vertx.ext.auth.oauth2.OAuth2Auth;");
 				auteurGenApiService.l("import io.vertx.ext.auth.authorization.AuthorizationProvider;");
+				auteurGenApiService.l("import org.computate.vertx.api.BaseApiServiceInterface;");
 			}
 			auteurGenApiService.l();
 			auteurGenApiService.l("/**");
@@ -275,30 +276,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.l(" **/");
 			auteurGenApiService.l("@WebApiServiceGen");
 			auteurGenApiService.l("@ProxyGen");
-			auteurGenApiService.s("public interface ", classeNomSimpleGenApiService, " {");
+			auteurGenApiService.s("public interface ", classeNomSimpleGenApiService, " extends BaseApiServiceInterface {");
 			auteurGenApiService.l();
 //			auteurGenApiService.tl(1, "// Une méthode d'usine pour créer une instance et un proxy. ");
 
-			l();
-			l();
-			tl(8, "protected EventBus eventBus;");
-			l();
-			tl(8, "protected JsonObject config;");
-			l();
-			tl(8, "protected WorkerExecutor ", i18nGlobale.getString(I18n.var_executeurTravailleur), ";");
-			l();
-			tl(8, "protected PgPool pgPool;");
-			l();
-			tl(8, "protected KafkaProducer<String, String> kafkaProducer;");
-			l();
-			tl(8, "protected WebClient ", i18nGlobale.getString(I18n.var_clientWeb), ";");
-
-			auteurGenApiService.tl(1, "static ", classeNomSimpleApiServiceImpl, " ", i18nGlobale.getString(I18n.var_enregistrer), "Service(Vertx vertx, JsonObject config, WorkerExecutor ", i18nGlobale.getString(I18n.var_executeurTravailleur), ", ComputateOAuth2AuthHandlerImpl oauth2AuthHandler, PgPool pgPool, KafkaProducer<String, String> kafkaProducer, MqttClient mqttClient, AmqpSender amqpSender, RabbitMQClient rabbitmqClient, WebClient ", i18nGlobale.getString(I18n.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", Jinjava jinjava" : "", ") {");
-			auteurGenApiService.tl(2, classeNomSimpleApiServiceImpl, " api =  new ", classeNomSimpleApiServiceImpl, "(vertx, config, ", i18nGlobale.getString(I18n.var_executeurTravailleur), ", oauth2AuthHandler, pgPool, kafkaProducer, mqttClient, amqpSender, rabbitmqClient, ", i18nGlobale.getString(I18n.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", jinjava" : "", ");");
-			auteurGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", classeNomSimple, ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "()).register(", classeNomSimpleGenApiService, ".class, api);");
-			auteurGenApiService.tl(2, "return api;");
-			auteurGenApiService.tl(1, "}");
-			auteurGenApiService.l();
 			for(String classeApiMethode : classeApiMethodes) {
 				String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
 				String classePageNomCanoniqueMethode = classeDoc.getString("classePageNomCanonique" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
@@ -389,10 +370,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			}
 			auteurApiServiceImpl.l(" **/");
 			auteurApiServiceImpl.l("public class ", classeNomSimpleApiServiceImpl, " extends ", classeNomSimpleGenApiServiceImpl, " {");
-			auteurApiServiceImpl.l();
-			auteurApiServiceImpl.tl(1, "public ", classeNomSimpleApiServiceImpl, "(Vertx vertx, JsonObject config, WorkerExecutor ", i18nGlobale.getString(I18n.var_executeurTravailleur), ", ComputateOAuth2AuthHandlerImpl oauth2AuthHandler, PgPool pgPool, KafkaProducer<String, String> kafkaProducer, MqttClient mqttClient, AmqpSender amqpSender, RabbitMQClient rabbitmqClient, WebClient ", i18nGlobale.getString(I18n.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", Jinjava jinjava" : "", ") {");
-			auteurApiServiceImpl.tl(2, "super(vertx, config, ", i18nGlobale.getString(I18n.var_executeurTravailleur), ", oauth2AuthHandler, pgPool, kafkaProducer, mqttClient, amqpSender, rabbitmqClient, ", i18nGlobale.getString(I18n.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", jinjava" : "", ");");
-			auteurApiServiceImpl.tl(1, "}");
 			auteurApiServiceImpl.l("}");
 
 			auteurApiServiceImpl.flushClose();
@@ -1893,10 +1870,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l(" {");
 			l();
 			tl(1, "protected static final Logger LOG = LoggerFactory.getLogger(", classeNomSimpleGenApiServiceImpl, ".class);");
-			l();
-			tl(1, "public ", classeNomSimpleGenApiServiceImpl, "(Vertx vertx, JsonObject config, WorkerExecutor ", i18nGlobale.getString(I18n.var_executeurTravailleur), ", ComputateOAuth2AuthHandlerImpl oauth2AuthHandler, PgPool pgPool, KafkaProducer<String, String> kafkaProducer, MqttClient mqttClient, AmqpSender amqpSender, RabbitMQClient rabbitmqClient, WebClient ", i18nGlobale.getString(I18n.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", Jinjava jinjava" : "", ") {");
-			tl(2, "super(vertx, config, ", i18nGlobale.getString(I18n.var_executeurTravailleur), ", oauth2AuthHandler, pgPool, kafkaProducer, mqttClient, amqpSender, rabbitmqClient, ", i18nGlobale.getString(I18n.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", jinjava" : "", ");");
-			tl(1, "}");
 
 			for(String classeApiMethode : classeApiMethodes) {
 				String classePageNomCanoniqueMethode = classeDoc.getString("classePageNomCanonique" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
@@ -1907,7 +1880,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				String classeApiTypeMedia200Methode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
 				String classeApiTypeMediaRequeteMethode = classeDoc.getString("classeApiTypeMediaRequete" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
 				String classePageLangueNom = classeDoc.getString("classePageLangueNom" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
-				String classePageRechercheTemplate = classeDoc.getString("classe" + classeApiMethode + "Template_" + classeLangueNom + "_stored_string");
+				String classePageTemplateMethode = classeDoc.getString("classe" + classeApiMethode + "Template_" + classeLangueNom + "_stored_string");
 				Boolean classePageAvecTemplateMethode = classeDoc.getBoolean("classePageAvecTemplate" + classeApiMethode + "_stored_boolean");
 
 				if(classePageLangueNom == null || classePageLangueNom.equals(classeLangueNom)) {
@@ -3608,8 +3581,15 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					/////////////////
 					if(classePageNomCanoniqueMethode != null) {
 						l();
-						tl(1, "public String ", i18nGlobale.getString(I18n.var_template), classeApiMethode, classeNomSimple, "() {");
-						tl(2, "return \"", classePageRechercheTemplate, "\";");
+						tl(1, "public String ", i18nGlobale.getString(I18n.var_template), classeApiMethode, classeNomSimple, "(ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), ") {");
+						//STUFF0
+						if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
+								|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageRecherche))
+								) {
+							tl(2, "return \"", classePageTemplateMethode, "\";");
+						} else {
+							tl(2, "return String.format(\"", classePageTemplateMethode, "\", ", i18nGlobale.getString(I18n.var_requeteService), ".getExtra().getString(\"uri\").substring(1));");
+						}
 						t(1, "}");
 					}
 					l();
@@ -3650,7 +3630,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						if(classePageNomCanoniqueMethode != null) {
 							if(classePartsToutEcrivain == null)
 								throw new RuntimeException(String.format("%s %s %s %s %s. ", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_ToutEcrivain), i18nGlobale.getString(I18n.var_manquante), i18nGlobale.getString(I18n.var_dans), cheminSrcMainJava));
-							tl(3, "String pageTemplateUri = ", i18nGlobale.getString(I18n.var_template), classeApiMethode, classeNomSimple, "();");
+							tl(3, "String pageTemplateUri = ", i18nGlobale.getString(I18n.var_template), classeApiMethode, classeNomSimple, "(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "());");
 							tl(3, "String siteTemplatePath = config.getString(ComputateConfigKeys.TEMPLATE_PATH);");
 							tl(3, "Path resourceTemplatePath = Path.of(siteTemplatePath, pageTemplateUri);");
 							tl(3, "String template = siteTemplatePath == null ? Resources.toString(Resources.getResource(resourceTemplatePath.toString()), StandardCharsets.UTF_8) : Files.readString(resourceTemplatePath, Charset.forName(\"UTF-8\"));");
