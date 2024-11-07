@@ -2610,7 +2610,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			//STUFF0
 			if(auteurGenPageEditionJinja != null) {
-				o = auteurGenPageEditionJinja;
+				o = auteurFormulaireRechercheJinja;
 				for(String classeApiMethode : classeApiMethodes) {
 					String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
 					String classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");

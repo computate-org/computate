@@ -1902,12 +1902,18 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						l("ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), ", Handler<AsyncResult<ServiceResponse>> ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ") {");
 						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
 						if(
-								StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") 
+								StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
+										, i18nGlobale.getString(I18n.var_PageEdition)
+										, i18nGlobale.getString(I18n.var_PageUtilisateur)
+										)
 									&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
 									&& (
 									classeAuth
 								)
-								|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") && (
+								|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
+										, i18nGlobale.getString(I18n.var_PageEdition)
+										, i18nGlobale.getString(I18n.var_PageUtilisateur)
+										) && (
 									BooleanUtils.isNotTrue(classeRoleSession) 
 									&& BooleanUtils.isNotTrue(classePublicLire) 
 									&& BooleanUtils.isNotTrue(classeRoleUtilisateur) 
@@ -2014,12 +2020,18 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(6, "});");
 
 						if(
-								StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") 
+								StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
+										, i18nGlobale.getString(I18n.var_PageEdition)
+										, i18nGlobale.getString(I18n.var_PageUtilisateur)
+										) 
 									&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
 									&& (
 									classeAuth
 								)
-								|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") && (
+								|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
+										, i18nGlobale.getString(I18n.var_PageEdition)
+										, i18nGlobale.getString(I18n.var_PageUtilisateur)
+										) && (
 									BooleanUtils.isNotTrue(classeRoleSession) 
 									&& BooleanUtils.isNotTrue(classePublicLire) 
 									&& BooleanUtils.isNotTrue(classeRoleUtilisateur) 
@@ -2089,12 +2101,18 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	
 						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
 						if(
-								StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") 
+								StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
+										, i18nGlobale.getString(I18n.var_PageEdition)
+										, i18nGlobale.getString(I18n.var_PageUtilisateur)
+										) 
 									&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
 									&& (
 									classeAuth
 								)
-								|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") && (
+								|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
+										, i18nGlobale.getString(I18n.var_PageEdition)
+										, i18nGlobale.getString(I18n.var_PageUtilisateur)
+										) && (
 									BooleanUtils.isNotTrue(classeRoleSession) 
 									&& BooleanUtils.isNotTrue(classePublicLire) 
 									&& BooleanUtils.isNotTrue(classePageRecherchePublicLire && classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) 
@@ -2400,12 +2418,18 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						}
 
 						if(
-								StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") 
+								StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
+										, i18nGlobale.getString(I18n.var_PageEdition)
+										, i18nGlobale.getString(I18n.var_PageUtilisateur)
+										) 
 									&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
 									&& (
 									classeAuth
 								)
-								|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE") && (
+								|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
+										, i18nGlobale.getString(I18n.var_PageEdition)
+										, i18nGlobale.getString(I18n.var_PageUtilisateur)
+										) && (
 									BooleanUtils.isNotTrue(classeRoleSession) 
 									&& BooleanUtils.isNotTrue(classePublicLire) 
 									&& BooleanUtils.isNotTrue(classePageRecherchePublicLire && classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) 
