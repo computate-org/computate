@@ -5008,6 +5008,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(5, "<span>", classeNomAdjectifPluriel, "</span>");
 			tl(4, "</h1>");
 
+			tl(0, "{% include ", classePageBoutonsRechercheTemplate, " %}");
+			tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
+
 			tl(4, "<h2>");
 			tl(5, "<span>");
 			tl(1, "{% if ", i18nPage.getString(I18n.var_classeIconeClassesCss), " is defined %}");

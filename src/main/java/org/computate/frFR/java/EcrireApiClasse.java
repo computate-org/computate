@@ -447,7 +447,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							/////////////////////////
 
 							if(classePageTemplates != null && entiteDefinir) {
-								wPageTemplates.tl(3, "page.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, ctx.getString(", classeNomSimple, ".VAR_", entiteVar, ")));");
+								wPageTemplates.tl(3, "page.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_", entiteVar, ")));");
 							}
 	
 							/////////////////
@@ -4554,12 +4554,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			if(classePageTemplates != null) {
 				l();
 				tl(1, "@Override");
-				tl(1, "public Future<JsonObject> ", i18nGlobale.getString(I18n.var_genererCorpsPage), "(ComputateSiteRequest ", i18nGlobale.getString(I18n.var_requeteSite), ", JsonObject ctx, String resourceUri, String templateUri, String ", i18nGlobale.getString(I18n.var_classeNomSimple), ") {");
+				tl(1, "public Future<JsonObject> ", i18nGlobale.getString(I18n.var_genererCorpsPage), "(ComputateSiteRequest ", i18nGlobale.getString(I18n.var_requeteSite), ", Map<String, Object> ctx, String resourceUri, String templateUri, String ", i18nGlobale.getString(I18n.var_classeNomSimple), ") {");
 				tl(2, "Promise<JsonObject> promise = Promise.promise();");
 				tl(2, "try {");
+				tl(3, "Map<String, Object> ", i18nGlobale.getString(I18n.var_resultat), " = (Map<String, Object>)ctx.get(\"", i18nGlobale.getString(I18n.var_resultat), "\");");
 				tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), "2 = (", classePartsRequeteSite.nomSimple(classeLangueNom), ")", i18nGlobale.getString(I18n.var_requeteSite), ";");
 				tl(3, "String siteBaseUrl = config.getString(ComputateConfigKeys.SITE_BASE_URL);");
-				tl(3, "String uri = ctx.getString(", classeNomSimple, ".VAR_uri);");
+				tl(3, "String uri = (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_uri);");
 				tl(3, "String url = String.format(\"%s%s\", siteBaseUrl, uri);");
 				tl(3, classeNomSimple, " page = new ", classeNomSimple, "();");
 				tl(3, "page.set", i18nGlobale.getString(I18n.var_RequeteSite), "_((", i18nGlobale.getString(I18n.var_RequeteSite), ")", i18nGlobale.getString(I18n.var_requeteSite), ");");

@@ -2248,10 +2248,10 @@ public class IndexerClasse extends RegarderClasseBase {
 				|| classeSuperDoc != null && (BooleanUtils.isTrue((Boolean)classeSuperDoc.get("classeModele_stored_boolean"))));
 		Boolean classeFiware = indexerStockerSolr(classeDoc, "classeFiware", regexTrouve("^Fiware: \\s*(true)$", classeCommentaire));
 		String classeModeleAlternatif = indexerStockerSolr(classeDoc, "classeModeleAlternatif", regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_ModeleAlternatif), classeCommentaire, classeNomSimple));
-		String classeUriPageRecherche = indexerStockerSolr(classeDoc, "classeUriPageRecherche", regex("^" + i18nGlobale.getString(I18n.var_UriPageRecherche) + ": (.*)", classeCommentaire));
-		String classeUriPageAffichage = indexerStockerSolr(classeDoc, "classeUriPageAffichage", regex("^" + i18nGlobale.getString(I18n.var_UriPageAffichage) + ": (.*)", classeCommentaire));
-		String classeUriPageUtilisateur = indexerStockerSolr(classeDoc, "classeUriPageUtilisateur", regex("^" + i18nGlobale.getString(I18n.var_UriPageUtilisateur) + ": (.*)", classeCommentaire));
-		String classeUriPageEdition = indexerStockerSolr(classeDoc, "classeUriPageEdition", regex("^" + i18nGlobale.getString(I18n.var_UriPageEdition) + ": (.*)", classeCommentaire, classeUriPageRecherche));
+		String classeUriPageRecherche = indexerStockerSolr(langueNomGlobale, classeDoc, "classeUriPageRecherche", regex("^" + i18nGlobale.getString(I18n.var_UriPageRecherche) + ": (.*)", classeCommentaire));
+		String classeUriPageAffichage = indexerStockerSolr(langueNomGlobale, classeDoc, "classeUriPageAffichage", regex("^" + i18nGlobale.getString(I18n.var_UriPageAffichage) + ": (.*)", classeCommentaire));
+		String classeUriPageUtilisateur = indexerStockerSolr(langueNomGlobale, classeDoc, "classeUriPageUtilisateur", regex("^" + i18nGlobale.getString(I18n.var_UriPageUtilisateur) + ": (.*)", classeCommentaire));
+		String classeUriPageEdition = indexerStockerSolr(langueNomGlobale, classeDoc, "classeUriPageEdition", regex("^" + i18nGlobale.getString(I18n.var_UriPageEdition) + ": (.*)", classeCommentaire, classeUriPageRecherche));
 		Boolean classeApi = indexerStockerSolr(classeDoc, "classeApi", regexTrouve("^(classe)?Api: \\s*(true)$", classeCommentaire)
 				|| classeUriPageRecherche != null
 				|| classeUriPageEdition != null
