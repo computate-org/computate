@@ -3007,7 +3007,7 @@ public class IndexerClasse extends RegarderClasseBase {
 
 						indexerStockerSolr(entiteDoc, "entitePromesse", entitePromesse);
 						indexerStockerSolr(entiteDoc, "entiteCouverture", entiteCouverture);
-						Boolean entiteInitialise = indexerStockerSolr(entiteDoc, "entiteInitialise", !entiteVar.endsWith("_") && BooleanUtils.isTrue(entiteClasseParts.getEtendGen()));
+						Boolean entiteInitialise = indexerStockerSolr(entiteDoc, "entiteInitialise", !regexTrouve("^" + i18nGlobale.getString(I18n.var_Initialise) + ":\\s*(false)$", methodeCommentaire) && !entiteVar.endsWith("_") && BooleanUtils.isTrue(entiteClasseParts.getEtendGen()));
 
 						String entiteNomCanonique = indexerStockerSolr(classeLangueNom, entiteDoc, "entiteNomCanonique", entiteClasseParts.nomCanonique(classeLangueNom));
 						String entiteNomSimple = indexerStockerSolr(classeLangueNom, entiteDoc, "entiteNomSimple", entiteClasseParts.nomSimple(classeLangueNom));
@@ -4755,7 +4755,6 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 
 						if(methodeCommentaire != null) {
-							String motif = "^Val(:([^:\\n]+):)?\\.(\\w+)(\\.([^:\\n]+))?: ([>|-]{0,2}(\\d*)\\n)?([\\s\\S]*?)(?=\\n^\\w|\\Z)";
 							String motif = "^Val(:([^:\\n]+):)?\\.(\\w+)(\\.([^:\\n]+))?: ([>|-]{0,2}(\\d*)\\n)?([\\s\\S]*?)(?=\\n^\\w|\\Z)";
 							Matcher methodeValsRecherche = Pattern.compile(motif, Pattern.MULTILINE).matcher(methodeCommentaire);
 							boolean methodeValsTrouves = methodeValsRecherche.find();

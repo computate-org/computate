@@ -1223,7 +1223,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	String classePageCheminJsRecherche;
 	String classePageCheminJsEdition;
 
-	String uncapitalizeClasseApiClasseNomSimple;
+	// String uncapitalizeClasseApiClasseNomSimple;
+	String varResultat;
 
 	String classePageNomCanonique;
 

@@ -262,7 +262,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			if(activerOpenIdConnect) {
 				auteurGenApiService.l("import io.vertx.ext.auth.oauth2.OAuth2Auth;");
 				auteurGenApiService.l("import io.vertx.ext.auth.authorization.AuthorizationProvider;");
-				auteurGenApiService.l("import org.computate.vertx.api.BaseApiServiceInterface;");
 			}
 			auteurGenApiService.l();
 			auteurGenApiService.l("/**");
@@ -276,7 +275,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.l(" **/");
 			auteurGenApiService.l("@WebApiServiceGen");
 			auteurGenApiService.l("@ProxyGen");
-			auteurGenApiService.s("public interface ", classeNomSimpleGenApiService, " extends BaseApiServiceInterface {");
+			auteurGenApiService.s("public interface ", classeNomSimpleGenApiService, " {");
 			auteurGenApiService.l();
 //			auteurGenApiService.tl(1, "// Une méthode d'usine pour créer une instance et un proxy. ");
 
