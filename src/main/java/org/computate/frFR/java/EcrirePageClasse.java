@@ -2605,8 +2605,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			/////////////////
 
 			ecrirePageJs(langueNom, i18nPage);
-			// ecrirePageEditionJinja(langueNom, i18nPage);
-			// ecrirePageRechercheJinja(langueNom, i18nPage);
 
 			//STUFF0
 			if(auteurGenPageEditionJinja != null) {
@@ -2745,6 +2743,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 
 				ecrirePageEditionJinja(langueNom, i18nPage);
+			}
+
+			if(auteurPageAffichageJinja != null) {
+				auteurPageAffichageJinja.l("{% extends \"", classeGenPageEditionTemplate, "\" %}");
+			}
+
+			if(auteurPageUtilisateurJinja != null) {
+				auteurPageUtilisateurJinja.l("{% extends \"", classeGenPageEditionTemplate, "\" %}");
 			}
 
 			if(classePageAvecTemplate) {

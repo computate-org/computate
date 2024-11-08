@@ -5447,88 +5447,103 @@ public class IndexerClasse extends RegarderClasseBase {
 						String classeApiTypeMediaRequeteMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_ApiTypeMediaRequete), "application/json");
 						String classeApiTypeMedia200Methode = apiMethode.getString(i18nGlobale.getString(I18n.var_ApiTypeMedia) + "200", classePageNomSimpleMethode == null ? "application/json" : "text/html");
 						String classeApiMotCleMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_ApiMotCle));
-						if(StringUtils.contains(classeApiMethode, "POST")
-								|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageRecherche))
+						if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageRecherche))
 								|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageEdition))
 								|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageAffichage))
 								|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageUtilisateur))
-								|| StringUtils.contains(classeApiMethode, "PATCH")
-								|| StringUtils.contains(classeApiMethode, "PUT")
-								|| StringUtils.contains(classeApiMethode, "DELETE")
 								) {
-							if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageRecherche))
-									|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageEdition))
-									|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageAffichage))
-									|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageUtilisateur))
-									) {
-								classePageAvecTemplate = true;
-								classePageAvecTemplateMethode = true;
-							}
+							classePageAvecTemplate = true;
+							classePageAvecTemplateMethode = true;
 							if(StringUtils.isBlank(classeApiMotCleMethode))
 								classeApiMotCleMethode = StringUtils.substringAfterLast(classeApiUriMethode, "/");
 
-							if("PUTImport".equals(classeApiMethode))
-								classeApiUriMethode = classeApiUri + "-import";
-							else if(i18nGlobale.getString(I18n.var_PUTCopie).equals(classeApiMethode))
-								classeApiUriMethode = classeApiUri + "/" + i18nGlobale.getString(I18n.var_copie);
-							else if(i18nGlobale.getString(I18n.var_PUTFusion).equals(classeApiMethode))
-								classeApiUriMethode = classeApiUri + "/" + i18nGlobale.getString(I18n.var_fusion);
-							else {
-								if(classePageMethode != null) {
-									// String classePageNomFichier = String.format("%s%s.htm", classeNomSimple, 
-									// 		classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
-									// 		|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageAffichage))
-									// 		|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageUtilisateur))
-									// 		? i18nGlobale.getString(I18n.var_Edition) : i18nGlobale.getString(I18n.var_Recherche));
-									// String classeGenPageNomFichier = String.format("%sGen%s.htm", classeNomSimple, 
-									// 		classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
-									// 		|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageAffichage))
-									// 		|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageUtilisateur))
-									// 		? i18nGlobale.getString(I18n.var_Edition) : i18nGlobale.getString(I18n.var_Recherche));
-									String classePageTemplateMethode = null;
-									if(
-											classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
-											|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageRecherche))
-											) {
-										String classePageNomFichier = String.format("%s%s.htm", classeNomSimple, classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition)) ? i18nGlobale.getString(I18n.var_Edition) : i18nGlobale.getString(I18n.var_Recherche));
-										String classeGenPageNomFichier = String.format("%sGen%s.htm", classeNomSimple, classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition)) ? i18nGlobale.getString(I18n.var_Edition) : i18nGlobale.getString(I18n.var_Recherche));
+							if(classePageMethode != null) {
+								// String classePageNomFichier = String.format("%s%s.htm", classeNomSimple, 
+								// 		classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
+								// 		|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageAffichage))
+								// 		|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageUtilisateur))
+								// 		? i18nGlobale.getString(I18n.var_Edition) : i18nGlobale.getString(I18n.var_Recherche));
+								// String classeGenPageNomFichier = String.format("%sGen%s.htm", classeNomSimple, 
+								// 		classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
+								// 		|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageAffichage))
+								// 		|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageUtilisateur))
+								// 		? i18nGlobale.getString(I18n.var_Edition) : i18nGlobale.getString(I18n.var_Recherche));
+								if(classeApiUriMethode == null) {
+									if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageRecherche)))
+										classeApiUriMethode = classeApiUri;
+									else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageEdition)))
+										classeApiUriMethode = classeApiUri;
+									else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageAffichage)))
+										classeApiUriMethode = classeApiUri;
+									else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageUtilisateur)))
+										classeApiUriMethode = classeApiUri;
+								}
+								String classePageTemplateMethode = null;
+								if(
+										classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
+										|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageRecherche))
+										) {
+									String classePageNomFichier = String.format("%s%s.htm", classeNomSimple, classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition)) ? i18nGlobale.getString(I18n.var_Edition) : i18nGlobale.getString(I18n.var_Recherche));
+									String classeGenPageNomFichier = String.format("%sGen%s.htm", classeNomSimple, classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition)) ? i18nGlobale.getString(I18n.var_Edition) : i18nGlobale.getString(I18n.var_Recherche));
+
+									if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition)))
+										classePageTemplateMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_PageTemplate), String.format("%s/%s", StringUtils.substringBeforeLast(classeApiUriMethode.substring(1), "/"), classePageNomFichier));
+									else
 										classePageTemplateMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_PageTemplate), String.format("%s/%s", classeApiUriMethode.substring(1), classePageNomFichier));
 
-										if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageRecherche))) {
-											classePageRechercheTemplate = classePageTemplateMethode;
-										}
-										if(classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) {
-											String classePageUriCss = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriCss", concat("/css/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple, ".css"));
-											String classePageUriJs = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriJs", concat("/js/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple, ".js"));
-											String classePageUriJsRecherche = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriJsRecherche", concat("/js/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple, i18nGlobale.getString(I18n.var_Recherche), ".js"));
-											String classePageUriJsEdition = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriJsEdition", concat("/js/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple,  i18nGlobale.getString(I18n.var_Edition), ".js"));
+									if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageRecherche))) {
+										classePageRechercheTemplate = classePageTemplateMethode;
+									}
+									if(classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) {
+										String classePageUriCss = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriCss", concat("/css/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple, ".css"));
+										String classePageUriJs = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriJs", concat("/js/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple, ".js"));
+										String classePageUriJsRecherche = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriJsRecherche", concat("/js/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple, i18nGlobale.getString(I18n.var_Recherche), ".js"));
+										String classePageUriJsEdition = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriJsEdition", concat("/js/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple,  i18nGlobale.getString(I18n.var_Edition), ".js"));
 
-											indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminCss", concat(cheminStatique, classePageUriCss));
-											indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJs", concat(cheminStatique, classePageUriJs));
-											indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJsRecherche", concat(cheminStatique, classePageUriJsRecherche));
-											indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJsEdition", concat(cheminStatique, classePageUriJsEdition));
-										}
-
-										String classeGenPageTemplateMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_PageTemplate), String.format("%s/%s", classeApiUriMethode.substring(1), classeGenPageNomFichier));
-										String classeGenPageTemplate = indexerStockerSolr(langueNomGlobale, classeDoc, String.format("classeGen%sTemplate", classeApiMethode), classeGenPageTemplateMethode);
-										indexerStockerSolr(langueNomGlobale, classeDoc, String.format("classeGen%sCheminJinja", classeApiMethode), String.format("%s/%s", templateChemin, classeGenPageTemplate));
-									} else {
-										classePageTemplateMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_PageTemplate), "%s.htm");
+										indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminCss", concat(cheminStatique, classePageUriCss));
+										indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJs", concat(cheminStatique, classePageUriJs));
+										indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJsRecherche", concat(cheminStatique, classePageUriJsRecherche));
+										indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJsEdition", concat(cheminStatique, classePageUriJsEdition));
 									}
 
-									indexerStockerSolr(langueNomGlobale, classeDoc, String.format("classe%sTemplate", classeApiMethode), classePageTemplateMethode);
-									indexerStockerSolr(langueNomGlobale, classeDoc, String.format("classe%sCheminJinja", classeApiMethode), String.format("%s/%s", templateChemin, classePageTemplateMethode));
+									String classeGenPageTemplateMethode;
+									if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition)))
+										classeGenPageTemplateMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_PageTemplate), String.format("%s/%s", StringUtils.substringBeforeLast(classeApiUriMethode.substring(1), "/"), classeGenPageNomFichier));
+									else
+										classeGenPageTemplateMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_PageTemplate), String.format("%s/%s", classeApiUriMethode.substring(1), classeGenPageNomFichier));
+
+									String classeGenPageTemplate = indexerStockerSolr(langueNomGlobale, classeDoc, String.format("classeGen%sTemplate", classeApiMethode), classeGenPageTemplateMethode);
+									indexerStockerSolr(langueNomGlobale, classeDoc, String.format("classeGen%sCheminJinja", classeApiMethode), String.format("%s/%s", templateChemin, classeGenPageTemplate));
+								} else {
+									String classePageNomFichier = String.format("%s%s.htm", classeNomSimple, classeApiMethode);
+									classePageTemplateMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_PageTemplate), String.format("%s/%s", StringUtils.substringBeforeLast(classeApiUriMethode.substring(1), "/"), classePageNomFichier));
 								}
-								if(classeApiUriMethode == null) {
-									classeApiUriMethode = classeApiUri;
-								}
+
+								indexerStockerSolr(langueNomGlobale, classeDoc, String.format("classe%sTemplate", classeApiMethode), classePageTemplateMethode);
+								indexerStockerSolr(langueNomGlobale, classeDoc, String.format("classe%sCheminJinja", classeApiMethode), String.format("%s/%s", templateChemin, classePageTemplateMethode));
 							}
 						}
 						else {
 							if(StringUtils.isBlank(classeApiMotCleMethode))
 								classeApiMotCleMethode = StringUtils.substringAfterLast(StringUtils.substringBeforeLast(classeApiUriMethode, "/"), "/");
-							if(StringUtils.isBlank(classeApiUriMethode))
-								classeApiUriMethode = classeApiUri + "/{id}";
+							if(StringUtils.isBlank(classeApiUriMethode)) {
+								if("PUTImport".equals(classeApiMethode))
+									classeApiUriMethode = classeApiUri + "-import";
+								else if(i18nGlobale.getString(I18n.var_PUTCopie).equals(classeApiMethode))
+									classeApiUriMethode = classeApiUri + "/" + i18nGlobale.getString(I18n.var_copie);
+								else if(i18nGlobale.getString(I18n.var_PUTFusion).equals(classeApiMethode))
+									classeApiUriMethode = classeApiUri + "/" + i18nGlobale.getString(I18n.var_fusion);
+								else if(StringUtils.contains(classeApiMethode, "POST"))
+									classeApiUriMethode = classeApiUri;
+								else if(StringUtils.contains(classeApiMethode, "PATCH"))
+									classeApiUriMethode = classeApiUri;
+								else if(StringUtils.contains(classeApiMethode, "GET"))
+									classeApiUriMethode = classeApiUri + "/{" + i18nGlobale.getString(I18n.var_objetId) + "}";
+								else if(StringUtils.contains(classeApiMethode, "DELETE"))
+									classeApiUriMethode = classeApiUri + "/{" + i18nGlobale.getString(I18n.var_objetId) + "}";
+								else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_Recherche)))
+									classeApiUriMethode = classeApiUri;
+							}
 						}
 
 						if(this.langueNomGlobale.equals(classeLangueNom)) {
@@ -6223,7 +6238,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 		}
 
-		Boolean classeIndexe = indexerStockerSolr(classeDoc, "classeIndexe", regexTrouve("^" + i18nGlobale.getString(I18n.var_Indexe) + ":\\s*(true)$", classeCommentaire) || classeSauvegarde || classeModele || classeFiware);
+		Boolean classeIndexe = indexerStockerSolr(classeDoc, "classeIndexe", regexTrouve("^" + i18nGlobale.getString(I18n.var_Indexe) + ":\\s*(true)$", classeCommentaire) || classeSauvegarde || classeModele || classeFiware || classePage);
 		Boolean classeImage = indexerStockerSolr(classeDoc, "classeImage", regexTrouve("^" + i18nGlobale.getString(I18n.var_Image) + ":\\s*(true)$", classeCommentaire));
 
 		stockerSolr(classeDoc, "classePromesse", classePromesse);

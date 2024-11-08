@@ -291,7 +291,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageAffichage))
 							|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageUtilisateur))
 							) {
-						auteurGenApiService.t(1, "public void ", classeApiOperationIdMethode, "Id(");
+						auteurGenApiService.t(1, "public void ", classeApiOperationIdMethode, "(");
 						auteurGenApiService.l("ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), ", Handler<AsyncResult<ServiceResponse>> ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ");");
 					} else {
 						auteurGenApiService.t(1, "public void ", classeApiOperationIdMethode, "(");
@@ -1896,7 +1896,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							) {
 						l();
 						tl(1, "@Override");
-						t(1, "public void ", classeApiOperationIdMethode, "Id(");
+						t(1, "public void ", classeApiOperationIdMethode, "(");
 						if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"))
 							s("JsonObject body, ");
 						l("ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), ", Handler<AsyncResult<ServiceResponse>> ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ") {");
@@ -4560,8 +4560,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(3, "Map<String, Object> ", i18nGlobale.getString(I18n.var_resultat), " = (Map<String, Object>)ctx.get(\"", i18nGlobale.getString(I18n.var_resultat), "\");");
 				tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), "2 = (", classePartsRequeteSite.nomSimple(classeLangueNom), ")", i18nGlobale.getString(I18n.var_requeteSite), ";");
 				tl(3, "String siteBaseUrl = config.getString(ComputateConfigKeys.SITE_BASE_URL);");
-				tl(3, "String uri = (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_uri);");
-				tl(3, "String url = String.format(\"%s%s\", siteBaseUrl, uri);");
 				tl(3, classeNomSimple, " page = new ", classeNomSimple, "();");
 				tl(3, "page.set", i18nGlobale.getString(I18n.var_RequeteSite), "_((", i18nGlobale.getString(I18n.var_RequeteSite), ")", i18nGlobale.getString(I18n.var_requeteSite), ");");
 				tl(3, "page.persistForClass(", classeNomSimple, ".VAR_resourceUri, resourceUri);");
@@ -4571,7 +4569,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				l();
 				tl(3, "page.promiseDeepForClass((", i18nGlobale.getString(I18n.var_RequeteSite), ")", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(a -> {");
 				tl(4, "try {");
-				tl(5, "JsonObject data = JsonObject.mapFrom(page);");
+				tl(5, "String uri = page.getUri();");
+				tl(5, "JsonObject data = JsonObject.mapFrom(", i18nGlobale.getString(I18n.var_resultat), ");");
 				tl(5, "data.put(", classeNomSimple, ".VAR_", classeModele ? classeVarClePrimaire : classeVarCleUnique, ", uri);");
 				tl(5, "promise.complete(data);");
 				tl(4, "} catch(Exception ex) {");
