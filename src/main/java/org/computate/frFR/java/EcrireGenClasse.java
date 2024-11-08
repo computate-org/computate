@@ -6784,10 +6784,6 @@ public class EcrireGenClasse extends EcrireClasse {
 		// Todos
 
 		if(!wClasseTodos.getEmpty()) {
-			ecrireClasseCommentaireChamp(langueNom, classe, "Todo", null, wClasseTodos
-					, classeNomSimpleSuperGenerique == null
-					, classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen
-					);
 			StringBuilder b = new StringBuilder();
 			Arrays.asList(String.format(classe.getString("Todo")).split("\n")).stream().forEach(s -> {
 				b.insert(0, s);
