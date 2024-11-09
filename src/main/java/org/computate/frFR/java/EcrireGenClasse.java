@@ -677,8 +677,6 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain auteurGenPageRechercheJinja = null;
 	protected ToutEcrivain auteurPageEditionJinja = null;
 	protected ToutEcrivain auteurGenPageEditionJinja = null;
-	protected ToutEcrivain auteurPageAffichageJinja = null;
-	protected ToutEcrivain auteurPageUtilisateurJinja = null;
 	protected ToutEcrivain auteurGenPageJinjaEntite = null;
 	protected ToutEcrivain auteurWebsocket = null;
 
@@ -1201,12 +1199,6 @@ public class EcrireGenClasse extends EcrireClasse {
 	String classeGenPageEditionSuperTemplate;
 	String classeGenPageEditionTemplate;
 	String classeGenPageEditionCheminJinja;
-
-	String classePageAffichageTemplate;
-	String classePageAffichageCheminJinja;
-
-	String classePageUtilisateurTemplate;
-	String classePageUtilisateurCheminJinja;
 
 	String classePageUriMethode;
 
@@ -2345,12 +2337,6 @@ public class EcrireGenClasse extends EcrireClasse {
 			classeGenPageEditionSuperTemplate = classeDoc.getString("classePageSuperPageTemplate" + "_" + langueNom + "_stored_string");
 			classeGenPageEditionTemplate = classeDoc.getString(String.format("classeGen%sTemplate", i18nGlobale.getString(I18n.var_PageEdition)) + "_" + langueNom + "_stored_string");
 			classeGenPageEditionCheminJinja = classeDoc.getString(String.format("classeGen%sCheminJinja", i18nGlobale.getString(I18n.var_PageEdition)) + "_" + langueNom + "_stored_string");
-
-			classePageAffichageTemplate = classeDoc.getString(String.format("classe%sTemplate", i18nGlobale.getString(I18n.var_PageAffichage)) + "_" + langueNom + "_stored_string");
-			classePageAffichageCheminJinja = classeDoc.getString(String.format("classe%sCheminJinja", i18nGlobale.getString(I18n.var_PageAffichage)) + "_" + langueNom + "_stored_string");
-
-			classePageUtilisateurTemplate = classeDoc.getString(String.format("classe%sTemplate", i18nGlobale.getString(I18n.var_PageUtilisateur)) + "_" + langueNom + "_stored_string");
-			classePageUtilisateurCheminJinja = classeDoc.getString(String.format("classe%sCheminJinja", i18nGlobale.getString(I18n.var_PageUtilisateur)) + "_" + langueNom + "_stored_string");
 		
 			File classeGenPageFichier = null;
 			File classePageFichier = null;
@@ -2367,8 +2353,6 @@ public class EcrireGenClasse extends EcrireClasse {
 			File classeGenPageRechercheFichierJinja = null;
 			File classePageEditionFichierJinja = null;
 			File classeGenPageEditionFichierJinja = null;
-			File classePageAffichageFichierJinja = null;
-			File classePageUtilisateurFichierJinja = null;
 
 			if(classeGenPageChemin != null)
 				classeGenPageFichier = new File(classeGenPageChemin);
@@ -2406,10 +2390,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				classePageEditionFichierJinja = new File(classePageEditionCheminJinja);
 			if(classeGenPageEditionCheminJinja != null)
 				classeGenPageEditionFichierJinja = new File(classeGenPageEditionCheminJinja);
-			if(classePageAffichageCheminJinja != null)
-				classePageAffichageFichierJinja = new File(classePageAffichageCheminJinja);
-			if(classePageUtilisateurCheminJinja != null)
-				classePageUtilisateurFichierJinja = new File(classePageUtilisateurCheminJinja);
 
 			if(classeGenPageFichier != null)
 				auteurGenPageClasse = ToutEcrivain.create(classeGenPageFichier, "  ");
@@ -2473,16 +2453,6 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(classeGenPageEditionFichierJinja != null) {
 				classeGenPageEditionFichierJinja.getParentFile().mkdirs();
 				auteurGenPageEditionJinja = ToutEcrivain.create(classeGenPageEditionFichierJinja, "  ");
-			}
-
-			if(classePageAffichageFichierJinja != null && (!classePageAffichageFichierJinja.exists() || classePageAffichageFichierJinja.length() == 0L)) {
-				classePageAffichageFichierJinja.getParentFile().mkdirs();
-				auteurPageAffichageJinja = ToutEcrivain.create(classePageAffichageFichierJinja, "  ");
-			}
-
-			if(classePageUtilisateurFichierJinja != null && (!classePageUtilisateurFichierJinja.exists() || classePageUtilisateurFichierJinja.length() == 0L)) {
-				classePageUtilisateurFichierJinja.getParentFile().mkdirs();
-				auteurPageUtilisateurJinja = ToutEcrivain.create(classePageUtilisateurFichierJinja, "  ");
 			}
 		}
 	}

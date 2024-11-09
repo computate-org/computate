@@ -2745,14 +2745,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				ecrirePageEditionJinja(langueNom, i18nPage);
 			}
 
-			if(auteurPageAffichageJinja != null) {
-				auteurPageAffichageJinja.l("{% extends \"", classeGenPageEditionTemplate, "\" %}");
-			}
-
-			if(auteurPageUtilisateurJinja != null) {
-				auteurPageUtilisateurJinja.l("{% extends \"", classeGenPageEditionTemplate, "\" %}");
-			}
-
 			if(classePageAvecTemplate) {
 				//STUFF0
 				//STUFF1
@@ -2816,12 +2808,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			}
 			if(auteurGenPageEditionJinja != null) {
 				auteurGenPageEditionJinja.flushClose();
-			}
-			if(auteurPageAffichageJinja != null) {
-				auteurPageAffichageJinja.flushClose();
-			}
-			if(auteurPageUtilisateurJinja != null) {
-				auteurPageUtilisateurJinja.flushClose();
 			}
 
 			{
