@@ -2268,8 +2268,6 @@ public class IndexerClasse extends RegarderClasseBase {
 		Boolean classePageSimple = indexerStockerSolr(classeDoc, "classePageSimple", regexTrouve("^" + i18nGlobale.getString(I18n.var_PageSimple) + ": \\s*(true)$", classeCommentaire));
 		Boolean classeSauvegarde = indexerStockerSolr(classeDoc, "classeSauvegarde", regexTrouve("^" + i18nGlobale.getString(I18n.var_Sauvegarde) + ":\\s*(true)$", classeCommentaire) || classeModele || classeFiware);
 		indexerStockerSolr(langueNomGlobale, classeDoc, "classePageTemplate", regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_PageTemplate), classeCommentaire));
-		indexerStockerSolr(langueNomGlobale, classeDoc, "classePageTemplates", regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_PageTemplates), classeCommentaire));
-		indexerStockerSolr(langueNomGlobale, classeDoc, "classePageTemplatesUtilisateur", regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_PageTemplatesUtilisateur), classeCommentaire));
 		String classeApiClasseNomSimple = regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_ApiClasse), classeCommentaire, classeNomSimple);
 
 				if(classeApiClasseNomSimple != null) {
@@ -5790,7 +5788,8 @@ public class IndexerClasse extends RegarderClasseBase {
 									indexerStockerSolr(langueNomGlobale, classeDoc, String.format("classeGen%sCheminJinja", classeApiMethode), String.format("%s/%s", templateChemin, classeGenPageTemplate));
 								} else {
 									String classePageNomFichier = String.format("%s%s.htm", classeNomSimple, classeApiMethode);
-									classePageTemplateMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_PageTemplate), String.format("%s/%s", StringUtils.substringBeforeLast(classeApiUriMethode.substring(1), "/"), classePageNomFichier));
+									// classePageTemplateMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_PageTemplate), String.format("%s/%s", StringUtils.substringBeforeLast(classeApiUriMethode.substring(1), "/"), classePageNomFichier));
+									classePageTemplateMethode = "%s.htm";
 								}
 
 								indexerStockerSolr(langueNomGlobale, classeDoc, String.format("classe%sTemplate", classeApiMethode), classePageTemplateMethode);

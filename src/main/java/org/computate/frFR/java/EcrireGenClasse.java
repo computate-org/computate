@@ -322,11 +322,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: classModel
 	 */
 	protected Boolean classeModele;
-	protected String classePageTemplates;
 
 	protected Boolean classeApi;
 	protected String classeApiUri;
 	protected String classeApiUriPageRecherche;
+	protected String classeApiUriPageEdition;
 	protected String classeApiTag;
 
 	/**
@@ -2155,6 +2155,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				classeNomVar = classeDoc.getString("classeNomVar" + "_" + langueNom2 + "_stored_string");
 				classeApiUri = classeDoc.getString("classeApiUri" + "_" + langueNom2 + "_stored_string");
 				classeApiUriPageRecherche = classeDoc.getString("classeApiUri" + langueConfig.getString(I18n.var_PageRecherche) + "_" + langueNom2 + "_stored_string");
+				classeApiUriPageEdition = classeDoc.getString("classeApiUri" + langueConfig.getString(I18n.var_PageEdition) + "_" + langueNom2 + "_stored_string");
 				classeAdjectif = classeDoc.getString("classeAdjectif" + "_" + langueNom2 + "_stored_string");
 				classeAdjectifPluriel = classeDoc.getString("classeAdjectifPluriel" + "_" + langueNom2 + "_stored_string");
 				classeAdjectifVar = classeDoc.getString("classeAdjectifVar" + "_" + langueNom2 + "_stored_string");
@@ -2243,6 +2244,8 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_ApiUri), "_", langueNom2, " = ", q(classeApiUri), ";");
 				if(classeApiUriPageRecherche != null)
 					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_ApiUri), langueConfig.getString(I18n.var_PageRecherche), "_", langueNom2, " = ", q(classeApiUriPageRecherche), ";");
+				if(classeApiUriPageEdition != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_ApiUri), langueConfig.getString(I18n.var_PageEdition), "_", langueNom2, " = ", q(classeApiUriPageEdition), ";");
 				
 				if(classeDeNom != null)
 					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_DeNom), "_", langueNom2, " = ", q(classeDeNom), ";");
@@ -2270,10 +2273,12 @@ public class EcrireGenClasse extends EcrireClasse {
 					String classePageUriMethode = classeDoc.getString("classeApiUri" + classePageMethode + "_" + langueNom2 + "_stored_string");
 					if(classePageUriMethode != null) {
 						if(classePageUriMethode != null) {
-							tl(1, "public static final String ", classePageMethode, "_", langueNom2, "_Uri", " = ", q(classePageUriMethode), ";");
+							tl(1, "public static final String ", classePageMethode, "_", langueNom2, "_OpenApiUri", " = ", q(classePageUriMethode), ";");
+							tl(1, "public static final String ", classePageMethode, "_", langueNom2, "_StringFormatUri", " = ", q(classePageUriMethode.replaceAll("\\{[^\\}]+\\}", "%s")), ";");
+							tl(1, "public static final String ", classePageMethode, "_", langueNom2, "_StringFormatUrl", " = ", q("%s" + classePageUriMethode.replaceAll("\\{[^\\}]+\\}", "%s")), ";");
 						}
 						if(classePageUriMethode != null) {
-							tl(1, "public static final String ", classePageMethode, "_", langueNom2, "_ImageUri", " = ", q("/png", classePageUriMethode, "-999.png"), ";");
+							// tl(1, "public static final String ", classePageMethode, "_", langueNom2, "_ImageUri", " = ", q("/png", classePageUriMethode, "-999.png"), ";");
 						}
 					}
 				}

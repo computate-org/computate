@@ -2018,7 +2018,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			if(classePageSimple) {
 				tl(2, langueConfig.getString(I18n.var_cVar), ".o(new ", classeApiClasseNomSimple, "());");
 			} else {
-				tl(2, "if(", varResultat, "Count == 1 && Optional.ofNullable(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\")).map(o -> o.getString(\"id\")).orElse(null) != null)");
+				tl(2, "if(", varResultat, "Count == 1 && Optional.ofNullable(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\")).map(o -> o.getString(\"", classeVarId, "\")).orElse(null) != null)");
 				tl(3, langueConfig.getString(I18n.var_cVar), ".o(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.get(0));");
 			}
 			tl(1, "}");

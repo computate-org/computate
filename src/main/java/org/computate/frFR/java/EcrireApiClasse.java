@@ -446,7 +446,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							// classePageTemplates //
 							/////////////////////////
 
-							if(classePageTemplates != null && entiteDefinir) {
+							if(classePageAvecTemplate && entiteDefinir) {
 								wPageTemplates.tl(3, "page.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_", entiteVar, ")));");
 							}
 	
@@ -4000,12 +4000,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			s(wFacets);
 			if(classeVarCleUnique != null) {
 				l();
-				tl(3, "String id = ", i18nGlobale.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"path\").getString(\"id\");");
-				tl(3, "if(", classeVarCleUnique, " != null && NumberUtils.isCreatable(", classeVarCleUnique, ")) {");
-				tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"(", classeVarClePrimaire, "_docvalues_long:\" + SearchTool.escapeQueryChars(id) + \" OR ", classeVarId, "_docvalues_string:\" + SearchTool.escapeQueryChars(id) + \")\");");
-				tl(3, "} else if(", classeVarCleUnique, " != null) {");
-				tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"", classeVarId, "_docvalues_string:\" + SearchTool.escapeQueryChars(id));");
-				tl(3, "}");
+				tl(3, "String ", classeVarId, " = ", i18nGlobale.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"path\").getString(\"", classeVarId, "\");");
+				if(classeModele) {
+					tl(3, "if(", classeVarCleUnique, " != null && NumberUtils.isCreatable(", classeVarCleUnique, ")) {");
+					tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"(", classeVarClePrimaire, "_docvalues_long:\" + SearchTool.escapeQueryChars(", classeVarId, ") + \" OR ", classeVarId, "_docvalues_string:\" + SearchTool.escapeQueryChars(", classeVarId, ") + \")\");");
+					tl(3, "} else if(", classeVarCleUnique, " != null) {");
+					tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"", classeVarId, "_docvalues_string:\" + SearchTool.escapeQueryChars(", classeVarId, "));");
+					tl(3, "}");
+				} else {
+					tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"", classeVarId, "_docvalues_string:\" + SearchTool.escapeQueryChars(", classeVarId, "));");
+				}
 			}
 			if(classeAuth && (classeRoleSession || classeRoleUtilisateur)) {
 				l();
@@ -4548,10 +4552,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(1, "}");
 			}
 
-			/////////////////////////
-			// classePageTemplates //
-			/////////////////////////
-			if(classePageTemplates != null) {
+			//////////////////////
+			// genererCorpsPage //
+			//////////////////////
+			if(classePageAvecTemplate) {
 				l();
 				tl(1, "@Override");
 				tl(1, "public Future<JsonObject> ", i18nGlobale.getString(I18n.var_genererCorpsPage), "(ComputateSiteRequest ", i18nGlobale.getString(I18n.var_requeteSite), ", Map<String, Object> ctx, String resourceUri, String templateUri, String ", i18nGlobale.getString(I18n.var_classeNomSimple), ") {");

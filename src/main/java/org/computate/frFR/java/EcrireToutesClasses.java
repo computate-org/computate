@@ -238,6 +238,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		classeNomSimpleSuperGenerique = doc.getString("classeNomSimpleSuperGenerique_" + langueNom + "_stored_string");
 		classeNomCanoniqueSuperGenerique = doc.getString("classeNomCanoniqueSuperGenerique_" + langueNom + "_stored_string");
 		classePageTemplate = doc.getString("classePageTemplate_" + langueNom + "_stored_string");
+		classePageAvecTemplate = doc.getBoolean("classePageAvecTemplate_stored_boolean");
 		classeGenPageTemplate = doc.getString("classeGenPageTemplate_" + langueNom + "_stored_string");
 		classePageSuperTemplate = doc.getString("classePageSuperTemplate_" + langueNom + "_stored_string");
 		classePageNomSimple = doc.getString("classePageNomSimple_" + langueNom + "_stored_string");
@@ -314,7 +315,6 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		classeRoleSession = (Boolean)doc.getBoolean("classeRoleSession_stored_boolean");
 		classeRoleUtilisateur = (Boolean)doc.getBoolean("classeRoleUtilisateur_stored_boolean");
 		classeRoleChacun = (Boolean)doc.getBoolean("classeRoleChacun_stored_boolean");
-		classePageTemplates = doc.getString("classePageTemplates_" + langueNom + "_stored_string");
 
 		classeSessionEcrire = (Boolean)doc.getBoolean("classeSessionEcrire_stored_boolean");
 		classeUtilisateurEcrire = (Boolean)doc.getBoolean("classeUtilisateurEcrire_stored_boolean");
