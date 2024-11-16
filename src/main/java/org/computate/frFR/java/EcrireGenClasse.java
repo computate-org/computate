@@ -184,8 +184,10 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeCommentaireLangue;
 
 	protected String classeVarClePrimaire;
+	protected String classeVarClePrimaireSuffixeSolr;
 
 	protected String classeVarInheritClePrimaire;
+	protected String classeVarInheritClePrimaireCapitalise;
 
 	protected String classeVarEmplacement;
 	protected String classeVarEmplacementCouleur;
@@ -205,6 +207,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: classVarId
 	 */
 	protected String classeVarId;
+	protected String classeVarIdSuffixeSolr;
 
 	protected String classeVarCleUnique;
 	protected String classeVarClePrimaireUnique;
@@ -538,6 +541,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: entityTypeSuffix
 	 */
 	protected String entiteSuffixeType;
+	protected String entiteSuffixeSolr;
 
 	/**
 	 * Var.enUS: entityVarCapitalized
@@ -3157,6 +3161,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		entiteDescription = doc.getString("entiteDescription_" + langueNom + "_stored_string");
 		entiteNgsiType = doc.getString("entiteNgsiType_stored_string");
 		entiteSuffixeType = doc.getString("entiteSuffixeType_stored_string");
+		entiteSuffixeSolr = doc.getString("entiteSuffixeSolr_stored_string");
 		entiteVarCapitalise = doc.getString("entiteVarCapitalise_" + langueNom + "_stored_string");
 		entiteAttribuerVarSuggere = doc.getString("entiteAttribuerVarSuggere_" + langueNom + "_stored_string");
 		entiteNomCanonique = doc.getString("entiteNomCanonique_" + langueNom + "_stored_string");
@@ -5071,12 +5076,12 @@ public class EcrireGenClasse extends EcrireClasse {
 
 			if(entiteAttribuer && !classesNomSimpleFacetFor.contains(entiteAttribuerNomSimple)) {
 				wIndexerFacetFor.l();
-				wIndexerFacetFor.tl(5, "if(\"", entiteAttribuerNomSimple, "\".equals(", langueConfig.getString(I18n.var_classeNomSimple), "2) && ", classeModele ? classeVarClePrimaire : classeVarCleUnique, "2 != null) {");
+				wIndexerFacetFor.tl(5, "if(\"", entiteAttribuerNomSimple, "\".equals(", langueConfig.getString(I18n.var_classeNomSimple), "2) && ", classeVarClePrimaire, "2 != null) {");
 				wIndexerFacetFor.tl(6, langueConfig.getString(I18n.var_ListeRecherche), "<", entiteAttribuerNomSimple, "> ", langueConfig.getString(I18n.var_listeRecherche), "2 = new ", langueConfig.getString(I18n.var_ListeRecherche), "<", entiteAttribuerNomSimple, ">();");
 				wIndexerFacetFor.tl(6, langueConfig.getString(I18n.var_listeRecherche), "2.set", langueConfig.getString(I18n.var_Stocker), "(true);");
 				wIndexerFacetFor.tl(6, langueConfig.getString(I18n.var_listeRecherche), "2.q(\"*:*\");");
 				wIndexerFacetFor.tl(6, langueConfig.getString(I18n.var_listeRecherche), "2.setC(", entiteAttribuerNomSimple, ".class);");
-				wIndexerFacetFor.tl(6, langueConfig.getString(I18n.var_listeRecherche), "2.fq(\"", classeModele ? classeVarClePrimaire : classeVarCleUnique, "_docvalues_long:\" + ", classeModele ? classeVarClePrimaire : classeVarCleUnique, "2);");
+				wIndexerFacetFor.tl(6, langueConfig.getString(I18n.var_listeRecherche), "2.fq(\"", classeVarClePrimaire, classeVarClePrimaireSuffixeSolr, ":\" + ", classeVarClePrimaire, "2);");
 				wIndexerFacetFor.tl(6, langueConfig.getString(I18n.var_listeRecherche), "2.rows(1L);");
 				wIndexerFacetFor.tl(6, "futures.add(Future.future(promise2 -> {");
 				wIndexerFacetFor.tl(7, langueConfig.getString(I18n.var_listeRecherche), "2.", langueConfig.getString(I18n.var_promesseLoin), langueConfig.getString(I18n.var_ListeRecherche), "(", langueConfig.getString(I18n.var_requeteSite), ").onSuccess(b -> {");
@@ -5086,7 +5091,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				wIndexerFacetFor.tl(9, "params.put(\"body\", new JsonObject());");
 				wIndexerFacetFor.tl(9, "params.put(\"cookie\", new JsonObject());");
 				wIndexerFacetFor.tl(9, "params.put(\"path\", new JsonObject());");
-				wIndexerFacetFor.tl(9, "params.put(\"query\", new JsonObject().put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"pk:\" + pk2)).put(\"var\", new JsonArray().add(\"refresh:false\")));");
+				wIndexerFacetFor.tl(9, "params.put(\"query\", new JsonObject().put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"", classeVarClePrimaire, ":\" + ", classeVarClePrimaire, "2)).put(\"var\", new JsonArray().add(\"refresh:false\")));");
 				wIndexerFacetFor.tl(9, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", ", langueConfig.getString(I18n.var_requeteSite), ".getUserPrincipal());");
 				wIndexerFacetFor.tl(9, "JsonObject json = new JsonObject().put(\"context\", context);");
 				wIndexerFacetFor.tl(9, "eventBus.request(\"", siteNom, "-", langueNom, "-", entiteAttribuerNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"patch", entiteAttribuerNomSimple, "Future\")).onSuccess(c -> {");
@@ -5141,30 +5146,30 @@ public class EcrireGenClasse extends EcrireClasse {
 				if("array".equals(entiteTypeJson)) {
 					if("array".equals(entiteAttribuerTypeJson)) {
 						if(StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
-							wAttribuerSql.s("SELECT pk2, '", entiteVar, "' from ", classeNomSimple, entiteVar, "_", entiteAttribuerNomSimple, entiteAttribuerVar, " where pk1=$" + wAttribuerSqlNum);
+							wAttribuerSql.s("SELECT ", classeVarClePrimaire, "2, '", entiteVar, "' from ", classeNomSimple, entiteVar, "_", entiteAttribuerNomSimple, entiteAttribuerVar, " where ", classeVarClePrimaire, "1=$" + wAttribuerSqlNum);
 							if(!wAttribuerSqlParams.getEmpty())
 								wAttribuerSqlParams.s(", ");
-							wAttribuerSqlParams.s("pk");
+							wAttribuerSqlParams.s(classeVarClePrimaire);
 							wAttribuerSqlNum++;
 						} else {
-							wAttribuerSql.s("SELECT pk1, '", entiteVar, "' from ", entiteAttribuerNomSimple, entiteAttribuerVar, "_", classeNomSimple, entiteVar, " where pk2=$" + wAttribuerSqlNum);
+							wAttribuerSql.s("SELECT ", classeVarClePrimaire, ", '", entiteVar, "' from ", entiteAttribuerNomSimple, entiteAttribuerVar, "_", classeNomSimple, entiteVar, " where ", classeVarClePrimaire, "2=$" + wAttribuerSqlNum);
 							if(!wAttribuerSqlParams.getEmpty())
 								wAttribuerSqlParams.s(", ");
-							wAttribuerSqlParams.s("pk");
+							wAttribuerSqlParams.s(classeVarClePrimaire);
 							wAttribuerSqlNum++;
 						}
 					} else {
 						if(StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
-							wAttribuerSql.s("SELECT ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " as pk2, '", entiteVar, "' from ", entiteAttribuerNomSimple, " where ", entiteAttribuerVar, "=$" + wAttribuerSqlNum);
+							wAttribuerSql.s("SELECT ", classeVarId, " as ", classeVarClePrimaire, "2, '", entiteVar, "' from ", entiteAttribuerNomSimple, " where ", entiteAttribuerVar, "=$" + wAttribuerSqlNum);
 							if(!wAttribuerSqlParams.getEmpty())
 								wAttribuerSqlParams.s(", ");
-							wAttribuerSqlParams.s("pk");
+							wAttribuerSqlParams.s(classeVarClePrimaire);
 							wAttribuerSqlNum++;
 						} else {
-							wAttribuerSql.s("SELECT ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " as pk1, '", entiteVar, "' from ", entiteAttribuerNomSimple, " where ", entiteAttribuerVar, "=$" + wAttribuerSqlNum);
+							wAttribuerSql.s("SELECT ", classeVarId, " as ", classeVarClePrimaire, "1, '", entiteVar, "' from ", entiteAttribuerNomSimple, " where ", entiteAttribuerVar, "=$" + wAttribuerSqlNum);
 							if(!wAttribuerSqlParams.getEmpty())
 								wAttribuerSqlParams.s(", ");
-							wAttribuerSqlParams.s("pk");
+							wAttribuerSqlParams.s(classeVarClePrimaire);
 							wAttribuerSqlNum++;
 						}
 					}
@@ -5172,30 +5177,30 @@ public class EcrireGenClasse extends EcrireClasse {
 				else {
 					if("array".equals(entiteAttribuerTypeJson)) {
 						if(StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
-							wAttribuerSql.s("SELECT ", entiteVar, " as pk2, '", entiteVar, "' from ", classeNomSimple, " where ", classeModele ? classeVarClePrimaire : classeVarCleUnique, "=$" + wAttribuerSqlNum);
+							wAttribuerSql.s("SELECT ", entiteVar, " as ", classeVarClePrimaire, "2, '", entiteVar, "' from ", classeNomSimple, " where ", classeVarId, "=$" + wAttribuerSqlNum);
 							if(!wAttribuerSqlParams.getEmpty())
 								wAttribuerSqlParams.s(", ");
-							wAttribuerSqlParams.s("pk");
+							wAttribuerSqlParams.s(classeVarClePrimaire);
 							wAttribuerSqlNum++;
 						} else {
-							wAttribuerSql.s("SELECT ", entiteVar, " as pk1, '", entiteVar, "' from ", classeNomSimple, " where ", classeModele ? classeVarClePrimaire : classeVarCleUnique, "=$" + wAttribuerSqlNum);
+							wAttribuerSql.s("SELECT ", entiteVar, " as ", classeVarClePrimaire, "1, '", entiteVar, "' from ", classeNomSimple, " where ", classeVarId, "=$" + wAttribuerSqlNum);
 							if(!wAttribuerSqlParams.getEmpty())
 								wAttribuerSqlParams.s(", ");
-							wAttribuerSqlParams.s("pk");
+							wAttribuerSqlParams.s(classeVarClePrimaire);
 							wAttribuerSqlNum++;
 						}
 					} else {
 						if(StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
-							wAttribuerSql.s("SELECT ", entiteVar, " as pk2, '", entiteVar, "' from ", classeNomSimple, " where ", classeModele ? classeVarClePrimaire : classeVarCleUnique, "=$" + wAttribuerSqlNum);
+							wAttribuerSql.s("SELECT ", entiteVar, " as ", classeVarClePrimaire, "2, '", entiteVar, "' from ", classeNomSimple, " where ", classeVarId, "=$" + wAttribuerSqlNum);
 							if(!wAttribuerSqlParams.getEmpty())
 								wAttribuerSqlParams.s(", ");
-							wAttribuerSqlParams.s("pk");
+							wAttribuerSqlParams.s(classeVarClePrimaire);
 							wAttribuerSqlNum++;
 						} else {
-							wAttribuerSql.s("SELECT ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " as pk1, '", entiteVar, "' from ", entiteAttribuerNomSimple, " where ", entiteAttribuerVar, "=$" + wAttribuerSqlNum);
+							wAttribuerSql.s("SELECT ", classeVarId, " as ", classeVarClePrimaire, "1, '", entiteVar, "' from ", entiteAttribuerNomSimple, " where ", entiteAttribuerVar, "=$" + wAttribuerSqlNum);
 							if(!wAttribuerSqlParams.getEmpty())
 								wAttribuerSqlParams.s(", ");
-							wAttribuerSqlParams.s("pk");
+							wAttribuerSqlParams.s(classeVarClePrimaire);
 							wAttribuerSqlNum++;
 						}
 					}
@@ -5208,13 +5213,13 @@ public class EcrireGenClasse extends EcrireClasse {
 //						if("array".equals(entiteAttribuerTypeJson))
 //							o.s("1SELECT pk1, pk2, '", entiteVar, "', '", entiteAttribuerVar, "' from ", classeNomSimple, entiteVar, "_", entiteAttribuerNomSimple, entiteAttribuerVar, " where pk1=$" + wAttribuerSqlNum);
 //						else
-//							o.s("2SELECT ", entiteAttribuerVar, " as pk1, ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " as pk2, '", entiteVar, "', '", entiteAttribuerVar, "' from ", entiteAttribuerNomSimple, " where ", entiteAttribuerVar, "=$" + wAttribuerSqlNum);
+//							o.s("2SELECT ", entiteAttribuerVar, " as pk1, ", classeVarId, " as pk2, '", entiteVar, "', '", entiteAttribuerVar, "' from ", entiteAttribuerNomSimple, " where ", entiteAttribuerVar, "=$" + wAttribuerSqlNum);
 //					}
 //					else {
 //						if("array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson))
 //							o.s("3SELECT pk1, pk2, '", entiteAttribuerVar, "', '", entiteVar, "' from ", entiteAttribuerNomSimple, entiteAttribuerVar, "_", classeNomSimple, entiteVar, " where pk2=$" + wAttribuerSqlNum);
 //						else
-//							o.s("4SELECT ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " as pk1, ", entiteAttribuerVar, " as pk2, '", entiteAttribuerVar, "', '", entiteVar, "' from ", entiteAttribuerNomSimple, " where pk=$" + wAttribuerSqlNum);
+//							o.s("4SELECT ", classeVarId, " as pk1, ", entiteAttribuerVar, " as pk2, '", entiteAttribuerVar, "', '", entiteVar, "' from ", entiteAttribuerNomSimple, " where pk=$" + wAttribuerSqlNum);
 //					}
 //					wAttribuerSqlNum++;
 //				}
@@ -5227,14 +5232,14 @@ public class EcrireGenClasse extends EcrireClasse {
 //						else {
 //							o.s("6SELECT $", wAttribuerSqlNum);
 //							wAttribuerSqlNum++;
-//							o.s(" as pk1, ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " as pk2, '", entiteVar, "', '", entiteAttribuerVar, "' from ", entiteAttribuerNomSimple, " where ", entiteAttribuerVar, "=$" + wAttribuerSqlNum);
+//							o.s(" as pk1, ", classeVarId, " as pk2, '", entiteVar, "', '", entiteAttribuerVar, "' from ", entiteAttribuerNomSimple, " where ", entiteAttribuerVar, "=$" + wAttribuerSqlNum);
 //						}
 //					}
 //					else {
 //						if("array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson))
 //							o.s("7SELECT pk1, pk2, '", entiteAttribuerVar, "', '", entiteVar, "' from ", entiteAttribuerNomSimple, entiteAttribuerVar, "_", classeNomSimple, entiteVar, " where pk2=$" + wAttribuerSqlNum);
 //						else {
-//							o.s("8SELECT ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " as pk1, $", wAttribuerSqlNum);
+//							o.s("8SELECT ", classeVarId, " as pk1, $", wAttribuerSqlNum);
 //							wAttribuerSqlNum++;
 //							o.s(" as pk2, '", entiteAttribuerVar, "', '", entiteVar, "' from ", entiteAttribuerNomSimple, " where pk=$" + wAttribuerSqlNum);
 //						}

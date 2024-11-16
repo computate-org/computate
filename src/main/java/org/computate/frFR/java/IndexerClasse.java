@@ -1952,6 +1952,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeVarUrlPk = null;
 		String classeVarUrlApi = null;
 		String classeVarId = null;
+		String classeVarIdSuffixeSolr = null;
 		String classeVarTitre = null;
 		String classeHtmInfobulle = null;
 		String classeJsInfobulle = null;
@@ -1965,7 +1966,9 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeVarModifie = null;
 		String classeVarCree = null;
 		String classeVarClePrimaire = null;
+		String classeVarClePrimaireSuffixeSolr = null;
 		String classeVarInheritClePrimaire = null;
+		String classeVarInheritClePrimaireSolr = null;
 		String classeVarSauvegardes = null;
 		String classeVarCleUnique = null;
 		String classeVarEmplacement = null;
@@ -3946,6 +3949,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						String entiteSolrNomCanonique = null;
 						String entiteSolrNomSimple = null;
 						String entiteSuffixeType = null;
+						String entiteSuffixeSolr = null;
 						if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBoolean)) {
 							entiteSolrNomCanonique = VAL_nomCanoniqueBoolean;
 							entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
@@ -4078,9 +4082,24 @@ public class IndexerClasse extends RegarderClasseBase {
 							entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
 							entiteSuffixeType = "_string";
 						}
+
+						// entiteSuffixeSolr
+						if(entiteCrypte) {
+							entiteSuffixeSolr = String.format("_encrypted%s", entiteSuffixeType);
+						} else if(entiteIncremente) {
+							entiteSuffixeSolr = "_incremented";
+						} else if(entiteSuggere) {
+							entiteSuffixeSolr = "_suggested";
+						} else if(entiteTexte) {
+							entiteSuffixeSolr = String.format("_text%s", classeLangueNom);
+						} else {
+							entiteSuffixeSolr = String.format("%s%s",  (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType);
+						}
+
 						stockerSolr(entiteDoc, "entiteSolrNomCanonique", entiteSolrNomCanonique);
 						stockerSolr(entiteDoc, "entiteSolrNomSimple", entiteSolrNomSimple);
 						stockerSolr(entiteDoc, "entiteSuffixeType", entiteSuffixeType);
+						stockerSolr(entiteDoc, "entiteSuffixeSolr", entiteSuffixeSolr);
 
 						///////////////////
 						// entiteTypeSql //
@@ -4424,6 +4443,7 @@ public class IndexerClasse extends RegarderClasseBase {
 
 						if(entiteClePrimaire) {
 							classeVarClePrimaire = stockerSolr(classeLangueNom, classeDoc, "classeVarClePrimaire", entiteVar);
+							classeVarClePrimaireSuffixeSolr = stockerSolr(classeDoc, "classeVarClePrimaireSuffixeSolr", entiteSuffixeSolr);
 						}
 						if(entiteInheritClePrimaire) {
 							classeVarInheritClePrimaire = stockerSolr(classeLangueNom, classeDoc, "classeVarInheritClePrimaire", entiteVar);
@@ -4475,6 +4495,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 						if(entiteVarId) {
 							classeVarId = stockerSolr(classeLangueNom, classeDoc, "classeVarId", entiteVar);
+							classeVarIdSuffixeSolr = stockerSolr(classeDoc, "classeVarIdSuffixeSolr", entiteSuffixeSolr);
 						}
 						if(entiteVarTitre) {
 							classeVarTitre = stockerSolr(classeLangueNom, classeDoc, "classeVarTitre", entiteVar);
@@ -4831,8 +4852,10 @@ public class IndexerClasse extends RegarderClasseBase {
 		}
 		if(classeVarClePrimaire == null && classeSuperDoc != null) {
 			classeVarClePrimaire = (String)classeSuperDoc.get("classeVarClePrimaire_" + classeLangueNom + "_stored_string");
+			classeVarClePrimaireSuffixeSolr = (String)classeSuperDoc.get("classeVarClePrimaireSuffixeSolr_stored_string");
 			if(classeVarClePrimaire != null) {
 				stockerSolr(classeLangueNom, classeDoc, "classeVarClePrimaire", classeVarClePrimaire);
+				stockerSolr(classeLangueNom, classeDoc, "classeVarClePrimaireSuffixeSolr", classeVarClePrimaireSuffixeSolr);
 				if(classeTraduire) {
 					for(String langueNom : classeAutresLangues) {  
 						String classeVarClePrimaireLangue = (String)classeSuperDoc.get("classeVarClePrimaire_" + langueNom + "_stored_string");
@@ -5072,8 +5095,10 @@ public class IndexerClasse extends RegarderClasseBase {
 		}
 		if(classeVarId == null && classeSuperDoc != null) {
 			classeVarId = (String)classeSuperDoc.get("classeVarId_" + classeLangueNom + "_stored_string");
+			classeVarIdSuffixeSolr = (String)classeSuperDoc.get("classeVarIdSuffixeSolr_stored_string");
 			if(classeVarId != null) {
 				stockerSolr(classeLangueNom, classeDoc, "classeVarId", classeVarId);
+				stockerSolr(classeDoc, "classeVarIdSuffixeSolr", classeVarIdSuffixeSolr);
 				if(classeTraduire) {
 					for(String langueNom : classeAutresLangues) {  
 						String classeVarIdLangue = (String)classeSuperDoc.get("classeVarId_" + langueNom + "_stored_string");

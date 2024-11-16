@@ -251,9 +251,12 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		classeNomSimpleGenApiServiceImpl = doc.getString("classeNomSimpleGenApiServiceImpl_" + langueNom + "_stored_string");
 		classeNomSimpleGenApiService = doc.getString("classeNomSimpleGenApiService_" + langueNom + "_stored_string");
 		classeVarClePrimaire = doc.getString("classeVarClePrimaire_" + langueNom + "_stored_string");
+		classeVarClePrimaireSuffixeSolr = doc.getString("classeVarClePrimaireSuffixeSolr_stored_string");
 		classeVarInheritClePrimaire = doc.getString("classeVarInheritClePrimaire_" + langueNom + "_stored_string");
+		classeVarInheritClePrimaireCapitalise = StringUtils.capitalize(classeVarInheritClePrimaire);
 		classeVarSauvegardes = doc.getString("classeVarSauvegardes_" + langueNom + "_stored_string");
 		classeVarId = doc.getString("classeVarId_" + langueNom + "_stored_string");
+		classeVarIdSuffixeSolr = doc.getString("classeVarIdSuffixeSolr_stored_string");
 		classeVarCleUnique = doc.getString("classeVarCleUnique_" + langueNom + "_stored_string");
 		classeVarEmplacement = doc.getString("classeVarEmplacement_" + langueNom + "_stored_string");
 		classeVarEmplacementCouleur = doc.getString("classeVarEmplacementCouleur_" + langueNom + "_stored_string");
