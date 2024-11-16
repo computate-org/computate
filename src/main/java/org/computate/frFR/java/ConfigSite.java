@@ -587,6 +587,13 @@ public class ConfigSite {
 				langueConfigGlobale.getString(I18n.var_SITE_ZONE));
 	}
 
+	public String solrId;
+
+	protected void _solrId() throws Exception {
+		solrId = config.getString(
+				langueConfigGlobale.getString(I18n.var_SOLR_ID));
+	}
+
 	/**
 	 * Var.enUS: solrUrlComputate enUS: The Solr web URL for the "computate" index.
 	 */
@@ -933,6 +940,7 @@ public class ConfigSite {
 		_composantsWebPrefixe();
 		_nomFichierConfig();
 		_siteZone();
+		_solrId();
 //		_versionMaven();
 //		_versionZookeeper();
 //		_prefixePortZookeeper();

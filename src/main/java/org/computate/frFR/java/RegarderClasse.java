@@ -166,7 +166,7 @@ public class RegarderClasse extends EcrireToutesClasses {
 
 		if(new File(regarderClasse.classeCheminAbsolu).isFile() && regarderClasse.classeCheminAbsolu.endsWith(".java")) {
 			SolrInputDocument classeDoc = new SolrInputDocument();
-//			classeDoc.addField("id", regarderClasse.classeCheminAbsolu);  
+//			classeDoc.addField(solrId, regarderClasse.classeCheminAbsolu);  
 			regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu, classeDoc, classeLangueNom);
 			String classeNomSimple = Optional.ofNullable(classeDoc.get("classeNomSimple_enUS_stored_string")).map(o -> (String)o.getValue()).orElse(null);
 //			Date classeModifie = Optional.ofNullable(classeDoc.get("modifiee_stored_date")).map(o -> (Date)o.getValue()).orElse(null);

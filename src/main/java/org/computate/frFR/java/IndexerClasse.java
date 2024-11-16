@@ -2697,8 +2697,8 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePromesse = true;
 		}
 
-		if(classeDoc.getField("id") == null)
-			classeDoc.addField("id", classeCle);  
+		if(classeDoc.getField(solrId) == null)
+			classeDoc.addField(solrId, classeCle);  
 
 		indexerStockerSolr(classeDoc, "partEstClasse", true);
 		indexerStockerSolr(classeDoc, "partNumero", partNumero);
@@ -2792,7 +2792,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				stockerSolr(classeLangueNom, champDoc, "champNomSimpleComplet", champClasseParts.nomSimpleComplet(classeLangueNom));
 				String champNomCanoniqueComplet = stockerSolr(classeLangueNom, champDoc, "champNomCanoniqueComplet", champClasseParts.nomCanoniqueComplet(classeLangueNom));
 				stockerSolr(classeLangueNom, champDoc, "champCodeSource", champCodeSource);
-				champDoc.addField("id", champNomCanoniqueComplet + " " + champCle);
+				champDoc.addField(solrId, champNomCanoniqueComplet + " " + champCle);
 
 				if(classeTraduire) {
 					for(String langueNom : classeAutresLangues) { 
@@ -2861,7 +2861,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				}
 				constructeurCle += ")"; 
 
-				constructeurDoc.addField("id", constructeurCle);
+				constructeurDoc.addField(solrId, constructeurCle);
 				indexerStockerSolr(constructeurDoc, "partEstConstructeur", true);
 				indexerStockerSolr(constructeurDoc, "partNumero", partNumero);
 
@@ -3736,7 +3736,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		
 						// Entites Solr du entite. 
 		
-						entiteDoc.addField("id", entiteCle);
+						entiteDoc.addField(solrId, entiteCle);
 						indexerStockerSolr(entiteDoc, "partEstEntite", true);
 						indexerStockerSolr(entiteDoc, "partNumero", partNumero);
 
@@ -4710,7 +4710,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		
 						// Methodes Solr du methode. 
 		
-						methodeDoc.addField("id", methodeCle);
+						methodeDoc.addField(solrId, methodeCle);
 						indexerStockerSolr(methodeDoc, "partEstMethode", true);
 						indexerStockerSolr(methodeDoc, "partNumero", partNumero);
 
@@ -6122,7 +6122,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						ArrayList<String> fieldNames = new ArrayList<>(properties.fieldNames());
 						for(Integer i = 0; i < properties.size(); i++) {
 							String fieldName = fieldNames.get(i);
-							if(!fieldName.equals("id") && !fieldName.equals("type")) {
+							if(!fieldName.equals(solrId) && !fieldName.equals("type")) {
 								JsonObject field = properties.getJsonObject(fieldName);
 								String jsonType = field.getString("type");
 								String description = field.getString("description");
