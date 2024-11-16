@@ -5780,8 +5780,8 @@ public class IndexerClasse extends RegarderClasseBase {
 										classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
 										|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageRecherche))
 										) {
-									String classePageNomFichier = String.format("%s%s.htm", classeNomSimple, classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition)) ? i18nGlobale.getString(I18n.var_Edition) : i18nGlobale.getString(I18n.var_Recherche));
-									String classeGenPageNomFichier = String.format("%sGen%s.htm", classeNomSimple, classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition)) ? i18nGlobale.getString(I18n.var_Edition) : i18nGlobale.getString(I18n.var_Recherche));
+									String classePageNomFichier = String.format("%s%s.htm", classeNomSimple, classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition)) ? i18nGlobale.getString(I18n.var_PageEdition) : i18nGlobale.getString(I18n.var_PageRecherche));
+									String classeGenPageNomFichier = String.format("%sGen%s.htm", classeNomSimple, classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition)) ? i18nGlobale.getString(I18n.var_PageEdition) : i18nGlobale.getString(I18n.var_PageRecherche));
 
 									if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition)))
 										classePageTemplateMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_PageTemplate), String.format("%s/%s", StringUtils.substringBeforeLast(classeApiUriMethode.substring(1), "/"), classePageNomFichier));
@@ -5794,8 +5794,8 @@ public class IndexerClasse extends RegarderClasseBase {
 									if(classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) {
 										String classePageUriCss = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriCss", concat("/css/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple, ".css"));
 										String classePageUriJs = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriJs", concat("/js/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple, ".js"));
-										String classePageUriJsRecherche = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriJsRecherche", concat("/js/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple, i18nGlobale.getString(I18n.var_Recherche), ".js"));
-										String classePageUriJsEdition = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriJsEdition", concat("/js/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple,  i18nGlobale.getString(I18n.var_Edition), ".js"));
+										String classePageUriJsRecherche = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriJsRecherche", concat("/js/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple, i18nGlobale.getString(I18n.var_PageRecherche), ".js"));
+										String classePageUriJsEdition = indexerStockerSolr(langueNomGlobale, classeDoc, "classePageUriJsEdition", concat("/js/", StringUtils.substringBeforeLast(classePageTemplateMethode, "/"), "/", classeNomSimple,  i18nGlobale.getString(I18n.var_PageEdition), ".js"));
 
 										indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminCss", concat(cheminStatique, classePageUriCss));
 										indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJs", concat(cheminStatique, classePageUriJs));
