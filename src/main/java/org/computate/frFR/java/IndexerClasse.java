@@ -1948,11 +1948,12 @@ public class IndexerClasse extends RegarderClasseBase {
 		List<String> classeInitLoinExceptions = new ArrayList<String>(); 
 		String classeVarSuggere = null;
 		String classeVarTexte = null;
-		String classeVarUrlId = null;
-		String classeVarUrlPk = null;
+		String classeVarUrlPageAffichage = null;
+		String classeVarUrlPageEdition = null;
 		String classeVarUrlApi = null;
 		String classeVarId = null;
 		String classeVarIdSuffixeSolr = null;
+		String classeVarNom = null;
 		String classeVarTitre = null;
 		String classeHtmInfobulle = null;
 		String classeJsInfobulle = null;
@@ -2166,7 +2167,6 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsZonedDateTimeDeserializer = classePartsZonedDateTimeDeserializer(nomEnsembleDomaine, classeLangueNom);
 		classePartsZonedDateTimeSerializer = classePartsZonedDateTimeSerializer(nomEnsembleDomaine, classeLangueNom);
 
-		indexerStockerSolr(classeDoc, "classeInitLoinAvant", regexTrouve("^" + i18nGlobale.getString(I18n.var_InitLoin) + i18nGlobale.getString(I18n.var_Avant) + ": (true)$", classeCommentaire));
 		Boolean classeInitLoin = !regexTrouve("^" + i18nGlobale.getString(I18n.var_InitLoin) + ":\\s*(false)$", classeCommentaire);
 		if(classeInitLoin)
 			classeInitLoin = classeEtendBase || classeEstBase;
@@ -2396,6 +2396,22 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 		}
 
+		Boolean classeEstModeleBase = indexerStockerSolr(classeDoc, "classeEstModeleBase"
+				, classePartsModeleBase != null 
+				&& classeNomSimple.equals(classeNomSimple));
+		Boolean classeEstResultatBase = indexerStockerSolr(classeDoc, "classeEstResultatBase"
+				, classePartsResultatBase != null 
+				&& classeNomSimple.equals(classeNomSimple));
+
+		Boolean classeEtendModeleBase = indexerStockerSolr(classeDoc, "classeEtendModeleBase"
+				, classePartsModeleBase != null 
+				&& classeNomSimpleSuperGenerique != null 
+				&& classeNomSimpleSuperGenerique.equals(classePartsModeleBase.nomSimple(langueNomGlobale)));
+		Boolean classeEtendResultatBase = indexerStockerSolr(classeDoc, "classeEtendResultatBase"
+				, classePartsResultatBase != null 
+				&& classeNomSimpleSuperGenerique != null 
+				&& classeNomSimpleSuperGenerique.equals(classePartsResultatBase.nomSimple(langueNomGlobale)));
+		indexerStockerSolr(classeDoc, "classeInitLoinAvant" , regexTrouve("^" + i18nGlobale.getString(I18n.var_InitLoin) + i18nGlobale.getString(I18n.var_Avant) + ": (true)$", classeCommentaire));
 		if(activerVertx) {
 			if(classeEtendBase) {
 				if(classePartsModeleBase != null && classeNomSimpleSuperGenerique.equals(classePartsModeleBase.nomSimple(langueNomGlobale)))
@@ -3380,13 +3396,14 @@ public class IndexerClasse extends RegarderClasseBase {
 						Boolean entiteAireUrl = indexerStockerSolr(entiteDoc, "entiteAireUrl", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + i18nGlobale.getString(I18n.var_Url) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteCrypte = indexerStockerSolr(entiteDoc, "entiteCrypte", regexTrouve("^" + i18nGlobale.getString(I18n.var_Crypte) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteSuggere = indexerStockerSolr(entiteDoc, "entiteSuggere", regexTrouve("^" + i18nGlobale.getString(I18n.var_Suggere) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteVarUrlId = indexerStockerSolr(entiteDoc, "entiteVarUrlId", regexTrouve("^VarUrlId:\\s*(true)$", methodeCommentaire));
-						Boolean entiteVarUrlPk = indexerStockerSolr(entiteDoc, "entiteVarUrlPk", regexTrouve("^VarUrlPk:\\s*(true)$", methodeCommentaire));
+						Boolean entiteVarUrlPageAffichage = indexerStockerSolr(entiteDoc, "entiteVarUrlPageAffichage", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageAffichage) + ":\\s*(true)$", methodeCommentaire));
+						Boolean entiteVarUrlPageEdition = indexerStockerSolr(entiteDoc, "entiteVarUrlPageEdition", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageEdition) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarUrlApi = indexerStockerSolr(entiteDoc, "entiteVarUrlApi", regexTrouve("^VarUrlApi:\\s*(true)$", methodeCommentaire));
 						String entiteVarUrl = regex("^" + i18nGlobale.getString(I18n.var_VarUrl) + ":\\s*(.*)$", methodeCommentaire);
 						if(entiteVarUrl != null)
 							indexerStockerSolr(classeLangueNom, entiteDoc, "entiteVarUrl", entiteVarUrl);
 						Boolean entiteVarId = indexerStockerSolr(entiteDoc, "entiteVarId", regexTrouve("^VarId:\\s*(true)$", methodeCommentaire));
+						Boolean entiteVarNom = indexerStockerSolr(entiteDoc, "entiteVarNom", regexTrouve("^" + i18nGlobale.getString(I18n.var_VarNom) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarTitre = indexerStockerSolr(entiteDoc, "entiteVarTitre", regexTrouve("^" + i18nGlobale.getString(I18n.var_VarTitre) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarH1 = indexerStockerSolr(entiteDoc, "entiteVarH1", regexTrouve("^VarH1:\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarH2 = indexerStockerSolr(entiteDoc, "entiteVarH2", regexTrouve("^VarH2:\\s*(true)$", methodeCommentaire));
@@ -3602,8 +3619,8 @@ public class IndexerClasse extends RegarderClasseBase {
 									}
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarSuggere", (String)docClasse.get("classeVarSuggere_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarTexte", (String)docClasse.get("classeVarTexte_" + classeLangueNom + "_stored_strings"));
-									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarUrlId", (String)docClasse.get("classeVarUrlId_" + classeLangueNom + "_stored_string"));
-									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarUrlPk", (String)docClasse.get("classeVarUrlPk_" + classeLangueNom + "_stored_string"));
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarUrlPageAffichage", (String)docClasse.get("classeVarUrlPageAffichage_" + classeLangueNom + "_stored_string"));
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarUrlPageEdition", (String)docClasse.get("classeVarUrlPageEdition_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarUrlApi", (String)docClasse.get("classeVarUrlApi_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarId", (String)docClasse.get("classeVarId_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarTitre", (String)docClasse.get("classeVarTitre_" + classeLangueNom + "_stored_string"));
@@ -3688,8 +3705,8 @@ public class IndexerClasse extends RegarderClasseBase {
 											}
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarSuggere", (String)docClasse.get("classeVarSuggere_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarTexte", (String)docClasse.get("classeVarTexte_" + langueNom + "_stored_string"));
-											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarUrlId", (String)docClasse.get("classeVarUrlId_" + langueNom + "_stored_string"));
-											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarUrlPk", (String)docClasse.get("classeVarUrlPk_" + langueNom + "_stored_string"));
+											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarUrlPageAffichage", (String)docClasse.get("classeVarUrlPageAffichage_" + langueNom + "_stored_string"));
+											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarUrlPageEdition", (String)docClasse.get("classeVarUrlPageEdition_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarUrlApi", (String)docClasse.get("classeVarUrlApi_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarId", (String)docClasse.get("classeVarId_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarTitre", (String)docClasse.get("classeVarTitre_" + langueNom + "_stored_string"));
@@ -4484,11 +4501,11 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteTexte && entiteVar.equals(i18nGlobale.getString(I18n.var_objetTexte))) {
 							classeVarTexte = stockerSolr(classeLangueNom, classeDoc, "classeVarTexte", entiteVar);
 						}
-						if(entiteVarUrlId) {
-							classeVarUrlId = stockerSolr(classeLangueNom, classeDoc, "classeVarUrlId", entiteVar);
+						if(entiteVarUrlPageAffichage) {
+							classeVarUrlPageAffichage = stockerSolr(classeLangueNom, classeDoc, "classeVarUrlPageAffichage", entiteVar);
 						}
-						if(entiteVarUrlPk) {
-							classeVarUrlPk = stockerSolr(classeLangueNom, classeDoc, "classeVarUrlPk", entiteVar);
+						if(entiteVarUrlPageEdition) {
+							classeVarUrlPageEdition = stockerSolr(classeLangueNom, classeDoc, "classeVarUrlPageEdition", entiteVar);
 						}
 						if(entiteVarUrlApi) {
 							classeVarUrlApi = stockerSolr(classeLangueNom, classeDoc, "classeVarUrlApi", entiteVar);
@@ -4496,6 +4513,9 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteVarId) {
 							classeVarId = stockerSolr(classeLangueNom, classeDoc, "classeVarId", entiteVar);
 							classeVarIdSuffixeSolr = stockerSolr(classeDoc, "classeVarIdSuffixeSolr", entiteSuffixeSolr);
+						}
+						if(entiteVarNom) {
+							classeVarNom = stockerSolr(classeLangueNom, classeDoc, "classeVarNom", entiteVar);
 						}
 						if(entiteVarTitre) {
 							classeVarTitre = stockerSolr(classeLangueNom, classeDoc, "classeVarTitre", entiteVar);
@@ -4558,17 +4578,20 @@ public class IndexerClasse extends RegarderClasseBase {
 								if(entiteCleUnique) {
 									stockerSolr(langueNom, classeDoc, "classeVarCleUnique", entiteVarLangue);
 								}
-								if(entiteVarUrlId) {
-									classeVarUrlId = stockerSolr(langueNom, classeDoc, "classeVarUrlId", entiteVarLangue);
+								if(entiteVarUrlPageAffichage) {
+									classeVarUrlPageAffichage = stockerSolr(langueNom, classeDoc, "classeVarUrlPageAffichage", entiteVarLangue);
 								}
-								if(entiteVarUrlPk) {
-									classeVarUrlPk = stockerSolr(langueNom, classeDoc, "classeVarUrlPk", entiteVarLangue);
+								if(entiteVarUrlPageEdition) {
+									classeVarUrlPageEdition = stockerSolr(langueNom, classeDoc, "classeVarUrlPageEdition", entiteVarLangue);
 								}
 								if(entiteVarUrlApi) {
 									classeVarUrlApi = stockerSolr(langueNom, classeDoc, "classeVarUrlApi", entiteVarLangue);
 								}
 								if(entiteVarId) {
 									classeVarId = stockerSolr(langueNom, classeDoc, "classeVarId", entiteVarLangue);
+								}
+								if(entiteVarNom) {
+									classeVarNom = stockerSolr(langueNom, classeDoc, "classeVarNom", entiteVarLangue);
 								}
 								if(entiteVarTitre) {
 									classeVarTitre = stockerSolr(langueNom, classeDoc, "classeVarTitre", entiteVarLangue);
@@ -4868,6 +4891,15 @@ public class IndexerClasse extends RegarderClasseBase {
 		}
 		if(classeVarInheritClePrimaire == null && classeSuperDoc != null) {
 			classeVarInheritClePrimaire = (String)classeSuperDoc.get("classeVarInheritClePrimaire_" + classeLangueNom + "_stored_string");
+			if(classeVarInheritClePrimaire == null) {
+				if(classeVarId != null) {
+					classeVarInheritClePrimaire = classeVarId;
+				} else if(classeEtendResultatBase) {
+					classeVarInheritClePrimaire = classeVarCleUnique;
+				} else if(classeEtendModeleBase) {
+					classeVarInheritClePrimaire = classeVarClePrimaire;
+				}
+			}
 			if(classeVarInheritClePrimaire != null) {
 				stockerSolr(classeLangueNom, classeDoc, "classeVarInheritClePrimaire", classeVarInheritClePrimaire);
 				if(classeTraduire) {
@@ -5051,29 +5083,29 @@ public class IndexerClasse extends RegarderClasseBase {
 				}
 			}
 		}
-		if(classeVarUrlId == null && classeSuperDoc != null) {
-			classeVarUrlId = (String)classeSuperDoc.get("classeVarUrlId_" + classeLangueNom + "_stored_string");
-			if(classeVarUrlId != null) {
-				stockerSolr(classeLangueNom, classeDoc, "classeVarUrlId", classeVarUrlId);
+		if(classeVarUrlPageAffichage == null && classeSuperDoc != null) {
+			classeVarUrlPageAffichage = (String)classeSuperDoc.get("classeVarUrlPageAffichage_" + classeLangueNom + "_stored_string");
+			if(classeVarUrlPageAffichage != null) {
+				stockerSolr(classeLangueNom, classeDoc, "classeVarUrlPageAffichage", classeVarUrlPageAffichage);
 				if(classeTraduire) {
 					for(String langueNom : classeAutresLangues) {  
-						String classeVarUrlIdLangue = (String)classeSuperDoc.get("classeVarUrlId_" + langueNom + "_stored_string");
-						if(classeVarUrlIdLangue != null) {
-							stockerSolr(langueNom, classeDoc, "classeVarUrlId", classeVarUrlIdLangue);
+						String classeVarUrlPageAffichageLangue = (String)classeSuperDoc.get("classeVarUrlPageAffichage_" + langueNom + "_stored_string");
+						if(classeVarUrlPageAffichageLangue != null) {
+							stockerSolr(langueNom, classeDoc, "classeVarUrlPageAffichage", classeVarUrlPageAffichageLangue);
 						}
 					}
 				}
 			}
 		}
-		if(classeVarUrlPk == null && classeSuperDoc != null) {
-			classeVarUrlPk = (String)classeSuperDoc.get("classeVarUrlPk_" + classeLangueNom + "_stored_string");
-			if(classeVarUrlPk != null) {
-				stockerSolr(classeLangueNom, classeDoc, "classeVarUrlPk", classeVarUrlPk);
+		if(classeVarUrlPageEdition == null && classeSuperDoc != null) {
+			classeVarUrlPageEdition = (String)classeSuperDoc.get("classeVarUrlPageEdition_" + classeLangueNom + "_stored_string");
+			if(classeVarUrlPageEdition != null) {
+				stockerSolr(classeLangueNom, classeDoc, "classeVarUrlPageEdition", classeVarUrlPageEdition);
 				if(classeTraduire) {
 					for(String langueNom : classeAutresLangues) {  
-						String classeVarUrlPkLangue = (String)classeSuperDoc.get("classeVarUrlPk_" + langueNom + "_stored_string");
-						if(classeVarUrlPkLangue != null) {
-							stockerSolr(langueNom, classeDoc, "classeVarUrlPk", classeVarUrlPkLangue);
+						String classeVarUrlPageEditionLangue = (String)classeSuperDoc.get("classeVarUrlPageEdition_" + langueNom + "_stored_string");
+						if(classeVarUrlPageEditionLangue != null) {
+							stockerSolr(langueNom, classeDoc, "classeVarUrlPageEdition", classeVarUrlPageEditionLangue);
 						}
 					}
 				}
@@ -5104,6 +5136,20 @@ public class IndexerClasse extends RegarderClasseBase {
 						String classeVarIdLangue = (String)classeSuperDoc.get("classeVarId_" + langueNom + "_stored_string");
 						if(classeVarIdLangue != null) {
 							stockerSolr(langueNom, classeDoc, "classeVarId", classeVarIdLangue);
+						}
+					}
+				}
+			}
+		}
+		if(classeVarNom == null && classeSuperDoc != null) {
+			classeVarNom = (String)classeSuperDoc.get("classeVarNom_" + classeLangueNom + "_stored_string");
+			if(classeVarNom != null) {
+				stockerSolr(classeLangueNom, classeDoc, "classeVarNom", classeVarNom);
+				if(classeTraduire) {
+					for(String langueNom : classeAutresLangues) {  
+						String classeVarNomLangue = (String)classeSuperDoc.get("classeVarNom_" + langueNom + "_stored_string");
+						if(classeVarNomLangue != null) {
+							stockerSolr(langueNom, classeDoc, "classeVarNom", classeVarNomLangue);
 						}
 					}
 				}

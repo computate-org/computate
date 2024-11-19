@@ -279,6 +279,10 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: classExtendsGen
 	 */
 	protected Boolean classeEtendGen;
+	protected Boolean classeEstModeleBase;
+	protected Boolean classeEstResultatBase;
+	protected Boolean classeEtendModeleBase;
+	protected Boolean classeEtendResultatBase;
 
 	/**
 	 * Var.enUS: classBaseExtendsGen
@@ -568,14 +572,14 @@ public class EcrireGenClasse extends EcrireClasse {
 	String entiteAttribuerVar;
 
 	/**
-	 * Var.enUS: entityAttributeVarUrlId
+	 * Var.enUS: entityAttributeVarUrlPageAffichage
 	 */
-	String entiteAttribuerVarUrlId;
+	String entiteAttribuerVarUrlPageAffichage;
 
 	/**
-	 * Var.enUS: entityAttributeVarUrlPk
+	 * Var.enUS: entityAttributeVarUrlPageEdition
 	 */
-	String entiteAttribuerVarUrlPk;
+	String entiteAttribuerVarUrlPageEdition;
 
 	/**
 	 * Var.enUS: entityAttributeVarId
@@ -795,14 +799,20 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeDeNom;
 
 	protected String classeVarTitre;
+	protected String classeUriPageEdition;
+	protected String classeStringFormatUrlPageEdition;
+	protected String classeUriPageAffichage;
+	protected String classeStringFormatUrlPageAffichage;
+	protected String classeVarNom;
+	protected String classeVarDescription;
 
 	protected String classeVarSuggere;
 
 	protected String classeVarTexte;
 
-	protected String classeVarUrlId;
+	protected String classeVarUrlPageAffichage;
 
-	protected String classeVarUrlPk;
+	protected String classeVarUrlPageEdition;
 
 	protected String classeVarH1;
 
@@ -2183,94 +2193,94 @@ public class EcrireGenClasse extends EcrireClasse {
 				classeDeNom = classeDoc.getString("classeDeNom" + "_" + langueNom2 + "_stored_string");
 
 				if(classeUri != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_Uri), "_", langueNom2, " = ", q(classeUri), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_Uri), "_", langueNom2, " = ", q(classeUri), ";");
 
 				if(classeDescription != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_Description), "_", langueNom2, " = ", q(classeDescription), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_Description), "_", langueNom2, " = ", q(classeDescription), ";");
 
 				if(classeUnNom != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_UnNom), "_", langueNom2, " = ", q(classeUnNom), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_UnNom), "_", langueNom2, " = ", q(classeUnNom), ";");
 				
 				if(classeCe != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_Ce), "_", langueNom2, " = ", q(classeCe), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_Ce), "_", langueNom2, " = ", q(classeCe), ";");
 				
 				if(classeCeNom != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_CeNom), "_", langueNom2, " = ", q(classeCeNom), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_CeNom), "_", langueNom2, " = ", q(classeCeNom), ";");
 				
 				if(classeUn != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_Un), "_", langueNom2, " = ", q(classeUn), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_Un), "_", langueNom2, " = ", q(classeUn), ";");
 				
 				if(classeLeNom != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_LeNom), "_", langueNom2, " = ", q(classeLeNom), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_LeNom), "_", langueNom2, " = ", q(classeLeNom), ";");
 				
 				if(classeNomSingulier != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_NomSingulier), "_", langueNom2, " = ", q(classeNomSingulier), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_NomSingulier), "_", langueNom2, " = ", q(classeNomSingulier), ";");
 				
 				if(classeNomPluriel != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_NomPluriel), "_", langueNom2, " = ", q(classeNomPluriel), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_NomPluriel), "_", langueNom2, " = ", q(classeNomPluriel), ";");
 				
 				if(classeNomActuel != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_NomActuel), "_", langueNom2, " = ", q(classeNomActuel), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_NomActuel), "_", langueNom2, " = ", q(classeNomActuel), ";");
 				
 				if(classeTous != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_Tous), "_", langueNom2, " = ", q(classeTous), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_Tous), "_", langueNom2, " = ", q(classeTous), ";");
 				
 				if(classeTousNom != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_TousNom), "_", langueNom2, " = ", q(classeTousNom), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_TousNom), "_", langueNom2, " = ", q(classeTousNom), ";");
 				
 				if(classeRechercherTousNomPar != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_RechercherTousNomPar), "_", langueNom2, " = ", q(classeRechercherTousNomPar), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_RechercherTousNomPar), "_", langueNom2, " = ", q(classeRechercherTousNomPar), ";");
 				
 				if(classeRechercherTousNom != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_RechercherTousNom), "_", langueNom2, " = ", q(classeRechercherTousNom), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_RechercherTousNom), "_", langueNom2, " = ", q(classeRechercherTousNom), ";");
 				
 				if(classeH1 != null)
-					tl(1, "public static final String ", classeNomSimple, "_H1", "_", langueNom2, " = ", q(classeH1), ";");
+					tl(1, "public static final String H1", "_", langueNom2, " = ", q(classeH1), ";");
 				
 				if(classeH2 != null)
-					tl(1, "public static final String ", classeNomSimple, "_H2", "_", langueNom2, " = ", q(classeH2), ";");
+					tl(1, "public static final String H2", "_", langueNom2, " = ", q(classeH2), ";");
 				
 				if(classeH3 != null)
-					tl(1, "public static final String ", classeNomSimple, "_H3", "_", langueNom2, " = ", q(classeH3), ";");
+					tl(1, "public static final String H3", "_", langueNom2, " = ", q(classeH3), ";");
 				
 				if(classeTitre != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_Titre), "_", langueNom2, " = ", q(classeTitre), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_Titre), "_", langueNom2, " = ", q(classeTitre), ";");
 				
 				if(classeLesNoms != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_LesNoms), "_", langueNom2, " = ", q(classeLesNoms), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_LesNoms), "_", langueNom2, " = ", q(classeLesNoms), ";");
 				
 				if(classeAucunNomTrouve != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_AucunNomTrouve), "_", langueNom2, " = ", q(classeAucunNomTrouve), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_AucunNomTrouve), "_", langueNom2, " = ", q(classeAucunNomTrouve), ";");
 				
 				if(classeNomVar != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_NomVar), "_", langueNom2, " = ", q(classeNomVar), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_NomVar), "_", langueNom2, " = ", q(classeNomVar), ";");
 				if(classeApiUri != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_ApiUri), "_", langueNom2, " = ", q(classeApiUri), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_ApiUri), "_", langueNom2, " = ", q(classeApiUri), ";");
 				if(classeApiUriPageRecherche != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_ApiUri), langueConfig.getString(I18n.var_PageRecherche), "_", langueNom2, " = ", q(classeApiUriPageRecherche), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_ApiUri), langueConfig.getString(I18n.var_PageRecherche), "_", langueNom2, " = ", q(classeApiUriPageRecherche), ";");
 				if(classeApiUriPageEdition != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_ApiUri), langueConfig.getString(I18n.var_PageEdition), "_", langueNom2, " = ", q(classeApiUriPageEdition), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_ApiUri), langueConfig.getString(I18n.var_PageEdition), "_", langueNom2, " = ", q(classeApiUriPageEdition), ";");
 				
 				if(classeDeNom != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_DeNom), "_", langueNom2, " = ", q(classeDeNom), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_DeNom), "_", langueNom2, " = ", q(classeDeNom), ";");
 				
 				if(classeAdjectif != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_Adjectif), "_", langueNom2, " = ", q(classeAdjectif), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_Adjectif), "_", langueNom2, " = ", q(classeAdjectif), ";");
 				
 				if(classeAdjectifPluriel != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_AdjectifPluriel), "_", langueNom2, " = ", q(classeAdjectifPluriel), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_AdjectifPluriel), "_", langueNom2, " = ", q(classeAdjectifPluriel), ";");
 				
 				if(classeAdjectifVar != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_AdjectifVar), "_", langueNom2, " = ", q(classeAdjectifVar), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_AdjectifVar), "_", langueNom2, " = ", q(classeAdjectifVar), ";");
 				
 				if(classeUnNomAdjectif != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_UnNomAdjectif), "_", langueNom2, " = ", q(classeUnNomAdjectif), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_UnNomAdjectif), "_", langueNom2, " = ", q(classeUnNomAdjectif), ";");
 				
 				if(classeNomAdjectifSingulier != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_NomAdjectifSingulier), "_", langueNom2, " = ", q(classeNomAdjectifSingulier), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_NomAdjectifSingulier), "_", langueNom2, " = ", q(classeNomAdjectifSingulier), ";");
 				
 				if(classeNomAdjectifPluriel != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_NomAdjectifPluriel), "_", langueNom2, " = ", q(classeNomAdjectifPluriel), ";");
+					tl(1, "public static final String ", langueConfig.getString(I18n.var_NomAdjectifPluriel), "_", langueNom2, " = ", q(classeNomAdjectifPluriel), ";");
 
 				List<String> classeApiMethodes = Optional.ofNullable(Optional.ofNullable(doc.getJsonArray("classeApiMethodes_" + langueNom2 + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList())).orElse(Arrays.asList());
 				for(String classePageMethode : classeApiMethodes) {
@@ -2294,13 +2304,13 @@ public class EcrireGenClasse extends EcrireClasse {
 			
 			l();
 			if(classeCouleur != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_Couleur), " = ", q(classeCouleur), ";");
+				tl(1, "public static final String ", langueConfig.getString(I18n.var_Couleur), " = ", q(classeCouleur), ";");
 			
 			if(classeIcone != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(I18n.var_Icone), " = ", q(classeIcone), ";");
+				tl(1, "public static final String ", langueConfig.getString(I18n.var_Icone), " = ", q(classeIcone), ";");
 			
 			if(classeLignes != null)
-				tl(1, "public static final Integer ", classeNomSimple, "_", langueConfig.getString(I18n.var_Lignes), " = ", classeLignes, ";");
+				tl(1, "public static final Integer ", langueConfig.getString(I18n.var_Lignes), " = ", classeLignes, ";");
 		}
 
 		if(classePage) {
@@ -2959,10 +2969,10 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: entityAttributeCanonicalName
 	 * r: entiteAttribuerNomSimple
 	 * r.enUS: entityAttributeSimpleName
-	 * r: entiteAttribuerVarUrlId
-	 * r.enUS: entityAttributeVarUrlId
-	 * r: entiteAttribuerVarUrlPk
-	 * r.enUS: entityAttributeVarUrlPk
+	 * r: entiteAttribuerVarUrlPageAffichage
+	 * r.enUS: entityAttributeVarUrlPageAffichage
+	 * r: entiteAttribuerVarUrlPageEdition
+	 * r.enUS: entityAttributeVarUrlPageEdition
 	 * r: entiteAttribuerVarId
 	 * r.enUS: entityAttributeVarId
 	 * r: entiteAttribuerVarTitre
@@ -3215,8 +3225,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			entiteAttribuerNomSimpleGenApiServiceImpl = doc.getString("entiteAttribuerNomSimpleGenApiServiceImpl_" + langueNom + "_stored_string");
 			entiteAttribuerNomSimpleApiServiceImpl = doc.getString("entiteAttribuerNomSimpleApiServiceImpl_" + langueNom + "_stored_string");
 			entiteAttribuerVar = doc.getString("entiteAttribuerVar_" + langueNom + "_stored_string");
-			entiteAttribuerVarUrlId = doc.getString("entiteAttribuerVarUrlId_" + langueNom + "_stored_string");
-			entiteAttribuerVarUrlPk = doc.getString("entiteAttribuerVarUrlPk_" + langueNom + "_stored_string");
+			entiteAttribuerVarUrlPageAffichage = doc.getString("entiteAttribuerVarUrlPageAffichage_" + langueNom + "_stored_string");
+			entiteAttribuerVarUrlPageEdition = doc.getString("entiteAttribuerVarUrlPageEdition_" + langueNom + "_stored_string");
 			entiteAttribuerVarId = doc.getString("entiteAttribuerVarId_" + langueNom + "_stored_string");
 			entiteAttribuerVarTitre = doc.getString("entiteAttribuerVarTitre_" + langueNom + "_stored_string");
 			entiteAttribuerVarDescription = doc.getString("entiteAttribuerVarDescription_" + langueNom + "_stored_string");
@@ -6247,6 +6257,93 @@ public class EcrireGenClasse extends EcrireClasse {
 		l();
 		s(wNomAffichageStatic);
 
+		//////////////////
+		// idPourClasse //
+		//////////////////
+		if(classeVarId != null || classeEstModeleBase || classeEstResultatBase) {
+			l();
+			if(!classeEstBase)
+				tl(1, "@Override");
+			tl(1, "public String ", langueConfig.getString(I18n.var_id), langueConfig.getString(I18n.var_PourClasse), "() {");
+			tl(2, "return ", classeVarId == null ? "null" : classeVarId, ";");
+			tl(1, "}");
+		}
+
+		/////////////////////
+		// titrePourClasse //
+		/////////////////////
+		if(classeVarTitre != null || classeEstModeleBase || classeEstResultatBase) {
+			l();
+			if(!classeEstBase)
+				tl(1, "@Override");
+			tl(1, "public String ", langueConfig.getString(I18n.var_titre), langueConfig.getString(I18n.var_PourClasse), "() {");
+			tl(2, "return ", classeVarTitre == null ? "null" : classeVarTitre, ";");
+			tl(1, "}");
+		}
+
+		///////////////////
+		// nomPourClasse //
+		///////////////////
+		if(classeVarNom != null || classeEstModeleBase || classeEstResultatBase) {
+			l();
+			if(!classeEstBase)
+				tl(1, "@Override");
+			tl(1, "public String ", langueConfig.getString(I18n.var_nom), langueConfig.getString(I18n.var_PourClasse), "() {");
+			tl(2, "return ", classeVarNom == null ? "null" : classeVarNom, ";");
+			tl(1, "}");
+		}
+
+		///////////////////
+		// classeNomAdjectifSingulierPourClasse //
+		///////////////////
+		if(classeNomAdjectifSingulier != null || classeEstModeleBase || classeEstResultatBase) {
+			l();
+			if(!classeEstBase)
+				tl(1, "@Override");
+			tl(1, "public String ", langueConfig.getString(I18n.var_classeNomAdjectifSingulier), langueConfig.getString(I18n.var_PourClasse), "() {");
+			tl(2, "return ", classeNomAdjectifSingulier == null ? "null" : String.format("%s.%s_%s", classeNomSimple, langueConfig.getString(I18n.var_NomAdjectifSingulier), langueNom), ";");
+			tl(1, "}");
+		}
+
+		///////////////////////////
+		// descriptionPourClasse //
+		///////////////////////////
+		if(classeVarDescription != null || classeEstModeleBase || classeEstResultatBase) {
+			l();
+			if(!classeEstBase)
+				tl(1, "@Override");
+			tl(1, "public String ", langueConfig.getString(I18n.var_description), langueConfig.getString(I18n.var_PourClasse), "() {");
+			tl(2, "return ", classeVarDescription == null ? "null" : classeVarDescription, ";");
+			tl(1, "}");
+		}
+
+		///////////////////////
+		// classePageEdition //
+		///////////////////////
+		if(classeStringFormatUrlPageEdition != null || classeEstModeleBase || classeEstResultatBase) {
+			l();
+			if(!classeEstBase)
+				tl(1, "@Override");
+			tl(1, "public String ", langueConfig.getString(I18n.var_classeStringFormatUrlPageEdition), langueConfig.getString(I18n.var_PourClasse), "() {");
+			tl(2, "return ", classeStringFormatUrlPageEdition == null ? "null" : "\"%s" + String.format("%s\"", classeStringFormatUrlPageEdition), ";");
+			tl(1, "}");
+		}
+
+		/////////////////////////
+		// classePageAffichage //
+		/////////////////////////
+		if(classeStringFormatUrlPageAffichage != null || classeEstModeleBase || classeEstResultatBase) {
+			l();
+			if(!classeEstBase)
+				tl(1, "@Override");
+			tl(1, "public String ", langueConfig.getString(I18n.var_classeStringFormatUrlPageAffichage), langueConfig.getString(I18n.var_PourClasse), "() {");
+			tl(2, "return ", classeStringFormatUrlPageAffichage == null ? "null" : "\"%s" + String.format("%s\"", classeStringFormatUrlPageAffichage), ";");
+			tl(1, "}");
+		}
+
+		////////////////////////////
+		// nomAffichagePourClasse //
+		////////////////////////////
 		l();
 		tl(1, "public static String ", langueConfig.getString(I18n.var_nomAffichage), langueConfig.getString(I18n.var_PourClasse), "(String var) {");
 		tl(2, "return ", classeNomSimple, ".", langueConfig.getString(I18n.var_nomAffichage), classeNomSimple, "(var);");

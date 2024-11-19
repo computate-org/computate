@@ -268,6 +268,13 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		classeVarAireUrl = doc.getString("classeVarAireUrl_" + langueNom + "_stored_string");
 		classeVarModifie = doc.getString("classeVarModifie_" + langueNom + "_stored_string");
 		classeVarCree = doc.getString("classeVarCree_" + langueNom + "_stored_string");
+		classeVarTitre = doc.getString("classeVarTitre_" + langueNom + "_stored_string");
+		classeUriPageEdition = doc.getString("classeUriPageEdition_" + langueNom + "_stored_string");
+		classeStringFormatUrlPageEdition = classeUriPageEdition == null ? null : classeUriPageEdition.replaceAll("\\{[^\\}]+\\}", "%s");
+		classeUriPageAffichage = doc.getString("classeUriPageAffichage_" + langueNom + "_stored_string");
+		classeStringFormatUrlPageAffichage = classeUriPageAffichage == null ? null : classeUriPageAffichage.replaceAll("\\{[^\\}]+\\}", "%s");
+		classeVarNom = doc.getString("classeVarNom_" + langueNom + "_stored_string");
+		classeVarDescription = doc.getString("classeVarDescription_" + langueNom + "_stored_string");
 		classeApiUri = doc.getString("classeApiUri_" + langueNom + "_stored_string");
 		classeApiTag = doc.getString("classeApiTag_" + langueNom + "_stored_string");
 		classeCommentaire = doc.getString("classeCommentaire_stored_string");
@@ -301,6 +308,10 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		classesSuperEtMoiSansGen = Optional.ofNullable(doc.getJsonArray("classesSuperEtMoiSansGen_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 		classePromesse = (Boolean)doc.getBoolean("classePromesse_stored_boolean");
 		classeEtendGen = (Boolean)doc.getBoolean("classeEtendGen_stored_boolean");
+		classeEstModeleBase = (Boolean)doc.getBoolean("classeEtendModeleBase_stored_boolean");
+		classeEstResultatBase = (Boolean)doc.getBoolean("classeEstResultatBase_stored_boolean");
+		classeEtendModeleBase = (Boolean)doc.getBoolean("classeEstModeleBase_stored_boolean");
+		classeEtendResultatBase = (Boolean)doc.getBoolean("classeEtendResultatBase_stored_boolean");
 		classeBaseEtendGen = (Boolean)doc.getBoolean("classeBaseEtendGen_stored_boolean");
 		classeEtendBase = (Boolean)doc.getBoolean("classeEtendBase_stored_boolean");
 		classeEstBase = (Boolean)doc.getBoolean("classeEstBase_stored_boolean");
