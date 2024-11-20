@@ -251,6 +251,9 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		classeNomSimpleGenApiServiceImpl = doc.getString("classeNomSimpleGenApiServiceImpl_" + langueNom + "_stored_string");
 		classeNomSimpleGenApiService = doc.getString("classeNomSimpleGenApiService_" + langueNom + "_stored_string");
 		classeVarClePrimaire = doc.getString("classeVarClePrimaire_" + langueNom + "_stored_string");
+		classeVarClePrimairePluriel = classeVarClePrimaire + "s";
+		classeVarClePrimaireCapitalise = StringUtils.capitalize(classeVarClePrimaire);
+		classeVarClePrimaireCapitalisePluriel = classeVarClePrimaireCapitalise + "s";
 		classeVarClePrimaireSuffixeSolr = doc.getString("classeVarClePrimaireSuffixeSolr_stored_string");
 		classeVarInheritClePrimaire = doc.getString("classeVarInheritClePrimaire_" + langueNom + "_stored_string");
 		classeVarInheritClePrimaireCapitalise = StringUtils.capitalize(classeVarInheritClePrimaire);

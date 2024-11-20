@@ -2316,11 +2316,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									wTd.tl(7, "</", composantsWebPrefixe, "button>");
 								} else {
 									if(wTd.getEmpty()) {
-										wTd.tl(7, "<a href=\"{{ item.", classeVarUrlPageEdition, " }}\">");
+										wTd.tl(7, "<a href=\"{{ item.", classeVarUrlPageAffichage, " }}\">");
 										// wTd.tl(8, "<div>");
 										wTd.tl(8, classeIcone);
 									} else {
-										wTd.tl(7, "<a href=\"{{ item.", classeVarUrlPageEdition, " }}\">");
+										wTd.tl(7, "<a href=\"{{ item.", classeVarUrlPageAffichage, " }}\">");
 										// wTd.tl(8, "<div>");
 									}
 									wTd.t(7);
@@ -3657,7 +3657,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(3, "var json = JSON.parse(message['body']);");
 				auteurPageJs.tl(3, "var ", classeVarId, " = json['", classeVarId, "'];");
 				auteurPageJs.tl(3, "var ", classeVarId, "Page = document.querySelector('#", i18nPage.getString(I18n.var_Page), "_", classeVarId, "')?.value;");
-				auteurPageJs.tl(3, "var ", classeVarClePrimaire, "s = json['", classeVarClePrimaire, "s'];");
+				auteurPageJs.tl(3, "var ", classeVarClePrimairePluriel, " = json['", classeVarClePrimairePluriel, "'];");
 				auteurPageJs.tl(3, "var empty = json['empty'];");
 //					auteurPageJs.tl(3, "if(!empty) {");
 				auteurPageJs.tl(3, "var numFound = parseInt(json['numFound']);");
@@ -5271,7 +5271,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //			tl(3, "List<String> highlightList = highlights == null ? null : highlights.get(highlights.keySet().stream().findFirst().orElse(null));");
 //			tl(3, "String uri = ", classeEntiteVars.contains("pageUri") ? "o.getPageUri()" : (q(classePageUriMethode, "/") + " + o.get" + StringUtils.capitalize(classeVarClePrimaire) + "()"), ";");
 		tl(6, "<div>");
-		// tl(6, "<a href=\"{{ item.", classeVarUrlPageEdition, " }}\">");
+		// tl(6, "<a href=\"{{ item.", classeVarUrlPageAffichage, " }}\">");
 		s(wTd);
 		// tl(6, "</a>");
 		tl(6, "</div>");

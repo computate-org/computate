@@ -184,6 +184,9 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeCommentaireLangue;
 
 	protected String classeVarClePrimaire;
+	protected String classeVarClePrimairePluriel;
+	protected String classeVarClePrimaireCapitalise;
+	protected String classeVarClePrimaireCapitalisePluriel;
 	protected String classeVarClePrimaireSuffixeSolr;
 
 	protected String classeVarInheritClePrimaire;
@@ -6360,7 +6363,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		tl(2, "}");
 		tl(1, "}");
 
-		if(classePage) {
+		if(classePage || classeEstModeleBase || classeEstResultatBase) {
 	
 			/////////////////
 			// Description //
