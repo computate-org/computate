@@ -2184,7 +2184,24 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 	public void pageCodeClasseJinja(String langueNom, JsonObject i18nPage) throws Exception {
 
+		if(auteurPageJsRecherche != null) {
+
+			auteurPageJsRecherche.tl(0, "Promise.all([");
+			auteurPageJsRecherche.tl(2, "customElements.whenDefined('", composantsWebPrefixe, "button')");
+			auteurPageJsRecherche.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "input')");
+			// auteurPageJsRecherche. tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "checkbox')");
+			// auteurPageJsRecherche. tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "option')");
+			// auteurPageJsRecherche. tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "select')");
+			// auteurPageJsRecherche. tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "textarea')");
+			auteurPageJsRecherche.tl(2, "]).then(() => {");
+
+			auteurPageJsRecherche.l();
+			auteurPageJsRecherche.tl(1, "document.querySelector('#pageFacet", i18nPage.getString(I18n.var_Gamme), classeNomSimple, "')?.addEventListener('sl-change', (event) => {");
+			auteurPageJsRecherche.tl(2, "facet", i18nPage.getString(I18n.var_Gamme), "Change('", classeNomSimple, "', event.target.value);");
+			auteurPageJsRecherche.tl(1, "});");
+		}
 		if(classePageCheminsGen.contains(classeGenPageChemin) && classeGenPageChemin != null && StringUtils.equals(classePageLangueNom, langueNom)) {
+
 
 			{
 				SolrQuery rechercheSolr = new SolrQuery();   
@@ -2369,13 +2386,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 							//STUFF3
 							auteurPageJsRecherche.l();
-							auteurPageJsRecherche.tl(5, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "_", entiteVar, "')?.addEventListener('sl-select', (event) => {");
-							auteurPageJsRecherche.tl(6, "const item = event.detail.item;");
-							auteurPageJsRecherche.tl(6, "const action = item.getAttribute('data-action');");
-							auteurPageJsRecherche.tl(6, "if (action === '", i18nPage.getString(I18n.var_tri), "') {");
-							auteurPageJsRecherche.tl(7, i18nPage.getString(I18n.var_tri), "('", classeNomSimple, "', item.value, item.checked);");
-							auteurPageJsRecherche.tl(6, "}");
-							auteurPageJsRecherche.tl(5, "});");
+							auteurPageJsRecherche.tl(1, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "_", entiteVar, "')?.addEventListener('sl-select', (event) => {");
+							auteurPageJsRecherche.tl(2, "const item = event.detail.item;");
+							auteurPageJsRecherche.tl(2, "const action = item.getAttribute('data-action');");
+							auteurPageJsRecherche.tl(2, "if (action === '", i18nPage.getString(I18n.var_tri), "') {");
+							auteurPageJsRecherche.tl(3, i18nPage.getString(I18n.var_tri), "('", classeNomSimple, "', item.value, item.checked);");
+							auteurPageJsRecherche.tl(2, "}");
+							auteurPageJsRecherche.tl(1, "});");
 						}
 						rechercheSolr.setStart(i.intValue() + rechercheLignes);
 						rechercheReponse = clientSolrComputate.query(rechercheSolr);
@@ -3049,12 +3066,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(4, "document.querySelector('#q", classeNomSimple, "_", i18nPage.getString(I18n.var_debut), "')?.addEventListener('", composantsWebPrefixe, "change', event => {");
 				tl(5, "paramChange('", classeNomSimple, "', event.target, document.querySelector('#q", classeNomSimple, "Div_", i18nPage.getString(I18n.var_debut), "'));");
 
-				//STUFF3
-				auteurPageJsRecherche.l();
-				auteurPageJsRecherche.tl(5, "document.querySelector('#pageFacet", i18nPage.getString(I18n.var_Gamme), classeNomSimple, "')?.addEventListener('sl-change', (event) => {");
-				auteurPageJsRecherche.tl(6, "facet", i18nPage.getString(I18n.var_Gamme), "Change('", classeNomSimple, "', event.target.value);");
-				auteurPageJsRecherche.tl(5, "});");
-
 				tl(4, "});");
 
 				l();
@@ -3099,7 +3110,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						else if("PATCH".equals(classeApiMethode))
 							tl(5, classeApiOperationIdMethode, "(null, document.querySelector('#htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), document.querySelector('#htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'), event.target.getAttribute('data-", classeVarId, "'));");
 						else if("DELETE".equals(classeApiMethode))
-							tl(5, classeApiOperationIdMethode, "(null, document.querySelector('#htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), document.querySelector('#htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'), event.target.getAttribute('data-", classeVarId, "'));");
+							tl(5, classeApiOperationIdMethode, "(event.target, event.target.getAttribute('data-", classeVarId, "'));");
 						else if("PUTImport".equals(classeApiMethode))
 							tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), document.querySelector('#htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'));");
 						else if(i18nPage.getString(I18n.var_PUTFusion).equals(classeApiMethode))
@@ -3175,8 +3186,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.s(", success");
 					auteurPageJs.s(", error");
 				} else if(methodeDELETE) {
-					auteurPageJs.s("", i18nPage.getString(I18n.var_filtres));
-					auteurPageJs.s(", target");
+					auteurPageJs.s("target");
 					auteurPageJs.s(", ", classeVarId);
 					auteurPageJs.s(", success");
 					auteurPageJs.s(", error");
@@ -3323,8 +3333,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		
 					if(methodeGET || methodePUTCopie)
 						auteurPageJs.tl(2, "'", StringUtils.replace(classeApiUriMethode + "'", "{" + classeVarId + "}'", "' + " + classeVarId));
-					else if(methodePATCH || methodeDELETE || methodeRecherche)
+					else if(methodePATCH || methodeRecherche)
 						auteurPageJs.tl(2, "'", classeApiUriMethode, "?' + ", i18nPage.getString(I18n.var_filtres), ".map(function(m) { return m.name + '=' + encodeURIComponent(m.value) }).join('&')");
+					else if(methodeDELETE)
+						auteurPageJs.tl(2, "'", classeApiUri, "/' + encodeURIComponent(", classeVarId, ")");
 					else
 						auteurPageJs.tl(2, "'", classeApiUriMethode, "'");
 
@@ -4072,15 +4084,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(0, "}");
 			}
 
-			auteurPageJsRecherche.tl(0, "Promise.all([");
-			auteurPageJsRecherche.tl(2, "customElements.whenDefined('", composantsWebPrefixe, "button')");
-			auteurPageJsRecherche.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "input')");
-			// auteurPageJsRecherche. tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "checkbox')");
-			// auteurPageJsRecherche. tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "option')");
-			// auteurPageJsRecherche. tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "select')");
-			// auteurPageJsRecherche. tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "textarea')");
-			auteurPageJsRecherche.tl(2, "]).then(() => {");
-
 			auteurPageJsEdition.tl(0, "Promise.all([");
 			auteurPageJsEdition.tl(2, "customElements.whenDefined('", composantsWebPrefixe, "button')");
 			auteurPageJsEdition.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "input')");
@@ -4099,23 +4102,23 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche)) || classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals("DELETE") || classeApiMethode.equals(i18nGlobale.getString(I18n.var_PUTCopie)) || classeApiMethode.equals(i18nGlobale.getString(I18n.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
 					if(classeApiMethode.equals("DELETE")) {
 						auteurPageJsRecherche.l();
-						auteurPageJsRecherche.tl(5, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')?.addEventListener('click', (event) => {");
-						auteurPageJsRecherche.tl(6, "var confirmResponse = confirm('", i18nGlobale.getString(I18n.str_confirmer_supprimer), "'); ");
-						auteurPageJsRecherche.tl(6, "if(confirmResponse) { ");
-						auteurPageJsRecherche.tl(7, "var ", classeVarId, " =  event.currentTarget.getAttribute('data-", classeVarId, "');");
-						auteurPageJsRecherche.tl(7, "delete", classeNomSimple, "([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeVarId, ":' + ", classeVarId, " }]");
-						auteurPageJsRecherche.tl(9, ", event.currentTarget");
-						auteurPageJsRecherche.tl(9, ", ", classeVarId);
-						auteurPageJsRecherche.tl(9, ", function(", i18nGlobale.getString(I18n.var_reponse), ", target) { ", i18nGlobale.getString(I18n.var_ajouterLueur), "(target); }");
-						auteurPageJsRecherche.tl(9, ", function(", i18nGlobale.getString(I18n.var_reponse), ", target) { ", i18nGlobale.getString(I18n.var_ajouterErreur), "(target); }");
-						auteurPageJsRecherche.tl(9, ");");
-						auteurPageJsRecherche.tl(6, "}");
-						auteurPageJsRecherche.tl(5, "});");
+						auteurPageJsRecherche.tl(1, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')?.addEventListener('click', (event) => {");
+						auteurPageJsRecherche.tl(2, "var confirmResponse = confirm('", i18nGlobale.getString(I18n.str_confirmer_supprimer), "'); ");
+						auteurPageJsRecherche.tl(2, "if(confirmResponse) { ");
+						auteurPageJsRecherche.tl(3, "var ", classeVarId, " =  event.currentTarget.getAttribute('data-", classeVarId, "');");
+						auteurPageJsRecherche.tl(3, "delete", classeNomSimple, "(");
+						auteurPageJsRecherche.tl(5, "event.currentTarget");
+						auteurPageJsRecherche.tl(5, ", ", classeVarId);
+						auteurPageJsRecherche.tl(5, ", function(", i18nGlobale.getString(I18n.var_reponse), ", target) { ", i18nGlobale.getString(I18n.var_ajouterLueur), "(target); }");
+						auteurPageJsRecherche.tl(5, ", function(", i18nGlobale.getString(I18n.var_reponse), ", target) { ", i18nGlobale.getString(I18n.var_ajouterErreur), "(target); }");
+						auteurPageJsRecherche.tl(5, ");");
+						auteurPageJsRecherche.tl(2, "}");
+						auteurPageJsRecherche.tl(1, "});");
 					} else {
 						auteurPageJsRecherche.l();
-						auteurPageJsRecherche.tl(5, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')?.addEventListener('click', (event) => {");
-						auteurPageJsRecherche.tl(6, "document.querySelector('#", classeApiOperationIdMethode, i18nGlobale.getString(I18n.var_Dialogue), "').show();");
-						auteurPageJsRecherche.tl(5, "});");
+						auteurPageJsRecherche.tl(1, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')?.addEventListener('click', (event) => {");
+						auteurPageJsRecherche.tl(2, "document.querySelector('#", classeApiOperationIdMethode, i18nGlobale.getString(I18n.var_Dialogue), "').show();");
+						auteurPageJsRecherche.tl(1, "});");
 					}
 				}
 			}

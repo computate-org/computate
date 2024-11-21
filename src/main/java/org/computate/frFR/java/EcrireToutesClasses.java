@@ -234,6 +234,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		classeNomCanonique = doc.getString("classeNomCanonique_" + langueNom + "_stored_string");
 		classeNomCanoniqueSuper = doc.getString("classeNomCanoniqueSuper_" + langueNom + "_stored_string");
 		classeNomSimpleSuper = doc.getString("classeNomSimpleSuper_" + langueNom + "_stored_string");
+		classeNomSimpleBaseGenLangue = doc.getString("classeNomSimpleBaseGenLangue_" + langueNom + "_stored_string");
 		classeNomCanoniqueSuper = doc.getString("classeNomCanoniqueSuper_" + langueNom + "_stored_string");
 		classeNomSimpleSuperGenerique = doc.getString("classeNomSimpleSuperGenerique_" + langueNom + "_stored_string");
 		classeNomCanoniqueSuperGenerique = doc.getString("classeNomCanoniqueSuperGenerique_" + langueNom + "_stored_string");

@@ -147,6 +147,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: classSuperSimpleName
 	 */
 	protected String classeNomSimpleSuper;
+	protected String classeNomSimpleBaseGenLangue;
 
 	/**
 	 * Var.enUS: classSuperSimpleNameGeneric
@@ -1426,7 +1427,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 			wInitLoin.l();
 			if(classePromesse) {
-				wInitLoin.tl(1, "public Future<Void> ", langueConfig.getString(I18n.var_promesseLoin), classeNomSimple, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_) {");
+				wInitLoin.tl(1, "public Future<", classeNomSimpleSuper, "<DEV>> ", langueConfig.getString(I18n.var_promesseLoin), classeNomSimple, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_) {");
 				if(classeContientRequeteSite)
 					wInitLoin.tl(2, "set", langueConfig.getString(I18n.var_RequeteSite), "_(", langueConfig.getString(I18n.var_requeteSite), "_);");
 				wInitLoin.tl(2, "return ", langueConfig.getString(I18n.var_promesseLoin), classeNomSimple, "();");
@@ -1455,21 +1456,21 @@ public class EcrireGenClasse extends EcrireClasse {
 
 			if(classePromesse) {
 				wInitLoin.l();
-				wInitLoin.tl(1, "public Future<Void> ", langueConfig.getString(I18n.var_promesseLoin), classeNomSimple, "() {");
-				wInitLoin.tl(2, "Promise<Void> promise = Promise.promise();");
+				wInitLoin.tl(1, "public Future<", classeNomSimpleSuper, "<DEV>> ", langueConfig.getString(I18n.var_promesseLoin), classeNomSimple, "() {");
+				wInitLoin.tl(2, "Promise<", classeNomSimpleSuper, "<DEV>> promise = Promise.promise();");
 				if(classeInitLoinAvant) {
 					if(BooleanUtils.isTrue(classeEtendBase)) {
 						wInitLoin.tl(2, "super.", langueConfig.getString(I18n.var_promesseLoin), classeNomSimpleSuperGenerique, "(", langueConfig.getString(I18n.var_requeteSite), "_).onSuccess(a -> {");
 						wInitLoin.tl(3, "Promise<Void> promise2 = Promise.promise();");
 						wInitLoin.tl(3, langueConfig.getString(I18n.var_promesse), classeNomSimple, "(promise2);");
 						wInitLoin.tl(3, "promise2.future().onSuccess(b -> {");
-						wInitLoin.tl(4, "promise.complete();");
+						wInitLoin.tl(4, "promise.complete(this);");
 						wInitLoin.tl(3, "}).onFailure(ex -> {");
 						wInitLoin.tl(4, "promise.fail(ex);");
 						wInitLoin.tl(3, "});");
 					} else {
 						wInitLoin.tl(2, "promise2.future().onSuccess(a -> {");
-						wInitLoin.tl(3, "promise.complete();");
+						wInitLoin.tl(3, "promise.complete(this);");
 					}
 				} else {
 					wInitLoin.tl(2, "Promise<Void> promise2 = Promise.promise();");
@@ -1477,12 +1478,12 @@ public class EcrireGenClasse extends EcrireClasse {
 					wInitLoin.tl(2, "promise2.future().onSuccess(a -> {");
 					if(BooleanUtils.isTrue(classeEtendBase)) {
 						wInitLoin.tl(3, "super.", langueConfig.getString(I18n.var_promesseLoin), classeNomSimpleSuperGenerique, "(", langueConfig.getString(I18n.var_requeteSite), "_).onSuccess(b -> {");
-						wInitLoin.tl(4, "promise.complete();");
+						wInitLoin.tl(4, "promise.complete(this);");
 						wInitLoin.tl(3, "}).onFailure(ex -> {");
 						wInitLoin.tl(4, "promise.fail(ex);");
 						wInitLoin.tl(3, "});");
 					} else {
-						wInitLoin.tl(3, "promise.complete();");
+						wInitLoin.tl(3, "promise.complete(this);");
 					}
 				}
 				wInitLoin.tl(2, "}).onFailure(ex -> {");
@@ -5643,7 +5644,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(classeEtendBase)
 					wInitLoin.s("@Override ");
 				if(classePromesse) {
-					wInitLoin.l("public Future<Void> ", langueConfig.getString(I18n.var_promesseLoin), langueConfig.getString(I18n.var_PourClasse), "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_) {");
+					wInitLoin.l("public Future<? extends ", classeNomSimpleSuper, "<DEV>> ", langueConfig.getString(I18n.var_promesseLoin), langueConfig.getString(I18n.var_PourClasse), "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_) {");
 					wInitLoin.tl(2, "return ", langueConfig.getString(I18n.var_promesseLoin), classeNomSimple, "(", langueConfig.getString(I18n.var_requeteSite), "_);");
 					wInitLoin.tl(1, "}");  
 				} else {

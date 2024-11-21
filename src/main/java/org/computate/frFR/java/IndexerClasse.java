@@ -2683,10 +2683,16 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		List<String> classeSuperEcrireMethodes;
 		List<String> classeEcrireMethodes = new ArrayList<>();
-		if(classeSuperDoc != null) 
+		String classeNomSimpleBaseGenLangue = null;
+		if(classeSuperDoc != null) {
 			classeSuperEcrireMethodes = (List<String>)classeSuperDoc.get("classeEcrireMethodes_stored_strings");
-		else
+			classeNomSimpleBaseGenLangue = (String)classeSuperDoc.get("classeNomSimpleBaseGenLangue_" + classeLangueNom + "_stored_string");
+		} else {
 			classeSuperEcrireMethodes = new ArrayList<>();
+		}
+		if(classeNomSimpleBaseGenLangue == null)
+			classeNomSimpleBaseGenLangue = classeNomSimpleSuper;
+		indexerStockerSolr(classeLangueNom, classeDoc, "classeNomSimpleBaseGenLangue",  classeNomSimpleBaseGenLangue);
 
 		for(String siteEcrireMethode : siteEcrireMethodes) {
 			if(classeQdox.getMethodBySignature(siteEcrireMethode, new ArrayList<JavaType>()) != null
@@ -5882,9 +5888,9 @@ public class IndexerClasse extends RegarderClasseBase {
 								else if(StringUtils.contains(classeApiMethode, "PATCH"))
 									classeApiUriMethode = classeApiUri;
 								else if(StringUtils.contains(classeApiMethode, "GET"))
-									classeApiUriMethode = classeApiUri + "/{" + i18nGlobale.getString(I18n.var_objetId) + "}";
+									classeApiUriMethode = classeApiUri + "/{" + classeVarId + "}";
 								else if(StringUtils.contains(classeApiMethode, "DELETE"))
-									classeApiUriMethode = classeApiUri + "/{" + i18nGlobale.getString(I18n.var_objetId) + "}";
+									classeApiUriMethode = classeApiUri + "/{" + classeVarId + "}";
 								else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_Recherche)))
 									classeApiUriMethode = classeApiUri;
 							}

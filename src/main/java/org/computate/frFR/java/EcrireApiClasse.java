@@ -2808,11 +2808,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(4, i18nGlobale.getString(I18n.var_requeteApi), ".", i18nGlobale.getString(I18n.var_initLoin), classePartsRequeteApi.nomSimple(classeLangueNom), "(", i18nGlobale.getString(I18n.var_requeteSite), ");");
 							tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_RequeteApi), "_(", i18nGlobale.getString(I18n.var_requeteApi), ");");
 							tl(4, "String ", classeVarInheritClePrimaire, " = Optional.ofNullable(body.getString(", classeNomSimple, ".VAR_", classeVarId, ")).orElse(body.getString(", classeNomSimple, ".VAR_", classeVarCleUnique, "));");
-							if(classeApiMethode.equals(i18nGlobale.getString(I18n.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
-								tl(4, "body.put(\"", classeVarInheritClePrimaire, "\", ", classeVarInheritClePrimaire, ");");
-								if(!classeModele)
-									tl(4, "body.put(\"", classeVarInheritClePrimaire, "\", body.getValue(\"", classeVarCleUnique, "\"));");
-							}
+							// if(classeApiMethode.equals(i18nGlobale.getString(I18n.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
+							// 	tl(4, "body.put(\"", classeVarInheritClePrimaire, "\", ", classeVarInheritClePrimaire, ");");
+							// 	if(!classeModele)
+							// 		tl(4, "body.put(\"", classeVarInheritClePrimaire, "\", body.getValue(\"", classeVarCleUnique, "\"));");
+							// }
 							tl(4, "if(Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteService), ".getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getJsonArray(\"var\")).orElse(new JsonArray()).stream().filter(s -> \"", i18nGlobale.getString(I18n.var_recharger), ":false\".equals(s)).count() > 0L) {");
 							tl(5, i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_Requete), "Vars().put( \"", i18nGlobale.getString(I18n.var_recharger), "\", \"false\" );");
 							tl(4, "}");
@@ -4200,7 +4200,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "String statsField2 = statsField;");
 			tl(3, "String statsFieldIndexed2 = statsFieldIndexed;");
 			tl(3, i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, "2(", i18nGlobale.getString(I18n.var_requeteSite), ", ", i18nGlobale.getString(I18n.var_peupler), ", ", i18nGlobale.getString(I18n.var_stocker), ", ", i18nGlobale.getString(I18n.var_modifier), ", ", i18nGlobale.getString(I18n.var_listeRecherche), ");");
-			tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".", i18nGlobale.getString(I18n.var_promesseLoin), i18nGlobale.getString(I18n.var_PourClasse), "(", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(a -> {");
+			tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".", i18nGlobale.getString(I18n.var_promesseLoin), i18nGlobale.getString(I18n.var_PourClasse), "(", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(", i18nGlobale.getString(I18n.var_listeRecherche), "2 -> {");
 			tl(4, "if(facetRange2 != null && statsField2 != null && facetRange2.equals(statsField2)) {");
 			tl(5, "StatsField stats = ", i18nGlobale.getString(I18n.var_listeRecherche), ".getResponse().getStats().getStatsFields().get(statsFieldIndexed2);");
 			tl(5, "Instant min = Optional.ofNullable(stats.getMin()).map(val -> Instant.parse(val.toString())).orElse(Instant.now());");
@@ -4448,7 +4448,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(4, "JsonObject json = new JsonObject();");
 				tl(4, "JsonObject delete = new JsonObject();");
 				tl(4, "json.put(\"delete\", delete);");
-				tl(4, "String query = String.format(\"filter(", classeVarIdSuffixeSolr, ":%s)\", o.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(\"", classeVarId, "\"));");
+				tl(4, "String query = String.format(\"filter(", classeVarId, classeVarIdSuffixeSolr, ":%s)\", o.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(\"", classeVarId, "\"));");
 				tl(4, "delete.put(\"query\", query);");
 				tl(4, "String solrUsername = ", i18nGlobale.getString(I18n.var_requeteSite), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_USERNAME);");
 				tl(4, "String solrPassword = ", i18nGlobale.getString(I18n.var_requeteSite), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_PASSWORD);");
