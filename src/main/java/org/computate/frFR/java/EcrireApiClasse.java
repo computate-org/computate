@@ -3756,7 +3756,15 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "});");
 					}
 					else {
-						tl(3, "promise.complete(ServiceResponse.completedWithJson(Buffer.buffer(Optional.ofNullable(json).orElse(new JsonObject()).encodePrettily())));");
+						tl(3, "if(json == null) {");
+						tl(4, "String ", classeVarId, " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\").getString(\"", classeVarId, "\");");
+						tl(6, "String m = String.format(\"", i18nGlobale.getString(I18n.str_s_s_non_trouve), "\", \"", classeNomAdjectifSingulier, "\", ", classeVarId, ");");
+						tl(4, "promise.complete(new ServiceResponse(404");
+						tl(6, ", m");
+						tl(6, ", Buffer.buffer(new JsonObject().put(\"", i18nGlobale.getString(I18n.var_message), "\", m).encodePrettily()), null));");
+						tl(3, "} else {");
+						tl(4, "promise.complete(ServiceResponse.completedWithJson(Buffer.buffer(Optional.ofNullable(json).orElse(new JsonObject()).encodePrettily())));");
+						tl(3, "}");
 					}
 	
 					tl(2, "} catch(Exception ex) {");
