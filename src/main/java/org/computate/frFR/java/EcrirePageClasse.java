@@ -2293,14 +2293,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								if(entiteLien) {
 									wTh.tl(7, "<div></div>");
 								} else {
-									wTh.tl(7, "<", composantsWebPrefixe, "dropdown id=\"htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "_", entiteVar, "\">");
+									wTh.tl(7, "<", composantsWebPrefixe, "dropdown id=\"htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "\">");
 									wTh.tl(8, "<", composantsWebPrefixe, "button slot=\"trigger\" caret>", entiteNomAffichage, "</", composantsWebPrefixe, "button>");
 									wTh.tl(8, "<", composantsWebPrefixe, "menu>");
-									wTh.tl(9, "<", composantsWebPrefixe, "menu-item type=\"checkbox\" data-action=\"", i18nPage.getString(I18n.var_tri), "\">");
+									wTh.tl(9, "<", composantsWebPrefixe, "menu-item data-action=\"", i18nPage.getString(I18n.var_tri), "\" data-order=\"asc\" id=\"htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "-asc\">");
 									wTh.tl(10, "<i class=\"fa-solid fa-arrow-down-a-z\"></i>");
 									wTh.t(10).sx(String.format(i18nPage.getString(I18n.str_trier_par___croissante), entiteNomAffichage)).l();
 									wTh.tl(9, "</", composantsWebPrefixe, "menu-item>");
-									wTh.tl(9, "<", composantsWebPrefixe, "menu-item type=\"checkbox\" data-action=\"", i18nPage.getString(I18n.var_tri), "\">");
+									wTh.tl(9, "<", composantsWebPrefixe, "menu-item data-action=\"", i18nPage.getString(I18n.var_tri), "\" data-order=\"desc\" id=\"htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "-desc\">");
 									wTh.tl(10, "<i class=\"fa-solid fa-arrow-down-z-a\"></i>");
 									wTh.t(10).sx(String.format(i18nPage.getString(I18n.str_trier_par___decroissante), entiteNomAffichage)).l();
 									wTh.tl(9, "</", composantsWebPrefixe, "menu-item>");
@@ -2385,13 +2385,21 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							wFoot.tl(7, "{% endif %}");
 
 							//STUFF3
+							// js tri
 							auteurPageJsRecherche.l();
-							auteurPageJsRecherche.tl(1, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "_", entiteVar, "')?.addEventListener('sl-select', (event) => {");
+							auteurPageJsRecherche.tl(1, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "')?.addEventListener('sl-select', (event) => {");
 							auteurPageJsRecherche.tl(2, "const item = event.detail.item;");
 							auteurPageJsRecherche.tl(2, "const action = item.getAttribute('data-action');");
+							auteurPageJsRecherche.tl(2, "const order = item.getAttribute('data-order');");
+							auteurPageJsRecherche.tl(2, "const checked = !(document.querySelector('#pageSearchVal-page", i18nPage.getString(I18n.var_Tri), "-", classeNomSimple, "-", entiteVar, "').innerText == undefined);");
 							auteurPageJsRecherche.tl(2, "if (action === '", i18nPage.getString(I18n.var_tri), "') {");
-							auteurPageJsRecherche.tl(3, i18nPage.getString(I18n.var_tri), "('", classeNomSimple, "', item.value, item.checked);");
+							auteurPageJsRecherche.tl(3, i18nPage.getString(I18n.var_tri), "('", classeNomSimple, "', '", entiteVar, "', checked ? order : '');");
+							auteurPageJsRecherche.tl(3, "document.querySelector('#pageFacet", i18nPage.getString(I18n.var_Tri), classeNomSimple, "_", entiteVar, "').value = checked ? order : '';");
 							auteurPageJsRecherche.tl(2, "}");
+							auteurPageJsRecherche.tl(1, "});");
+							auteurPageJsRecherche.l();
+							auteurPageJsRecherche.tl(1, "document.querySelector('#pageFacet", i18nPage.getString(I18n.var_Tri), classeNomSimple, "_", entiteVar, "')?.addEventListener('sl-change', (event) => {");
+							auteurPageJsRecherche.tl(2, i18nPage.getString(I18n.var_tri), "('", classeNomSimple, "', '", entiteVar, "', event.currentTarget.value);");
 							auteurPageJsRecherche.tl(1, "});");
 						}
 						rechercheSolr.setStart(i.intValue() + rechercheLignes);
@@ -4557,42 +4565,60 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 		tl(7, "{%- block htmBody", i18nPage.getString(I18n.var_Tri), classePageNomSimple, " %}");
 
-		t(7, "<div");
-		s(" style=\"display: none; \"");
-		s(" id=\"pageSearchVal-", i18nPage.getString(I18n.var_Tri), classeNomSimple, "Hidden\"");
-		l(">");
-		tl(8, "{% for item in default", i18nPage.getString(I18n.var_Tri), "Vars %}");
-		t(9, "<div");
-		s(" class=\"pageSearchVal-", i18nPage.getString(I18n.var_Tri), classeNomSimple, "Hidden \"");
-		s(" id=\"pageSearchVal-", i18nPage.getString(I18n.var_Tri), classeNomSimple, "Hidden_{{ item }}\"");
-		l(">{{ item }}</div>");
-		tl(8, "{% endfor %}");
-		tl(7, "</div>");
+		// t(7, "<div");
+		// s(" style=\"display: none; \"");
+		// s(" id=\"pageSearchVal-page", i18nPage.getString(I18n.var_Tri), "-", classeNomSimple, "Hidden\"");
+		// l(">");
+		// tl(7, "{% for key, value in varsFq.items() %}");
+		// // tl(8, "{% for item in default", i18nPage.getString(I18n.var_Tri), "Vars %}");
+		// t(9, "<div");
+		// s(" class=\"pageSearchVal-page", i18nPage.getString(I18n.var_Tri), "-", classeNomSimple, "Hidden \"");
+		// s(" id=\"pageSearchVal-page", i18nPage.getString(I18n.var_Tri), "-", classeNomSimple, "Hidden_{{ key }}\"");
+		// l(">{{ value }}</div>");
+		// tl(8, "{% endfor %}");
+		// tl(7, "</div>");
 
 		t(7, "<div");
-		s(" id=\"pageSearchVal-", i18nPage.getString(I18n.var_Tri), classeNomSimple, "\"");
+		s(" id=\"pageSearchVal-page", i18nPage.getString(I18n.var_Tri), "-", classeNomSimple, "\"");
 		l(">");
-		tl(8, "{% if default", i18nPage.getString(I18n.var_Tri), "Vars is defined and default", i18nPage.getString(I18n.var_Tri), "Vars.length > 0 %}");
+		tl(7, "{% for key, value in varsFq.items() %}");
 		t(9, "<div");
-		s(" class=\"pageSearchVal pageSearchVal-", i18nPage.getString(I18n.var_Tri), classeNomSimple, " \"");
-		s(" id=\"pageSearchVal-", i18nPage.getString(I18n.var_Tri), classeNomSimple, "_1\"");
-		s(">facet.pivot={!range=r1}");
-		s("{% for item in default", i18nPage.getString(I18n.var_Tri), "Vars %}");
-		s("{% if loop.index > 0 %},{% endif %}{{ item }}");
-		s("{% endfor %}");
+		s(" class=\"pageSearchVal pageSearchVal-page", i18nPage.getString(I18n.var_Tri), "-", classeNomSimple, "-{{ key }} \"");
+		s(" id=\"pageSearchVal-page", i18nPage.getString(I18n.var_Tri), "-", classeNomSimple, "-{{ key }}\"");
+		s(">");
+		// s("{% for item in default", i18nPage.getString(I18n.var_Tri), "Vars %}");
+		s("{% if default", i18nPage.getString(I18n.var_Tri), "Vars is defined and (key + ' asc') in default", i18nPage.getString(I18n.var_Tri), "Vars %}");
+		s("sort={{ key }} asc");
+		s("{% else %}");
+		s("{% if default", i18nPage.getString(I18n.var_Tri), "Vars is defined and (key + ' desc') in default", i18nPage.getString(I18n.var_Tri), "Vars %}");
+		s("sort={{ key }} desc");
+		s("{% endif %}");
+		s("{% endif %}");
 		l("</div>");
-		tl(8, "{% endif %}");
+		tl(7, "{% endfor %}");
 		tl(7, "</div>");
 
 		tl(7, "{% for key, value in varsFq.items() %}");
 		tl(7, "<div>");
-		t(8, "<", composantsWebPrefixe, "checkbox");
-		s(" name=\"pageFacetTri\"");
-		s(" class=\"pageFacetTri \"");
-		s(" id=\"pageFacetTri", classeNomSimple, "_{{ key }}\"");
-		s(" value=\"{{ value.var }}\"");
+		t(8, "<", composantsWebPrefixe, "radio-group");
+		s(" name=\"pageFacet", i18nPage.getString(I18n.var_Tri), "\"");
+		s(" class=\"pageFacet", i18nPage.getString(I18n.var_Tri), " \"");
+		s(" id=\"pageFacet", i18nPage.getString(I18n.var_Tri), classeNomSimple, "_{{ key }}\"");
+		s(" value=\"{% if (key + ' asc') in default", i18nPage.getString(I18n.var_Tri), "Vars %}asc{% else %}{% if (key + ' desc') in default", i18nPage.getString(I18n.var_Tri), "Vars %}desc{% endif %}{% endif %}\"");
 		s("{% if ", i18nPage.getString(I18n.var_pivot), " is defined %} checked=\"checked\"{% endif %}");
-		l(">{{ value.", i18nPage.getString(I18n.var_nomAffichage), " }}</", composantsWebPrefixe, "checkbox>");
+		s(" label={{ value.", i18nPage.getString(I18n.var_nomAffichage), " | tojson }}");
+		l(" size=\"small\"");
+		l(">");
+		t(9, "<", composantsWebPrefixe, "radio-button value=\"\" pill>");
+		s(i18nPage.getString(I18n.str_aucun));
+		l("</", composantsWebPrefixe, "radio-button>");
+		t(9, "<", composantsWebPrefixe, "radio-button value=\"asc\" pill>");
+		s(i18nPage.getString(I18n.str_croissante));
+		l("</", composantsWebPrefixe, "radio-button>");
+		t(9, "<", composantsWebPrefixe, "radio-button value=\"desc\" pill>");
+		s(i18nPage.getString(I18n.str_decroissante));
+		l("</", composantsWebPrefixe, "radio-button>");
+		l("</", composantsWebPrefixe, "radio-group>");
 		tl(7, "</div>");
 		tl(7, "{% endfor %}");
 		
