@@ -806,7 +806,9 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeUriPageEdition;
 	protected String classeStringFormatUrlPageEdition;
 	protected String classeUriPageAffichage;
+	protected String classeUriPageUtilisateur;
 	protected String classeStringFormatUrlPageAffichage;
+	protected String classeStringFormatUrlPageUtilisateur;
 	protected String classeVarNom;
 	protected String classeVarDescription;
 
@@ -817,6 +819,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeVarUrlPageAffichage;
 
 	protected String classeVarUrlPageEdition;
+	protected String classeVarUrlPageUtilisateur;
 
 	protected String classeVarH1;
 
@@ -6342,6 +6345,18 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@Override");
 			tl(1, "public String ", langueConfig.getString(I18n.var_classeStringFormatUrlPageAffichage), langueConfig.getString(I18n.var_PourClasse), "() {");
 			tl(2, "return ", classeStringFormatUrlPageAffichage == null ? "null" : "\"%s" + String.format("%s\"", classeStringFormatUrlPageAffichage), ";");
+			tl(1, "}");
+		}
+
+		///////////////////////////
+		// classePageUtilisateur //
+		///////////////////////////
+		if(classeStringFormatUrlPageUtilisateur != null || classeEstModeleBase || classeEstResultatBase) {
+			l();
+			if(!classeEstBase)
+				tl(1, "@Override");
+			tl(1, "public String ", langueConfig.getString(I18n.var_classeStringFormatUrlPageUtilisateur), langueConfig.getString(I18n.var_PourClasse), "() {");
+			tl(2, "return ", classeStringFormatUrlPageUtilisateur == null ? "null" : "\"%s" + String.format("%s\"", classeStringFormatUrlPageUtilisateur), ";");
 			tl(1, "}");
 		}
 

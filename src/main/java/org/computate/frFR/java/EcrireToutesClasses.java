@@ -276,7 +276,9 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		classeUriPageEdition = doc.getString("classeUriPageEdition_" + langueNom + "_stored_string");
 		classeStringFormatUrlPageEdition = classeUriPageEdition == null ? null : classeUriPageEdition.replaceAll("\\{[^\\}]+\\}", "%s");
 		classeUriPageAffichage = doc.getString("classeUriPageAffichage_" + langueNom + "_stored_string");
+		classeUriPageUtilisateur = doc.getString("classeUriPageUtilisateur_" + langueNom + "_stored_string");
 		classeStringFormatUrlPageAffichage = classeUriPageAffichage == null ? null : classeUriPageAffichage.replaceAll("\\{[^\\}]+\\}", "%s");
+		classeStringFormatUrlPageUtilisateur = classeUriPageUtilisateur == null ? null : classeUriPageUtilisateur.replaceAll("\\{[^\\}]+\\}", "%s");
 		classeVarNom = doc.getString("classeVarNom_" + langueNom + "_stored_string");
 		classeVarDescription = doc.getString("classeVarDescription_" + langueNom + "_stored_string");
 		classeApiUri = doc.getString("classeApiUri_" + langueNom + "_stored_string");

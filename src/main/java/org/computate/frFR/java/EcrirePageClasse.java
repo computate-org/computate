@@ -951,6 +951,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			classeVarH3 = classeDoc.getString("classeVarH3" + "_" + langueNom + "_stored_string");
 			classeVarUrlPageAffichage = classeDoc.getString("classeVarUrlPageAffichage" + "_" + langueNom + "_stored_string");
 			classeVarUrlPageEdition = classeDoc.getString("classeVarUrlPageEdition" + "_" + langueNom + "_stored_string");
+			classeVarUrlPageUtilisateur = classeDoc.getString("classeVarUrlPageUtilisateur" + "_" + langueNom + "_stored_string");
 			classeVarSuggere = classeDoc.getString("classeVarSuggere" + "_" + langueNom + "_stored_string");
 			classeVarTexte = classeDoc.getString("classeVarTexte" + "_" + langueNom + "_stored_string");
 

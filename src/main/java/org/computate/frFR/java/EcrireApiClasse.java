@@ -2243,7 +2243,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(7, "JsonObject responseMessage = (JsonObject)a.body();");
 							tl(7, "JsonObject responseBody = new JsonObject(Buffer.buffer(JsonUtil.BASE64_DECODER.decode(responseMessage.getString(\"payload\"))));");
 							if(classeModele)
-								tl(7, i18nGlobale.getString(I18n.var_requeteApi), ".setPk(Long.parseLong(responseBody.getString(\"", classeVarClePrimaire, "\")));");
+								tl(7, i18nGlobale.getString(I18n.var_requeteApi), ".set", classeVarClePrimaireCapitalise, "(Long.parseLong(responseBody.getString(\"", classeVarClePrimaire, "\")));");
 							tl(7, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture(ServiceResponse.completedWithJson(Buffer.buffer(responseBody.encodePrettily()))));");
 							tl(7, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_réussi), ". \"));");
 							tl(6, "}).onFailure(ex -> {");
@@ -2265,7 +2265,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(tBase + 8, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumFound() == 1L)");
 							tl(tBase + 9, i18nGlobale.getString(I18n.var_requeteApi), ".setOriginal(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first());");
 							if(classeModele)
-								tl(tBase + 8, i18nGlobale.getString(I18n.var_requeteApi), ".setPk(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarClePrimaire), "()).orElse(null));");
+								tl(tBase + 8, i18nGlobale.getString(I18n.var_requeteApi), ".set", classeVarClePrimaireCapitalise, "(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarClePrimaire), "()).orElse(null));");
 							tl(tBase + 8, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", i18nGlobale.getString(I18n.var_requeteApi), ").toString());");
 							l();
 							tl(tBase + 8, i18nGlobale.getString(I18n.var_liste), classeApiMethode, classeNomSimple, "(", i18nGlobale.getString(I18n.var_requeteApi), ", ", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ").onSuccess(e -> {");
@@ -2303,7 +2303,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(tBase + 8, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumFound() == 1L)");
 							tl(tBase + 9, i18nGlobale.getString(I18n.var_requeteApi), ".setOriginal(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first());");
 							if(classeModele)
-								tl(tBase + 8, i18nGlobale.getString(I18n.var_requeteApi), ".setPk(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarClePrimaire), "()).orElse(null));");
+								tl(tBase + 8, i18nGlobale.getString(I18n.var_requeteApi), ".set", classeVarClePrimaireCapitalise, "(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarClePrimaire), "()).orElse(null));");
 							tl(tBase + 8, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", i18nGlobale.getString(I18n.var_requeteApi), ").toString());");
 							l();
 							tl(tBase + 8, i18nGlobale.getString(I18n.var_liste), classeApiMethode, classeNomSimple, "(", i18nGlobale.getString(I18n.var_requeteApi), ", ", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ").onSuccess(e -> {");
@@ -2715,7 +2715,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(7, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumFound() == 1L)");
 						tl(8, i18nGlobale.getString(I18n.var_requeteApi), ".setOriginal(o);");
 						if(classeModele)
-							tl(7, i18nGlobale.getString(I18n.var_requeteApi), ".setPk(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarClePrimaire), "()).orElse(null));");
+							tl(7, i18nGlobale.getString(I18n.var_requeteApi), ".set", classeVarClePrimaireCapitalise, "(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarClePrimaire), "()).orElse(null));");
 //						tl(7, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
 						tl(7, classeApiOperationIdMethode, "Future(o).onSuccess(o2 -> {");
 						tl(8, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture(ServiceResponse.completedWithJson(Buffer.buffer(new JsonObject().encodePrettily()))));");
@@ -2766,7 +2766,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(7, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumFound() == 1L)");
 						tl(8, i18nGlobale.getString(I18n.var_requeteApi), ".setOriginal(o);");
 						if(classeModele)
-							tl(7, i18nGlobale.getString(I18n.var_requeteApi), ".setPk(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarClePrimaire), "()).orElse(null));");
+							tl(7, i18nGlobale.getString(I18n.var_requeteApi), ".set", classeVarClePrimaireCapitalise, "(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarClePrimaire), "()).orElse(null));");
 //						tl(7, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
 						tl(7, classeApiOperationIdMethode, "Future(o, false).onSuccess(o2 -> {");
 						tl(8, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture(ServiceResponse.completedWithJson(Buffer.buffer(new JsonObject().encodePrettily()))));");
@@ -2871,23 +2871,19 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(10, "body2.putNull(\"set\" + StringUtils.capitalize(f));");
 							tl(8, "}");
 							tl(7, "}");
-							tl(7, "if(body2.size() > 0) {");
-							tl(8, "if(", i18nGlobale.getString(I18n.var_listeRecherche), ".size() == 1) {");
-							tl(9, i18nGlobale.getString(I18n.var_requeteApi), ".setOriginal(o);");
+							tl(7, "if(", i18nGlobale.getString(I18n.var_listeRecherche), ".size() == 1) {");
+							tl(8, i18nGlobale.getString(I18n.var_requeteApi), ".setOriginal(o);");
 							if(classeModele)
-								tl(9, i18nGlobale.getString(I18n.var_requeteApi), ".setPk(o.get", StringUtils.capitalize(classeVarClePrimaire), "());");
-							tl(8, "}");
-							tl(8, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_ObjetJson), "(body2);");
-							tl(8, "patch", classeNomSimple, "Future(", (classeModele ? "o" : "o2"), ", ", classeApiMethode.equals("PUTImport"), ").onSuccess(b -> {");
-							tl(9, "LOG.debug(\"Import ", classeNomSimple, " {} ", i18nGlobale.getString(I18n.str_a_réussi), ", ", i18nGlobale.getString(I18n.var_modifie), " ", classeNomSimple, ". \", body.getValue(", classeNomSimple, ".VAR_", classeVarId, "));");
-							tl(9, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture());");
-							tl(8, "}).onFailure(ex -> {");
-							tl(9, "LOG.error(String.format(\"", classeApiOperationIdMethode, "Future ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-							tl(9, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.failedFuture(ex));");
-							tl(8, "});");
-							tl(7, "} else {");
-							tl(8, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture());");
+								tl(8, i18nGlobale.getString(I18n.var_requeteApi), ".set", classeVarClePrimaireCapitalise, "(o.get", StringUtils.capitalize(classeVarClePrimaire), "());");
 							tl(7, "}");
+							tl(7, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_ObjetJson), "(body2);");
+							tl(7, "patch", classeNomSimple, "Future(", (classeModele ? "o" : "o2"), ", ", classeApiMethode.equals("PUTImport"), ").onSuccess(b -> {");
+							tl(8, "LOG.debug(\"Import ", classeNomSimple, " {} ", i18nGlobale.getString(I18n.str_a_réussi), ", ", i18nGlobale.getString(I18n.var_modifie), " ", classeNomSimple, ". \", body.getValue(", classeNomSimple, ".VAR_", classeVarId, "));");
+							tl(8, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture());");
+							tl(7, "}).onFailure(ex -> {");
+							tl(8, "LOG.error(String.format(\"", classeApiOperationIdMethode, "Future ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+							tl(8, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.failedFuture(ex));");
+							tl(7, "});");
 							tl(6, "} else {");
 							tl(7, "post", classeNomSimple, "Future(", i18nGlobale.getString(I18n.var_requeteSite), ", ", classeApiMethode.equals("PUTImport"), ").onSuccess(b -> {");
 							tl(8, "LOG.debug(\"Import ", classeNomSimple, " {} ", i18nGlobale.getString(I18n.str_a_réussi), ", ", i18nGlobale.getString(I18n.str_créé_nouveau), " ", classeNomSimple, ". \", body.getValue(", classeNomSimple, ".VAR_", classeVarId, "));");
