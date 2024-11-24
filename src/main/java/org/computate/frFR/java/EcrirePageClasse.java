@@ -1930,12 +1930,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
 				tl(1, "protected void _default", langueConfig.getString(I18n.var_Tri), "Vars(List<String> l) {");
-				tl(2, "Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getSorts()).orElse(Arrays.asList()).forEach(var", langueConfig.getString(I18n.var_Tri), "Str -> {");
-				tl(3, "String var", langueConfig.getString(I18n.var_Tri), langueConfig.getString(I18n.var_Parties), "[] = var", langueConfig.getString(I18n.var_Tri), "Str.split(\" \");");
-				tl(3, "String var", langueConfig.getString(I18n.var_Tri), " = ", classeNomSimple, ".", langueConfig.getString(I18n.var_recherche), "Var", classeNomSimple, "(var", langueConfig.getString(I18n.var_Tri), langueConfig.getString(I18n.var_Parties), "[0]);");
-				tl(3, "String var", langueConfig.getString(I18n.var_Tri), langueConfig.getString(I18n.var_Direction), " = var", langueConfig.getString(I18n.var_Tri), langueConfig.getString(I18n.var_Parties), "[1];");
-				tl(3, "l.add(String.format(\"%s %s\", var", langueConfig.getString(I18n.var_Tri), ", var", langueConfig.getString(I18n.var_Tri), langueConfig.getString(I18n.var_Direction), "));");
-				tl(2, "});");
+				tl(2, "if(!", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getDefaultSort()) {");
+				tl(3, "Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getSorts()).orElse(Arrays.asList()).forEach(var", langueConfig.getString(I18n.var_Tri), "Str -> {");
+				tl(4, "String var", langueConfig.getString(I18n.var_Tri), langueConfig.getString(I18n.var_Parties), "[] = var", langueConfig.getString(I18n.var_Tri), "Str.split(\" \");");
+				tl(4, "String var", langueConfig.getString(I18n.var_Tri), " = ", classeNomSimple, ".", langueConfig.getString(I18n.var_recherche), "Var", classeNomSimple, "(var", langueConfig.getString(I18n.var_Tri), langueConfig.getString(I18n.var_Parties), "[0]);");
+				tl(4, "String var", langueConfig.getString(I18n.var_Tri), langueConfig.getString(I18n.var_Direction), " = var", langueConfig.getString(I18n.var_Tri), langueConfig.getString(I18n.var_Parties), "[1];");
+				tl(4, "l.add(String.format(\"%s %s\", var", langueConfig.getString(I18n.var_Tri), ", var", langueConfig.getString(I18n.var_Tri), langueConfig.getString(I18n.var_Direction), "));");
+				tl(3, "});");
+				tl(2, "}");
 				tl(1, "}");
 				l();
 				if(classePageSuperNomSimple != null)

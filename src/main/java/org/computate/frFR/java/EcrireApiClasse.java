@@ -4195,6 +4195,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						String classeTriSuffixeType = classeTrisSuffixeType.get(i);
 						tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".sort(\"", classeTriVar, "_docvalues", classeTriSuffixeType, "\", \"", classeTriOrdre, "\");");
 					}
+					tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".setDefaultSort(true);");
 				}
 				else {
 					tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".sort(\"", classeVarCree, "_docvalues_date\", \"desc\");");
