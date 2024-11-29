@@ -3468,6 +3468,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					rechercheSolr.addFilterQuery("entiteEstSubstitue_indexed_boolean:false");
 					rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
 					rechercheSolr.addFilterQuery("(entiteSuggere_indexed_boolean:true OR entiteAttribuer_indexed_boolean:true)");
+		      rechercheSolr.addSort("partNumero_indexed_int", ORDER.asc);
 					QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
 					SolrDocumentList rechercheListe = rechercheReponse.getResults();
 		
