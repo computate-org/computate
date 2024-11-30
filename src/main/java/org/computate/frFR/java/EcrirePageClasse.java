@@ -4610,7 +4610,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		s(" value=\"{% if (key + ' asc') in default", i18nPage.getString(I18n.var_Tri), "Vars %}asc{% else %}{% if (key + ' desc') in default", i18nPage.getString(I18n.var_Tri), "Vars %}desc{% endif %}{% endif %}\"");
 		s("{% if ", i18nPage.getString(I18n.var_pivot), " is defined %} checked=\"checked\"{% endif %}");
 		s(" label={{ value.", i18nPage.getString(I18n.var_nomAffichage), " | tojson }}");
-		l(" size=\"small\"");
+		s(" size=\"small\"");
 		l(">");
 		t(9, "<", composantsWebPrefixe, "radio-button value=\"\" pill>");
 		s(i18nPage.getString(I18n.str_aucun));
@@ -4621,7 +4621,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		t(9, "<", composantsWebPrefixe, "radio-button value=\"desc\" pill>");
 		s(i18nPage.getString(I18n.str_decroissante));
 		l("</", composantsWebPrefixe, "radio-button>");
-		l("</", composantsWebPrefixe, "radio-group>");
+		tl(8, "</", composantsWebPrefixe, "radio-group>");
 		tl(7, "</div>");
 		tl(7, "{% endfor %}");
 		
