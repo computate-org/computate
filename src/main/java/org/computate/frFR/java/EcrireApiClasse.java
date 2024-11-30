@@ -25,6 +25,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
@@ -402,6 +403,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
 				rechercheSolr.addFilterQuery("entiteEstSubstitue_indexed_boolean:false");
 				rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
+		    rechercheSolr.addSort("partNumero_indexed_int", ORDER.asc);
 				QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
 				SolrDocumentList rechercheListe = rechercheReponse.getResults();
 				Integer rechercheLignes = rechercheSolr.getRows();
@@ -3816,6 +3818,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
 				rechercheSolr.addFilterQuery("entiteEstSubstitue_indexed_boolean:false");
 				rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
+		    rechercheSolr.addSort("partNumero_indexed_int", ORDER.asc);
 				QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
 				SolrDocumentList rechercheListe = rechercheReponse.getResults();
 				Integer rechercheLignes = rechercheSolr.getRows();

@@ -457,7 +457,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if( entiteVar.equals(langueConfig.getString(I18n.var_archive))) {
 					tl(1, "{%- if 'Page' == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " %}");
 					// tl(1, "{%- if 'Page' == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " %}");
-					tl(9, "<", composantsWebPrefixe, "button");
+					tl(9, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\"");
 					tl(11, "id=\"{{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 
 					if(entiteNomAffichage != null) {
@@ -591,7 +591,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			else {
 				if(entiteLien) {
 					tl(1, "{%- if 'Page' == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " %}");
-					tl(9, "<", composantsWebPrefixe, "button");
+					tl(9, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\"");
 					tl(11, "id=\"{{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 
 					if(entiteNomAffichage != null) {
@@ -2199,7 +2199,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			auteurPageJsRecherche.tl(2, "]).then(() => {");
 
 			auteurPageJsRecherche.l();
-			auteurPageJsRecherche.tl(1, "document.querySelector('#pageFacet", i18nPage.getString(I18n.var_Gamme), classeNomSimple, "')?.addEventListener('sl-change', (event) => {");
+			auteurPageJsRecherche.tl(1, "document.querySelector('#pageFacet", i18nPage.getString(I18n.var_Gamme), classeNomSimple, "')?.addEventListener('", composantsWebPrefixe, "change', (event) => {");
 			auteurPageJsRecherche.tl(2, "facet", i18nPage.getString(I18n.var_Gamme), "Change('", classeNomSimple, "', event.target.value);");
 			auteurPageJsRecherche.tl(1, "});");
 		}
@@ -2223,47 +2223,28 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				Integer rechercheLigneActuel;
 	
 				if(rechercheListe.size() > 0) {
-					auteurPageCss.tl(0, "#site-results-grid > :is(a, div) {");
-					auteurPageCss.tl(1, "display: grid;");
-					auteurPageCss.tl(1, "grid-template-columns: subgrid;");
-					auteurPageCss.tl(1, "grid-column: 1 / span ", rechercheListe.size(), ";");
-					auteurPageCss.tl(0, "}");
-					auteurPageCss.tl(0, "@media (max-width:800px) {");
-					auteurPageCss.tl(1, "#site-results-grid > :is(a, div) {");
-					auteurPageCss.tl(2, "grid-column: 1 / span 1;");
-					auteurPageCss.tl(1, "}");
-					auteurPageCss.tl(0, "}");
-
-					auteurPageCss.tl(0, "#site-results-grid.grid-mode-details > :is(a, div) {");
-					auteurPageCss.tl(1, "align-items: center;");
-					auteurPageCss.tl(0, "}");
-					auteurPageCss.tl(0, "#site-results-grid > :is(a, div):is(:hover, :active):not(:first-child) {");
-					auteurPageCss.tl(1, "background-color: var(--sl-color-primary-300);");
-					auteurPageCss.tl(0, "}");
 					auteurPageCss.tl(0, "#site-results-grid {");
 					auteurPageCss.tl(1, "display: grid;");
-					auteurPageCss.tl(1, "gap: 1rem;");
-					auteurPageCss.tl(1, "overflow: auto;");
-					auteurPageCss.tl(1, "padding: var(--sl-spacing-small);");
-					auteurPageCss.tl(1, "margin-block-start: var(--sl-spacing-medium);");
-					auteurPageCss.tl(1, "background-color: var(--sl-color-neutral-200);");
-					auteurPageCss.tl(0, "}");
-					auteurPageCss.tl(0, "#site-results-grid > :is(a, div) {");
-					auteurPageCss.tl(1, "border-radius: var(--sl-border-radius-large);");
-					auteurPageCss.tl(1, "background-color: var(--sl-color-neutral-0);");
-					auteurPageCss.tl(1, "color: inherit;");
-					auteurPageCss.tl(1, "text-decoration: none;");
-					auteurPageCss.tl(1, "grid-gap: 2rem 1rem;");
-					auteurPageCss.tl(1, "padding: var(--sl-spacing-small);");
-					auteurPageCss.tl(1, "& > div:first-child {");
-					auteurPageCss.tl(2, "font-size: var(--sl-font-size-large);");
-					auteurPageCss.tl(2, "font-weight: var(--sl-font-weight-bold);");
+					auteurPageCss.tl(1, "row-gap: var(--site-secondary-space);");
+					auteurPageCss.tl(1, "background-color: var(--wa-color-surface-lowered);");
+					auteurPageCss.tl(1, "> * {");
+					auteurPageCss.tl(2, "display: grid;");
+					auteurPageCss.tl(2, "grid-template-columns: subgrid;");
+					auteurPageCss.tl(2, "grid-column: span ", rechercheListe.size(), ";");
+					auteurPageCss.tl(2, "align-items: center;");
+					auteurPageCss.tl(2, "background-color: var(--", composantsWebPrefixe, "color-surface-raised);");
+					auteurPageCss.tl(2, "&:hover {");
+					auteurPageCss.tl(3, "background-color: var(--wa-color-brand-fill-quiet);");
+					auteurPageCss.tl(2, "}");
+					auteurPageCss.tl(2, composantsWebPrefixe, "button {");
+					auteurPageCss.tl(3, "&::part(base) {");
+					auteurPageCss.tl(4, "border-radius: initial;");
+					auteurPageCss.tl(3, "}");
+					auteurPageCss.tl(2, "}");
+					auteurPageCss.tl(2, "@media (max-width:767px) {");
+					auteurPageCss.tl(3, "grid-column: span 1;");
+					auteurPageCss.tl(2, "}");
 					auteurPageCss.tl(1, "}");
-					auteurPageCss.tl(0, "}");
-					auteurPageCss.tl(0, "#site-results-grid > :is(a, div) > a {");
-					auteurPageCss.tl(1, "display: flex;");
-					auteurPageCss.tl(1, "align-items: center;");
-					auteurPageCss.tl(1, "height: 100%;");
 					auteurPageCss.tl(0, "}");
 
 					for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=rechercheLignes) {
@@ -2297,7 +2278,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									wTh.tl(7, "<div></div>");
 								} else {
 									wTh.tl(7, "<", composantsWebPrefixe, "dropdown id=\"htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "\">");
-									wTh.tl(8, "<", composantsWebPrefixe, "button slot=\"trigger\" caret>", entiteNomAffichage, "</", composantsWebPrefixe, "button>");
+									wTh.tl(8, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\" slot=\"trigger\" caret>", entiteNomAffichage, "</", composantsWebPrefixe, "button>");
 									wTh.tl(8, "<", composantsWebPrefixe, "menu>");
 									wTh.tl(9, "<", composantsWebPrefixe, "menu-item data-action=\"", i18nPage.getString(I18n.var_tri), "\" data-order=\"asc\" id=\"htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "-asc\">");
 									wTh.tl(10, "<i class=\"fa-solid fa-arrow-down-a-z\"></i>");
@@ -2312,7 +2293,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								}
 
 								if(entiteLien) {
-									wTd.tl(7, "<", composantsWebPrefixe, "button");
+									wTd.tl(7, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\"");
 									wTd.tl(9, "id=\"{{", i18nPage.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 
 									if(entiteNomAffichage != null) {
@@ -2320,7 +2301,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										wTd.tl(9, "label=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 									}
 									if(entiteDescription != null) {
-										wTd.t(9, "help-text=\"").sx(entiteDescription).l("\"");
+										wTd.t(9, "title=\"").sx(entiteDescription).l("\"");
 									}
 
 									wTd.tl(9, "class=\"button-on-left {{", i18nPage.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarId, "}}", entiteVarCapitalise, " \"");
@@ -2390,7 +2371,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							//STUFF3
 							// js tri
 							auteurPageJsRecherche.l();
-							auteurPageJsRecherche.tl(1, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "')?.addEventListener('sl-select', (event) => {");
+							auteurPageJsRecherche.tl(1, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "')?.addEventListener('", composantsWebPrefixe, "select', (event) => {");
 							auteurPageJsRecherche.tl(2, "const item = event.detail.item;");
 							auteurPageJsRecherche.tl(2, "const action = item.getAttribute('data-action');");
 							auteurPageJsRecherche.tl(2, "const order = item.getAttribute('data-order');");
@@ -2401,7 +2382,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							auteurPageJsRecherche.tl(2, "}");
 							auteurPageJsRecherche.tl(1, "});");
 							auteurPageJsRecherche.l();
-							auteurPageJsRecherche.tl(1, "document.querySelector('#pageFacet", i18nPage.getString(I18n.var_Tri), classeNomSimple, "_", entiteVar, "')?.addEventListener('sl-change', (event) => {");
+							auteurPageJsRecherche.tl(1, "document.querySelector('#pageFacet", i18nPage.getString(I18n.var_Tri), classeNomSimple, "_", entiteVar, "')?.addEventListener('", composantsWebPrefixe, "change', (event) => {");
 							auteurPageJsRecherche.tl(2, i18nPage.getString(I18n.var_tri), "('", classeNomSimple, "', '", entiteVar, "', event.currentTarget.value);");
 							auteurPageJsRecherche.tl(1, "});");
 						}
@@ -2679,7 +2660,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						l();
 						s("{%- macro htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() %}");
 						if(!classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche))) {
-							s("<", composantsWebPrefixe, "button");
+							s("<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\"");
 							s(" id=\"htm", i18nGlobale.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "\"");
 							s(" data-", classeVarId, "={{ ", i18nPage.getString(I18n.var_resultat), ".", classeVarId, " | tojson }}");
 							s(">");
@@ -2704,7 +2685,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 						l();
 						l("{%- macro htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() %}");
-						tl(6, "<", composantsWebPrefixe, "button slot=\"footer\" type=\"submit\" variant=\"primary\"");
+						tl(6, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\" slot=\"footer\" type=\"submit\" variant=\"primary\"");
 						tl(8, "id=\"htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "\"");
 						tl(8, ">", methodeTitreValeurs, "</", composantsWebPrefixe, "button>");
 						l("{%- endmacro %}");
@@ -2712,10 +2693,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						l();
 						l("{%- macro htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() %}");
 						{ tl(4, "<", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "div" : composantsWebPrefixe + "dialog", " id=\"", classeApiOperationIdMethode, i18nPage.getString(I18n.var_Dialogue), "\" label=\"", methodeTitreValeurs, "\">");
-							{ tl(5, "<", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "div" : "form", " id=\"htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "\" class=\"round-first-and-last-row-x-large \">");
+							{ tl(5, "<", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "div" : "form", " id=\"htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "\" class=\"round-row primary-smart-border-radius \">");
 								if(!i18nPage.getString(I18n.var_PageRecherche).equals(classeApiMethode)) {
 									if("POST".equals(classeApiMethode)) {
-										tl(6, "<div class=\"\">", i18nPage.getString(I18n.str_Vous_pouvez_remplacer_les_valeurs_par_defaut_ci_dessous), "</div>");
+										tl(6, "<div>", i18nPage.getString(I18n.str_Vous_pouvez_remplacer_les_valeurs_par_defaut_ci_dessous), "</div>");
 									}
 								}
 	
@@ -3468,6 +3449,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					rechercheSolr.addFilterQuery("entiteEstSubstitue_indexed_boolean:false");
 					rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
 					rechercheSolr.addFilterQuery("(entiteSuggere_indexed_boolean:true OR entiteAttribuer_indexed_boolean:true)");
+		      rechercheSolr.addSort("partNumero_indexed_int", ORDER.asc);
 					QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
 					SolrDocumentList rechercheListe = rechercheReponse.getResults();
 		
@@ -4128,7 +4110,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					} else {
 						auteurPageJsRecherche.l();
 						auteurPageJsRecherche.tl(1, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')?.addEventListener('click', (event) => {");
-						auteurPageJsRecherche.tl(2, "document.querySelector('#", classeApiOperationIdMethode, i18nGlobale.getString(I18n.var_Dialogue), "').show();");
+						auteurPageJsRecherche.tl(2, "document.querySelector('#", classeApiOperationIdMethode, i18nGlobale.getString(I18n.var_Dialogue), "').open = true;");
 						auteurPageJsRecherche.tl(1, "});");
 					}
 				}
@@ -4176,7 +4158,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(1, "{% endif %}");
 			tl(7, ">");
 			tl(5, "</", composantsWebPrefixe, "input>");
-			tl(5, "<", composantsWebPrefixe, "button");
+			tl(5, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\"");
 			tl(7, "onclick=\"window.location.href = '", classePageUriMethode + "?q=&quot;, query1, &quot;:' + encodeURIComponent(this.previousElementSibling.value) + '&quot;, fqs, sorts, &quot;&amp;rows=&quot;, start2, &quot;&amp;rows=&quot;, rows1, &quot;'; \"");
 			tl(7, ">");
 			tl(6, "<i class=\"fas fa-search \"></i>");
@@ -4218,12 +4200,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 		tl(6, "<", composantsWebPrefixe, "divider></", composantsWebPrefixe, "divider>");
 
-		tl(6, "<div id=\"htm", i18nPage.getString(I18n.var_Bouton), i18nPage.getString(I18n.var_Groupe), "\" class=\"round-first-and-last-column-pill \">");
+		tl(6, "<div id=\"htm", i18nPage.getString(I18n.var_Bouton), i18nPage.getString(I18n.var_Groupe), "\">");
 
 		// recharger 1 //
 		t(2, "{% if ", varResultat, "Count == 1 %}");
 		// s("<", composantsWebPrefixe, "tooltip content=\"", i18nPage.getString(I18n.str_Recharger), " ", classeCeNom, "\">");
-		tl(7, "<", composantsWebPrefixe, "button id=\"", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "\"");
+		tl(7, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\" id=\"", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "\"");
 		tl(9, " onclick=\"patch{{", i18nPage.getString(I18n.var_classeNomSimple), "}}Vals( [ {name: 'fq', value: '", classeVarId, ":{{", classeVarId, "}}' } ], {}, this, function() { ", i18nPage.getString(I18n.var_ajouterLueur), "(document.querySelector('#", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "')); }, function() { ", i18nPage.getString(I18n.var_ajouterErreur), "(document.querySelector('#", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "')); }); return false; \">");
 		tl(8, "<i slot=\"prefix\" class=\"fas fa-sync-alt \"></i>");
 		tl(8, i18nPage.getString(I18n.var_recharger));
@@ -4234,7 +4216,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// recharger tous //
 		tl(2, "{% if ", varResultat, "Count > 0 %}");
 		// tl(9, "<", composantsWebPrefixe, "tooltip content=\"", i18nPage.getString(I18n.str_Recharger), " ", classeTousNom, "\">");
-		tl(7, "<", composantsWebPrefixe, "button id=\"", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeTous)), classeGenPageNomSimple, "{{ ", i18nPage.getString(I18n.var_resultat), ".", classeVarId, " | e }}\"");
+		tl(7, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\" id=\"", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeTous)), classeGenPageNomSimple, "{{ ", i18nPage.getString(I18n.var_resultat), ".", classeVarId, " | e }}\"");
 		tl(9, " onclick=\"patch{{", i18nPage.getString(I18n.var_classeNomSimple), "}}Vals([], {}, this, function() { ", i18nPage.getString(I18n.var_ajouterLueur), "(document.querySelector('#", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeTous)), classeGenPageNomSimple, "{{ ", i18nPage.getString(I18n.var_resultat), ".", classeVarId, " | e }}')); }, function() { ", i18nPage.getString(I18n.var_ajouterErreur), "(document.querySelector('#", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeTous)), classeGenPageNomSimple, "{{ ", i18nPage.getString(I18n.var_resultat), ".", classeVarId, " | e }}')); }); \"");
 		tl(9, ">");
 		tl(8, "<i slot=\"prefix\" class=\"fa-kit fa-solid-arrows-rotate-rotate\"></i>");
@@ -4374,8 +4356,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// sidebar q //
 		///////////////
 
-		tl(5, "<", composantsWebPrefixe, "drawer placement=\"end\" id=\"site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Recherche), "\">");
-		tl(6, "<div>");
+		tl(5, "<", composantsWebPrefixe, "drawer with-header light-dismiss placement=\"end\" id=\"site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Recherche), "\">");
+		tl(6, "<div slot=\"label\">");
 		tl(7, "<i class=\"fad fa-magnifying-glass \"></i>");
 		tl(7, i18nPage.getString(I18n.var_Recherche));
 		tl(6, "</div>");
@@ -4470,8 +4452,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// sidebar fq //
 		////////////////
 
-		tl(5, "<", composantsWebPrefixe, "drawer placement=\"end\" id=\"site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Filtres), "\">");
-		tl(6, "<div>");
+		tl(5, "<", composantsWebPrefixe, "drawer with-header light-dismiss placement=\"end\" id=\"site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Filtres), "\">");
+		tl(6, "<div slot=\"label\">");
 		tl(7, "<span>");
 		t(7, "<i class=\"fad fa-filters \"></i>");
 		l(" ", i18nPage.getString(I18n.var_Filtres), "</span>");
@@ -4491,10 +4473,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		s("<sup> ({{ value.", i18nPage.getString(I18n.var_classeNomSimple), " }})</sup>");
 		l("</label>");
 
-		tl(10, "<div class=\"display-flex \">");
-		t(11, "<", composantsWebPrefixe, "button");
+    tl(10, "<", composantsWebPrefixe, "tooltip for=\"buttonFacet", classeNomSimple, "_{{ key }}\">", i18nPage.getString(I18n.str_voir_valeurs), "</", composantsWebPrefixe, "tooltip>");
+		tl(10, "<div class=\"flex round-column pill-smart-border-radius \">");
+		t(11, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\"");
 		s(" id=\"buttonFacet", classeNomSimple, "_{{ key }}\"");
-		s(" title=\"", i18nPage.getString(I18n.str_voir_valeurs), " ", "\"");
 		s(" data-var=\"{{ value.var }}\"");
 		s(" data-clear=\"{% if value.facetField is defined %}true{% else %}false{% endif %}\"");
 		l("><i class=\"fas fa-list \"></i></", composantsWebPrefixe, "button>");
@@ -4559,8 +4541,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		////////////////
 
 		//STUFF3
-		tl(5, "<", composantsWebPrefixe, "drawer placement=\"end\" id=\"site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Tri), "\">");
-		tl(6, "<div>");
+		tl(5, "<", composantsWebPrefixe, "drawer with-header light-dismiss placement=\"end\" id=\"site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Tri), "\">");
+		tl(6, "<div slot=\"label\">");
 		tl(7, "<i class=\"fad fa-solid fa-arrow-down-a-z \"></i>");
 		tl(7, i18nPage.getString(I18n.str_Tri));
 		tl(6, "</div>");
@@ -4633,8 +4615,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// sidebar gamme //
 		///////////////////
 
-		tl(5, "<", composantsWebPrefixe, "drawer placement=\"end\" id=\"site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Gamme), "\">");
-		tl(6, "<div>");
+		tl(5, "<", composantsWebPrefixe, "drawer with-header light-dismiss placement=\"end\" id=\"site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Gamme), "\">");
+		tl(6, "<div slot=\"label\">");
 		tl(7, "<span>");
 		t(7, "<i class=\"fad fa-calendar-range \"></i>");
 		l(" ", i18nPage.getString(I18n.var_Gamme), "</span>");
@@ -4752,8 +4734,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// sidebar pivot //
 		///////////////////
 
-		tl(5, "<", composantsWebPrefixe, "drawer placement=\"end\" id=\"site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Pivot), "\">");
-		tl(6, "<div>");
+		tl(5, "<", composantsWebPrefixe, "drawer with-header light-dismiss placement=\"end\" id=\"site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Pivot), "\">");
+		tl(6, "<div slot=\"label\">");
 		tl(7, "<span>");
 		t(7, "<i class=\"fad fa-table-pivot \"></i>");
 		l(" ", i18nPage.getString(I18n.var_Pivot), "</span>");
@@ -4813,8 +4795,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// sidebar liste champs //
 		//////////////////////////
 
-		tl(5, "<", composantsWebPrefixe, "drawer placement=\"end\" id=\"site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_ListeChamps), "\">");
-		tl(6, "<div>");
+		tl(5, "<", composantsWebPrefixe, "drawer with-header light-dismiss placement=\"end\" id=\"site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_ListeChamps), "\">");
+		tl(6, "<div slot=\"label\">");
 		tl(7, "<span>");
 		t(7, "<i class=\"fad fa-list-ul \"></i>");
 		l(" ", i18nPage.getString(I18n.str_Liste_Champs), "</span>");
@@ -4876,8 +4858,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// sidebar stats //
 		///////////////////
 
-		tl(5, "<", composantsWebPrefixe, "drawer placement=\"end\" id=\"site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Stats), "\">");
-		tl(6, "<div>");
+		tl(5, "<", composantsWebPrefixe, "drawer with-header light-dismiss placement=\"end\" id=\"site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Stats), "\">");
+		tl(6, "<div slot=\"label\">");
 		tl(7, "<i class=\"fad fa-chart-candlestick \"></i>");
 		tl(7, i18nPage.getString(I18n.str_Stats));
 		tl(6, "</div>");
@@ -4964,7 +4946,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(16, "<", composantsWebPrefixe, "input id=\"animate", i18nPage.getString(I18n.var_Stats), "Max\" placeholder=\"max\" value=\"{{ value.stats.max }}\" style=\"width: 4em; \"></", composantsWebPrefixe, "input>");
 		tl(16, "<span> speed in seconds </span>");
 		tl(16, "<", composantsWebPrefixe, "input id=\"animate", i18nPage.getString(I18n.var_Stats), "Speed\" placeholder=\"speed\" value=\"1\" style=\"width: 4em; \"></", composantsWebPrefixe, "input>");
-		tl(16, "<", composantsWebPrefixe, "button onclick=\"animate", i18nPage.getString(I18n.var_Stats), "(); \">animate</", composantsWebPrefixe, "button>");
+		tl(16, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\" onclick=\"animate", i18nPage.getString(I18n.var_Stats), "(); \">animate</", composantsWebPrefixe, "button>");
 		tl(15, "</div>");
 		tl(14, "{% endif %}");
 		tl(13, "{% endif %}");
@@ -5013,7 +4995,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			tl(4, "<div>");
 			tl(5, "<", composantsWebPrefixe, "tooltip content=\"", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "\">");
-			tl(6, "<", composantsWebPrefixe, "button href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
+			tl(6, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\" href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
 			tl(7, "<i class=\"fa-solid fa-angle-left\"></i>");
 			tl(7, classeTousNom);
 			tl(6, "</", composantsWebPrefixe, "button>");
@@ -5041,106 +5023,105 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		ToutEcrivain oAncien = o;
 		o = auteurBoutonsRechercheJinja;
 
-		tl(4, "<div id=\"htm", i18nPage.getString(I18n.var_BoutonsRecherche), "\" class=\"round-first-and-last-column-pill \">");
+		tl(4, "<div id=\"htm", i18nPage.getString(I18n.var_BoutonsRecherche), "\" class=\"flex flex-wrap round-column pill-smart-border-radius \">");
 
-		t(5);
 		//////////////
 		// bouton q //
 		//////////////
-		// s("<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
-		s("<", composantsWebPrefixe, "button onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Recherche), "').show(); \">");
-		s("<i slot=\"prefix\" class=\"fad fa-magnifying-glass hover-box-shadow \"></i> ");
-		s(i18nPage.getString(I18n.var_Rechercher));
-		s("</", composantsWebPrefixe, "button>");
-		// s("</", composantsWebPrefixe, "tooltip>");
+		// tl(5, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
+		tl(5, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\" onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Recherche), "').open = true; \">");
+		tl(6, "<i slot=\"prefix\" class=\"fad fa-magnifying-glass hover-box-shadow \"></i> ");
+		tl(6, i18nPage.getString(I18n.var_Rechercher));
+		tl(5, "</", composantsWebPrefixe, "button>");
+		// tl(5, "</", composantsWebPrefixe, "tooltip>");
 
 		///////////////
 		// bouton fq //
 		///////////////
-		// s("<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Filtres_et_nombres_de_facettes_pour_), classeNomAdjectifPluriel, "\">");
-		s("<", composantsWebPrefixe, "button onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Filtres), "').show(); \">");
-		s("<i slot=\"prefix\" class=\"fad fa-filters hover-box-shadow \"></i> ");
-		s(i18nPage.getString(I18n.var_Filtres));
-		s("</", composantsWebPrefixe, "button>");
-		// s("</", composantsWebPrefixe, "tooltip>");
+		// tl(5, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Filtres_et_nombres_de_facettes_pour_), classeNomAdjectifPluriel, "\">");
+		tl(5, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\" onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Filtres), "').open = true; \">");
+		tl(6, "<i slot=\"prefix\" class=\"fad fa-filters hover-box-shadow \"></i> ");
+		tl(6, i18nPage.getString(I18n.var_Filtres));
+		tl(5, "</", composantsWebPrefixe, "button>");
+		// tl(5, "</", composantsWebPrefixe, "tooltip>");
 
 		///////////////
 		// bouton fq //
 		///////////////
-		// s("<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Filtres_et_nombres_de_facettes_pour_), classeNomAdjectifPluriel, "\">");
-		s("<", composantsWebPrefixe, "button onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Tri), "').show(); \">");
-		s("<i slot=\"prefix\" class=\"fa-solid fa-arrow-down-a-z hover-box-shadow \"></i> ");
-		s(i18nPage.getString(I18n.str_Tri));
-		s("</", composantsWebPrefixe, "button>");
-		// s("</", composantsWebPrefixe, "tooltip>");
+		// tl(5, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Filtres_et_nombres_de_facettes_pour_), classeNomAdjectifPluriel, "\">");
+		tl(5, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\" onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Tri), "').open = true; \">");
+		tl(6, "<i slot=\"prefix\" class=\"fa-solid fa-arrow-down-a-z hover-box-shadow \"></i> ");
+		tl(6, i18nPage.getString(I18n.str_Tri));
+		tl(5, "</", composantsWebPrefixe, "button>");
+		// tl(5, "</", composantsWebPrefixe, "tooltip>");
 
 		//////////////////
 		// bouton gamme //
 		//////////////////
-		// s("<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
-		s("<", composantsWebPrefixe, "button onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Gamme), "').show(); \">");
-		s("<i slot=\"prefix\" class=\"fad fa-calendar-range hover-box-shadow \"></i> ");
-		s(i18nPage.getString(I18n.var_Gamme));
-		s("</", composantsWebPrefixe, "button>");
-		// s("</", composantsWebPrefixe, "tooltip>");
+		// tl(5, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
+		tl(5, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\" onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Gamme), "').open = true; \">");
+		tl(6, "<i slot=\"prefix\" class=\"fad fa-calendar-range hover-box-shadow \"></i> ");
+		tl(6, i18nPage.getString(I18n.var_Gamme));
+		tl(5, "</", composantsWebPrefixe, "button>");
+		// tl(5, "</", composantsWebPrefixe, "tooltip>");
 
 		//////////////////
 		// bouton pivot //
 		//////////////////
-		// s("<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
-		s("<", composantsWebPrefixe, "button onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Pivot), "').show(); \">");
-		s("<i slot=\"prefix\" class=\"fad fa-table-pivot hover-box-shadow \"></i> ");
-		s(i18nPage.getString(I18n.var_Pivot));
-		s("</", composantsWebPrefixe, "button>");
-		// s("</", composantsWebPrefixe, "tooltip>");
+		// tl(5, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
+		tl(5, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\" onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Pivot), "').open = true; \">");
+		tl(6, "<i slot=\"prefix\" class=\"fad fa-table-pivot hover-box-shadow \"></i> ");
+		tl(6, i18nPage.getString(I18n.var_Pivot));
+		tl(5, "</", composantsWebPrefixe, "button>");
+		// tl(5, "</", composantsWebPrefixe, "tooltip>");
 
 		/////////////////////////
 		// bouton liste champs //
 		/////////////////////////
-		// s("<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
-		s("<", composantsWebPrefixe, "button onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_ListeChamps), "').show(); \">");
-		s("<i slot=\"prefix\" class=\"fad fa-list-ul hover-box-shadow \"></i> ");
-		s(i18nPage.getString(I18n.var_ListeChamps));
-		s("</", composantsWebPrefixe, "button>");
-		// s("</", composantsWebPrefixe, "tooltip>");
+		// tl(5, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
+		tl(5, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\" onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_ListeChamps), "').open = true; \">");
+		tl(6, "<i slot=\"prefix\" class=\"fad fa-list-ul hover-box-shadow \"></i> ");
+		tl(6, i18nPage.getString(I18n.var_ListeChamps));
+		tl(5, "</", composantsWebPrefixe, "button>");
+		// tl(5, "</", composantsWebPrefixe, "tooltip>");
 
 		//////////////////
 		// bouton stats //
 		//////////////////
-		// s("<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
-		s("<", composantsWebPrefixe, "button onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Stats), "').show(); \">");
-		s("<i slot=\"prefix\" class=\"fad fa-chart-candlestick hover-box-shadow \"></i> ");
-		s(i18nPage.getString(I18n.var_Stats));
-		s("</", composantsWebPrefixe, "button>");
-		// s("</", composantsWebPrefixe, "tooltip>");
+		// tl(5, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
+		tl(5, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\" onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Stats), "').open = true; \">");
+		tl(6, "<i slot=\"prefix\" class=\"fad fa-chart-candlestick hover-box-shadow \"></i> ");
+		tl(6, i18nPage.getString(I18n.var_Stats));
+		tl(5, "</", composantsWebPrefixe, "button>");
+		// tl(5, "</", composantsWebPrefixe, "tooltip>");
 
 		////////////////
 		// bouton API //
 		////////////////
-		// s("<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Interroger_lAPI_REST_JSON_pour_), classeNomAdjectifPluriel, "\">");
-		s("<", composantsWebPrefixe, "button onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Api), "').show(); \"");
-		s(" href=\"{{ apiUri }}{% if ", classeVarId, " is defined %}/{{ ", classeVarId, " }}{% else %}{% if ", classeVarId, " is defined %}/{{ ", classeVarId, " }}{% else %}{{ queryStr }}{% endif %}{% endif %}\"");
-		s(">");
-		s("<i slot=\"prefix\" class=\"fad fa-brackets-curly hover-box-shadow \"></i> ");
-		s(i18nPage.getString(I18n.var_Api));
-		l("</", composantsWebPrefixe, "button>");
-		// s("</", composantsWebPrefixe, "tooltip>");
+		// tl(5, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Interroger_lAPI_REST_JSON_pour_), classeNomAdjectifPluriel, "\">");
+		t(5, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\"");
+		s(" href=\"{{ apiUri }}{% if ", i18nPage.getString(I18n.var_resultat), ".", classeVarId, " is defined %}/{{ ", i18nPage.getString(I18n.var_resultat), ".", classeVarId, " }}{% else %}{{ queryStr }}{% endif %}\"");
+		l(">");
+		tl(6, "<i slot=\"prefix\" class=\"fad fa-brackets-curly hover-box-shadow \"></i> ");
+		tl(6, i18nPage.getString(I18n.var_Api));
+		tl(5, "</", composantsWebPrefixe, "button>");
+		// tl(5, "</", composantsWebPrefixe, "tooltip>");
 
 		tl(4, "</div>");
 
 		// tl(7, "<", composantsWebPrefixe, "button-group>");
 		// tl(8, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_sous_forme_de_details), classeNomAdjectifPluriel), "\" pill>");
-		// tl(9, "<", composantsWebPrefixe, "button pill id=\"grid-toggle-details\">");
+		// tl(9, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\" pill id=\"grid-toggle-details\">");
 		// tl(10, "<i class=\"fa-solid fa-list\"></i>");
 		// tl(9, "</", composantsWebPrefixe, "button>");
 		// tl(8, "</", composantsWebPrefixe, "tooltip>");
 		// tl(8, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_sous_forme_de_liste), classeNomAdjectifPluriel), "\">");
-		// tl(9, "<", composantsWebPrefixe, "button id=\"grid-toggle-list\">");
+		// tl(9, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\" id=\"grid-toggle-list\">");
 		// tl(10, "<i class=\"fa-solid fa-bars\"></i>");
 		// tl(9, "</", composantsWebPrefixe, "button>");
 		// tl(8, "</", composantsWebPrefixe, "tooltip>");
 		// tl(8, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_sous_forme_de_cartes), classeNomAdjectifPluriel), "\" pill>");
-		// tl(9, "<", composantsWebPrefixe, "button pill id=\"grid-toggle-card\">");
+		// tl(9, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\" pill id=\"grid-toggle-card\">");
 		// tl(10, "<i class=\"fa-solid fa-grid\"></i>");
 		// tl(9, "</", composantsWebPrefixe, "button>");
 		// tl(8, "</", composantsWebPrefixe, "tooltip>");
@@ -5158,7 +5139,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(6, "<div id=\"htm", i18nPage.getString(I18n.var_BoutonsPagination), "\">");
 		tl(7, "<", composantsWebPrefixe, "button-group>");
 		tl(8, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_precedents), classeNomAdjectifPluriel), "\">");
-		t(9, "<", composantsWebPrefixe, "button pill");
+		t(9, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\" pill");
 		s("{% if pagination.page", i18nPage.getString(I18n.var_Precedent), " is defined %}");
 		s(" href=\"{{pageUri}}?start={{pagination.page", i18nPage.getString(I18n.var_Precedent), ".", i18nPage.getString(I18n.var_debut), "}}&amp;rows={{pagination.", i18nPage.getString(I18n.var_lignes), "}}\"");
 		s("{% else %}");
@@ -5170,7 +5151,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(8, "</", composantsWebPrefixe, "tooltip>");
 
 		tl(8, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_la_moitie_des_resultats), classeNomAdjectifPluriel), "\">");
-		t(9, "<", composantsWebPrefixe, "button");
+		t(9, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\"");
 		s("{% if pagination.", i18nPage.getString(I18n.var_lignes), i18nPage.getString(I18n.var_Precedent), " >= pagination['1L'] %}");
 		s(" href=\"{{pageUri}}?start={{pagination.", i18nPage.getString(I18n.var_debut), "}}&amp;rows={{ pagination.", i18nPage.getString(I18n.var_lignes), i18nPage.getString(I18n.var_Precedent), " }}\"");
 		s("{% else %}");
@@ -5182,7 +5163,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(8, "</", composantsWebPrefixe, "tooltip>");
 
 		tl(8, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_le_double_des_resultats), classeNomAdjectifPluriel), "\">");
-		t(9, "<", composantsWebPrefixe, "button");
+		t(9, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\"");
 		s(" href=\"{{pageUri}}?start={{pagination.", i18nPage.getString(I18n.var_debut), "}}&amp;rows={{ pagination.", i18nPage.getString(I18n.var_lignes), i18nPage.getString(I18n.var_Prochaine), " }}\"");
 		l(">");
 		tl(10, "<i slot=\"prefix\" class=\"fas fa-plus-square \"></i>");
@@ -5190,7 +5171,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(8, "</", composantsWebPrefixe, "tooltip>");
 
 		tl(8, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_suivants), classeNomAdjectifPluriel), "\">");
-		t(9, "<", composantsWebPrefixe, "button pill");
+		t(9, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\" pill");
 		s("{% if pagination.page", i18nPage.getString(I18n.var_Prochaine), " is defined %}");
 		s(" href=\"{{pageUri}}?start={{pagination.page", i18nPage.getString(I18n.var_Prochaine), ".", i18nPage.getString(I18n.var_debut), "}}&amp;rows={{pagination.", i18nPage.getString(I18n.var_lignes), "}}\"");
 		s("{% else %}");
@@ -5263,7 +5244,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(5, "</div>");
 		tl(5, "<div>");
 		tl(6, "<", composantsWebPrefixe, "tooltip content=\"", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "\">");
-		tl(7, "<", composantsWebPrefixe, "button href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
+		tl(7, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\" href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
 		tl(8, "<i class=\"fa-solid fa-angle-left\"></i>");
 		tl(8, classeTousNom);
 		tl(7, "</", composantsWebPrefixe, "button>");
@@ -5290,7 +5271,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// tl(6, "<", composantsWebPrefixe, "divider></", composantsWebPrefixe, "divider>");
 		// tl(6, "{{ htm", i18nPage.getString(I18n.var_BoutonsPagination), classePageNomSimple, "() }}");
 
-		tl(5, "<div class=\"grid-mode-details border-radius-x-large\" id=\"site-results-grid\">");
+		tl(5, "<div class=\"card-like-thing background-color-surface-border\" id=\"site-results-grid\">");
 		tl(6, "<div>");
 		s(wTh);
 		tl(6, "</div>");
@@ -5363,6 +5344,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(0, "{%- include ", classePageBarreLateraleTemplate, " %}");
 		tl(0, "{%- include ", classePageRechercheSuggereTemplate, " %}");
 
+		tl(4, "<div class=\"main-content\">");
 		// htmBodyCount0 //
 		tl(0, "{% if ", varResultat, "Count == 0 %}");
 		ecrirePageRechercheAucun(langueNom, i18nPage);
@@ -5376,22 +5358,22 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// htmBodyCount1 //
 		///////////////////
 	
-		tl(4, "<div>");
-		tl(5, "<", composantsWebPrefixe, "tooltip content=\"", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "\">");
-		tl(6, "<", composantsWebPrefixe, "button href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
-		tl(7, "<i class=\"fa-solid fa-angle-left\"></i>");
-		tl(7, classeTousNom);
-		tl(6, "</", composantsWebPrefixe, "button>");
-		tl(5, "</", composantsWebPrefixe, "tooltip>");
-		tl(4, "</div>");
+		tl(5, "<div>");
+		tl(6, "<", composantsWebPrefixe, "tooltip content=\"", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "\">");
+		tl(7, "<", composantsWebPrefixe, "button variant=\"", "wa-".equals(composantsWebPrefixe) ? "brand" : "primary", "\" href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
+		tl(8, "<i class=\"fa-solid fa-angle-left\"></i>");
+		tl(8, classeTousNom);
+		tl(7, "</", composantsWebPrefixe, "button>");
+		tl(6, "</", composantsWebPrefixe, "tooltip>");
+		tl(5, "</div>");
 
 		tl(0, "{% include ", classePageBoutonsRechercheTemplate, " %}");
 		tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
 
-		tl(4, "<h1>");
-		tl(5, classeIcone);
-		tl(5, "{{", varResultat, ".", i18nPage.getString(I18n.var_objetTitre), "}}");
-		tl(4, "</h1>");
+		tl(5, "<h1>");
+		tl(6, classeIcone);
+		tl(6, "{{", varResultat, ".", i18nPage.getString(I18n.var_objetTitre), "}}");
+		tl(5, "</h1>");
 		tl(2, "{% else %}");
 		ecrirePageRechercheAucun(langueNom, i18nPage);
 		tl(2, "{% endif %}");
@@ -5402,47 +5384,48 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 		if(classeVarClePrimaire != null || !classeModele) {
 			tl(0, "{%- block htm", i18nPage.getString(I18n.var_Formulaire), classePageNomSimple, " %}");
-			tl(4, "<form action=\"", classeApiUri, "\" id=\"", classeApiClasseNomSimple, "Form\" class=\"", i18nPage.getString(I18n.var_page), i18nPage.getString(I18n.var_Formulaire), " \" style=\"\" onsubmit=\"event.preventDefault(); return false; \">");
+			tl(5, "<form action=\"", classeApiUri, "\" id=\"", classeApiClasseNomSimple, "Form\" class=\"", i18nPage.getString(I18n.var_page), i18nPage.getString(I18n.var_Formulaire), " \" style=\"\" onsubmit=\"event.preventDefault(); return false; \">");
 			tl(0, "{% if ", classeVarId, " is defined %}");
-			t(5, "<input");
+			t(6, "<input");
 			s(" name=\"", classeVarId, "\"");
 			s(" class=\"", i18nPage.getString(I18n.var_valeur), StringUtils.capitalize(classeVarId), "\"");
 			s(" type=\"hidden\"");
 			s(" value=\"{{", classeVarId, "}}\"");
 			l("/>");
-			tl(5, "{% endif %}");
-			t(5, "<input");
+			tl(6, "{% endif %}");
+			t(6, "<input");
 			s(" name=\"focusId\"");
 			s(" type=\"hidden\"");
 			l("/>");
-			t(5, "<input");
+			t(6, "<input");
 			s(" name=\"", i18nPage.getString(I18n.var_page), i18nPage.getString(I18n.var_Reponse), "\"");
 			s(" id=\"", i18nPage.getString(I18n.var_page), i18nPage.getString(I18n.var_Reponse), "\"");
 			s(" class=\"", i18nPage.getString(I18n.var_page), i18nPage.getString(I18n.var_Reponse), "\" ");
 			s(" value='{{ toJsonObjectStringInApostrophes(", i18nPage.getString(I18n.var_page), i18nPage.getString(I18n.var_Reponse), ") }}'");
 			s(" type=\"hidden\"");
 			l("/>");
-			t(5, "<input");
+			t(6, "<input");
 			s(" name=\"", varResultat, "\"");
 			s(" id=\"", varResultat, "\"");
 			s(" class=\"", varResultat, "\" ");
 			s(" value='{{ toJsonObjectStringInApostrophes(", varResultat, "_) }}'");
 			s(" type=\"hidden\"");
 			l("/>");
-			t(5, "<input");
+			t(6, "<input");
 			s(" name=\"", i18nPage.getString(I18n.var_liste), classeNomSimple, "\"");
 			s(" id=\"", i18nPage.getString(I18n.var_liste), classeNomSimple, "\"");
 			s(" class=\"", i18nPage.getString(I18n.var_liste), classeNomSimple, "\" ");
 			s(" value='{{ toJsonArrayStringInApostrophes(", i18nPage.getString(I18n.var_liste), classeNomSimple, ") }}'");
 			s(" type=\"hidden\"");
 			l("/>");
-			tl(4, "</form>");
+			tl(5, "</form>");
 			tl(1, "{% if ", classeVarCleUnique, " is defined %}");
-			tl(4, "{{ htm", i18nPage.getString(I18n.var_Bouton), "_", StringUtils.lowerCase(i18nPage.getString(I18n.var_PageRecherche)), classeApiClasseNomSimple, "() }}");
-			tl(4, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", StringUtils.lowerCase(i18nPage.getString(I18n.var_PageRecherche)), classeApiClasseNomSimple, "() }}");
+			tl(5, "{{ htm", i18nPage.getString(I18n.var_Bouton), "_", StringUtils.lowerCase(i18nPage.getString(I18n.var_PageRecherche)), classeApiClasseNomSimple, "() }}");
+			tl(5, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", StringUtils.lowerCase(i18nPage.getString(I18n.var_PageRecherche)), classeApiClasseNomSimple, "() }}");
 			tl(1, "{% endif %}");
 			tl(0, "{%- endblock htm", i18nPage.getString(I18n.var_Formulaire), classePageNomSimple, " %}");
 		}
+		tl(4, "</div>");
 
 		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Milieu), classePageNomSimple, " %}");
 		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Milieu), classePageSuperNomSimple, " %}");
