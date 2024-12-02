@@ -5010,10 +5010,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(6, "</", composantsWebPrefixe, "button>");
 			tl(5, "</", composantsWebPrefixe, "tooltip>");
 			tl(4, "</div>");
-			tl(4, "<h1>");
-			tl(5, classeIcone);
-			tl(5, "<span>", classeNomAdjectifPluriel, "</span>");
-			tl(4, "</h1>");
+			t(4, "<h1>");
+			s(classeIcone);
+			s(" <span>", classeNomAdjectifPluriel, "</span>");
+			l("</h1>");
 
 			tl(0, "{% include ", classePageBoutonsRechercheTemplate, " %}");
 			tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
@@ -5263,12 +5263,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// htmBodyTous //
 		/////////////////
 
-		tl(5, "<h1>");
-		tl(6, "<a href=\"{{pageUri}}\">");
-		tl(7, classeIcone);
-		tl(7, "<span>", classeNomAdjectifPluriel, "</span>");
-		tl(6, "</a>");
-		tl(5, "</h1>");
+		t(5, "<h1>");
+		s("<a href=\"{{pageUri}}\">");
+		s(classeIcone);
+		s(" <span>", classeNomAdjectifPluriel, "</span>");
+		s("</a>");
+		l("</h1>");
 
 		// formulaires
 
@@ -5378,10 +5378,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(0, "{% include ", classePageBoutonsRechercheTemplate, " %}");
 		tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
 
-		tl(5, "<h1 class=\"", i18nPage.getString(I18n.var_Page), "_", classeVarTitre, "\">");
-		tl(6, classeIcone);
-		tl(6, "{{", varResultat, ".", classeVarTitre, "}}");
-		tl(5, "</h1>");
+		t(5, "<h1 class=\"", i18nPage.getString(I18n.var_Page), "_", classeVarTitre, "\">");
+		s(classeIcone);
+		s(" {{ ", varResultat, ".", classeVarTitre, " | e }}");
+		l("</h1>");
 		tl(2, "{% else %}");
 		ecrirePageRechercheAucun(langueNom, i18nPage);
 		tl(2, "{% endif %}");
