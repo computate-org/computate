@@ -2304,6 +2304,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(tBase + 8, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_RequeteApi), "_(", i18nGlobale.getString(I18n.var_requeteApi), ");");
 							tl(tBase + 8, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumFound() == 1L)");
 							tl(tBase + 9, i18nGlobale.getString(I18n.var_requeteApi), ".setOriginal(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first());");
+							tl(tBase + 8, i18nGlobale.getString(I18n.var_requeteApi), ".setId(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarId), "()).orElse(null));");
 							if(classeModele)
 								tl(tBase + 8, i18nGlobale.getString(I18n.var_requeteApi), ".set", classeVarClePrimaireCapitalise, "(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarClePrimaire), "()).orElse(null));");
 							tl(tBase + 8, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", i18nGlobale.getString(I18n.var_requeteApi), ").toString());");
@@ -2502,8 +2503,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), "2 = ", i18nGlobale.getString(I18n.var_generer), i18nGlobale.getString(I18n.var_RequeteSite), "(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_Utilisateur), "(), ", i18nGlobale.getString(I18n.var_requeteSite), ".getUserPrincipal(), ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "(), ", i18nGlobale.getString(I18n.var_requeteSite), ".getJsonObject(), ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class);");
 						tl(3, "o.set", i18nGlobale.getString(I18n.var_RequeteSite), "_(", i18nGlobale.getString(I18n.var_requeteSite), "2);");
 						tl(3, i18nGlobale.getString(I18n.var_requeteSite), "2.set", i18nGlobale.getString(I18n.var_RequeteApi), "_(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteApi), "_());");
+						tl(3, "JsonObject jsonObject = JsonObject.mapFrom(o);");
+						tl(3, classeNomSimple, " o2 = jsonObject.mapTo(", classeNomSimple, ".class);");
+						tl(3, "o2.set", i18nGlobale.getString(I18n.var_RequeteSite), "_(", i18nGlobale.getString(I18n.var_requeteSite), "2);");
 						tl(3, "futures.add(Future.future(promise1 -> {");
-						tl(4, classeApiOperationIdMethode, "Future(o", classeApiMethode.contains("PATCH") ? ", false" : "", ").onSuccess(a -> {");
+						tl(4, classeApiOperationIdMethode, "Future(", classeApiMethode.contains("PATCH") ? "o2, false" : "o", ").onSuccess(a -> {");
 						tl(5, "promise1.complete();");
 						tl(4, "}).onFailure(ex -> {");
 						tl(5, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_liste), classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
@@ -2716,6 +2720,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(7, "}");
 						tl(7, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumFound() == 1L)");
 						tl(8, i18nGlobale.getString(I18n.var_requeteApi), ".setOriginal(o);");
+						tl(7, i18nGlobale.getString(I18n.var_requeteApi), ".setId(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarId), "()).orElse(null));");
 						if(classeModele)
 							tl(7, i18nGlobale.getString(I18n.var_requeteApi), ".set", classeVarClePrimaireCapitalise, "(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarClePrimaire), "()).orElse(null));");
 //						tl(7, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
@@ -2767,10 +2772,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(7, "}");
 						tl(7, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumFound() == 1L)");
 						tl(8, i18nGlobale.getString(I18n.var_requeteApi), ".setOriginal(o);");
+						tl(7, i18nGlobale.getString(I18n.var_requeteApi), ".setId(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarId), "()).orElse(null));");
 						if(classeModele)
 							tl(7, i18nGlobale.getString(I18n.var_requeteApi), ".set", classeVarClePrimaireCapitalise, "(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarClePrimaire), "()).orElse(null));");
 //						tl(7, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
-						tl(7, classeApiOperationIdMethode, "Future(o, false).onSuccess(o2 -> {");
+						tl(7, "JsonObject jsonObject = JsonObject.mapFrom(o);");
+						tl(7, classeNomSimple, " o2 = jsonObject.mapTo(", classeNomSimple, ".class);");
+						tl(7, "o2.set", i18nGlobale.getString(I18n.var_RequeteSite), "_(", i18nGlobale.getString(I18n.var_requeteSite), ");");
+						tl(7, classeApiOperationIdMethode, "Future(o2, false).onSuccess(o3 -> {");
 						tl(8, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture(ServiceResponse.completedWithJson(Buffer.buffer(new JsonObject().encodePrettily()))));");
 						tl(7, "}).onFailure(ex -> {");
 						tl(8, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.failedFuture(ex));");
@@ -2875,6 +2884,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(7, "}");
 							tl(7, "if(", i18nGlobale.getString(I18n.var_listeRecherche), ".size() == 1) {");
 							tl(8, i18nGlobale.getString(I18n.var_requeteApi), ".setOriginal(o);");
+							tl(8, i18nGlobale.getString(I18n.var_requeteApi), ".setId(o.get", StringUtils.capitalize(classeVarId), "());");
 							if(classeModele)
 								tl(8, i18nGlobale.getString(I18n.var_requeteApi), ".set", classeVarClePrimaireCapitalise, "(o.get", StringUtils.capitalize(classeVarClePrimaire), "());");
 							tl(7, "}");
@@ -3020,7 +3030,18 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(4, "});");
 								tl(4, "return promise2.future();");
 								tl(3, "}).onSuccess(", uncapitalizeClasseNomSimple, " -> {");
-								tl(4, "promise.complete(", uncapitalizeClasseNomSimple, ");");
+								tl(4, "try {");
+								tl(5, classePartsRequeteApi.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteApi), " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteApi), "_();");
+								tl(5, "if(", i18nGlobale.getString(I18n.var_requeteApi), " != null) {");
+								tl(6, i18nGlobale.getString(I18n.var_requeteApi), ".setNumPATCH(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumPATCH() + 1);");
+								tl(6, uncapitalizeClasseNomSimple, ".", i18nGlobale.getString(I18n.var_requeteApi), classeNomSimple, "();");
+								tl(6, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", i18nGlobale.getString(I18n.var_requeteApi), ").toString());");
+								tl(5, "}");
+								tl(5, "promise.complete(", uncapitalizeClasseNomSimple, ");");
+								tl(4, "} catch(Exception ex) {");
+								tl(5, "LOG.error(String.format(\"", classeApiOperationIdMethode, "Future ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+								tl(5, "promise.fail(ex);");
+								tl(4, "}");
 								tl(3, "}).onFailure(ex -> {");
 								tl(4, "promise.fail(ex);");
 								tl(3, "});");
@@ -3232,6 +3253,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							} else {
 								tl(3, i18nGlobale.getString(I18n.var_definir), classeNomSimple, "(o, true).onSuccess(c -> {");
 								tl(4, i18nGlobale.getString(I18n.var_indexer), classeNomSimple, "(o).onSuccess(e -> {");
+								tl(5, "if(", i18nGlobale.getString(I18n.var_requeteApi), " != null) {");
+								tl(6, i18nGlobale.getString(I18n.var_requeteApi), ".setNumPATCH(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumPATCH() + 1);");
+								tl(6, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumFound() == 1L && Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getJsonObject()).map(json -> json.size() > 0).orElse(false)) {");
+								tl(7, "o", classeSauvegarde ? "2" : "", ".", i18nGlobale.getString(I18n.var_requeteApi), classeNomSimple, "();");
+								tl(7, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getVars().size() > 0)");
+								tl(8, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", i18nGlobale.getString(I18n.var_requeteApi), ").toString());");
+								tl(6, "}");
+								tl(5, "}");
 								tl(5, "promise.complete(o);");
 								tl(4, "}).onFailure(ex -> {");
 								tl(5, "promise.fail(ex);");
