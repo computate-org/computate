@@ -3724,7 +3724,8 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(1, "}");
 					}
 
-					tl(1, "@JsonIgnore");
+					if(entiteEstListe)
+						tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 					tl(2, entiteEstListe ? "String l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ", o);");
 					if(entiteEstListe) {
