@@ -1616,9 +1616,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				l();
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
+				tl(1, "protected void _varsFqCount(", classePartsCouverture.nomSimple(langueNom), "<Integer> w) {");
+				tl(1, "}");
+	
+				l();
+				if(classePageSuperNomSimple != null)
+					tl(1, "@Override");
 				tl(1, "protected void _varsFq(JsonObject vars) {");
 				tl(2, "Map<String, SolrResponse.FacetField> facetFields = Optional.ofNullable(facetCounts).map(c -> c.getFacetFields()).map(f -> f.getFacets()).orElse(new HashMap<String,SolrResponse.FacetField>());");
-				tl(2, classeNomSimple, ".varsFq", langueConfig.getString(I18n.var_PourClasse), "().forEach(var -> {");
+				tl(2, "Integer varsFqCount = 0;");
+				tl(2, "for(String var : ", classeNomSimple, ".varsFq", langueConfig.getString(I18n.var_PourClasse), "()) {");
 				tl(3, "String var", langueConfig.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", langueConfig.getString(I18n.var_Indexe), classeNomSimple, "(var);");
 				tl(3, "String var", langueConfig.getString(I18n.var_Stocke), " = ", classeNomSimple, ".var", langueConfig.getString(I18n.var_Stocke), classeNomSimple, "(var);");
 				tl(3, "JsonObject json = new JsonObject();");
@@ -1628,7 +1635,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(3, "String type = StringUtils.substringAfterLast(var", langueConfig.getString(I18n.var_Indexe), ", \"_\");");
 				tl(3, "json.put(\"", langueConfig.getString(I18n.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(I18n.var_nomAffichage), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
 				tl(3, "json.put(\"", langueConfig.getString(I18n.var_classeNomSimple), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(I18n.var_classeNomSimple), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
-				tl(3, "json.put(\"val\", ", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getFilterQueries().stream().filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).findFirst().map(s -> SearchTool.unescapeQueryChars(StringUtils.substringAfter(s, \":\"))).orElse(null));");
+				tl(3, "Object v = ", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getFilterQueries().stream().filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).findFirst().map(s -> SearchTool.unescapeQueryChars(StringUtils.substringAfter(s, \":\"))).orElse(null);");
+				tl(3, "if(v != null) {");
+				tl(4, "json.put(\"val\", v);");
+				tl(4, "varsFqCount++;");
+				tl(3, "}");
 				tl(3, "Optional.ofNullable(stats).map(s -> s.get(var", langueConfig.getString(I18n.var_Indexe), ")).ifPresent(stat -> {");
 				tl(4, "json.put(\"stats\", JsonObject.mapFrom(stat));");
 				tl(3, "});");
@@ -1690,7 +1701,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(3, "}");
 	
 				tl(3, "vars.put(var, json);");
-				tl(2, "});");
+				tl(2, "}");
 				tl(1, "}");
 	
 				///////////////
@@ -4997,6 +5008,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// htmBodyCount0 //
 			///////////////////
 
+			tl(4, "{% if varsFqCount > 0 %}");
 			tl(4, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\">", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "</", composantsWebPrefixe, "tooltip>");
 			// tl(5, "<", composantsWebPrefixe, "tooltip content=\"", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "\">");
       //STUFF4
@@ -5005,6 +5017,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(6, classeTousNom);
 			tl(5, "</", composantsWebPrefixe, "button>");
 			tl(4, "</", composantsWebPrefixe, "tooltip>");
+			tl(4, "{% endif %}");
 			t(4, "<h1>");
 			s(classeIcone);
 			s(" <span>", classeNomAdjectifPluriel, "</span>");
@@ -5246,6 +5259,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //		tl(7, "<h3 id=\"site-calendar-title\">Calendar</h3>");
 		tl(6, "<div id=\"site-calendar\"><!-- // --></div>");
 		tl(5, "</div>");
+		tl(5, "{% if varsFqCount > 0 %}");
 		tl(5, "<div class=\"margin-block\">");
 		tl(6, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\">", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "</", composantsWebPrefixe, "tooltip>");
 		tl(6, "<", composantsWebPrefixe, "button id=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
@@ -5253,6 +5267,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(7, classeTousNom);
 		tl(6, "</", composantsWebPrefixe, "button>");
 		tl(5, "</div>");
+		tl(5, "{% endif %}");
 
 		/////////////////
 		// htmBodyTous //
