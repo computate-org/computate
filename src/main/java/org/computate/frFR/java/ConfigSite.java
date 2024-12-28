@@ -92,7 +92,7 @@ public class ConfigSite {
 
 	public static String lookup(String type, String arg1) {
 		if("env".equals(type))
-			return System.getenv(arg1);
+			return Optional.ofNullable(System.getenv(arg1)).orElse("");
 		return null;
 	}
 
