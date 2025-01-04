@@ -656,6 +656,38 @@ public class ConfigSite {
 		clientSolrComputate = new HttpSolrClient.Builder(solrUrlComputate).withHttpClient(httpClient).build();
 	}
 
+	public String solrUrlFiware;
+
+	public String getSolrUrlFiware() {
+		return solrUrlFiware;
+	}
+
+	public void setSolrUrlFiware(String solrUrlFiware) {
+		this.solrUrlFiware = solrUrlFiware;
+	}
+
+	protected void _solrUrlFiware() throws Exception {
+		solrUrlFiware = config
+				.getString(langueConfigGlobale.getString(I18n.var_SOLR_URL_FIWARE));
+	}
+
+	public SolrClient clientSolrFiware;
+	protected void _clientSolrFiware() throws Exception {
+		SSLContextBuilder builder = new SSLContextBuilder();
+		builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
+		SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(builder.build(), NoopHostnameVerifier.INSTANCE);
+		UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(solrUtilisateur, solrMotDePasse);
+		CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+		PreemptiveAuth requestInterceptor = new PreemptiveAuth(new BasicScheme());
+		credentialsProvider.setCredentials(AuthScope.ANY, credentials);
+		CloseableHttpClient httpClient = HttpClients.custom()
+				.setSSLSocketFactory(sslsf)
+				.setDefaultCredentialsProvider(credentialsProvider)
+				.addInterceptorLast(requestInterceptor)
+				.build();
+		clientSolrFiware = new HttpSolrClient.Builder(solrUrlFiware).withHttpClient(httpClient).build();
+	}
+
 	/**
 	 * Var.enUS: sourcePaths enUS: The absolute paths to source code directories in
 	 * the app to watch for changes.
@@ -952,7 +984,9 @@ public class ConfigSite {
 		_solrUtilisateur();
 		_solrMotDePasse();
 		_solrUrlComputate();
+		_solrUrlFiware();
 		_clientSolrComputate();
+		_clientSolrFiware();
 		_cheminsSource();
 		_toutCheminsSource();
 		_nomsMethodeTest();
