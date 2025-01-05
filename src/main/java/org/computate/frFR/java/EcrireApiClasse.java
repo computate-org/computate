@@ -254,7 +254,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.l("import io.vertx.ext.web.api.service.ServiceResponse;");
 			auteurGenApiService.l("import com.hubspot.jinjava.Jinjava;");
 			auteurGenApiService.l("import io.vertx.core.WorkerExecutor;");
-			auteurGenApiService.l("import io.vertx.pgclient.PgPool;");
+			auteurGenApiService.l("import io.vertx.sqlclient.Pool;");
 			auteurGenApiService.l("import org.computate.vertx.openapi.ComputateOAuth2AuthHandlerImpl;");
 			auteurGenApiService.l("import io.vertx.kafka.client.producer.KafkaProducer;");
 			auteurGenApiService.l("import io.vertx.mqtt.MqttClient;");
@@ -352,7 +352,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurApiServiceImpl.l("import io.vertx.core.Vertx;");
 			auteurApiServiceImpl.l("import io.vertx.core.WorkerExecutor;");
 			auteurApiServiceImpl.l("import io.vertx.core.json.JsonObject;");
-			auteurApiServiceImpl.l("import io.vertx.pgclient.PgPool;");
+			auteurApiServiceImpl.l("import io.vertx.sqlclient.Pool;");
 			auteurApiServiceImpl.l("import org.computate.vertx.openapi.ComputateOAuth2AuthHandlerImpl;");
 			auteurApiServiceImpl.l("import io.vertx.kafka.client.producer.KafkaProducer;");
 			auteurApiServiceImpl.l("import io.vertx.mqtt.MqttClient;");
