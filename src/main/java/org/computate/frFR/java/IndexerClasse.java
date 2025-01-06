@@ -6157,7 +6157,7 @@ public class IndexerClasse extends RegarderClasseBase {
 					wSmartDataModel.l(" * Order: 1");
 					wSmartDataModel.l(" * Description: ", modelDescription);
 					wSmartDataModel.l(" * AName: ", aName);
-					wSmartDataModel.l(" * Icon: <i class=\"fa-regular fa-conveyor-belt'\"></i>");
+					wSmartDataModel.l(" * Icon: <i class=\"fa-regular fa-conveyor-belt\"></i>");
 					wSmartDataModel.l(" * Rows: 100");
 					wSmartDataModel.l(" * ");
 					wSmartDataModel.l(" * SearchPageUri: /en-us/search/", idName);
@@ -6177,13 +6177,13 @@ public class IndexerClasse extends RegarderClasseBase {
 					wSmartDataModel.l(" *     GET:");
 					wSmartDataModel.l(" *     DELETE:");
 					wSmartDataModel.l(" *     SuperAdmin:");
-					wSmartDataModel.l(" *     SiteAdmin:");
-					wSmartDataModel.l(" *   SiteAdmin:");
+					wSmartDataModel.l(" *     Admin:");
+					wSmartDataModel.l(" *   Admin:");
 					wSmartDataModel.l(" *     POST:");
 					wSmartDataModel.l(" *     PATCH:");
 					wSmartDataModel.l(" *     GET:");
 					wSmartDataModel.l(" *     DELETE:");
-					wSmartDataModel.l(" *     SiteAdmin:");
+					wSmartDataModel.l(" *     Admin:");
 					wSmartDataModel.l(" **/");
 					wSmartDataModel.l("public class ", classeNomSimple, " extends ", classeNomSimple, "Gen<BaseModel> {");
 	
@@ -6292,7 +6292,6 @@ public class IndexerClasse extends RegarderClasseBase {
 					wSmartDataModel.l("	 * HtmRow: 3");
 					wSmartDataModel.l("	 * HtmCell: ", cell);
 					wSmartDataModel.l("	 * Facet: true");
-					wSmartDataModel.l("	 * VarId: true");
 					wSmartDataModel.l("	 */");
 					wSmartDataModel.l("	protected void _entityId(Wrap<String> w) {");
 					if(propertiesNames.contains("name")) {
@@ -6304,7 +6303,9 @@ public class IndexerClasse extends RegarderClasseBase {
 					wSmartDataModel.l("	 * {@inheritDoc}");
 					wSmartDataModel.l("	 * DisplayName: short entity ID");
 					wSmartDataModel.l("	 * Description: A short ID for this Smart Data Model");
+					wSmartDataModel.l("	 * DocValues: true");
 					wSmartDataModel.l("	 * Facet: true");
+					wSmartDataModel.l("	 * VarId: true");
 					wSmartDataModel.l("	 */");
 					wSmartDataModel.l("	protected void _entityShortId(Wrap<String> w) {");
 					wSmartDataModel.l("		if(entityId != null) {");

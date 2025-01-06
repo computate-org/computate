@@ -3753,6 +3753,12 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				else {
 					l();
+					if(
+							StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePoint) || StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePath) || StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePolygon)
+							|| StringUtils.equals(entiteNomCanoniqueGenerique, VAL_nomCanoniquePoint) || StringUtils.equals(entiteNomCanoniqueGenerique, VAL_nomCanoniquePath) || StringUtils.equals(entiteNomCanoniqueGenerique, VAL_nomCanoniquePolygon)
+							) {
+						tl(1, "@JsonIgnore");
+					}
 					tl(1, "public void set", entiteVarCapitalise, "(", entiteNomSimpleComplet, " ", entiteVar, ") {");
 					if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
 						tl(2, "this.", entiteVar, " = Optional.ofNullable(", entiteVar, ").map(v -> v.truncatedTo(ChronoUnit.MILLIS)).orElse(null);");
@@ -3927,6 +3933,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(1, "}");
 
 					if(entiteNomCanoniqueGenerique == null) {
+						tl(1, "@JsonIgnore");
 						tl(1, "public void set", entiteVarCapitalise, "(JsonObject o) {");
 						tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ", o);");
 						tl(1, "}");

@@ -2622,142 +2622,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			ecrirePageJs(langueNom, i18nPage);
 
-			//STUFF0
 			if(auteurGenPageEditionJinja != null) {
-				o = auteurFormulaireRechercheJinja;
-				for(String classeApiMethode : classeApiMethodes) {
-					String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
-					String classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
-					String classeApiTypeMediaMethode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
-					String classeApiMethodeMethode = classeDoc.getString("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
-
-					if(classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) || classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals("DELETE") || classeApiMethode.equals(i18nPage.getString(I18n.var_PUTCopie)) || classeApiMethode.equals(i18nPage.getString(I18n.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
-						String methodeTitreFiltres = null;
-						String methodeTitreValeurs = null;
-						String methodeTitreCourt = null;
-
-						if("POST".equals(classeApiMethodeMethode)) {
-							methodeTitreCourt = i18nPage.getString(I18n.str_Creer);
-							methodeTitreValeurs = i18nPage.getString(I18n.str_Creer_) + classeUnNom;
-						}
-						else if("PUTImport".equals(classeApiMethode)) {
-							methodeTitreCourt = i18nPage.getString(I18n.str_Importer);
-							methodeTitreFiltres = i18nPage.getString(I18n.str_Importer_) + classeUnNom;
-							methodeTitreValeurs = i18nPage.getString(I18n.str_Importer_) + classeNomPluriel;
-						}
-						else if(i18nPage.getString(I18n.var_PUTFusion).equals(classeApiMethode)) {
-							methodeTitreCourt = i18nPage.getString(I18n.str_Fusionner);
-							methodeTitreFiltres = i18nPage.getString(I18n.str_Fusionner_) + classeUnNom;
-							methodeTitreValeurs = i18nPage.getString(I18n.str_Fusionner_) + classeNomPluriel;
-						}
-						else if(i18nPage.getString(I18n.var_PUTCopie).equals(classeApiMethode)) {
-							methodeTitreCourt = i18nPage.getString(I18n.str_Dupliquer);
-							methodeTitreFiltres = i18nPage.getString(I18n.str_Dupliquer_) + classeUnNom;
-							methodeTitreValeurs = i18nPage.getString(I18n.str_Dupliquer_) + classeNomSingulier;
-						}
-						else if("PATCH".equals(classeApiMethodeMethode)) {
-							methodeTitreCourt = i18nPage.getString(I18n.str_Modifier);
-							methodeTitreFiltres = i18nPage.getString(I18n.str_Modifier_des_) + classeUnNom;
-							methodeTitreValeurs = i18nPage.getString(I18n.str_Modifier_des_) + classeNomSingulier;
-						}
-						else if("DELETE".equals(classeApiMethodeMethode)) {
-							methodeTitreCourt = i18nPage.getString(I18n.str_Supprimer);
-							methodeTitreFiltres = i18nPage.getString(I18n.str_Supprimer_) + classeUnNom;
-							methodeTitreValeurs = i18nPage.getString(I18n.str_Supprimer_) + classeNomSingulier;
-						}
-						else {
-							methodeTitreCourt = i18nPage.getString(I18n.str_Rechercher);
-							methodeTitreFiltres = i18nPage.getString(I18n.str_Rechercher_) + classeUnNom;
-							methodeTitreValeurs = i18nPage.getString(I18n.str_Rechercher_) + classeNomPluriel;
-						}
-
-						l();
-						s("{%- macro htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() %}");
-						if(!classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche))) {
-							s("<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", "");
-							s(" id=\"htm", i18nGlobale.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "\"");
-							s(" data-", classeVarId, "={{ ", i18nPage.getString(I18n.var_resultat), ".", classeVarId, " | tojson }}");
-							s(">");
-	
-								if(classeApiMethodeMethode.contains("POST"))
-									s("<i slot=\"prefix\" class=\"fas fa-file-plus \"></i>");
-								else if(classeApiMethodeMethode.contains("PATCH"))
-									s("<i slot=\"prefix\" class=\"fas fa-edit \"></i>");
-								else if(classeApiMethodeMethode.contains("DELETE"))
-									s("<i slot=\"prefix\" class=\"fas fa-trash \"></i>");
-								else if(classeApiMethode.contains("PUTImport"))
-									s("<i slot=\"prefix\" class=\"fas fa-file-import \"></i>");
-								else if(classeApiMethode.contains(i18nPage.getString(I18n.var_PUTFusion)))
-									s("<i slot=\"prefix\" class=\"fas fa-code-merge \"></i>");
-								else if(classeApiMethode.contains(i18nPage.getString(I18n.var_PUTCopie)))
-									s("<i slot=\"prefix\" class=\"fas fa-copy \"></i>");
-	
-								s(methodeTitreCourt);
-							s("</", composantsWebPrefixe, "button>");
-						}
-						l("{%- endmacro %}");
-
-						l();
-						l("{%- macro htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() %}");
-						tl(6, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " slot=\"footer\" type=\"submit\" variant=\"primary\"");
-						tl(8, "id=\"htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "\"");
-						tl(8, ">", methodeTitreValeurs, "</", composantsWebPrefixe, "button>");
-						l("{%- endmacro %}");
-
-						l();
-						l("{%- macro htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() %}");
-						{ tl(4, "<", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "div" : composantsWebPrefixe + "dialog", " id=\"", classeApiOperationIdMethode, i18nPage.getString(I18n.var_Dialogue), "\" label=\"", methodeTitreValeurs, "\">");
-							{ tl(5, "<", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "div" : "form", " id=\"htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "\" class=\"round-row primary-smart-border-radius \">");
-								if(!i18nPage.getString(I18n.var_PageRecherche).equals(classeApiMethode)) {
-									if("POST".equals(classeApiMethode)) {
-										tl(6, "<div>", i18nPage.getString(I18n.str_Vous_pouvez_remplacer_les_valeurs_par_defaut_ci_dessous), "</div>");
-									}
-								}
-	
-								if("PATCH".equals(classeApiMethode) || i18nPage.getString(I18n.var_PUTFusion).equals(classeApiMethode) || i18nPage.getString(I18n.var_PUTCopie).equals(classeApiMethode) || "PUTImport".equals(classeApiMethode)) {
-	
-									if("PUTImport".equals(classeApiMethode)) {
-										tl(6, "<div>");
-										tl(7, "<", composantsWebPrefixe, "textarea");
-										tl(9, "class=\"", "PUTImport_", i18nPage.getString(I18n.var_listeRecherche), " \"");
-										tl(9, "style=\"height: 300px; \"");
-										tl(9, "placeholder=\"{ '", i18nPage.getString(I18n.var_listeRecherche), "': [ { '", classeVarId, "': ... , '", i18nPage.getString(I18n.var_sauvegardes), "': [ ... ] }, ... ] }\"");
-										tl(9, ">");
-										tl(7, "</", composantsWebPrefixe, "textarea>");
-										tl(6, "</div>");
-									} else if(i18nPage.getString(I18n.var_PUTFusion).equals(classeApiMethode)) {
-										tl(6, "<div>");
-										tl(7, "<", composantsWebPrefixe, "textarea");
-										tl(9, "class=\"", "PUT", i18nPage.getString(I18n.var_PUTFusion), "_", i18nPage.getString(I18n.var_listeRecherche), " \"");
-										tl(9, "style=\"height: 300px; \"");
-										tl(9, "placeholder=\"{ '", i18nPage.getString(I18n.var_listeRecherche), "': [ { '", classeVarId, "': ... , '", i18nPage.getString(I18n.var_sauvegardes), "': [ ... ] }, ... ] }\"");
-										tl(9, ">");
-										tl(7, "</", composantsWebPrefixe, "textarea>");
-										tl(6, "</div>");
-									} else if(i18nPage.getString(I18n.var_PUTCopie).equals(classeApiMethode)) {
-										s(wFormPUTCopie);
-									} else if("PATCH".equals(classeApiMethodeMethode)) {
-										s(wFormPATCH);
-									}
-	
-								} else {
-									if("POST".equals(classeApiMethode)) {
-										s(wFormPOST);
-									} else if(i18nPage.getString(I18n.var_Recherche).equals(classeApiMethode)) {
-										s(wFormRecherche);
-									} if(i18nPage.getString(I18n.var_PageRecherche).equals(classeApiMethode)) {
-										s(wFormPage);
-									}
-								}
-							} tl(5, "</", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "div" : "form", ">");
-							if(!classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche))) {
-								tl(5, "{{ htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
-							}
-						} tl(4, "</", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "div" : composantsWebPrefixe + "dialog", ">");
-						l("{%- endmacro %}");
-					}
-				}
-
 				ecrirePageEditionJinja(langueNom, i18nPage);
 			}
 
@@ -4206,6 +4071,141 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	public void ecrirePageFormulaireRecherche(String langueNom, JsonObject i18nPage) throws Exception {
 		ToutEcrivain oAncien = o;
 		o = auteurFormulaireRechercheJinja;
+		s(auteurGenPageJinjaEntite);
+
+		for(String classeApiMethode : classeApiMethodes) {
+			String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
+			String classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
+			String classeApiTypeMediaMethode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
+			String classeApiMethodeMethode = classeDoc.getString("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
+
+			if(classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) || classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals("DELETE") || classeApiMethode.equals(i18nPage.getString(I18n.var_PUTCopie)) || classeApiMethode.equals(i18nPage.getString(I18n.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
+				String methodeTitreFiltres = null;
+				String methodeTitreValeurs = null;
+				String methodeTitreCourt = null;
+
+				if("POST".equals(classeApiMethodeMethode)) {
+					methodeTitreCourt = i18nPage.getString(I18n.str_Creer);
+					methodeTitreValeurs = i18nPage.getString(I18n.str_Creer_) + classeUnNom;
+				}
+				else if("PUTImport".equals(classeApiMethode)) {
+					methodeTitreCourt = i18nPage.getString(I18n.str_Importer);
+					methodeTitreFiltres = i18nPage.getString(I18n.str_Importer_) + classeUnNom;
+					methodeTitreValeurs = i18nPage.getString(I18n.str_Importer_) + classeNomPluriel;
+				}
+				else if(i18nPage.getString(I18n.var_PUTFusion).equals(classeApiMethode)) {
+					methodeTitreCourt = i18nPage.getString(I18n.str_Fusionner);
+					methodeTitreFiltres = i18nPage.getString(I18n.str_Fusionner_) + classeUnNom;
+					methodeTitreValeurs = i18nPage.getString(I18n.str_Fusionner_) + classeNomPluriel;
+				}
+				else if(i18nPage.getString(I18n.var_PUTCopie).equals(classeApiMethode)) {
+					methodeTitreCourt = i18nPage.getString(I18n.str_Dupliquer);
+					methodeTitreFiltres = i18nPage.getString(I18n.str_Dupliquer_) + classeUnNom;
+					methodeTitreValeurs = i18nPage.getString(I18n.str_Dupliquer_) + classeNomSingulier;
+				}
+				else if("PATCH".equals(classeApiMethodeMethode)) {
+					methodeTitreCourt = i18nPage.getString(I18n.str_Modifier);
+					methodeTitreFiltres = i18nPage.getString(I18n.str_Modifier_des_) + classeUnNom;
+					methodeTitreValeurs = i18nPage.getString(I18n.str_Modifier_des_) + classeNomSingulier;
+				}
+				else if("DELETE".equals(classeApiMethodeMethode)) {
+					methodeTitreCourt = i18nPage.getString(I18n.str_Supprimer);
+					methodeTitreFiltres = i18nPage.getString(I18n.str_Supprimer_) + classeUnNom;
+					methodeTitreValeurs = i18nPage.getString(I18n.str_Supprimer_) + classeNomSingulier;
+				}
+				else {
+					methodeTitreCourt = i18nPage.getString(I18n.str_Rechercher);
+					methodeTitreFiltres = i18nPage.getString(I18n.str_Rechercher_) + classeUnNom;
+					methodeTitreValeurs = i18nPage.getString(I18n.str_Rechercher_) + classeNomPluriel;
+				}
+
+				l();
+				s("{%- macro htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() %}");
+				if(!classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche))) {
+					s("<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", "");
+					s(" id=\"htm", i18nGlobale.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "\"");
+					s(" data-", classeVarId, "={{ ", i18nPage.getString(I18n.var_resultat), ".", classeVarId, " | tojson }}");
+					s(">");
+	
+						if(classeApiMethodeMethode.contains("POST"))
+							s("<i slot=\"prefix\" class=\"fas fa-file-plus \"></i>");
+						else if(classeApiMethodeMethode.contains("PATCH"))
+							s("<i slot=\"prefix\" class=\"fas fa-edit \"></i>");
+						else if(classeApiMethodeMethode.contains("DELETE"))
+							s("<i slot=\"prefix\" class=\"fas fa-trash \"></i>");
+						else if(classeApiMethode.contains("PUTImport"))
+							s("<i slot=\"prefix\" class=\"fas fa-file-import \"></i>");
+						else if(classeApiMethode.contains(i18nPage.getString(I18n.var_PUTFusion)))
+							s("<i slot=\"prefix\" class=\"fas fa-code-merge \"></i>");
+						else if(classeApiMethode.contains(i18nPage.getString(I18n.var_PUTCopie)))
+							s("<i slot=\"prefix\" class=\"fas fa-copy \"></i>");
+	
+						s(methodeTitreCourt);
+					s("</", composantsWebPrefixe, "button>");
+				}
+				l("{%- endmacro %}");
+
+				l();
+				l("{%- macro htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() %}");
+				t(5, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " slot=\"footer\" type=\"submit\"");
+				s(" id=\"htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "\"");
+				l(">", methodeTitreValeurs, "</", composantsWebPrefixe, "button>");
+				l("{%- endmacro %}");
+
+				l();
+				l("{%- macro htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() %}");
+				{ tl(4, "<", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "div" : composantsWebPrefixe + "dialog", "wa-".equals(composantsWebPrefixe) ? " with-footer" : "", " id=\"", classeApiOperationIdMethode, i18nPage.getString(I18n.var_Dialogue), "\" label=\"", methodeTitreValeurs, "\">");
+					{ tl(5, "<", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "div" : "form", " id=\"htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "\" class=\"round-row primary-smart-border-radius \">");
+						if(!i18nPage.getString(I18n.var_PageRecherche).equals(classeApiMethode)) {
+							if("POST".equals(classeApiMethode)) {
+								tl(6, "<div>", i18nPage.getString(I18n.str_Vous_pouvez_remplacer_les_valeurs_par_defaut_ci_dessous), "</div>");
+							}
+						}
+	
+						if("PATCH".equals(classeApiMethode) || i18nPage.getString(I18n.var_PUTFusion).equals(classeApiMethode) || i18nPage.getString(I18n.var_PUTCopie).equals(classeApiMethode) || "PUTImport".equals(classeApiMethode)) {
+	
+							if("PUTImport".equals(classeApiMethode)) {
+								tl(6, "<div>");
+								tl(7, "<", composantsWebPrefixe, "textarea");
+								tl(9, "class=\"", "PUTImport_", i18nPage.getString(I18n.var_listeRecherche), " \"");
+								tl(9, "style=\"height: 300px; \"");
+								tl(9, "placeholder=\"{ '", i18nPage.getString(I18n.var_listeRecherche), "': [ { '", classeVarId, "': ... , '", i18nPage.getString(I18n.var_sauvegardes), "': [ ... ] }, ... ] }\"");
+								tl(9, ">");
+								tl(7, "</", composantsWebPrefixe, "textarea>");
+								tl(6, "</div>");
+							} else if(i18nPage.getString(I18n.var_PUTFusion).equals(classeApiMethode)) {
+								tl(6, "<div>");
+								tl(7, "<", composantsWebPrefixe, "textarea");
+								tl(9, "class=\"", "PUT", i18nPage.getString(I18n.var_PUTFusion), "_", i18nPage.getString(I18n.var_listeRecherche), " \"");
+								tl(9, "style=\"height: 300px; \"");
+								tl(9, "placeholder=\"{ '", i18nPage.getString(I18n.var_listeRecherche), "': [ { '", classeVarId, "': ... , '", i18nPage.getString(I18n.var_sauvegardes), "': [ ... ] }, ... ] }\"");
+								tl(9, ">");
+								tl(7, "</", composantsWebPrefixe, "textarea>");
+								tl(6, "</div>");
+							} else if(i18nPage.getString(I18n.var_PUTCopie).equals(classeApiMethode)) {
+								s(wFormPUTCopie);
+							} else if("PATCH".equals(classeApiMethodeMethode)) {
+								s(wFormPATCH);
+							}
+	
+						} else {
+							if("POST".equals(classeApiMethode)) {
+								s(wFormPOST);
+							} else if(i18nPage.getString(I18n.var_Recherche).equals(classeApiMethode)) {
+								s(wFormRecherche);
+							} if(i18nPage.getString(I18n.var_PageRecherche).equals(classeApiMethode)) {
+								s(wFormPage);
+							}
+						}
+					} tl(5, "</", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "div" : "form", ">");
+					if(!classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche))) {
+						tl(5, "{{ htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
+					}
+				} tl(4, "</", classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) ? "div" : composantsWebPrefixe + "dialog", ">");
+				l("{%- endmacro %}");
+			}
+		}
+
 
 		// formulaires //
 		tl(5, "<", composantsWebPrefixe, "divider></", composantsWebPrefixe, "divider>");
@@ -5454,7 +5454,5 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Fin), classePageNomSimple, " %}");
 		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Fin), classePageNomSimple, " %}");
 		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Fin), classePageSuperNomSimple, " %}");
-
-		s(auteurGenPageJinjaEntite);
 	}
 }
