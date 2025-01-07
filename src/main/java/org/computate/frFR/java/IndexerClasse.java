@@ -6157,7 +6157,7 @@ public class IndexerClasse extends RegarderClasseBase {
 					wSmartDataModel.l(" * Order: 1");
 					wSmartDataModel.l(" * Description: ", modelDescription);
 					wSmartDataModel.l(" * AName: ", aName);
-					wSmartDataModel.l(" * Icon: <i class=\"fa-duotone fa-regular fa-conveyor-belt\"></i>");
+					wSmartDataModel.l(" * Icon: <i class=\"", fontawesomeStyle, " fa-conveyor-belt\"></i>");
 					wSmartDataModel.l(" * Rows: 100");
 					wSmartDataModel.l(" * ");
 					wSmartDataModel.l(" * SearchPageUri: /en-us/search/", idName);

@@ -290,6 +290,12 @@ public class ConfigSite {
 			templateChemin = config.getString(langueConfigGlobale.getString(I18n.var_TEMPLATE_CHEMIN));
 	}
 
+	public String fontawesomeStyle;
+	protected void _fontawesomeStyle() throws Exception {
+		if (fontawesomeStyle == null)
+			fontawesomeStyle = config.getString(langueConfigGlobale.getString(I18n.var_FONTAWESOME_STYLE));
+	}
+
 	/**
 	 * Var.enUS: srcMainJavaPath enUS: The absolute path to the /src/main/java
 	 * directory.
@@ -956,6 +962,7 @@ public class ConfigSite {
 		_siteChemin();
 		_cheminStatique();
 		_templateChemin();
+		_fontawesomeStyle();
 		_cheminSrcMainJava();
 		_cheminSrcMainResources();
 		_cheminSrcGenJava();
