@@ -6171,6 +6171,12 @@ public class IndexerClasse extends RegarderClasseBase {
 					wSmartDataModel.l(" *   DELETE:");
 					wSmartDataModel.l(" *   PUTImport:");
 					wSmartDataModel.l(" * AuthGroup:");
+					wSmartDataModel.l(" *   ", classeNomSimple, "Viewer:");
+					wSmartDataModel.l(" *     GET:");
+					wSmartDataModel.l(" *   ", classeNomSimple, "Editor:");
+					wSmartDataModel.l(" *     GET:");
+					wSmartDataModel.l(" *     POST:");
+					wSmartDataModel.l(" *     PATCH:");
 					wSmartDataModel.l(" *   SuperAdmin:");
 					wSmartDataModel.l(" *     POST:");
 					wSmartDataModel.l(" *     PATCH:");
