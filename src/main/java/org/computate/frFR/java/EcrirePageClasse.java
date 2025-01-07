@@ -792,7 +792,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 				tl(12, "<div>");
 				tl(13, "<h5>");
-				tl(14, "<i class=\"far fa-search \"></i>");
+				tl(14, "<i class=\"{{ FONTAWESOME_STYLE }} fa-search \"></i>");
 				tl(14, langueConfig.getString(I18n.var_relier), " ", entiteListeTypeJson == null ? entiteAttribuerContexteUnNom : entiteAttribuerContexteNomPluriel, " ", langueConfig.getString(I18n.var_a), " ", classeCeNom);
 				tl(13, "</h5>");
 				tl(12, "</div>");
@@ -2295,11 +2295,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									wTh.tl(8, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " slot=\"trigger\" caret>", entiteNomAffichage, "</", composantsWebPrefixe, "button>");
 									wTh.tl(8, "<", composantsWebPrefixe, "menu>");
 									wTh.tl(9, "<", composantsWebPrefixe, "menu-item data-action=\"", i18nPage.getString(I18n.var_tri), "\" data-order=\"asc\" id=\"htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "-asc\">");
-									wTh.tl(10, "<i class=\"fa-solid fa-arrow-down-a-z\"></i>");
+									wTh.tl(10, "<i class=\"{{ FONTAWESOME_STYLE }} fa-arrow-down-a-z\"></i>");
 									wTh.t(10).sx(String.format(i18nPage.getString(I18n.str_trier_par___croissante), entiteNomAffichage)).l();
 									wTh.tl(9, "</", composantsWebPrefixe, "menu-item>");
 									wTh.tl(9, "<", composantsWebPrefixe, "menu-item data-action=\"", i18nPage.getString(I18n.var_tri), "\" data-order=\"desc\" id=\"htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "-desc\">");
-									wTh.tl(10, "<i class=\"fa-solid fa-arrow-down-z-a\"></i>");
+									wTh.tl(10, "<i class=\"{{ FONTAWESOME_STYLE }} fa-arrow-down-z-a\"></i>");
 									wTh.t(10).sx(String.format(i18nPage.getString(I18n.str_trier_par___decroissante), entiteNomAffichage)).l();
 									wTh.tl(9, "</", composantsWebPrefixe, "menu-item>");
 									wTh.tl(8, "</", composantsWebPrefixe, "menu>");
@@ -2826,7 +2826,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					l("{%- block ", i18nPage.getString(I18n.var_htmLegende), classePageNomSimple, " %}");
 					tl(2, "<div title=\"${quoteattr(title)}\">");
 					tl(2, "<div style=\"width: 20px; \">");
-					tl(3, "<i class=\"fa-light fa-circle\" style=\"color: ${color}; \"></i>");
+					tl(3, "<i class=\"{{ FONTAWESOME_STYLE }} fa-circle\" style=\"color: ${color}; \"></i>");
 					tl(2, "</div>");
 					tl(2, "<div class=\"text-overflow-ellipsis \">");
 					tl(3, "<span class=\"\" data-", classeVarCleUnique, "=\"${", varResultat, ".", classeVarCleUnique, "}\" onclick=\"window.mapLayers[this.getAttribute('data-", classeVarCleUnique, "')].openPopup(); return false;\" href=\"\">${title}</span>");
@@ -4040,7 +4040,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(5, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", "");
 			tl(7, "onclick=\"window.location.href = '", classePageUriMethode + "?q=&quot;, query1, &quot;:' + encodeURIComponent(this.previousElementSibling.value) + '&quot;, fqs, sorts, &quot;&amp;rows=&quot;, start2, &quot;&amp;rows=&quot;, rows1, &quot;'; \"");
 			tl(7, ">");
-			tl(6, "<i class=\"fas fa-search \"></i>");
+			tl(6, "<i class=\"{{ FONTAWESOME_STYLE }} fa-search \"></i>");
 			tl(5, "</", composantsWebPrefixe, "button>");
 
 			tl(5, "<div>");
@@ -4128,17 +4128,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					s(">");
 	
 						if(classeApiMethodeMethode.contains("POST"))
-							s("<i slot=\"prefix\" class=\"fas fa-file-plus \"></i>");
+							s("<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-file-plus \"></i>");
 						else if(classeApiMethodeMethode.contains("PATCH"))
-							s("<i slot=\"prefix\" class=\"fas fa-edit \"></i>");
+							s("<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-edit \"></i>");
 						else if(classeApiMethodeMethode.contains("DELETE"))
-							s("<i slot=\"prefix\" class=\"fas fa-trash \"></i>");
+							s("<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-trash \"></i>");
 						else if(classeApiMethode.contains("PUTImport"))
-							s("<i slot=\"prefix\" class=\"fas fa-file-import \"></i>");
+							s("<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-file-import \"></i>");
 						else if(classeApiMethode.contains(i18nPage.getString(I18n.var_PUTFusion)))
-							s("<i slot=\"prefix\" class=\"fas fa-code-merge \"></i>");
+							s("<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-code-merge \"></i>");
 						else if(classeApiMethode.contains(i18nPage.getString(I18n.var_PUTCopie)))
-							s("<i slot=\"prefix\" class=\"fas fa-copy \"></i>");
+							s("<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-copy \"></i>");
 	
 						s(methodeTitreCourt);
 					s("</", composantsWebPrefixe, "button>");
@@ -4220,7 +4220,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// s("<", composantsWebPrefixe, "tooltip content=\"", i18nPage.getString(I18n.str_Recharger), " ", classeCeNom, "\">");
 		tl(7, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " id=\"", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "\"");
 		tl(9, " onclick=\"patch{{", i18nPage.getString(I18n.var_classeNomSimple), "}}Vals( [ {name: 'fq', value: '", classeVarId, ":{{", classeVarId, "}}' } ], {}, this, function() { ", i18nPage.getString(I18n.var_ajouterLueur), "(document.querySelector('#", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "')); }, function() { ", i18nPage.getString(I18n.var_ajouterErreur), "(document.querySelector('#", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "')); }); return false; \">");
-		tl(8, "<i slot=\"prefix\" class=\"fas fa-sync-alt \"></i>");
+		tl(8, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-sync-alt \"></i>");
 		tl(8, i18nPage.getString(I18n.var_recharger));
 		tl(7, "</", composantsWebPrefixe, "button>");
 		// tl(9, "</", composantsWebPrefixe, "tooltip>");
@@ -4232,7 +4232,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(7, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " id=\"", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeTous)), classeGenPageNomSimple, "{{ ", i18nPage.getString(I18n.var_resultat), ".", classeVarId, " | e }}\"");
 		tl(9, " onclick=\"patch{{", i18nPage.getString(I18n.var_classeNomSimple), "}}Vals([], {}, this, function() { ", i18nPage.getString(I18n.var_ajouterLueur), "(document.querySelector('#", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeTous)), classeGenPageNomSimple, "{{ ", i18nPage.getString(I18n.var_resultat), ".", classeVarId, " | e }}')); }, function() { ", i18nPage.getString(I18n.var_ajouterErreur), "(document.querySelector('#", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeTous)), classeGenPageNomSimple, "{{ ", i18nPage.getString(I18n.var_resultat), ".", classeVarId, " | e }}')); }); \"");
 		tl(9, ">");
-		tl(8, "<i slot=\"prefix\" class=\"fa-kit fa-solid-arrows-rotate-rotate\"></i>");
+		tl(8, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-arrows-rotate\"></i>");
 		tl(8, i18nPage.getString(I18n.str_Recharger), " ", classeTous);
 		tl(7, "</", composantsWebPrefixe, "button>");
 		// tl(9, "</", composantsWebPrefixe, "tooltip>");
@@ -4373,7 +4373,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 		tl(5, "<", composantsWebPrefixe, "drawer with-header light-dismiss placement=\"end\" id=\"site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Recherche), "\">");
 		tl(6, "<div slot=\"label\">");
-		tl(7, "<i class=\"fad fa-magnifying-glass \"></i>");
+		tl(7, "<i class=\"{{ FONTAWESOME_STYLE }} fa-magnifying-glass \"></i>");
 		tl(7, i18nPage.getString(I18n.var_Recherche));
 		tl(6, "</div>");
 		tl(6, "<div>");
@@ -4470,7 +4470,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(5, "<", composantsWebPrefixe, "drawer with-header light-dismiss placement=\"end\" id=\"site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Filtres), "\">");
 		tl(6, "<div slot=\"label\">");
 		tl(7, "<span>");
-		t(7, "<i class=\"fad fa-filters \"></i>");
+		t(7, "<i class=\"{{ FONTAWESOME_STYLE }} fa-filters \"></i>");
 		l(" ", i18nPage.getString(I18n.var_Filtres), "</span>");
 		tl(6, "</div>");
 		tl(6, "<div>");
@@ -4494,7 +4494,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		s(" id=\"buttonFacet", classeNomSimple, "_{{ key }}\"");
 		s(" data-var=\"{{ value.var }}\"");
 		s(" data-clear=\"{% if value.facetField is defined %}true{% else %}false{% endif %}\"");
-		l("><i class=\"fas fa-list \"></i></", composantsWebPrefixe, "button>");
+		l("><i class=\"{{ FONTAWESOME_STYLE }} fa-list \"></i></", composantsWebPrefixe, "button>");
 
 		t(11, "<", composantsWebPrefixe, "input");
 		s(" id=\"fq", classeNomSimple, "_{{ key }}\"");
@@ -4558,7 +4558,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		//STUFF3
 		tl(5, "<", composantsWebPrefixe, "drawer with-header light-dismiss placement=\"end\" id=\"site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Tri), "\">");
 		tl(6, "<div slot=\"label\">");
-		tl(7, "<i class=\"fad fa-solid fa-arrow-down-a-z \"></i>");
+		tl(7, "<i class=\"{{ FONTAWESOME_STYLE }} fa-arrow-down-a-z \"></i>");
 		tl(7, i18nPage.getString(I18n.str_Tri));
 		tl(6, "</div>");
 		tl(6, "<div>");
@@ -4633,7 +4633,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(5, "<", composantsWebPrefixe, "drawer with-header light-dismiss placement=\"end\" id=\"site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Gamme), "\">");
 		tl(6, "<div slot=\"label\">");
 		tl(7, "<span>");
-		t(7, "<i class=\"fad fa-calendar-range \"></i>");
+		t(7, "<i class=\"{{ FONTAWESOME_STYLE }} fa-calendar-range \"></i>");
 		l(" ", i18nPage.getString(I18n.var_Gamme), "</span>");
 		tl(6, "</div>");
 		tl(6, "<div>");
@@ -4752,7 +4752,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(5, "<", composantsWebPrefixe, "drawer with-header light-dismiss placement=\"end\" id=\"site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Pivot), "\">");
 		tl(6, "<div slot=\"label\">");
 		tl(7, "<span>");
-		t(7, "<i class=\"fad fa-table-pivot \"></i>");
+		t(7, "<i class=\"{{ FONTAWESOME_STYLE }} fa-table-pivot \"></i>");
 		l(" ", i18nPage.getString(I18n.var_Pivot), "</span>");
 		tl(6, "</div>");
 		tl(6, "<div>");
@@ -4813,7 +4813,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(5, "<", composantsWebPrefixe, "drawer with-header light-dismiss placement=\"end\" id=\"site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_ListeChamps), "\">");
 		tl(6, "<div slot=\"label\">");
 		tl(7, "<span>");
-		t(7, "<i class=\"fad fa-list-ul \"></i>");
+		t(7, "<i class=\"{{ FONTAWESOME_STYLE }} fa-list-ul \"></i>");
 		l(" ", i18nPage.getString(I18n.str_Liste_Champs), "</span>");
 		tl(6, "</div>");
 		tl(6, "<div>");
@@ -4875,7 +4875,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 		tl(5, "<", composantsWebPrefixe, "drawer with-header light-dismiss placement=\"end\" id=\"site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Stats), "\">");
 		tl(6, "<div slot=\"label\">");
-		tl(7, "<i class=\"fad fa-chart-candlestick \"></i>");
+		tl(7, "<i class=\"{{ FONTAWESOME_STYLE }} fa-chart-candlestick \"></i>");
 		tl(7, i18nPage.getString(I18n.str_Stats));
 		tl(6, "</div>");
 		tl(6, "<div>");
@@ -5013,7 +5013,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// tl(5, "<", composantsWebPrefixe, "tooltip content=\"", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "\">");
       //STUFF4
 			tl(5, "<", composantsWebPrefixe, "button id=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
-			tl(6, "<i class=\"fa-solid fa-angle-left\"></i>");
+			tl(6, "<i class=\"{{ FONTAWESOME_STYLE }} fa-angle-left\"></i>");
 			tl(6, classeTousNom);
 			tl(5, "</", composantsWebPrefixe, "button>");
 			tl(4, "</", composantsWebPrefixe, "tooltip>");
@@ -5047,7 +5047,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		//////////////
 		// tl(5, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
 		tl(6, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Recherche), "').open = true; \">");
-		tl(7, "<i slot=\"prefix\" class=\"fad fa-magnifying-glass hover-box-shadow \"></i> ");
+		tl(7, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-magnifying-glass hover-box-shadow \"></i> ");
 		tl(7, i18nPage.getString(I18n.var_Rechercher));
 		tl(6, "</", composantsWebPrefixe, "button>");
 		// tl(5, "</", composantsWebPrefixe, "tooltip>");
@@ -5057,7 +5057,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		///////////////
 		// tl(5, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Filtres_et_nombres_de_facettes_pour_), classeNomAdjectifPluriel, "\">");
 		tl(6, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Filtres), "').open = true; \">");
-		tl(7, "<i slot=\"prefix\" class=\"fad fa-filters hover-box-shadow \"></i> ");
+		tl(7, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-filters hover-box-shadow \"></i> ");
 		tl(7, i18nPage.getString(I18n.var_Filtres));
 		tl(6, "</", composantsWebPrefixe, "button>");
 		// tl(5, "</", composantsWebPrefixe, "tooltip>");
@@ -5067,7 +5067,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		///////////////
 		// tl(5, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Filtres_et_nombres_de_facettes_pour_), classeNomAdjectifPluriel, "\">");
 		tl(6, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Tri), "').open = true; \">");
-		tl(7, "<i slot=\"prefix\" class=\"fa-solid fa-arrow-down-a-z hover-box-shadow \"></i> ");
+		tl(7, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-arrow-down-a-z hover-box-shadow \"></i> ");
 		tl(7, i18nPage.getString(I18n.str_Tri));
 		tl(6, "</", composantsWebPrefixe, "button>");
 		// tl(5, "</", composantsWebPrefixe, "tooltip>");
@@ -5077,7 +5077,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		//////////////////
 		// tl(5, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
 		tl(6, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Gamme), "').open = true; \">");
-		tl(7, "<i slot=\"prefix\" class=\"fad fa-calendar-range hover-box-shadow \"></i> ");
+		tl(7, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-calendar-range hover-box-shadow \"></i> ");
 		tl(7, i18nPage.getString(I18n.var_Gamme));
 		tl(6, "</", composantsWebPrefixe, "button>");
 		// tl(5, "</", composantsWebPrefixe, "tooltip>");
@@ -5087,7 +5087,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		//////////////////
 		// tl(5, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
 		tl(6, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Pivot), "').open = true; \">");
-		tl(7, "<i slot=\"prefix\" class=\"fad fa-table-pivot hover-box-shadow \"></i> ");
+		tl(7, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-table-pivot hover-box-shadow \"></i> ");
 		tl(7, i18nPage.getString(I18n.var_Pivot));
 		tl(6, "</", composantsWebPrefixe, "button>");
 		// tl(5, "</", composantsWebPrefixe, "tooltip>");
@@ -5097,7 +5097,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		/////////////////////////
 		// tl(5, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
 		tl(6, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_ListeChamps), "').open = true; \">");
-		tl(7, "<i slot=\"prefix\" class=\"fad fa-list-ul hover-box-shadow \"></i> ");
+		tl(7, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-list-ul hover-box-shadow \"></i> ");
 		tl(7, i18nPage.getString(I18n.var_ListeChamps));
 		tl(6, "</", composantsWebPrefixe, "button>");
 		// tl(5, "</", composantsWebPrefixe, "tooltip>");
@@ -5107,7 +5107,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		//////////////////
 		// tl(5, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
 		tl(6, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Stats), "').open = true; \">");
-		tl(7, "<i slot=\"prefix\" class=\"fad fa-chart-candlestick hover-box-shadow \"></i> ");
+		tl(7, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-chart-candlestick hover-box-shadow \"></i> ");
 		tl(7, i18nPage.getString(I18n.var_Stats));
 		tl(6, "</", composantsWebPrefixe, "button>");
 		// tl(5, "</", composantsWebPrefixe, "tooltip>");
@@ -5119,7 +5119,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		t(6, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", "");
 		s(" href=\"{{ apiUri }}{% if ", i18nPage.getString(I18n.var_resultat), ".", classeVarId, " is defined %}/{{ ", i18nPage.getString(I18n.var_resultat), ".", classeVarId, " }}{% else %}{{ queryStr }}{% endif %}\"");
 		l(">");
-		tl(7, "<i slot=\"prefix\" class=\"fad fa-brackets-curly hover-box-shadow \"></i> ");
+		tl(7, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-brackets-curly hover-box-shadow \"></i> ");
 		tl(7, i18nPage.getString(I18n.var_Api));
 		tl(6, "</", composantsWebPrefixe, "button>");
 		// tl(5, "</", composantsWebPrefixe, "tooltip>");
@@ -5163,7 +5163,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		s(" disabled");
 		s("{% endif %}");
 		l(">");
-		tl(9, "<i slot=\"prefix\" class=\"fas fa-arrow-square-left \"></i>");
+		tl(9, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-arrow-square-left \"></i>");
 		tl(8, "</", composantsWebPrefixe, "button>");
 		tl(7, "</", composantsWebPrefixe, "tooltip>");
 
@@ -5175,7 +5175,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		s(" disabled");
 		s("{% endif %}");
 		l(">");
-		tl(9, "<i slot=\"prefix\" class=\"fas fa-minus-square \"></i>");
+		tl(9, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-minus-square \"></i>");
 		tl(8, "</", composantsWebPrefixe, "button>");
 		tl(7, "</", composantsWebPrefixe, "tooltip>");
 
@@ -5183,7 +5183,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		t(8, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", "");
 		s(" href=\"{{pageUri}}?start={{pagination.", i18nPage.getString(I18n.var_debut), "}}&amp;rows={{ pagination.", i18nPage.getString(I18n.var_lignes), i18nPage.getString(I18n.var_Prochaine), " }}\"");
 		l(">");
-		tl(9, "<i slot=\"prefix\" class=\"fas fa-plus-square \"></i>");
+		tl(9, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-plus-square \"></i>");
 		tl(8, "</", composantsWebPrefixe, "button>");
 		tl(7, "</", composantsWebPrefixe, "tooltip>");
 
@@ -5195,7 +5195,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		s(" disabled");
 		s("{% endif %}");
 		l(">");
-		tl(9, "<i slot=\"prefix\" class=\"fas fa-arrow-square-right \"></i>");
+		tl(9, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-arrow-square-right \"></i>");
 		tl(8, "</", composantsWebPrefixe, "button>");
 		tl(7, "</", composantsWebPrefixe, "tooltip>");
 		tl(6, "</", composantsWebPrefixe, "button-group>");
@@ -5263,7 +5263,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(5, "<div class=\"margin-block\">");
 		tl(6, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\">", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "</", composantsWebPrefixe, "tooltip>");
 		tl(6, "<", composantsWebPrefixe, "button id=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
-		tl(7, "<i class=\"fa-solid fa-angle-left\"></i>");
+		tl(7, "<i class=\"{{ FONTAWESOME_STYLE }} fa-angle-left\"></i>");
 		tl(7, classeTousNom);
 		tl(6, "</", composantsWebPrefixe, "button>");
 		tl(5, "</div>");
@@ -5381,7 +5381,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(5, "<div class=\"margin-block\">");
 		tl(6, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\">", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "</", composantsWebPrefixe, "tooltip>");
 		tl(6, "<", composantsWebPrefixe, "button id=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
-		tl(7, "<i class=\"fa-solid fa-angle-left\"></i>");
+		tl(7, "<i class=\"{{ FONTAWESOME_STYLE }} fa-angle-left\"></i>");
 		tl(7, classeTousNom);
 		tl(6, "</", composantsWebPrefixe, "button>");
 		tl(5, "</div>");
