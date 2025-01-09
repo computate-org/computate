@@ -5333,8 +5333,10 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 		}
 
+		String classeSmartDataModelStr = regex("^SmartDataModel:\\s(.*)", classeCommentaire);
+
 		indexerStockerSolr(classeDoc, "classeGenere", regexTrouve("^" + i18nGlobale.getString(I18n.str_Genere) + ": \\s*(true)$", classeCommentaire));
-		Boolean classeContexte = indexerStockerSolr(classeDoc, "classeContexte", regexTrouve("^" + i18nGlobale.getString(I18n.var_Contexte) + ": \\s*(true)$", classeCommentaire) || classePage);
+		Boolean classeContexte = indexerStockerSolr(classeDoc, "classeContexte", regexTrouve("^" + i18nGlobale.getString(I18n.var_Contexte) + ": \\s*(true)$", classeCommentaire) || classePage || classeSmartDataModelStr != null);
 
 		if(classeContexte) {
 			classeCouleur = regex("^" + i18nGlobale.getString(I18n.var_Couleur) + ":\\s*(.*)", classeCommentaire);
@@ -6097,8 +6099,6 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		indexerStockerSolr(classeDoc, "classeAuth", classeAuth);
 
-		String classeSmartDataModelStr = regex("^SmartDataModel:\\s(.*)", classeCommentaire);
-
 		if(classeSmartDataModelStr != null) {
 			String encodedStr = "\"" + Arrays.asList(classeSmartDataModelStr.replaceAll("([a-z])([A-Z])", "$1 $2").split(" +")).stream().map(s -> encodeUrl(s)).collect(Collectors.joining("\" OR \"")) + "\"";
 			System.out.println(encodedStr);
@@ -6117,7 +6117,8 @@ public class IndexerClasse extends RegarderClasseBase {
 				String modelName = ((String)doc.getFieldValue("modelName_docvalues_string"));
 				String aName = StringUtils.startsWithAny(modelName.toLowerCase(), "a", "e", "i", "o", "u", "h") ? "an " + modelName : "a " + modelName;
 				String idName = toId(StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(StringUtils.uncapitalize(modelName)), " ").toLowerCase());
-				String modelDescription = ((List<String>)doc.getFieldValue("modelDescription_text_enUS")).get(0).replace("\n", " ");
+				String modelDescription = (Optional.ofNullable((List<String>)doc.getFieldValue("modelDescription_text_enUS"))).orElse(Arrays.asList()).stream().findFirst().orElse("").replace("\n", " ");
+				String modeleIcone = Optional.ofNullable(classeIcone).orElse(String.format("<i class=\"%s fa-conveyor-belt\"></i>", fontawesomeStyle));
 				List<String> propertiesNames = (List<String>)doc.getFieldValue("propertiesNames_stored_strings");
 				List<String> propertiesTypes = (List<String>)doc.getFieldValue("propertiesTypes_stored_strings");
 				List<String> propertiesDescriptions = (List<String>)doc.getFieldValue("propertiesDescriptions_stored_strings");
@@ -6157,7 +6158,7 @@ public class IndexerClasse extends RegarderClasseBase {
 					wSmartDataModel.l(" * Order: 1");
 					wSmartDataModel.l(" * Description: ", modelDescription);
 					wSmartDataModel.l(" * AName: ", aName);
-					wSmartDataModel.l(" * Icon: <i class=\"", fontawesomeStyle, " fa-conveyor-belt\"></i>");
+					wSmartDataModel.l(" * Icon: ", modeleIcone);
 					wSmartDataModel.l(" * Rows: 100");
 					wSmartDataModel.l(" * ");
 					wSmartDataModel.l(" * SearchPageUri: /en-us/search/", idName);
@@ -6254,10 +6255,11 @@ public class IndexerClasse extends RegarderClasseBase {
 								wSmartDataModel.l("	/**");
 								wSmartDataModel.l("	 * {@inheritDoc}");
 								wSmartDataModel.l("	 * FiwareType: geo:linestring");
-								wSmartDataModel.l("	 * Location: true");
+								wSmartDataModel.l("	 * Area: true");
 							}
 							if("location".equals(fieldName)) {
 								wSmartDataModel.l("	 * FiwareType: geo:point");
+								wSmartDataModel.l("	 * Location: true");
 							}
 							wSmartDataModel.l("	 * DocValues: true");
 							wSmartDataModel.l("	 * Persist: true");

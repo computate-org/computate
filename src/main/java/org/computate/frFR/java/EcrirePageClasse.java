@@ -2849,6 +2849,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(6, ", weight: 1");
 					tl(6, ", opacity: 0.7");
 					tl(6, ", fillOpacity: 0.7");
+
+					tl(6, ", contextmenu: true");
+					tl(6, ", contextmenuItems: [");
+					tl(7, "{");
+					tl(8, "text: 'Show coordinates'");
+					tl(8, ", callback: function(event) {");
+					tl(9, "alert(event2.target.getLatLngs());");
+					tl(8, "}");
+					tl(7, "}");
+					tl(6, "]");
+
 					tl(5, "};");
 					tl(4, "} else if(feature.geometry.type == 'LineString') {");
 					tl(5, "return {");
@@ -3793,7 +3804,19 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					}
 					auteurPageJs.tl(3, "});");
 					auteurPageJs.tl(2, "} else {");
-					auteurPageJs.tl(3, "window.map", classeNomSimple, " = L.map('htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, "', {closePopupOnClick: false});");
+					auteurPageJs.tl(3, "window.map", classeNomSimple, " = L.map('htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, "', {");
+					auteurPageJs.tl(4, "closePopupOnClick: false");
+					auteurPageJs.tl(4, ", contextmenu: true");
+					auteurPageJs.tl(4, ", contextmenuWidth: 140");
+					auteurPageJs.tl(4, ", contextmenuItems: [");
+					auteurPageJs.tl(5, "{");
+					auteurPageJs.tl(6, "text: 'Show coordinates'");
+					auteurPageJs.tl(6, ", callback: function(event) {");
+					auteurPageJs.tl(7, "alert(event.latlng);");
+					auteurPageJs.tl(6, "}");
+					auteurPageJs.tl(5, "}");
+					auteurPageJs.tl(5, "]");
+					auteurPageJs.tl(3, "});");
 					auteurPageJs.tl(3, "var data = [];");
 					auteurPageJs.tl(3, "var layout = {};");
 					auteurPageJs.tl(3, "layout['showlegend'] = true;");
@@ -3869,31 +3892,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						auteurPageJs.tl(4, "}");
 					}
 					auteurPageJs.tl(3, "});");
-					auteurPageJs.tl(3, "window.map", classeNomSimple, ".on('contextmenu', function(e) {");
-					auteurPageJs.tl(4, "var htm = '';");
-					auteurPageJs.tl(4, "if(window.", i18nPage.getString(I18n.var_liste), classeNomSimple, ".length == 1) {");
-					auteurPageJs.tl(5, "window.", i18nPage.getString(I18n.var_liste), classeNomSimple, ".forEach((", varResultat, ", index) => {");
-					if(classeVarEmplacement != null) {
-						auteurPageJs.tl(6, "htm += '<div><button"
-								, " onclick=\"patch", i18nPage.getString(I18n.var_Emplacement), "(event.target, "
-								, "{ &quot;coordinates&quot;: [ ' + e.latlng.lng + ', ' + e.latlng.lat + ' ], &quot;type&quot;: &quot;Point&quot; }"
-								, ");\">"
-								, i18nPage.getString(I18n.str_Definir), " ", classeVarEmplacement, " ", i18nPage.getString(I18n.str_de), " ' + ", varResultat, ".", classeVarTitre, " + '</button></div>';");
-					}
-					// if(classeVarAire != null) {
-					// 	auteurPageJs.tl(4, "if(", varResultat, ".", classeVarAire, ") {");
-					// 	auteurPageJs.tl(5, "if(!Array.isArray(", varResultat, ".", classeVarAire, ")) {");
-					// 	auteurPageJs.tl(6, "htm += '<div><", composantsWebPrefixe, "button>Set ' + ", varResultat, " + ' of ' + ", varResultat, " + '</", composantsWebPrefixe, "button></div>'");
-					// 	auteurPageJs.tl(5, "}");
-					// 	auteurPageJs.tl(4, "}");
-					// }
-					auteurPageJs.tl(5, "});");
-					auteurPageJs.tl(4, "}");
-					auteurPageJs.tl(4, "var popup = L.popup()");
-					auteurPageJs.tl(6, ".setLatLng(e.latlng)");
-					auteurPageJs.tl(6, ".openOn(window.map", classeNomSimple, ")");
-					auteurPageJs.tl(6, ".setContent(htm);");
-					auteurPageJs.tl(3, "});");
 					auteurPageJs.tl(3, "window.map", classeNomSimple, ".on('popupopen', function(e) {");
 					auteurPageJs.tl(4, "if(e.popup._source) {");
 					auteurPageJs.tl(5, "var feature = e.popup._source.feature;");
@@ -3918,6 +3916,45 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(3, "window.map", classeNomSimple, ".addControl(drawControl);");
 					auteurPageJs.tl(3, "window.map", classeNomSimple, ".on(L.Draw.Event.CREATED, function (event) {");
 					auteurPageJs.tl(4, "drawnItems.addLayer(event.layer);");
+
+					auteurPageJs.tl(4, "var contextmenuItems = [];");
+					if(classeVarEmplacement != null) {
+						auteurPageJs.tl(4, "if(event.layerType == 'polygon') {");
+						auteurPageJs.tl(5, "contextmenuItems.push({");
+						auteurPageJs.tl(6, "text: '", i18nPage.getString(I18n.str_Definir), " ", classeVarEmplacement, " ", i18nPage.getString(I18n.str_de), " ' + ", varResultat, ".", classeVarTitre);
+						auteurPageJs.tl(6, ", callback: function(event2) {");
+						auteurPageJs.tl(7, "patch", i18nPage.getString(I18n.var_Emplacement), "(event.layer, "
+								, "{ coordinates: event.layer.getLatLng(), type: \"Point\" }"
+								, ");");
+						auteurPageJs.tl(6, "}");
+						auteurPageJs.tl(5, "});");
+						auteurPageJs.tl(4, "}");
+					}
+					if(classeVarAire != null) {
+						auteurPageJs.tl(4, "if(event.layerType == 'polygon') {");
+						auteurPageJs.tl(5, "contextmenuItems.push({");
+						auteurPageJs.tl(6, "text: '", i18nPage.getString(I18n.str_Definir), " ", classeVarAire, " ", i18nPage.getString(I18n.str_de), " ' + ", varResultat, ".", classeVarTitre);
+						auteurPageJs.tl(6, ", callback: function(event2) {");
+						auteurPageJs.tl(7, "var latLngs = [];");
+						auteurPageJs.tl(7, "event.layer.getLatLngs().forEach(ll1 => {");
+						auteurPageJs.tl(8, "var latLngs1 = [];");
+						auteurPageJs.tl(8, "ll1.forEach(ll2 => {");
+						auteurPageJs.tl(9, "var latLngs2 = [ll2['lng'], ll2['lat']];");
+						auteurPageJs.tl(9, "latLngs1.push(latLngs2);");
+						auteurPageJs.tl(8, "});");
+						auteurPageJs.tl(8, "latLngs.push(latLngs1);");
+						auteurPageJs.tl(7, "});");
+						auteurPageJs.tl(7, "patch", i18nPage.getString(I18n.var_Aire), "(event.layer, "
+								, "{ coordinates: latLngs, type: \"Polygon\" }"
+								, ");");
+						auteurPageJs.tl(6, "}");
+						auteurPageJs.tl(5, "});");
+						auteurPageJs.tl(4, "}");
+					}
+					auteurPageJs.tl(4, "event.layer.bindContextMenu({");
+					auteurPageJs.tl(5, "contextmenu: true");
+					auteurPageJs.tl(5, ", contextmenuItems: contextmenuItems");
+					auteurPageJs.tl(4, "});");
 					auteurPageJs.tl(3, "});");
 					auteurPageJs.tl(2, "}");
 				}
@@ -3927,6 +3964,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(0, "function patch", i18nPage.getString(I18n.var_Emplacement), "(target, ", classeVarEmplacement, ") {");
 					auteurPageJs.tl(1, "patch", classeNomSimple, "Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeVarId, ":' + ", varResultat, ".", classeVarId, " }]");
 					auteurPageJs.tl(3, ", 'set", StringUtils.capitalize(classeVarEmplacement), "', ", classeVarEmplacement);
+					auteurPageJs.tl(3, ", target");
+					auteurPageJs.tl(3, ", function(", i18nPage.getString(I18n.var_reponse), ", e) { ", i18nPage.getString(I18n.var_ajouterLueur), "(target); }");
+					auteurPageJs.tl(3, ", function(", i18nPage.getString(I18n.var_reponse), ", e) { ", i18nPage.getString(I18n.var_ajouterErreur), "(target); }");
+					auteurPageJs.tl(3, ");");
+					auteurPageJs.tl(0, "}");
+				}
+				if(classeVarAire != null) {
+					auteurPageJs.tl(0, "function patch", i18nPage.getString(I18n.var_Aire), "(target, ", classeVarAire, ") {");
+					auteurPageJs.tl(1, "patch", classeNomSimple, "Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeVarId, ":' + ", varResultat, ".", classeVarId, " }]");
+					auteurPageJs.tl(3, ", 'set", StringUtils.capitalize(classeVarAire), "', ", classeVarAire);
 					auteurPageJs.tl(3, ", target");
 					auteurPageJs.tl(3, ", function(", i18nPage.getString(I18n.var_reponse), ", e) { ", i18nPage.getString(I18n.var_ajouterLueur), "(target); }");
 					auteurPageJs.tl(3, ", function(", i18nPage.getString(I18n.var_reponse), ", e) { ", i18nPage.getString(I18n.var_ajouterErreur), "(target); }");

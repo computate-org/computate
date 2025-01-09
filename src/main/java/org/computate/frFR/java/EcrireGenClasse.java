@@ -3753,12 +3753,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				else {
 					l();
-					if(
-							StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePoint) || StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePath) || StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePolygon)
-							|| StringUtils.equals(entiteNomCanoniqueGenerique, VAL_nomCanoniquePoint) || StringUtils.equals(entiteNomCanoniqueGenerique, VAL_nomCanoniquePath) || StringUtils.equals(entiteNomCanoniqueGenerique, VAL_nomCanoniquePolygon)
-							) {
-						tl(1, "@JsonIgnore");
-					}
 					tl(1, "public void set", entiteVarCapitalise, "(", entiteNomSimpleComplet, " ", entiteVar, ") {");
 					if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
 						tl(2, "this.", entiteVar, " = Optional.ofNullable(", entiteVar, ").map(v -> v.truncatedTo(ChronoUnit.MILLIS)).orElse(null);");
