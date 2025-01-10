@@ -5033,7 +5033,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		if(classeVarEmplacement != null) {
 			l();
 			tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, " %}");
+			tl(0, "{% if ", varResultat, "Count > 0 %}");
 			tl(4, "<div id=\"htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, "\" class=\"htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), " \"></div>");
+			tl(0, "{% endif %}");
 			tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, " %}");
 		}
 
