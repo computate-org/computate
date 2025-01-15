@@ -5707,6 +5707,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.buffer.Buffer", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.CompositeFuture", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.http.HttpHeaders", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.http.HttpResponseExpectation", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.nio.charset.Charset", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.auth.authorization.RoleBasedAuthorization", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.api.service.ServiceRequest", classeLangueNom), classeLangueNom);
@@ -6122,6 +6123,17 @@ public class IndexerClasse extends RegarderClasseBase {
 				List<String> propertiesNames = (List<String>)doc.getFieldValue("propertiesNames_stored_strings");
 				List<String> propertiesTypes = (List<String>)doc.getFieldValue("propertiesTypes_stored_strings");
 				List<String> propertiesDescriptions = (List<String>)doc.getFieldValue("propertiesDescriptions_stored_strings");
+				List<JsonObject> properties = new ArrayList<JsonObject>();
+				addProperty("name", propertiesNames, propertiesTypes, propertiesDescriptions, properties, true);
+				addProperty("description", propertiesNames, propertiesTypes, propertiesDescriptions, properties, true);
+				addProperty("location", propertiesNames, propertiesTypes, propertiesDescriptions, properties, true);
+				addProperty("areaServed", propertiesNames, propertiesTypes, propertiesDescriptions, properties, true);
+				addProperty("id", propertiesNames, propertiesTypes, propertiesDescriptions, properties, true);
+				propertiesNames = new ArrayList<String>(propertiesNames);
+				for(String propertyName : propertiesNames) {
+					addProperty(propertyName, propertiesNames, propertiesTypes, propertiesDescriptions, properties, false);
+				}
+
 				System.out.println(String.format("Top %s Smart Data Model results were: ", listeRecherche.size()));
 				System.out.println(String.format("Model - Submodule - Domain - score", listeRecherche.size()));
 				System.out.println(String.format("--------------------------", listeRecherche.size()));
@@ -6196,11 +6208,12 @@ public class IndexerClasse extends RegarderClasseBase {
 	
 					Integer row = 3;
 					Integer cell = 0;
-					for(Integer i = 0; i < propertiesNames.size(); i++) {
-						String fieldName = propertiesNames.get(i);
+					for(int i = 0; i < properties.size(); i++) {
+						JsonObject property = properties.get(i);
+						String fieldName = property.getString("name");
 						if(!fieldName.equals(solrId) && !fieldName.equals("type")) {
-							String jsonType = propertiesTypes.get(i);
-							String description = propertiesDescriptions.get(i);
+							String jsonType = property.getString("type");
+							String description = property.getString("description");
 							String javaType = "JsonObject";
 							if("areaServed".equals(fieldName))
 								javaType = "Polygon";
@@ -6258,6 +6271,9 @@ public class IndexerClasse extends RegarderClasseBase {
 								wSmartDataModel.l("	 * Area: true");
 							}
 							if("location".equals(fieldName)) {
+								row = 4;
+								cell = 0;
+								wSmartDataModel.l(String.format("	 * HtmRowTitleOpen: GeoJSON details", classeSmartDataModel));
 								wSmartDataModel.l("	 * FiwareType: geo:point");
 								wSmartDataModel.l("	 * Location: true");
 							}
@@ -6266,12 +6282,8 @@ public class IndexerClasse extends RegarderClasseBase {
 							wSmartDataModel.l("	 * DisplayName: ", StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(fieldName), " ").toLowerCase(), "");
 							if(description != null)
 								wSmartDataModel.l("	 * Description: ", description.replace("\r\n", " ").replace("\n", " "), "");
-							if(i == 0)
-								wSmartDataModel.l(String.format("	 * HtmRowTitleOpen: %s details", classeSmartDataModel));
-							wSmartDataModel.l("	 * HtmRow: ", row, "");
-							wSmartDataModel.l("	 * HtmCell: ", cell, "");
-							wSmartDataModel.l("	 * Facet: true");
 							if("name".equals(fieldName)) {
+								wSmartDataModel.l(String.format("	 * HtmRowTitleOpen: name and description", classeSmartDataModel));
 								wSmartDataModel.l("	 * HtmColumn: 1");
 								wSmartDataModel.l("	 * VarName: true");
 							}
@@ -6279,8 +6291,70 @@ public class IndexerClasse extends RegarderClasseBase {
 								wSmartDataModel.l("	 * HtmColumn: 2");
 								wSmartDataModel.l("	 * VarDescription: true");
 							}
-							wSmartDataModel.l("	 **/");
-							wSmartDataModel.l("	protected void _", fieldName, "(Wrap<", javaType, "> w) {}");
+							if("id".equals(fieldName)) {
+								row = 5;
+								cell = 0;
+								wSmartDataModel.l("	 * HtmRowTitleOpen: NGSI-LD details");
+								wSmartDataModel.l("	 * HtmRow: ", row, "");
+								wSmartDataModel.l("	 * HtmCell: ", cell, "");
+								wSmartDataModel.l("	 * Facet: true");
+								wSmartDataModel.l("	 **/");
+								wSmartDataModel.l("	protected void _", fieldName, "(Wrap<", javaType, "> w) {");
+								wSmartDataModel.l("		w.o(String.format(\"urn:ngsi-ld:%s:%s\", CLASS_SIMPLE_NAME, toId(name)));");
+								wSmartDataModel.l("	}");
+								wSmartDataModel.l("");
+								wSmartDataModel.l("	/**");
+								wSmartDataModel.l("	 * {@inheritDoc}");
+								wSmartDataModel.l("	 * DisplayName: short entity ID");
+								wSmartDataModel.l("	 * Description: A short ID for this Smart Data Model");
+								wSmartDataModel.l("	 * DocValues: true");
+								wSmartDataModel.l("	 * Facet: true");
+								wSmartDataModel.l("	 * VarId: true");
+								wSmartDataModel.l("	 */");
+								wSmartDataModel.l("	protected void _entityShortId(Wrap<String> w) {");
+								wSmartDataModel.l("		if(id != null) {");
+								wSmartDataModel.l("			w.o(StringUtils.substringAfter(id, String.format(\"urn:ngsi-ld:%s:\", CLASS_SIMPLE_NAME)));");
+								wSmartDataModel.l("		}");
+								wSmartDataModel.l("	}");
+								cell++;
+								wSmartDataModel.l();
+								wSmartDataModel.l("	/**");
+								wSmartDataModel.l("	 * {@inheritDoc}");
+								wSmartDataModel.l("	 * DocValues: true");
+								wSmartDataModel.l("	 * Persist: true");
+								wSmartDataModel.l("	 * DisplayName: NGSILD-Tenant");
+								wSmartDataModel.l("	 * Description: The NGSILD-Tenant or Fiware-Service");
+								wSmartDataModel.l("	 * HtmRow: ", row, "");
+								wSmartDataModel.l("	 * HtmCell: ", cell, "");
+								wSmartDataModel.l("	 * Facet: true");
+								wSmartDataModel.l("	 */");
+								wSmartDataModel.l("	protected void _ngsildTenant(Wrap<String> w) {");
+								wSmartDataModel.l("	}");
+								cell++;
+								wSmartDataModel.l();
+								wSmartDataModel.l("	/**");
+								wSmartDataModel.l("	 * {@inheritDoc}");
+								wSmartDataModel.l("	 * DocValues: true");
+								wSmartDataModel.l("	 * Persist: true");
+								wSmartDataModel.l("	 * DisplayName: NGSILD-Path");
+								wSmartDataModel.l("	 * Description: The NGSILD-Path or Fiware-ServicePath");
+								wSmartDataModel.l("	 * HtmRow: ", row, "");
+								wSmartDataModel.l("	 * HtmCell: ", cell, "");
+								wSmartDataModel.l("	 * Facet: true");
+								wSmartDataModel.l("	 */");
+								wSmartDataModel.l("	protected void _ngsildPath(Wrap<String> w) {");
+								wSmartDataModel.l("	}");
+								row++;
+								cell = -1;
+							} else {
+								if(row == 6 && cell == 0)
+									wSmartDataModel.l(String.format("	 * HtmRowTitleOpen: %s details", classeSmartDataModel));
+								wSmartDataModel.l("	 * HtmRow: ", row, "");
+								wSmartDataModel.l("	 * HtmCell: ", cell, "");
+								wSmartDataModel.l("	 * Facet: true");
+								wSmartDataModel.l("	 **/");
+								wSmartDataModel.l("	protected void _", fieldName, "(Wrap<", javaType, "> w) {}");
+							}
 							cell++;
 							// if(cell > 3) {
 							// 	row++;
@@ -6290,36 +6364,6 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 					}
 
-					wSmartDataModel.l("");
-					wSmartDataModel.l("	/**");
-					wSmartDataModel.l("	 * {@inheritDoc}");
-					wSmartDataModel.l("	 * DocValues: true");
-					wSmartDataModel.l("	 * Persist: true");
-					wSmartDataModel.l("	 * DisplayName: entity ID");
-					wSmartDataModel.l("	 * Description: A unique ID for this Smart Data Model");
-					wSmartDataModel.l("	 * HtmRow: 3");
-					wSmartDataModel.l("	 * HtmCell: ", cell);
-					wSmartDataModel.l("	 * Facet: true");
-					wSmartDataModel.l("	 */");
-					wSmartDataModel.l("	protected void _entityId(Wrap<String> w) {");
-					if(propertiesNames.contains("name")) {
-						wSmartDataModel.l("		w.o(String.format(\"urn:ngsi-ld:%s:%s\", CLASS_SIMPLE_NAME, toId(name)));");
-					}
-					wSmartDataModel.l("	}");
-					wSmartDataModel.l("");
-					wSmartDataModel.l("	/**");
-					wSmartDataModel.l("	 * {@inheritDoc}");
-					wSmartDataModel.l("	 * DisplayName: short entity ID");
-					wSmartDataModel.l("	 * Description: A short ID for this Smart Data Model");
-					wSmartDataModel.l("	 * DocValues: true");
-					wSmartDataModel.l("	 * Facet: true");
-					wSmartDataModel.l("	 * VarId: true");
-					wSmartDataModel.l("	 */");
-					wSmartDataModel.l("	protected void _entityShortId(Wrap<String> w) {");
-					wSmartDataModel.l("		if(entityId != null) {");
-					wSmartDataModel.l("			w.o(StringUtils.substringAfter(entityId, String.format(\"urn:ngsi-ld:%s:\", CLASS_SIMPLE_NAME)));");
-					wSmartDataModel.l("		}");
-					wSmartDataModel.l("	}");
 					wSmartDataModel.l("");
 					wSmartDataModel.l("	/**");
 					wSmartDataModel.l("	 * @Override");
@@ -6434,6 +6478,25 @@ public class IndexerClasse extends RegarderClasseBase {
 		UpdateResponse d = clientSolrComputate.deleteByQuery(qSupprimer);
 		clientSolrComputate.commit(true, false, false); 
 		return classeDoc;
+	}
+
+	public void addProperty(String propertyName
+			, List<String> propertiesNames
+			, List<String> propertiesTypes
+			, List<String> propertiesDescriptions
+			, List<JsonObject> properties
+			, Boolean remove
+			) {
+		int i = propertiesNames.indexOf(propertyName);
+		properties.add(new JsonObject().put("name", propertyName)
+				.put("description", propertiesDescriptions.get(i))
+				.put("type", propertiesTypes.get(i))
+				);
+		if(remove) {
+			propertiesNames.remove(i);
+			propertiesTypes.remove(i);
+			propertiesDescriptions.remove(i);
+		}
 	}
 
 	public String encodeUrl(String s) {

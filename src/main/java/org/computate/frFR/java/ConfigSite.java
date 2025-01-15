@@ -866,6 +866,12 @@ public class ConfigSite {
 				.getBoolean(langueConfigGlobale.getString(I18n.var_ECRIRE_COMMENTAIRE), true);
 	}
 
+	public Boolean activerContextBroker;
+
+	protected void _activerContextBroker() throws Exception {
+		activerContextBroker = config.getBoolean( langueConfigGlobale.getString(I18n.var_ACTIVER_CONTEXT_BROKER), false);
+	}
+
 	public Boolean activerLog;
 
 	protected void _activerLog() throws Exception {
@@ -1012,6 +1018,7 @@ public class ConfigSite {
 		_authPolitiqueGranulee();
 		_ecrireApi();
 		_ecrireCommentaire();
+		_activerContextBroker();
 		_activerLog();
 		_activerSupprime();
 		_activerArchive();

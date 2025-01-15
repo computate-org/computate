@@ -3805,7 +3805,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(3, "});");
 					auteurPageJs.tl(2, "} else {");
 					auteurPageJs.tl(3, "window.map", classeNomSimple, " = L.map('htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, "', {");
-					auteurPageJs.tl(4, "closePopupOnClick: false");
+					auteurPageJs.tl(4, "position: 'bottomright'");
+					auteurPageJs.tl(4, ", closePopupOnClick: false");
 					auteurPageJs.tl(4, ", contextmenu: true");
 					auteurPageJs.tl(4, ", contextmenuWidth: 140");
 					auteurPageJs.tl(4, ", contextmenuItems: [");
@@ -3901,12 +3902,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(3, "const drawnItems = new L.FeatureGroup();");
 					auteurPageJs.tl(3, "window.map", classeNomSimple, ".addLayer(drawnItems);");
 					auteurPageJs.tl(3, "const drawControl = new L.Control.Draw({");
-					auteurPageJs.tl(4, "edit: {");
+					auteurPageJs.tl(4, "position: 'topright'");
+					auteurPageJs.tl(4, ", edit: {");
 					auteurPageJs.tl(5, "featureGroup: drawnItems");
-					auteurPageJs.tl(4, "},");
-					auteurPageJs.tl(4, "draw: {");
+					auteurPageJs.tl(4, "}");
+					auteurPageJs.tl(4, ", draw: {");
 					auteurPageJs.tl(5, "polygon: true");
-					auteurPageJs.tl(5, ", polygon: true");
 					auteurPageJs.tl(5, ", polyline: true");
 					auteurPageJs.tl(5, ", rectangle: true");
 					auteurPageJs.tl(5, ", circle: true");
