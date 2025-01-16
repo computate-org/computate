@@ -3804,7 +3804,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(3, "});");
 					auteurPageJs.tl(2, "} else {");
 					auteurPageJs.tl(3, "window.map", classeNomSimple, " = L.map('htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, "', {");
-					auteurPageJs.tl(4, "position: 'bottomright'");
+					auteurPageJs.tl(4, "position: 'topright'");
+					auteurPageJs.tl(4, ", zoomControl: true");
 					auteurPageJs.tl(4, ", closePopupOnClick: false");
 					auteurPageJs.tl(4, ", contextmenu: true");
 					auteurPageJs.tl(4, ", contextmenuWidth: 140");
@@ -3817,6 +3818,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(5, "}");
 					auteurPageJs.tl(5, "]");
 					auteurPageJs.tl(3, "});");
+					auteurPageJs.tl(3, "window.mapCrowdFlowObserved.zoomControl.setPosition('topright');");
 					auteurPageJs.tl(3, "var data = [];");
 					auteurPageJs.tl(3, "var layout = {};");
 					auteurPageJs.tl(3, "layout['showlegend'] = true;");
