@@ -3919,12 +3919,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 					auteurPageJs.tl(4, "var contextmenuItems = [];");
 					if(classeVarEmplacement != null) {
-						auteurPageJs.tl(4, "if(event.layerType == 'polygon') {");
+						auteurPageJs.tl(4, "if(event.layerType == 'marker') {");
 						auteurPageJs.tl(5, "contextmenuItems.push({");
 						auteurPageJs.tl(6, "text: '", i18nPage.getString(I18n.str_Definir), " ", classeVarEmplacement, " ", i18nPage.getString(I18n.str_de), " ' + ", varResultat, ".", classeVarTitre);
 						auteurPageJs.tl(6, ", callback: function(event2) {");
 						auteurPageJs.tl(7, "patch", i18nPage.getString(I18n.var_Emplacement), "(event.layer, "
-								, "{ coordinates: event.layer.getLatLng(), type: \"Point\" }"
+								, "{ coordinates: [event.layer.getLatLng()['lng'], event.layer.getLatLng()['lat']], type: \"Point\" }"
 								, ");");
 						auteurPageJs.tl(6, "}");
 						auteurPageJs.tl(5, "});");
