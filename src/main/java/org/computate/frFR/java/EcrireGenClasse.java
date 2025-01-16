@@ -513,6 +513,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain wClasseNomSimpleMethode;
 	protected ToutEcrivain wDescriptionMethode;
 	protected ToutEcrivain wNgsiTypeMethode;
+	protected ToutEcrivain wNgsiMethode;
 	protected ToutEcrivain wHtmColonneMethode;
 	protected ToutEcrivain wHtmLigneMethode;
 	protected ToutEcrivain wHtmCelluleMethode;
@@ -1350,6 +1351,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		wClasseNomSimpleMethode = ToutEcrivain.create();
 		wDescriptionMethode = ToutEcrivain.create();
 		wNgsiTypeMethode = ToutEcrivain.create();
+		wNgsiMethode = ToutEcrivain.create();
 		wHtmColonneMethode = ToutEcrivain.create();
 		wHtmLigneMethode = ToutEcrivain.create();
 		wHtmCelluleMethode = ToutEcrivain.create();
@@ -3529,9 +3531,11 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonIgnore");
 			else if("JsonArray".equals(entiteNomSimple)) {
 				tl(1, "@JsonProperty");
+				tl(1, "@JsonDeserialize(using = ", classePartsJsonArrayDeserializer.nomSimple(langueNom), ".class)");
 			}
 			else if("JsonObject".equals(entiteNomSimple)) {
 				tl(1, "@JsonProperty");
+				tl(1, "@JsonDeserialize(using = ", classePartsJsonObjectDeserializer.nomSimple(langueNom), ".class)");
 			}
 			else if("Point".equals(entiteNomSimple)) {
 				tl(1, "@JsonProperty");
@@ -5546,6 +5550,21 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(entiteNgsiType != null) {
 				wNgsiTypeMethode.tl(2, "case VAR_", entiteVar, ":");
 				wNgsiTypeMethode.tl(3, "return \"", StringEscapeUtils.escapeJava(entiteNgsiType), "\";");
+
+				wNgsiMethode.tl(2, "case VAR_", entiteVar, ":");
+				if("Point".equals(entiteNomSimple)) {
+					wNgsiMethode.tl(3, "return new JsonObject().put(\"type\", \"Point\").put(\"coordinates\", new JsonArray().add(Double.valueOf(o.get", entiteVarCapitalise, "().getX())).add(Double.valueOf(o.get", entiteVarCapitalise, "().getY()))).toString();");
+				} else if("Path".equals(entiteNomSimple)) {
+					wNgsiMethode.tl(3, "JsonArray pointsArray", entiteVarCapitalise, " = new JsonArray();");
+					wNgsiMethode.tl(3, "o.get", entiteVarCapitalise, "().getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray", entiteVarCapitalise, ".add(pointArray));");
+					wNgsiMethode.tl(3, "return new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray", entiteVarCapitalise, ").toString();");
+				} else if("Polygon".equals(entiteNomSimple)) {
+					wNgsiMethode.tl(3, "JsonArray pointsArray", entiteVarCapitalise, " = new JsonArray();");
+					wNgsiMethode.tl(3, "o.get", entiteVarCapitalise, "().getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray", entiteVarCapitalise, ".add(pointArray));");
+					wNgsiMethode.tl(3, "return new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray", entiteVarCapitalise, ").toString();");
+				} else {
+					wNgsiMethode.tl(3, "return o.get", entiteVarCapitalise, "();");
+				}
 			}
 			if(entiteNomSimple != null) {
 				wClasseNomSimpleMethode.tl(2, "case VAR_", entiteVar, ":");
@@ -5752,6 +5771,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		wNomAffichageMethode.flushClose();
 		wDescriptionMethode.flushClose();
 		wNgsiTypeMethode.flushClose();
+		wNgsiMethode.flushClose();
 		wClasseNomSimpleMethode.flushClose();
 		wHtmColonneMethode.flushClose();
 		wHtmLigneMethode.flushClose();
@@ -6423,6 +6443,14 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "public static String ngsiType(String var) {");
 				tl(2, "switch(var) {");
 				s(wNgsiTypeMethode);
+				tl(3, "default:");
+					tl(4, "return null;");
+				tl(2, "}");
+				tl(1, "}");
+				l();
+				tl(1, "public static Object ngsi", classeNomSimple, "(String var, ", classeNomSimple, " o) {");
+				tl(2, "switch(var) {");
+				s(wNgsiMethode);
 				tl(3, "default:");
 					tl(4, "return null;");
 				tl(2, "}");
