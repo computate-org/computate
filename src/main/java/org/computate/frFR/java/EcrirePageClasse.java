@@ -3818,7 +3818,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(5, "}");
 					auteurPageJs.tl(5, "]");
 					auteurPageJs.tl(3, "});");
-					auteurPageJs.tl(3, "window.mapCrowdFlowObserved.zoomControl.setPosition('topright');");
+					auteurPageJs.tl(3, "window.map", classeNomSimple, ".zoomControl.setPosition('topright');");
 					auteurPageJs.tl(3, "var data = [];");
 					auteurPageJs.tl(3, "var layout = {};");
 					auteurPageJs.tl(3, "layout['showlegend'] = true;");
