@@ -696,6 +696,36 @@ public class ConfigSite {
 		}
 	}
 
+	public String ngsildTenantEnv;
+
+	public String getNgsildTenantEnv() {
+		return ngsildTenantEnv;
+	}
+
+	public void setNgsildTenantEnv(String ngsildTenantEnv) {
+		this.ngsildTenantEnv = ngsildTenantEnv;
+	}
+
+	protected void _ngsildTenantEnv() throws Exception {
+		ngsildTenantEnv = StringUtils.defaultIfBlank(config
+				.getString(langueConfigGlobale.getString(I18n.var_NGSILD_TENANT_ENV)), null);
+	}
+
+	public String ngsildCheminEnv;
+
+	public String getNgsildCheminEnv() {
+		return ngsildCheminEnv;
+	}
+
+	public void setNgsildCheminEnv(String ngsildCheminEnv) {
+		this.ngsildCheminEnv = ngsildCheminEnv;
+	}
+
+	protected void _ngsildCheminEnv() throws Exception {
+		ngsildCheminEnv = StringUtils.defaultIfBlank(config
+				.getString(langueConfigGlobale.getString(I18n.var_NGSILD_CHEMIN_ENV)), null);
+	}
+
 	/**
 	 * Var.enUS: sourcePaths enUS: The absolute paths to source code directories in
 	 * the app to watch for changes.
@@ -1002,6 +1032,8 @@ public class ConfigSite {
 		_solrUrlFiware();
 		_clientSolrComputate();
 		_clientSolrFiware();
+		_ngsildTenantEnv();
+		_ngsildCheminEnv();
 		_cheminsSource();
 		_toutCheminsSource();
 		_nomsMethodeTest();

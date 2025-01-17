@@ -1293,7 +1293,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									wWebsocketInput3.tl(4, "if(input", entiteVarCapitalise, ") {");
 									wWebsocketInput3.tl(5, "document.querySelectorAll('.Page_", entiteVar, "').forEach((item, index) => {");
 									wWebsocketInput3.tl(6, "if(typeof item.value !== 'undefined')");
-									wWebsocketInput3.tl(7, "item.setAttribute('value', input", entiteVarCapitalise, ".getAttribute('value'));");
+									wWebsocketInput3.tl(7, "item.value = input", entiteVarCapitalise, ".getAttribute('value');");
 									wWebsocketInput3.tl(6, "else");
 									wWebsocketInput3.tl(7, "item.textContent = input", entiteVarCapitalise, ".textContent;");
 									wWebsocketInput3.tl(5, "});");
@@ -3551,7 +3551,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //				auteurPageJs.tl(3, langueConfig.getString(ConfigCles.var_rechercher), langueConfig.getString(ConfigCles.var_Page), "();");
 				auteurPageJs.tl(3, "var json = JSON.parse(message['body']);");
 				auteurPageJs.tl(3, "var ", classeVarId, " = json['id'];");
-				auteurPageJs.tl(3, "var ", classeVarId, "Page = document.querySelector('#", i18nPage.getString(I18n.var_Page), "_", classeVarId, "')?.value;");
 				auteurPageJs.tl(3, "var ", classeVarClePrimairePluriel, " = json['", classeVarClePrimairePluriel, "'];");
 				auteurPageJs.tl(3, "var empty = json['empty'];");
 //					auteurPageJs.tl(3, "if(!empty) {");
@@ -3613,7 +3612,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(3, "} else {");
 				auteurPageJs.tl(4, "document.querySelector('.box-' + ", classeVarId, ")?.remove();");
 				auteurPageJs.tl(3, "}");
-				auteurPageJs.tl(3, "if(", classeVarId, " && ", classeVarId, "Page && ", classeVarId, " == ", classeVarId, "Page) {");
+				auteurPageJs.tl(3, "if(", classeVarId, ") {");
 				auteurPageJs.tl(4, "if(success)");
 				auteurPageJs.tl(5, "success(json);");
 				auteurPageJs.tl(3, "}");
@@ -3805,7 +3804,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(3, "});");
 					auteurPageJs.tl(2, "} else {");
 					auteurPageJs.tl(3, "window.map", classeNomSimple, " = L.map('htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, "', {");
-					auteurPageJs.tl(4, "position: 'bottomright'");
+					auteurPageJs.tl(4, "position: 'topright'");
+					auteurPageJs.tl(4, ", zoomControl: true");
 					auteurPageJs.tl(4, ", closePopupOnClick: false");
 					auteurPageJs.tl(4, ", contextmenu: true");
 					auteurPageJs.tl(4, ", contextmenuWidth: 140");
@@ -3818,6 +3818,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(5, "}");
 					auteurPageJs.tl(5, "]");
 					auteurPageJs.tl(3, "});");
+					auteurPageJs.tl(3, "window.mapCrowdFlowObserved.zoomControl.setPosition('topright');");
 					auteurPageJs.tl(3, "var data = [];");
 					auteurPageJs.tl(3, "var layout = {};");
 					auteurPageJs.tl(3, "layout['showlegend'] = true;");
@@ -3920,12 +3921,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 					auteurPageJs.tl(4, "var contextmenuItems = [];");
 					if(classeVarEmplacement != null) {
-						auteurPageJs.tl(4, "if(event.layerType == 'polygon') {");
+						auteurPageJs.tl(4, "if(event.layerType == 'marker') {");
 						auteurPageJs.tl(5, "contextmenuItems.push({");
 						auteurPageJs.tl(6, "text: '", i18nPage.getString(I18n.str_Definir), " ", classeVarEmplacement, " ", i18nPage.getString(I18n.str_de), " ' + ", varResultat, ".", classeVarTitre);
 						auteurPageJs.tl(6, ", callback: function(event2) {");
 						auteurPageJs.tl(7, "patch", i18nPage.getString(I18n.var_Emplacement), "(event.layer, "
-								, "{ coordinates: event.layer.getLatLng(), type: \"Point\" }"
+								, "{ coordinates: [event.layer.getLatLng()['lng'], event.layer.getLatLng()['lat']], type: \"Point\" }"
 								, ");");
 						auteurPageJs.tl(6, "}");
 						auteurPageJs.tl(5, "});");

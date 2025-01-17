@@ -194,6 +194,12 @@ public class IndexerClasse extends RegarderClasseBase {
 	 */
 	public static final String VAL_nomCanoniqueVertxJsonObject = "io.vertx.core.json.JsonObject";
 
+	ClasseParts classePartsJsonObjectSerializer;
+	ClasseParts classePartsJsonObjectDeserializer;
+
+	ClasseParts classePartsJsonArraySerializer;
+	ClasseParts classePartsJsonArrayDeserializer;
+
 	ClasseParts classePartsPointSerializer;
 	ClasseParts classePartsPointDeserializer;
 
@@ -1765,6 +1771,20 @@ public class IndexerClasse extends RegarderClasseBase {
 		return parts;
 	}
 
+	protected ClasseParts classePartsJsonObjectDeserializer(String nomEnsembleDomaine, String langueNom) throws Exception {
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, "JsonObjectDeserializer", langueNom);
+		if(parts == null)
+			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.serialize.vertx.JsonObjectDeserializer", langueNom);
+		return parts;
+	}
+
+	protected ClasseParts classePartsJsonArrayDeserializer(String nomEnsembleDomaine, String langueNom) throws Exception {
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, "JsonArrayDeserializer", langueNom);
+		if(parts == null)
+			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.serialize.vertx.JsonArrayDeserializer", langueNom);
+		return parts;
+	}
+
 	protected ClasseParts classePartsPointDeserializer(String nomEnsembleDomaine, String langueNom) throws Exception {
 		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, "PointDeserializer", langueNom);
 		if(parts == null)
@@ -2156,6 +2176,8 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsRequeteSite = classePartsRequeteSite(nomEnsembleDomaine, classeLangueNom);
 		classePartsMailVerticle = classePartsMailVerticle(nomEnsembleDomaine, classeLangueNom);
 		classePartsConfigCles = classePartsConfigCles(nomEnsembleDomaine, classeLangueNom);
+		classePartsJsonObjectDeserializer = classePartsJsonObjectDeserializer(nomEnsembleDomaine, classeLangueNom);
+		classePartsJsonArrayDeserializer = classePartsJsonArrayDeserializer(nomEnsembleDomaine, classeLangueNom);
 		classePartsPointDeserializer = classePartsPointDeserializer(nomEnsembleDomaine, classeLangueNom);
 		classePartsPointSerializer = classePartsPointSerializer(nomEnsembleDomaine, classeLangueNom);
 		classePartsPathDeserializer = classePartsPathDeserializer(nomEnsembleDomaine, classeLangueNom);
@@ -2444,6 +2466,9 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonFormat.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonSerialize.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonDeserialize.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+
+		if(classePartsLocalDateSerializer != null)
+			classePartsGenAjouter(classePartsLocalDateSerializer, classeLangueNom);
 
 		if(classePartsLocalDateSerializer != null)
 			classePartsGenAjouter(classePartsLocalDateSerializer, classeLangueNom);
@@ -3044,6 +3069,13 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteNomCanoniqueComplet", entiteClasseParts.nomCanoniqueComplet(classeLangueNom));
 						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteNomSimpleComplet", entiteClasseParts.nomSimpleComplet(classeLangueNom));
 						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteNomSimpleCompletGenerique", entiteClasseParts.nomSimpleGenerique(classeLangueNom));
+
+						if("JsonObject".equals(entiteNomSimple)) {
+							classePartsGenAjouter(classePartsJsonObjectDeserializer, classeLangueNom);
+						}
+						if("JsonArray".equals(entiteNomSimple)) {
+							classePartsGenAjouter(classePartsJsonArrayDeserializer, classeLangueNom);
+						}
 
 						if("Point".equals(entiteNomSimple)) {
 							classePartsGenAjouter(classePartsPointSerializer, classeLangueNom);
@@ -6329,6 +6361,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								wSmartDataModel.l("	 * Facet: true");
 								wSmartDataModel.l("	 */");
 								wSmartDataModel.l("	protected void _ngsildTenant(Wrap<String> w) {");
+								wSmartDataModel.l("		", Optional.ofNullable(ngsildTenantEnv).map(str -> String.format("w.o(System.getenv(\"%s\"));", str)).orElse(""));
 								wSmartDataModel.l("	}");
 								cell++;
 								wSmartDataModel.l();
@@ -6343,6 +6376,22 @@ public class IndexerClasse extends RegarderClasseBase {
 								wSmartDataModel.l("	 * Facet: true");
 								wSmartDataModel.l("	 */");
 								wSmartDataModel.l("	protected void _ngsildPath(Wrap<String> w) {");
+								wSmartDataModel.l("		", Optional.ofNullable(ngsildCheminEnv).map(str -> String.format("w.o(System.getenv(\"%s\"));", str)).orElse(""));
+								wSmartDataModel.l("	}");
+								cell++;
+								wSmartDataModel.l();
+								wSmartDataModel.l("	/**");
+								wSmartDataModel.l("	 * {@inheritDoc}");
+								wSmartDataModel.l("	 * DocValues: true");
+								wSmartDataModel.l("	 * Persist: true");
+								wSmartDataModel.l("	 * DisplayName: NGSILD data");
+								wSmartDataModel.l("	 * Description: The NGSILD data with @context from the context broker");
+								wSmartDataModel.l("	 * HtmRow: ", row, "");
+								wSmartDataModel.l("	 * HtmCell: ", cell, "");
+								wSmartDataModel.l("	 * Facet: true");
+								wSmartDataModel.l("	 * Multiline: true");
+								wSmartDataModel.l("	 */");
+								wSmartDataModel.l("	protected void _ngsildData(Wrap<JsonObject> w) {");
 								wSmartDataModel.l("	}");
 								row++;
 								cell = -1;
