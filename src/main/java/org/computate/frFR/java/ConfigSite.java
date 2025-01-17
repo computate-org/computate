@@ -679,19 +679,21 @@ public class ConfigSite {
 
 	public SolrClient clientSolrFiware;
 	protected void _clientSolrFiware() throws Exception {
-		SSLContextBuilder builder = new SSLContextBuilder();
-		builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
-		SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(builder.build(), NoopHostnameVerifier.INSTANCE);
-		UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(solrUtilisateur, solrMotDePasse);
-		CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-		PreemptiveAuth requestInterceptor = new PreemptiveAuth(new BasicScheme());
-		credentialsProvider.setCredentials(AuthScope.ANY, credentials);
-		CloseableHttpClient httpClient = HttpClients.custom()
-				.setSSLSocketFactory(sslsf)
-				.setDefaultCredentialsProvider(credentialsProvider)
-				.addInterceptorLast(requestInterceptor)
-				.build();
-		clientSolrFiware = new HttpSolrClient.Builder(solrUrlFiware).withHttpClient(httpClient).build();
+		if(StringUtils.isNotBlank(solrUrlFiware)) {
+			SSLContextBuilder builder = new SSLContextBuilder();
+			builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
+			SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(builder.build(), NoopHostnameVerifier.INSTANCE);
+			UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(solrUtilisateur, solrMotDePasse);
+			CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+			PreemptiveAuth requestInterceptor = new PreemptiveAuth(new BasicScheme());
+			credentialsProvider.setCredentials(AuthScope.ANY, credentials);
+			CloseableHttpClient httpClient = HttpClients.custom()
+					.setSSLSocketFactory(sslsf)
+					.setDefaultCredentialsProvider(credentialsProvider)
+					.addInterceptorLast(requestInterceptor)
+					.build();
+			clientSolrFiware = new HttpSolrClient.Builder(solrUrlFiware).withHttpClient(httpClient).build();
+		}
 	}
 
 	/**

@@ -3697,6 +3697,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(3, "page.set", i18nGlobale.getString(I18n.var_ListeRecherche), classeApiClasseNomSimple, "_(", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ");");
 							tl(3, "page.set", i18nGlobale.getString(I18n.var_RequeteSite), "_(", i18nGlobale.getString(I18n.var_requeteSite), ");");
 							tl(3, "page.set", i18nGlobale.getString(I18n.var_RequeteService), "(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "()", ");");
+							tl(3, "page.setWebClient(webClient);");
+							tl(3, "page.setVertx(vertx);");
 							tl(3, "page.", i18nGlobale.getString(I18n.var_promesseLoin), classePageNomSimpleMethode, "(", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(a -> {");
 							tl(4, "try {");
 							tl(5, "JsonObject ctx = ComputateConfigKeys.getPageContext(config);");
