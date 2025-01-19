@@ -6417,7 +6417,11 @@ public class IndexerClasse extends RegarderClasseBase {
 								wSmartDataModel.l("	 * HtmCell: ", cell, "");
 								wSmartDataModel.l("	 * Facet: true");
 								wSmartDataModel.l("	 **/");
-								wSmartDataModel.l("	protected void _", fieldName, "(Wrap<", javaType, "> w) {}");
+								wSmartDataModel.l("	protected void _", fieldName, "(Wrap<", javaType, "> w) {");
+								if("location".equals(fieldName)) {
+									wSmartDataModel.l("		w.o(staticSetLocation(siteRequest_, siteRequest_.getConfig().getString(ComputateConfigKeys.DEFAULT_MAP_LOCATION)));");
+								}
+								wSmartDataModel.l("	}");
 							}
 							cell++;
 							// if(cell > 3) {
