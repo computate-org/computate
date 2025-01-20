@@ -1919,12 +1919,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					if(classePageSuperNomSimple != null)
 						tl(1, "@Override");
 					tl(1, "protected void _DEFAULT_MAP_LOCATION(", classePartsCouverture.nomSimple(langueNom), "<JsonObject> ", langueConfig.getString(I18n.var_cVar), ") {");
-					tl(2, "String pointStr = Optional.ofNullable(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Requete), "Vars().get(VAR_DEFAULT_MAP_LOCATION)).orElse(", langueConfig.getString(I18n.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_LOCATION));");
-					tl(2, "if(pointStr != null) {");
-					tl(3, "String[] parts = pointStr.replace(\"[\", \"\").replace(\"]\", \"\").replace(\"\\\"\", \"\").split(\",\");");
-					tl(3, "JsonObject point = new JsonObject().put(\"lat\", Double.parseDouble(parts[0])).put(\"lon\", Double.parseDouble(parts[1]));");
-					tl(3, langueConfig.getString(I18n.var_cVar), ".o(point);");
-					tl(2, "}");
+					if(classeVarEmplacement != null) {
+						tl(2, "Point point = ", classeNomSimple, ".staticSet", StringUtils.capitalize(classeVarEmplacement), "(", langueConfig.getString(I18n.var_requeteSite), "_, Optional.ofNullable(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Requete), "Vars().get(VAR_DEFAULT_MAP_LOCATION)).orElse(", langueConfig.getString(I18n.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_LOCATION)));");
+						tl(2, "w.o(new JsonObject().put(\"type\", \"Point\").put(\"coordinates\", new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))));");
+					}
 					tl(1, "}");
 					l();
 					if(classePageSuperNomSimple != null)
@@ -2884,7 +2882,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 				// tl(3, "document.querySelector('#site-calendar-box').accordion({ collapsible: true, active: false });");
 				l("{% if DEFAULT_MAP_LOCATION is defined %}");
-				tl(3, "window.DEFAULT_MAP_LOCATION = { lat: {{ DEFAULT_MAP_LOCATION.lat }}, lon: {{ DEFAULT_MAP_LOCATION.lon }} };");
+				tl(3, "window.DEFAULT_MAP_LOCATION = { type: 'Point', coordinates: [ {{ DEFAULT_MAP_LOCATION.coordinates[0] }}, {{ DEFAULT_MAP_LOCATION.coordinates[1] }} ]};");
 				l("{% endif %}");
 				l("{% if DEFAULT_MAP_ZOOM is defined %}");
 				tl(3, "window.DEFAULT_MAP_ZOOM = {{ DEFAULT_MAP_ZOOM }};");
@@ -3818,7 +3816,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(5, "}");
 					auteurPageJs.tl(5, "]");
 					auteurPageJs.tl(3, "});");
-					auteurPageJs.tl(3, "window.mapCrowdFlowObserved.zoomControl.setPosition('topright');");
+					auteurPageJs.tl(3, "window.map", classeNomSimple, ".zoomControl.setPosition('topright');");
 					auteurPageJs.tl(3, "var data = [];");
 					auteurPageJs.tl(3, "var layout = {};");
 					auteurPageJs.tl(3, "layout['showlegend'] = true;");
@@ -3833,11 +3831,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(3, "}).addTo(window.map", classeNomSimple, ");");
 					auteurPageJs.l();
 					auteurPageJs.tl(3, "if(window['DEFAULT_MAP_LOCATION'] && window['DEFAULT_MAP_ZOOM'])");
-					auteurPageJs.tl(4, "window.map", classeNomSimple, ".setView([window['DEFAULT_MAP_LOCATION']['lat'], window['DEFAULT_MAP_LOCATION']['lon']], window['DEFAULT_MAP_ZOOM']);");
+					auteurPageJs.tl(4, "window.map", classeNomSimple, ".setView([window['DEFAULT_MAP_LOCATION']['coordinates'][1], window['DEFAULT_MAP_LOCATION']['coordinates'][0]], window['DEFAULT_MAP_ZOOM']);");
 					auteurPageJs.tl(3, "else if(window['DEFAULT_MAP_ZOOM'])");
 					auteurPageJs.tl(4, "window.map", classeNomSimple, ".setView(null, window['DEFAULT_MAP_ZOOM']);");
 					auteurPageJs.tl(3, "else if(window['DEFAULT_MAP_LOCATION'])");
-					auteurPageJs.tl(4, "window.map", classeNomSimple, ".setView([window['DEFAULT_MAP_LOCATION']['lat'], window['DEFAULT_MAP_LOCATION']['lon']]);");
+					auteurPageJs.tl(4, "window.map", classeNomSimple, ".setView([window['DEFAULT_MAP_LOCATION']['coordinates'][1], window['DEFAULT_MAP_LOCATION']['coordinates'][0]]);");
 					auteurPageJs.l();
 					auteurPageJs.tl(3, "layout['margin'] = { r: 0, t: 0, b: 0, l: 0 };");
 					auteurPageJs.tl(3, "window.geoJSON", classeNomSimple, " = L.geoJSON().addTo(window.map", classeNomSimple, ");");

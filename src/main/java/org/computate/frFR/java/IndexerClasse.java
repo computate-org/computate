@@ -6384,6 +6384,21 @@ public class IndexerClasse extends RegarderClasseBase {
 								wSmartDataModel.l("	 * {@inheritDoc}");
 								wSmartDataModel.l("	 * DocValues: true");
 								wSmartDataModel.l("	 * Persist: true");
+								wSmartDataModel.l("	 * DisplayName: NGSILD context");
+								wSmartDataModel.l("	 * Description: The NGSILD context URL for @context data");
+								wSmartDataModel.l("	 * HtmRow: ", row, "");
+								wSmartDataModel.l("	 * HtmCell: ", cell, "");
+								wSmartDataModel.l("	 * Facet: true");
+								wSmartDataModel.l("	 */");
+								wSmartDataModel.l("	protected void _ngsildContext(Wrap<String> w) {");
+								wSmartDataModel.l("		w.o(", i18nGlobale.getString(I18n.var_requeteSite), "_.getConfig().getString(ComputateConfigKeys.CONTEXT_BROKER_CONTEXT));");
+								wSmartDataModel.l("	}");
+								cell++;
+								wSmartDataModel.l();
+								wSmartDataModel.l("	/**");
+								wSmartDataModel.l("	 * {@inheritDoc}");
+								wSmartDataModel.l("	 * DocValues: true");
+								wSmartDataModel.l("	 * Persist: true");
 								wSmartDataModel.l("	 * DisplayName: NGSILD data");
 								wSmartDataModel.l("	 * Description: The NGSILD data with @context from the context broker");
 								wSmartDataModel.l("	 * HtmRow: ", row, "");
@@ -6402,7 +6417,11 @@ public class IndexerClasse extends RegarderClasseBase {
 								wSmartDataModel.l("	 * HtmCell: ", cell, "");
 								wSmartDataModel.l("	 * Facet: true");
 								wSmartDataModel.l("	 **/");
-								wSmartDataModel.l("	protected void _", fieldName, "(Wrap<", javaType, "> w) {}");
+								wSmartDataModel.l("	protected void _", fieldName, "(Wrap<", javaType, "> w) {");
+								if("location".equals(fieldName)) {
+									wSmartDataModel.l("		w.o(staticSetLocation(siteRequest_, siteRequest_.getConfig().getString(ComputateConfigKeys.DEFAULT_MAP_LOCATION)));");
+								}
+								wSmartDataModel.l("	}");
 							}
 							cell++;
 							// if(cell > 3) {
@@ -6412,21 +6431,6 @@ public class IndexerClasse extends RegarderClasseBase {
 							wSmartDataModel.l();
 						}
 					}
-
-					wSmartDataModel.l("");
-					wSmartDataModel.l("	/**");
-					wSmartDataModel.l("	 * @Override");
-					wSmartDataModel.l("	 * DocValues: true");
-					wSmartDataModel.l("	 * Persist: true");
-					wSmartDataModel.l("	 * DisplayName: NGSILD context");
-					wSmartDataModel.l("	 * escription: The NGSILD context URL for @context data. ");
-					wSmartDataModel.l("	 * HtmRow: 13");
-					wSmartDataModel.l("	 * HtmCell: ", cell + 1);
-					wSmartDataModel.l("	 * Facet: true");
-					wSmartDataModel.l("	 */");
-					wSmartDataModel.l("	protected void _ngsildContext(Wrap<String> w) {");
-					wSmartDataModel.l("		w.o(String.format(\"https://raw.githubusercontent.com/%s/%s/main/fiware/context.jsonld\", siteRequest_.getConfig().getString(ComputateConfigKeys.GITHUB_ORG), siteRequest_.getConfig().getString(ComputateConfigKeys.SITE_STATIC_NAME)));");
-					wSmartDataModel.l("	}");
 					wSmartDataModel.l("}");
 
 					wSmartDataModel.l();

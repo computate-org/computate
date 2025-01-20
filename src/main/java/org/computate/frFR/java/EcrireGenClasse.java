@@ -5553,15 +5553,15 @@ public class EcrireGenClasse extends EcrireClasse {
 
 				wNgsiMethode.tl(2, "case VAR_", entiteVar, ":");
 				if("Point".equals(entiteNomSimple)) {
-					wNgsiMethode.tl(3, "return new JsonObject().put(\"type\", \"Point\").put(\"coordinates\", new JsonArray().add(Double.valueOf(o.get", entiteVarCapitalise, "().getX())).add(Double.valueOf(o.get", entiteVarCapitalise, "().getY()))).toString();");
+					wNgsiMethode.tl(3, "return new JsonObject().put(\"type\", \"Point\").put(\"coordinates\", new JsonArray().add(Double.valueOf(o.get", entiteVarCapitalise, "().getX())).add(Double.valueOf(o.get", entiteVarCapitalise, "().getY())));");
 				} else if("Path".equals(entiteNomSimple)) {
 					wNgsiMethode.tl(3, "JsonArray pointsArray", entiteVarCapitalise, " = new JsonArray();");
 					wNgsiMethode.tl(3, "o.get", entiteVarCapitalise, "().getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray", entiteVarCapitalise, ".add(pointArray));");
-					wNgsiMethode.tl(3, "return new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray", entiteVarCapitalise, ").toString();");
+					wNgsiMethode.tl(3, "return new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray", entiteVarCapitalise, ");");
 				} else if("Polygon".equals(entiteNomSimple)) {
 					wNgsiMethode.tl(3, "JsonArray pointsArray", entiteVarCapitalise, " = new JsonArray();");
 					wNgsiMethode.tl(3, "o.get", entiteVarCapitalise, "().getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray", entiteVarCapitalise, ".add(pointArray));");
-					wNgsiMethode.tl(3, "return new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray", entiteVarCapitalise, ").toString();");
+					wNgsiMethode.tl(3, "return new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray", entiteVarCapitalise, ");");
 				} else {
 					wNgsiMethode.tl(3, "return o.get", entiteVarCapitalise, "();");
 				}
