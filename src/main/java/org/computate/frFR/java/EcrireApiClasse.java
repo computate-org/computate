@@ -4679,9 +4679,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(3, "String solrUsername = ", i18nGlobale.getString(I18n.var_requeteSite), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_USERNAME);");
 				tl(3, "String solrPassword = ", i18nGlobale.getString(I18n.var_requeteSite), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_PASSWORD);");
 				tl(3, "String solrHostName = ", i18nGlobale.getString(I18n.var_requeteSite), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_HOST_NAME);");
-				tl(3, "Integer solrPort = ", i18nGlobale.getString(I18n.var_requeteSite), ".getConfig().getInteger(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_PORT);");
+				tl(3, "Integer solrPort = Integer.parseInt(", i18nGlobale.getString(I18n.var_requeteSite), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_PORT));");
 				tl(3, "String solrCollection = ", i18nGlobale.getString(I18n.var_requeteSite), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_COLLECTION);");
-				tl(3, "Boolean solrSsl = ", i18nGlobale.getString(I18n.var_requeteSite), ".getConfig().getBoolean(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_SSL);");
+				tl(3, "Boolean solrSsl = Boolean.parseBoolean(", i18nGlobale.getString(I18n.var_requeteSite), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_SSL));");
 				tl(3, "Boolean softCommit = Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(null);");
 				tl(3, "Integer commitWithin = Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
 				tl(4, "if(softCommit == null && commitWithin == null)");
@@ -4720,9 +4720,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(4, "String solrUsername = ", i18nGlobale.getString(I18n.var_requeteSite), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_USERNAME);");
 				tl(4, "String solrPassword = ", i18nGlobale.getString(I18n.var_requeteSite), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_PASSWORD);");
 				tl(4, "String solrHostName = ", i18nGlobale.getString(I18n.var_requeteSite), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_HOST_NAME);");
-				tl(4, "Integer solrPort = ", i18nGlobale.getString(I18n.var_requeteSite), ".getConfig().getInteger(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_PORT);");
+				tl(4, "Integer solrPort = Integer.parseInt(", i18nGlobale.getString(I18n.var_requeteSite), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_PORT));");
 				tl(4, "String solrCollection = ", i18nGlobale.getString(I18n.var_requeteSite), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_COLLECTION);");
-				tl(4, "Boolean solrSsl = ", i18nGlobale.getString(I18n.var_requeteSite), ".getConfig().getBoolean(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_SSL);");
+				tl(4, "Boolean solrSsl = Boolean.parseBoolean(", i18nGlobale.getString(I18n.var_requeteSite), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_SSL));");
 				tl(4, "Boolean softCommit = Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(null);");
 				tl(4, "Integer commitWithin = Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
 				tl(5, "if(softCommit == null && commitWithin == null)");
