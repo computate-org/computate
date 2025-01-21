@@ -6226,6 +6226,7 @@ public class IndexerClasse extends RegarderClasseBase {
 					wSmartDataModel.l(" *     POST:");
 					wSmartDataModel.l(" *     PATCH:");
 					wSmartDataModel.l(" *     GET:");
+					wSmartDataModel.l(" *     PUT:");
 					wSmartDataModel.l(" *     DELETE:");
 					wSmartDataModel.l(" *     SuperAdmin:");
 					wSmartDataModel.l(" *     Admin:");
@@ -6233,6 +6234,7 @@ public class IndexerClasse extends RegarderClasseBase {
 					wSmartDataModel.l(" *     POST:");
 					wSmartDataModel.l(" *     PATCH:");
 					wSmartDataModel.l(" *     GET:");
+					wSmartDataModel.l(" *     PUT:");
 					wSmartDataModel.l(" *     DELETE:");
 					wSmartDataModel.l(" *     Admin:");
 					wSmartDataModel.l(" **/");
