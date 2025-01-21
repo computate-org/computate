@@ -1007,6 +1007,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			wJsInit = ToutEcrivain.create("  ");
 			wJsEditionInit = ToutEcrivain.create("  ");
+			wJsRechercheInit = ToutEcrivain.create("  ");
 			wWebsocket = ToutEcrivain.create("  ");
 			wWebsocketInput1 = ToutEcrivain.create("  ");
 			wWebsocketInput2 = ToutEcrivain.create("  ");
@@ -1154,15 +1155,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												&& !langueConfig.getString(I18n.var_utilisateurCle).equals(entiteVar)
 												&& !langueConfig.getString(I18n.var_sauvegardes).equals(entiteVar)
 												) {
-											wJsEditionInit.tl(5, "document.querySelector('#fq", classeNomSimple, "_", entiteVar, "')?.addEventListener('", composantsWebPrefixe, "change', (event) => {");
-											wJsEditionInit.tl(6, "fqChange('", classeNomSimple, "', event.target);");
-											wJsEditionInit.tl(5, "});");
-											wJsEditionInit.tl(5, "document.querySelector('#buttonFacet", classeNomSimple, "_", entiteVar, "')?.addEventListener('click', (event) => {");
-											wJsEditionInit.tl(6, "facetFieldChange('", classeNomSimple, "', event.target);");
-											wJsEditionInit.tl(5, "});");
-											wJsEditionInit.tl(5, "document.querySelector('#pageFacetPivot", classeNomSimple, "_", entiteVar, "')?.addEventListener('", composantsWebPrefixe, "change', (event) => {");
-											wJsEditionInit.tl(6, "facetPivotChange('", classeNomSimple, "', event.target);");
-											wJsEditionInit.tl(5, "});");
+											wJsRechercheInit.tl(5, "document.querySelector('#fq", classeNomSimple, "_", entiteVar, "')?.addEventListener('", composantsWebPrefixe, "change', (event) => {");
+											wJsRechercheInit.tl(6, "fqChange('", classeNomSimple, "', event.currentTarget);");
+											wJsRechercheInit.tl(5, "});");
+											wJsRechercheInit.tl(5, "document.querySelector('#buttonFacet", classeNomSimple, "_", entiteVar, "')?.addEventListener('click', (event) => {");
+											wJsRechercheInit.tl(6, "facetFieldChange('", classeNomSimple, "', event.currentTarget);");
+											wJsRechercheInit.tl(5, "});");
+											wJsRechercheInit.tl(5, "document.querySelector('#pageFacetPivot", classeNomSimple, "_", entiteVar, "')?.addEventListener('", composantsWebPrefixe, "change', (event) => {");
+											wJsRechercheInit.tl(6, "facetPivotChange('", classeNomSimple, "', event.currentTarget);");
+											wJsRechercheInit.tl(5, "});");
 										}
 
 										if("Boolean".equals(entiteNomSimple) && entiteVar.equals(langueConfig.getString(I18n.var_archive))) {
@@ -4044,6 +4045,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			auteurPageJsEdition.s(wJsEditionInit);
 
+			auteurPageJsRecherche.s(wJsRechercheInit);
 			auteurPageJsRecherche.tl(0, "});");
 			auteurPageJsEdition.tl(0, "});");
 		}
@@ -4560,7 +4562,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		s(" id=\"pageFacetField", classeNomSimple, "_{{ key }}\"");
 		l(">");
 		tl(11, "{% for facetFieldKey, facetFieldValue in value.facetField.counts.items() %}");
-		tl(11, "<", composantsWebPrefixe, "tooltip content=\"", String.format(i18nPage.getString(I18n.str_au_total_avec_), "{{ facetFieldValue | e }}", classeNomSingulier, "{{ value.facetField.var | e }}", "{{ facetFieldKey | e }}"), "\">");
+		tl(11, "<div>");
+		tl(12, "<", composantsWebPrefixe, "tooltip content=\"", String.format(i18nPage.getString(I18n.str_au_total_avec_), "{{ facetFieldValue | e }}", classeNomSingulier, "{{ value.facetField.var | e }}", "{{ facetFieldKey | e }}"), "\"></", composantsWebPrefixe, "tooltip>");
 		t(12, "<div");
 		s(" class=\"cursor-pointer \"");
 		s(" data-class=\"", classeNomSimple, "\"");
@@ -4572,7 +4575,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		s(": ");
 		s("{{ facetFieldKey }}");
 		l("</div>");
-		tl(11, "</", composantsWebPrefixe, "tooltip>");
+		tl(11, "</div>");
 		tl(11, "{% endfor %}");
 		tl(10, "</div>");
 
