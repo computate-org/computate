@@ -2026,7 +2026,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			if(classePageSimple) {
 				tl(2, langueConfig.getString(I18n.var_cVar), ".o(new ", classeApiClasseNomSimple, "());");
 			} else {
-				tl(2, "if(", varResultat, "Count == 1 && Optional.ofNullable(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\")).map(o -> o.getString(\"", classeVarId, "\")).orElse(null) != null)");
+				tl(2, "if(", varResultat, "Count >= 1 && Optional.ofNullable(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\")).map(o -> o.getString(\"", classeVarId, "\")).orElse(null) != null)");
 				tl(3, langueConfig.getString(I18n.var_cVar), ".o(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.get(0));");
 			}
 			tl(1, "}");
@@ -4263,7 +4263,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(1, "{% if \"PATCH\" in ", i18nGlobale.getString(I18n.var_portees), " %}");
 
 		// recharger 1 //
-		tl(2, "{% if ", varResultat, "Count == 1 %}");
+		tl(2, "{% if ", varResultat, "Count >= 1 %}");
 		// s("<", composantsWebPrefixe, "tooltip content=\"", i18nPage.getString(I18n.str_Recharger), " ", classeCeNom, "\">");
 		tl(7, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " id=\"", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "\"");
 		tl(9, " onclick=\"patch{{", i18nPage.getString(I18n.var_classeNomSimple), "}}Vals( [ {name: 'fq', value: '", classeVarId, ":{{", classeVarId, "}}' } ], {}, this, function() { ", i18nPage.getString(I18n.var_ajouterLueur), "(document.querySelector('#", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "')); }, function() { ", i18nPage.getString(I18n.var_ajouterErreur), "(document.querySelector('#", i18nPage.getString(I18n.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "')); }); return false; \">");
@@ -4300,12 +4300,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(activerRoleAdmin) {
 					tl(0, "{% if ", i18nPage.getString(I18n.var_AUTH_PORTEE_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
 				}
-				tl(1, "{%- if ", varResultat, "Count == 1 %}");
-				tl(2, "{%- if ", classeVarId, " is defined %}");
-				tl(3, "{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
-				tl(2, "{%- else %}");
-				tl(3, "{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
-				tl(2, "{%- endif %}");
+				tl(1, "{%- if ", varResultat, "Count >= 1 %}");
+				tl(2, "{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
 				tl(1, "{%- else %}");
 				tl(2, "{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
 				tl(1, "{%- endif %}");
@@ -4316,11 +4312,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(activerRoleAdmin) {
 					tl(0, "{% if ", i18nPage.getString(I18n.var_AUTH_PORTEE_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
 				}
-				tl(1, "{%- if ", varResultat, "Count == 1 %}");
-				tl(2, "{%- if ", classeVarId, " is defined %}");
-				tl(3, "{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
-				tl(2, "{%- else %}");
-				tl(2, "{%- endif %}");
+				tl(1, "{%- if ", varResultat, "Count >= 1 %}");
+				tl(2, "{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
 				tl(1, "{%- else %}");
 				tl(1, "{%- endif %}");
 				if(activerRoleAdmin) {
@@ -4354,12 +4347,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(activerRoleAdmin) {
 					tl(0, "{% if ", i18nPage.getString(I18n.var_AUTH_PORTEE_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
 				}
-				tl(1, "{%- if ", varResultat, "Count == 1 %}");
-				tl(2, "{%- if ", classeVarId, " is defined %}");
-				tl(3, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
-				tl(2, "{%- else %}");
-				tl(3, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
-				tl(2, "{%- endif %}");
+				tl(1, "{%- if ", varResultat, "Count >= 1 %}");
+				tl(2, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
 				tl(1, "{%- else %}");
 				tl(2, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
 				tl(1, "{%- endif %}");
@@ -4370,11 +4359,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(activerRoleAdmin) {
 					tl(0, "{% if ", i18nPage.getString(I18n.var_AUTH_PORTEE_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
 				}
-				tl(1, "{%- if ", varResultat, "Count == 1 %}");
-				tl(2, "{%- if ", classeVarId, " is defined %}");
-				tl(3, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
-				tl(2, "{%- else %}");
-				tl(2, "{%- endif %}");
+				tl(1, "{%- if ", varResultat, "Count >= 1 %}");
+				tl(2, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
 				tl(1, "{%- else %}");
 				tl(1, "{%- endif %}");
 				if(activerRoleAdmin) {
@@ -5440,9 +5426,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		ecrirePageRechercheAucun(langueNom, i18nPage);
 		tl(0, "{% else %}");
 
-		tl(1, "{% if ", varResultat, "Count == 1 %}");
+		tl(1, "{% if ", varResultat, "Count >= 1 %}");
 		// htmBodyCount1 //
-		tl(2, "{% if ", classeVarCleUnique, " is defined %}");
 
 		///////////////////
 		// htmBodyCount1 //
@@ -5463,9 +5448,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		s(classeIcone);
 		s(" {{ ", varResultat, ".", classeVarTitre, " | e }}");
 		l("</h1>");
-		tl(2, "{% else %}");
-		ecrirePageRechercheAucun(langueNom, i18nPage);
-		tl(2, "{% endif %}");
 		tl(1, "{% else %}");
 		ecrirePageRechercheAucun(langueNom, i18nPage);
 		tl(1, "{% endif %}");

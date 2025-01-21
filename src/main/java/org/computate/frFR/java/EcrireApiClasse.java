@@ -3762,7 +3762,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_RequeteEnTetes), "(", i18nGlobale.getString(I18n.var_requeteEnTetes), ");");
 							l();
 							if(classeModele) {
-								tl(3, "if(", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ".size() == 1)");
+								tl(3, "if(", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ".size() >= 1)");
 								tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_Requete), StringUtils.capitalize(classeVarClePrimaire), "(", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ".get(0).get", StringUtils.capitalize(classeVarClePrimaire), "()", ");");
 							}
 							if(!classePageSimple)
