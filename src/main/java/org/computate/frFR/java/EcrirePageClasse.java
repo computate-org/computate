@@ -2633,7 +2633,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				ecrirePageBoutonsRecherche(langueNom, i18nPage);
 				ecrirePageFormulaireRecherche(langueNom, i18nPage);
 				ecrirePageBoutonsPagination(langueNom, i18nPage);
-	
 				ecrirePageRechercheJinja(langueNom, i18nPage);
 				//STUFF1
 			}
@@ -4382,6 +4381,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(0, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
 			}
 		}
+		tl(5, "<", composantsWebPrefixe, "divider></", composantsWebPrefixe, "divider>");
 
 		o = oAncien;
 	}
@@ -4394,7 +4394,33 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// pageContent //
 		/////////////////
 
-		tl(4, "<div class=\"htmBody", i18nPage.getString(I18n.var_BarreLaterale), "", classePageNomSimple, " \">");
+		tl(4, "<", composantsWebPrefixe, "details open>");
+		tl(5, "<div slot=\"summary\">", String.format(i18nPage.getString(I18n.str_Cartes_des), classeNomPluriel), "</div>");
+
+		/////////////////////////////////
+		// htmBodyGraphiqueEmplacement //
+		/////////////////////////////////
+
+		if(classeVarEmplacement != null) {
+			l();
+			tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, " %}");
+			tl(0, "{% if ", varResultat, "Count > 0 %}");
+			tl(4, "<div id=\"htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, "\" class=\"htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), " \"></div>");
+			tl(0, "{% endif %}");
+			tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, " %}");
+		}
+
+		//////////////////////
+		// htmBodyGraphique //
+		//////////////////////
+
+		l();
+		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Graphique), classePageNomSimple, " %}");
+		tl(4, "<div id=\"htmBody", i18nPage.getString(I18n.var_Graphique), classePageNomSimple, "\" class=\"htmBody", i18nPage.getString(I18n.var_Graphique), " \"></div>");
+		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Graphique), classePageNomSimple, " %}");
+
+		tl(4, "</", composantsWebPrefixe, "details>");
+		tl(5, "<div class=\"htmBody", i18nPage.getString(I18n.var_BarreLaterale), "", classePageNomSimple, " \">");
 
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_BarreLaterale), "", classePageNomSimple, " %}");
 
@@ -5015,28 +5041,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_BarreLaterale), "", classePageNomSimple, " %}");
 		tl(4, "</div>");
 
-		/////////////////////////////////
-		// htmBodyGraphiqueEmplacement //
-		/////////////////////////////////
-
-		if(classeVarEmplacement != null) {
-			l();
-			tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, " %}");
-			tl(0, "{% if ", varResultat, "Count > 0 %}");
-			tl(4, "<div id=\"htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, "\" class=\"htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), " \"></div>");
-			tl(0, "{% endif %}");
-			tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, " %}");
-		}
-
-		//////////////////////
-		// htmBodyGraphique //
-		//////////////////////
-
-		l();
-		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Graphique), classePageNomSimple, " %}");
-		tl(4, "<div id=\"htmBody", i18nPage.getString(I18n.var_Graphique), classePageNomSimple, "\" class=\"htmBody", i18nPage.getString(I18n.var_Graphique), " \"></div>");
-		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Graphique), classePageNomSimple, " %}");
-
 		o = oAncien;
 	}
 
@@ -5237,7 +5241,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(8, "</", composantsWebPrefixe, "button>");
 		tl(7, "</", composantsWebPrefixe, "tooltip>");
 		tl(6, "</", composantsWebPrefixe, "button-group>");
-		tl(6, "<div>{{ pagination.", i18nPage.getString(I18n.var_debut), "Num }} – {{ pagination.", i18nPage.getString(I18n.var_fin), "Num }} ", i18nPage.getString(I18n.var_de), " {{ pagination.", i18nPage.getString(I18n.var_numTrouve), " }}</div>");
+		tl(6, "<div>{{ pagination.", i18nPage.getString(I18n.var_debut), "Num }} – {{ pagination.", i18nPage.getString(I18n.var_fin), "Num }} ", i18nPage.getString(I18n.var_de), " {{ pagination.", i18nPage.getString(I18n.var_numTrouve), " }} ", classeNomPluriel, "</div>");
 		tl(5, "</div>");
 
 		o = oAncien;
@@ -5278,19 +5282,31 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Debut), classePageSuperNomSimple, " %}");
 		tl(0, "{{ super() }}");
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Debut), classePageNomSimple, " %}");
+
+		tl(0, "{% if ", varResultat, "Count > 0 %}");
+		t(5, "<h1>");
+		s("<a href=\"{{pageUri}}\">");
+		s(classeIcone);
+		s(" <span>", classeNomAdjectifPluriel, "</span>");
+		s("</a>");
+		l("</h1>");
+		tl(0, "{%- include ", classePageRechercheSuggereTemplate, " %}");
+		tl(0, "{% include ", classePageBoutonsRechercheTemplate, " %}");
+		tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
+		tl(0, "{% endif %}");
+
 		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Debut), classePageNomSimple, " %}");
 		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Debut), classePageSuperNomSimple, " %}");
 		l();
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Milieu), classePageSuperNomSimple, " %}");
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Milieu), classePageNomSimple, " %}");
 
-		tl(0, "{%- include ", classePageBarreLateraleTemplate, " %}");
-		tl(0, "{%- include ", classePageRechercheSuggereTemplate, " %}");
-
 		// htmBodyCount0 //
 		tl(0, "{% if ", varResultat, "Count == 0 %}");
 		ecrirePageRechercheAucun(langueNom, i18nPage);
 		tl(0, "{% else %}");
+
+		tl(0, "{%- include ", classePageBarreLateraleTemplate, " %}");
 
 		tl(5, "<form action=\"", classeApiUri, "\" id=\"", classeApiClasseNomSimple, "Form\" class=\"", i18nPage.getString(I18n.var_page), i18nPage.getString(I18n.var_Formulaire), " \" onsubmit=\"event.preventDefault(); return false; \">");
 		t(6, "<input");
@@ -5332,22 +5348,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// htmBodyTous //
 		/////////////////
 
-		t(5, "<h1>");
-		s("<a href=\"{{pageUri}}\">");
-		s(classeIcone);
-		s(" <span>", classeNomAdjectifPluriel, "</span>");
-		s("</a>");
-		l("</h1>");
-
-		// formulaires
-
-		tl(0, "{% include ", classePageBoutonsRechercheTemplate, " %}");
-		tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
-		tl(0, "{% include ", classePageBoutonsPaginationTemplate, " %}");
-
 		// tl(6, "<", composantsWebPrefixe, "divider></", composantsWebPrefixe, "divider>");
 		// tl(6, "{{ htm", i18nPage.getString(I18n.var_BoutonsPagination), classePageNomSimple, "() }}");
 
+		tl(0, "{% include ", classePageBoutonsPaginationTemplate, " %}");
 		tl(5, "<div class=\"card-like-thing background-color-surface-border\" id=\"site-results-grid\">");
 		tl(6, "<div>");
 		s(wTh);
@@ -5414,14 +5418,34 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Debut), classePageSuperNomSimple, " %}");
 		tl(2, "{{ super() }}");
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Debut), classePageNomSimple, " %}");
+
+		tl(0, "{% if ", varResultat, "Count > 0 %}");
+
+		tl(5, "<div class=\"", composantsWebPrefixe, "flank \">");
+		tl(6, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\">", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "</", composantsWebPrefixe, "tooltip>");
+		tl(6, "<", composantsWebPrefixe, "button id=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
+		tl(7, "<i class=\"{{ FONTAWESOME_STYLE }} fa-angle-left\"></i>");
+		tl(7, classeTousNom);
+		tl(6, "</", composantsWebPrefixe, "button>");
+
+		t(6, "<h1 class=\"", i18nPage.getString(I18n.var_Page), "_", classeVarTitre, "\">");
+		s(classeIcone);
+		s(" {{ ", varResultat, ".", classeVarTitre, " | e }}");
+		l("</h1>");
+		tl(5, "</div>");
+	
+		tl(5, "<div class=\"margin-block\">");
+		tl(5, "</div>");
+
+		tl(0, "{% include ", classePageBoutonsRechercheTemplate, " %}");
+		tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
+		tl(0, "{% endif %}");
+
 		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Debut), classePageNomSimple, " %}");
 		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Debut), classePageSuperNomSimple, " %}");
 		l();
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Milieu), classePageSuperNomSimple, " %}");
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Milieu), classePageNomSimple, " %}");
-
-		tl(0, "{%- include ", classePageBarreLateraleTemplate, " %}");
-		tl(0, "{%- include ", classePageRechercheSuggereTemplate, " %}");
 
 		tl(4, "<div class=\"main-content\">");
 		// htmBodyCount0 //
@@ -5429,31 +5453,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		ecrirePageRechercheAucun(langueNom, i18nPage);
 		tl(0, "{% else %}");
 
-		tl(1, "{% if ", varResultat, "Count >= 1 %}");
+		tl(0, "{%- include ", classePageBarreLateraleTemplate, " %}");
+		tl(0, "{%- include ", classePageRechercheSuggereTemplate, " %}");
+
 		// htmBodyCount1 //
 
 		///////////////////
 		// htmBodyCount1 //
 		///////////////////
-	
-		tl(5, "<div class=\"margin-block\">");
-		tl(6, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\">", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "</", composantsWebPrefixe, "tooltip>");
-		tl(6, "<", composantsWebPrefixe, "button id=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
-		tl(7, "<i class=\"{{ FONTAWESOME_STYLE }} fa-angle-left\"></i>");
-		tl(7, classeTousNom);
-		tl(6, "</", composantsWebPrefixe, "button>");
-		tl(5, "</div>");
 
-		tl(0, "{% include ", classePageBoutonsRechercheTemplate, " %}");
-		tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
-
-		t(5, "<h1 class=\"", i18nPage.getString(I18n.var_Page), "_", classeVarTitre, "\">");
-		s(classeIcone);
-		s(" {{ ", varResultat, ".", classeVarTitre, " | e }}");
-		l("</h1>");
-		tl(1, "{% else %}");
-		ecrirePageRechercheAucun(langueNom, i18nPage);
-		tl(1, "{% endif %}");
 		tl(0, "{% endif %}");
 
 		tl(0, "{%- block htm", i18nPage.getString(I18n.var_Formulaire), classePageNomSimple, " %}");
