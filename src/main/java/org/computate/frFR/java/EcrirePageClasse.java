@@ -985,6 +985,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			wForms.add(wFormDELETE);
 			wClasseApiMethodeMethodes.add("DELETE");
 
+			wFormDELETEFiltre = ToutEcrivain.create("  ");
+			wForms.add(wFormDELETEFiltre);
+			wClasseApiMethodeMethodes.add("DELETE");
+
 			wFormPUTImport = ToutEcrivain.create("  ");
 			wForms.add(wFormPUTImport);
 			wClasseApiMethodeMethodes.add("PUTImport");
@@ -1043,6 +1047,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(rechercheListe.size() > 0) {
 					Boolean resultatFormPOST = false; 
 					Boolean resultatFormDELETE = false; 
+					Boolean resultatFormDELETEFiltre = false; 
 					Boolean resultatFormPUTImport = false; 
 					Boolean resultatFormPUTFusion = false; 
 					Boolean resultatFormPUTCopie = false; 
@@ -1117,6 +1122,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											resultatFormPOST = true;
 										if(ecrireFormEntite(langueNom, langueConfig, wFormDELETE, "DELETE"))
 											resultatFormDELETE = true;
+										if(ecrireFormEntite(langueNom, langueConfig, wFormDELETE, "DELETEFiltre"))
+											resultatFormDELETEFiltre = true;
 										if(ecrireFormEntite(langueNom, langueConfig, wFormPUTCopie, langueConfig.getString(I18n.var_PUTCopie)))
 											resultatFormPUTCopie = true;
 										if(ecrireFormEntite(langueNom, langueConfig, wFormPATCH, "PATCH"))
@@ -1452,6 +1459,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					if(resultatFormDELETE) {
 						wFormDELETE.tl(7, "</div>");
 						wFormDELETE.tl(6, "</", composantsWebPrefixe, "details>");
+					}
+					if(resultatFormDELETEFiltre) {
+						wFormDELETEFiltre.tl(7, "</div>");
+						wFormDELETEFiltre.tl(6, "</", composantsWebPrefixe, "details>");
 					}
 					if(resultatFormRecherche) {
 						wFormRecherche.tl(7, "</div>");
@@ -2960,7 +2971,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					String classeApiTypeMediaMethode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
 					String classeApiMethodeMethode = classeDoc.getString("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
 
-					if(classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) || classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals("DELETE") || classeApiMethode.equals(i18nPage.getString(I18n.var_PUTCopie)) || classeApiMethode.equals(i18nPage.getString(I18n.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
+					if(classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) || classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals("DELETE") || classeApiMethode.equals(i18nPage.getString(I18n.var_DELETEFiltre)) || classeApiMethode.equals(i18nPage.getString(I18n.var_PUTCopie)) || classeApiMethode.equals(i18nPage.getString(I18n.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
 
 						l();
 						tl(4, "var submit", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, " = document.querySelector('#htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "')?.addEventListener('submit', event => {");
@@ -2991,6 +3002,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							tl(5, classeApiOperationIdMethode, "(null, document.querySelector('#htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), document.querySelector('#htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'), event.target.getAttribute('data-", classeVarId, "'));");
 						else if("DELETE".equals(classeApiMethode))
 							tl(5, classeApiOperationIdMethode, "(event.target, event.target.getAttribute('data-", classeVarId, "'));");
+						else if(classeApiMethode.equals(i18nPage.getString(I18n.var_DELETEFiltre)))
+							tl(5, classeApiOperationIdMethode, "(event.target);");
 						else if("PUTImport".equals(classeApiMethode))
 							tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), document.querySelector('#htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'));");
 						else if(i18nPage.getString(I18n.var_PUTFusion).equals(classeApiMethode))
@@ -3054,7 +3067,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				Boolean methodePUTFusion = classeApiMethode.equals(i18nPage.getString(I18n.var_PUTFusion));
 				Boolean methodePUTCopie = classeApiMethode.equals(i18nPage.getString(I18n.var_PUTCopie));
 				Boolean methodePATCH = classeApiMethodeMethode.equals("PATCH");
-				Boolean methodeDELETE = classeApiMethodeMethode.equals("DELETE");
+				Boolean methodeDELETE = classeApiMethode.equals("DELETE");
+				Boolean methodeDELETEFiltre = classeApiMethode.equals(i18nPage.getString(I18n.var_DELETEFiltre));
 				Boolean methodeRecherche = classeApiMethode.contains(i18nPage.getString(I18n.var_Recherche));
 				auteurPageJs.l();
 				auteurPageJs.tl(0, "// ", classeApiMethode, " //");
@@ -3068,6 +3082,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				} else if(methodeDELETE) {
 					auteurPageJs.s("target");
 					auteurPageJs.s(", ", classeVarId);
+					auteurPageJs.s(", success");
+					auteurPageJs.s(", error");
+				} else if(methodeDELETEFiltre) {
+					auteurPageJs.s("target");
 					auteurPageJs.s(", success");
 					auteurPageJs.s(", error");
 				} else if(methodePUTImport) {
@@ -3122,7 +3140,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(1, "}");
 					auteurPageJs.s(wPOST);
 					auteurPageJs.l();
-				} else if(methodeDELETE) {
+				} else if(methodeDELETE || methodeDELETEFiltre) {
 					auteurPageJs.tl(1, "if(success == null) {");
 					auteurPageJs.tl(2, "success = function( data, textStatus, jQxhr ) {");
 					auteurPageJs.tl(3, i18nPage.getString(I18n.var_ajouterLueur), "(target);");
@@ -3215,6 +3233,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						auteurPageJs.tl(2, "'", StringUtils.replace(classeApiUriMethode + "'", "{" + classeVarId + "}'", "' + " + classeVarId));
 					else if(methodePATCH || methodeRecherche)
 						auteurPageJs.tl(2, "'", classeApiUriMethode, "?' + ", i18nPage.getString(I18n.var_filtres), ".map(function(m) { return m.name + '=' + encodeURIComponent(m.value) }).join('&')");
+					else if(methodeDELETEFiltre)
+						auteurPageJs.tl(2, "'", classeApiUri, "'");
 					else if(methodeDELETE)
 						auteurPageJs.tl(2, "'", classeApiUri, "/' + encodeURIComponent(", classeVarId, ")");
 					else
@@ -4018,7 +4038,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				String classeApiTypeMediaMethode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
 				String classeApiMethodeMethode = classeDoc.getString("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
 
-				if(classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche)) || classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals("DELETE") || classeApiMethode.equals(i18nGlobale.getString(I18n.var_PUTCopie)) || classeApiMethode.equals(i18nGlobale.getString(I18n.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
+				if(classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche)) || classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals("DELETE") || classeApiMethode.equals(i18nPage.getString(I18n.var_DELETEFiltre)) || classeApiMethode.equals(i18nGlobale.getString(I18n.var_PUTCopie)) || classeApiMethode.equals(i18nGlobale.getString(I18n.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
 					if(classeApiMethode.equals("DELETE")) {
 						auteurPageJsRecherche.l();
 						auteurPageJsRecherche.tl(1, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')?.addEventListener('click', (event) => {");
@@ -4028,6 +4048,18 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						auteurPageJsRecherche.tl(3, "delete", classeNomSimple, "(");
 						auteurPageJsRecherche.tl(5, "event.currentTarget");
 						auteurPageJsRecherche.tl(5, ", ", classeVarId);
+						auteurPageJsRecherche.tl(5, ", function(", i18nGlobale.getString(I18n.var_reponse), ", target) { ", i18nGlobale.getString(I18n.var_ajouterLueur), "(target); }");
+						auteurPageJsRecherche.tl(5, ", function(", i18nGlobale.getString(I18n.var_reponse), ", target) { ", i18nGlobale.getString(I18n.var_ajouterErreur), "(target); }");
+						auteurPageJsRecherche.tl(5, ");");
+						auteurPageJsRecherche.tl(2, "}");
+						auteurPageJsRecherche.tl(1, "});");
+					} else if(classeApiMethode.equals(i18nPage.getString(I18n.var_DELETEFiltre))) {
+						auteurPageJsRecherche.l();
+						auteurPageJsRecherche.tl(1, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')?.addEventListener('click', (event) => {");
+						auteurPageJsRecherche.tl(2, "var confirmResponse = confirm('", i18nGlobale.getString(I18n.str_confirmer_supprimer), "'); ");
+						auteurPageJsRecherche.tl(2, "if(confirmResponse) { ");
+						auteurPageJsRecherche.tl(3, "delete", i18nGlobale.getString(I18n.var_filtre), classeNomSimple, "(");
+						auteurPageJsRecherche.tl(5, "event.currentTarget");
 						auteurPageJsRecherche.tl(5, ", function(", i18nGlobale.getString(I18n.var_reponse), ", target) { ", i18nGlobale.getString(I18n.var_ajouterLueur), "(target); }");
 						auteurPageJsRecherche.tl(5, ", function(", i18nGlobale.getString(I18n.var_reponse), ", target) { ", i18nGlobale.getString(I18n.var_ajouterErreur), "(target); }");
 						auteurPageJsRecherche.tl(5, ");");
@@ -4127,7 +4159,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			String classeApiTypeMediaMethode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
 			String classeApiMethodeMethode = classeDoc.getString("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
 
-			if(classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) || classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals("DELETE") || classeApiMethode.equals(i18nPage.getString(I18n.var_PUTCopie)) || classeApiMethode.equals(i18nPage.getString(I18n.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
+			if(classeApiMethode.equals(i18nPage.getString(I18n.var_PageRecherche)) || classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals("DELETE") || classeApiMethode.equals(i18nPage.getString(I18n.var_DELETEFiltre)) || classeApiMethode.equals(i18nPage.getString(I18n.var_PUTCopie)) || classeApiMethode.equals(i18nPage.getString(I18n.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
 				String methodeTitreFiltres = null;
 				String methodeTitreValeurs = null;
 				String methodeTitreCourt = null;
@@ -4160,6 +4192,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					methodeTitreCourt = i18nPage.getString(I18n.str_Supprimer);
 					methodeTitreFiltres = i18nPage.getString(I18n.str_Supprimer_) + classeUnNom;
 					methodeTitreValeurs = i18nPage.getString(I18n.str_Supprimer_) + classeNomSingulier;
+				}
+				else if(classeApiMethode.equals(i18nPage.getString(I18n.var_DELETEFiltre))) {
+					methodeTitreCourt = i18nPage.getString(I18n.str_Supprimer);
+					methodeTitreFiltres = i18nPage.getString(I18n.str_Supprimer_) + classeNomPluriel;
+					methodeTitreValeurs = i18nPage.getString(I18n.str_Supprimer_) + classeNomPluriel;
 				}
 				else {
 					methodeTitreCourt = i18nPage.getString(I18n.str_Rechercher);
@@ -4309,13 +4346,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(activerRoleAdmin) {
 					tl(0, "{%- endif %}");
 				}
-			} else if(classeApiMethode.equals("DELETE")) {
+			} else if(classeApiMethode.equals("DELETE") || classeApiMethode.equals(i18nPage.getString(I18n.var_DELETEFiltre))) {
 				if(activerRoleAdmin) {
 					tl(0, "{% if ", i18nPage.getString(I18n.var_AUTH_PORTEE_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
 				}
-				tl(1, "{%- if ", varResultat, "Count >= 1 %}");
+				if(classeApiMethode.equals(i18nPage.getString(I18n.var_DELETEFiltre))) {
+					tl(1, "{%- if ", varResultat, "Count > 1 %}");
+				} else {
+					tl(1, "{%- if ", varResultat, "Count == 1 %}");
+				}
 				tl(2, "{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
-				tl(1, "{%- else %}");
 				tl(1, "{%- endif %}");
 				if(activerRoleAdmin) {
 					tl(0, "{%- endif %}");
@@ -4356,7 +4396,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(activerRoleAdmin) {
 					tl(0, "{%- endif %}");
 				}
-			} else if(classeApiMethode.equals("DELETE")) {
+			} else if(classeApiMethode.equals("DELETE") || classeApiMethode.equals(i18nPage.getString(I18n.var_DELETEFiltre))) {
 				if(activerRoleAdmin) {
 					tl(0, "{% if ", i18nPage.getString(I18n.var_AUTH_PORTEE_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
 				}

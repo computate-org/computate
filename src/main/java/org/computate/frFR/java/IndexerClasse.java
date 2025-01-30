@@ -5814,6 +5814,11 @@ public class IndexerClasse extends RegarderClasseBase {
 					);
 				}
 
+				if(apiMethodeObjet.fieldNames().contains("DELETE")) {
+					apiMethodeObjet.put("DELETE" + i18nGlobale.getString(I18n.var_Filtre), new JsonObject()
+						.put(i18nGlobale.getString(I18n.var_ApiUri), classeApiUri)
+					);
+				}
 				for(String classeApiMethode : apiMethodeObjet.fieldNames()) {
 					JsonObject apiMethode = Optional.ofNullable(apiMethodeObjet.getJsonObject(classeApiMethode)).orElse(new JsonObject());
 					String classeApiMethodeLangue = apiMethode.getString(i18nGlobale.getString(I18n.var_Langue));

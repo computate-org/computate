@@ -1256,6 +1256,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	ToutEcrivain wPUTCopie;
 	ToutEcrivain wPATCH;
 	ToutEcrivain wDELETE;
+	ToutEcrivain wDELETEFiltre;
 	ToutEcrivain wSuggere;
 	// ToutEcrivain wGetters;
 	ToutEcrivain wTh;
@@ -1271,6 +1272,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	ToutEcrivain wFormPage;
 	ToutEcrivain wFormPATCH;
 	ToutEcrivain wFormDELETE;
+	ToutEcrivain wFormDELETEFiltre;
 	ToutEcrivain wJsInit;
 	ToutEcrivain wJsRechercheInit;
 	ToutEcrivain wJsEditionInit;
