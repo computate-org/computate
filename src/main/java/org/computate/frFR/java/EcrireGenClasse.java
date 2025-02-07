@@ -4936,7 +4936,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(", entiteVar, ".atStartOfDay(ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\"))));");
 					}
 					else if(entiteNomSimple.toString().equals("Point")) {
-						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", String.format(\"%s,%s\", ", entiteVar, ".getX(), ", entiteVar, ".getY()));");
+						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", String.format(\"%s,%s\", ", entiteVar, ".getY(), ", entiteVar, ".getX()));");
 					}
 					else if(entiteNomSimple.toString().equals("Path")) {
 						tl(3, "JsonArray pointsArray = new JsonArray();");

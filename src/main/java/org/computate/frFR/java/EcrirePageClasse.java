@@ -3761,6 +3761,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.l();
 					auteurPageJs.tl(2, "// ", i18nPage.getString(I18n.var_Graphique), " ", i18nPage.getString(I18n.var_Emplacement));
 					auteurPageJs.tl(2, "window.mapLayers = {};");
+					if(classeVarEmplacement != null) {
+						auteurPageJs.tl(2, "window.bounds = null;");
+						auteurPageJs.tl(2, "if(", i18nPage.getString(I18n.var_liste), classeNomSimple, ".filter(o => o.", classeVarEmplacement, ")) {");
+						auteurPageJs.tl(3, "window.bounds = L.latLngBounds(", i18nPage.getString(I18n.var_liste), classeNomSimple, ".filter(o => o.", classeVarEmplacement, ").map((c) => {");
+						auteurPageJs.tl(4, "return [c.", classeVarEmplacement, ".coordinates[1], c.", classeVarEmplacement, ".coordinates[0]];");
+						auteurPageJs.tl(3, "}));");
+						auteurPageJs.tl(2, "}");
+					}
+// const bounds = L.latLngBounds(data.geometry.coordinates.map((c) => { 
+//   return [c[1], c[0]]; 
+// }));
 					auteurPageJs.tl(2, "function onEachFeature(feature, layer) {");
 					auteurPageJs.tl(3, "let popupContent = ", i18nPage.getString(I18n.var_htmInfobulle), classeNomSimple, "(feature, layer);");
 					auteurPageJs.tl(3, "layer.bindPopup(popupContent);");
@@ -3850,12 +3861,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(4, "attribution: '&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>'");
 					auteurPageJs.tl(3, "}).addTo(window.map", classeNomSimple, ");");
 					auteurPageJs.l();
-					auteurPageJs.tl(3, "if(window['DEFAULT_MAP_LOCATION'] && window['DEFAULT_MAP_ZOOM'])");
-					auteurPageJs.tl(4, "window.map", classeNomSimple, ".setView([window['DEFAULT_MAP_LOCATION']['coordinates'][1], window['DEFAULT_MAP_LOCATION']['coordinates'][0]], window['DEFAULT_MAP_ZOOM']);");
-					auteurPageJs.tl(3, "else if(window['DEFAULT_MAP_ZOOM'])");
-					auteurPageJs.tl(4, "window.map", classeNomSimple, ".setView(null, window['DEFAULT_MAP_ZOOM']);");
-					auteurPageJs.tl(3, "else if(window['DEFAULT_MAP_LOCATION'])");
-					auteurPageJs.tl(4, "window.map", classeNomSimple, ".setView([window['DEFAULT_MAP_LOCATION']['coordinates'][1], window['DEFAULT_MAP_LOCATION']['coordinates'][0]]);");
+					auteurPageJs.tl(3, "if(window.bounds) {");
+					auteurPageJs.tl(4, "window.map", classeNomSimple, ".fitBounds(window.bounds);");
+					auteurPageJs.tl(3, "} else {");
+					auteurPageJs.tl(4, "if(window['DEFAULT_MAP_LOCATION'] && window['DEFAULT_MAP_ZOOM'])");
+					auteurPageJs.tl(5, "window.map", classeNomSimple, ".setView([window['DEFAULT_MAP_LOCATION']['coordinates'][1], window['DEFAULT_MAP_LOCATION']['coordinates'][0]], window['DEFAULT_MAP_ZOOM']);");
+					auteurPageJs.tl(4, "else if(window['DEFAULT_MAP_ZOOM'])");
+					auteurPageJs.tl(5, "window.map", classeNomSimple, ".setView(null, window['DEFAULT_MAP_ZOOM']);");
+					auteurPageJs.tl(4, "else if(window['DEFAULT_MAP_LOCATION'])");
+					auteurPageJs.tl(5, "window.map", classeNomSimple, ".setView([window['DEFAULT_MAP_LOCATION']['coordinates'][1], window['DEFAULT_MAP_LOCATION']['coordinates'][0]]);");
+					auteurPageJs.tl(3, "}");
 					auteurPageJs.l();
 					auteurPageJs.tl(3, "layout['margin'] = { r: 0, t: 0, b: 0, l: 0 };");
 					auteurPageJs.tl(3, "window.geoJSON", classeNomSimple, " = L.geoJSON().addTo(window.map", classeNomSimple, ");");
