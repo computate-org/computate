@@ -41,6 +41,7 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustAllStrategy;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.BasicCredentialsProvider;
@@ -648,7 +649,7 @@ public class ConfigSite {
 	 **/
 	protected void _clientSolrComputate() throws Exception {
 		SSLContextBuilder builder = new SSLContextBuilder();
-		builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
+		builder.loadTrustMaterial(null, TrustAllStrategy.INSTANCE);
 		SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(builder.build(), NoopHostnameVerifier.INSTANCE);
 		UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(solrUtilisateur, solrMotDePasse);
 		CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
@@ -681,7 +682,7 @@ public class ConfigSite {
 	protected void _clientSolrFiware() throws Exception {
 		if(StringUtils.isNotBlank(solrUrlFiware)) {
 			SSLContextBuilder builder = new SSLContextBuilder();
-			builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
+			builder.loadTrustMaterial(null, TrustAllStrategy.INSTANCE);
 			SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(builder.build(), NoopHostnameVerifier.INSTANCE);
 			UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(solrUtilisateur, solrMotDePasse);
 			CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
