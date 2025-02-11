@@ -5829,6 +5829,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerListeSolr(langueNom, classeDoc, "classeApiMethodes", classeApiMethode); 
 		
 						String classeApiMethodeMethode;
+						Boolean classeApiMethodeSecurite = true;
 						if(StringUtils.contains(classeApiMethode, "POST"))
 							classeApiMethodeMethode = "POST";
 						else if(StringUtils.contains(classeApiMethode, "PATCH"))
@@ -5839,8 +5840,20 @@ public class IndexerClasse extends RegarderClasseBase {
 							classeApiMethodeMethode = "PUT";
 						else
 							classeApiMethodeMethode = "GET";
+						
+						if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageAffichage)))
+							classeApiMethodeSecurite = false;
+						else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageEdition)))
+							classeApiMethodeSecurite = true;
+						else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageUtilisateur)))
+							classeApiMethodeSecurite = true;
+						else if("GET".equals(classeApiMethodeMethode) && classePublicLire)
+							classeApiMethodeSecurite = false;
+						else if("GET".equals(classeApiMethodeMethode) && classeRoleSession)
+							classeApiMethodeSecurite = false;
 		
 						classeApiMethodeMethode = indexerStockerSolr(langueNom, classeDoc, "classeApiMethode" + classeApiMethode, apiMethode.getString(i18nGlobale.getString(I18n.var_ApiMethode), classeApiMethodeMethode));
+						indexerStockerSolr(classeDoc, "classeApiSecurite" + classeApiMethode, classeApiMethodeSecurite);
 		
 						String classeApiUriMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_ApiUri));
 						String classePageMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_Page));
