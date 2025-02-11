@@ -1162,13 +1162,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												&& !langueConfig.getString(I18n.var_utilisateurCle).equals(entiteVar)
 												&& !langueConfig.getString(I18n.var_sauvegardes).equals(entiteVar)
 												) {
-											wJsRechercheInit.tl(5, "document.querySelector('#fq", classeNomSimple, "_", entiteVar, "')?.addEventListener('", composantsWebPrefixe, "change', (event) => {");
+											wJsRechercheInit.tl(5, "document.querySelector('#fq", classeNomSimple, "_", entiteVar, "')?.addEventListener('change', (event) => {");
 											wJsRechercheInit.tl(6, "fqChange('", classeNomSimple, "', event.currentTarget);");
 											wJsRechercheInit.tl(5, "});");
 											wJsRechercheInit.tl(5, "document.querySelector('#buttonFacet", classeNomSimple, "_", entiteVar, "')?.addEventListener('click', (event) => {");
 											wJsRechercheInit.tl(6, "facetFieldChange('", classeNomSimple, "', event.currentTarget);");
 											wJsRechercheInit.tl(5, "});");
-											wJsRechercheInit.tl(5, "document.querySelector('#pageFacetPivot", classeNomSimple, "_", entiteVar, "')?.addEventListener('", composantsWebPrefixe, "change', (event) => {");
+											wJsRechercheInit.tl(5, "document.querySelector('#pageFacetPivot", classeNomSimple, "_", entiteVar, "')?.addEventListener('change', (event) => {");
 											wJsRechercheInit.tl(6, "facetPivotChange('", classeNomSimple, "', event.currentTarget);");
 											wJsRechercheInit.tl(5, "});");
 										}
@@ -1190,7 +1190,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											wJsEditionInit.tl(6, "}");
 											wJsEditionInit.tl(5, "});");
 										} else {
-											wJsEditionInit.tl(5, "document.querySelector('#", langueConfig.getString(I18n.var_Page), "_", entiteVar, "')?.addEventListener('", composantsWebPrefixe, "change', (event) => {");
+											wJsEditionInit.tl(5, "document.querySelector('#", langueConfig.getString(I18n.var_Page), "_", entiteVar, "')?.addEventListener('change', (event) => {");
 											wJsEditionInit.tl(6, "const form = document.querySelector('#", langueConfig.getString(I18n.var_Page), langueConfig.getString(I18n.var_Formulaire), "_", entiteVar, "');");
 											wJsEditionInit.tl(6, "const ", langueConfig.getString(I18n.var_valide), " = form.checkValidity();");
 											wJsEditionInit.tl(6, "if(", langueConfig.getString(I18n.var_valide), ") {");
@@ -1278,11 +1278,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											wJsEditionInit.tl(5, "});");
 										}
 
-										wJsEditionInit.tl(5, "document.querySelector('#", langueConfig.getString(I18n.var_Page), "_", entiteVar, "')?.addEventListener('", composantsWebPrefixe, "focus', (event) => {");
+										wJsEditionInit.tl(5, "document.querySelector('#", langueConfig.getString(I18n.var_Page), "_", entiteVar, "')?.addEventListener('focus', (event) => {");
 										wJsEditionInit.tl(6, "", langueConfig.getString(I18n.var_enleverLueur), "(event.currentTarget);");
 										wJsEditionInit.tl(5, "});");
 
-										wJsEditionInit.tl(5, "document.querySelector('#", langueConfig.getString(I18n.var_Page), "_", entiteVar, "')?.addEventListener('", composantsWebPrefixe, "blur', (event) => {");
+										wJsEditionInit.tl(5, "document.querySelector('#", langueConfig.getString(I18n.var_Page), "_", entiteVar, "')?.addEventListener('blur', (event) => {");
 										wJsEditionInit.tl(6, "const form = document.querySelector('#", langueConfig.getString(I18n.var_Page), langueConfig.getString(I18n.var_Formulaire), "_", entiteVar, "');");
 										wJsEditionInit.tl(6, "const ", langueConfig.getString(I18n.var_valide), " = form.reportValidity();");
 										wJsEditionInit.tl(5, "});");
@@ -2210,6 +2210,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	}
 
 	public void pageCodeClasseJinja(String langueNom, JsonObject i18nPage) throws Exception {
+		classeVarId = classeDoc.getString("classeVarId_" + langueNom + "_stored_string");
 
 		if(auteurPageJsRecherche != null) {
 
@@ -2223,7 +2224,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			auteurPageJsRecherche.tl(2, "]).then(() => {");
 
 			auteurPageJsRecherche.l();
-			auteurPageJsRecherche.tl(1, "document.querySelector('#pageFacet", i18nPage.getString(I18n.var_Gamme), classeNomSimple, "')?.addEventListener('", composantsWebPrefixe, "change', (event) => {");
+			auteurPageJsRecherche.tl(1, "document.querySelector('#pageFacet", i18nPage.getString(I18n.var_Gamme), classeNomSimple, "')?.addEventListener('change', (event) => {");
 			auteurPageJsRecherche.tl(2, "facet", i18nPage.getString(I18n.var_Gamme), "Change('", classeNomSimple, "', event.target.value);");
 			auteurPageJsRecherche.tl(1, "});");
 		}
@@ -2406,7 +2407,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							auteurPageJsRecherche.tl(2, "}");
 							auteurPageJsRecherche.tl(1, "});");
 							auteurPageJsRecherche.l();
-							auteurPageJsRecherche.tl(1, "document.querySelector('#pageFacet", i18nPage.getString(I18n.var_Tri), classeNomSimple, "_", entiteVar, "')?.addEventListener('", composantsWebPrefixe, "change', (event) => {");
+							auteurPageJsRecherche.tl(1, "document.querySelector('#pageFacet", i18nPage.getString(I18n.var_Tri), classeNomSimple, "_", entiteVar, "')?.addEventListener('change', (event) => {");
 							auteurPageJsRecherche.tl(2, i18nPage.getString(I18n.var_tri), "('", classeNomSimple, "', '", entiteVar, "', event.currentTarget.value);");
 							auteurPageJsRecherche.tl(1, "});");
 						}
@@ -2949,12 +2950,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(4, "{% endfor %}");
 
 				l();
-				tl(4, "document.querySelector('#q", classeNomSimple, "_", i18nPage.getString(I18n.var_lignes), "')?.addEventListener('", composantsWebPrefixe, "change', event => {");
+				tl(4, "document.querySelector('#q", classeNomSimple, "_", i18nPage.getString(I18n.var_lignes), "')?.addEventListener('change', event => {");
 				tl(5, "paramChange('", classeNomSimple, "', event.target, document.querySelector('#q", classeNomSimple, "Div_", i18nPage.getString(I18n.var_lignes), "'));");
 				tl(4, "});");
 
 				l();
-				tl(4, "document.querySelector('#q", classeNomSimple, "_", i18nPage.getString(I18n.var_debut), "')?.addEventListener('", composantsWebPrefixe, "change', event => {");
+				tl(4, "document.querySelector('#q", classeNomSimple, "_", i18nPage.getString(I18n.var_debut), "')?.addEventListener('change', event => {");
 				tl(5, "paramChange('", classeNomSimple, "', event.target, document.querySelector('#q", classeNomSimple, "Div_", i18nPage.getString(I18n.var_debut), "'));");
 
 				tl(4, "});");
@@ -4602,7 +4603,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		s(" placeholder=\"{{ value.displayName }}\"");
 		s(" class=\"\"");
 
-		s(" onchange=\"fqChange('", classeNomSimple, "', value); \"");
+		s(" onchange=\"fqChange('", classeNomSimple, "', this); \"");
 
 		s(" data-var=\"{{ value.var }}\"");
 		s(" autocomplete=\"off=\"");
@@ -5236,50 +5237,46 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 		l();
 		tl(5, "<div id=\"htm", i18nPage.getString(I18n.var_BoutonsPagination), "\">");
+		tl(6, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_precedents), classeNomAdjectifPluriel), "\"></", composantsWebPrefixe, "tooltip>");
+		tl(6, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_la_moitie_des_resultats), classeNomAdjectifPluriel), "\"></", composantsWebPrefixe, "tooltip>");
+		tl(6, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_le_double_des_resultats), classeNomAdjectifPluriel), "\"></", composantsWebPrefixe, "tooltip>");
+		tl(6, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_suivants), classeNomAdjectifPluriel), "\"></", composantsWebPrefixe, "tooltip>");
 		tl(6, "<", composantsWebPrefixe, "button-group>");
-		tl(7, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_precedents), classeNomAdjectifPluriel), "\">");
-		t(8, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " pill");
+		t(7, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " pill");
 		s("{% if pagination.page", i18nPage.getString(I18n.var_Precedent), " is defined %}");
 		s(" href=\"{{pageUri}}?start={{pagination.page", i18nPage.getString(I18n.var_Precedent), ".", i18nPage.getString(I18n.var_debut), "}}&amp;rows={{pagination.", i18nPage.getString(I18n.var_lignes), "}}\"");
 		s("{% else %}");
 		s(" disabled");
 		s("{% endif %}");
 		l(">");
-		tl(9, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-arrow-square-left \"></i>");
-		tl(8, "</", composantsWebPrefixe, "button>");
-		tl(7, "</", composantsWebPrefixe, "tooltip>");
+		tl(8, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-arrow-square-left \"></i>");
+		tl(7, "</", composantsWebPrefixe, "button>");
 
-		tl(7, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_la_moitie_des_resultats), classeNomAdjectifPluriel), "\">");
-		t(8, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", "");
+		t(7, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", "");
 		s("{% if pagination.", i18nPage.getString(I18n.var_lignes), i18nPage.getString(I18n.var_Precedent), " >= pagination['1L'] %}");
 		s(" href=\"{{pageUri}}?start={{pagination.", i18nPage.getString(I18n.var_debut), "}}&amp;rows={{ pagination.", i18nPage.getString(I18n.var_lignes), i18nPage.getString(I18n.var_Precedent), " }}\"");
 		s("{% else %}");
 		s(" disabled");
 		s("{% endif %}");
 		l(">");
-		tl(9, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-minus-square \"></i>");
-		tl(8, "</", composantsWebPrefixe, "button>");
-		tl(7, "</", composantsWebPrefixe, "tooltip>");
+		tl(8, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-minus-square \"></i>");
+		tl(7, "</", composantsWebPrefixe, "button>");
 
-		tl(7, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_le_double_des_resultats), classeNomAdjectifPluriel), "\">");
-		t(8, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", "");
+		t(7, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", "");
 		s(" href=\"{{pageUri}}?start={{pagination.", i18nPage.getString(I18n.var_debut), "}}&amp;rows={{ pagination.", i18nPage.getString(I18n.var_lignes), i18nPage.getString(I18n.var_Prochaine), " }}\"");
 		l(">");
-		tl(9, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-plus-square \"></i>");
-		tl(8, "</", composantsWebPrefixe, "button>");
-		tl(7, "</", composantsWebPrefixe, "tooltip>");
+		tl(8, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-plus-square \"></i>");
+		tl(7, "</", composantsWebPrefixe, "button>");
 
-		tl(7, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_suivants), classeNomAdjectifPluriel), "\">");
-		t(8, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " pill");
+		t(7, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " pill");
 		s("{% if pagination.page", i18nPage.getString(I18n.var_Prochaine), " is defined %}");
 		s(" href=\"{{pageUri}}?start={{pagination.page", i18nPage.getString(I18n.var_Prochaine), ".", i18nPage.getString(I18n.var_debut), "}}&amp;rows={{pagination.", i18nPage.getString(I18n.var_lignes), "}}\"");
 		s("{% else %}");
 		s(" disabled");
 		s("{% endif %}");
 		l(">");
-		tl(9, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-arrow-square-right \"></i>");
-		tl(8, "</", composantsWebPrefixe, "button>");
-		tl(7, "</", composantsWebPrefixe, "tooltip>");
+		tl(8, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-arrow-square-right \"></i>");
+		tl(7, "</", composantsWebPrefixe, "button>");
 		tl(6, "</", composantsWebPrefixe, "button-group>");
 		tl(6, "<div>{{ pagination.", i18nPage.getString(I18n.var_debut), "Num }} – {{ pagination.", i18nPage.getString(I18n.var_fin), "Num }} ", i18nPage.getString(I18n.var_de), " {{ pagination.", i18nPage.getString(I18n.var_numTrouve), " }} ", classeNomPluriel, "</div>");
 		tl(5, "</div>");

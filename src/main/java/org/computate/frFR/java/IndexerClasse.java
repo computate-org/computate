@@ -4927,7 +4927,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			classeVarClePrimaireSuffixeSolr = (String)classeSuperDoc.get("classeVarClePrimaireSuffixeSolr_stored_string");
 			if(classeVarClePrimaire != null) {
 				stockerSolr(classeLangueNom, classeDoc, "classeVarClePrimaire", classeVarClePrimaire);
-				stockerSolr(classeLangueNom, classeDoc, "classeVarClePrimaireSuffixeSolr", classeVarClePrimaireSuffixeSolr);
+				stockerSolr(classeDoc, "classeVarClePrimaireSuffixeSolr", classeVarClePrimaireSuffixeSolr);
 				if(classeTraduire) {
 					for(String langueNom : classeAutresLangues) {  
 						String classeVarClePrimaireLangue = (String)classeSuperDoc.get("classeVarClePrimaire_" + langueNom + "_stored_string");
