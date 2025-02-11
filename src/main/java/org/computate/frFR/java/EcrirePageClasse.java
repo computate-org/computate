@@ -485,7 +485,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(11, "id=\"{{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 				tl(11, "value=\"true\"");
 				tl(1, "{%- else %}");
-				tl(9, "<", composantsWebPrefixe, "select");
+				tl(9, "<select");
 				tl(11, "id=\"{{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 				tl(1, "{%- endif %}");
 
@@ -531,7 +531,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(10, "<", composantsWebPrefixe, "option value=\"\" selected=\"selected\"></", composantsWebPrefixe, "option>");
 				tl(10, "<", composantsWebPrefixe, "option value=\"true\">true</", composantsWebPrefixe, "option>");
 				tl(10, "<", composantsWebPrefixe, "option value=\"false\">false</", composantsWebPrefixe, "option>");
-				tl(9, "</", composantsWebPrefixe, "select>");
+				tl(9, "</select>");
 				tl(1, "{%- endif %}");
 				if(entiteVar.equals(langueConfig.getString(I18n.var_archive))) {
 					tl(1, "{%- endif %}");
@@ -2219,7 +2219,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			auteurPageJsRecherche.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "input')");
 			// auteurPageJsRecherche. tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "checkbox')");
 			// auteurPageJsRecherche. tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "option')");
-			// auteurPageJsRecherche. tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "select')");
+			// auteurPageJsRecherche. tl(4, ", customElements.whenDefined('select')");
 			// auteurPageJsRecherche. tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "textarea')");
 			auteurPageJsRecherche.tl(2, "]).then(() => {");
 
@@ -2396,7 +2396,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							//STUFF3
 							// js tri
 							auteurPageJsRecherche.l();
-							auteurPageJsRecherche.tl(1, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "')?.addEventListener('", composantsWebPrefixe, "select', (event) => {");
+							auteurPageJsRecherche.tl(1, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "')?.addEventListener('select', (event) => {");
 							auteurPageJsRecherche.tl(2, "const item = event.detail.item;");
 							auteurPageJsRecherche.tl(2, "const action = item.getAttribute('data-action');");
 							auteurPageJsRecherche.tl(2, "const order = item.getAttribute('data-order');");
@@ -2905,7 +2905,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "input')");
 				// tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "checkbox')");
 				// tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "option')");
-				// tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "select')");
+				// tl(4, ", customElements.whenDefined('select')");
 				// tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "textarea')");
 				tl(3, "]).then(() => {");
 				l();
@@ -4044,7 +4044,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			auteurPageJsEdition.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "input')");
 			// auteurPageJsEdition. tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "checkbox')");
 			// auteurPageJsEdition. tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "option')");
-			// auteurPageJsEdition. tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "select')");
+			// auteurPageJsEdition. tl(4, ", customElements.whenDefined('select')");
 			// auteurPageJsEdition. tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "textarea')");
 			auteurPageJsEdition.tl(2, "]).then(() => {");
 
@@ -4797,7 +4797,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(10, "<span>Range Gap</span>");
 		tl(9, "</td>");
 		tl(9, "<td class=\"\">");
-		t(10, "<", composantsWebPrefixe, "select");
+		t(10, "<select");
 		s(" name=\"facet.range.gap\"");
 		s(" id=\"pageFacetRangeGap-", classeNomSimple, "\"");
 		s(" onchange=\"facet", i18nPage.getString(I18n.var_Gamme), "GapChange('", classeNomSimple, "', this); \"");
@@ -4809,7 +4809,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(11, "<", composantsWebPrefixe, "option value=\"+1HOUR\"{% if defaultRangeGap == '+1HOUR' %} selected=\"selected\"{% else %}{% endif %}>Hour</", composantsWebPrefixe, "option>");
 		tl(11, "<", composantsWebPrefixe, "option value=\"+1MINUTE\"{% if defaultRangeGap == '+1MINUTE' %} selected=\"selected\"{% else %}{% endif %}>Minute</", composantsWebPrefixe, "option>");
 		tl(11, "<", composantsWebPrefixe, "option value=\"+1SECOND\"{% if defaultRangeGap == '+1SECOND' %} selected=\"selected\"{% else %}{% endif %}>Second</", composantsWebPrefixe, "option>");
-		tl(10, "</", composantsWebPrefixe, "select>");
+		tl(10, "</select>");
 		tl(9, "</td>");
 		tl(8, "</tr>");
 
