@@ -4717,7 +4717,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(4, "JsonObject json = new JsonObject();");
 				tl(4, "JsonObject delete = new JsonObject();");
 				tl(4, "json.put(\"delete\", delete);");
-				tl(4, "String query = String.format(\"filter(", classeVarId, classeVarIdSuffixeSolr, ":%s)\", o.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(\"", classeVarId, "\"));");
+				if(classeVarClePrimaire != null) {
+					tl(4, "String query = String.format(\"filter(", classeVarClePrimaire, classeVarClePrimaireSuffixeSolr, ":%s)\", o.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(\"", classeVarClePrimaire, "\"));");
+				} else {
+					tl(4, "String query = String.format(\"filter(", classeVarId, classeVarIdSuffixeSolr, ":%s)\", o.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(\"", classeVarId, "\"));");
+				}
 				tl(4, "delete.put(\"query\", query);");
 				tl(4, "String solrUsername = ", i18nGlobale.getString(I18n.var_requeteSite), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_USERNAME);");
 				tl(4, "String solrPassword = ", i18nGlobale.getString(I18n.var_requeteSite), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_PASSWORD);");
