@@ -2249,7 +2249,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(rechercheListe.size() > 0) {
 					auteurPageCss.tl(0, "#site-results-grid {");
 					auteurPageCss.tl(1, "display: grid;");
-					auteurPageCss.tl(1, "row-gap: var(--site-secondary-space);");
+					auteurPageCss.tl(1, "gap: var(--site-secondary-space);");
 					auteurPageCss.tl(1, "background-color: var(--wa-color-surface-lowered);");
 					auteurPageCss.tl(1, "> * {");
 					auteurPageCss.tl(2, "display: grid;");
