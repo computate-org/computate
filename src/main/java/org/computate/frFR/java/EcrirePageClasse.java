@@ -3836,6 +3836,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(3, "window.map", classeNomSimple, " = L.map('htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, "', {");
 					auteurPageJs.tl(4, "position: 'topright'");
 					auteurPageJs.tl(4, ", zoomControl: true");
+					auteurPageJs.tl(4, ", scrollWheelZoom: false");
 					auteurPageJs.tl(4, ", closePopupOnClick: false");
 					auteurPageJs.tl(4, ", contextmenu: true");
 					auteurPageJs.tl(4, ", contextmenuWidth: 140");
