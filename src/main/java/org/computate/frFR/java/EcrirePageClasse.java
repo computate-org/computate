@@ -4437,7 +4437,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(0, "{{ htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
 			}
 		}
-		tl(5, "<", composantsWebPrefixe, "divider></", composantsWebPrefixe, "divider>");
 
 		o = oAncien;
 	}
@@ -4450,32 +4449,33 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// pageContent //
 		/////////////////
 
-		tl(4, "<", composantsWebPrefixe, "details open>");
-		tl(5, "<div slot=\"summary\">", String.format(i18nPage.getString(I18n.str_Cartes_des), classeNomPluriel), "</div>");
+		if(classeVarEmplacement != null || classeVarAire != null) {
+			tl(4, "<", composantsWebPrefixe, "details open>");
+			tl(5, "<div slot=\"summary\">", String.format(i18nPage.getString(I18n.str_Cartes_des), classeNomAdjectifPluriel), "</div>");
 
-		/////////////////////////////////
-		// htmBodyGraphiqueEmplacement //
-		/////////////////////////////////
+			/////////////////////////////////
+			// htmBodyGraphiqueEmplacement //
+			/////////////////////////////////
 
-		if(classeVarEmplacement != null) {
 			l();
 			tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, " %}");
 			tl(0, "{% if ", varResultat, "Count > 0 %}");
 			tl(4, "<div id=\"htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, "\" class=\"htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), " \"></div>");
 			tl(0, "{% endif %}");
 			tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, " %}");
+
+			//////////////////////
+			// htmBodyGraphique //
+			//////////////////////
+
+			l();
+			tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Graphique), classePageNomSimple, " %}");
+			tl(4, "<div id=\"htmBody", i18nPage.getString(I18n.var_Graphique), classePageNomSimple, "\" class=\"htmBody", i18nPage.getString(I18n.var_Graphique), " \"></div>");
+			tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Graphique), classePageNomSimple, " %}");
+
+			tl(4, "</", composantsWebPrefixe, "details>");
 		}
 
-		//////////////////////
-		// htmBodyGraphique //
-		//////////////////////
-
-		l();
-		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Graphique), classePageNomSimple, " %}");
-		tl(4, "<div id=\"htmBody", i18nPage.getString(I18n.var_Graphique), classePageNomSimple, "\" class=\"htmBody", i18nPage.getString(I18n.var_Graphique), " \"></div>");
-		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Graphique), classePageNomSimple, " %}");
-
-		tl(4, "</", composantsWebPrefixe, "details>");
 		tl(5, "<div class=\"htmBody", i18nPage.getString(I18n.var_BarreLaterale), "", classePageNomSimple, " \">");
 
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_BarreLaterale), "", classePageNomSimple, " %}");
