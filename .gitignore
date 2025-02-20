@@ -8,4 +8,5 @@ config/cp.txt
 **/*.retry
 .flattened-pom.xml
 .vscode/
+*.code-workspace
 
