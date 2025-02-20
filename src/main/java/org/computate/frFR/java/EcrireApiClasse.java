@@ -3209,10 +3209,19 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(4, "vars", classeNomSimple, "(", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(a -> {");
 								if(activerContextBroker && classeFiware) {
 									tl(5, "JsonObject jsonObject = o.getSiteRequest_().getJsonObject();");
-									tl(5, "if(jsonObject.isEmpty()) {");
-									tl(6, "ngsildGetEntity(o).onSuccess(ngsildData -> {");
-									tl(7, "String setNgsildData = String.format(\"set%s\",StringUtils.capitalize(", classeNomSimple, ".VAR_ngsildData));");
-									tl(7, "jsonObject.put(setNgsildData, ngsildData);");
+									tl(5, "if(config.getBoolean(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_ACTIVER_CONTEXT_BROKER_ENVOI), ")) {");
+									tl(6, "ngsildGetEntity(o).compose(ngsildData -> {");
+									tl(7, "Promise<JsonObject> promise2 = Promise.promise();");
+									tl(7, "if(ngsildData == null) {");
+									tl(8, "promise2.complete(jsonObject);");
+									tl(7, "} else {");
+									tl(8, "String setNgsildData = String.format(\"set%s\",StringUtils.capitalize(", classeNomSimple, ".VAR_ngsildData));");
+									tl(8, "jsonObject.put(setNgsildData, ngsildData);");
+									tl(8, "promise2.complete(jsonObject);");
+									tl(7, "}");
+									tl(7, "return promise2.future();");
+									tl(6, "}).compose(ngsildData -> {");
+									tl(7, "Promise<", classeApiClasseNomSimple, "> promise2 = Promise.promise();");
 									tl(7, "sql", classeApiMethode, classeNomSimple, "(o, ", classeVarInheritClePrimaire, ").onSuccess(", uncapitalizeClasseNomSimple, " -> {");
 									tl(8, i18nGlobale.getString(I18n.var_definir), classeNomSimple, "(", uncapitalizeClasseNomSimple, ", true).onSuccess(c -> {");
 									tl(9, i18nGlobale.getString(I18n.var_attribuer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(d -> {");
@@ -3225,19 +3234,22 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									tl(14, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", i18nGlobale.getString(I18n.var_requeteApi), ").toString());");
 									tl(12, "}");
 									tl(11, "}");
-									tl(11, "promise1.complete(", uncapitalizeClasseNomSimple, ");");
+									tl(11, "promise2.complete(", uncapitalizeClasseNomSimple, ");");
 									tl(10, "}).onFailure(ex -> {");
-									tl(11, "promise1.fail(ex);");
+									tl(11, "promise2.fail(ex);");
 									tl(10, "});");
 									tl(9, "}).onFailure(ex -> {");
-									tl(10, "promise1.fail(ex);");
+									tl(10, "promise2.fail(ex);");
 									tl(9, "});");
 									tl(8, "}).onFailure(ex -> {");
-									tl(9, "promise1.fail(ex);");
+									tl(9, "promise2.fail(ex);");
 									tl(8, "});");
 									tl(7, "}).onFailure(ex -> {");
-									tl(8, "promise1.fail(ex);");
+									tl(8, "promise2.fail(ex);");
 									tl(7, "});");
+									tl(7, "return promise2.future();");
+									tl(6, "}).onSuccess(o2 -> {");
+									tl(7, "promise1.complete(o2);");
 									tl(6, "}).onFailure(ex -> {");
 									tl(7, "promise1.fail(ex);");
 									tl(6, "});");
@@ -3486,12 +3498,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "CompositeFuture.all(futures1).onSuccess(a -> {");
 							tl(4, "CompositeFuture.all(futures2).onSuccess(b -> {");
 							if(activerContextBroker && classeFiware) {
-								tl(5, "cbDeleteEntity(o).onSuccess(c -> {");
+								tl(5, "if(config.getBoolean(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_ACTIVER_CONTEXT_BROKER_ENVOI), ")) {");
+								tl(6, "cbDeleteEntity(o).onSuccess(c -> {");
+								tl(7, "promise.complete();");
+								tl(6, "}).onFailure(ex -> {");
+								tl(7, "LOG.error(String.format(\"sql", classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+								tl(7, "promise.fail(ex);");
+								tl(6, "});");
+								tl(5, "} else {");
 								tl(6, "promise.complete();");
-								tl(5, "}).onFailure(ex -> {");
-								tl(6, "LOG.error(String.format(\"sql", classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-								tl(6, "promise.fail(ex);");
-								tl(5, "});");
+								tl(5, "}");
 							} else {
 								tl(5, "promise.complete();");
 							}
@@ -4400,12 +4416,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(5, "}");
 				tl(5, "o.", i18nGlobale.getString(I18n.var_promesseLoin), i18nGlobale.getString(I18n.var_PourClasse), "(", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(a -> {");
 				if(activerContextBroker && classeFiware) {
-					tl(6, "cbUpsertEntity(o, patch).onSuccess(b -> {");
+					tl(6, "if(config.getBoolean(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_ACTIVER_CONTEXT_BROKER_ENVOI), ")) {");
+					tl(7, "cbUpsertEntity(o, patch).onSuccess(b -> {");
+					tl(8, "promise.complete();");
+					tl(7, "}).onFailure(ex -> {");
+					tl(8, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_definir), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+					tl(8, "promise.fail(ex);");
+					tl(7, "});");
+					tl(6, "} else {");
 					tl(7, "promise.complete();");
-					tl(6, "}).onFailure(ex -> {");
-					tl(7, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_definir), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-					tl(7, "promise.fail(ex);");
-					tl(6, "});");
+					tl(6, "}");
 				} else {
 					tl(6, "promise.complete();");
 				}
