@@ -485,7 +485,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(11, "id=\"{{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 				tl(11, "value=\"true\"");
 				tl(1, "{%- else %}");
-				tl(9, "<select");
+				tl(9, "<", composantsWebPrefixe, "select");
 				tl(11, "id=\"{{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 				tl(1, "{%- endif %}");
 
@@ -531,7 +531,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(10, "<", composantsWebPrefixe, "option value=\"\" selected=\"selected\"></", composantsWebPrefixe, "option>");
 				tl(10, "<", composantsWebPrefixe, "option value=\"true\">true</", composantsWebPrefixe, "option>");
 				tl(10, "<", composantsWebPrefixe, "option value=\"false\">false</", composantsWebPrefixe, "option>");
-				tl(9, "</select>");
+				tl(9, "</", composantsWebPrefixe, "select>");
 				tl(1, "{%- endif %}");
 				if(entiteVar.equals(langueConfig.getString(I18n.var_archive))) {
 					tl(1, "{%- endif %}");
@@ -4802,7 +4802,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(10, "<span>Range Gap</span>");
 		tl(9, "</td>");
 		tl(9, "<td class=\"\">");
-		t(10, "<select");
+		t(10, "<", composantsWebPrefixe, "select");
 		s(" name=\"facet.range.gap\"");
 		s(" id=\"pageFacetRangeGap-", classeNomSimple, "\"");
 		s(" onchange=\"facet", i18nPage.getString(I18n.var_Gamme), "GapChange('", classeNomSimple, "', this); \"");
@@ -4814,7 +4814,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(11, "<", composantsWebPrefixe, "option value=\"+1HOUR\"{% if defaultRangeGap == '+1HOUR' %} selected=\"selected\"{% else %}{% endif %}>Hour</", composantsWebPrefixe, "option>");
 		tl(11, "<", composantsWebPrefixe, "option value=\"+1MINUTE\"{% if defaultRangeGap == '+1MINUTE' %} selected=\"selected\"{% else %}{% endif %}>Minute</", composantsWebPrefixe, "option>");
 		tl(11, "<", composantsWebPrefixe, "option value=\"+1SECOND\"{% if defaultRangeGap == '+1SECOND' %} selected=\"selected\"{% else %}{% endif %}>Second</", composantsWebPrefixe, "option>");
-		tl(10, "</select>");
+		tl(10, "</", composantsWebPrefixe, "select>");
 		tl(9, "</td>");
 		tl(8, "</tr>");
 
