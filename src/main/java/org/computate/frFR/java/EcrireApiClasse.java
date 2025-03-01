@@ -4856,7 +4856,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			if(classePageAvecTemplate) {
 				l();
 				tl(1, "@Override");
-				tl(1, "public Future<JsonObject> ", i18nGlobale.getString(I18n.var_genererCorpsPage), "(ComputateSiteRequest ", i18nGlobale.getString(I18n.var_requeteSite), ", Map<String, Object> ctx, String resourceUri, String templateUri, String ", i18nGlobale.getString(I18n.var_classeNomSimple), ") {");
+				tl(1, "public Future<JsonObject> ", i18nGlobale.getString(I18n.var_genererCorpsPage), "(ComputateSiteRequest ", i18nGlobale.getString(I18n.var_requeteSite), ", Map<String, Object> ctx, String ", i18nGlobale.getString(I18n.var_templateChemin), ", String ", i18nGlobale.getString(I18n.var_classeNomSimple), ") {");
 				tl(2, "Promise<JsonObject> promise = Promise.promise();");
 				tl(2, "try {");
 				tl(3, "Map<String, Object> ", i18nGlobale.getString(I18n.var_resultat), " = (Map<String, Object>)ctx.get(\"", i18nGlobale.getString(I18n.var_resultat), "\");");
