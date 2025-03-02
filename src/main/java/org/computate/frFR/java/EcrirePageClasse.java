@@ -335,7 +335,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(10, "<", composantsWebPrefixe, "checkbox ");
 				tl(12, "id=\"{{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "_", langueConfig.getString(I18n.var_vider), "\"");
 				tl(12, "class=\"label-on-left ", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "_", langueConfig.getString(I18n.var_vider), " ", entiteVar, "_", langueConfig.getString(I18n.var_vider), " \"");
-				tl(12, "help-text=\"", langueConfig.getString(I18n.var_vider), "\"");
+				tl(12, "hint=\"", langueConfig.getString(I18n.var_vider), "\"");
 				tl(12, ">");
 				tl(11, langueConfig.getString(I18n.var_vider));
 				tl(10, "</", composantsWebPrefixe, "checkbox>");
@@ -349,7 +349,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(11, "placeholder=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 				}
 				if(entiteDescription != null) {
-					t(11, "help-text=\"").sx(entiteDescription).l("\"");
+					t(11, "hint=\"").sx(entiteDescription).l("\"");
 				}
 
 				tl(11, "class=\"label-on-left {{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, " ", langueConfig.getString(I18n.var_valeur), StringUtils.capitalize(entiteAttribuerVarSuggere), " ", langueConfig.getString(I18n.var_suggere), entiteVarCapitalise, " \"");
@@ -377,7 +377,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(11, "placeholder=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 				}
 				if(entiteDescription != null) {
-					t(11, "help-text=\"").sx(entiteDescription).l("\"");
+					t(11, "hint=\"").sx(entiteDescription).l("\"");
 				}
 				if(entiteNomAffichage != null) {
 					t(11, "label=\"").sx(entiteNomAffichage).l("\"");
@@ -406,7 +406,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 
 				if(entiteDescription != null) {
-					t(11, "help-text=\"").sx(entiteDescription).l("\"");
+					t(11, "hint=\"").sx(entiteDescription).l("\"");
 				}
 				if(entiteNomAffichage != null) {
 					t(11, "label=\"").sx(entiteNomAffichage).l("\"");
@@ -438,7 +438,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 
 				if(entiteDescription != null) {
-					t(11, "help-text=\"").sx(entiteDescription).l("\"");
+					t(11, "hint=\"").sx(entiteDescription).l("\"");
 				}
 				if(entiteNomAffichage != null) {
 					t(11, "label=\"").sx(entiteNomAffichage).l("\"");
@@ -465,7 +465,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						tl(11, "label=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 					}
 					if(entiteDescription != null) {
-						t(11, "help-text=\"").sx(entiteDescription).l("\"");
+						t(11, "hint=\"").sx(entiteDescription).l("\"");
 					}
 
 					tl(11, "class=\"label-on-left {{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarId, "}}", entiteVarCapitalise, " \"");
@@ -500,7 +500,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(11, "label=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 				}
 				if(entiteDescription != null) {
-					t(11, "help-text=\"").sx(entiteDescription).l("\"");
+					t(11, "hint=\"").sx(entiteDescription).l("\"");
 				}
 
 				tl(1, "{%- if 'Page' == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " %}");
@@ -599,7 +599,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						tl(11, "label=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 					}
 					if(entiteDescription != null) {
-						t(11, "help-text=\"").sx(entiteDescription).l("\"");
+						t(11, "hint=\"").sx(entiteDescription).l("\"");
 					}
 
 					tl(11, "class=\"button-on-left {{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarId, "}}", entiteVarCapitalise, " \"");
@@ -635,7 +635,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(11, "label=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 				}
 				if(entiteDescription != null) {
-					tl(11, "help-text=\"").sx(entiteDescription).l("\"");
+					tl(11, "hint=\"").sx(entiteDescription).l("\"");
 				}
 				if(entiteRequis) {
 					tl(11, "required");
@@ -732,7 +732,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// 		tl(7, "<", composantsWebPrefixe, "checkbox ");
 		// 		tl(9, "id=\"{{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "_", langueConfig.getString(I18n.var_vider), "\"");
 		// 		tl(9, "class=\"", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "_", langueConfig.getString(I18n.var_vider), " ", entiteVar, "_", langueConfig.getString(I18n.var_vider), " \"");
-		// 		tl(9, "help-text=\"", langueConfig.getString(I18n.var_vider), "\"");
+		// 		tl(9, "hint=\"", langueConfig.getString(I18n.var_vider), "\"");
 		// 		tl(9, ">");
 		// 		tl(8, langueConfig.getString(I18n.var_vider));
 		// 		tl(7, "</", composantsWebPrefixe, "checkbox>");
@@ -746,7 +746,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// 			tl(8, "placeholder=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 		// 		}
 		// 		if(entiteDescription != null) {
-		// 			t(8, "help-text=\"").sx(entiteDescription).l("\"");
+		// 			t(8, "hint=\"").sx(entiteDescription).l("\"");
 		// 		}
 		// 		if(entiteNomAffichage != null) {
 		// 			t(8, "label=\"").sx(entiteNomAffichage).l("\"");
@@ -1025,7 +1025,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				rechercheSolr.setRows(1000000);
 				String fqClassesSuperEtMoi = "(" + classesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 				rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
-				rechercheSolr.addFilterQuery("entiteEstSubstitue_indexed_boolean:false");
 				rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
 //					rechercheSolr.addFilterQuery("entiteHtmLigne_indexed_int:[* TO *]");
 				rechercheSolr.addSort("entiteHtmLigne_indexed_int", ORDER.asc);
@@ -1059,9 +1058,19 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					if(auteurGenPageEditionJinja != null) {
 						o = auteurGenPageEditionJinja;
 						for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=rechercheLignes) {
-							for(Integer j = 0; j < rechercheListe.size(); j++) {
+							List<SolrDocument> resultatsSubstitues = rechercheListe.stream().filter(o -> BooleanUtils.isTrue((Boolean)o.get("entiteEstSubstitue_stored_boolean"))).collect(Collectors.toList());
+							List<SolrDocument> resultatsNormales = rechercheListe.stream().filter(o -> BooleanUtils.isFalse((Boolean)o.get("entiteEstSubstitue_stored_boolean"))).collect(Collectors.toList());
+
+							for(Integer j = 0; j < resultatsNormales.size(); j++) {
 								entiteDocumentSolr = rechercheListe.get(j);
 								entiteVar = (String)entiteDocumentSolr.get("entiteVar_" + langueNom + "_stored_string");
+								SolrDocument resultatSubstitue = resultatsSubstitues.stream().filter(o -> entiteVar.equals(o.get("entiteVar_" + langueNom + "_stored_string"))).findFirst().orElse(null);
+								if(resultatSubstitue != null) {
+									if(entiteDocumentSolr.equals(resultatSubstitue))
+										continue;
+									entiteDocumentSolr = resultatSubstitue;
+								}
+
 								entiteVarCapitalise = (String)entiteDocumentSolr.get("entiteVarCapitalise_" + langueNom + "_stored_string");
 								entiteNomSimple = (String)entiteDocumentSolr.get("entiteNomSimple_" + langueNom + "_stored_string");
 								entiteNomSimpleGenerique = (String)entiteDocumentSolr.get("entiteNomSimpleGenerique_" + langueNom + "_stored_string");
@@ -2237,7 +2246,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				rechercheSolr.setRows(1000000);
 				String fqClassesSuperEtMoi = "(" + classesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 				rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
-				// rechercheSolr.addFilterQuery("entiteEstSubstitue_indexed_boolean:false");
 				rechercheSolr.addFilterQuery("classeNomCanonique_" + this.langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
 				rechercheSolr.addFilterQuery("entiteHtmColonne_indexed_int:[* TO *]");
 				rechercheSolr.addSort("entiteHtmColonne_indexed_int", ORDER.asc);
@@ -2273,26 +2281,36 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageCss.tl(0, "}");
 
 					for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=rechercheLignes) {
-						for(Integer j = 0; j < rechercheListe.size(); j++) {
-							SolrDocument entiteDocumentSolr = rechercheListe.get(j);
-							String entiteVar = (String)entiteDocumentSolr.get("entiteVar_" + langueNom + "_stored_string");
-							String entiteVarCapitalise = (String)entiteDocumentSolr.get("entiteVarCapitalise_" + langueNom + "_stored_string");
-							String entiteSolrNomSimple = (String)entiteDocumentSolr.get("entiteSolrNomSimple_stored_string");
-							String entiteNomSimple = (String)entiteDocumentSolr.get("entiteNomSimple_" + langueNom + "_stored_string");
-							String entiteNomCanonique = (String)entiteDocumentSolr.get("entiteNomCanonique_" + langueNom + "_stored_string");
-							String entiteNomSimpleGenerique = (String)entiteDocumentSolr.get("entiteNomSimpleGenerique_" + langueNom + "_stored_string");
-							String entiteNomSimpleComplet = (String)entiteDocumentSolr.get("entiteNomSimpleComplet_" + langueNom + "_stored_string");
-							String entiteDescription = (String)entiteDocumentSolr.get("entiteDescription_" + langueNom + "_stored_string");
-							String entiteNomAffichage = (String)entiteDocumentSolr.get("entiteNomAffichage_" + langueNom + "_stored_string");
-							String entiteIcone = (String)entiteDocumentSolr.get("entiteIcone_stored_string");
-							Boolean entiteHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean"));
-							String entiteFormatHtm = (String)entiteDocumentSolr.get("entiteFormatHtm_stored_string");
-							Boolean entiteMultiligne = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteMultiligne_stored_boolean"));
-							Boolean entiteHighlighting = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHighlighting_stored_boolean"));
-							Boolean entiteVarTitre = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteVarTitre_stored_boolean"));
-							Boolean entiteLien = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteLien_stored_boolean"));
-							Boolean entiteFacetsTrouves = Optional.ofNullable((Boolean)entiteDocumentSolr.get("entiteFacetsTrouves_stored_boolean")).orElse(false);
-							List<String> entiteFacets = Optional.ofNullable((List<String>)entiteDocumentSolr.get("entiteFacets_stored_strings")).orElse(Arrays.asList());
+						List<SolrDocument> resultatsSubstitues = rechercheListe.stream().filter(o -> BooleanUtils.isTrue((Boolean)o.get("entiteEstSubstitue_stored_boolean"))).collect(Collectors.toList());
+						List<SolrDocument> resultatsNormales = rechercheListe.stream().filter(o -> BooleanUtils.isFalse((Boolean)o.get("entiteEstSubstitue_stored_boolean"))).collect(Collectors.toList());
+
+						for(Integer j = 0; j < resultatsNormales.size(); j++) {
+							entiteDocumentSolr = rechercheListe.get(j);
+							entiteVar = (String)entiteDocumentSolr.get("entiteVar_" + langueNom + "_stored_string");
+							SolrDocument resultatSubstitue = resultatsSubstitues.stream().filter(o -> entiteVar.equals(o.get("entiteVar_" + langueNom + "_stored_string"))).findFirst().orElse(null);
+							if(resultatSubstitue != null) {
+								if(entiteDocumentSolr.equals(resultatSubstitue))
+									continue;
+								entiteDocumentSolr = resultatSubstitue;
+							}
+
+							entiteVarCapitalise = (String)entiteDocumentSolr.get("entiteVarCapitalise_" + langueNom + "_stored_string");
+							entiteSolrNomSimple = (String)entiteDocumentSolr.get("entiteSolrNomSimple_stored_string");
+							entiteNomSimple = (String)entiteDocumentSolr.get("entiteNomSimple_" + langueNom + "_stored_string");
+							entiteNomCanonique = (String)entiteDocumentSolr.get("entiteNomCanonique_" + langueNom + "_stored_string");
+							entiteNomSimpleGenerique = (String)entiteDocumentSolr.get("entiteNomSimpleGenerique_" + langueNom + "_stored_string");
+							entiteNomSimpleComplet = (String)entiteDocumentSolr.get("entiteNomSimpleComplet_" + langueNom + "_stored_string");
+							entiteDescription = (String)entiteDocumentSolr.get("entiteDescription_" + langueNom + "_stored_string");
+							entiteNomAffichage = (String)entiteDocumentSolr.get("entiteNomAffichage_" + langueNom + "_stored_string");
+							entiteIcone = (String)entiteDocumentSolr.get("entiteIcone_stored_string");
+							entiteHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean"));
+							entiteFormatHtm = (String)entiteDocumentSolr.get("entiteFormatHtm_stored_string");
+							entiteMultiligne = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteMultiligne_stored_boolean"));
+							entiteHighlighting = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHighlighting_stored_boolean"));
+							entiteVarTitre = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteVarTitre_stored_boolean"));
+							entiteLien = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteLien_stored_boolean"));
+							entiteFacetsTrouves = Optional.ofNullable((Boolean)entiteDocumentSolr.get("entiteFacetsTrouves_stored_boolean")).orElse(false);
+							entiteFacets = Optional.ofNullable((List<String>)entiteDocumentSolr.get("entiteFacets_stored_strings")).orElse(Arrays.asList());
 							if(entiteHtml) {
 								String jsVal = ".value";
 								if("Boolean".equals(entiteNomSimple)) {
@@ -2424,7 +2442,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				rechercheSolr.setRows(1000000);
 				String fqClassesSuperEtMoi = "(" + classesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 				rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
-				rechercheSolr.addFilterQuery("entiteEstSubstitue_indexed_boolean:false");
 				rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
 				rechercheSolr.addSort("entiteHtmLigne_indexed_int", ORDER.asc);
 				rechercheSolr.addSort("entiteHtmCellule_indexed_int", ORDER.asc);
@@ -2436,9 +2453,19 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	
 				if(rechercheListe.size() > 0) {
 					for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=rechercheLignes) {
-						for(Integer j = 0; j < rechercheListe.size(); j++) {
+						List<SolrDocument> resultatsSubstitues = rechercheListe.stream().filter(o -> BooleanUtils.isTrue((Boolean)o.get("entiteEstSubstitue_stored_boolean"))).collect(Collectors.toList());
+						List<SolrDocument> resultatsNormales = rechercheListe.stream().filter(o -> BooleanUtils.isFalse((Boolean)o.get("entiteEstSubstitue_stored_boolean"))).collect(Collectors.toList());
+
+						for(Integer j = 0; j < resultatsNormales.size(); j++) {
 							entiteDocumentSolr = rechercheListe.get(j);
 							entiteVar = (String)entiteDocumentSolr.get("entiteVar_" + langueNom + "_stored_string");
+							SolrDocument resultatSubstitue = resultatsSubstitues.stream().filter(o -> entiteVar.equals(o.get("entiteVar_" + langueNom + "_stored_string"))).findFirst().orElse(null);
+							if(resultatSubstitue != null) {
+								if(entiteDocumentSolr.equals(resultatSubstitue))
+									continue;
+								entiteDocumentSolr = resultatSubstitue;
+							}
+
 							entiteVarCapitalise = (String)entiteDocumentSolr.get("entiteVarCapitalise_" + langueNom + "_stored_string");
 							entiteNomSimple = (String)entiteDocumentSolr.get("entiteNomSimple_" + langueNom + "_stored_string");
 							entiteNomSimpleGenerique = (String)entiteDocumentSolr.get("entiteNomSimpleGenerique_" + langueNom + "_stored_string");
@@ -3355,7 +3382,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					rechercheSolr.setRows(1000000);
 					String fqClassesSuperEtMoi = "(" + classesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 					rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
-					rechercheSolr.addFilterQuery("entiteEstSubstitue_indexed_boolean:false");
 					rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
 					rechercheSolr.addFilterQuery("(entiteSuggere_indexed_boolean:true OR entiteAttribuer_indexed_boolean:true)");
 		      rechercheSolr.addSort("partNumero_indexed_int", ORDER.asc);
@@ -3367,9 +3393,19 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					if(rechercheListe.size() > 0) {
 		
 						for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=rechercheLignes) {
-							for(Integer j = 0; j < rechercheListe.size(); j++) {
+							List<SolrDocument> resultatsSubstitues = rechercheListe.stream().filter(o -> BooleanUtils.isTrue((Boolean)o.get("entiteEstSubstitue_stored_boolean"))).collect(Collectors.toList());
+							List<SolrDocument> resultatsNormales = rechercheListe.stream().filter(o -> BooleanUtils.isFalse((Boolean)o.get("entiteEstSubstitue_stored_boolean"))).collect(Collectors.toList());
+
+							for(Integer j = 0; j < resultatsNormales.size(); j++) {
 								entiteDocumentSolr = rechercheListe.get(j);
 								entiteVar = (String)entiteDocumentSolr.get("entiteVar_" + langueNom + "_stored_string");
+								SolrDocument resultatSubstitue = resultatsSubstitues.stream().filter(o -> entiteVar.equals(o.get("entiteVar_" + langueNom + "_stored_string"))).findFirst().orElse(null);
+								if(resultatSubstitue != null) {
+									if(entiteDocumentSolr.equals(resultatSubstitue))
+										continue;
+									entiteDocumentSolr = resultatSubstitue;
+								}
+
 								entiteVarCapitalise = (String)entiteDocumentSolr.get("entiteVarCapitalise_" + langueNom + "_stored_string");
 								entiteNomSimple = (String)entiteDocumentSolr.get("entiteNomSimple_" + langueNom + "_stored_string");
 								entiteNomSimpleGenerique = (String)entiteDocumentSolr.get("entiteNomSimpleGenerique_" + langueNom + "_stored_string");

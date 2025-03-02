@@ -3480,8 +3480,22 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteLangue != null)
 							indexerStockerSolr(entiteDoc, "entiteLangue", entiteLangue);
 
-						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteNomAffichage", regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_NomAffichage), methodeCommentaire));
-						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteDescription", regexLangue(classeLangueNom, "^Description", methodeCommentaire));
+						{
+							String str = regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_NomAffichage), methodeCommentaire);
+							if(methodeCommentaireActuelle != null)
+								str = Optional.ofNullable(regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_NomAffichage), methodeCommentaireActuelle)).orElse(str);
+							if(str != null) {
+								indexerStockerSolr(classeLangueNom, entiteDoc, "entiteNomAffichage", str);
+							}
+						}
+						{
+							String str = regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_Description), methodeCommentaire);
+							if(methodeCommentaireActuelle != null)
+								str = Optional.ofNullable(regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_Description), methodeCommentaireActuelle)).orElse(str);
+							if(str != null) {
+								indexerStockerSolr(classeLangueNom, entiteDoc, "entiteDescription", str);
+							}
+						}
 						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteUniteLabel", regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_UniteLabel), methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteOptionnel", regexTrouve("^" + i18nGlobale.getString(I18n.var_Optionnel) + ":\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteHtmInfobulle", regex("^" + i18nGlobale.getString(I18n.var_HtmInfobulle) + ": (.*[>|-]{0,2}[\\s\\S]*)(^\\w|\\Z)", methodeCommentaire, 1));
@@ -3510,6 +3524,8 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 						{ 
 							String str = regex("^" + i18nGlobale.getString(I18n.var_HtmLigne) + ":\\s*(.*)$", methodeCommentaire);
+							if(str == null && methodeCommentaireActuelle != null)
+								str = regex("^" + i18nGlobale.getString(I18n.var_HtmLigne) + ":\\s*(.*)$", methodeCommentaireActuelle);
 							if(NumberUtils.isCreatable(str)) {
 								Integer i = Integer.parseInt(str);
 								indexerStockerSolr(entiteDoc, "entiteHtmLigne", i);
@@ -3525,6 +3541,8 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 						{ 
 							String str = regex("^" + i18nGlobale.getString(I18n.var_HtmCellule) + ":\\s*(.*)$", methodeCommentaire);
+							if(str == null && methodeCommentaireActuelle != null)
+								str = regex("^" + i18nGlobale.getString(I18n.var_HtmCellule) + ":\\s*(.*)$", methodeCommentaireActuelle);
 							if(NumberUtils.isCreatable(str)) {
 								indexerStockerSolr(entiteDoc, "entiteHtmCellule", Integer.parseInt(str));
 								entiteHtml = true;
