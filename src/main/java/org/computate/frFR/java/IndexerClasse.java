@@ -3438,7 +3438,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						Boolean entiteSuggere = indexerStockerSolr(entiteDoc, "entiteSuggere", regexTrouve("^" + i18nGlobale.getString(I18n.var_Suggere) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarUrlPageAffichage = indexerStockerSolr(entiteDoc, "entiteVarUrlPageAffichage", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageAffichage) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarUrlPageEdition = indexerStockerSolr(entiteDoc, "entiteVarUrlPageEdition", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageEdition) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteVarUrlPageUtilisateur = indexerStockerSolr(entiteDoc, "entiteVarUrlPageUtilisateur", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageEdition) + ":\\s*(true)$", methodeCommentaire));
+						Boolean entiteVarUrlPageUtilisateur = indexerStockerSolr(entiteDoc, "entiteVarUrlPageUtilisateur", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageUtilisateur) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarUrlApi = indexerStockerSolr(entiteDoc, "entiteVarUrlApi", regexTrouve("^VarUrlApi:\\s*(true)$", methodeCommentaire));
 						String entiteVarUrl = regex("^" + i18nGlobale.getString(I18n.var_VarUrl) + ":\\s*(.*)$", methodeCommentaire);
 						if(entiteVarUrl != null)

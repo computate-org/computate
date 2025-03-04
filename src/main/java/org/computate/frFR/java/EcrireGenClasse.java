@@ -6228,6 +6228,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		l();
 		tl(1, "public static final String ", langueConfig.getString(I18n.var_CLASSE_NOM_SIMPLE), " = \"", classeNomSimple, "\";");
+		tl(1, "public static final String ", langueConfig.getString(I18n.var_CLASSE_NOM_CANONIQUE), " = \"", classeNomCanonique, "\";");
 		if(classeApi) {
 			tl(1, "public static final String ", i18nGlobale.getString(I18n.var_CLASSE_API_ADDRESSE), "_", classeNomSimple, " = \"", siteNom, "-", classeLangueNom, "-", classeNomSimple, "\";");
 			tl(1, "public static String get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "() {");
