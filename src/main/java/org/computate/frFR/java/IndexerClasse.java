@@ -1972,6 +1972,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeVarUrlPageAffichage = null;
 		String classeVarUrlPageEdition = null;
 		String classeVarUrlPageUtilisateur = null;
+		String classeVarUrlTelechargement = null;
 		String classeVarUrlApi = null;
 		String classeVarId = null;
 		String classeVarIdSuffixeSolr = null;
@@ -2278,18 +2279,21 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeUriPageRecherche = indexerStockerSolr(langueNomGlobale, classeDoc, "classeUriPageRecherche", regex("^" + i18nGlobale.getString(I18n.var_UriPageRecherche) + ": (.*)", classeCommentaire));
 		String classeUriPageAffichage = indexerStockerSolr(langueNomGlobale, classeDoc, "classeUriPageAffichage", regex("^" + i18nGlobale.getString(I18n.var_UriPageAffichage) + ": (.*)", classeCommentaire));
 		String classeUriPageUtilisateur = indexerStockerSolr(langueNomGlobale, classeDoc, "classeUriPageUtilisateur", regex("^" + i18nGlobale.getString(I18n.var_UriPageUtilisateur) + ": (.*)", classeCommentaire));
+		String classeUriTelechargement = indexerStockerSolr(langueNomGlobale, classeDoc, "classeUriTelechargement", regex("^" + i18nGlobale.getString(I18n.var_UriTelechargement) + ": (.*)", classeCommentaire));
 		String classeUriPageEdition = indexerStockerSolr(langueNomGlobale, classeDoc, "classeUriPageEdition", regex("^" + i18nGlobale.getString(I18n.var_UriPageEdition) + ": (.*)", classeCommentaire, classeUriPageRecherche));
 		Boolean classeApi = indexerStockerSolr(classeDoc, "classeApi", regexTrouve("^(classe)?Api: \\s*(true)$", classeCommentaire)
 				|| classeUriPageRecherche != null
 				|| classeUriPageEdition != null
 				|| classeUriPageAffichage != null
 				|| classeUriPageUtilisateur != null
+				|| classeUriTelechargement != null
 				);
 		Boolean classePage = regexTrouve("^" + i18nGlobale.getString(I18n.var_Page) + ": \\s*(true)$", classeCommentaire)
 				|| classeUriPageRecherche != null
 				|| classeUriPageEdition != null
 				|| classeUriPageAffichage != null
 				|| classeUriPageUtilisateur != null
+				|| classeUriTelechargement != null
 				;
 		Boolean classePageAvecTemplate = false;
 		Boolean classePageSimple = indexerStockerSolr(classeDoc, "classePageSimple", regexTrouve("^" + i18nGlobale.getString(I18n.var_PageSimple) + ": \\s*(true)$", classeCommentaire));
@@ -3439,6 +3443,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						Boolean entiteVarUrlPageAffichage = indexerStockerSolr(entiteDoc, "entiteVarUrlPageAffichage", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageAffichage) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarUrlPageEdition = indexerStockerSolr(entiteDoc, "entiteVarUrlPageEdition", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageEdition) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarUrlPageUtilisateur = indexerStockerSolr(entiteDoc, "entiteVarUrlPageUtilisateur", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageUtilisateur) + ":\\s*(true)$", methodeCommentaire));
+						Boolean entiteVarUrlTelechargement = indexerStockerSolr(entiteDoc, "entiteVarUrlTelechargement", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_Telechargement) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarUrlApi = indexerStockerSolr(entiteDoc, "entiteVarUrlApi", regexTrouve("^VarUrlApi:\\s*(true)$", methodeCommentaire));
 						String entiteVarUrl = regex("^" + i18nGlobale.getString(I18n.var_VarUrl) + ":\\s*(.*)$", methodeCommentaire);
 						if(entiteVarUrl != null)
@@ -3681,6 +3686,7 @@ public class IndexerClasse extends RegarderClasseBase {
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarUrlPageAffichage", (String)docClasse.get("classeVarUrlPageAffichage_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarUrlPageEdition", (String)docClasse.get("classeVarUrlPageEdition_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarUrlPageUtilisateur", (String)docClasse.get("classeVarUrlPageUtilisateur_" + classeLangueNom + "_stored_string"));
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarUrlTelechargement", (String)docClasse.get("classeVarUrlTelechargement_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarUrlApi", (String)docClasse.get("classeVarUrlApi_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarId", (String)docClasse.get("classeVarId_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarTitre", (String)docClasse.get("classeVarTitre_" + classeLangueNom + "_stored_string"));
@@ -3768,6 +3774,7 @@ public class IndexerClasse extends RegarderClasseBase {
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarUrlPageAffichage", (String)docClasse.get("classeVarUrlPageAffichage_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarUrlPageEdition", (String)docClasse.get("classeVarUrlPageEdition_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarUrlPageUtilisateur", (String)docClasse.get("classeVarUrlPageUtilisateur_" + langueNom + "_stored_string"));
+											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarUrlTelechargement", (String)docClasse.get("classeVarUrlTelechargement_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarUrlApi", (String)docClasse.get("classeVarUrlApi_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarId", (String)docClasse.get("classeVarId_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarTitre", (String)docClasse.get("classeVarTitre_" + langueNom + "_stored_string"));
@@ -4571,6 +4578,9 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteVarUrlPageUtilisateur) {
 							classeVarUrlPageUtilisateur = stockerSolr(classeLangueNom, classeDoc, "classeVarUrlPageUtilisateur", entiteVar);
 						}
+						if(entiteVarUrlTelechargement) {
+							classeVarUrlTelechargement = stockerSolr(classeLangueNom, classeDoc, "classeVarUrlTelechargement", entiteVar);
+						}
 						if(entiteVarUrlApi) {
 							classeVarUrlApi = stockerSolr(classeLangueNom, classeDoc, "classeVarUrlApi", entiteVar);
 						}
@@ -4650,6 +4660,9 @@ public class IndexerClasse extends RegarderClasseBase {
 								}
 								if(entiteVarUrlPageUtilisateur) {
 									classeVarUrlPageUtilisateur = stockerSolr(langueNom, classeDoc, "classeVarUrlPageUtilisateur", entiteVarLangue);
+								}
+								if(entiteVarUrlTelechargement) {
+									classeVarUrlTelechargement = stockerSolr(langueNom, classeDoc, "classeVarUrlTelechargement", entiteVarLangue);
 								}
 								if(entiteVarUrlApi) {
 									classeVarUrlApi = stockerSolr(langueNom, classeDoc, "classeVarUrlApi", entiteVarLangue);
@@ -5188,6 +5201,20 @@ public class IndexerClasse extends RegarderClasseBase {
 						String classeVarUrlPageUtilisateurLangue = (String)classeSuperDoc.get("classeVarUrlPageUtilisateur_" + langueNom + "_stored_string");
 						if(classeVarUrlPageUtilisateurLangue != null) {
 							stockerSolr(langueNom, classeDoc, "classeVarUrlPageUtilisateur", classeVarUrlPageUtilisateurLangue);
+						}
+					}
+				}
+			}
+		}
+		if(classeVarUrlTelechargement == null && classeSuperDoc != null) {
+			classeVarUrlTelechargement = (String)classeSuperDoc.get("classeVarUrlTelechargement_" + classeLangueNom + "_stored_string");
+			if(classeVarUrlTelechargement != null) {
+				stockerSolr(classeLangueNom, classeDoc, "classeVarUrlTelechargement", classeVarUrlTelechargement);
+				if(classeTraduire) {
+					for(String langueNom : classeAutresLangues) {  
+						String classeVarUrlTelechargementLangue = (String)classeSuperDoc.get("classeVarUrlTelechargement_" + langueNom + "_stored_string");
+						if(classeVarUrlTelechargementLangue != null) {
+							stockerSolr(langueNom, classeDoc, "classeVarUrlTelechargement", classeVarUrlTelechargementLangue);
 						}
 					}
 				}
@@ -5831,6 +5858,12 @@ public class IndexerClasse extends RegarderClasseBase {
 							.put(i18nGlobale.getString(I18n.var_Page), classePageNomSimple)
 					);
 				}
+				if(classeUriTelechargement != null && !apiMethodeObjet.containsKey(i18nGlobale.getString(I18n.var_Telechargement))) {
+					apiMethodeObjet.put(i18nGlobale.getString(I18n.var_Telechargement), new JsonObject()
+							.put(i18nGlobale.getString(I18n.var_ApiUri), classeUriTelechargement)
+							.put(i18nGlobale.getString(I18n.var_Page), classePageNomSimple)
+					);
+				}
 
 				if(apiMethodeObjet.fieldNames().contains("DELETE")) {
 					apiMethodeObjet.put("DELETE" + i18nGlobale.getString(I18n.var_Filtre), new JsonObject()
@@ -5865,6 +5898,8 @@ public class IndexerClasse extends RegarderClasseBase {
 							classeApiMethodeSecurite = true;
 						else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageUtilisateur)))
 							classeApiMethodeSecurite = true;
+						else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_Telechargement)))
+							classeApiMethodeSecurite = true;
 						else if("GET".equals(classeApiMethodeMethode) && classePublicLire)
 							classeApiMethodeSecurite = false;
 						else if("GET".equals(classeApiMethodeMethode) && classeRoleSession)
@@ -5898,6 +5933,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageEdition))
 								|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageAffichage))
 								|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageUtilisateur))
+								|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_Telechargement))
 								) {
 							classePageAvecTemplate = true;
 							classePageAvecTemplateMethode = true;
@@ -5905,16 +5941,6 @@ public class IndexerClasse extends RegarderClasseBase {
 								classeApiMotCleMethode = StringUtils.substringAfterLast(classeApiUriMethode, "/");
 
 							if(classePageMethode != null) {
-								// String classePageNomFichier = String.format("%s%s.htm", classeNomSimple, 
-								// 		classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
-								// 		|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageAffichage))
-								// 		|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageUtilisateur))
-								// 		? i18nGlobale.getString(I18n.var_Edition) : i18nGlobale.getString(I18n.var_Recherche));
-								// String classeGenPageNomFichier = String.format("%sGen%s.htm", classeNomSimple, 
-								// 		classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
-								// 		|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageAffichage))
-								// 		|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageUtilisateur))
-								// 		? i18nGlobale.getString(I18n.var_Edition) : i18nGlobale.getString(I18n.var_Recherche));
 								if(classeApiUriMethode == null) {
 									if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageRecherche)))
 										classeApiUriMethode = classeApiUri;
@@ -5923,6 +5949,8 @@ public class IndexerClasse extends RegarderClasseBase {
 									else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageAffichage)))
 										classeApiUriMethode = classeApiUri;
 									else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageUtilisateur)))
+										classeApiUriMethode = classeApiUri;
+									else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_Telechargement)))
 										classeApiUriMethode = classeApiUri;
 								}
 								String classePageTemplateMethode = null;

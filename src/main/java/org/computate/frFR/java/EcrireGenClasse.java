@@ -808,8 +808,10 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeStringFormatUrlPageEdition;
 	protected String classeUriPageAffichage;
 	protected String classeUriPageUtilisateur;
+	protected String classeUriTelechargement;
 	protected String classeStringFormatUrlPageAffichage;
 	protected String classeStringFormatUrlPageUtilisateur;
+	protected String classeStringFormatUrlTelechargement;
 	protected String classeVarNom;
 	protected String classeVarDescription;
 
@@ -821,6 +823,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	protected String classeVarUrlPageEdition;
 	protected String classeVarUrlPageUtilisateur;
+	protected String classeVarUrlTelechargement;
 
 	protected String classeVarH1;
 
@@ -6384,6 +6387,18 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@Override");
 			tl(1, "public String ", langueConfig.getString(I18n.var_classeStringFormatUrlPageUtilisateur), langueConfig.getString(I18n.var_PourClasse), "() {");
 			tl(2, "return ", classeStringFormatUrlPageUtilisateur == null ? "null" : "\"%s" + String.format("%s\"", classeStringFormatUrlPageUtilisateur), ";");
+			tl(1, "}");
+		}
+
+		//////////////////////////
+		// classeTelechargement //
+		//////////////////////////
+		if(classeStringFormatUrlTelechargement != null || classeEstModeleBase || classeEstResultatBase) {
+			l();
+			if(!classeEstBase)
+				tl(1, "@Override");
+			tl(1, "public String ", langueConfig.getString(I18n.var_classeStringFormatUrlTelechargement), langueConfig.getString(I18n.var_PourClasse), "() {");
+			tl(2, "return ", classeStringFormatUrlTelechargement == null ? "null" : "\"%s" + String.format("%s\"", classeStringFormatUrlTelechargement), ";");
 			tl(1, "}");
 		}
 

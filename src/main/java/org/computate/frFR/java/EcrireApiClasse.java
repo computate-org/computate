@@ -291,6 +291,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
 							|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageAffichage))
 							|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageUtilisateur))
+							|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_Telechargement))
 							) {
 						auteurGenApiService.t(1, "public void ", classeApiOperationIdMethode, "(");
 						auteurGenApiService.l("ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), ", Handler<AsyncResult<ServiceResponse>> ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ");");
@@ -1896,6 +1897,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
 							|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageAffichage))
 							|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageUtilisateur))
+							|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_Telechargement))
 							) {
 						l();
 						tl(1, "@Override");
@@ -1908,6 +1910,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
 										, i18nGlobale.getString(I18n.var_PageEdition)
 										, i18nGlobale.getString(I18n.var_PageUtilisateur)
+										, i18nGlobale.getString(I18n.var_Telechargement)
 										)
 									&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
 									&& (
@@ -1916,6 +1919,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
 										, i18nGlobale.getString(I18n.var_PageEdition)
 										, i18nGlobale.getString(I18n.var_PageUtilisateur)
+										, i18nGlobale.getString(I18n.var_Telechargement)
 										) && (
 									BooleanUtils.isNotTrue(classeRoleSession) 
 									&& BooleanUtils.isNotTrue(classePublicLire) 
@@ -1925,6 +1929,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								)
 								) {
 							if(authPolitiqueGranulee) {
+								tl(3, "String ", classeVarId, " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\").getString(\"", classeVarId, "\");");
 								tl(3, "webClient.post(");
 								tl(5, "config.getInteger(ComputateConfigKeys.AUTH_PORT)");
 								tl(5, ", config.getString(ComputateConfigKeys.AUTH_HOST_NAME)");
@@ -1938,16 +1943,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(7, ".add(\"audience\", config.getString(ComputateConfigKeys.AUTH_CLIENT))");
 								tl(7, ".add(\"response_mode\", \"permissions\")");
 								if(classeApiMethode.equals(classeApiMethodeMethode)) {
-									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"", classeApiMethode, "\"))");
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"", classeApiMethode, "\"))");
 								} else {
-									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_ADMIN), ")))");
-									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), ")))");
-									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"GET\"))");
-									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"POST\"))");
-									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"DELETE\"))");
-									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"PATCH\"))");
-									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"PUT\"))");
-									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", i18nGlobale.getString(I18n.var_requeteService), ".getExtra().getString(\"uri\"), \"", classeApiMethodeMethode, "\"))");
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_ADMIN), ")))");
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), ")))");
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"GET\"))");
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"POST\"))");
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"DELETE\"))");
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"PATCH\"))");
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"PUT\"))");
+									tl(7, ".add(\"permission\", String.format(\"%s-%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", ", classeVarId, ", \"", classeApiMethodeMethode, "\"))");
 								}
 								tl(3, ").onFailure(ex -> {");
 								tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
@@ -2028,6 +2033,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
 										, i18nGlobale.getString(I18n.var_PageEdition)
 										, i18nGlobale.getString(I18n.var_PageUtilisateur)
+										, i18nGlobale.getString(I18n.var_Telechargement)
 										) 
 									&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
 									&& (
@@ -2036,6 +2042,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
 										, i18nGlobale.getString(I18n.var_PageEdition)
 										, i18nGlobale.getString(I18n.var_PageUtilisateur)
+										, i18nGlobale.getString(I18n.var_Telechargement)
 										) && (
 									BooleanUtils.isNotTrue(classeRoleSession) 
 									&& BooleanUtils.isNotTrue(classePublicLire) 
@@ -2109,6 +2116,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
 										, i18nGlobale.getString(I18n.var_PageEdition)
 										, i18nGlobale.getString(I18n.var_PageUtilisateur)
+										, i18nGlobale.getString(I18n.var_Telechargement)
 										) 
 									&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
 									&& (
@@ -2117,6 +2125,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
 										, i18nGlobale.getString(I18n.var_PageEdition)
 										, i18nGlobale.getString(I18n.var_PageUtilisateur)
+										, i18nGlobale.getString(I18n.var_Telechargement)
 										) && (
 									BooleanUtils.isNotTrue(classeRoleSession) 
 									&& BooleanUtils.isNotTrue(classePublicLire) 
@@ -2127,6 +2136,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								)
 								) {
 							if(authPolitiqueGranulee) {
+								tl(3, "String ", classeVarId, " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\").getString(\"", classeVarId, "\");");
 								tl(3, "webClient.post(");
 								tl(5, "config.getInteger(ComputateConfigKeys.AUTH_PORT)");
 								tl(5, ", config.getString(ComputateConfigKeys.AUTH_HOST_NAME)");
@@ -2140,16 +2150,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(7, ".add(\"audience\", config.getString(ComputateConfigKeys.AUTH_CLIENT))");
 								tl(7, ".add(\"response_mode\", \"permissions\")");
 								if(classeApiMethode.equals(classeApiMethodeMethode)) {
-									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"", classeApiMethode, "\"))");
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"", classeApiMethode, "\"))");
 								} else {
-									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_ADMIN), ")))");
-									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), ")))");
-									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"GET\"))");
-									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"POST\"))");
-									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"DELETE\"))");
-									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"PATCH\"))");
-									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"PUT\"))");
-									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", i18nGlobale.getString(I18n.var_requeteService), ".getExtra().getString(\"uri\"), \"", classeApiMethodeMethode, "\"))");
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_ADMIN), ")))");
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), ")))");
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"GET\"))");
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"POST\"))");
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"DELETE\"))");
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"PATCH\"))");
+									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"PUT\"))");
+									tl(7, ".add(\"permission\", String.format(\"%s-%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", ", classeVarId, ", \"", classeApiMethodeMethode, "\"))");
 								}
 								tl(3, ").onFailure(ex -> {");
 								tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
@@ -2429,6 +2439,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
 										, i18nGlobale.getString(I18n.var_PageEdition)
 										, i18nGlobale.getString(I18n.var_PageUtilisateur)
+										, i18nGlobale.getString(I18n.var_Telechargement)
 										) 
 									&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
 									&& (
@@ -2437,6 +2448,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
 										, i18nGlobale.getString(I18n.var_PageEdition)
 										, i18nGlobale.getString(I18n.var_PageUtilisateur)
+										, i18nGlobale.getString(I18n.var_Telechargement)
 										) && (
 									BooleanUtils.isNotTrue(classeRoleSession) 
 									&& BooleanUtils.isNotTrue(classePublicLire) 
@@ -4505,7 +4517,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(3, "JsonObject entityBody = new JsonObject();");
 				tl(3, "entityBody.put(\"@context\", config.getString(ComputateConfigKeys.CONTEXT_BROKER_CONTEXT));");
 				tl(3, "entityBody.put(\"id\", o.getId());");
-				tl(3, "entityBody.put(\"type\", ", classeNomSimple, ".CLASS_SIMPLE_NAME);");
+				tl(3, "entityBody.put(\"type\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ");");
 				tl(3, "entityBody.put(\"NGSILD-Tenant\"");
 				tl(5, ", new JsonObject()");
 				tl(5, ".put(\"type\", \"Property\")");
@@ -4568,7 +4580,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(2, "Promise<JsonObject> promise = Promise.promise();");
 				tl(2, "try {");
 				tl(3, "String entityName = o.getName();");
-				tl(3, "String entityType = ", classeNomSimple, ".CLASS_SIMPLE_NAME;");
+				tl(3, "String entityType = ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ";");
 				tl(3, "String entityId = o.getId();");
 				tl(3, "String ngsildUri = String.format(\"/ngsi-ld/v1/entities/%s\", urlEncode(entityId));");
 				tl(3, "String ngsildContext = config.getString(ComputateConfigKeys.CONTEXT_BROKER_CONTEXT);");
