@@ -2293,7 +2293,6 @@ public class IndexerClasse extends RegarderClasseBase {
 				|| classeUriPageEdition != null
 				|| classeUriPageAffichage != null
 				|| classeUriPageUtilisateur != null
-				|| classeUriTelechargement != null
 				;
 		Boolean classePageAvecTemplate = false;
 		Boolean classePageSimple = indexerStockerSolr(classeDoc, "classePageSimple", regexTrouve("^" + i18nGlobale.getString(I18n.var_PageSimple) + ": \\s*(true)$", classeCommentaire));
@@ -5789,6 +5788,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.auth.authorization.RoleBasedAuthorization", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.api.service.ServiceRequest", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.api.service.ServiceResponse", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.client.HttpResponse", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.client.predicate.ResponsePredicate", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.HashMap", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.auth.User", classeLangueNom), classeLangueNom);
@@ -5861,7 +5861,6 @@ public class IndexerClasse extends RegarderClasseBase {
 				if(classeUriTelechargement != null && !apiMethodeObjet.containsKey(i18nGlobale.getString(I18n.var_Telechargement))) {
 					apiMethodeObjet.put(i18nGlobale.getString(I18n.var_Telechargement), new JsonObject()
 							.put(i18nGlobale.getString(I18n.var_ApiUri), classeUriTelechargement)
-							.put(i18nGlobale.getString(I18n.var_Page), classePageNomSimple)
 					);
 				}
 
@@ -5933,7 +5932,6 @@ public class IndexerClasse extends RegarderClasseBase {
 								|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageEdition))
 								|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageAffichage))
 								|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageUtilisateur))
-								|| StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_Telechargement))
 								) {
 							classePageAvecTemplate = true;
 							classePageAvecTemplateMethode = true;
@@ -5949,8 +5947,6 @@ public class IndexerClasse extends RegarderClasseBase {
 									else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageAffichage)))
 										classeApiUriMethode = classeApiUri;
 									else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageUtilisateur)))
-										classeApiUriMethode = classeApiUri;
-									else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_Telechargement)))
 										classeApiUriMethode = classeApiUri;
 								}
 								String classePageTemplateMethode = null;

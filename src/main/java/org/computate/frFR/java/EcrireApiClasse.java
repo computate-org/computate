@@ -1905,7 +1905,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"))
 							s("JsonObject body, ");
 						l("ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), ", Handler<AsyncResult<ServiceResponse>> ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ") {");
-						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
+						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", ", classePublicLire, ").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
 						if(
 								StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
 										, i18nGlobale.getString(I18n.var_PageEdition)
@@ -1954,35 +1954,47 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"PUT\"))");
 									tl(7, ".add(\"permission\", String.format(\"%s-%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", ", classeVarId, ", \"", classeApiMethodeMethode, "\"))");
 								}
-								tl(3, ").onFailure(ex -> {");
-								tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
-								tl(4, "eventHandler.handle(Future.succeededFuture(");
-								tl(5, "new ServiceResponse(403, \"FORBIDDEN\",");
-								tl(6, "Buffer.buffer().appendString(");
-								tl(7, "new JsonObject()");
-								tl(8, ".put(\"errorCode\", \"403\")");
-								tl(8, ".put(\"errorMessage\", msg)");
-								tl(8, ".encodePrettily()");
-								tl(7, "), MultiMap.caseInsensitiveMultiMap()");
-								tl(5, ")");
-								tl(4, "));");
-								tl(3, "}).onSuccess(authorizationDecision -> {");
-								tl(4, "try {");
-								tl(5, "JsonArray scopes = authorizationDecision.bodyAsJsonArray().stream().findFirst().map(decision -> ((JsonObject)decision).getJsonArray(\"scopes\")).orElse(new JsonArray());");
-								tl(5, "if(!scopes.contains(\"", classeApiMethodeMethode, "\")) {");
-								tl(6, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
-								tl(6, "eventHandler.handle(Future.succeededFuture(");
-								tl(7, "new ServiceResponse(403, \"FORBIDDEN\",");
-								tl(8, "Buffer.buffer().appendString(");
-								tl(9, "new JsonObject()");
-								tl(10, ".put(\"errorCode\", \"403\")");
-								tl(10, ".put(\"errorMessage\", msg)");
-								tl(10, ".encodePrettily()");
-								tl(9, "), MultiMap.caseInsensitiveMultiMap()");
-								tl(7, ")");
-								tl(6, "));");
-								tl(5, "} else {");
-								tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".setScopes(scopes.stream().map(o -> o.toString()).collect(Collectors.toList()));");
+								if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
+										|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageAffichage))
+										|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageUtilisateur))
+										) {
+									tl(3, ").onComplete(authorizationDecisionResult -> {");
+									tl(4, "HttpResponse<Buffer> authorizationDecision = authorizationDecisionResult.result();");
+									tl(4, "try {");
+									tl(5, "JsonArray scopes = Optional.ofNullable(authorizationDecision).map(decision -> decision.bodyAsJsonArray().stream().findFirst().map(d -> ((JsonObject)d).getJsonArray(\"scopes\")).orElse(new JsonArray())).orElse(new JsonArray());");
+									tl(5, "if(scopes != null) {");
+									tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".setScopes(scopes.stream().map(o -> o.toString()).collect(Collectors.toList()));");
+								} else {
+									tl(3, ").onFailure(ex -> {");
+									tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
+									tl(4, "eventHandler.handle(Future.succeededFuture(");
+									tl(5, "new ServiceResponse(403, \"FORBIDDEN\",");
+									tl(6, "Buffer.buffer().appendString(");
+									tl(7, "new JsonObject()");
+									tl(8, ".put(\"errorCode\", \"403\")");
+									tl(8, ".put(\"errorMessage\", msg)");
+									tl(8, ".encodePrettily()");
+									tl(7, "), MultiMap.caseInsensitiveMultiMap()");
+									tl(5, ")");
+									tl(4, "));");
+									tl(3, "}).onSuccess(authorizationDecision -> {");
+									tl(4, "try {");
+									tl(5, "JsonArray scopes = authorizationDecision.bodyAsJsonArray().stream().findFirst().map(decision -> ((JsonObject)decision).getJsonArray(\"scopes\")).orElse(new JsonArray());");
+									tl(5, "if(!scopes.contains(\"", classeApiMethodeMethode, "\")) {");
+									tl(6, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
+									tl(6, "eventHandler.handle(Future.succeededFuture(");
+									tl(7, "new ServiceResponse(403, \"FORBIDDEN\",");
+									tl(8, "Buffer.buffer().appendString(");
+									tl(9, "new JsonObject()");
+									tl(10, ".put(\"errorCode\", \"403\")");
+									tl(10, ".put(\"errorMessage\", msg)");
+									tl(10, ".encodePrettily()");
+									tl(9, "), MultiMap.caseInsensitiveMultiMap()");
+									tl(7, ")");
+									tl(6, "));");
+									tl(5, "} else {");
+									tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".setScopes(scopes.stream().map(o -> o.toString()).collect(Collectors.toList()));");
+								}
 							} else {
 								tl(3, "authorizationProvider.getAuthorizations(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_Utilisateur), "()).onFailure(ex -> {");
 								tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
@@ -2111,7 +2123,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"))
 							tl(2, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_démarré), ". \"));");
 	
-						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
+						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", ", classePublicLire, ").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
 						if(
 								StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
 										, i18nGlobale.getString(I18n.var_PageEdition)
@@ -2668,7 +2680,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						l();
 						tl(1, "@Override");
 						tl(1, "public void ", classeApiOperationIdMethode, "Future(" , StringUtils.equals(classeApiTypeMediaRequeteMethode, "application/json") ? "JsonObject" : "String", " body, ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), ", Handler<AsyncResult<ServiceResponse>> ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ") {");
-						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
+						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", ", classePublicLire, ").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
 						tl(3, classePartsRequeteApi.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
 						tl(3, i18nGlobale.getString(I18n.var_requeteApi), ".setRows(1L);");
 						tl(3, i18nGlobale.getString(I18n.var_requeteApi), ".setNumFound(1L);");
@@ -2717,7 +2729,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						l();
 						tl(1, "@Override");
 						tl(1, "public void ", classeApiOperationIdMethode, "Future(" , StringUtils.equals(classeApiTypeMediaRequeteMethode, "application/json") ? "JsonObject" : "String", " body, ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), ", Handler<AsyncResult<ServiceResponse>> ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ") {");
-						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
+						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", ", classePublicLire, ").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
 						tl(3, "try {");
 						tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".setJsonObject(body);");
 						tl(4, i18nGlobale.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"query\").put(\"rows\", 1);");
@@ -2769,7 +2781,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						l();
 						tl(1, "@Override");
 						tl(1, "public void ", classeApiOperationIdMethode, "Future(" , StringUtils.equals(classeApiTypeMediaRequeteMethode, "application/json") ? "JsonObject" : "String", " body, ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), ", Handler<AsyncResult<ServiceResponse>> ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ") {");
-						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
+						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", ", classePublicLire, ").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
 						tl(3, "try {");
 						tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".setJsonObject(body);");
 						tl(4, i18nGlobale.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"query\").put(\"rows\", 1);");
@@ -2825,7 +2837,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						l();
 						tl(1, "@Override");
 						tl(1, "public void ", classeApiOperationIdMethode, "Future(" , StringUtils.equals(classeApiTypeMediaRequeteMethode, "application/json") ? "JsonObject" : "String", " body, ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), ", Handler<AsyncResult<ServiceResponse>> ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ") {");
-						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
+						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", ", classePublicLire, ").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
 						tl(3, "try {");
 						if(StringUtils.equals(classeApiTypeMediaRequeteMethode, "application/json")) {
 							tl(4, classePartsRequeteApi.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
@@ -3758,7 +3770,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						s(classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite));
 					else if(classeApiMethode.contains("PATCH") || classeApiMethode.contains("DELETE"))
 						s(classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite));
-					else if(classeApiMethode.contains("GET") || classePageAvecTemplateMethode || classeApiMethode.contains(i18nGlobale.getString(I18n.var_Recherche)))
+					else if(classeApiMethode.contains("GET") || classePageAvecTemplateMethode || classeApiMethode.contains(i18nGlobale.getString(I18n.var_Recherche)) || classeApiMethode.contains(i18nGlobale.getString(I18n.var_Telechargement)))
 						s(classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, "> ", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple);
 					else
 						s(classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite));
@@ -3774,7 +3786,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					}
 					else if(classeApiMethode.contains("PATCH") || classeApiMethode.contains("DELETE") || classeApiMethode.contains("PUT")) {
 					}
-					else if(classePageAvecTemplateMethode || classeApiMethode.contains(i18nGlobale.getString(I18n.var_Recherche)) || classeApiMethode.contains("GET")) {
+					else if(classePageAvecTemplateMethode || classeApiMethode.contains(i18nGlobale.getString(I18n.var_Recherche)) || classeApiMethode.contains("GET") || classeApiMethode.contains(i18nGlobale.getString(I18n.var_Telechargement))) {
 						tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), " = ", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ".get", i18nGlobale.getString(I18n.var_RequeteSite), "_(", classePartsRequeteSite.nomSimple(classeLangueNom), ".class);");
 					}
 					else {
@@ -3888,7 +3900,20 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(4, "promise.fail(ex);");
 						tl(3, "});");
 					}
-					else {
+					else if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_Telechargement))) {
+						tl(3, classeNomSimple, " o = ", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ".getList().stream().findFirst().orElse(null);");
+						tl(3, "String uri = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getExtra().getString(\"uri\");");
+						tl(3, "String ", i18nGlobale.getString(I18n.var_cheminTelechargement), " = String.format(\"%s%s.", StringUtils.substringAfterLast(classeApiTypeMedia200Methode, "/"), "\", config.getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".", i18nGlobale.getString(I18n.var_CHEMIN_TELECHARGEMENT), "), uri);");
+						tl(3, "vertx.fileSystem().readFile(", i18nGlobale.getString(I18n.var_cheminTelechargement), ").onSuccess(buffer -> {");
+						tl(4, "MultiMap headers = MultiMap.caseInsensitiveMultiMap()");
+						tl(6, ".add(\"Content-Type\", \"", classeApiTypeMedia200Methode, "\")");
+						tl(6, ".add(\"Content-Disposition\", \"attachment; filename=\\\"\" + o.get", StringUtils.capitalize(classeVarId), "() + \".", StringUtils.substringAfterLast(classeApiTypeMedia200Methode, "/"), "\\\"\");");
+						tl(4, "promise.complete(new ServiceResponse(200, \"OK\", buffer, headers));");
+						tl(3, "}).onFailure(ex -> {");
+						tl(4, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.str_Impossible_de_trouver_le_telechargement), "\", ", i18nGlobale.getString(I18n.var_cheminTelechargement), "), ex);");
+						tl(4, "promise.fail(ex);");
+						tl(3, "});");
+					} else {
 						tl(3, "if(json == null) {");
 						tl(4, "String ", classeVarId, " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\").getString(\"", classeVarId, "\");");
 						tl(6, "String m = String.format(\"", i18nGlobale.getString(I18n.str_s_s_non_trouve), "\", \"", classeNomAdjectifSingulier, "\", ", classeVarId, ");");
