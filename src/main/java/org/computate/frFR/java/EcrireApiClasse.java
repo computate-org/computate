@@ -4209,8 +4209,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	
 			tl(5, "if(param", i18nGlobale.getString(I18n.var_Valeurs), i18nGlobale.getString(I18n.var_Objet), " != null && \"facet.pivot\".equals(param", i18nGlobale.getString(I18n.var_Nom), ")) {");
 			tl(6, "Matcher mFacetPivot = Pattern.compile(\"(?:(\\\\{![^\\\\}]+\\\\}))?(.*)\").matcher(StringUtils.join(param", i18nGlobale.getString(I18n.var_Objets), ".getList().toArray(), \",\"));");
-			tl(6, "boolean foundFacetPivot = mFacetPivot.find();");
-			tl(6, "if(foundFacetPivot) {");
+			tl(6, "if(mFacetPivot.find()) {");
 			tl(7, "String solrLocalParams = mFacetPivot.group(1);");
 			tl(7, "String[] ", i18nGlobale.getString(I18n.var_entite), "Vars = mFacetPivot.group(2).trim().split(\",\");");
 			tl(7, "String[] vars", i18nGlobale.getString(I18n.var_Indexe), " = new String[", i18nGlobale.getString(I18n.var_entite), "Vars.length];");
@@ -4225,34 +4224,30 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(6, "for(Object param", i18nGlobale.getString(I18n.var_Objet), " : param", i18nGlobale.getString(I18n.var_Objets), ") {");
 			tl(7, "if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"q\")) {");
 			tl(8, "Matcher mQ = Pattern.compile(\"(\\\\w+):(.+?(?=(\\\\)|\\\\s+OR\\\\s+|\\\\s+AND\\\\s+|\\\\^|$)))\").matcher((String)param", i18nGlobale.getString(I18n.var_Objet), ");");
-			tl(8, "boolean foundQ = mQ.find();");
-			tl(8, "if(foundQ) {");
-			tl(9, "StringBuffer sb = new StringBuffer();");
-			tl(9, "while(foundQ) {");
-			tl(10, i18nGlobale.getString(I18n.var_entite), "Var = mQ.group(1).trim();");
-			tl(10, i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), " = mQ.group(2).trim();");
-			tl(10, "var", i18nGlobale.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), "", classeNomSimple, "(", i18nGlobale.getString(I18n.var_entite), "Var);");
-			tl(10, "String ", i18nGlobale.getString(I18n.var_entite), "Q = ", i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, "Fq(", i18nGlobale.getString(I18n.var_listeRecherche), ", ", i18nGlobale.getString(I18n.var_entite), "Var, ", i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), ", ", "var", i18nGlobale.getString(I18n.var_Indexe), ");");
-			tl(10, "mQ.appendReplacement(sb, ", i18nGlobale.getString(I18n.var_entite), "Q);");
-			tl(10, "foundQ = mQ.find();");
-			tl(9, "}");
+			tl(8, "StringBuffer sb = new StringBuffer();");
+			tl(8, "while(mQ.find()) {");
+			tl(9, i18nGlobale.getString(I18n.var_entite), "Var = mQ.group(1).trim();");
+			tl(9, i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), " = mQ.group(2).trim();");
+			tl(9, "var", i18nGlobale.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), "", classeNomSimple, "(", i18nGlobale.getString(I18n.var_entite), "Var);");
+			tl(9, "String ", i18nGlobale.getString(I18n.var_entite), "Q = ", i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, "Fq(", i18nGlobale.getString(I18n.var_listeRecherche), ", ", i18nGlobale.getString(I18n.var_entite), "Var, ", i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), ", ", "var", i18nGlobale.getString(I18n.var_Indexe), ");");
+			tl(9, "mQ.appendReplacement(sb, ", i18nGlobale.getString(I18n.var_entite), "Q);");
+			tl(8, "}");
+			tl(8, "if(!sb.isEmpty()) {");
 			tl(9, "mQ.appendTail(sb);");
 			tl(9, i18nGlobale.getString(I18n.var_listeRecherche), ".q(sb.toString());");
 			tl(8, "}");
 	
 			tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"fq\")) {");
 			tl(8, "Matcher mFq = Pattern.compile(\"(\\\\w+):(.+?(?=(\\\\)|\\\\s+OR\\\\s+|\\\\s+AND\\\\s+|$)))\").matcher((String)param", i18nGlobale.getString(I18n.var_Objet), ");");
-			tl(8, "boolean foundFq = mFq.find();");
-			tl(8, "if(foundFq) {");
 			tl(9, "StringBuffer sb = new StringBuffer();");
-			tl(9, "while(foundFq) {");
-			tl(10, i18nGlobale.getString(I18n.var_entite), "Var = mFq.group(1).trim();");
-			tl(10, i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), " = mFq.group(2).trim();");
-			tl(10, "var", i18nGlobale.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), "", classeNomSimple, "(", i18nGlobale.getString(I18n.var_entite), "Var);");
-			tl(10, "String ", i18nGlobale.getString(I18n.var_entite), "Fq = ", i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, "Fq(", i18nGlobale.getString(I18n.var_listeRecherche), ", ", i18nGlobale.getString(I18n.var_entite), "Var, ", i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), ", ", "var", i18nGlobale.getString(I18n.var_Indexe), ");");
-			tl(10, "mFq.appendReplacement(sb, ", i18nGlobale.getString(I18n.var_entite), "Fq);");
-			tl(10, "foundFq = mFq.find();");
-			tl(9, "}");
+			tl(8, "while(mFq.find()) {");
+			tl(9, i18nGlobale.getString(I18n.var_entite), "Var = mFq.group(1).trim();");
+			tl(9, i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), " = mFq.group(2).trim();");
+			tl(9, "var", i18nGlobale.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), "", classeNomSimple, "(", i18nGlobale.getString(I18n.var_entite), "Var);");
+			tl(9, "String ", i18nGlobale.getString(I18n.var_entite), "Fq = ", i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, "Fq(", i18nGlobale.getString(I18n.var_listeRecherche), ", ", i18nGlobale.getString(I18n.var_entite), "Var, ", i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), ", ", "var", i18nGlobale.getString(I18n.var_Indexe), ");");
+			tl(9, "mFq.appendReplacement(sb, ", i18nGlobale.getString(I18n.var_entite), "Fq);");
+			tl(8, "}");
+			tl(8, "if(!sb.isEmpty()) {");
 			tl(9, "mFq.appendTail(sb);");
 			tl(9, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(sb.toString());");
 			tl(8, "}");
@@ -4281,8 +4276,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	
 			tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"stats.field\")) {");
 			tl(8, "Matcher mStats = Pattern.compile(\"(?:(\\\\{![^\\\\}]+\\\\}))?(.*)\").matcher((String)param", i18nGlobale.getString(I18n.var_Objet), ");");
-			tl(8, "boolean foundStats = mStats.find();");
-			tl(8, "if(foundStats) {");
+			tl(8, "if(mStats.find()) {");
 			tl(9, "String solrLocalParams = mStats.group(1);");
 			tl(9, i18nGlobale.getString(I18n.var_entite), "Var = mStats.group(2).trim();");
 			tl(9, "var", i18nGlobale.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), "", classeNomSimple, "(", i18nGlobale.getString(I18n.var_entite), "Var);");
@@ -4313,8 +4307,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	
 			tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"facet.range\")) {");
 			tl(8, "Matcher mFacetRange = Pattern.compile(\"(?:(\\\\{![^\\\\}]+\\\\}))?(.*)\").matcher((String)param", i18nGlobale.getString(I18n.var_Objet), ");");
-			tl(8, "boolean foundFacetRange = mFacetRange.find();");
-			tl(8, "if(foundFacetRange) {");
+			tl(8, "if(mFacetRange.find()) {");
 			tl(9, "String solrLocalParams = mFacetRange.group(1);");
 			tl(9, i18nGlobale.getString(I18n.var_entite), "Var = mFacetRange.group(2).trim();");
 			tl(9, "var", i18nGlobale.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), "", classeNomSimple, "(", i18nGlobale.getString(I18n.var_entite), "Var);");
