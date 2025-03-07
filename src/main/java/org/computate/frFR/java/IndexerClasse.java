@@ -3448,6 +3448,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteVarUrl != null)
 							indexerStockerSolr(classeLangueNom, entiteDoc, "entiteVarUrl", entiteVarUrl);
 						Boolean entiteVarId = indexerStockerSolr(entiteDoc, "entiteVarId", regexTrouve("^VarId:\\s*(true)$", methodeCommentaire));
+						Boolean entiteUnique = indexerStockerSolr(entiteDoc, "entiteUnique", regexTrouve("^" + i18nGlobale.getString(I18n.var_Unique) + ":\\s*(true)$", methodeCommentaire) || entiteVarId);
 						Boolean entiteVarNom = indexerStockerSolr(entiteDoc, "entiteVarNom", regexTrouve("^" + i18nGlobale.getString(I18n.var_VarNom) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarTitre = indexerStockerSolr(entiteDoc, "entiteVarTitre", regexTrouve("^" + i18nGlobale.getString(I18n.var_VarTitre) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarH1 = indexerStockerSolr(entiteDoc, "entiteVarH1", regexTrouve("^VarH1:\\s*(true)$", methodeCommentaire));
