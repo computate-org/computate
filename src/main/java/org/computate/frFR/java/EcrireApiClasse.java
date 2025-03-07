@@ -1930,6 +1930,19 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								) {
 							if(authPolitiqueGranulee) {
 								tl(3, "String ", classeVarId, " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\").getString(\"", classeVarId, "\");");
+								tl(3, "MultiMap form = MultiMap.caseInsensitiveMultiMap();");
+								tl(3, "form.add(\"grant_type\", \"urn:ietf:params:oauth:grant-type:uma-ticket\");");
+								tl(3, "form.add(\"audience\", config.getString(ComputateConfigKeys.AUTH_CLIENT));");
+								tl(3, "form.add(\"response_mode\", \"permissions\");");
+								tl(3, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_ADMIN), ")));");
+								tl(3, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), ")));");
+								tl(3, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"GET\"));");
+								tl(3, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"POST\"));");
+								tl(3, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"DELETE\"));");
+								tl(3, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"PATCH\"));");
+								tl(3, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"PUT\"));");
+								tl(3, "if(", classeVarId, " != null)");
+								tl(4, "form.add(\"permission\", String.format(\"%s-%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", ", classeVarId, ", \"", classeApiMethodeMethode, "\"));");
 								tl(3, "webClient.post(");
 								tl(5, "config.getInteger(ComputateConfigKeys.AUTH_PORT)");
 								tl(5, ", config.getString(ComputateConfigKeys.AUTH_HOST_NAME)");
@@ -1937,31 +1950,20 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(5, ")");
 								tl(5, ".ssl(config.getBoolean(ComputateConfigKeys.AUTH_SSL))");
 								tl(5, ".putHeader(\"Authorization\", String.format(\"Bearer %s\", siteRequest.getUser().principal().getString(\"access_token\")))");
-								tl(5, ".expect(ResponsePredicate.status(200))");
-								tl(5, ".sendForm(MultiMap.caseInsensitiveMultiMap()");
-								tl(7, ".add(\"grant_type\", \"urn:ietf:params:oauth:grant-type:uma-ticket\")");
-								tl(7, ".add(\"audience\", config.getString(ComputateConfigKeys.AUTH_CLIENT))");
-								tl(7, ".add(\"response_mode\", \"permissions\")");
-								tl(7, ".add(\"permission\", String.format(\"%s-%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", ", classeVarId, ", \"", classeApiMethodeMethode, "\"))");
-								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_ADMIN), ")))");
-								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), ")))");
-								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"GET\"))");
-								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"POST\"))");
-								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"DELETE\"))");
-								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"PATCH\"))");
-								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"PUT\"))");
+								tl(5, ".sendForm(form)");
+								tl(5, ".expecting(HttpResponseExpectation.SC_OK)");
 								if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
 										|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageAffichage))
 										|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageUtilisateur))
 										) {
-									tl(3, ").onComplete(authorizationDecisionResult -> {");
+									tl(3, ".onComplete(authorizationDecisionResult -> {");
 									tl(4, "HttpResponse<Buffer> authorizationDecision = authorizationDecisionResult.result();");
 									tl(4, "try {");
 									tl(5, "JsonArray scopes = Optional.ofNullable(authorizationDecision).map(decision -> decision.bodyAsJsonArray().stream().findFirst().map(d -> ((JsonObject)d).getJsonArray(\"scopes\")).orElse(new JsonArray())).orElse(new JsonArray());");
 									tl(5, "if(scopes != null) {");
 									tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".setScopes(scopes.stream().map(o -> o.toString()).collect(Collectors.toList()));");
 								} else {
-									tl(3, ").onFailure(ex -> {");
+									tl(3, ".onFailure(ex -> {");
 									tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
 									tl(4, "eventHandler.handle(Future.succeededFuture(");
 									tl(5, "new ServiceResponse(403, \"FORBIDDEN\",");
@@ -2145,6 +2147,19 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								) {
 							if(authPolitiqueGranulee) {
 								tl(3, "String ", classeVarId, " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\").getString(\"", classeVarId, "\");");
+								tl(3, "MultiMap form = MultiMap.caseInsensitiveMultiMap();");
+								tl(3, "form.add(\"grant_type\", \"urn:ietf:params:oauth:grant-type:uma-ticket\");");
+								tl(3, "form.add(\"audience\", config.getString(ComputateConfigKeys.AUTH_CLIENT));");
+								tl(3, "form.add(\"response_mode\", \"permissions\");");
+								tl(3, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_ADMIN), ")));");
+								tl(3, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), ")));");
+								tl(3, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"GET\"));");
+								tl(3, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"POST\"));");
+								tl(3, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"DELETE\"));");
+								tl(3, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"PATCH\"));");
+								tl(3, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"PUT\"));");
+								tl(3, "if(", classeVarId, " != null)");
+								tl(4, "form.add(\"permission\", String.format(\"%s-%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", ", classeVarId, ", \"", classeApiMethodeMethode, "\"));");
 								tl(3, "webClient.post(");
 								tl(5, "config.getInteger(ComputateConfigKeys.AUTH_PORT)");
 								tl(5, ", config.getString(ComputateConfigKeys.AUTH_HOST_NAME)");
@@ -2152,20 +2167,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(5, ")");
 								tl(5, ".ssl(config.getBoolean(ComputateConfigKeys.AUTH_SSL))");
 								tl(5, ".putHeader(\"Authorization\", String.format(\"Bearer %s\", siteRequest.getUser().principal().getString(\"access_token\")))");
-								tl(5, ".expect(ResponsePredicate.status(200))");
-								tl(5, ".sendForm(MultiMap.caseInsensitiveMultiMap()");
-								tl(7, ".add(\"grant_type\", \"urn:ietf:params:oauth:grant-type:uma-ticket\")");
-								tl(7, ".add(\"audience\", config.getString(ComputateConfigKeys.AUTH_CLIENT))");
-								tl(7, ".add(\"response_mode\", \"permissions\")");
-								tl(7, ".add(\"permission\", String.format(\"%s-%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", ", classeVarId, ", \"", classeApiMethodeMethode, "\"))");
-								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"GET\"))");
-								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_ADMIN), ")))");
-								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), ")))");
-								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"POST\"))");
-								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"DELETE\"))");
-								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"PATCH\"))");
-								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ", \"PUT\"))");
-								tl(3, ").onFailure(ex -> {");
+								tl(5, ".sendForm(form)");
+								tl(5, ".expecting(HttpResponseExpectation.SC_OK)");
+								tl(3, ".onFailure(ex -> {");
 								tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
 								tl(4, "eventHandler.handle(Future.succeededFuture(");
 								tl(5, "new ServiceResponse(403, \"FORBIDDEN\",");
@@ -4652,8 +4656,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(5, ".expecting(HttpResponseExpectation.SC_NO_CONTENT).onSuccess(b -> {");
 				tl(4, "promise.complete();");
 				tl(3, "}).onFailure(ex -> {");
-				tl(4, "LOG.error(String.format(\"cbDeleteEntity failed. \"), ex);");
-				tl(4, "promise.fail(ex);");
+				tl(4, "if(\"Response status code 404 is not equal to 204\".equals(ex.getMessage())) {");
+				tl(5, "promise.complete();");
+				tl(4, "} else {");
+				tl(5, "LOG.error(String.format(\"cbDeleteEntity failed. \"), ex);");
+				tl(5, "promise.fail(ex);");
+				tl(4, "}");
 				tl(3, "});");
 				tl(2, "} catch(Throwable ex) {");
 				tl(3, "LOG.error(String.format(\"cbDeleteEntity failed. \"), ex);");
@@ -4744,7 +4752,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(4, "else if(softCommit == null)");
 				tl(5, "softCommit = false;");
 				tl(3, "String solrRequestUri = String.format(\"/solr/%s/update%s%s%s\", solrCollection, \"?overwrite=true&wt=json\", softCommit ? \"&softCommit=true\" : \"\", commitWithin != null ? (\"&commitWithin=\" + commitWithin) : \"\");");
-				tl(3, i18nGlobale.getString(I18n.var_clientWeb), ".post(solrPort, solrHostName, solrRequestUri).ssl(solrSsl).authentication(new UsernamePasswordCredentials(solrUsername, solrPassword)).putHeader(\"Content-Type\", \"application/json\").expect(ResponsePredicate.SC_OK).sendBuffer(json.toBuffer()).onSuccess(b -> {");
+				tl(3, i18nGlobale.getString(I18n.var_clientWeb), ".post(solrPort, solrHostName, solrRequestUri).ssl(solrSsl).authentication(new UsernamePasswordCredentials(solrUsername, solrPassword)).putHeader(\"Content-Type\", \"application/json\").sendBuffer(json.toBuffer()).expecting(HttpResponseExpectation.SC_OK).onSuccess(b -> {");
 				tl(4, "promise.complete(o);");
 				tl(3, "}).onFailure(ex -> {");
 				tl(4, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_indexer), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), new RuntimeException(ex));");
@@ -4789,7 +4797,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(5, "else if(softCommit == null)");
 				tl(6, "softCommit = false;");
 				tl(4, "String solrRequestUri = String.format(\"/solr/%s/update%s%s%s\", solrCollection, \"?overwrite=true&wt=json\", softCommit ? \"&softCommit=true\" : \"\", commitWithin != null ? (\"&commitWithin=\" + commitWithin) : \"\");");
-				tl(4, i18nGlobale.getString(I18n.var_clientWeb), ".post(solrPort, solrHostName, solrRequestUri).ssl(solrSsl).authentication(new UsernamePasswordCredentials(solrUsername, solrPassword)).putHeader(\"Content-Type\", \"application/json\").expect(ResponsePredicate.SC_OK).sendBuffer(json.toBuffer()).onSuccess(b -> {");
+				tl(4, i18nGlobale.getString(I18n.var_clientWeb), ".post(solrPort, solrHostName, solrRequestUri).ssl(solrSsl).authentication(new UsernamePasswordCredentials(solrUsername, solrPassword)).putHeader(\"Content-Type\", \"application/json\").sendBuffer(json.toBuffer()).expecting(HttpResponseExpectation.SC_OK).onSuccess(b -> {");
 				tl(5, "promise.complete(o);");
 				tl(4, "}).onFailure(ex -> {");
 				tl(5, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_desindexer), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), new RuntimeException(ex));");
