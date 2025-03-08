@@ -259,6 +259,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		classeVarInheritClePrimaire = doc.getString("classeVarInheritClePrimaire_" + langueNom + "_stored_string");
 		classeVarInheritClePrimaireCapitalise = StringUtils.capitalize(classeVarInheritClePrimaire);
 		classeVarSauvegardes = doc.getString("classeVarSauvegardes_" + langueNom + "_stored_string");
+		classeRessourcesAutorisation = Optional.ofNullable(doc.getJsonArray("classeRessourcesAutorisation_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList()).stream().map(v -> (String)v).collect(Collectors.toList());
 		classeVarId = doc.getString("classeVarId_" + langueNom + "_stored_string");
 		classeVarIdSuffixeSolr = doc.getString("classeVarIdSuffixeSolr_stored_string");
 		classeVarCleUnique = doc.getString("classeVarCleUnique_" + langueNom + "_stored_string");

@@ -1952,47 +1952,45 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(5, ".putHeader(\"Authorization\", String.format(\"Bearer %s\", siteRequest.getUser().principal().getString(\"access_token\")))");
 								tl(5, ".sendForm(form)");
 								tl(5, ".expecting(HttpResponseExpectation.SC_OK)");
-								if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
-										|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageAffichage))
-										|| classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageUtilisateur))
-										) {
-									tl(3, ".onComplete(authorizationDecisionResult -> {");
-									tl(4, "HttpResponse<Buffer> authorizationDecision = authorizationDecisionResult.result();");
-									tl(4, "try {");
-									tl(5, "JsonArray scopes = Optional.ofNullable(authorizationDecision).map(decision -> decision.bodyAsJsonArray().stream().findFirst().map(d -> ((JsonObject)d).getJsonArray(\"scopes\")).orElse(new JsonArray())).orElse(new JsonArray());");
-									tl(5, "if(scopes != null) {");
-									tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".setScopes(scopes.stream().map(o -> o.toString()).collect(Collectors.toList()));");
-								} else {
-									tl(3, ".onFailure(ex -> {");
-									tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
-									tl(4, "eventHandler.handle(Future.succeededFuture(");
-									tl(5, "new ServiceResponse(403, \"FORBIDDEN\",");
-									tl(6, "Buffer.buffer().appendString(");
-									tl(7, "new JsonObject()");
-									tl(8, ".put(\"errorCode\", \"403\")");
-									tl(8, ".put(\"errorMessage\", msg)");
-									tl(8, ".encodePrettily()");
-									tl(7, "), MultiMap.caseInsensitiveMultiMap()");
-									tl(5, ")");
-									tl(4, "));");
-									tl(3, "}).onSuccess(authorizationDecision -> {");
-									tl(4, "try {");
-									tl(5, "JsonArray scopes = authorizationDecision.bodyAsJsonArray().stream().findFirst().map(decision -> ((JsonObject)decision).getJsonArray(\"scopes\")).orElse(new JsonArray());");
+								tl(3, ".onComplete(authorizationDecisionResponse -> {");
+								tl(4, "try {");
+								tl(5, "HttpResponse<Buffer> authorizationDecision = authorizationDecisionResponse.result();");
+								tl(5, "JsonArray scopes = authorizationDecisionResponse.failed() ? new JsonArray() : authorizationDecision.bodyAsJsonArray().stream().findFirst().map(decision -> ((JsonObject)decision).getJsonArray(\"scopes\")).orElse(new JsonArray());");
+								if(classeRessourcesAutorisation.size() > 0) {
+									l();
 									tl(5, "if(!scopes.contains(\"", classeApiMethodeMethode, "\")) {");
-									tl(6, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
-									tl(6, "eventHandler.handle(Future.succeededFuture(");
-									tl(7, "new ServiceResponse(403, \"FORBIDDEN\",");
-									tl(8, "Buffer.buffer().appendString(");
-									tl(9, "new JsonObject()");
-									tl(10, ".put(\"errorCode\", \"403\")");
-									tl(10, ".put(\"errorMessage\", msg)");
-									tl(10, ".encodePrettily()");
-									tl(9, "), MultiMap.caseInsensitiveMultiMap()");
-									tl(7, ")");
-									tl(6, "));");
-									tl(5, "} else {");
-									tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".setScopes(scopes.stream().map(o -> o.toString()).collect(Collectors.toList()));");
+									tl(6, "//");
+									tl(6, "List<String> fqs = new ArrayList<>();");
+									tl(6, "List<String> groups = Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getGroups()).orElse(new ArrayList<>());");
+									for(String classeRessourceAutorisation : classeRessourcesAutorisation) {
+
+										tl(6, "groups.stream().map(group -> {");
+										tl(9, "Matcher mPermission = Pattern.compile(\"^/", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-(.*)-", classeApiMethodeMethode, "$\").matcher(group);");
+										tl(9, "return mPermission.find() ? mPermission.group(1) : null;");
+										tl(8, "}).filter(v -> v != null).forEach(", i18nGlobale.getString(I18n.var_valeur), " -> {");
+										tl(9, "fqs.add(String.format(\"%s:%s\", \"", StringUtils.substringAfter(classeRessourceAutorisation, "-"), "\", ", i18nGlobale.getString(I18n.var_valeur), "));");
+										tl(8, "});");
+									}
+									tl(6, "JsonObject params = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams();");
+									tl(6, "JsonObject query = params.getJsonObject(\"query\");");
+									tl(6, "if(query == null) {");
+									tl(7, "query = new JsonObject();");
+									tl(7, "params.put(\"query\", query);");
+									tl(6, "}");
+									tl(6, "JsonArray fq = query.getJsonArray(\"fq\");");
+									tl(6, "if(fq == null) {");
+									tl(7, "fq = new JsonArray();");
+									tl(7, "query.put(\"fq\", fq);");
+									tl(6, "}");
+									tl(6, "if(fqs.size() > 0) {");
+									tl(7, "fq.add(fqs.stream().collect(Collectors.joining(\" OR \")));");
+									tl(7, "scopes.add(\"", classeApiMethodeMethode, "\");");
+									tl(6, "}");
+									tl(5, "}");
+									l();
 								}
+								tl(5, "{");
+								tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".setScopes(scopes.stream().map(o -> o.toString()).collect(Collectors.toList()));");
 							} else {
 								tl(3, "authorizationProvider.getAuthorizations(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_Utilisateur), "()).onFailure(ex -> {");
 								tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
@@ -2169,34 +2167,44 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(5, ".putHeader(\"Authorization\", String.format(\"Bearer %s\", siteRequest.getUser().principal().getString(\"access_token\")))");
 								tl(5, ".sendForm(form)");
 								tl(5, ".expecting(HttpResponseExpectation.SC_OK)");
-								tl(3, ".onFailure(ex -> {");
-								tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
-								tl(4, "eventHandler.handle(Future.succeededFuture(");
-								tl(5, "new ServiceResponse(403, \"FORBIDDEN\",");
-								tl(6, "Buffer.buffer().appendString(");
-								tl(7, "new JsonObject()");
-								tl(8, ".put(\"errorCode\", \"403\")");
-								tl(8, ".put(\"errorMessage\", msg)");
-								tl(8, ".encodePrettily()");
-								tl(7, "), MultiMap.caseInsensitiveMultiMap()");
-								tl(5, ")");
-								tl(4, "));");
-								tl(3, "}).onSuccess(authorizationDecision -> {");
+								tl(3, ".onComplete(authorizationDecisionResponse -> {");
 								tl(4, "try {");
-								tl(5, "JsonArray scopes = authorizationDecision.bodyAsJsonArray().stream().findFirst().map(decision -> ((JsonObject)decision).getJsonArray(\"scopes\")).orElse(new JsonArray());");
-								tl(5, "if(!scopes.contains(\"", classeApiMethodeMethode, "\")) {");
-								tl(6, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
-								tl(6, "eventHandler.handle(Future.succeededFuture(");
-								tl(7, "new ServiceResponse(403, \"FORBIDDEN\",");
-								tl(8, "Buffer.buffer().appendString(");
-								tl(9, "new JsonObject()");
-								tl(10, ".put(\"errorCode\", \"403\")");
-								tl(10, ".put(\"errorMessage\", msg)");
-								tl(10, ".encodePrettily()");
-								tl(9, "), MultiMap.caseInsensitiveMultiMap()");
-								tl(7, ")");
-								tl(6, "));");
-								tl(5, "} else {");
+								tl(5, "HttpResponse<Buffer> authorizationDecision = authorizationDecisionResponse.result();");
+								tl(5, "JsonArray scopes = authorizationDecisionResponse.failed() ? new JsonArray() : authorizationDecision.bodyAsJsonArray().stream().findFirst().map(decision -> ((JsonObject)decision).getJsonArray(\"scopes\")).orElse(new JsonArray());");
+								if(classeRessourcesAutorisation.size() > 0) {
+									l();
+									tl(5, "if(!scopes.contains(\"", classeApiMethodeMethode, "\")) {");
+									tl(6, "//");
+									tl(6, "List<String> fqs = new ArrayList<>();");
+									tl(6, "List<String> groups = Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getGroups()).orElse(new ArrayList<>());");
+									for(String classeRessourceAutorisation : classeRessourcesAutorisation) {
+
+										tl(6, "groups.stream().map(group -> {");
+										tl(9, "Matcher mPermission = Pattern.compile(\"^/", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-(.*)-", classeApiMethodeMethode, "$\").matcher(group);");
+										tl(9, "return mPermission.find() ? mPermission.group(1) : null;");
+										tl(8, "}).filter(v -> v != null).forEach(", i18nGlobale.getString(I18n.var_valeur), " -> {");
+										tl(9, "fqs.add(String.format(\"%s:%s\", \"", StringUtils.substringAfter(classeRessourceAutorisation, "-"), "\", ", i18nGlobale.getString(I18n.var_valeur), "));");
+										tl(8, "});");
+									}
+									tl(6, "JsonObject params = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams();");
+									tl(6, "JsonObject query = params.getJsonObject(\"query\");");
+									tl(6, "if(query == null) {");
+									tl(7, "query = new JsonObject();");
+									tl(7, "params.put(\"query\", query);");
+									tl(6, "}");
+									tl(6, "JsonArray fq = query.getJsonArray(\"fq\");");
+									tl(6, "if(fq == null) {");
+									tl(7, "fq = new JsonArray();");
+									tl(7, "query.put(\"fq\", fq);");
+									tl(6, "}");
+									tl(6, "if(fqs.size() > 0) {");
+									tl(7, "fq.add(fqs.stream().collect(Collectors.joining(\" OR \")));");
+									tl(7, "scopes.add(\"", classeApiMethodeMethode, "\");");
+									tl(6, "}");
+									tl(5, "}");
+									l();
+								}
+								tl(5, "{");
 								tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".setScopes(scopes.stream().map(o -> o.toString()).collect(Collectors.toList()));");
 							} else {
 								tl(3, "authorizationProvider.getAuthorizations(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_Utilisateur), "()).onFailure(ex -> {");

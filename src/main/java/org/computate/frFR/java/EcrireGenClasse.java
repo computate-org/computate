@@ -207,9 +207,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected String classeVarSauvegardes;
 
-	/**
-	 * Var.enUS: classVarId
-	 */
+	protected List<String> classeRessourcesAutorisation;
 	protected String classeVarId;
 	protected String classeVarIdSuffixeSolr;
 

@@ -1281,7 +1281,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	protected String indexerStockerSolrRegex(String langueNom, SolrInputDocument doc, String nomChamp, String nomChampRegex, String commentaire, String valeurDefaut) throws Exception {
 		String valeurChamp = null;
 		if(nomChampRegex != null && commentaire != null) {
-			Matcher m = Pattern.compile("^" + nomChampRegex + "(." + langueNom + ")?:\\s*(.*)", Pattern.MULTILINE).matcher(commentaire);
+			Matcher m = Pattern.compile("^" + nomChampRegex + "(." + langueNom + ")?: (.*)", Pattern.MULTILINE).matcher(commentaire);
 			if(m.find()) {
 				valeurChamp = m.group(2);
 			}
@@ -1338,7 +1338,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	protected String indexerStockerSolrRegex(SolrInputDocument doc, String nomChamp, String nomChampRegex, String commentaire, String valeurDefaut) throws Exception {
 		String valeurChamp = null;
 		if(nomChampRegex != null && commentaire != null) {
-			Matcher m = Pattern.compile("^" + nomChampRegex + ":\\s*(.*)", Pattern.MULTILINE).matcher(commentaire);
+			Matcher m = Pattern.compile("^" + nomChampRegex + ": (.*)", Pattern.MULTILINE).matcher(commentaire);
 			if(m.find()) {
 				valeurChamp = m.group(1);
 			}
@@ -2081,7 +2081,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeCheminRepertoire = StringUtils.substringBeforeLast(classeChemin, "/");
 		String classeCheminGen = concat(cheminSrcGenJava, "/", StringUtils.replace(classeNomCanonique, ".", "/"), "Gen.java");
 
-		Boolean classePromesse = regexTrouve("^(classe)?" + i18nGlobale.getString(I18n.var_Promesse) + ":\\s*(true)$", classeCommentaire);
+		Boolean classePromesse = regexTrouve("^(classe)?" + i18nGlobale.getString(I18n.var_Promesse) + ": (true)$", classeCommentaire);
 		indexerStockerSolr(classeDoc, "classeBaseEtendGen", classeBaseEtendGen);
 		Boolean classeContientRequeteSite = false;
 		try {
@@ -2100,10 +2100,10 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		Boolean classeTraduire = indexerStockerSolr(classeDoc, "classeTraduire", !regexTrouve("^" + i18nGlobale.getString(I18n.var_Traduire) + ": \\s*(false)$", classeCommentaire));
 		Boolean classeEtendGen = StringUtils.endsWith(classeNomSimpleSuper, "Gen");
-		if(classeSuperErreur || !classeEtendGen && regexTrouve("^(classe)?Gen:\\s*(true)$", classeCommentaire)) {
+		if(classeSuperErreur || !classeEtendGen && regexTrouve("^(classe)?Gen: (true)$", classeCommentaire)) {
 			classeEtendGen = true;
 		}
-		if(regexTrouve("^(classe)?Gen:\\s*(false)$", classeCommentaire) || classeQdox.isInterface())
+		if(regexTrouve("^(classe)?Gen: (false)$", classeCommentaire) || classeQdox.isInterface())
 			classeEtendGen = false;
 
 //		if(classeTraduire) {
@@ -2112,7 +2112,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				stockerRegexCommentaires(langueNom, classeDoc, "classeCommentaire", classeCommentaire);
 				String cheminSrcMainJavaLangue = siteCheminLangue + "/src/main/java";
 				String cheminSrcGenJavaLangue = siteCheminLangue + "/src/gen/java";
-				String classeNomCanoniqueLangue = regex("^" + i18nGlobale.getString(I18n.var_NomCanonique) + "\\." + langueNom + ":\\s*(.*)", classeCommentaire);
+				String classeNomCanoniqueLangue = regex("^" + i18nGlobale.getString(I18n.var_NomCanonique) + "\\." + langueNom + ": (.*)", classeCommentaire);
 	
 				if(classeNomCanoniqueLangue == null)
 					classeNomCanoniqueLangue = classeNomCanonique.replace(this.langueNomGlobale, langueNom);
@@ -2192,7 +2192,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsZonedDateTimeDeserializer = classePartsZonedDateTimeDeserializer(nomEnsembleDomaine, classeLangueNom);
 		classePartsZonedDateTimeSerializer = classePartsZonedDateTimeSerializer(nomEnsembleDomaine, classeLangueNom);
 
-		Boolean classeInitLoin = !regexTrouve("^" + i18nGlobale.getString(I18n.var_InitLoin) + ":\\s*(false)$", classeCommentaire);
+		Boolean classeInitLoin = !regexTrouve("^" + i18nGlobale.getString(I18n.var_InitLoin) + ": (false)$", classeCommentaire);
 		if(classeInitLoin)
 			classeInitLoin = classeEtendBase || classeEstBase;
 //			classeInitLoin = classeContientRequeteSite;
@@ -2296,7 +2296,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				;
 		Boolean classePageAvecTemplate = false;
 		Boolean classePageSimple = indexerStockerSolr(classeDoc, "classePageSimple", regexTrouve("^" + i18nGlobale.getString(I18n.var_PageSimple) + ": \\s*(true)$", classeCommentaire));
-		Boolean classeSauvegarde = indexerStockerSolr(classeDoc, "classeSauvegarde", regexTrouve("^" + i18nGlobale.getString(I18n.var_Sauvegarde) + ":\\s*(true)$", classeCommentaire) || classeModele || classeFiware);
+		Boolean classeSauvegarde = indexerStockerSolr(classeDoc, "classeSauvegarde", regexTrouve("^" + i18nGlobale.getString(I18n.var_Sauvegarde) + ": (true)$", classeCommentaire) || classeModele || classeFiware);
 		indexerStockerSolr(langueNomGlobale, classeDoc, "classePageTemplate", regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_PageTemplate), classeCommentaire));
 		String classeApiClasseNomSimple = regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_ApiClasse), classeCommentaire, classeNomSimple);
 
@@ -2321,7 +2321,7 @@ public class IndexerClasse extends RegarderClasseBase {
 					}
 				}
 
-		String classeTypeContenu = regex("^" + i18nGlobale.getString(I18n.var_TypeMedia) + ":\\s*(.*)", classeCommentaire);
+		String classeTypeContenu = regex("^" + i18nGlobale.getString(I18n.var_TypeMedia) + ": (.*)", classeCommentaire);
 		if(StringUtils.isNotBlank(classeTypeContenu))
 			indexerStockerSolr(classeDoc, "classeTypeContenu", classeTypeContenu);
 		else 
@@ -2550,13 +2550,13 @@ public class IndexerClasse extends RegarderClasseBase {
 				classeValsTrouves = classeValsRecherche.find();
 			}
 
-			classePublicLire = indexerStockerSolr(classeDoc, "classePublicLire", regexTrouve("^" + i18nGlobale.getString(I18n.var_PublicLire) + ":\\s*(true)$", classeCommentaire));
-			classePageRecherchePublicLire = indexerStockerSolr(classeDoc, "classePageRecherchePublicLire", regexTrouve("^" + i18nGlobale.getString(I18n.var_PageRecherchePublicLire) + ":\\s*(true)$", classeCommentaire));
-			classeRoleSession = indexerStockerSolr(classeDoc, "classeRoleSession", regexTrouve("^" + i18nGlobale.getString(I18n.var_AuthSession) + ":\\s*(true)$", classeCommentaire));
-			classeRoleUtilisateur = indexerStockerSolr(classeDoc, "classeRoleUtilisateur", regexTrouve("^" + i18nGlobale.getString(I18n.var_AuthUtilisateur) + ":\\s*(true)$", classeCommentaire));
-			classeRoleChacun = indexerStockerSolr(classeDoc, "classeRoleChacun", regexTrouve("^" + i18nGlobale.getString(I18n.var_AuthChacun) + ":\\s*(true)$", classeCommentaire));
+			classePublicLire = indexerStockerSolr(classeDoc, "classePublicLire", regexTrouve("^" + i18nGlobale.getString(I18n.var_PublicLire) + ": (true)$", classeCommentaire));
+			classePageRecherchePublicLire = indexerStockerSolr(classeDoc, "classePageRecherchePublicLire", regexTrouve("^" + i18nGlobale.getString(I18n.var_PageRecherchePublicLire) + ": (true)$", classeCommentaire));
+			classeRoleSession = indexerStockerSolr(classeDoc, "classeRoleSession", regexTrouve("^" + i18nGlobale.getString(I18n.var_AuthSession) + ": (true)$", classeCommentaire));
+			classeRoleUtilisateur = indexerStockerSolr(classeDoc, "classeRoleUtilisateur", regexTrouve("^" + i18nGlobale.getString(I18n.var_AuthUtilisateur) + ": (true)$", classeCommentaire));
+			classeRoleChacun = indexerStockerSolr(classeDoc, "classeRoleChacun", regexTrouve("^" + i18nGlobale.getString(I18n.var_AuthChacun) + ": (true)$", classeCommentaire));
 
-			Matcher classeRolesRecherche = Pattern.compile("^" + i18nGlobale.getString(I18n.var_Role) + "(\\.([^:\n]+))?:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
+			Matcher classeRolesRecherche = Pattern.compile("^" + i18nGlobale.getString(I18n.var_Role) + "(\\.([^:\n]+))?: (.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
 			classeRolesTrouves = classeRolesRecherche.find();
 			boolean classeRolesTrouvesActuel = classeRolesTrouves;
 			while(classeRolesTrouvesActuel) {
@@ -2570,7 +2570,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 			indexerStockerSolr(classeDoc, "classeRolesTrouves", classeRolesTrouves); 
 
-			Matcher classeRoleLiresRecherche = Pattern.compile("^" + i18nGlobale.getString(I18n.var_AuthLire) + "\\.([^:\n]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
+			Matcher classeRoleLiresRecherche = Pattern.compile("^" + i18nGlobale.getString(I18n.var_AuthLire) + "\\.([^:\n]+): (.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
 			boolean classeRoleLiresTrouves = classeRoleLiresRecherche.find();
 			boolean classeRoleLiresTrouvesActuel = classeRoleLiresTrouves;
 			while(classeRoleLiresTrouvesActuel) {
@@ -2589,7 +2589,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			indexerStockerSolr(classeDoc, "classeSessionLire", !classeRolesTrouves || BooleanUtils.isTrue(classeRoleSession));
 			indexerStockerSolr(classeDoc, "classeUtilisateurLire", !classeRolesTrouves || BooleanUtils.isTrue(classeRoleUtilisateur) || BooleanUtils.isTrue(classePublicLire));
 
-			Matcher classeFiltresRecherche = Pattern.compile("^" + i18nGlobale.getString(I18n.var_Filtre) + "\\.([^:\n]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
+			Matcher classeFiltresRecherche = Pattern.compile("^" + i18nGlobale.getString(I18n.var_Filtre) + "\\.([^:\n]+): (.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
 			boolean classeFiltresTrouves = classeFiltresRecherche.find();
 			boolean classeFiltresTrouvesActuel = classeFiltresTrouves;
 			while(classeFiltresTrouvesActuel) {
@@ -2602,7 +2602,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 			indexerStockerSolr(classeDoc, "classeFiltresTrouves", classeFiltresTrouves); 
 
-			Matcher classeMotsClesRecherche = Pattern.compile("^" + i18nGlobale.getString(I18n.var_MotCle) + ":\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
+			Matcher classeMotsClesRecherche = Pattern.compile("^" + i18nGlobale.getString(I18n.var_MotCle) + ": (.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
 			boolean classeMotsClesTrouvesActuel = classeMotsClesRecherche.find();
 			while(classeMotsClesTrouvesActuel) {
 				String classeMotCleValeur = classeMotsClesRecherche.group(1);
@@ -2612,7 +2612,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classeMotsClesTrouves = true;
 			}
 
-			Matcher classeTrisRecherche = Pattern.compile("^" + i18nGlobale.getString(I18n.var_Tri) + "\\.([^:]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
+			Matcher classeTrisRecherche = Pattern.compile("^" + i18nGlobale.getString(I18n.var_Tri) + "\\.([^:]+): (.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
 			boolean classeTrisTrouvesActuel = classeTrisRecherche.find();
 			while(classeTrisTrouvesActuel) {
 				String classeTriOrdre = classeTrisRecherche.group(1);
@@ -2623,7 +2623,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classeTrisTrouves = true;
 			}
 
-			String sqlString = regex("^Sql:\\s*(.*)$", classeCommentaire, 1);
+			String sqlString = regex("^Sql: (.*)$", classeCommentaire, 1);
 			if(NumberUtils.isCreatable(sqlString)) {
 				Integer sqlInteger = Integer.parseInt(sqlString);
 				Integer sqlMigration = Math.abs(sqlInteger);
@@ -2636,7 +2636,7 @@ public class IndexerClasse extends RegarderClasseBase {
 					indexerStockerSolr(classeDoc, "sqlDrop", sqlDrop);
 			}
 
-			Matcher classeMapRecherche = Pattern.compile("^Map\\.([^:]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
+			Matcher classeMapRecherche = Pattern.compile("^Map\\.([^:]+): (.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
 			boolean classeMapTrouveActuel = classeMapRecherche.find();
 			while(classeMapTrouveActuel) {
 				String classeMapCle = classeMapRecherche.group(1);
@@ -3060,7 +3060,7 @@ public class IndexerClasse extends RegarderClasseBase {
 
 						indexerStockerSolr(entiteDoc, "entitePromesse", entitePromesse);
 						indexerStockerSolr(entiteDoc, "entiteCouverture", entiteCouverture);
-						Boolean entiteInitialise = indexerStockerSolr(entiteDoc, "entiteInitialise", !regexTrouve("^" + i18nGlobale.getString(I18n.var_Initialise) + ":\\s*(false)$", methodeCommentaire) && !entiteVar.endsWith("_") && BooleanUtils.isTrue(entiteClasseParts.getEtendGen()));
+						Boolean entiteInitialise = indexerStockerSolr(entiteDoc, "entiteInitialise", !regexTrouve("^" + i18nGlobale.getString(I18n.var_Initialise) + ": (false)$", methodeCommentaire) && !entiteVar.endsWith("_") && BooleanUtils.isTrue(entiteClasseParts.getEtendGen()));
 
 						String entiteNomCanonique = indexerStockerSolr(classeLangueNom, entiteDoc, "entiteNomCanonique", entiteClasseParts.nomCanonique(classeLangueNom));
 						String entiteNomSimple = indexerStockerSolr(classeLangueNom, entiteDoc, "entiteNomSimple", entiteClasseParts.nomSimple(classeLangueNom));
@@ -3309,7 +3309,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							if(entiteOptionsTrouves)
 								stockerSolr(entiteDoc, "entiteOptions", true);
 
-							Matcher entiteMotsClesRecherche = Pattern.compile("^" + i18nGlobale.getString(I18n.var_MotCle) + ":\\s*(.*)\\s*", Pattern.MULTILINE).matcher(methodeCommentaire);
+							Matcher entiteMotsClesRecherche = Pattern.compile("^" + i18nGlobale.getString(I18n.var_MotCle) + ": (.*)\\s*", Pattern.MULTILINE).matcher(methodeCommentaire);
 							boolean entiteMotsClesTrouves = entiteMotsClesRecherche.find();
 							boolean entiteMotsClesTrouvesActuel = entiteMotsClesTrouves;
 							while(entiteMotsClesTrouvesActuel) {
@@ -3323,7 +3323,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							}
 							indexerStockerSolr(entiteDoc, "entiteMotsClesTrouves", entiteMotsClesTrouves); 
 
-							Matcher entiteFacetsRecherche = Pattern.compile("^Facet:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(methodeCommentaire);
+							Matcher entiteFacetsRecherche = Pattern.compile("^Facet: (.*)\\s*", Pattern.MULTILINE).matcher(methodeCommentaire);
 							boolean entiteFacetsTrouves = entiteFacetsRecherche.find();
 							boolean entiteFacetsTrouvesActuel = entiteFacetsTrouves;
 							while(entiteFacetsTrouvesActuel) {
@@ -3334,7 +3334,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							}
 							indexerStockerSolr(entiteDoc, "entiteFacetsTrouves", entiteFacetsTrouves); 
 
-							String sqlString = regex("^Sql:\\s*(.*)$", methodeCommentaire, 1);
+							String sqlString = regex("^Sql: (.*)$", methodeCommentaire, 1);
 							if(NumberUtils.isCreatable(sqlString)) {
 								Integer sqlInteger = Integer.parseInt(sqlString);
 								Integer sqlMigration = Math.abs(sqlInteger);
@@ -3347,7 +3347,7 @@ public class IndexerClasse extends RegarderClasseBase {
 									indexerStockerSolr(entiteDoc, "sqlDrop", sqlDrop);
 							}
 
-							Matcher entiteMapRecherche = Pattern.compile("^Map.([^:]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(methodeCommentaire);
+							Matcher entiteMapRecherche = Pattern.compile("^Map.([^:]+): (.*)\\s*", Pattern.MULTILINE).matcher(methodeCommentaire);
 							boolean entiteMapTrouve = entiteMapRecherche.find();
 							boolean entiteMapTrouveActuel = entiteMapTrouve;
 							while(entiteMapTrouveActuel) {
@@ -3424,64 +3424,64 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 
 						indexerStockerSolr(entiteDoc, "entiteContientRequeteSite", entiteClasseParts != null && entiteClasseParts.getDocumentSolr() != null && (Boolean)entiteClasseParts.getDocumentSolr().get("classeContientRequeteSite_stored_boolean"));
-						indexerStockerSolr(entiteDoc, "entiteExact", regexTrouve("^" + i18nGlobale.getString(I18n.var_Exact) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteClePrimaire = indexerStockerSolr(entiteDoc, "entiteClePrimaire", regexTrouve("^" + i18nGlobale.getString(I18n.var_ClePrimaire) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteInheritClePrimaire = indexerStockerSolr(entiteDoc, "entiteInheritClePrimaire", regexTrouve("^" + i18nGlobale.getString(I18n.var_InheritClePrimaire) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteSauvegardes = indexerStockerSolr(entiteDoc, "entiteSauvegardes", regexTrouve("^" + i18nGlobale.getString(I18n.var_Sauvegardes) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteCleUnique = indexerStockerSolr(entiteDoc, "entiteCleUnique", regexTrouve("^" + i18nGlobale.getString(I18n.var_CleUnique) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteEmplacement = indexerStockerSolr(entiteDoc, "entiteEmplacement", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteEmplacementCouleur = indexerStockerSolr(entiteDoc, "entiteEmplacementCouler", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Couleur) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteEmplacementTitre = indexerStockerSolr(entiteDoc, "entiteEmplacementTitre", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Titre) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteEmplacementUrl = indexerStockerSolr(entiteDoc, "entiteEmplacementUrl", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Url) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteAire = indexerStockerSolr(entiteDoc, "entiteAire", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteAireCouleur = indexerStockerSolr(entiteDoc, "entiteAireCouler", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + i18nGlobale.getString(I18n.var_Couleur) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteAireTitre = indexerStockerSolr(entiteDoc, "entiteAireTitre", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + i18nGlobale.getString(I18n.var_Titre) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteAireUrl = indexerStockerSolr(entiteDoc, "entiteAireUrl", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + i18nGlobale.getString(I18n.var_Url) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteCrypte = indexerStockerSolr(entiteDoc, "entiteCrypte", regexTrouve("^" + i18nGlobale.getString(I18n.var_Crypte) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteSuggere = indexerStockerSolr(entiteDoc, "entiteSuggere", regexTrouve("^" + i18nGlobale.getString(I18n.var_Suggere) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteVarUrlPageAffichage = indexerStockerSolr(entiteDoc, "entiteVarUrlPageAffichage", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageAffichage) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteVarUrlPageEdition = indexerStockerSolr(entiteDoc, "entiteVarUrlPageEdition", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageEdition) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteVarUrlPageUtilisateur = indexerStockerSolr(entiteDoc, "entiteVarUrlPageUtilisateur", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageUtilisateur) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteVarUrlTelechargement = indexerStockerSolr(entiteDoc, "entiteVarUrlTelechargement", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_Telechargement) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteVarUrlApi = indexerStockerSolr(entiteDoc, "entiteVarUrlApi", regexTrouve("^VarUrlApi:\\s*(true)$", methodeCommentaire));
-						String entiteVarUrl = regex("^" + i18nGlobale.getString(I18n.var_VarUrl) + ":\\s*(.*)$", methodeCommentaire);
+						indexerStockerSolr(entiteDoc, "entiteExact", regexTrouve("^" + i18nGlobale.getString(I18n.var_Exact) + ": (true)$", methodeCommentaire));
+						Boolean entiteClePrimaire = indexerStockerSolr(entiteDoc, "entiteClePrimaire", regexTrouve("^" + i18nGlobale.getString(I18n.var_ClePrimaire) + ": (true)$", methodeCommentaire));
+						Boolean entiteInheritClePrimaire = indexerStockerSolr(entiteDoc, "entiteInheritClePrimaire", regexTrouve("^" + i18nGlobale.getString(I18n.var_InheritClePrimaire) + ": (true)$", methodeCommentaire));
+						Boolean entiteSauvegardes = indexerStockerSolr(entiteDoc, "entiteSauvegardes", regexTrouve("^" + i18nGlobale.getString(I18n.var_Sauvegardes) + ": (true)$", methodeCommentaire));
+						Boolean entiteCleUnique = indexerStockerSolr(entiteDoc, "entiteCleUnique", regexTrouve("^" + i18nGlobale.getString(I18n.var_CleUnique) + ": (true)$", methodeCommentaire));
+						Boolean entiteEmplacement = indexerStockerSolr(entiteDoc, "entiteEmplacement", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + ": (true)$", methodeCommentaire));
+						Boolean entiteEmplacementCouleur = indexerStockerSolr(entiteDoc, "entiteEmplacementCouler", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Couleur) + ": (true)$", methodeCommentaire));
+						Boolean entiteEmplacementTitre = indexerStockerSolr(entiteDoc, "entiteEmplacementTitre", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Titre) + ": (true)$", methodeCommentaire));
+						Boolean entiteEmplacementUrl = indexerStockerSolr(entiteDoc, "entiteEmplacementUrl", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Url) + ": (true)$", methodeCommentaire));
+						Boolean entiteAire = indexerStockerSolr(entiteDoc, "entiteAire", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + ": (true)$", methodeCommentaire));
+						Boolean entiteAireCouleur = indexerStockerSolr(entiteDoc, "entiteAireCouler", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + i18nGlobale.getString(I18n.var_Couleur) + ": (true)$", methodeCommentaire));
+						Boolean entiteAireTitre = indexerStockerSolr(entiteDoc, "entiteAireTitre", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + i18nGlobale.getString(I18n.var_Titre) + ": (true)$", methodeCommentaire));
+						Boolean entiteAireUrl = indexerStockerSolr(entiteDoc, "entiteAireUrl", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + i18nGlobale.getString(I18n.var_Url) + ": (true)$", methodeCommentaire));
+						Boolean entiteCrypte = indexerStockerSolr(entiteDoc, "entiteCrypte", regexTrouve("^" + i18nGlobale.getString(I18n.var_Crypte) + ": (true)$", methodeCommentaire));
+						Boolean entiteSuggere = indexerStockerSolr(entiteDoc, "entiteSuggere", regexTrouve("^" + i18nGlobale.getString(I18n.var_Suggere) + ": (true)$", methodeCommentaire));
+						Boolean entiteVarUrlPageAffichage = indexerStockerSolr(entiteDoc, "entiteVarUrlPageAffichage", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageAffichage) + ": (true)$", methodeCommentaire));
+						Boolean entiteVarUrlPageEdition = indexerStockerSolr(entiteDoc, "entiteVarUrlPageEdition", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageEdition) + ": (true)$", methodeCommentaire));
+						Boolean entiteVarUrlPageUtilisateur = indexerStockerSolr(entiteDoc, "entiteVarUrlPageUtilisateur", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageUtilisateur) + ": (true)$", methodeCommentaire));
+						Boolean entiteVarUrlTelechargement = indexerStockerSolr(entiteDoc, "entiteVarUrlTelechargement", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_Telechargement) + ": (true)$", methodeCommentaire));
+						Boolean entiteVarUrlApi = indexerStockerSolr(entiteDoc, "entiteVarUrlApi", regexTrouve("^VarUrlApi: (true)$", methodeCommentaire));
+						String entiteVarUrl = regex("^" + i18nGlobale.getString(I18n.var_VarUrl) + ": (.*)$", methodeCommentaire);
 						if(entiteVarUrl != null)
 							indexerStockerSolr(classeLangueNom, entiteDoc, "entiteVarUrl", entiteVarUrl);
-						Boolean entiteVarId = indexerStockerSolr(entiteDoc, "entiteVarId", regexTrouve("^VarId:\\s*(true)$", methodeCommentaire));
-						Boolean entiteUnique = indexerStockerSolr(entiteDoc, "entiteUnique", regexTrouve("^" + i18nGlobale.getString(I18n.var_Unique) + ":\\s*(true)$", methodeCommentaire) || entiteVarId);
-						Boolean entiteVarNom = indexerStockerSolr(entiteDoc, "entiteVarNom", regexTrouve("^" + i18nGlobale.getString(I18n.var_VarNom) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteVarTitre = indexerStockerSolr(entiteDoc, "entiteVarTitre", regexTrouve("^" + i18nGlobale.getString(I18n.var_VarTitre) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteVarH1 = indexerStockerSolr(entiteDoc, "entiteVarH1", regexTrouve("^VarH1:\\s*(true)$", methodeCommentaire));
-						Boolean entiteVarH2 = indexerStockerSolr(entiteDoc, "entiteVarH2", regexTrouve("^VarH2:\\s*(true)$", methodeCommentaire));
-						Boolean entiteVarH3 = indexerStockerSolr(entiteDoc, "entiteVarH3", regexTrouve("^VarH3:\\s*(true)$", methodeCommentaire));
-						Boolean entiteVarDescription = indexerStockerSolr(entiteDoc, "entiteVarDescription", regexTrouve("^" + i18nGlobale.getString(I18n.var_VarDescription) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteVarImageUrl = indexerStockerSolr(entiteDoc, "entiteVarImageUrl", regexTrouve("^VarImageUrl:\\s*(true)$", methodeCommentaire));
-						Boolean entiteVarModifie = indexerStockerSolr(entiteDoc, "entiteVarModifie", regexTrouve("^" + i18nGlobale.getString(I18n.var_VarModifie) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteVarCree = indexerStockerSolr(entiteDoc, "entiteVarCree", regexTrouve("^" + i18nGlobale.getString(I18n.var_VarCree) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteSauvegarde = indexerStockerSolr(entiteDoc, "entiteSauvegarde", regexTrouve("^" + i18nGlobale.getString(I18n.var_Sauvegarde) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteIncremente = indexerStockerSolr(entiteDoc, "entiteIncremente", regexTrouve("^" + i18nGlobale.getString(I18n.var_Incremente) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteTexte = indexerStockerSolr(entiteDoc, "entiteTexte", regexTrouve("^" + i18nGlobale.getString(I18n.var_Texte) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteDocValues = indexerStockerSolr(entiteDoc, "entiteDocValues", regexTrouve("^" + i18nGlobale.getString(I18n.var_DocValues) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteIndexe = indexerStockerSolr(entiteDoc, "entiteIndexe", regexTrouve("^" + i18nGlobale.getString(I18n.var_Indexe) + ":\\s*(true)$", methodeCommentaire) || entiteCleUnique || entiteCrypte || entiteSuggere || entiteTexte || entiteClePrimaire || entiteIncremente || entiteDocValues);
-						Boolean entiteStocke = indexerStockerSolr(entiteDoc, "entiteStocke", regexTrouve("^" + i18nGlobale.getString(I18n.var_Stocke) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteRequis = indexerStockerSolr(entiteDoc, "entiteRequis", regexTrouve("^" + i18nGlobale.getString(I18n.var_Requis) + ":\\s*(true)$", methodeCommentaire));
+						Boolean entiteVarId = indexerStockerSolr(entiteDoc, "entiteVarId", regexTrouve("^VarId: (true)$", methodeCommentaire));
+						Boolean entiteUnique = indexerStockerSolr(entiteDoc, "entiteUnique", regexTrouve("^" + i18nGlobale.getString(I18n.var_Unique) + ": (true)$", methodeCommentaire) || entiteVarId);
+						Boolean entiteVarNom = indexerStockerSolr(entiteDoc, "entiteVarNom", regexTrouve("^" + i18nGlobale.getString(I18n.var_VarNom) + ": (true)$", methodeCommentaire));
+						Boolean entiteVarTitre = indexerStockerSolr(entiteDoc, "entiteVarTitre", regexTrouve("^" + i18nGlobale.getString(I18n.var_VarTitre) + ": (true)$", methodeCommentaire));
+						Boolean entiteVarH1 = indexerStockerSolr(entiteDoc, "entiteVarH1", regexTrouve("^VarH1: (true)$", methodeCommentaire));
+						Boolean entiteVarH2 = indexerStockerSolr(entiteDoc, "entiteVarH2", regexTrouve("^VarH2: (true)$", methodeCommentaire));
+						Boolean entiteVarH3 = indexerStockerSolr(entiteDoc, "entiteVarH3", regexTrouve("^VarH3: (true)$", methodeCommentaire));
+						Boolean entiteVarDescription = indexerStockerSolr(entiteDoc, "entiteVarDescription", regexTrouve("^" + i18nGlobale.getString(I18n.var_VarDescription) + ": (true)$", methodeCommentaire));
+						Boolean entiteVarImageUrl = indexerStockerSolr(entiteDoc, "entiteVarImageUrl", regexTrouve("^VarImageUrl: (true)$", methodeCommentaire));
+						Boolean entiteVarModifie = indexerStockerSolr(entiteDoc, "entiteVarModifie", regexTrouve("^" + i18nGlobale.getString(I18n.var_VarModifie) + ": (true)$", methodeCommentaire));
+						Boolean entiteVarCree = indexerStockerSolr(entiteDoc, "entiteVarCree", regexTrouve("^" + i18nGlobale.getString(I18n.var_VarCree) + ": (true)$", methodeCommentaire));
+						Boolean entiteSauvegarde = indexerStockerSolr(entiteDoc, "entiteSauvegarde", regexTrouve("^" + i18nGlobale.getString(I18n.var_Sauvegarde) + ": (true)$", methodeCommentaire));
+						Boolean entiteIncremente = indexerStockerSolr(entiteDoc, "entiteIncremente", regexTrouve("^" + i18nGlobale.getString(I18n.var_Incremente) + ": (true)$", methodeCommentaire));
+						Boolean entiteTexte = indexerStockerSolr(entiteDoc, "entiteTexte", regexTrouve("^" + i18nGlobale.getString(I18n.var_Texte) + ": (true)$", methodeCommentaire));
+						Boolean entiteDocValues = indexerStockerSolr(entiteDoc, "entiteDocValues", regexTrouve("^" + i18nGlobale.getString(I18n.var_DocValues) + ": (true)$", methodeCommentaire));
+						Boolean entiteIndexe = indexerStockerSolr(entiteDoc, "entiteIndexe", regexTrouve("^" + i18nGlobale.getString(I18n.var_Indexe) + ": (true)$", methodeCommentaire) || entiteCleUnique || entiteCrypte || entiteSuggere || entiteTexte || entiteClePrimaire || entiteIncremente || entiteDocValues);
+						Boolean entiteStocke = indexerStockerSolr(entiteDoc, "entiteStocke", regexTrouve("^" + i18nGlobale.getString(I18n.var_Stocke) + ": (true)$", methodeCommentaire));
+						Boolean entiteRequis = indexerStockerSolr(entiteDoc, "entiteRequis", regexTrouve("^" + i18nGlobale.getString(I18n.var_Requis) + ": (true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteIndexeOuStocke", entiteCleUnique || entiteCrypte || entiteSuggere || entiteTexte || entiteIndexe || entiteStocke || entiteDocValues || entiteIncremente || entiteTexte);
-						indexerStockerSolr(entiteDoc, "entiteIgnorer", regexTrouve("^" + i18nGlobale.getString(I18n.var_Ignorer) + ":\\s*(true)$", methodeCommentaire));
-						indexerStockerSolr(entiteDoc, "entiteDeclarer", regexTrouve("^" + i18nGlobale.getString(I18n.var_Declarer) + ":\\s*(true)$", methodeCommentaire));
-						indexerStockerSolr(entiteDoc, "entiteRechercher", regexTrouve("^" + i18nGlobale.getString(I18n.var_Rechercher) + ":\\s*(true)$", methodeCommentaire));
-						indexerStockerSolr(entiteDoc, "entiteAjouter", regexTrouve("^" + i18nGlobale.getString(I18n.var_Ajouter) + ":\\s*(true)$", methodeCommentaire));
-						indexerStockerSolr(entiteDoc, "entiteSupprimer", regexTrouve("^" + i18nGlobale.getString(I18n.var_Supprimer) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteDefinir = indexerStockerSolr(entiteDoc, "entiteDefinir", regexTrouve("^" + i18nGlobale.getString(I18n.var_Definir) + ":\\s*(true)$", methodeCommentaire));
-						indexerStockerSolr(entiteDoc, "entiteModifier", !regexTrouve("^" + i18nGlobale.getString(I18n.var_Modifier) + ":\\s*(false)$", methodeCommentaire));
-						indexerStockerSolr(entiteDoc, "entiteRecharger", regexTrouve("^" + i18nGlobale.getString(I18n.var_Recharger) + ":\\s*(true)$", methodeCommentaire));
-						indexerStockerSolr(entiteDoc, "entiteMultiligne", regexTrouve("^" + i18nGlobale.getString(I18n.var_Multiligne) + ":\\s*(true)$", methodeCommentaire));
-						indexerStockerSolr(entiteDoc, "entiteSignature", regexTrouve("^" + i18nGlobale.getString(I18n.var_Signature) + ":\\s*(true)$", methodeCommentaire));
-						indexerStockerSolr(entiteDoc, "entiteCles", regexTrouve("^" + i18nGlobale.getString(I18n.var_Cles) + ":\\s*(true)$", methodeCommentaire));
-						indexerStockerSolr(entiteDoc, "entiteSetTrim", regexTrouve("^SetTrim:\\s*(true)$", methodeCommentaire));
-						indexerStockerSolr(entiteDoc, "entiteSetLower", regexTrouve("^SetLower:\\s*(true)$", methodeCommentaire));
-						indexerStockerSolr(entiteDoc, "entiteSetUpper", regexTrouve("^SetUpper:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteIgnorer", regexTrouve("^" + i18nGlobale.getString(I18n.var_Ignorer) + ": (true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteDeclarer", regexTrouve("^" + i18nGlobale.getString(I18n.var_Declarer) + ": (true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteRechercher", regexTrouve("^" + i18nGlobale.getString(I18n.var_Rechercher) + ": (true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteAjouter", regexTrouve("^" + i18nGlobale.getString(I18n.var_Ajouter) + ": (true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteSupprimer", regexTrouve("^" + i18nGlobale.getString(I18n.var_Supprimer) + ": (true)$", methodeCommentaire));
+						Boolean entiteDefinir = indexerStockerSolr(entiteDoc, "entiteDefinir", regexTrouve("^" + i18nGlobale.getString(I18n.var_Definir) + ": (true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteModifier", !regexTrouve("^" + i18nGlobale.getString(I18n.var_Modifier) + ": (false)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteRecharger", regexTrouve("^" + i18nGlobale.getString(I18n.var_Recharger) + ": (true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteMultiligne", regexTrouve("^" + i18nGlobale.getString(I18n.var_Multiligne) + ": (true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteSignature", regexTrouve("^" + i18nGlobale.getString(I18n.var_Signature) + ": (true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteCles", regexTrouve("^" + i18nGlobale.getString(I18n.var_Cles) + ": (true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteSetTrim", regexTrouve("^SetTrim: (true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteSetLower", regexTrouve("^SetLower: (true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteSetUpper", regexTrouve("^SetUpper: (true)$", methodeCommentaire));
 
-						String entiteLangue = regex("^" + i18nGlobale.getString(I18n.var_Langue) + ":\\s*(.*)$", methodeCommentaire);
+						String entiteLangue = regex("^" + i18nGlobale.getString(I18n.var_Langue) + ": (.*)$", methodeCommentaire);
 						if(entiteLangue != null)
 							indexerStockerSolr(entiteDoc, "entiteLangue", entiteLangue);
 
@@ -3502,7 +3502,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							}
 						}
 						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteUniteLabel", regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_UniteLabel), methodeCommentaire));
-						indexerStockerSolr(entiteDoc, "entiteOptionnel", regexTrouve("^" + i18nGlobale.getString(I18n.var_Optionnel) + ":\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteOptionnel", regexTrouve("^" + i18nGlobale.getString(I18n.var_Optionnel) + ": (true)$", methodeCommentaire));
 						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteHtmInfobulle", regex("^" + i18nGlobale.getString(I18n.var_HtmInfobulle) + ": (.*[>|-]{0,2}[\\s\\S]*)(^\\w|\\Z)", methodeCommentaire, 1));
 						indexerStockerSolrRegex(classeLangueNom, entiteDoc, "entiteVarApi", "VarApi", methodeCommentaire);
 						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteEnumNomSimple", regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_EnumNomSimple), methodeCommentaire));
@@ -3510,44 +3510,44 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteEnumVarDescription", regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_EnumVarDescription), methodeCommentaire));
 						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteImageBase64Url", regexLangue(classeLangueNom, "^ImageBase64Url", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteIcone", regex("^" + i18nGlobale.getString(I18n.var_Icone) + ": (.*)", methodeCommentaire, 1));
-						indexerStockerSolr(entiteDoc, "entiteLien", regexTrouve("^" + i18nGlobale.getString(I18n.var_Lien) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteCouleur = indexerStockerSolr(entiteDoc, "entiteCouleur", regexTrouve("^" + i18nGlobale.getString(I18n.var_Couleur) + ":\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteLien", regexTrouve("^" + i18nGlobale.getString(I18n.var_Lien) + ": (true)$", methodeCommentaire));
+						Boolean entiteCouleur = indexerStockerSolr(entiteDoc, "entiteCouleur", regexTrouve("^" + i18nGlobale.getString(I18n.var_Couleur) + ": (true)$", methodeCommentaire));
 						if(entiteCouleur)
 							indexerStockerSolr(classeDoc, "classeEntiteCouleur", entiteVar);
 
-						Boolean entiteHighlighting = indexerStockerSolr(entiteDoc, "entiteHighlighting", regexTrouve("^Highlighting:\\s*(true)$", methodeCommentaire));
-						Boolean entiteHtml = entiteDefinir || regexTrouve("^Html:\\s*(true)$", methodeCommentaire);
+						Boolean entiteHighlighting = indexerStockerSolr(entiteDoc, "entiteHighlighting", regexTrouve("^Highlighting: (true)$", methodeCommentaire));
+						Boolean entiteHtml = entiteDefinir || regexTrouve("^Html: (true)$", methodeCommentaire);
 
 						{ 
-							String str = regex("^" + i18nGlobale.getString(I18n.var_HtmColonne) + ":\\s*(.*)$", methodeCommentaire);
+							String str = regex("^" + i18nGlobale.getString(I18n.var_HtmColonne) + ": (.*)$", methodeCommentaire);
 							if(str == null && methodeCommentaireActuelle != null)
-								str = regex("^" + i18nGlobale.getString(I18n.var_HtmColonne) + ":\\s*(.*)$", methodeCommentaireActuelle);
+								str = regex("^" + i18nGlobale.getString(I18n.var_HtmColonne) + ": (.*)$", methodeCommentaireActuelle);
 							if(NumberUtils.isCreatable(str)) {
 								indexerStockerSolr(entiteDoc, "entiteHtmColonne", Integer.parseInt(str));
 								entiteHtml = true;
 							}
 						}
 						{ 
-							String str = regex("^" + i18nGlobale.getString(I18n.var_HtmLigne) + ":\\s*(.*)$", methodeCommentaire);
+							String str = regex("^" + i18nGlobale.getString(I18n.var_HtmLigne) + ": (.*)$", methodeCommentaire);
 							if(str == null && methodeCommentaireActuelle != null)
-								str = regex("^" + i18nGlobale.getString(I18n.var_HtmLigne) + ":\\s*(.*)$", methodeCommentaireActuelle);
+								str = regex("^" + i18nGlobale.getString(I18n.var_HtmLigne) + ": (.*)$", methodeCommentaireActuelle);
 							if(NumberUtils.isCreatable(str)) {
 								Integer i = Integer.parseInt(str);
 								indexerStockerSolr(entiteDoc, "entiteHtmLigne", i);
 								entiteHtml = true;
-								String entiteHtmLigneTitreOuvert = indexerStockerSolr(entiteDoc, "entiteHtmLigneTitreOuvert", regex("^" + i18nGlobale.getString(I18n.var_HtmLigneTitreOuvert) + ":\\s*(.*)$", methodeCommentaire));
-								indexerStockerSolr(entiteDoc, "entiteHtmLigneTitre", regex("^" + i18nGlobale.getString(I18n.var_HtmLigneTitre) + ":\\s*(.*)$", methodeCommentaire, entiteHtmLigneTitreOuvert));
-								indexerStockerSolr(entiteDoc, "entiteHtmLigneEnTeteExpression", regex("^" + i18nGlobale.getString(I18n.var_HtmLigne) + i18nGlobale.getString(I18n.var_EnTeteExpression) + ":\\s*(.*)$", methodeCommentaire));
-								if(regexTrouve("^" + i18nGlobale.getString(I18n.var_HtmLigne) + i18nGlobale.getString(I18n.var_Verticale) + ":\\s*(true)$", methodeCommentaire))
+								String entiteHtmLigneTitreOuvert = indexerStockerSolr(entiteDoc, "entiteHtmLigneTitreOuvert", regex("^" + i18nGlobale.getString(I18n.var_HtmLigneTitreOuvert) + ": (.*)$", methodeCommentaire));
+								indexerStockerSolr(entiteDoc, "entiteHtmLigneTitre", regex("^" + i18nGlobale.getString(I18n.var_HtmLigneTitre) + ": (.*)$", methodeCommentaire, entiteHtmLigneTitreOuvert));
+								indexerStockerSolr(entiteDoc, "entiteHtmLigneEnTeteExpression", regex("^" + i18nGlobale.getString(I18n.var_HtmLigne) + i18nGlobale.getString(I18n.var_EnTeteExpression) + ": (.*)$", methodeCommentaire));
+								if(regexTrouve("^" + i18nGlobale.getString(I18n.var_HtmLigne) + i18nGlobale.getString(I18n.var_Verticale) + ": (true)$", methodeCommentaire))
 									indexerStockerSolr(entiteDoc, "entiteHtmLigneVerticale", true);
-								else if(regexTrouve("^" + i18nGlobale.getString(I18n.var_HtmLigne) + i18nGlobale.getString(I18n.var_Verticale) + ":\\s*(false)$", methodeCommentaire))
+								else if(regexTrouve("^" + i18nGlobale.getString(I18n.var_HtmLigne) + i18nGlobale.getString(I18n.var_Verticale) + ": (false)$", methodeCommentaire))
 									indexerStockerSolr(entiteDoc, "entiteHtmLigneVerticale", false);
 							}
 						}
 						{ 
-							String str = regex("^" + i18nGlobale.getString(I18n.var_HtmCellule) + ":\\s*(.*)$", methodeCommentaire);
+							String str = regex("^" + i18nGlobale.getString(I18n.var_HtmCellule) + ": (.*)$", methodeCommentaire);
 							if(str == null && methodeCommentaireActuelle != null)
-								str = regex("^" + i18nGlobale.getString(I18n.var_HtmCellule) + ":\\s*(.*)$", methodeCommentaireActuelle);
+								str = regex("^" + i18nGlobale.getString(I18n.var_HtmCellule) + ": (.*)$", methodeCommentaireActuelle);
 							if(NumberUtils.isCreatable(str)) {
 								indexerStockerSolr(entiteDoc, "entiteHtmCellule", Integer.parseInt(str));
 								entiteHtml = true;
@@ -3557,33 +3557,33 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(entiteDoc, "entiteHtml", entiteHtml);
 
 						{ 
-							String str = regex("^" + i18nGlobale.getString(I18n.var_LongeurMin) + ":\\s*(.*)$", methodeCommentaire, 1);
+							String str = regex("^" + i18nGlobale.getString(I18n.var_LongeurMin) + ": (.*)$", methodeCommentaire, 1);
 							Integer num = NumberUtils.isCreatable(str) ? Integer.parseInt(str) : null;
 							if(num != null)
 								indexerStockerSolr(entiteDoc, "entiteLongeurMin", num);
 						}
 
 						{
-							String str = regex("^" + i18nGlobale.getString(I18n.var_LongeurMax) + ":\\s*(.*)$", methodeCommentaire, 1);
+							String str = regex("^" + i18nGlobale.getString(I18n.var_LongeurMax) + ": (.*)$", methodeCommentaire, 1);
 							Integer num = NumberUtils.isCreatable(str) ? Integer.parseInt(str) : null;
 							if(num != null)
 								indexerStockerSolr(entiteDoc, "entiteLongeurMax", num);
 						}
 
 						{
-							String str = regex("^Min:\\s*(.*)$", methodeCommentaire, 1);
+							String str = regex("^Min: (.*)$", methodeCommentaire, 1);
 							if(str != null)
 								indexerStockerSolr(entiteDoc, "entiteMin", str);
 						}
 
 						{
-							String str = regex("^Max:\\s*(.*)$", methodeCommentaire, 1);
+							String str = regex("^Max: (.*)$", methodeCommentaire, 1);
 							if(str != null)
 								indexerStockerSolr(entiteDoc, "entiteMax", str);
 						}
 
 						{
-							String str = regex("^" + i18nGlobale.getString(I18n.var_Defaut) + ":\\s*(.*)$", methodeCommentaire, 1);
+							String str = regex("^" + i18nGlobale.getString(I18n.var_Defaut) + ": (.*)$", methodeCommentaire, 1);
 							indexerStockerSolr(entiteDoc, "entiteDefaut", str);
 						}
 
@@ -3618,7 +3618,17 @@ public class IndexerClasse extends RegarderClasseBase {
 							}
 						}
 
-						Matcher entiteAttribuerRecherche = methodeCommentaire == null ? null : Pattern.compile("^" + i18nGlobale.getString(I18n.var_Attribuer) + ":\\s*([^\\.]+)\\.(.*)\\s*", Pattern.MULTILINE).matcher(methodeCommentaire);
+						Matcher classeRessourcesAutorisationRecherche = methodeCommentaire == null ? null : Pattern.compile("^" + i18nGlobale.getString(I18n.var_RessourceAutorisation) + ": (.*)", Pattern.MULTILINE).matcher(methodeCommentaire);
+						boolean classeRessourcesAutorisationTrouves = classeRessourcesAutorisationRecherche == null ? false : classeRessourcesAutorisationRecherche.find();
+						boolean classeRessourcesAutorisationTrouvesActuel = classeRessourcesAutorisationTrouves;
+						while(classeRessourcesAutorisationTrouvesActuel) {
+							String classeRessourceAutorisation = classeRessourcesAutorisationRecherche.group(1);
+							stockerListeSolr(classeDoc, "classeRessourcesAutorisation", String.format("%s-%s", classeRessourceAutorisation, entiteVar));
+							classeRessourcesAutorisationTrouves = true;
+							classeRessourcesAutorisationTrouvesActuel = classeRessourcesAutorisationRecherche.find();
+						}
+
+						Matcher entiteAttribuerRecherche = methodeCommentaire == null ? null : Pattern.compile("^" + i18nGlobale.getString(I18n.var_Attribuer) + ": ([^\\.]+)\\.(.*)\\s*", Pattern.MULTILINE).matcher(methodeCommentaire);
 						boolean entiteAttribuerTrouve = entiteAttribuerRecherche == null ? false : entiteAttribuerRecherche.find();
 						if(entiteAttribuerTrouve) {
 							String entiteAttribuerNomSimple = entiteAttribuerRecherche.group(1);
@@ -4831,7 +4841,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						String methodeVarLangue = regex("^Var\\." + classeLangueNom + ": (.*)", methodeCommentaire);
 						methodeVarLangue =  methodeVarLangue == null ? methodeVar : methodeVarLangue;
 	
-						regexListe("^" + classeLangueNom + ":\\s*([^\n]+)", methodeCommentaire);
+						regexListe("^" + classeLangueNom + ": ([^\n]+)", methodeCommentaire);
 
 						String methodeCodeSource = methodeQdox.getSourceCode();
 						String methodeCodeSourceComplet = methodeQdox.getCodeBlock();
@@ -4860,9 +4870,9 @@ public class IndexerClasse extends RegarderClasseBase {
 
 						if(classeTraduire) {
 							for(String langueNom : classeAutresLangues) {  
-								methodeVarLangue = regex("^Var\\." + langueNom + ":\\s*([^\n]+)", methodeCommentaire);
+								methodeVarLangue = regex("^Var\\." + langueNom + ": ([^\n]+)", methodeCommentaire);
 								methodeVarLangue = indexerStockerSolr(langueNom, methodeDoc, "methodeVar", methodeVarLangue == null ? methodeVar : methodeVarLangue);
-								regexListe("^" + langueNom + ":\\s*([^\n]+)", methodeCommentaire);
+								regexListe("^" + langueNom + ": ([^\n]+)", methodeCommentaire);
 								methodeCodeSourceLangue = regexRemplacerTout(methodeCommentaire, methodeCodeSource, langueNom);
 								indexerStockerListeSolr(langueNom, classeDoc, "classeMethodeVars", methodeVarLangue);
 								String methodeStringLangue = regex("^String\\." + langueNom + ":(.*)", methodeCommentaire);
@@ -5416,23 +5426,23 @@ public class IndexerClasse extends RegarderClasseBase {
 		Boolean classeContexte = indexerStockerSolr(classeDoc, "classeContexte", regexTrouve("^" + i18nGlobale.getString(I18n.var_Contexte) + ": \\s*(true)$", classeCommentaire) || classePage || classeSmartDataModelStr != null);
 
 		if(classeContexte) {
-			classeCouleur = regex("^" + i18nGlobale.getString(I18n.var_Couleur) + ":\\s*(.*)", classeCommentaire);
+			classeCouleur = regex("^" + i18nGlobale.getString(I18n.var_Couleur) + ": (.*)", classeCommentaire);
 			if(classeCouleur != null)
 				indexerStockerSolr(classeDoc, "classeCouleur", classeCouleur); 
 
-			classeIcone = regex("^" + i18nGlobale.getString(I18n.var_Icone) + ":\\s*(.*)", classeCommentaire);
+			classeIcone = regex("^" + i18nGlobale.getString(I18n.var_Icone) + ": (.*)", classeCommentaire);
 			if(classeIcone != null)
 				indexerStockerSolr(classeDoc, "classeIcone", classeIcone); 
 
-			String classeLignesStr = regex("^" + i18nGlobale.getString(I18n.var_Lignes) + ":\\s*(.*)", classeCommentaire);
+			String classeLignesStr = regex("^" + i18nGlobale.getString(I18n.var_Lignes) + ": (.*)", classeCommentaire);
 			if(NumberUtils.isParsable(classeLignesStr))
 				classeLignes = indexerStockerSolr(classeDoc, "classeLignes", Integer.parseInt(classeLignesStr)); 
 
-			String classeOrdreStr = regex("^" + i18nGlobale.getString(I18n.var_Ordre) + ":\\s*(.*)", classeCommentaire);
+			String classeOrdreStr = regex("^" + i18nGlobale.getString(I18n.var_Ordre) + ": (.*)", classeCommentaire);
 			if(NumberUtils.isParsable(classeOrdreStr))
 				classeOrdre = indexerStockerSolr(classeDoc, "classeOrdre", Integer.parseInt(classeOrdreStr)); 
 
-			String classeOrdreSqlStr = regex("^" + i18nGlobale.getString(I18n.var_OrdreSql) + ":\\s*(.*)", classeCommentaire);
+			String classeOrdreSqlStr = regex("^" + i18nGlobale.getString(I18n.var_OrdreSql) + ": (.*)", classeCommentaire);
 			if(NumberUtils.isParsable(classeOrdreSqlStr))
 				classeOrdreSql = indexerStockerSolr(classeDoc, "classeOrdreSql", Integer.parseInt(classeOrdreSqlStr)); 
 
@@ -6502,8 +6512,8 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 		}
 
-		Boolean classeIndexe = indexerStockerSolr(classeDoc, "classeIndexe", regexTrouve("^" + i18nGlobale.getString(I18n.var_Indexe) + ":\\s*(true)$", classeCommentaire) || classeSauvegarde || classeModele || classeFiware || classePage);
-		Boolean classeImage = indexerStockerSolr(classeDoc, "classeImage", regexTrouve("^" + i18nGlobale.getString(I18n.var_Image) + ":\\s*(true)$", classeCommentaire));
+		Boolean classeIndexe = indexerStockerSolr(classeDoc, "classeIndexe", regexTrouve("^" + i18nGlobale.getString(I18n.var_Indexe) + ": (true)$", classeCommentaire) || classeSauvegarde || classeModele || classeFiware || classePage);
+		Boolean classeImage = indexerStockerSolr(classeDoc, "classeImage", regexTrouve("^" + i18nGlobale.getString(I18n.var_Image) + ": (true)$", classeCommentaire));
 
 		stockerSolr(classeDoc, "classePromesse", classePromesse);
 		if(activerVertx || activerQuarkus) {
