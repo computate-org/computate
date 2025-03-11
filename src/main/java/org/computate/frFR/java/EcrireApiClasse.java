@@ -2104,7 +2104,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, i18nGlobale.getString(I18n.var_erreur), "(null, ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ", ex);");
 						}
 						tl(2, "});");
-							tl(1, "}");
+						tl(1, "}");
 					} else {
 
 						/////////
@@ -2120,6 +2120,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(2, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_démarré), ". \"));");
 	
 						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", ", classePublicLire, ").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
+						if(classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) {
+							tl(2, "oauth2AuthenticationProvider.refresh(User.create(", i18nGlobale.getString(I18n.var_requeteService), ".getUser())).onSuccess(user -> {");
+							tl(3, "serviceRequest.setUser(user.principal());");
+						}
 						if(
 								StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
 										, i18nGlobale.getString(I18n.var_PageEdition)
@@ -2519,6 +2523,37 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, i18nGlobale.getString(I18n.var_erreur), "(null, ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ", ex);");
 						}
 						tl(2, "});");
+						if(classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) {
+							tl(2, "}).onFailure(ex -> {");
+							if(activerOpenIdConnect) {
+								tl(3, "if(\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\")) {");
+								tl(4, "try {");
+								tl(5, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture(new ServiceResponse(302, \"Found\", null, MultiMap.caseInsensitiveMultiMap().add(HttpHeaders.LOCATION, \"/", i18nGlobale.getString(I18n.var_deconnexion), "?redirect_uri=\" + URLEncoder.encode(serviceRequest.getExtra().getString(\"uri\"), \"UTF-8\")))));");
+								tl(4, "} catch(Exception ex2) {");
+								tl(5, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \", ex2));");
+								tl(5, i18nGlobale.getString(I18n.var_erreur), "(null, ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ", ex2);");
+								tl(4, "}");
+								tl(3, "} else if(StringUtils.startsWith(ex.getMessage(), \"401 UNAUTHORIZED \")) {");
+								tl(4, "eventHandler.handle(Future.succeededFuture(");
+								tl(5, "new ServiceResponse(401, \"UNAUTHORIZED\",");
+								tl(6, "Buffer.buffer().appendString(");
+								tl(7, "new JsonObject()");
+								tl(8, ".put(\"errorCode\", \"401\")");
+								tl(8, ".put(\"errorMessage\", \"SSO Resource Permission check returned DENY\")");
+								tl(8, ".encodePrettily()");
+								tl(7, "), MultiMap.caseInsensitiveMultiMap()");
+								tl(7, ")");
+								tl(5, "));");
+								tl(3, "} else {");
+								tl(4, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+								tl(4, i18nGlobale.getString(I18n.var_erreur), "(null, ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ", ex);");
+								tl(3, "}");
+							} else {
+								tl(3, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+								tl(3, i18nGlobale.getString(I18n.var_erreur), "(null, ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ", ex);");
+							}
+							tl(2, "});");
+						}
 						tl(1, "}");
 					}
 	
