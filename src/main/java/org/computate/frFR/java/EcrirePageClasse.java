@@ -3869,7 +3869,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						auteurPageJs.tl(4, "}");
 					}
 					auteurPageJs.tl(3, "});");
-					auteurPageJs.tl(2, "} else if(document.getElementById(('htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, "')) {");
+					auteurPageJs.tl(2, "} else if(document.getElementById('htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, "')) {");
 					auteurPageJs.tl(3, "window.map", classeNomSimple, " = L.map('htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, "', {");
 					auteurPageJs.tl(4, "position: 'topright'");
 					auteurPageJs.tl(4, ", zoomControl: true");
