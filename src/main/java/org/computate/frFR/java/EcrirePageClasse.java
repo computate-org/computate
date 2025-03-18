@@ -4393,21 +4393,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			String classeApiMethodeMethode = classeDoc.getString("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
 
 			if(classeApiMethode.equals("POST")) {
-				if(activerRoleAdmin) {
-					tl(0, "{% if ", i18nPage.getString(I18n.var_AUTH_PORTEE_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
-				}
+				tl(0, "{%- if 'POST' in ", i18nGlobale.getString(I18n.var_portees), " %}");
 				tl(1, "{%- if ", varResultat, "Count >= 1 %}");
 				tl(2, "{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
 				tl(1, "{%- else %}");
 				tl(2, "{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
 				tl(1, "{%- endif %}");
-				if(activerRoleAdmin) {
-					tl(0, "{%- endif %}");
-				}
+				tl(0, "{%- endif %}");
 			} else if(classeApiMethode.equals("DELETE") || classeApiMethode.equals(i18nPage.getString(I18n.var_DELETEFiltre))) {
-				if(activerRoleAdmin) {
-					tl(0, "{% if ", i18nPage.getString(I18n.var_AUTH_PORTEE_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
-				}
+				tl(0, "{%- if 'DELETE' in ", i18nGlobale.getString(I18n.var_portees), " %}");
 				if(classeApiMethode.equals(i18nPage.getString(I18n.var_DELETEFiltre))) {
 					tl(1, "{%- if ", varResultat, "Count > 1 %}");
 				} else {
@@ -4415,11 +4409,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 				tl(2, "{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
 				tl(1, "{%- endif %}");
-				if(activerRoleAdmin) {
-					tl(0, "{%- endif %}");
-				}
+				tl(0, "{%- endif %}");
 			} else if(classeApiMethode.equals("PATCH")) {
-				tl(0, "{%- if ", i18nPage.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
+				tl(0, "{%- if 'PATCH' in ", i18nGlobale.getString(I18n.var_portees), " %}");
 				tl(1, "{%- if ", varResultat, "Count > 0 %}");
 				tl(2, "{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
 				tl(1, "{%- endif %}");
@@ -4429,7 +4421,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
 				tl(0, "{%- endif %}");
 			} else if(classeApiMethode.equals(i18nPage.getString(I18n.var_PUTCopie))) {
+				tl(0, "{%- if ", i18nPage.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
 				tl(0, "{{ htm", i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
+				tl(0, "{%- endif %}");
 			}
 		}
 		l();
