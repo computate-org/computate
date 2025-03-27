@@ -6434,7 +6434,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								wSmartDataModel.l("	 * Facet: true");
 								wSmartDataModel.l("	 */");
 								wSmartDataModel.l("	protected void _ngsildTenant(Wrap<String> w) {");
-								wSmartDataModel.l("		", Optional.ofNullable(ngsildTenantEnv).map(str -> String.format("w.o(System.getenv(\"%s\"));", str)).orElse(""));
+								wSmartDataModel.l("		w.o(", i18nGlobale.getString(I18n.var_requeteSite), "_.getConfig().getString(ComputateConfigKeys.NGSILD_TENANT));");
 								wSmartDataModel.l("	}");
 								cell++;
 								wSmartDataModel.l();
@@ -6449,7 +6449,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								wSmartDataModel.l("	 * Facet: true");
 								wSmartDataModel.l("	 */");
 								wSmartDataModel.l("	protected void _ngsildPath(Wrap<String> w) {");
-								wSmartDataModel.l("		", Optional.ofNullable(ngsildCheminEnv).map(str -> String.format("w.o(System.getenv(\"%s\"));", str)).orElse(""));
+								wSmartDataModel.l("		w.o(", i18nGlobale.getString(I18n.var_requeteSite), "_.getConfig().getString(ComputateConfigKeys.NGSILD_PATH));");
 								wSmartDataModel.l("	}");
 								cell++;
 								wSmartDataModel.l();
