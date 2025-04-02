@@ -793,19 +793,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							////////////////////////
 							o = wApiGenererPost;
 					
-							if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
-								tl(5, "case ", classeNomSimple, ".VAR_", entiteVar, ":");
-								tl(6, "o2.set", entiteVarCapitalise, "(jsonObject.get", entiteNomSimpleVertxJson, "(", i18nGlobale.getString(I18n.var_entite), "Var));");
-								tl(6, "if(bParams.size() > 0) {");
-								tl(7, "bSql.append(\", \");");
-								tl(6, "}");
-								tl(6, "bSql.append(", classeNomSimple, ".VAR_", entiteVar, " + \"=$\" + num);");
-								tl(6, "num++;");
-								tl(6, "bParams.add(o2.sql", entiteVarCapitalise, "());");
-				
-								tl(6, "break;");
-							}	
-
 							if(classeSauvegarde && BooleanUtils.isTrue(entiteAttribuer)) {
 								tl(5, "case ", classeNomSimple, ".VAR_", entiteVar, ":");
 								if("array".equals(entiteTypeJson))
@@ -815,8 +802,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
 									if("array".equals(entiteTypeJson) && "array".equals(entiteAttribuerTypeJson)) {
 										// list, list, <
-										tl(7, "futures2.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
@@ -833,12 +819,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									} else if("array".equals(entiteTypeJson)) {
 										// list, no list, <
 										tl(7, "futures2.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 										tl(9, "}");
-										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ").onSuccess(a -> {");
+										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ", val).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
 										tl(10, "promise2.fail(ex);");
@@ -850,12 +836,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									} else if("array".equals(entiteAttribuerTypeJson)) {
 										// no list, list, <
 										tl(7, "futures1.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 										tl(9, "}");
-										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).onSuccess(a -> {");
+										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2, val).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
 										tl(10, "promise2.fail(ex);");
@@ -867,12 +853,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									} else {
 										// no list, no list, <
 										tl(7, "futures1.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 										tl(9, "}");
-										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).onSuccess(a -> {");
+										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2, val).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
 										tl(10, "promise2.fail(ex);");
@@ -886,7 +872,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									if("array".equals(entiteTypeJson) && "array".equals(entiteAttribuerTypeJson)) {
 										// list, list, >
 										tl(7, "futures2.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
@@ -903,12 +889,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									} else if("array".equals(entiteTypeJson)) {
 										// list, no list, >
 										tl(7, "futures2.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 										tl(9, "}");
-										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ").onSuccess(a -> {");
+										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ", val).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
 										tl(10, "promise2.fail(ex);");
@@ -920,12 +906,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									} else if("array".equals(entiteAttribuerTypeJson)) {
 										// no list, list, >
 										tl(7, "futures1.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 										tl(9, "}");
-										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).onSuccess(a -> {");
+										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2, val).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
 										tl(10, "promise2.fail(ex);");
@@ -937,12 +923,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									} else {
 										// no list, no list, >
 										tl(7, "futures2.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 										tl(9, "}");
-										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ").onSuccess(a -> {");
+										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ", val).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
 										tl(10, "promise2.fail(ex);");
@@ -955,7 +941,18 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								}
 								tl(6, "});");
 								tl(6, "break;");
-							}
+							} else if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
+								tl(5, "case ", classeNomSimple, ".VAR_", entiteVar, ":");
+								tl(6, "o2.set", entiteVarCapitalise, "(jsonObject.get", entiteNomSimpleVertxJson, "(", i18nGlobale.getString(I18n.var_entite), "Var));");
+								tl(6, "if(bParams.size() > 0) {");
+								tl(7, "bSql.append(\", \");");
+								tl(6, "}");
+								tl(6, "bSql.append(", classeNomSimple, ".VAR_", entiteVar, " + \"=$\" + num);");
+								tl(6, "num++;");
+								tl(6, "bParams.add(o2.sql", entiteVarCapitalise, "());");
+				
+								tl(6, "break;");
+							}	
 
 							//////////////////////////
 							// codeApiGenererDelete //
@@ -972,7 +969,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									if("array".equals(entiteTypeJson) && "array".equals(entiteAttribuerTypeJson)) {
 										// list, list, <
 										tl(7, "futures2.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
@@ -989,12 +986,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									} else if("array".equals(entiteTypeJson)) {
 										// list, no list, <
 										tl(7, "futures2.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 										tl(9, "}");
-										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, null).onSuccess(a -> {");
+										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, null, null).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
 										tl(10, "promise2.fail(ex);");
@@ -1006,12 +1003,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									} else if("array".equals(entiteAttribuerTypeJson)) {
 										// no list, list, <
 										tl(7, "futures1.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 										tl(9, "}");
-										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, null).onSuccess(a -> {");
+										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, null, null).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
 										tl(10, "promise2.fail(ex);");
@@ -1023,12 +1020,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									} else {
 										// no list, no list, <
 										tl(7, "futures1.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 										tl(9, "}");
-										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, null).onSuccess(a -> {");
+										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, null, null).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
 										tl(10, "promise2.fail(ex);");
@@ -1042,7 +1039,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									if("array".equals(entiteTypeJson) && "array".equals(entiteAttribuerTypeJson)) {
 										// list, list, >
 										tl(7, "futures2.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
@@ -1059,12 +1056,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									} else if("array".equals(entiteTypeJson)) {
 										// list, no list, >
 										tl(7, "futures2.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 										tl(9, "}");
-										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, null).onSuccess(a -> {");
+										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, null, null).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
 										tl(10, "promise2.fail(ex);");
@@ -1076,12 +1073,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									} else if("array".equals(entiteAttribuerTypeJson)) {
 										// no list, list, >
 										tl(7, "futures1.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 										tl(9, "}");
-										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, null).onSuccess(a -> {");
+										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, null, null).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
 										tl(10, "promise2.fail(ex);");
@@ -1093,12 +1090,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									} else {
 										// no list, no list, >
 										tl(7, "futures2.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 										tl(9, "}");
-										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, null).onSuccess(a -> {");
+										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, null, null).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
 										tl(10, "promise2.fail(ex);");
@@ -1140,7 +1137,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									if("array".equals(entiteTypeJson) && "array".equals(entiteAttribuerTypeJson)) {
 										// list, list, <
 										tl(7, "futures2.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
@@ -1157,12 +1154,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									} else if("array".equals(entiteTypeJson)) {
 										// list, no list, <
 										tl(7, "futures2.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 										tl(9, "}");
-										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ").onSuccess(a -> {");
+										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ", val).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
 										tl(10, "promise2.fail(ex);");
@@ -1174,12 +1171,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									} else if("array".equals(entiteAttribuerTypeJson)) {
 										// no list, list, <
 										tl(7, "futures1.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 										tl(9, "}");
-										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).onSuccess(a -> {");
+										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2, val).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
 										tl(10, "promise2.fail(ex);");
@@ -1191,12 +1188,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									} else {
 										// no list, no list, <
 										tl(7, "futures1.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 										tl(9, "}");
-										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).onSuccess(a -> {");
+										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2, val).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
 										tl(10, "promise2.fail(ex);");
@@ -1210,7 +1207,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									if("array".equals(entiteTypeJson) && "array".equals(entiteAttribuerTypeJson)) {
 										// list, list, >
 										tl(7, "futures2.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
@@ -1227,12 +1224,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									} else if("array".equals(entiteTypeJson)) {
 										// list, no list, >
 										tl(7, "futures2.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 										tl(9, "}");
-										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ").onSuccess(a -> {");
+										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ", val).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
 										tl(10, "promise2.fail(ex);");
@@ -1244,12 +1241,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									} else if("array".equals(entiteAttribuerTypeJson)) {
 										// no list, list, >
 										tl(7, "futures1.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 										tl(9, "}");
-										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).onSuccess(a -> {");
+										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2, val).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
 										tl(10, "promise2.fail(ex);");
@@ -1261,12 +1258,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									} else {
 										// no list, no list, >
 										tl(7, "futures2.add(Future.future(promise2 -> {");
-										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, false).onSuccess(", classeVarClePrimaire, "2 -> {");
 										tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 										tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 										tl(9, "}");
-										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ").onSuccess(a -> {");
+										tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ", val).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
 										tl(10, "promise2.fail(ex);");
@@ -1298,7 +1295,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "JsonArray set", entiteVarCapitalise, i18nGlobale.getString(I18n.var_Valeurs), " = Optional.ofNullable(jsonObject.getJsonArray(", i18nGlobale.getString(I18n.var_entite), "Var)).orElse(new JsonArray());");
 											tl(6, "set", entiteVarCapitalise, i18nGlobale.getString(I18n.var_Valeurs), ".stream().map(oVal -> oVal.toString()).forEach(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
-											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 											tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 											tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
@@ -1331,7 +1328,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "JsonArray addAll", entiteVarCapitalise, i18nGlobale.getString(I18n.var_Valeurs), " = Optional.ofNullable(jsonObject.getJsonArray(", i18nGlobale.getString(I18n.var_entite), "Var)).orElse(new JsonArray());");
 											tl(6, "addAll", entiteVarCapitalise, i18nGlobale.getString(I18n.var_Valeurs), ".stream().map(oVal -> oVal.toString()).forEach(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
-											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 											tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 											tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
@@ -1350,7 +1347,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(5, "case \"add", entiteVarCapitalise, "\":");
 											tl(6, "Optional.ofNullable(jsonObject.getString(", i18nGlobale.getString(I18n.var_entite), "Var)).ifPresent(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
-											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 											tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 											tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
@@ -1387,12 +1384,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "JsonArray set", entiteVarCapitalise, i18nGlobale.getString(I18n.var_Valeurs), " = Optional.ofNullable(jsonObject.getJsonArray(", i18nGlobale.getString(I18n.var_entite), "Var)).orElse(new JsonArray());");
 											tl(6, "set", entiteVarCapitalise, i18nGlobale.getString(I18n.var_Valeurs), ".stream().map(oVal -> oVal.toString()).forEach(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
-											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 											tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 											tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 											tl(9, "}");
-											tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ").onSuccess(a -> {");
+											tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ", val).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
 											tl(10, "promise2.fail(ex);");
@@ -1420,12 +1417,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "JsonArray addAll", entiteVarCapitalise, i18nGlobale.getString(I18n.var_Valeurs), " = Optional.ofNullable(jsonObject.getJsonArray(", i18nGlobale.getString(I18n.var_entite), "Var)).orElse(new JsonArray());");
 											tl(6, "addAll", entiteVarCapitalise, i18nGlobale.getString(I18n.var_Valeurs), ".stream().map(oVal -> oVal.toString()).forEach(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
-											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 											tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 											tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 											tl(9, "}");
-											tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ").onSuccess(a -> {");
+											tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ", val).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
 											tl(10, "promise2.fail(ex);");
@@ -1439,12 +1436,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(5, "case \"add", entiteVarCapitalise, "\":");
 											tl(6, "Optional.ofNullable(jsonObject.getString(", i18nGlobale.getString(I18n.var_entite), "Var)).ifPresent(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
-											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 											tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 											tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 											tl(9, "}");
-											tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ").onSuccess(a -> {");
+											tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ", val).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
 											tl(10, "promise2.fail(ex);");
@@ -1475,12 +1472,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(5, "case \"set", entiteVarCapitalise, "\":");
 											tl(6, "Optional.ofNullable(jsonObject.getString(", i18nGlobale.getString(I18n.var_entite), "Var)).ifPresent(val -> {");
 											tl(7, "futures1.add(Future.future(promise2 -> {");
-											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 											tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 											tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 											tl(9, "}");
-											tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).onSuccess(a -> {");
+											tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2, val).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
 											tl(10, "promise2.fail(ex);");
@@ -1511,12 +1508,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(5, "case \"set", entiteVarCapitalise, "\":");
 											tl(6, "Optional.ofNullable(jsonObject.getString(", i18nGlobale.getString(I18n.var_entite), "Var)).ifPresent(val -> {");
 											tl(7, "futures1.add(Future.future(promise2 -> {");
-											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 											tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 											tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 											tl(9, "}");
-											tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).onSuccess(a -> {");
+											tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2, val).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
 											tl(10, "promise2.fail(ex);");
@@ -1550,7 +1547,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "JsonArray set", entiteVarCapitalise, i18nGlobale.getString(I18n.var_Valeurs), " = Optional.ofNullable(jsonObject.getJsonArray(", i18nGlobale.getString(I18n.var_entite), "Var)).orElse(new JsonArray());");
 											tl(6, "set", entiteVarCapitalise, i18nGlobale.getString(I18n.var_Valeurs), ".stream().map(oVal -> oVal.toString()).forEach(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
-											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 											tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 											tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
@@ -1583,7 +1580,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "JsonArray addAll", entiteVarCapitalise, i18nGlobale.getString(I18n.var_Valeurs), " = Optional.ofNullable(jsonObject.getJsonArray(", i18nGlobale.getString(I18n.var_entite), "Var)).orElse(new JsonArray());");
 											tl(6, "addAll", entiteVarCapitalise, i18nGlobale.getString(I18n.var_Valeurs), ".stream().map(oVal -> oVal.toString()).forEach(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
-											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 											tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 											tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
@@ -1602,7 +1599,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(5, "case \"add", entiteVarCapitalise, "\":");
 											tl(6, "Optional.ofNullable(jsonObject.getString(", i18nGlobale.getString(I18n.var_entite), "Var)).ifPresent(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
-											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 											tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 											tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
@@ -1639,12 +1636,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "JsonArray set", entiteVarCapitalise, i18nGlobale.getString(I18n.var_Valeurs), " = Optional.ofNullable(jsonObject.getJsonArray(", i18nGlobale.getString(I18n.var_entite), "Var)).orElse(new JsonArray());");
 											tl(6, "set", entiteVarCapitalise, i18nGlobale.getString(I18n.var_Valeurs), ".stream().map(oVal -> oVal.toString()).forEach(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
-											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 											tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 											tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 											tl(9, "}");
-											tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ").onSuccess(a -> {");
+											tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ", val).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
 											tl(10, "promise2.fail(ex);");
@@ -1672,12 +1669,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "JsonArray addAll", entiteVarCapitalise, i18nGlobale.getString(I18n.var_Valeurs), " = Optional.ofNullable(jsonObject.getJsonArray(", i18nGlobale.getString(I18n.var_entite), "Var)).orElse(new JsonArray());");
 											tl(6, "addAll", entiteVarCapitalise, i18nGlobale.getString(I18n.var_Valeurs), ".stream().map(oVal -> oVal.toString()).forEach(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
-											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 											tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 											tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 											tl(9, "}");
-											tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ").onSuccess(a -> {");
+											tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ", val).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
 											tl(10, "promise2.fail(ex);");
@@ -1691,12 +1688,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(5, "case \"add", entiteVarCapitalise, "\":");
 											tl(6, "Optional.ofNullable(jsonObject.getString(", i18nGlobale.getString(I18n.var_entite), "Var)).ifPresent(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
-											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 											tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 											tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 											tl(9, "}");
-											tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ").onSuccess(a -> {");
+											tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ", val).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
 											tl(10, "promise2.fail(ex);");
@@ -1727,12 +1724,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(5, "case \"set", entiteVarCapitalise, "\":");
 											tl(6, "Optional.ofNullable(jsonObject.getString(", i18nGlobale.getString(I18n.var_entite), "Var)).ifPresent(val -> {");
 											tl(7, "futures1.add(Future.future(promise2 -> {");
-											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 											tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 											tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 											tl(9, "}");
-											tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).onSuccess(a -> {");
+											tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2, val).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
 											tl(10, "promise2.fail(ex);");
@@ -1763,12 +1760,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(5, "case \"set", entiteVarCapitalise, "\":");
 											tl(6, "Optional.ofNullable(jsonObject.getString(", i18nGlobale.getString(I18n.var_entite), "Var)).ifPresent(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
-											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
+											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
 											tl(9, "if(!", classeVarClePrimairePluriel, ".contains(", classeVarClePrimaire, "2)) {");
 											tl(10, "", classeVarClePrimairePluriel, ".add(", classeVarClePrimaire, "2);");
 											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 											tl(9, "}");
-											tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ").onSuccess(a -> {");
+											tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, ", val).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
 											tl(10, "promise2.fail(ex);");
@@ -4727,15 +4724,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(2, "try {");
 					tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), " = o.get", i18nGlobale.getString(I18n.var_RequeteSite), "_();");
 					tl(3, "SqlConnection ", i18nGlobale.getString(I18n.var_connexionSql), " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_ConnexionSql), "();");
-					tl(3, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
 					tl(3, i18nGlobale.getString(I18n.var_connexionSql), ".preparedQuery(\"", wAttribuerSql, "\")");
 					tl(5, ".collecting(Collectors.toList())");
-					tl(5, ".execute(Tuple.of(", wAttribuerSqlParams, ")");
+					tl(5, ".execute(Tuple.of(o.get", StringUtils.capitalize(classeVarId), "())");
 					tl(5, ").onSuccess(", i18nGlobale.getString(I18n.var_resultat), " -> {");
 					tl(4, "try {");
 					tl(5, "if(", i18nGlobale.getString(I18n.var_resultat), " != null) {");
 					tl(6, "for(Row definition : ", i18nGlobale.getString(I18n.var_resultat), ".value()) {");
-					tl(7, "o.", i18nGlobale.getString(I18n.var_attribuer), i18nGlobale.getString(I18n.var_PourClasse), "(definition.getString(1), definition.getLong(0));");
+					tl(7, "o.", i18nGlobale.getString(I18n.var_attribuer), i18nGlobale.getString(I18n.var_PourClasse), "(definition.getString(1), definition.getValue(0));");
 					tl(6, "}");
 					tl(5, "}");
 					tl(5, "promise.complete();");
