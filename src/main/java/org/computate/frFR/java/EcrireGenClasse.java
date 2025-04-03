@@ -1274,7 +1274,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	ToutEcrivain wFormPATCH;
 	ToutEcrivain wFormDELETE;
 	ToutEcrivain wFormDELETEFiltre;
-	ToutEcrivain wJsInit;
+	ToutEcrivain wJsHtmInit;
+	ToutEcrivain wJsHtmEditionInit;
 	ToutEcrivain wJsRechercheInit;
 	ToutEcrivain wJsEditionInit;
 	ToutEcrivain wWebsocket;
