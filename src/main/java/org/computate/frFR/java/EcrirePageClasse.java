@@ -2627,7 +2627,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	
 								wPATCH.l();
 								if(entiteAttribuer)
-									wPATCH.tl(1, "var ", i18nPage.getString(I18n.var_valeur), entiteVarCapitalise, " = $", i18nPage.getString(I18n.var_formulaireValeurs), ".querySelector('input.", i18nPage.getString(I18n.var_valeur), entiteVarCapitalise, ":checked')?.value;");
+									wPATCH.tl(1, "var ", i18nPage.getString(I18n.var_valeur), entiteVarCapitalise, " = (Array.from($", i18nPage.getString(I18n.var_formulaireValeurs), ".querySelectorAll('.", i18nPage.getString(I18n.var_valeur), entiteVarCapitalise, "')).filter(e => e.checked == true).find(() => true) ?? null)?.value;");
 								else
 									wPATCH.tl(1, "var ", i18nPage.getString(I18n.var_valeur), entiteVarCapitalise, " = $", i18nPage.getString(I18n.var_formulaireValeurs), ".querySelector('.", i18nPage.getString(I18n.var_valeur), entiteVarCapitalise, "')?.value;");
 								if(entiteAttribuer) {
