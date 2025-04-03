@@ -2570,7 +2570,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								wPOST.l();
 								if(entiteAttribuer) {
 									if(entiteListeTypeJson == null) {
-										wPOST.tl(1, "var ", i18nPage.getString(I18n.var_valeur), entiteVarCapitalise, " = $", i18nPage.getString(I18n.var_formulaireValeurs), ".querySelector('.", i18nPage.getString(I18n.var_valeur), entiteVarCapitalise, "')?.value;");
+										wPOST.tl(1, "var ", i18nPage.getString(I18n.var_valeur), entiteVarCapitalise, " = (Array.from($", i18nPage.getString(I18n.var_formulaireValeurs), ".querySelectorAll('.", i18nPage.getString(I18n.var_valeur), entiteVarCapitalise, "')).filter(e => e.checked == true).find(() => true) ?? null)?.value;");
 										wPOST.tl(1, "if(", i18nPage.getString(I18n.var_valeur), entiteVarCapitalise, " != null && ", i18nPage.getString(I18n.var_valeur), entiteVarCapitalise, " !== '')");
 										if("Boolean".equals(entiteNomSimple)) {
 											wPOST.tl(2, "vals['", entiteVar, "'] = ", i18nPage.getString(I18n.var_valeur), entiteVarCapitalise, " == 'true';");
