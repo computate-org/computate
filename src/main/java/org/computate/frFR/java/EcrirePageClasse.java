@@ -1159,6 +1159,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									wJsHtmInit.tl(8, ", null");
 									wJsHtmInit.tl(8, ", null");
 									wJsHtmInit.tl(8, ", true");
+									wJsHtmInit.tl(8, ", this");
 									wJsHtmInit.tl(8, ");");
 									wJsHtmInit.tl(5, "}");
 									wJsHtmInit.tl(5, "document.querySelector('#POST_", entiteVar, "')?.addEventListener('input', ", i18nGlobale.getString(I18n.var_attribuer), "_", entiteVar, ");");
@@ -1686,7 +1687,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(1, "@Override");
 				tl(1, "protected void _varsFq(JsonObject vars) {");
 				tl(2, "Map<String, SolrResponse.FacetField> facetFields = Optional.ofNullable(facetCounts).map(c -> c.getFacetFields()).map(f -> f.getFacets()).orElse(new HashMap<String,SolrResponse.FacetField>());");
-				tl(2, "Integer varsFqCount = 0;");
+				tl(2, "varsFqCount = 0;");
 				tl(2, "for(String var : ", classeNomSimple, ".varsFq", langueConfig.getString(I18n.var_PourClasse), "()) {");
 				tl(3, "String var", langueConfig.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", langueConfig.getString(I18n.var_Indexe), classeNomSimple, "(var);");
 				tl(3, "String var", langueConfig.getString(I18n.var_Stocke), " = ", classeNomSimple, ".var", langueConfig.getString(I18n.var_Stocke), classeNomSimple, "(var);");
@@ -3070,8 +3071,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						// tl(5, "document.querySelector('#htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "').dispatchEvent(new Event('submit'));");
 						// tl(5, "return false;");
 						tl(5, "event.preventDefault();");
-						if("POST".equals(classeApiMethodeMethode))
-							tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), document.querySelector('#htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'), (response, target) => { response.then((json) => { window.location.href = json.", classeVarUrlPageEdition, "; }); });");
+						if("POST".equals(classeApiMethodeMethode)) {
+							tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "')");
+							tl(5, ", document.querySelector('#htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')");
+							tl(5, ", (json, target) => {");
+							tl(6, "window.location.href = json.", classeVarUrlPageEdition, ";");
+							tl(5, "});");
+						}
 						else if("PATCH".equals(classeApiMethode))
 							tl(5, classeApiOperationIdMethode, "(null, document.querySelector('#htm", i18nPage.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), document.querySelector('#htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'), event.target.getAttribute('data-", classeVarId, "'));");
 						else if("DELETE".equals(classeApiMethode))
@@ -3326,9 +3332,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					}
 					auteurPageJs.tl(2, "}).then(", i18nPage.getString(I18n.var_reponse), " => {");
 					auteurPageJs.tl(3, "if(", i18nPage.getString(I18n.var_reponse), ".ok) {");
-					auteurPageJs.tl(4, i18nPage.getString(I18n.var_reponse), ".then((json) => {");
-					auteurPageJs.tl(5, "success(json, target);");
-					auteurPageJs.tl(4, "})");
+					if("DELETE".equals(classeApiMethodeMethode)) {
+						auteurPageJs.tl(4, "success(response, target);");
+					} else {
+						auteurPageJs.tl(4, i18nPage.getString(I18n.var_reponse), ".json().then((json) => {");
+						auteurPageJs.tl(5, "success(json, target);");
+						auteurPageJs.tl(4, "})");
+					}
 					auteurPageJs.tl(3, "} else {");
 					auteurPageJs.tl(4, "error(", i18nPage.getString(I18n.var_reponse), ", target);");
 					auteurPageJs.tl(3, "}");
@@ -3419,9 +3429,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					}
 					auteurPageJs.tl(2, "}).then(", i18nPage.getString(I18n.var_reponse), " => {");
 					auteurPageJs.tl(3, "if(", i18nPage.getString(I18n.var_reponse), ".ok) {");
-					auteurPageJs.tl(4, i18nPage.getString(I18n.var_reponse), ".then((json) => {");
-					auteurPageJs.tl(5, "success(json, target);");
-					auteurPageJs.tl(4, "})");
+					if("DELETE".equals(classeApiMethodeMethode)) {
+						auteurPageJs.tl(4, "success(response, target);");
+					} else {
+						auteurPageJs.tl(4, i18nPage.getString(I18n.var_reponse), ".json().then((json) => {");
+						auteurPageJs.tl(5, "success(json, target);");
+						auteurPageJs.tl(4, "})");
+					}
 					auteurPageJs.tl(3, "} else {");
 					auteurPageJs.tl(4, "error(", i18nPage.getString(I18n.var_reponse), ", target);");
 					auteurPageJs.tl(3, "}");
@@ -3563,15 +3577,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 									auteurPageJs.tl(3, "if(", classeVarId, " != null) {");
 									auteurPageJs.tl(4, "$input.addEventListener('change', function(event) {");
-									auteurPageJs.tl(5, "var $input = document.querySelector('#", classeApiMethodeMethode, "_", entiteVar, "_' + ", classeVarId, " + '_", entiteAttribuerVar, "_' + o['", entiteAttribuerVar, "']);");
 									if("array".equals(entiteTypeJson)) {
-										auteurPageJs.tl(5, entiteOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeVarId, ":' + ", classeVarId, " }], { [($input.checked ? 'add' : 'remove') + '", entiteVarCapitalise, "']: o['", entiteAttribuerVar, "'] }");
+										auteurPageJs.tl(5, entiteOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeVarId, ":' + ", classeVarId, " }], { [(event.target.checked ? 'add' : 'remove') + '", entiteVarCapitalise, "']: o['", entiteAttribuerVar, "'] }");
 									}
 									else {
-										auteurPageJs.tl(5, entiteOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeVarId, ":' + ", classeVarId, " }], { [($input.checked ? 'set' : 'remove') + '", entiteVarCapitalise, "']: o['", entiteAttribuerVar, "'] }");
+										auteurPageJs.tl(5, entiteOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeVarId, ":' + ", classeVarId, " }], { [(event.target.checked ? 'set' : 'remove') + '", entiteVarCapitalise, "']: o['", entiteAttribuerVar, "'] }");
 									}
 									auteurPageJs.tl(7, ", target");
-									auteurPageJs.tl(7, ", function(", i18nPage.getString(I18n.var_reponse), ", target) { ", i18nPage.getString(I18n.var_ajouterLueur), "(target); }");
+									auteurPageJs.tl(7, ", function(", i18nPage.getString(I18n.var_reponse), ", target) {");
+									auteurPageJs.tl(8, i18nPage.getString(I18n.var_ajouterLueur), "(target);");
+									auteurPageJs.tl(8, i18nPage.getString(I18n.var_suggere), classeApiClasseNomSimple, entiteVarCapitalise, "(", i18nPage.getString(I18n.var_filtres), ", $list, ", classeVarId, ", ", entiteVar, ", ", i18nPage.getString(I18n.var_attribuer), ", target);");
+									auteurPageJs.tl(7, "}");
 									auteurPageJs.tl(7, ", function(", i18nPage.getString(I18n.var_reponse), ", target) { ", i18nPage.getString(I18n.var_ajouterErreur), "(target); }");
 									auteurPageJs.tl(5, ");");
 									auteurPageJs.tl(4, "});");
@@ -5189,20 +5205,21 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// htmBodyCount0 //
 			///////////////////
 
-			tl(4, "{% if varsFqCount > 0 %}");
-			tl(4, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\">", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "</", composantsWebPrefixe, "tooltip>");
-			// tl(5, "<", composantsWebPrefixe, "tooltip content=\"", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "\">");
-      //STUFF4
+			tl(4, "<div class=\"", composantsWebPrefixe, "flank\">");
+			tl(5, "<div>");
+			tl(5, "{% if varsFqCount > 1 %}");
+			tl(5, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\">", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "</", composantsWebPrefixe, "tooltip></", composantsWebPrefixe, "tooltip>");
 			tl(5, "<", composantsWebPrefixe, "button id=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
 			tl(6, "<i class=\"{{ FONTAWESOME_STYLE }} fa-angle-left\"></i>");
 			tl(6, classeTousNom);
 			tl(5, "</", composantsWebPrefixe, "button>");
-			tl(4, "</", composantsWebPrefixe, "tooltip>");
-			tl(4, "{% endif %}");
-			t(4, "<h1>");
+			tl(5, "{% endif %}");
+			tl(4, "</div>");
+			t(5, "<h1>");
 			s(classeIcone);
 			s(" <span>", classeNomAdjectifPluriel, "</span>");
 			l("</h1>");
+			tl(4, "</div>");
 
 			tl(0, "{% include ", classePageBoutonsRechercheTemplate, " %}");
 			tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
@@ -5469,7 +5486,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //		tl(7, "<h3 id=\"site-calendar-title\">Calendar</h3>");
 		tl(6, "<div id=\"site-calendar\"><!-- // --></div>");
 		tl(5, "</div>");
-		tl(5, "{% if varsFqCount > 0 %}");
+		tl(5, "{% if varsFqCount > 1 %}");
 		tl(5, "<div class=\"margin-block\">");
 		tl(6, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\">", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "</", composantsWebPrefixe, "tooltip>");
 		tl(6, "<", composantsWebPrefixe, "button id=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
