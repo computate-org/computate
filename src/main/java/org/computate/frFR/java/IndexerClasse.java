@@ -3633,6 +3633,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteAttribuerTrouve) {
 							String entiteAttribuerNomSimple = entiteAttribuerRecherche.group(1);
 							String entiteAttribuerVar = entiteAttribuerRecherche.group(2);
+							String entiteAttribuerPageUriJs = null;
 
 							SolrQuery rechercheSolrClasse = new SolrQuery();   
 							rechercheSolrClasse.setQuery("*:*");
@@ -3650,6 +3651,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								String entiteAttribuerNomCanoniqueApiServiceImpl = (String)docClasse.get("classeNomCanoniqueApiServiceImpl_" + classeLangueNom + "_stored_string");
 								String entiteAttribuerNomSimpleGenApiServiceImpl = (String)docClasse.get("classeNomSimpleGenApiServiceImpl_" + classeLangueNom + "_stored_string");
 								String entiteAttribuerNomSimpleApiServiceImpl = (String)docClasse.get("classeNomSimpleApiServiceImpl_" + classeLangueNom + "_stored_string");
+								entiteAttribuerPageUriJs = (String)docClasse.get("classePageUriJs_" + classeLangueNom + "_stored_string");
 
 								classePartsGenAjouter(ClasseParts.initClasseParts(this, entiteAttribuerNomCanonique, classeLangueNom), classeLangueNom);
 								classePartsGenApiAjouter(ClasseParts.initClasseParts(this, entiteAttribuerNomCanonique, classeLangueNom), classeLangueNom);
@@ -3747,6 +3749,8 @@ public class IndexerClasse extends RegarderClasseBase {
 											indexerStockerListeSolr(classeLangueNom, classeDoc, "classeAttribuerNomSimplePages", classeAttribuerNomSimplePage);
 										if(!Optional.ofNullable(classeDoc.getFieldValues("classeAttribuerNomSimple_" + classeLangueNom + "_indexed_strings")).orElse(Arrays.asList()).contains(entiteAttribuerNomSimple))
 											indexerStockerListeSolr(classeLangueNom, classeDoc, "classeAttribuerNomSimple", entiteAttribuerNomSimple);
+										if(!Optional.ofNullable(classeDoc.getFieldValues("classeAttribuerPageUriJs_" + classeLangueNom + "_indexed_strings")).orElse(Arrays.asList()).contains(entiteAttribuerPageUriJs))
+											indexerStockerListeSolr(classeLangueNom, classeDoc, "classeAttribuerPageUriJs", entiteAttribuerPageUriJs);
 									}
 
 									if(classeTraduire) {
