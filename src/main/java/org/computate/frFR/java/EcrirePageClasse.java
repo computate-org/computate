@@ -2338,18 +2338,18 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								if("Boolean".equals(entiteNomSimple)) {
 									jsVal = ".checked";
 								}
-								//STUFF3
 								if(entiteLien) {
 									wTh.tl(7, "<div></div>");
 								} else {
+									// JS Tri //
 									wTh.tl(7, "<", composantsWebPrefixe, "dropdown id=\"htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "\">");
 									wTh.tl(8, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " slot=\"trigger\" caret>", entiteNomAffichage, "</", composantsWebPrefixe, "button>");
 									wTh.tl(8, "<", composantsWebPrefixe, "menu>");
-									wTh.tl(9, "<", composantsWebPrefixe, "menu-item data-action=\"", i18nPage.getString(I18n.var_tri), "\" data-order=\"asc\" id=\"htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "-asc\">");
+									wTh.tl(9, "<", composantsWebPrefixe, "menu-item onclick=\"var e = document.querySelector('#pageFacet", i18nPage.getString(I18n.var_Tri), classeNomSimple, "_", entiteVar, "'); e.value = this.getAttribute('data-order'); document.querySelectorAll('.pageSearchVal-page", i18nPage.getString(I18n.var_Tri), "-", classeNomSimple, "').forEach(e => e.remove()); e.dispatchEvent(new Event('change', {})); \" data-action=\"", i18nPage.getString(I18n.var_tri), "\" data-order=\"asc\" id=\"htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "-asc\">");
 									wTh.tl(10, "<i class=\"{{ FONTAWESOME_STYLE }} fa-arrow-down-a-z\"></i>");
 									wTh.t(10).sx(String.format(i18nPage.getString(I18n.str_trier_par___croissante), entiteNomAffichage)).l();
 									wTh.tl(9, "</", composantsWebPrefixe, "menu-item>");
-									wTh.tl(9, "<", composantsWebPrefixe, "menu-item data-action=\"", i18nPage.getString(I18n.var_tri), "\" data-order=\"desc\" id=\"htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "-desc\">");
+									wTh.tl(9, "<", composantsWebPrefixe, "menu-item onclick=\"var e = document.querySelector('#pageFacet", i18nPage.getString(I18n.var_Tri), classeNomSimple, "_", entiteVar, "'); e.value = this.getAttribute('data-order'); document.querySelectorAll('.pageSearchVal-page", i18nPage.getString(I18n.var_Tri), "-", classeNomSimple, "').forEach(e => e.remove()); e.dispatchEvent(new Event('change', {})); \" data-action=\"", i18nPage.getString(I18n.var_tri), "\" data-order=\"desc\" id=\"htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "-desc\">");
 									wTh.tl(10, "<i class=\"{{ FONTAWESOME_STYLE }} fa-arrow-down-z-a\"></i>");
 									wTh.t(10).sx(String.format(i18nPage.getString(I18n.str_trier_par___decroissante), entiteNomAffichage)).l();
 									wTh.tl(9, "</", composantsWebPrefixe, "menu-item>");
@@ -2432,24 +2432,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							}
 							wFoot.tl(8, "</div>");
 							wFoot.tl(7, "{% endif %}");
-
-							//STUFF3
-							// js tri
-							auteurPageJsRecherche.l();
-							auteurPageJsRecherche.tl(1, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "')?.addEventListener('select', (event) => {");
-							auteurPageJsRecherche.tl(2, "const item = event.detail.item;");
-							auteurPageJsRecherche.tl(2, "const action = item.getAttribute('data-action');");
-							auteurPageJsRecherche.tl(2, "const order = item.getAttribute('data-order');");
-							auteurPageJsRecherche.tl(2, "const checked = !(document.querySelector('#pageSearchVal-page", i18nPage.getString(I18n.var_Tri), "-", classeNomSimple, "-", entiteVar, "').innerText == undefined);");
-							auteurPageJsRecherche.tl(2, "if (action === '", i18nPage.getString(I18n.var_tri), "') {");
-							auteurPageJsRecherche.tl(3, i18nPage.getString(I18n.var_tri), "('", classeNomSimple, "', '", entiteVar, "', checked ? order : '');");
-							auteurPageJsRecherche.tl(3, "document.querySelector('#pageFacet", i18nPage.getString(I18n.var_Tri), classeNomSimple, "_", entiteVar, "').value = checked ? order : '';");
-							auteurPageJsRecherche.tl(2, "}");
-							auteurPageJsRecherche.tl(1, "});");
-							auteurPageJsRecherche.l();
-							auteurPageJsRecherche.tl(1, "document.querySelector('#pageFacet", i18nPage.getString(I18n.var_Tri), classeNomSimple, "_", entiteVar, "')?.addEventListener('", "sl-".equals(composantsWebPrefixe) ? "sl-" : "", "change', (event) => {");
-							auteurPageJsRecherche.tl(2, i18nPage.getString(I18n.var_tri), "('", classeNomSimple, "', '", entiteVar, "', event.currentTarget.value);");
-							auteurPageJsRecherche.tl(1, "});");
 						}
 						rechercheSolr.setStart(i.intValue() + rechercheLignes);
 						rechercheReponse = clientSolrComputate.query(rechercheSolr);
@@ -2530,6 +2512,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								wVarsFqJs.tl(1, "vars.push({ var: '", entiteVar, "', "
 										, "var", i18nPage.getString(I18n.var_Indexe), ": '", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "'"
 										, ", ", i18nPage.getString(I18n.var_nomAffichage), ": ", entiteNomAffichage == null ? "null" : "'" + entiteNomAffichage + "'", "});");
+
+
+								// JS Tri //
+								auteurPageJsRecherche.l();
+								auteurPageJsRecherche.tl(1, "document.querySelector('#pageFacet", i18nPage.getString(I18n.var_Tri), classeNomSimple, "_", entiteVar, "')?.addEventListener('", "sl-".equals(composantsWebPrefixe) ? "sl-" : "", "change', (event) => {");
+								auteurPageJsRecherche.tl(2, i18nPage.getString(I18n.var_tri), "('", classeNomSimple, "', '", entiteVar, "', event.currentTarget.value);");
+								auteurPageJsRecherche.tl(1, "});");
 							}
 
 							if(entiteHtml) {
@@ -4778,9 +4767,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		t(7, "<div");
 		s(" id=\"pageSearchVal-page", i18nPage.getString(I18n.var_Tri), "-", classeNomSimple, "\"");
 		l(">");
+		// JS Tri //
 		tl(7, "{% for key, value in varsFq.items() %}");
+		tl(7, "{% if default", i18nPage.getString(I18n.var_Tri), "Vars is defined and ((key + ' asc') in default", i18nPage.getString(I18n.var_Tri), "Vars or (key + ' desc') in default", i18nPage.getString(I18n.var_Tri), "Vars) %}");
 		t(9, "<div");
-		s(" class=\"pageSearchVal pageSearchVal-page", i18nPage.getString(I18n.var_Tri), "-", classeNomSimple, "-{{ key }} \"");
+		s(" class=\"pageSearchVal pageSearchVal-page", i18nPage.getString(I18n.var_Tri), "-", classeNomSimple, " pageSearchVal-page", i18nPage.getString(I18n.var_Tri), "-", classeNomSimple, "-{{ key }} \"");
 		s(" id=\"pageSearchVal-page", i18nPage.getString(I18n.var_Tri), "-", classeNomSimple, "-{{ key }}\"");
 		s(">");
 		// s("{% for item in default", i18nPage.getString(I18n.var_Tri), "Vars %}");
@@ -4792,12 +4783,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		s("{% endif %}");
 		s("{% endif %}");
 		l("</div>");
+		tl(7, "{% endif %}");
 		tl(7, "{% endfor %}");
 		tl(7, "</div>");
 
 		tl(7, "{% for key, value in varsFq.items() %}");
+		// JS Tri //
 		tl(7, "<div>");
 		t(8, "<", composantsWebPrefixe, "radio-group");
+		s(" orientation=\"horizontal\"");
 		s(" name=\"pageFacet", i18nPage.getString(I18n.var_Tri), "\"");
 		s(" class=\"pageFacet", i18nPage.getString(I18n.var_Tri), " \"");
 		s(" id=\"pageFacet", i18nPage.getString(I18n.var_Tri), classeNomSimple, "_{{ key }}\"");
