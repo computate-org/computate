@@ -596,28 +596,30 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			else {
 				if(entiteLien) {
 					tl(1, "{%- if 'Page' == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " %}");
-					tl(9, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", "");
-					tl(11, "id=\"{{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
+					tl(9, "<div class=\"button-on-left \">");
+					tl(10, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", "");
+					tl(12, "id=\"{{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 
 					if(entiteNomAffichage != null) {
-						tl(11, "placeholder=\"[", entiteNomSimple, "] ", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
-						tl(11, "label=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
+						tl(12, "placeholder=\"[", entiteNomSimple, "] ", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
+						tl(12, "label=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 					}
 					if(entiteDescription != null) {
-						t(11, "hint=\"").sx(entiteDescription).l("\"");
+						t(12, "hint=\"").sx(entiteDescription).l("\"");
 					}
 
-					tl(11, "class=\"button-on-left {{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, " class", classeNomSimple, " input", classeNomSimple, "{{ ", i18nGlobale.getString(I18n.var_resultat), ".", classeVarId, " }}", entiteVarCapitalise, " \"");
-					tl(11, "name=\"set", entiteVarCapitalise, "\"");
-					tl(11, "href=\"{{ ", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, " | e }}\"");
-					tl(11, ">");
+					tl(12, "class=\"button-on-left {{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, " class", classeNomSimple, " input", classeNomSimple, "{{ ", i18nGlobale.getString(I18n.var_resultat), ".", classeVarId, " }}", entiteVarCapitalise, " \"");
+					tl(12, "name=\"set", entiteVarCapitalise, "\"");
+					tl(12, "href=\"{{ ", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, " | e }}\"");
+					tl(12, ">");
 					if(entiteIcone != null) {
-						tl(10, entiteIcone);
+						tl(11, entiteIcone);
 					}
 					if(entiteNomAffichage != null) {
-						t(10).sx(entiteNomAffichage).l();
+						t(11).sx(entiteNomAffichage).l();
 					}
-					tl(9, "</", composantsWebPrefixe, "button>");
+					tl(10, "</", composantsWebPrefixe, "button>");
+					tl(9, "</div>");
 					t(9, "<div class=\"button-description-on-right \">");
 						sx(entiteDescription);
 					l("</div>");
