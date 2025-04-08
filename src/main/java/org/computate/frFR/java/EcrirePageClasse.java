@@ -2288,12 +2288,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageCss.tl(2, "grid-column: span ", rechercheListe.size(), ";");
 					auteurPageCss.tl(2, "align-items: center;");
 					auteurPageCss.tl(2, "background-color: var(--", composantsWebPrefixe, "color-surface-raised);");
-					auteurPageCss.tl(2, "&:hover {");
-					auteurPageCss.tl(3, "background-color: var(--wa-color-brand-fill-quiet);");
+					auteurPageCss.tl(2, "border-radius: var(--", composantsWebPrefixe, "border-radius-pill);");
+					auteurPageCss.tl(2, "&:not(:first-child) {");
+					auteurPageCss.tl(3, "padding-inline-start: var(--", composantsWebPrefixe, "space-m);");
 					auteurPageCss.tl(2, "}");
+					// auteurPageCss.tl(2, "&:hover {");
+					// auteurPageCss.tl(3, "background-color: var(--", composantsWebPrefixe, "color-brand-fill-quiet);");
+					// auteurPageCss.tl(2, "}");
 					auteurPageCss.tl(2, composantsWebPrefixe, "button {");
 					auteurPageCss.tl(3, "&::part(base) {");
-					auteurPageCss.tl(4, "border-radius: initial;");
+					auteurPageCss.tl(4, "border-radius: var(--", composantsWebPrefixe, "border-radius-pill);");
 					auteurPageCss.tl(3, "}");
 					auteurPageCss.tl(2, "}");
 					auteurPageCss.tl(2, "@media (max-width:767px) {");
@@ -4124,9 +4128,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			auteurPageJsEdition.tl(0, "Promise.all([");
 			auteurPageJsEdition.tl(2, "customElements.whenDefined('", composantsWebPrefixe, "button')");
 			auteurPageJsEdition.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "input')");
-			auteurPageJsEdition. tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "checkbox')");
-			auteurPageJsEdition. tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "option')");
-			auteurPageJsEdition. tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "textarea')");
 			auteurPageJsEdition.tl(2, "]).then(() => {");
 
 			for(String classeApiMethode : classeApiMethodes) {
@@ -4390,7 +4391,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 
 		// formulaires //
-		tl(5, "<", composantsWebPrefixe, "divider></", composantsWebPrefixe, "divider>");
 		tl(5, "<div id=\"htm", i18nPage.getString(I18n.var_Bouton), i18nPage.getString(I18n.var_Groupe), "\">");
 		tl(6, "<div class=\"flex flex-wrap round-column pill-smart-border-radius \">");
 
@@ -4665,15 +4665,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		////////////////////
 
 		tl(7, "{%- block htmBody", i18nPage.getString(I18n.var_Filtres), classePageNomSimple, " %}");
-		tl(7, "<div>");
+		tl(7, "<div class=\"flex flex-column gap-l \">");
 		tl(8, "{% for key, value in varsFq.items() %}");
-		tl(9, "<div class=\"\">");
+		tl(8, "<div>");
+		tl(9, "<div>");
 		t(10, "<label for=\"fq", classeNomSimple, "_{{ key }}\">");
 		s("{{ value.", i18nPage.getString(I18n.var_nomAffichage), " }}");
 		s("<sup> ({{ value.", i18nPage.getString(I18n.var_classeNomSimple), " }})</sup>");
 		l("</label>");
 
-    tl(10, "<", composantsWebPrefixe, "tooltip for=\"buttonFacet", classeNomSimple, "_{{ key }}\">", i18nPage.getString(I18n.str_voir_valeurs), "</", composantsWebPrefixe, "tooltip>");
+    	tl(10, "<", composantsWebPrefixe, "tooltip for=\"buttonFacet", classeNomSimple, "_{{ key }}\">", i18nPage.getString(I18n.str_voir_valeurs), "</", composantsWebPrefixe, "tooltip>");
 		tl(10, "<div class=\"flex round-column pill-smart-border-radius \">");
 		t(11, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", "");
 		s(" id=\"buttonFacet", classeNomSimple, "_{{ key }}\"");
@@ -4694,10 +4695,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		l("></", composantsWebPrefixe, "input>");
 		tl(10, "</div>");
 
-		tl(9, "</div>");
-		t(9, "<div");
-		s("");
-		l(">");
 		t(10, "<div");
 		s(" class=\"pageSearchVal \"");
 		s(" id=\"pageSearchVal-fq", classeNomSimple, "_{{ key }}\"");
@@ -4707,6 +4704,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		s(" id=\"pageSearchVal-buttonFacet", classeNomSimple, "_{{ key }}\"");
 		l(">{% if value.facetField.var is defined %}facet.field={{ value.facetField.var }}{% endif %}</div>");
 
+		tl(9, "</div>");
+		tl(9, "<div>");
+
 		t(10, "<div");
 		s(" class=\"pageFacetField pageFacetField", classeNomSimple, "_{{ key }} \"");
 		s(" id=\"pageFacetField", classeNomSimple, "_{{ key }}\"");
@@ -4715,11 +4715,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(11, "<div>");
 		tl(12, "<", composantsWebPrefixe, "tooltip content=\"", String.format(i18nPage.getString(I18n.str_au_total_avec_), "{{ facetFieldValue | e }}", classeNomSingulier, "{{ value.facetField.var | e }}", "{{ facetFieldKey | e }}"), "\"></", composantsWebPrefixe, "tooltip>");
 		t(12, "<div");
-		s(" class=\"cursor-pointer \"");
+		s(" class=\"cursor-pointer raised-item \"");
 		s(" data-class=\"", classeNomSimple, "\"");
 		s(" data-var=\"{{ value.facetField.var }}\"");
 		s(" data-val=\"{{ facetFieldKey }}\"");
-		s(" onclick=\"fqReplace('", classeNomSimple, "', this); \"");
+		s(" onclick=\"if(document.querySelector('#fq", classeNomSimple, "_{{ key }}')?.value === '{{ facetFieldKey }}') this.setAttribute('data-val', ''); fqReplace('", classeNomSimple, "', this); \"");
 		s(">");
 		s("{{ facetFieldValue }}");
 		s(": ");
@@ -4730,6 +4730,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(10, "</div>");
 
 		tl(9, "</div>");
+		tl(8, "</div>");
 		tl(8, "{% endfor %}");
 		tl(7, "</div>");
 		
@@ -4872,7 +4873,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(9, "<td class=\"\">");
 		t(10, "<", composantsWebPrefixe, "select");
 		s(" name=\"facet.range.gap\"");
-		s(" id=\"pageFacetRangeGap-", classeNomSimple, "\"");
+		s(" id=\"pageSearchVal-pageFacetRangeGap-", classeNomSimple, "-input\"");
 		s(" onchange=\"facet", i18nPage.getString(I18n.var_Gamme), "GapChange('", classeNomSimple, "', this); \"");
 		l(">");
 		tl(11, "<", composantsWebPrefixe, "option value=\"+1YEAR\"{% if defaultRangeGap == '+1YEAR' %} selected=\"selected\"{% else %}{% endif %}>Year</", composantsWebPrefixe, "option>");
@@ -5195,8 +5196,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			l("</h1>");
 			tl(4, "</div>");
 
-			tl(0, "{% include ", classePageBoutonsRechercheTemplate, " %}");
 			tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
+			tl(5, "<", composantsWebPrefixe, "divider></", composantsWebPrefixe, "divider>");
+			tl(0, "{% include ", classePageBoutonsRechercheTemplate, " %}");
 
 			tl(4, "<h2>");
 			tl(5, "<span>");
@@ -5417,7 +5419,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		s("</a>");
 		l("</h1>");
 		tl(0, "{%- include ", classePageRechercheSuggereTemplate, " %}");
-		tl(0, "{% include ", classePageBoutonsRechercheTemplate, " %}");
+		tl(5, "<", composantsWebPrefixe, "divider></", composantsWebPrefixe, "divider>");
 		tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
 		tl(0, "{% endif %}");
 
@@ -5477,7 +5479,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// tl(6, "<", composantsWebPrefixe, "divider></", composantsWebPrefixe, "divider>");
 		// tl(6, "{{ htm", i18nPage.getString(I18n.var_BoutonsPagination), classePageNomSimple, "() }}");
 
+		tl(5, "<div class=\"", composantsWebPrefixe, "flank ", composantsWebPrefixe, "align-items-baseline margin-block-start \">");
 		tl(0, "{% include ", classePageBoutonsPaginationTemplate, " %}");
+		tl(0, "{% include ", classePageBoutonsRechercheTemplate, " %}");
+		tl(5, "</div>");
 		tl(5, "<div class=\"card-like-thing background-color-surface-border\" id=\"site-results-grid\">");
 		tl(6, "<div>");
 		s(wTh);
@@ -5563,8 +5568,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(5, "<div class=\"margin-block\">");
 		tl(5, "</div>");
 
-		tl(0, "{% include ", classePageBoutonsRechercheTemplate, " %}");
 		tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
+		tl(5, "<", composantsWebPrefixe, "divider></", composantsWebPrefixe, "divider>");
+		tl(0, "{% include ", classePageBoutonsRechercheTemplate, " %}");
 		tl(0, "{% endif %}");
 
 		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Debut), classePageNomSimple, " %}");
