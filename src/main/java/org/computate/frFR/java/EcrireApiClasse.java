@@ -416,6 +416,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							entiteVar = (String)doc.get("entiteVar_" + classeLangueNom + "_stored_string");
 							entiteVarCapitalise = (String)doc.get("entiteVarCapitalise_" + classeLangueNom + "_stored_string");
 							entiteAttribuer = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuer_stored_boolean"));
+							entiteAttribuerAttribuer = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuerAttribuer_stored_boolean"));
 							entiteAttribuerVar = (String)doc.get("entiteAttribuerVar_" + classeLangueNom + "_stored_string");
 							entiteAttribuerTypeJson = (String)doc.get("entiteAttribuerTypeJson_stored_string");
 							entiteAttribuerNomSimple = (String)doc.get("entiteAttribuerNomSimple_" + classeLangueNom + "_stored_string");
@@ -799,7 +800,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									tl(6, "Optional.ofNullable(jsonObject.getJsonArray(", i18nGlobale.getString(I18n.var_entite), "Var)).orElse(new JsonArray()).stream().map(oVal -> oVal.toString()).forEach(val -> {");
 								else
 									tl(6, "Optional.ofNullable(jsonObject.getString(", i18nGlobale.getString(I18n.var_entite), "Var)).ifPresent(val -> {");
-								if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
+								if(!entiteAttribuerAttribuer || StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
 									if("array".equals(entiteTypeJson) && "array".equals(entiteAttribuerTypeJson)) {
 										// list, list, <
 										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, "), ", entiteAttribuerNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), entiteAttribuerNomSimple, "(", entiteAttribuerNomSimple, ".VAR_", classeVarClePrimaire, "), ", entiteAttribuerNomSimple, ".class, val, ", classeVarInheritClePrimaire, ").onSuccess(", classeVarClePrimaire, "2 -> {");
@@ -965,7 +966,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									tl(6, "Optional.ofNullable(jsonObject.getJsonArray(", i18nGlobale.getString(I18n.var_entite), "Var)).orElse(new JsonArray()).stream().map(oVal -> oVal.toString()).forEach(val -> {");
 								else
 									tl(6, "Optional.ofNullable(jsonObject.getString(", i18nGlobale.getString(I18n.var_entite), "Var)).ifPresent(val -> {");
-								if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
+								if(!entiteAttribuerAttribuer || StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
 									if("array".equals(entiteTypeJson) && "array".equals(entiteAttribuerTypeJson)) {
 										// list, list, <
 										tl(7, "futures2.add(Future.future(promise2 -> {");
@@ -1133,7 +1134,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									tl(6, "Optional.ofNullable(jsonObject.getJsonArray(", i18nGlobale.getString(I18n.var_entite), "Var)).orElse(new JsonArray()).stream().map(oVal -> oVal.toString()).forEach(val -> {");
 								else
 									tl(6, "Optional.ofNullable(jsonObject.getString(", i18nGlobale.getString(I18n.var_entite), "Var)).ifPresent(val -> {");
-								if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
+								if(!entiteAttribuerAttribuer || StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
 									if("array".equals(entiteTypeJson) && "array".equals(entiteAttribuerTypeJson)) {
 										// list, list, <
 										tl(7, "futures2.add(Future.future(promise2 -> {");
@@ -1288,7 +1289,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
 									}
 
-									if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
+									if(!entiteAttribuerAttribuer || StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
 										if("array".equals(entiteTypeJson) && "array".equals(entiteAttribuerTypeJson)) {
 											// list, list, <
 											tl(5, "case \"set", entiteVarCapitalise, "\":");
@@ -1870,28 +1871,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"))
 							s("JsonObject body, ");
 						l("ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), ", Handler<AsyncResult<ServiceResponse>> ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ") {");
-						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", ", classePublicLire || classeRoleSession || classeRoleUtilisateur, ").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
+						tl(2, "Boolean ", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), " = ", classePublicLire || classeRoleSession, ";");
+						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", ", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), ").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
 						if(
-								StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
-										, i18nGlobale.getString(I18n.var_PageEdition)
-										, i18nGlobale.getString(I18n.var_PageUtilisateur)
-										, i18nGlobale.getString(I18n.var_Telechargement)
-										)
-									&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
-									&& (
 									classeAuth
-								)
-								|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
-										, i18nGlobale.getString(I18n.var_PageEdition)
-										, i18nGlobale.getString(I18n.var_PageUtilisateur)
-										, i18nGlobale.getString(I18n.var_Telechargement)
-										) && (
-									BooleanUtils.isNotTrue(classeRoleSession) 
 									&& BooleanUtils.isNotTrue(classePublicLire) 
-									&& BooleanUtils.isNotTrue(classeRoleUtilisateur) 
-									&& BooleanUtils.isNotTrue(classeRoleChacun) 
-									&& classeAuth
-								)
 								) {
 							if(authPolitiqueGranulee) {
 								tl(3, "String ", classeVarId, " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\").getString(\"", classeVarId, "\");");
@@ -1914,7 +1898,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(5, ", config.getString(ComputateConfigKeys.AUTH_TOKEN_URI)");
 								tl(5, ")");
 								tl(5, ".ssl(config.getBoolean(ComputateConfigKeys.AUTH_SSL))");
-								tl(5, ".putHeader(\"Authorization\", String.format(\"Bearer %s\", siteRequest.getUser().principal().getString(\"access_token\")))");
+								tl(5, ".putHeader(\"Authorization\", String.format(\"Bearer %s\", Optional.ofNullable(siteRequest.getUser()).map(user -> user.principal().getString(\"access_token\")).orElse(\"\")))");
 								tl(5, ".sendForm(form)");
 								tl(5, ".expecting(HttpResponseExpectation.SC_OK)");
 								tl(3, ".onComplete(authorizationDecisionResponse -> {");
@@ -1956,6 +1940,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								}
 								tl(5, "{");
 								tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".setScopes(scopes.stream().map(o -> o.toString()).collect(Collectors.toList()));");
+								tl(6, "List<String> scopes2 = ", i18nGlobale.getString(I18n.var_requeteSite), ".getScopes();");
+								if(classeRoleSession || classeRoleUtilisateur || classeRoleChacun) {
+									tl(6, "if(!scopes2.contains(\"POST\"))");
+									tl(7, "scopes2.add(\"POST\");");
+									tl(6, "if(!scopes2.contains(\"PATCH\"))");
+									tl(7, "scopes2.add(\"PATCH\");");
+								}
 							} else {
 								tl(3, "authorizationProvider.getAuthorizations(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_Utilisateur), "()).onFailure(ex -> {");
 								tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
@@ -2003,26 +1994,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(6, "});");
 
 						if(
-								StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
-										, i18nGlobale.getString(I18n.var_PageEdition)
-										, i18nGlobale.getString(I18n.var_PageUtilisateur)
-										, i18nGlobale.getString(I18n.var_Telechargement)
-										) 
-									&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
-									&& (
 									classeAuth
-								)
-								|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
-										, i18nGlobale.getString(I18n.var_PageEdition)
-										, i18nGlobale.getString(I18n.var_PageUtilisateur)
-										, i18nGlobale.getString(I18n.var_Telechargement)
-										) && (
-									BooleanUtils.isNotTrue(classeRoleSession) 
 									&& BooleanUtils.isNotTrue(classePublicLire) 
-									&& BooleanUtils.isNotTrue(classeRoleUtilisateur) 
-									&& BooleanUtils.isNotTrue(classeRoleChacun) 
-									&& classeAuth
-								)
 								) {
 							if(authPolitiqueGranulee) {
 								tl(5, "}");
@@ -2088,29 +2061,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(2, "oauth2AuthenticationProvider.refresh(User.create(", i18nGlobale.getString(I18n.var_requeteService), ".getUser())).onSuccess(user -> {");
 							tl(3, "serviceRequest.setUser(user.principal());");
 						}
-						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", ", classePublicLire || classeRoleSession || classeRoleUtilisateur, ").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
+						tl(2, "Boolean ", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), " = ", classePublicLire || classeRoleSession, ";");
+						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", ", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), ").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
 						if(
-								StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
-										, i18nGlobale.getString(I18n.var_PageEdition)
-										, i18nGlobale.getString(I18n.var_PageUtilisateur)
-										, i18nGlobale.getString(I18n.var_Telechargement)
-										) 
-									&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
-									&& (
 									classeAuth
-								)
-								|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
-										, i18nGlobale.getString(I18n.var_PageEdition)
-										, i18nGlobale.getString(I18n.var_PageUtilisateur)
-										, i18nGlobale.getString(I18n.var_Telechargement)
-										) && (
-									BooleanUtils.isNotTrue(classeRoleSession) 
 									&& BooleanUtils.isNotTrue(classePublicLire) 
-									&& BooleanUtils.isNotTrue(classePageRecherchePublicLire && classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) 
-									&& BooleanUtils.isNotTrue(classeRoleUtilisateur) 
-									&& BooleanUtils.isNotTrue(classeRoleChacun) 
-									&& classeAuth
-								)
 								) {
 							if(authPolitiqueGranulee) {
 								tl(3, "String ", classeVarId, " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\").getString(\"", classeVarId, "\");");
@@ -2133,7 +2088,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(5, ", config.getString(ComputateConfigKeys.AUTH_TOKEN_URI)");
 								tl(5, ")");
 								tl(5, ".ssl(config.getBoolean(ComputateConfigKeys.AUTH_SSL))");
-								tl(5, ".putHeader(\"Authorization\", String.format(\"Bearer %s\", siteRequest.getUser().principal().getString(\"access_token\")))");
+								tl(5, ".putHeader(\"Authorization\", String.format(\"Bearer %s\", Optional.ofNullable(siteRequest.getUser()).map(user -> user.principal().getString(\"access_token\")).orElse(\"\")))");
 								tl(5, ".sendForm(form)");
 								tl(5, ".expecting(HttpResponseExpectation.SC_OK)");
 								tl(3, ".onComplete(authorizationDecisionResponse -> {");
@@ -2175,6 +2130,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								}
 								tl(5, "{");
 								tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".setScopes(scopes.stream().map(o -> o.toString()).collect(Collectors.toList()));");
+								tl(6, "List<String> scopes2 = ", i18nGlobale.getString(I18n.var_requeteSite), ".getScopes();");
+								if(classeRoleSession || classeRoleUtilisateur || classeRoleChacun) {
+									tl(6, "if(!scopes2.contains(\"POST\"))");
+									tl(7, "scopes2.add(\"POST\");");
+									tl(6, "if(!scopes2.contains(\"PATCH\"))");
+									tl(7, "scopes2.add(\"PATCH\");");
+								}
 							} else {
 								tl(3, "authorizationProvider.getAuthorizations(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_Utilisateur), "()).onFailure(ex -> {");
 								tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
@@ -2225,7 +2187,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(6, "JsonObject params = new JsonObject();");
 							tl(6, "params.put(\"body\", ", i18nGlobale.getString(I18n.var_requeteSite), ".getJsonObject());");
 							tl(6, "params.put(\"path\", new JsonObject());");
-							tl(6, "params.put(\"cookie\", new JsonObject());");
+							tl(6, "params.put(\"cookie\", ", i18nGlobale.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"cookie\"));");
 							tl(6, "params.put(\"header\", ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"header\"));");
 							tl(6, "params.put(\"form\", new JsonObject());");
 							tl(6, "JsonObject query = new JsonObject();");
@@ -2421,27 +2383,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						}
 
 						if(
-								StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
-										, i18nGlobale.getString(I18n.var_PageEdition)
-										, i18nGlobale.getString(I18n.var_PageUtilisateur)
-										, i18nGlobale.getString(I18n.var_Telechargement)
-										) 
-									&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
-									&& (
 									classeAuth
-								)
-								|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"
-										, i18nGlobale.getString(I18n.var_PageEdition)
-										, i18nGlobale.getString(I18n.var_PageUtilisateur)
-										, i18nGlobale.getString(I18n.var_Telechargement)
-										) && (
-									BooleanUtils.isNotTrue(classeRoleSession) 
 									&& BooleanUtils.isNotTrue(classePublicLire) 
-									&& BooleanUtils.isNotTrue(classePageRecherchePublicLire && classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) 
-									&& BooleanUtils.isNotTrue(classeRoleUtilisateur) 
-									&& BooleanUtils.isNotTrue(classeRoleChacun) 
-									&& classeAuth
-								)
 								) {
 							if(authPolitiqueGranulee) {
 								tl(5, "}");
@@ -2640,7 +2583,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(5, "JsonObject params = new JsonObject();");
 						tl(5, "params.put(\"body\", obj);");
 						tl(5, "params.put(\"path\", new JsonObject());");
-						tl(5, "params.put(\"cookie\", new JsonObject());");
+						tl(5, "params.put(\"cookie\", ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"cookie\"));");
 						tl(5, "params.put(\"header\", ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"header\"));");
 						tl(5, "params.put(\"form\", new JsonObject());");
 						tl(5, "JsonObject query = new JsonObject();");
@@ -2685,7 +2628,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						l();
 						tl(1, "@Override");
 						tl(1, "public void ", classeApiOperationIdMethode, "Future(" , StringUtils.equals(classeApiTypeMediaRequeteMethode, "application/json") ? "JsonObject" : "String", " body, ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), ", Handler<AsyncResult<ServiceResponse>> ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ") {");
-						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", ", classePublicLire || classeRoleSession || classeRoleUtilisateur, ").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
+						tl(2, "Boolean ", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), " = ", classePublicLire || classeRoleSession, ";");
+						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", ", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), ").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
 						tl(3, "try {");
 						tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".addScopes(\"GET\");");
 						tl(4, classePartsRequeteApi.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
@@ -2740,7 +2684,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						l();
 						tl(1, "@Override");
 						tl(1, "public void ", classeApiOperationIdMethode, "Future(" , StringUtils.equals(classeApiTypeMediaRequeteMethode, "application/json") ? "JsonObject" : "String", " body, ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), ", Handler<AsyncResult<ServiceResponse>> ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ") {");
-						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", ", classePublicLire || classeRoleSession || classeRoleUtilisateur, ").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
+						tl(2, "Boolean ", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), " = ", classePublicLire || classeRoleSession, ";");
+						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", ", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), ").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
 						tl(3, "try {");
 						tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".addScopes(\"GET\");");
 						tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".setJsonObject(body);");
@@ -2793,7 +2738,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						l();
 						tl(1, "@Override");
 						tl(1, "public void ", classeApiOperationIdMethode, "Future(" , StringUtils.equals(classeApiTypeMediaRequeteMethode, "application/json") ? "JsonObject" : "String", " body, ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), ", Handler<AsyncResult<ServiceResponse>> ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ") {");
-						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", ", classePublicLire || classeRoleSession || classeRoleUtilisateur, ").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
+						tl(2, "Boolean ", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), " = ", classePublicLire || classeRoleSession, ";");
+						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", ", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), ").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
 						tl(3, "try {");
 						tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".addScopes(\"GET\");");
 						tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".setJsonObject(body);");
@@ -2850,7 +2796,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						l();
 						tl(1, "@Override");
 						tl(1, "public void ", classeApiOperationIdMethode, "Future(" , StringUtils.equals(classeApiTypeMediaRequeteMethode, "application/json") ? "JsonObject" : "String", " body, ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), ", Handler<AsyncResult<ServiceResponse>> ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ") {");
-						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", ", classePublicLire || classeRoleSession || classeRoleUtilisateur, ").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
+						tl(2, "Boolean ", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), " = ", classePublicLire || classeRoleSession, ";");
+						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", ", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), ").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
 						tl(3, "try {");
 						tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".addScopes(\"GET\");");
 						if(StringUtils.equals(classeApiTypeMediaRequeteMethode, "application/json")) {
@@ -4197,14 +4144,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			}
 			if(classeAuth && (classeRoleSession || classeRoleUtilisateur)) {
 				l();
-				tl(3, "if(!Optional.ofNullable(config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_ROLE_REQUIS), " + \"_", classeNomSimple, "\")).map(v -> RoleBasedAuthorization.create(v).match(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_Utilisateur), "())).orElse(false)) {");
-				tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getSessionId()).orElse(\"-----\")) + \" OR \" + \"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getSessionId", i18nGlobale.getString(I18n.var_Avant), "()).orElse(\"-----\"))");
-				tl(6, "+ \" OR ", i18nGlobale.getString(I18n.var_utilisateurId), "_docvalues_string:\" + Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_UtilisateurId), "()).orElse(\"-----\"));");
+				tl(3, "if(!", i18nGlobale.getString(I18n.var_requeteSite), ".getScopes().contains(\"GET\")) {");
+				tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getSessionId()).orElse(\"\\\"-----\\\"\")) + \" OR \" + \"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getSessionId", i18nGlobale.getString(I18n.var_Avant), "()).orElse(\"\\\"-----\\\"\"))");
+				tl(6, "+ \" OR ", i18nGlobale.getString(I18n.var_utilisateurId), "_docvalues_string:\" + Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_UtilisateurId), "()).orElse(\"\\\"-----\\\"\"));");
 				tl(3, "}");
 			} else if(classeRoleSession || classeRoleUtilisateur) {
 				l();
-				tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getSessionId()).orElse(\"-----\")) + \" OR \" + \"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getSessionId", i18nGlobale.getString(I18n.var_Avant), "()).orElse(\"-----\"))");
-				tl(6, "+ \" OR ", i18nGlobale.getString(I18n.var_utilisateurId), "_docvalues_string:\" + Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_UtilisateurId), "()).orElse(\"-----\"));");
+				tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getSessionId()).orElse(\"\\\"-----\\\"\")) + \" OR \" + \"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getSessionId", i18nGlobale.getString(I18n.var_Avant), "()).orElse(\"\\\"-----\\\"\"))");
+				tl(6, "+ \" OR ", i18nGlobale.getString(I18n.var_utilisateurId), "_docvalues_string:\" + Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_UtilisateurId), "()).orElse(\"\\\"-----\\\"\"));");
 			}
 			l();
 			tl(3, "for(String param", i18nGlobale.getString(I18n.var_Nom), " : ", i18nGlobale.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"query\").fieldNames()) {");
@@ -4851,7 +4798,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(4, "CompositeFuture.all(futures).onSuccess(b -> {");
 					tl(5, "JsonObject params = new JsonObject();");
 					tl(5, "params.put(\"body\", new JsonObject());");
-					tl(5, "params.put(\"cookie\", new JsonObject());");
+					tl(5, "params.put(\"cookie\", ", i18nGlobale.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"cookie\"));");
 					tl(5, "params.put(\"header\", ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"header\"));");
 					tl(5, "params.put(\"form\", new JsonObject());");
 					tl(5, "params.put(\"path\", new JsonObject());");

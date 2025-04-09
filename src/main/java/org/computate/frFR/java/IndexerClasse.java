@@ -3674,6 +3674,7 @@ public class IndexerClasse extends RegarderClasseBase {
 									SolrDocument docEntite = listeRechercheVar.get(0);
 
 									indexerStockerSolr(entiteDoc, "entiteAttribuer", true);
+									indexerStockerSolr(entiteDoc, "entiteAttribuerAttribuer", BooleanUtils.isTrue((Boolean)docEntite.get("entiteAttribuer_stored_boolean")));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomSimple", entiteAttribuerNomSimple);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomCanonique", entiteAttribuerNomCanonique);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomCanoniqueGenApiServiceImpl", entiteAttribuerNomCanoniqueGenApiServiceImpl);
@@ -5914,10 +5915,12 @@ public class IndexerClasse extends RegarderClasseBase {
 							classeApiMethodeSecurite = true;
 						else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_Telechargement)))
 							classeApiMethodeSecurite = true;
-						else if("GET".equals(classeApiMethodeMethode) && classePublicLire)
+						if("GET".equals(classeApiMethodeMethode) && classePublicLire)
 							classeApiMethodeSecurite = false;
-						else if("GET".equals(classeApiMethodeMethode) && classeRoleSession)
-							classeApiMethodeSecurite = false;
+						if(classeRoleSession) {
+							if(StringUtils.equalsAny(classeApiMethodeMethode, "GET", "POST", "PATCH"))
+								classeApiMethodeSecurite = false;
+						}
 		
 						classeApiMethodeMethode = indexerStockerSolr(langueNom, classeDoc, "classeApiMethode" + classeApiMethode, apiMethode.getString(i18nGlobale.getString(I18n.var_ApiMethode), classeApiMethodeMethode));
 						indexerStockerSolr(classeDoc, "classeApiSecurite" + classeApiMethode, classeApiMethodeSecurite);
