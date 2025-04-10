@@ -2187,7 +2187,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(6, "JsonObject params = new JsonObject();");
 							tl(6, "params.put(\"body\", ", i18nGlobale.getString(I18n.var_requeteSite), ".getJsonObject());");
 							tl(6, "params.put(\"path\", new JsonObject());");
-							tl(6, "params.put(\"cookie\", ", i18nGlobale.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"cookie\"));");
+							tl(6, "params.put(\"cookie\", ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"cookie\"));");
 							tl(6, "params.put(\"header\", ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"header\"));");
 							tl(6, "params.put(\"form\", new JsonObject());");
 							tl(6, "JsonObject query = new JsonObject();");
@@ -4798,7 +4798,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(4, "CompositeFuture.all(futures).onSuccess(b -> {");
 					tl(5, "JsonObject params = new JsonObject();");
 					tl(5, "params.put(\"body\", new JsonObject());");
-					tl(5, "params.put(\"cookie\", ", i18nGlobale.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"cookie\"));");
+					tl(5, "params.put(\"cookie\", ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"cookie\"));");
 					tl(5, "params.put(\"header\", ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"header\"));");
 					tl(5, "params.put(\"form\", new JsonObject());");
 					tl(5, "params.put(\"path\", new JsonObject());");
