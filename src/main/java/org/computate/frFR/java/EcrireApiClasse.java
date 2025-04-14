@@ -1898,7 +1898,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(5, ", config.getString(ComputateConfigKeys.AUTH_TOKEN_URI)");
 								tl(5, ")");
 								tl(5, ".ssl(config.getBoolean(ComputateConfigKeys.AUTH_SSL))");
-								tl(5, ".putHeader(\"Authorization\", String.format(\"Bearer %s\", Optional.ofNullable(siteRequest.getUser()).map(user -> user.principal().getString(\"access_token\")).orElse(\"\")))");
+								tl(5, ".putHeader(\"Authorization\", String.format(\"Bearer %s\", Optional.ofNullable(siteRequest.getUser()).map(u -> u.principal().getString(\"access_token\")).orElse(\"\")))");
 								tl(5, ".sendForm(form)");
 								tl(5, ".expecting(HttpResponseExpectation.SC_OK)");
 								tl(3, ".onComplete(authorizationDecisionResponse -> {");
@@ -2088,7 +2088,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(5, ", config.getString(ComputateConfigKeys.AUTH_TOKEN_URI)");
 								tl(5, ")");
 								tl(5, ".ssl(config.getBoolean(ComputateConfigKeys.AUTH_SSL))");
-								tl(5, ".putHeader(\"Authorization\", String.format(\"Bearer %s\", Optional.ofNullable(siteRequest.getUser()).map(user -> user.principal().getString(\"access_token\")).orElse(\"\")))");
+								tl(5, ".putHeader(\"Authorization\", String.format(\"Bearer %s\", Optional.ofNullable(siteRequest.getUser()).map(u -> u.principal().getString(\"access_token\")).orElse(\"\")))");
 								tl(5, ".sendForm(form)");
 								tl(5, ".expecting(HttpResponseExpectation.SC_OK)");
 								tl(3, ".onComplete(authorizationDecisionResponse -> {");
