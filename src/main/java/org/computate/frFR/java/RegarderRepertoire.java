@@ -234,15 +234,20 @@ public class RegarderRepertoire {
 					indexerClasses(SITE_SRC, classeLangueConfig);
 					indexerClasses(SITE_SRC, classeLangueConfig);
 					indexerClasses(SITE_SRC, classeLangueConfig);
+					indexerClasses(SITE_SRC, classeLangueConfig);
+					indexerClasses(SITE_SRC, classeLangueConfig);
 				}
 				System.out.println(classeLangueConfig.getString(I18n.str_Pret));
 				regarderRepertoire.traiterEvenements(classeLangueConfig);
 			} else {
 				if(!GENERER_MAINTENANT) {
 					indexerClasses(SITE_SRC, classeLangueConfig);
+					indexerClasses(SITE_SRC, classeLangueConfig);
+					indexerClasses(SITE_SRC, classeLangueConfig);
 				}
 				if(GENERER) {
 					if(!GENERER_MAINTENANT) {
+						indexerEcrireClasses(SITE_SRC, classeLangueConfig);
 						indexerEcrireClasses(SITE_SRC, classeLangueConfig);
 					}
 					indexerEcrireClasses(SITE_SRC, classeLangueConfig);
