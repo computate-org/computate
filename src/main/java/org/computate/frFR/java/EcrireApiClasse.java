@@ -2265,7 +2265,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(tBase + 8, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_RequeteApi), "_(", i18nGlobale.getString(I18n.var_requeteApi), ");");
 							tl(tBase + 8, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumFound() == 1L)");
 							tl(tBase + 9, i18nGlobale.getString(I18n.var_requeteApi), ".setOriginal(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first());");
-							tl(tBase + 8, i18nGlobale.getString(I18n.var_requeteApi), ".setId(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarId), "()).orElse(null));");
+							tl(tBase + 8, i18nGlobale.getString(I18n.var_requeteApi), ".setId(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarId), "().toString()).orElse(null));");
 							if(classeModele)
 								tl(tBase + 8, i18nGlobale.getString(I18n.var_requeteApi), ".set", classeVarClePrimaireCapitalise, "(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarClePrimaire), "()).orElse(null));");
 							tl(tBase + 8, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", i18nGlobale.getString(I18n.var_requeteApi), ").toString());");
@@ -2705,7 +2705,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(7, "}");
 						tl(7, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumFound() == 1L)");
 						tl(8, i18nGlobale.getString(I18n.var_requeteApi), ".setOriginal(o);");
-						tl(7, i18nGlobale.getString(I18n.var_requeteApi), ".setId(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarId), "()).orElse(null));");
+						tl(7, i18nGlobale.getString(I18n.var_requeteApi), ".setId(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarId), "().toString()).orElse(null));");
 						if(classeModele)
 							tl(7, i18nGlobale.getString(I18n.var_requeteApi), ".set", classeVarClePrimaireCapitalise, "(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarClePrimaire), "()).orElse(null));");
 //						tl(7, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
@@ -2759,7 +2759,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(7, "}");
 						tl(7, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumFound() == 1L)");
 						tl(8, i18nGlobale.getString(I18n.var_requeteApi), ".setOriginal(o);");
-						tl(7, i18nGlobale.getString(I18n.var_requeteApi), ".setId(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarId), "()).orElse(null));");
+						tl(7, i18nGlobale.getString(I18n.var_requeteApi), ".setId(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarId), "().toString()).orElse(null));");
 						if(classeModele)
 							tl(7, i18nGlobale.getString(I18n.var_requeteApi), ".set", classeVarClePrimaireCapitalise, "(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarClePrimaire), "()).orElse(null));");
 //						tl(7, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
@@ -2951,7 +2951,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						else if(StringUtils.contains(classeApiMethode, "PUT"))
 							s(classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), ", JsonObject jsonObject");
 						else if(StringUtils.contains(classeApiMethode, "PATCH"))
-							s(classeNomSimple, " o, Boolean ", classeVarInheritClePrimaire, "");
+							s(classeNomSimple, " o, Boolean ", i18nGlobale.getString(I18n.var_inheritClePrimaire));
 						else
 							s(classeNomSimple, " ", uncapitalizeClasseNomSimple);
 						l(") {");
@@ -3207,7 +3207,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									tl(7, "return promise2.future();");
 									tl(6, "}).compose(ngsildData -> {");
 									tl(7, "Promise<", classeApiClasseNomSimple, "> promise2 = Promise.promise();");
-									tl(7, "sql", classeApiMethode, classeNomSimple, "(o, ", classeVarInheritClePrimaire, ").onSuccess(", uncapitalizeClasseNomSimple, " -> {");
+									tl(7, "sql", classeApiMethode, classeNomSimple, "(o, ", i18nGlobale.getString(I18n.var_inheritClePrimaire), ").onSuccess(", uncapitalizeClasseNomSimple, " -> {");
 									tl(8, i18nGlobale.getString(I18n.var_definir), classeNomSimple, "(", uncapitalizeClasseNomSimple, ", true).onSuccess(c -> {");
 									tl(9, i18nGlobale.getString(I18n.var_attribuer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(d -> {");
 									tl(10, i18nGlobale.getString(I18n.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(o2 -> {");
@@ -3239,7 +3239,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									tl(7, "promise1.fail(ex);");
 									tl(6, "});");
 									tl(5, "} else {");
-									tl(6, "sql", classeApiMethode, classeNomSimple, "(o, ", classeVarInheritClePrimaire, ").onSuccess(", uncapitalizeClasseNomSimple, " -> {");
+									tl(6, "sql", classeApiMethode, classeNomSimple, "(o, ", i18nGlobale.getString(I18n.var_inheritClePrimaire), ").onSuccess(", uncapitalizeClasseNomSimple, " -> {");
 									tl(7, i18nGlobale.getString(I18n.var_definir), classeNomSimple, "(", uncapitalizeClasseNomSimple, ", true).onSuccess(c -> {");
 									tl(8, i18nGlobale.getString(I18n.var_attribuer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(d -> {");
 									tl(9, i18nGlobale.getString(I18n.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(o2 -> {");
@@ -3266,7 +3266,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									tl(6, "});");
 									tl(5, "}");
 								} else {
-									tl(5, "sql", classeApiMethode, classeNomSimple, "(o, ", classeVarInheritClePrimaire, ").onSuccess(", uncapitalizeClasseNomSimple, " -> {");
+									tl(5, "sql", classeApiMethode, classeNomSimple, "(o, ", i18nGlobale.getString(I18n.var_inheritClePrimaire), ").onSuccess(", uncapitalizeClasseNomSimple, " -> {");
 									tl(6, i18nGlobale.getString(I18n.var_definir), classeNomSimple, "(", uncapitalizeClasseNomSimple, ", true).onSuccess(c -> {");
 									tl(7, i18nGlobale.getString(I18n.var_attribuer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(d -> {");
 									tl(8, i18nGlobale.getString(I18n.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(o2 -> {");
@@ -3348,7 +3348,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					if(classeModele) {
 						if(classeApiMethode.contains("POST")) {
 							l();
-							tl(1, "public Future<", classeNomSimple, "> sql", classeApiMethode, classeNomSimple, "(", classeNomSimple, " o, Boolean ", classeVarInheritClePrimaire, ") {");
+							tl(1, "public Future<", classeNomSimple, "> sql", classeApiMethode, classeNomSimple, "(", classeNomSimple, " o, Boolean ", i18nGlobale.getString(I18n.var_inheritClePrimaire), ") {");
 							tl(2, "Promise<", classeNomSimple, "> promise = Promise.promise();");
 							tl(2, "try {");
 							tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), " = o.get", i18nGlobale.getString(I18n.var_RequeteSite), "_();");
@@ -3512,7 +3512,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(1, "}");
 						} else if(classeApiMethode.contains("PATCH")) {
 							l();
-							tl(1, "public Future<", classeApiClasseNomSimple, "> sql", classeApiMethode, classeNomSimple, "(", classeNomSimple, " o, Boolean ", classeVarInheritClePrimaire, ") {");
+							tl(1, "public Future<", classeApiClasseNomSimple, "> sql", classeApiMethode, classeNomSimple, "(", classeNomSimple, " o, Boolean ", i18nGlobale.getString(I18n.var_inheritClePrimaire), ") {");
 							tl(2, "Promise<", classeApiClasseNomSimple, "> promise = Promise.promise();");
 							tl(2, "try {");
 							tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), " = o.get", i18nGlobale.getString(I18n.var_RequeteSite), "_();");
@@ -4131,14 +4131,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				l();
 				tl(3, "String ", classeVarId, " = ", i18nGlobale.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"path\").getString(\"", classeVarId, "\");");
 				if(classeModele) {
-					tl(3, "if(", classeVarId, " != null && NumberUtils.isCreatable(", classeVarId, ")) {");
-					tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"(", classeVarIdSuffixeSolr, ":\" + SearchTool.escapeQueryChars(", classeVarId, ") + \" OR ", classeVarId, "_docvalues_string:\" + SearchTool.escapeQueryChars(", classeVarId, ") + \")\");");
-					tl(3, "} else if(", classeVarId, " != null) {");
-					tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"", classeVarId, "_docvalues_string:\" + SearchTool.escapeQueryChars(", classeVarId, "));");
+					tl(3, "if(", classeVarId, " != null) {");
+					tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"", classeVarId, classeVarIdSuffixeSolr, ":\" + SearchTool.escapeQueryChars(", classeVarId, "));");
 					tl(3, "}");
 				} else {
 					tl(3, "if(", classeVarId, " != null) {");
-					tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"", classeVarId, "_docvalues_string:\" + SearchTool.escapeQueryChars(", classeVarId, "));");
+					tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"", classeVarId, classeVarIdSuffixeSolr, ":\" + SearchTool.escapeQueryChars(", classeVarId, "));");
 					tl(3, "}");
 				}
 			}

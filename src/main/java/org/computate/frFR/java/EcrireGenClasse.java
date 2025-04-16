@@ -6249,7 +6249,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(!classeEstBase)
 				tl(1, "@Override");
 			tl(1, "public String ", langueConfig.getString(I18n.var_id), langueConfig.getString(I18n.var_PourClasse), "() {");
-			tl(2, "return ", classeVarId == null ? "null" : classeVarId, ";");
+			tl(2, "return ", classeVarId == null ? "null" : classeVarIdSuffixeSolr.endsWith("_string") ? classeVarId : ("Optional.ofNullable(" + classeVarId + ").map(o -> o.toString()).orElse(null)"), ";");
 			tl(1, "}");
 		}
 
