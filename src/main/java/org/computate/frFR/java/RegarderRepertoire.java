@@ -232,27 +232,21 @@ public class RegarderRepertoire {
 			if(REGARDER || REGARDER_MAINTENANT) {
 				if(!REGARDER_MAINTENANT) {
 					indexerClasses(SITE_SRC, classeLangueConfig);
-					indexerClasses(SITE_SRC, classeLangueConfig);
-					indexerClasses(SITE_SRC, classeLangueConfig);
-					indexerClasses(SITE_SRC, classeLangueConfig);
-					indexerClasses(SITE_SRC, classeLangueConfig);
+					indexerPageClasses(SITE_SRC, classeLangueConfig);
+					indexerPageClasses(SITE_SRC, classeLangueConfig);
+					indexerPageClasses(SITE_SRC, classeLangueConfig);
 				}
 				System.out.println(classeLangueConfig.getString(I18n.str_Pret));
 				regarderRepertoire.traiterEvenements(classeLangueConfig);
 			} else {
 				if(!GENERER_MAINTENANT) {
 					indexerClasses(SITE_SRC, classeLangueConfig);
-					indexerClasses(SITE_SRC, classeLangueConfig);
-					indexerClasses(SITE_SRC, classeLangueConfig);
+					indexerPageClasses(SITE_SRC, classeLangueConfig);
+					indexerPageClasses(SITE_SRC, classeLangueConfig);
+					indexerPageClasses(SITE_SRC, classeLangueConfig);
 				}
 				if(GENERER) {
-					if(!GENERER_MAINTENANT) {
-						indexerEcrireClasses(SITE_SRC, classeLangueConfig);
-						indexerEcrireClasses(SITE_SRC, classeLangueConfig);
-					}
 					indexerEcrireClasses(SITE_SRC, classeLangueConfig);
-				} else {
-					indexerClasses(SITE_SRC, classeLangueConfig);
 				}
 			}
 		}
@@ -292,6 +286,97 @@ public class RegarderRepertoire {
 		}
 	}
 
+	public static void indexerPageClasses(String SITE_SRC, JsonObject classeLangueConfig) throws Exception {
+		String classeLangueNom = StringUtils.defaultString(System.getenv("SITE_LANG"), "frFR");
+		File dir = new File(String.format("%s/src/main/java", SITE_SRC));
+
+		try (Stream<Path> stream = Files.walk(Paths.get(dir.getAbsolutePath()))) {
+			stream.filter(Files::isRegularFile)
+					.filter(chemin -> chemin.toString().endsWith(".java"))
+					.filter(chemin -> {
+						try {
+							return !FileUtils.readFileToString(chemin.toFile(), "UTF-8").contains("* Translate: false");
+						} catch(Exception ex) {
+							return false;
+						}
+					})
+			.forEach(chemin -> {
+				String cheminStr = chemin.toString();
+				RegarderClasse regarderClasse = new RegarderClasse();
+				try {
+					regarderClasse.setArgs(new String[] {SITE_SRC, cheminStr});
+					regarderClasse.initRegarderClasseBase(classeLangueNom, classeLangueConfig);
+					SolrInputDocument classeDoc = new SolrInputDocument();
+					regarderClasse.indexerClasse(cheminStr, classeDoc, classeLangueNom);
+					System.out.println(String.format("%s %s", classeLangueConfig.getString(I18n.var_Indexe), cheminStr));
+
+					Boolean classeEtendGen = (Boolean)classeDoc.get("classeEtendGen_stored_boolean").getValue();
+					String classeCheminGen = Optional.ofNullable(classeDoc.get("classeCheminGen_enUS_stored_string")).map(o -> (String)o.getValue()).orElse(null);
+					String classePageChemin = Optional.ofNullable(classeDoc.get("classePageChemin_enUS_stored_string")).map(o -> (String)o.getValue()).orElse(null);
+					String classeGenPageChemin = Optional.ofNullable(classeDoc.get("classeGenPageChemin_enUS_stored_string")).map(o -> (String)o.getValue()).orElse(null);
+
+					if(classePageChemin != null) {
+						RegarderClasse regarderClasse2 = new RegarderClasse();
+						try {
+							regarderClasse2.args = regarderClasse.args;
+							regarderClasse2.initRegarderClasseBase(classeLangueNom, classeLangueConfig); 
+							SolrInputDocument classeDoc2 = new SolrInputDocument();
+							regarderClasse2.indexerClasse(classePageChemin, classeDoc2, classeLangueNom);
+							System.out.println(String.format("%s %s", classeLangueConfig.getString(I18n.var_Indexe), classePageChemin));
+						}
+						catch(Exception ex) {
+							System.err.println(String.format("An exception occured while indexing files: %s", ExceptionUtils.getStackTrace(ex)));
+						}
+					}
+					if(classePageChemin != null) {
+						String classePageGenChemin = classePageChemin.replace("/src/main/java", "/src/gen/java").replace(".java", "Gen.java");
+				
+						RegarderClasse regarderClasse2 = new RegarderClasse();
+						try {
+							regarderClasse2.args = regarderClasse.args;
+							regarderClasse2.initRegarderClasseBase(classeLangueNom, classeLangueConfig); 
+							SolrInputDocument classeDoc2 = new SolrInputDocument();
+							regarderClasse2.indexerClasse(classePageGenChemin, classeDoc2, classeLangueNom);
+							System.out.println(String.format("%s %s", classeLangueConfig.getString(I18n.var_Indexe), classePageGenChemin));
+						}
+						catch(Exception ex) {
+							System.err.println(String.format("An exception occured while indexing files: %s", ExceptionUtils.getStackTrace(ex)));
+						}
+					}
+					if(classeGenPageChemin != null) {
+						RegarderClasse regarderClasse2 = new RegarderClasse();
+						try {
+							regarderClasse2.args = regarderClasse.args;
+							regarderClasse2.initRegarderClasseBase(classeLangueNom, classeLangueConfig); 
+							SolrInputDocument classeDoc2 = new SolrInputDocument();
+							regarderClasse2.indexerClasse(classeGenPageChemin, classeDoc2, classeLangueNom);
+							System.out.println(String.format("%s %s", classeLangueConfig.getString(I18n.var_Indexe), classeGenPageChemin));
+						}
+						catch(Exception ex) {
+							System.err.println(String.format("An exception occured while indexing files: %s", ExceptionUtils.getStackTrace(ex)));
+						}
+					}
+					if(classeGenPageChemin != null) {
+						String classeGenPageGenChemin = classeGenPageChemin.replace("/src/main/java", "/src/gen/java").replace(".java", "Gen.java");
+				
+						RegarderClasse regarderClasse2 = new RegarderClasse();
+						try {
+							regarderClasse2.args = regarderClasse.args;
+							regarderClasse2.initRegarderClasseBase(classeLangueNom, classeLangueConfig); 
+							SolrInputDocument classeDoc2 = new SolrInputDocument();
+							regarderClasse2.indexerClasse(classeGenPageGenChemin, classeDoc2, classeLangueNom);
+							System.out.println(String.format("%s %s", classeLangueConfig.getString(I18n.var_Indexe), classeGenPageGenChemin));
+						}
+						catch(Exception ex) {
+							System.err.println(String.format("An exception occured while indexing files: %s", ExceptionUtils.getStackTrace(ex)));
+						}
+					}
+				} catch(Exception ex) {
+					System.err.println(String.format("An exception occured while indexing files: %s", ExceptionUtils.getStackTrace(ex)));
+				}
+			});
+		}
+	}
 
 	public static void indexerEcrireClasses(String SITE_SRC, JsonObject classeLangueConfig) throws Exception {
 		String appComputate = System.getenv("COMPUTATE_SRC");
