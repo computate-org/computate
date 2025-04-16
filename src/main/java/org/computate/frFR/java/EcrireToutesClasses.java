@@ -262,6 +262,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		classeRessourcesAutorisation = Optional.ofNullable(doc.getJsonArray("classeRessourcesAutorisation_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList()).stream().map(v -> (String)v).collect(Collectors.toList());
 		classeVarId = doc.getString("classeVarId_" + langueNom + "_stored_string");
 		classeVarIdSuffixeSolr = doc.getString("classeVarIdSuffixeSolr_stored_string");
+		classeVarNomSuffixeSolr = doc.getString("classeVarNomSuffixeSolr_stored_string");
 		classeVarCleUnique = doc.getString("classeVarCleUnique_" + langueNom + "_stored_string");
 		classeVarEmplacement = doc.getString("classeVarEmplacement_" + langueNom + "_stored_string");
 		classeVarEmplacementCouleur = doc.getString("classeVarEmplacementCouleur_" + langueNom + "_stored_string");

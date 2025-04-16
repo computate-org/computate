@@ -210,6 +210,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected List<String> classeRessourcesAutorisation;
 	protected String classeVarId;
 	protected String classeVarIdSuffixeSolr;
+	protected String classeVarNomSuffixeSolr;
 
 	protected String classeVarCleUnique;
 	protected String classeVarClePrimaireUnique;
@@ -6273,7 +6274,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(!classeEstBase)
 				tl(1, "@Override");
 			tl(1, "public String ", langueConfig.getString(I18n.var_nom), langueConfig.getString(I18n.var_PourClasse), "() {");
-			tl(2, "return ", classeVarNom == null ? "null" : classeVarNom, ";");
+			tl(2, "return ", classeVarNom == null ? "null" : classeVarNomSuffixeSolr.endsWith("_string") ? classeVarNom : ("Optional.ofNullable(" + classeVarNom + ").map(o -> o.toString()).orElse(null)"), ";");
 			tl(1, "}");
 		}
 

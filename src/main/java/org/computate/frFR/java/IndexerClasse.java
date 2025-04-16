@@ -1976,6 +1976,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeVarUrlApi = null;
 		String classeVarId = null;
 		String classeVarIdSuffixeSolr = null;
+		String classeVarNomSuffixeSolr = null;
 		String classeVarNom = null;
 		String classeVarTitre = null;
 		String classeHtmInfobulle = null;
@@ -3449,7 +3450,6 @@ public class IndexerClasse extends RegarderClasseBase {
 							indexerStockerSolr(classeLangueNom, entiteDoc, "entiteVarUrl", entiteVarUrl);
 						Boolean entiteVarId = regexTrouve("^" + i18nGlobale.getString(I18n.var_VarId) + ": (true)$", methodeCommentaire);
 						{
-							// String str = regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_VarId), methodeCommentaire);
 							if(methodeCommentaireActuelle != null)
 								entiteVarId = Optional.ofNullable(regexTrouve("^" + i18nGlobale.getString(I18n.var_VarId) + ": (true)$", methodeCommentaireActuelle)).orElse(entiteVarId);
 							if(entiteVarId != null) {
@@ -3458,7 +3458,14 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 
 						Boolean entiteUnique = indexerStockerSolr(entiteDoc, "entiteUnique", regexTrouve("^" + i18nGlobale.getString(I18n.var_Unique) + ": (true)$", methodeCommentaire) || entiteVarId);
-						Boolean entiteVarNom = indexerStockerSolr(entiteDoc, "entiteVarNom", regexTrouve("^" + i18nGlobale.getString(I18n.var_VarNom) + ": (true)$", methodeCommentaire));
+						Boolean entiteVarNom = regexTrouve("^" + i18nGlobale.getString(I18n.var_VarNom) + ": (true)$", methodeCommentaire);
+						{
+							if(methodeCommentaireActuelle != null)
+								entiteVarNom = Optional.ofNullable(regexTrouve("^" + i18nGlobale.getString(I18n.var_VarNom) + ": (true)$", methodeCommentaireActuelle)).orElse(entiteVarNom);
+							if(entiteVarNom != null) {
+								indexerStockerSolr(entiteDoc, "entiteVarNom", entiteVarNom);
+							}
+						}
 						Boolean entiteVarTitre = indexerStockerSolr(entiteDoc, "entiteVarTitre", regexTrouve("^" + i18nGlobale.getString(I18n.var_VarTitre) + ": (true)$", methodeCommentaire));
 						Boolean entiteVarH1 = indexerStockerSolr(entiteDoc, "entiteVarH1", regexTrouve("^VarH1: (true)$", methodeCommentaire));
 						Boolean entiteVarH2 = indexerStockerSolr(entiteDoc, "entiteVarH2", regexTrouve("^VarH2: (true)$", methodeCommentaire));
@@ -4614,6 +4621,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 						if(entiteVarNom) {
 							classeVarNom = stockerSolr(classeLangueNom, classeDoc, "classeVarNom", entiteVar);
+							classeVarNomSuffixeSolr = stockerSolr(classeDoc, "classeVarNomSuffixeSolr", entiteSuffixeSolr);
 						}
 						if(entiteVarTitre) {
 							classeVarTitre = stockerSolr(classeLangueNom, classeDoc, "classeVarTitre", entiteVar);
@@ -5277,8 +5285,10 @@ public class IndexerClasse extends RegarderClasseBase {
 		}
 		if(classeVarNom == null && classeSuperDoc != null) {
 			classeVarNom = (String)classeSuperDoc.get("classeVarNom_" + classeLangueNom + "_stored_string");
+			classeVarNomSuffixeSolr = (String)classeSuperDoc.get("classeVarNomSuffixeSolr_stored_string");
 			if(classeVarNom != null) {
 				stockerSolr(classeLangueNom, classeDoc, "classeVarNom", classeVarNom);
+				stockerSolr(classeDoc, "classeVarNomSuffixeSolr", classeVarNomSuffixeSolr);
 				if(classeTraduire) {
 					for(String langueNom : classeAutresLangues) {  
 						String classeVarNomLangue = (String)classeSuperDoc.get("classeVarNom_" + langueNom + "_stored_string");
