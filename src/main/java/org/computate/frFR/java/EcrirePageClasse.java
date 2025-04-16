@@ -2315,7 +2315,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							entiteVar = (String)entiteDocumentSolr.get("entiteVar_" + langueNom + "_stored_string");
 							SolrDocument resultatSubstitue = resultatsSubstitues.stream().filter(o -> entiteVar.equals(o.get("entiteVar_" + langueNom + "_stored_string"))).findFirst().orElse(null);
 							if(resultatSubstitue != null) {
-								if(entiteDocumentSolr.equals(resultatSubstitue))
+								if(!entiteDocumentSolr.equals(resultatSubstitue))
 									continue;
 								entiteDocumentSolr = resultatSubstitue;
 							}
