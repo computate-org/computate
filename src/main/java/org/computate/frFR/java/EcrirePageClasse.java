@@ -1092,6 +1092,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								entiteAttribuerNomSimple = (String)entiteDocumentSolr.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
 								entiteAttribuerVar = (String)entiteDocumentSolr.get("entiteAttribuerVar_" + langueNom + "_stored_string");
 								entiteAttribuerVarSuggere = (String)entiteDocumentSolr.get("entiteAttribuerVarSuggere_" + langueNom + "_stored_string");
+								entiteAttribuerVarUrlPageAffichage = (String)entiteDocumentSolr.get("entiteAttribuerVarUrlPageAffichage_" + langueNom + "_stored_string");
+								entiteAttribuerVarUrlPageEdition = (String)entiteDocumentSolr.get("entiteAttribuerVarUrlPageEdition_" + langueNom + "_stored_string");
+								entiteAttribuerVarTitre = (String)entiteDocumentSolr.get("entiteAttribuerVarTitre_" + langueNom + "_stored_string");
+								entiteAttribuerVarDescription = (String)entiteDocumentSolr.get("entiteAttribuerVarDescription_" + langueNom + "_stored_string");
+								entiteAttribuerVarImageUrl = (String)entiteDocumentSolr.get("entiteAttribuerVarImageUrl_" + langueNom + "_stored_string");
+								entiteAttribuerVarSuggere = (String)entiteDocumentSolr.get("entiteAttribuerVarSuggere_" + langueNom + "_stored_string");
 								entiteAttribuerOperationIdPATCH = (String)entiteDocumentSolr.get("entiteAttribuerOperationIdPATCH_" + langueNom + "_stored_string");
 								entiteAttribuerOperationIdRecherche = (String)entiteDocumentSolr.get("entiteAttribuerOperationId" + langueConfig.getString(I18n.var_Recherche) + "_" + langueNom + "_stored_string");
 								entiteAttribuerApiUri = (String)entiteDocumentSolr.get("entiteAttribuerApiUri_" + langueNom + "_stored_string");
@@ -3497,10 +3503,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									auteurPageJs.tl(3, "var $i = document.querySelector('", classeIcone, "');");
 									auteurPageJs.t(3, "var $span = document.createElement('span');");
 									auteurPageJs.t(3, "$span.setAttribute('class', '');");
-									auteurPageJs.t(3, "$span.innerText = ");
 									if(classeVarTitre != null)
-										auteurPageJs.s("o['", classeVarTitre, "']");
-									auteurPageJs.l(";");
+										auteurPageJs.tl(3, "$span.innerText = o['", classeVarTitre, "'];");
 									auteurPageJs.tl(3, "var $li = document.createElement('li');");
 									auteurPageJs.tl(3, "var $a = document.createElement('a').setAttribute('href', o['", classeVarUrlPageEdition, "']);");
 									auteurPageJs.tl(3, "$a.append($i);");
