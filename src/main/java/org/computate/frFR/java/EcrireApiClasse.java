@@ -4640,7 +4640,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(3, "SqlConnection ", i18nGlobale.getString(I18n.var_connexionSql), " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_ConnexionSql), "();");
 					tl(3, i18nGlobale.getString(I18n.var_connexionSql), ".preparedQuery(\"", wAttribuerSql, "\")");
 					tl(5, ".collecting(Collectors.toList())");
-					tl(5, ".execute(Tuple.of(o.get", StringUtils.capitalize(classeVarId), "())");
+					tl(5, ".execute(Tuple.of(", wAttribuerSqlVars, ")");
 					tl(5, ").onSuccess(", i18nGlobale.getString(I18n.var_resultat), " -> {");
 					tl(4, "try {");
 					tl(5, "if(", i18nGlobale.getString(I18n.var_resultat), " != null) {");
