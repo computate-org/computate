@@ -243,10 +243,12 @@ public class RegarderRepertoire {
 					indexerClasses(SITE_SRC, classeLangueConfig);
 					indexerPageClasses(SITE_SRC, classeLangueConfig);
 					indexerPageClasses(SITE_SRC, classeLangueConfig);
-					indexerPageClasses(SITE_SRC, classeLangueConfig);
 				}
 				if(GENERER) {
+					indexerPageClasses(SITE_SRC, classeLangueConfig);
 					indexerEcrireClasses(SITE_SRC, classeLangueConfig);
+				} else {
+					indexerPageClasses(SITE_SRC, classeLangueConfig);
 				}
 			}
 		}

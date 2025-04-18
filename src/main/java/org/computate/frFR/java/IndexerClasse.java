@@ -5467,6 +5467,8 @@ public class IndexerClasse extends RegarderClasseBase {
 				classeOrdre = indexerStockerSolr(classeDoc, "classeOrdre", Integer.parseInt(classeOrdreStr)); 
 
 			String classeOrdreSqlStr = regex("^" + i18nGlobale.getString(I18n.var_OrdreSql) + ": (.*)", classeCommentaire);
+			if(classeOrdreSqlStr == null)
+				classeOrdreSqlStr = classeOrdreStr;
 			if(NumberUtils.isParsable(classeOrdreSqlStr))
 				classeOrdreSql = indexerStockerSolr(classeDoc, "classeOrdreSql", Integer.parseInt(classeOrdreSqlStr)); 
 
