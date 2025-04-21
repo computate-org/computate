@@ -2400,6 +2400,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										// wTd.tl(8, "<div>");
 									}
 									wTd.t(7);
+									wTd.s("<span", entiteMultiligne ? " class=\"white-space-pre-wrap \"" : "", ">");
 									if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
 										wTd.l("<", composantsWebPrefixe, "format-date weekday=\"short\" month=\"short\" day=\"numeric\" year=\"numeric\" hour=\"numeric\" minute=\"numeric\" second=\"numeric\" time-zone-name=\"short\" date=\"{{ formatZonedDateTime(item.", entiteVar, ", \"yyyy-MM-dd'T'HH:mm:ss.SSSX\", defaultLocaleId, \"UTC\") }}\"></", composantsWebPrefixe, "format-date>");
 									} else if(StringUtils.equals(entiteNomCanonique, LocalDate.class.getCanonicalName())) {
@@ -2411,8 +2412,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									} else if(StringUtils.equals(entiteNomCanonique, BigDecimal.class.getCanonicalName())) {
 										wTd.l("{{ formatNumber(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
 									} else {
-										wTd.l("{{ item.", entiteVar, " }}");
+										wTd.l("{{ item.", entiteVar, " | e }}");
 									}
+									wTd.s("</span>");
 									// wTd.tl(8, "</div>");
 									wTd.tl(7, "</a>");
 									if(entiteHighlighting) {
