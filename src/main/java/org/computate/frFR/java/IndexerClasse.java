@@ -2094,7 +2094,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		indexerStockerSolr(classeDoc, "classeContientRequeteSite", classeContientRequeteSite);
 
 		String classeCheminRepertoireGen = StringUtils.substringBeforeLast(classeCheminGen, "/");
-		String classeCle = classeCheminAbsolu;
+		String classeCle = String.format("%s %s", solrCollectionComputate, classeCheminAbsolu);
 		Instant modifiee = Instant.now();
 		Date modifieeDate = Date.from(modifiee);
 		Boolean classeContientCouverture = false;
@@ -2845,7 +2845,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				stockerSolr(classeLangueNom, champDoc, "champNomSimpleComplet", champClasseParts.nomSimpleComplet(classeLangueNom));
 				String champNomCanoniqueComplet = stockerSolr(classeLangueNom, champDoc, "champNomCanoniqueComplet", champClasseParts.nomCanoniqueComplet(classeLangueNom));
 				stockerSolr(classeLangueNom, champDoc, "champCodeSource", champCodeSource);
-				champDoc.addField(solrId, champNomCanoniqueComplet + " " + champCle);
+				champDoc.addField(solrId, String.format("%s %s %s", solrCollectionComputate, champNomCanoniqueComplet, champCle));
 
 				if(classeTraduire) {
 					for(String langueNom : classeAutresLangues) { 
@@ -2904,7 +2904,7 @@ public class IndexerClasse extends RegarderClasseBase {
 					String constructeurExceptionNomSimpleComplet = StringUtils.substringAfterLast(constructeurExceptionQdox.getCanonicalName(), ".");
 					stockerListeSolr(constructeurDoc, "constructeurExceptionNomSimpleComplet", constructeurExceptionNomSimpleComplet);
 				}
-				String constructeurCle = classeCheminAbsolu + "." + classeNomSimple + "(";
+				String constructeurCle = solrCollectionComputate + " " + classeCheminAbsolu + "." + classeNomSimple + "(";
 
 				for(int i = 0; i < constructeurParamsQdox.size(); i++) {
 					JavaParameter paramQdox = constructeurParamsQdox.get(i);
@@ -3848,7 +3848,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							String entiteAnnotationLangue = indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAnnotations", annotation.getType().getCanonicalName());
 						}
 	
-						String entiteCle = classeCheminAbsolu + "." + entiteVar;
+						String entiteCle = solrCollectionComputate + " " + classeCheminAbsolu + "." + entiteVar;
 		
 						// Entites Solr du entite. 
 		
@@ -4834,7 +4834,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 						methodeEstVide = indexerStockerSolr(methodeDoc, "methodeEstVide", methodeEstVide);
 	
-						String methodeCle = classeCheminAbsolu + "." + methodeVar + "(";
+						String methodeCle = solrCollectionComputate + " " + classeCheminAbsolu + "." + methodeVar + "(";
 						for(int i = 0; i < methodeParamsQdox.size(); i++) {
 							JavaParameter paramQdox = methodeParamsQdox.get(i);
 							if(i > 0)
@@ -6607,7 +6607,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		for(Integer i = 0; i < classeTrisOrdre.size(); i++) {
 			String classeTriOrdre = classeTrisOrdre.get(i);
 			String classeTriVar = classeTrisVar.get(i);
-			String classeTriSuffixeType = Optional.ofNullable(clientSolrComputate.getById(classeCheminAbsolu + "." + classeTriVar)).map(d -> (String)d.get("entiteSuffixeType_stored_string")).orElse(null);
+			String classeTriSuffixeType = Optional.ofNullable(clientSolrComputate.getById(solrCollectionComputate + " " + classeCheminAbsolu + "." + classeTriVar)).map(d -> (String)d.get("entiteSuffixeType_stored_string")).orElse(null);
 			if(classeTriSuffixeType == null)
 				classeTriSuffixeType = Optional.ofNullable(clientSolrComputate.getById(classeSuperDoc.get("classeCheminAbsolu_stored_string") + "." + classeTriVar)).map(d -> (String)d.get("entiteSuffixeType_stored_string")).orElse(null);
 			indexerStockerListeSolr(classeDoc, "classeTrisSuffixeType", classeTriSuffixeType); 
