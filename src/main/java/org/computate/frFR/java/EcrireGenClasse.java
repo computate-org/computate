@@ -3534,85 +3534,114 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, " */");
 			}
 
-			if(entiteIgnorer)
+			if(entiteIgnorer) {
 				tl(1, "@JsonIgnore");
-			else if("JsonArray".equals(entiteNomSimple)) {
-				tl(1, "@JsonProperty");
-				tl(1, "@JsonDeserialize(using = ", classePartsJsonArrayDeserializer.nomSimple(langueNom), ".class)");
-			}
-			else if("JsonObject".equals(entiteNomSimple)) {
-				tl(1, "@JsonProperty");
-				tl(1, "@JsonDeserialize(using = ", classePartsJsonObjectDeserializer.nomSimple(langueNom), ".class)");
-			}
-			else if("Point".equals(entiteNomSimple)) {
-				tl(1, "@JsonProperty");
-				tl(1, "@JsonDeserialize(using = ", classePartsPointDeserializer.nomSimple(langueNom), ".class)");
-				tl(1, "@JsonSerialize(using = ", classePartsPointSerializer.nomSimple(langueNom), ".class)");
-			}
-			else if("Path".equals(entiteNomSimple)) {
-				tl(1, "@JsonProperty");
-				tl(1, "@JsonDeserialize(using = ", classePartsPathDeserializer.nomSimple(langueNom), ".class)");
-				tl(1, "@JsonSerialize(using = ", classePartsPathSerializer.nomSimple(langueNom), ".class)");
-			}
-			else if("Polygon".equals(entiteNomSimple)) {
-				tl(1, "@JsonProperty");
-				tl(1, "@JsonDeserialize(using = ", classePartsPolygonDeserializer.nomSimple(langueNom), ".class)");
-				tl(1, "@JsonSerialize(using = ", classePartsPolygonSerializer.nomSimple(langueNom), ".class)");
-			}
-			else if("LocalDate".equals(entiteNomSimple)) {
-				tl(1, "@JsonProperty");
-				tl(1, "@JsonDeserialize(using = ", classePartsLocalDateDeserializer.nomSimple(langueNom), ".class)");
-				tl(1, "@JsonSerialize(using = ", classePartsLocalDateSerializer.nomSimple(langueNom), ".class)");
-				tl(1, "@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = \"yyyy-MM-dd\")");
-			}
-			else if("LocalTime".equals(entiteNomSimple)) {
-				tl(1, "@JsonProperty");
-				tl(1, "@JsonDeserialize(using = ", classePartsLocalTimeDeserializer.nomSimple(langueNom), ".class)");
-				tl(1, "@JsonSerialize(using = ", classePartsLocalTimeSerializer.nomSimple(langueNom), ".class)");
-				tl(1, "@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = \"HH:mm:ss.SSS\")");
-			}
-			else if("ZonedDateTime".equals(entiteNomSimple)) {
-				tl(1, "@JsonProperty");
-
-				if(classePartsZonedDateTimeDeserializer == null)
-					tl(1, "@JsonDeserialize(using = ZonedDateTimeDeserializer.class)");
-				else
-					tl(1, "@JsonDeserialize(using = ", classePartsZonedDateTimeDeserializer.nomSimple(langueNom), ".class)");
-
-				if(classePartsZonedDateTimeSerializer == null)
-					tl(1, "@JsonSerialize(using = ToStringSerializer.class)");
-				else
-					tl(1, "@JsonSerialize(using = ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".class)");
-
-				tl(1, "@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=\"yyyy-MM-dd'T'HH:mm:ss.SSSV'['VV']'\")");
-			}
-			else if(!"java.lang.String".equals(entiteNomCanonique) && "string".equals(entiteTypeJson)) {
-				tl(1, "@JsonProperty");
-				tl(1, "@JsonSerialize(using = ToStringSerializer.class)");
-			} else if("Long".equals(entiteNomSimpleGenerique) 
-					|| "Double".equals(entiteNomSimpleGenerique)
-					|| "Integer".equals(entiteNomSimpleGenerique)
-					) {
-				tl(1, "@JsonProperty");
-				tl(1, "@JsonFormat(shape = JsonFormat.Shape.ARRAY)");
-				tl(1, "@JsonSerialize(contentUsing = ToStringSerializer.class)");
-			} else if("array".equals(entiteTypeJson)) {
-				tl(1, "@JsonProperty");
-				tl(1, "@JsonFormat(shape = JsonFormat.Shape.ARRAY)");
-				if("Point".equals(entiteNomSimpleGenerique)) {
-					tl(1, "@JsonDeserialize(contentUsing = ", classePartsPointDeserializer.nomSimple(langueNom), ".class)");
-					tl(1, "@JsonSerialize(contentUsing = ", classePartsPointSerializer.nomSimple(langueNom), ".class)");
-				}
-				else if("Path".equals(entiteNomSimpleGenerique)) {
-					tl(1, "@JsonDeserialize(contentUsing = ", classePartsPathDeserializer.nomSimple(langueNom), ".class)");
-					tl(1, "@JsonSerialize(contentUsing = ", classePartsPathSerializer.nomSimple(langueNom), ".class)");
-				}
-				else if("Polygon".equals(entiteNomSimpleGenerique)) {
-					tl(1, "@JsonDeserialize(contentUsing = ", classePartsPolygonDeserializer.nomSimple(langueNom), ".class)");
-					tl(1, "@JsonSerialize(contentUsing = ", classePartsPolygonSerializer.nomSimple(langueNom), ".class)");
-				}
 			} else {
-				tl(1, "@JsonProperty");
+				if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList") || entiteNomSimple.equals("Set") || entiteNomSimple.equals("HashSet")) {
+					tl(1, "@JsonProperty");
+					if("Point".equals(entiteNomSimpleGenerique)) {
+						tl(1, "@JsonDeserialize(contentUsing = ", classePartsPointDeserializer.nomSimple(langueNom), ".class)");
+						tl(1, "@JsonSerialize(contentUsing = ", classePartsPointSerializer.nomSimple(langueNom), ".class)");
+						tl(1, "@JsonFormat(shape = JsonFormat.Shape.ARRAY)");
+					}
+					else if("Path".equals(entiteNomSimpleGenerique)) {
+						tl(1, "@JsonDeserialize(contentUsing = ", classePartsPathDeserializer.nomSimple(langueNom), ".class)");
+						tl(1, "@JsonSerialize(contentUsing = ", classePartsPathSerializer.nomSimple(langueNom), ".class)");
+						tl(1, "@JsonFormat(shape = JsonFormat.Shape.ARRAY)");
+					}
+					else if("Polygon".equals(entiteNomSimpleGenerique)) {
+						tl(1, "@JsonDeserialize(contentUsing = ", classePartsPolygonDeserializer.nomSimple(langueNom), ".class)");
+						tl(1, "@JsonSerialize(contentUsing = ", classePartsPolygonSerializer.nomSimple(langueNom), ".class)");
+						tl(1, "@JsonFormat(shape = JsonFormat.Shape.ARRAY)");
+					}
+					else if("LocalDate".equals(entiteNomSimpleGenerique)) {
+						tl(1, "@JsonDeserialize(contentUsing = ", classePartsLocalDateDeserializer.nomSimple(langueNom), ".class)");
+						tl(1, "@JsonSerialize(contentUsing = ", classePartsLocalDateSerializer.nomSimple(langueNom), ".class)");
+						tl(1, "@JsonFormat(shape = JsonFormat.Shape.ARRAY, pattern = \"yyyy-MM-dd\")");
+					}
+					else if("LocalTime".equals(entiteNomSimpleGenerique)) {
+						tl(1, "@JsonDeserialize(contentUsing = ", classePartsLocalTimeDeserializer.nomSimple(langueNom), ".class)");
+						tl(1, "@JsonSerialize(contentUsing = ", classePartsLocalTimeSerializer.nomSimple(langueNom), ".class)");
+						tl(1, "@JsonFormat(shape = JsonFormat.Shape.ARRAY, pattern = \"HH:mm:ss.SSS\")");
+					}
+					else if("ZonedDateTime".equals(entiteNomSimpleGenerique)) {
+						if(classePartsZonedDateTimeDeserializer == null)
+							tl(1, "@JsonDeserialize(contentUsing = ZonedDateTimeDeserializer.class)");
+						else
+							tl(1, "@JsonDeserialize(contentUsing = ", classePartsZonedDateTimeDeserializer.nomSimple(langueNom), ".class)");
+
+						if(classePartsZonedDateTimeSerializer == null)
+							tl(1, "@JsonSerialize(contentUsing = ToStringSerializer.class)");
+						else
+							tl(1, "@JsonSerialize(contentUsing = ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".class)");
+
+						tl(1, "@JsonFormat(shape=JsonFormat.Shape.ARRAY, pattern=\"yyyy-MM-dd'T'HH:mm:ss.SSSV'['VV']'\")");
+					}
+				} else {
+					if("JsonArray".equals(entiteNomSimple)) {
+						tl(1, "@JsonProperty");
+						tl(1, "@JsonDeserialize(using = ", classePartsJsonArrayDeserializer.nomSimple(langueNom), ".class)");
+					}
+					else if("JsonObject".equals(entiteNomSimple)) {
+						tl(1, "@JsonProperty");
+						tl(1, "@JsonDeserialize(using = ", classePartsJsonObjectDeserializer.nomSimple(langueNom), ".class)");
+					}
+					else if("Point".equals(entiteNomSimple)) {
+						tl(1, "@JsonProperty");
+						tl(1, "@JsonDeserialize(using = ", classePartsPointDeserializer.nomSimple(langueNom), ".class)");
+						tl(1, "@JsonSerialize(using = ", classePartsPointSerializer.nomSimple(langueNom), ".class)");
+					}
+					else if("Path".equals(entiteNomSimple)) {
+						tl(1, "@JsonProperty");
+						tl(1, "@JsonDeserialize(using = ", classePartsPathDeserializer.nomSimple(langueNom), ".class)");
+						tl(1, "@JsonSerialize(using = ", classePartsPathSerializer.nomSimple(langueNom), ".class)");
+					}
+					else if("Polygon".equals(entiteNomSimple)) {
+						tl(1, "@JsonProperty");
+						tl(1, "@JsonDeserialize(using = ", classePartsPolygonDeserializer.nomSimple(langueNom), ".class)");
+						tl(1, "@JsonSerialize(using = ", classePartsPolygonSerializer.nomSimple(langueNom), ".class)");
+					}
+					else if("LocalDate".equals(entiteNomSimple)) {
+						tl(1, "@JsonProperty");
+						tl(1, "@JsonDeserialize(using = ", classePartsLocalDateDeserializer.nomSimple(langueNom), ".class)");
+						tl(1, "@JsonSerialize(using = ", classePartsLocalDateSerializer.nomSimple(langueNom), ".class)");
+						tl(1, "@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = \"yyyy-MM-dd\")");
+					}
+					else if("LocalTime".equals(entiteNomSimple)) {
+						tl(1, "@JsonProperty");
+						tl(1, "@JsonDeserialize(using = ", classePartsLocalTimeDeserializer.nomSimple(langueNom), ".class)");
+						tl(1, "@JsonSerialize(using = ", classePartsLocalTimeSerializer.nomSimple(langueNom), ".class)");
+						tl(1, "@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = \"HH:mm:ss.SSS\")");
+					}
+					else if("ZonedDateTime".equals(entiteNomSimple)) {
+						tl(1, "@JsonProperty");
+
+						if(classePartsZonedDateTimeDeserializer == null)
+							tl(1, "@JsonDeserialize(using = ZonedDateTimeDeserializer.class)");
+						else
+							tl(1, "@JsonDeserialize(using = ", classePartsZonedDateTimeDeserializer.nomSimple(langueNom), ".class)");
+
+						if(classePartsZonedDateTimeSerializer == null)
+							tl(1, "@JsonSerialize(using = ToStringSerializer.class)");
+						else
+							tl(1, "@JsonSerialize(using = ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".class)");
+
+						tl(1, "@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=\"yyyy-MM-dd'T'HH:mm:ss.SSSV'['VV']'\")");
+					}
+					else if(!"java.lang.String".equals(entiteNomCanonique) && "string".equals(entiteTypeJson)) {
+						tl(1, "@JsonProperty");
+						tl(1, "@JsonSerialize(using = ToStringSerializer.class)");
+					} else if("Long".equals(entiteNomSimpleGenerique) 
+							|| "Double".equals(entiteNomSimpleGenerique)
+							|| "Integer".equals(entiteNomSimpleGenerique)
+							) {
+						tl(1, "@JsonProperty");
+						tl(1, "@JsonFormat(shape = JsonFormat.Shape.ARRAY)");
+						tl(1, "@JsonSerialize(contentUsing = ToStringSerializer.class)");
+					} else {
+						tl(1, "@JsonProperty");
+					}
+				}
 			}
 
 			tl(1, "@JsonInclude(Include.NON_NULL)");
@@ -4617,75 +4646,139 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(entiteSolrNomSimple != null) {
 					l();
 					if(classeContientRequeteSite && entiteNomSimple != null && entiteSolrNomCanonique != null) {
-						if(entiteNomSimple.equals("Timestamp")) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
-							tl(2, "return o == null ? null : ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(o.toInstant().atOffset(ZoneOffset.UTC));");
-							tl(1, "}");
-						}
-						else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
-							tl(2, "return o == null ? null : ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(o.toInstant().atOffset(ZoneOffset.UTC));");
-							tl(1, "}");
-						}
-						else if(entiteNomCanonique.toString().equals(LocalTime.class.getCanonicalName())) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
-							tl(2, "return o == null ? null : o.format(DateTimeFormatter.ISO_LOCAL_TIME);");
-							tl(1, "}");
-						}
-						else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
-							tl(2, "return o == null ? null : Date.from(o.atZone(ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\")).toInstant());");
-							tl(1, "}");
-						}
-						else if(entiteNomSimple.toString().equals("LocalDate")) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
-							tl(2, "return o == null ? null : Date.from(o.atStartOfDay(ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\")).toInstant());");
-							tl(1, "}");
-						}
-						else if(entiteNomSimple.toString().equals("Point")) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
-							tl(2, "return o;");
-							tl(1, "}");
-						}
-						else if(entiteNomSimple.toString().equals("Path")) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
-							tl(2, "return o;");
-							tl(1, "}");
-						}
-						else if(entiteNomSimple.toString().equals("Polygon")) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
-							tl(2, "return o;");
-							tl(1, "}");
-						}
-						else if(entiteNomSimple.toString().equals("JsonObject")) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
-							tl(2, "return o.toString();");
-							tl(1, "}");
-						}
-						else if(entiteNomSimple.toString().equals("JsonArray")) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
-							tl(2, "return o.toString();");
-							tl(1, "}");
-						}
-						else if(entiteNomSimple.toString().equals("BigDecimal")) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
-							tl(2, "return o == null ? null : o.doubleValue();");
-							tl(1, "}");
-						}
-						else if("java.util.List".equals(entiteNomCanonique) || "java.util.ArrayList".equals(entiteNomCanonique)) {
-							tl(1, "public static ", StringUtils.substringBeforeLast(StringUtils.substringAfter(entiteSolrNomSimple, "<"), ">"), " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleGenerique, " o) {");
-							tl(2, "return o;");
-							tl(1, "}");
-						}
-						else if("java.util.Set".equals(entiteNomCanonique) || "java.util.HashSet".equals(entiteNomCanonique)) {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
-							tl(2, "return new ArrayList<>(o);");
-							tl(1, "}");
-						}
-						else {
-							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
-							tl(2, "return o;");
-							tl(1, "}");
+						if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList") || entiteNomSimple.equals("Set") || entiteNomSimple.equals("HashSet")) {
+							String entiteSolrNomSimple2 = StringUtils.substringBeforeLast(StringUtils.substringAfter(entiteSolrNomSimple, "<"), ">");
+							if(entiteNomSimpleCompletGenerique.equals("Timestamp")) {
+								tl(1, "public static ", entiteSolrNomSimple2, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleCompletGenerique, " o) {");
+								tl(2, "return o == null ? null : ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(o.toInstant().atOffset(ZoneOffset.UTC));");
+								tl(1, "}");
+							}
+							else if(entiteNomCanoniqueGenerique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
+								tl(1, "public static ", entiteSolrNomSimple2, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleCompletGenerique, " o) {");
+								tl(2, "return o == null ? null : ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(o.toInstant().atOffset(ZoneOffset.UTC));");
+								tl(1, "}");
+							}
+							else if(entiteNomCanoniqueGenerique.toString().equals(LocalTime.class.getCanonicalName())) {
+								tl(1, "public static ", entiteSolrNomSimple2, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleCompletGenerique, " o) {");
+								tl(2, "return o == null ? null : o.format(DateTimeFormatter.ISO_LOCAL_TIME);");
+								tl(1, "}");
+							}
+							else if(entiteNomCanoniqueGenerique.toString().equals(LocalDateTime.class.getCanonicalName())) {
+								tl(1, "public static ", entiteSolrNomSimple2, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleCompletGenerique, " o) {");
+								tl(2, "return o == null ? null : Date.from(o.atZone(ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\")).toInstant());");
+								tl(1, "}");
+							}
+							else if(entiteNomSimpleCompletGenerique.toString().equals("LocalDate")) {
+								tl(1, "public static ", entiteSolrNomSimple2, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleCompletGenerique, " o) {");
+								tl(2, "return o == null ? null : Date.from(o.atStartOfDay(ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\")).toInstant());");
+								tl(1, "}");
+							}
+							else if(entiteNomSimpleCompletGenerique.toString().equals("Point")) {
+								tl(1, "public static ", entiteSolrNomSimple2, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleCompletGenerique, " o) {");
+								tl(2, "return o;");
+								tl(1, "}");
+							}
+							else if(entiteNomSimpleCompletGenerique.toString().equals("Path")) {
+								tl(1, "public static ", entiteSolrNomSimple2, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleCompletGenerique, " o) {");
+								tl(2, "return o;");
+								tl(1, "}");
+							}
+							else if(entiteNomSimpleCompletGenerique.toString().equals("Polygon")) {
+								tl(1, "public static ", entiteSolrNomSimple2, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleCompletGenerique, " o) {");
+								tl(2, "return o;");
+								tl(1, "}");
+							}
+							else if(entiteNomSimpleCompletGenerique.toString().equals("JsonObject")) {
+								tl(1, "public static ", entiteSolrNomSimple2, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleCompletGenerique, " o) {");
+								tl(2, "return o.toString();");
+								tl(1, "}");
+							}
+							else if(entiteNomSimpleCompletGenerique.toString().equals("JsonArray")) {
+								tl(1, "public static ", entiteSolrNomSimple2, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleCompletGenerique, " o) {");
+								tl(2, "return o.toString();");
+								tl(1, "}");
+							}
+							else if(entiteNomSimpleCompletGenerique.toString().equals("BigDecimal")) {
+								tl(1, "public static ", entiteSolrNomSimple2, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleCompletGenerique, " o) {");
+								tl(2, "return o == null ? null : o.doubleValue();");
+								tl(1, "}");
+							}
+							else {
+								tl(1, "public static ", entiteSolrNomSimple2, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleCompletGenerique, " o) {");
+								tl(2, "return o;");
+								tl(1, "}");
+							}
+						} else {
+							if(entiteNomSimple.equals("Timestamp")) {
+								tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+								tl(2, "return o == null ? null : ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(o.toInstant().atOffset(ZoneOffset.UTC));");
+								tl(1, "}");
+							}
+							else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
+								tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+								tl(2, "return o == null ? null : ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(o.toInstant().atOffset(ZoneOffset.UTC));");
+								tl(1, "}");
+							}
+							else if(entiteNomCanonique.toString().equals(LocalTime.class.getCanonicalName())) {
+								tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+								tl(2, "return o == null ? null : o.format(DateTimeFormatter.ISO_LOCAL_TIME);");
+								tl(1, "}");
+							}
+							else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
+								tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+								tl(2, "return o == null ? null : Date.from(o.atZone(ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\")).toInstant());");
+								tl(1, "}");
+							}
+							else if(entiteNomSimple.toString().equals("LocalDate")) {
+								tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+								tl(2, "return o == null ? null : Date.from(o.atStartOfDay(ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\")).toInstant());");
+								tl(1, "}");
+							}
+							else if(entiteNomSimple.toString().equals("Point")) {
+								tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+								tl(2, "return o;");
+								tl(1, "}");
+							}
+							else if(entiteNomSimple.toString().equals("Path")) {
+								tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+								tl(2, "return o;");
+								tl(1, "}");
+							}
+							else if(entiteNomSimple.toString().equals("Polygon")) {
+								tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+								tl(2, "return o;");
+								tl(1, "}");
+							}
+							else if(entiteNomSimple.toString().equals("JsonObject")) {
+								tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+								tl(2, "return o.toString();");
+								tl(1, "}");
+							}
+							else if(entiteNomSimple.toString().equals("JsonArray")) {
+								tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+								tl(2, "return o.toString();");
+								tl(1, "}");
+							}
+							else if(entiteNomSimple.toString().equals("BigDecimal")) {
+								tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+								tl(2, "return o == null ? null : o.doubleValue();");
+								tl(1, "}");
+							}
+							else if("java.util.List".equals(entiteNomCanonique) || "java.util.ArrayList".equals(entiteNomCanonique)) {
+								tl(1, "public static ", StringUtils.substringBeforeLast(StringUtils.substringAfter(entiteSolrNomSimple, "<"), ">"), " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleGenerique, " o) {");
+								tl(2, "return o;");
+								tl(1, "}");
+							}
+							else if("java.util.Set".equals(entiteNomCanonique) || "java.util.HashSet".equals(entiteNomCanonique)) {
+								tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+								tl(2, "return new ArrayList<>(o);");
+								tl(1, "}");
+							}
+							else {
+								tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+								tl(2, "return o;");
+								tl(1, "}");
+							}
 						}
 					}
 					else {
@@ -4696,55 +4789,99 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 					l();
 					if(classeContientRequeteSite && entiteNomSimple != null && entiteSolrNomCanonique != null) {
-						if(entiteNomSimple.equals("Timestamp")) {
-							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
-							tl(2, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, o));");
-							tl(1, "}");
-						}
-						else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
-							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
-							tl(2, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, o));");
-							tl(1, "}");
-						}
-						else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
-							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
-							tl(2, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, o));");
-							tl(1, "}");
-						}
-						else if(entiteNomSimple.toString().equals("LocalDate")) {
-							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
-			//				tl(3, "doc.put(\"", entiteVar, "_suggested", "\", ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(", entiteVar, ".atStartOfDay(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\"))));");
-							tl(2, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, o));");
-							tl(1, "}");
-						}
-						else if(entiteSolrNomCanonique.toString().equals("String")) {
-							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
-							tl(2, "return o;");
-							tl(1, "}");
-						}
-						else if("java.util.List".equals(entiteNomCanonique) || "java.util.ArrayList".equals(entiteNomCanonique)) {
-							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", StringUtils.substringBeforeLast(StringUtils.substringAfter(entiteSolrNomSimple, "<"), ">"), " o) {");
-							tl(2, "return o == null ? null : o.toString();");
-							tl(1, "}");
-						}
-						else if(entiteNomSimple.toString().equals("Path")) {
-							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ",entiteSolrNomSimple, " o) {");
-							tl(2, "JsonArray pointsArray = new JsonArray();");
-							tl(2, "o.getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray.add(pointArray));");
-							tl(2, "return new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray).toString();");
-							tl(1, "}");
-						}
-						else if(entiteNomSimple.toString().equals("Polygon")) {
-							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ",entiteSolrNomSimple, " o) {");
-							tl(2, "JsonArray pointsArray = new JsonArray();");
-							tl(2, "o.getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray.add(pointArray));");
-							tl(2, "return new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray).toString();");
-							tl(1, "}");
-						}
-						else {
-							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
-							tl(2, "return o == null ? null : o.toString();");
-							tl(1, "}");
+						if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList") || entiteNomSimple.equals("Set") || entiteNomSimple.equals("HashSet")) {
+							String entiteSolrNomSimple2 = StringUtils.substringBeforeLast(StringUtils.substringAfter(entiteSolrNomSimple, "<"), ">");
+							if(entiteNomSimpleCompletGenerique.equals("Timestamp")) {
+								tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple2, " o) {");
+								tl(2, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, o));");
+								tl(1, "}");
+							}
+							else if(entiteNomCanoniqueGenerique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
+								tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple2, " o) {");
+								tl(2, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, o));");
+								tl(1, "}");
+							}
+							else if(entiteNomCanoniqueGenerique.toString().equals(LocalDateTime.class.getCanonicalName())) {
+								tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple2, " o) {");
+								tl(2, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, o));");
+								tl(1, "}");
+							}
+							else if(entiteNomSimpleCompletGenerique.toString().equals("LocalDate")) {
+								tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple2, " o) {");
+			//					tl(3, "doc.put(\"", entiteVar, "_suggested", "\", ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(", entiteVar, ".atStartOfDay(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\"))));");
+								tl(2, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, o));");
+								tl(1, "}");
+							}
+							else if(entiteNomSimpleCompletGenerique.toString().equals("Path")) {
+								tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ",entiteSolrNomSimple, " o) {");
+								tl(2, "JsonArray pointsArray = new JsonArray();");
+								tl(2, "o.getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray.add(pointArray));");
+								tl(2, "return new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray).toString();");
+								tl(1, "}");
+							}
+							else if(entiteNomSimpleCompletGenerique.toString().equals("Polygon")) {
+								tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ",entiteSolrNomSimple, " o) {");
+								tl(2, "JsonArray pointsArray = new JsonArray();");
+								tl(2, "o.getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray.add(pointArray));");
+								tl(2, "return new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray).toString();");
+								tl(1, "}");
+							}
+							else {
+								tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple2, " o) {");
+								tl(2, "return o == null ? null : o.toString();");
+								tl(1, "}");
+							}
+						} else {
+							if(entiteNomSimple.equals("Timestamp")) {
+								tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
+								tl(2, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, o));");
+								tl(1, "}");
+							}
+							else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
+								tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
+								tl(2, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, o));");
+								tl(1, "}");
+							}
+							else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
+								tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
+								tl(2, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, o));");
+								tl(1, "}");
+							}
+							else if(entiteNomSimple.toString().equals("LocalDate")) {
+								tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
+			//					tl(3, "doc.put(\"", entiteVar, "_suggested", "\", ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(", entiteVar, ".atStartOfDay(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\"))));");
+								tl(2, "return ", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, o));");
+								tl(1, "}");
+							}
+							else if(entiteSolrNomCanonique.toString().equals("String")) {
+								tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
+								tl(2, "return o;");
+								tl(1, "}");
+							}
+							else if("java.util.List".equals(entiteNomCanonique) || "java.util.ArrayList".equals(entiteNomCanonique)) {
+								tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", StringUtils.substringBeforeLast(StringUtils.substringAfter(entiteSolrNomSimple, "<"), ">"), " o) {");
+								tl(2, "return o == null ? null : o.toString();");
+								tl(1, "}");
+							}
+							else if(entiteNomSimple.toString().equals("Path")) {
+								tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ",entiteSolrNomSimple, " o) {");
+								tl(2, "JsonArray pointsArray = new JsonArray();");
+								tl(2, "o.getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray.add(pointArray));");
+								tl(2, "return new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray).toString();");
+								tl(1, "}");
+							}
+							else if(entiteNomSimple.toString().equals("Polygon")) {
+								tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ",entiteSolrNomSimple, " o) {");
+								tl(2, "JsonArray pointsArray = new JsonArray();");
+								tl(2, "o.getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray.add(pointArray));");
+								tl(2, "return new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray).toString();");
+								tl(1, "}");
+							}
+							else {
+								tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
+								tl(2, "return o == null ? null : o.toString();");
+								tl(1, "}");
+							}
 						}
 					}
 					else {
@@ -5009,7 +5146,7 @@ public class EcrireGenClasse extends EcrireClasse {
 							tl(3, "JsonArray l = new JsonArray();");
 							tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", l);");
 							tl(3, "for(", entiteNomSimpleCompletGenerique, " o : ", entiteVar, ") {");
-							tl(4, "l.add(o);");
+							tl(4, "l.add(", classeNomSimple, ".staticSearch", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, o));");
 							tl(3, "}");
 						}
 					}
@@ -5400,8 +5537,16 @@ public class EcrireGenClasse extends EcrireClasse {
 								tl(5, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 							}
 							else {
-								tl(4, "if(", entiteVar, " != null)");
-								tl(5, "o", classeNomSimple, ".", entiteVar, ".addAll(", entiteVar, ");");
+								if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList") || entiteNomSimple.equals("Set") || entiteNomSimple.equals("HashSet")) {
+									tl(4, "if(", entiteVar, " != null) {");
+									tl(5, entiteVar, ".stream().forEach( v -> {");
+									tl(6, "o", classeNomSimple, ".", entiteVar, ".add(", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, v));");
+									tl(5, "});");
+									tl(4, "}");
+								} else {
+									tl(4, "if(", entiteVar, " != null)");
+									tl(5, "o", classeNomSimple, ".", entiteVar, ".addAll(", entiteVar, ");");
+								}
 							}
 						}
 						else {
