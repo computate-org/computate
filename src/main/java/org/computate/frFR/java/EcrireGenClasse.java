@@ -5540,7 +5540,10 @@ public class EcrireGenClasse extends EcrireClasse {
 								if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList") || entiteNomSimple.equals("Set") || entiteNomSimple.equals("HashSet")) {
 									tl(4, "if(", entiteVar, " != null) {");
 									tl(5, entiteVar, ".stream().forEach( v -> {");
-									tl(6, "o", classeNomSimple, ".", entiteVar, ".add(", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, v));");
+									if("String".equals(entiteSolrNomSimple))
+										tl(6, "o", classeNomSimple, ".", entiteVar, ".add(", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, v));");
+									else
+										tl(6, "o", classeNomSimple, ".", entiteVar, ".add(v);");
 									tl(5, "});");
 									tl(4, "}");
 								} else {
