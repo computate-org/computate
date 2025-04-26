@@ -5467,8 +5467,6 @@ public class IndexerClasse extends RegarderClasseBase {
 				classeOrdre = indexerStockerSolr(classeDoc, "classeOrdre", Integer.parseInt(classeOrdreStr)); 
 
 			String classeOrdreSqlStr = regex("^" + i18nGlobale.getString(I18n.var_OrdreSql) + ": (.*)", classeCommentaire);
-			if(classeOrdreSqlStr == null)
-				classeOrdreSqlStr = classeOrdreStr;
 			if(NumberUtils.isParsable(classeOrdreSqlStr))
 				classeOrdreSql = indexerStockerSolr(classeDoc, "classeOrdreSql", Integer.parseInt(classeOrdreSqlStr)); 
 
@@ -5849,6 +5847,9 @@ public class IndexerClasse extends RegarderClasseBase {
 
 				classePartsGenApiAjouter(classePartsListeRecherche, classeLangueNom);
 
+				if(classeRoleUtilisateur) {
+					classeAuth = true;
+				}
 				JsonObject classeAuthClientDefautObjet = regexYamlObject(i18nGlobale.getString(I18n.var_AuthClientDefaut), classeCommentaire);
 				if(classeAuthClientDefautObjet != null) {
 					classeAuth = true;
