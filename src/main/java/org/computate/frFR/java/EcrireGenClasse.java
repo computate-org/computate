@@ -5256,7 +5256,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}	
 
 			o = wDefinirObjet;
-			if(classeIndexe && BooleanUtils.isTrue(entiteDefinir) || BooleanUtils.isTrue(entiteAttribuer) && !"array".equals(entiteTypeJson)) {
+			if(classeIndexe && (BooleanUtils.isTrue(entiteDefinir) || BooleanUtils.isTrue(entiteClePrimaire)) || BooleanUtils.isTrue(entiteAttribuer) && !"array".equals(entiteTypeJson)) {
 //					tl(3, "case \"", entiteVar.toLowerCase(), "\":");
 					tl(3, wDefinirObjet.getEmpty() ? "if" : "} else if", "(\"", entiteVar.toLowerCase(), "\".equals(varLower)) {");
 					if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
