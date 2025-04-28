@@ -3161,6 +3161,10 @@ public class IndexerClasse extends RegarderClasseBase {
 						String entiteVarCouverture = indexerStockerSolr(classeLangueNom, entiteDoc, "entiteVarCouverture", entiteVar + "Couverture");
 
 						Boolean entiteInitLoin = indexerStockerSolr(entiteDoc, "entiteInitLoin", !entiteVar.endsWith("_"));
+						if(classeOrdre != null)
+							indexerStockerSolr(entiteDoc, "classeOrdre", classeOrdre);
+						if(classeOrdreSql != null)
+							indexerStockerSolr(entiteDoc, "classeOrdreSql", classeOrdreSql);
 
 						if(entiteNomsCanoniquesSuperEtMoiSansGen.size() > 0) {
 
@@ -5449,6 +5453,15 @@ public class IndexerClasse extends RegarderClasseBase {
 		indexerStockerSolr(classeDoc, "classeGenere", regexTrouve("^" + i18nGlobale.getString(I18n.str_Genere) + ": \\s*(true)$", classeCommentaire));
 		Boolean classeContexte = indexerStockerSolr(classeDoc, "classeContexte", regexTrouve("^" + i18nGlobale.getString(I18n.var_Contexte) + ": \\s*(true)$", classeCommentaire) || classePage || classeSmartDataModelStr != null);
 
+
+		String classeOrdreStr = regex("^" + i18nGlobale.getString(I18n.var_Ordre) + ": (.*)", classeCommentaire);
+		if(NumberUtils.isParsable(classeOrdreStr))
+			classeOrdre = indexerStockerSolr(classeDoc, "classeOrdre", Integer.parseInt(classeOrdreStr)); 
+
+		String classeOrdreSqlStr = regex("^" + i18nGlobale.getString(I18n.var_OrdreSql) + ": (.*)", classeCommentaire, classeOrdreStr);
+		if(NumberUtils.isParsable(classeOrdreSqlStr))
+			classeOrdreSql = indexerStockerSolr(classeDoc, "classeOrdreSql", Integer.parseInt(classeOrdreSqlStr)); 
+
 		if(classeContexte) {
 			classeCouleur = regex("^" + i18nGlobale.getString(I18n.var_Couleur) + ": (.*)", classeCommentaire);
 			if(classeCouleur != null)
@@ -5461,14 +5474,6 @@ public class IndexerClasse extends RegarderClasseBase {
 			String classeLignesStr = regex("^" + i18nGlobale.getString(I18n.var_Lignes) + ": (.*)", classeCommentaire);
 			if(NumberUtils.isParsable(classeLignesStr))
 				classeLignes = indexerStockerSolr(classeDoc, "classeLignes", Integer.parseInt(classeLignesStr)); 
-
-			String classeOrdreStr = regex("^" + i18nGlobale.getString(I18n.var_Ordre) + ": (.*)", classeCommentaire);
-			if(NumberUtils.isParsable(classeOrdreStr))
-				classeOrdre = indexerStockerSolr(classeDoc, "classeOrdre", Integer.parseInt(classeOrdreStr)); 
-
-			String classeOrdreSqlStr = regex("^" + i18nGlobale.getString(I18n.var_OrdreSql) + ": (.*)", classeCommentaire);
-			if(NumberUtils.isParsable(classeOrdreSqlStr))
-				classeOrdreSql = indexerStockerSolr(classeDoc, "classeOrdreSql", Integer.parseInt(classeOrdreSqlStr)); 
 
 			for(String langueNom : toutesLangues) {
 
