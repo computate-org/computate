@@ -2725,6 +2725,14 @@ public class IndexerClasse extends RegarderClasseBase {
 			classeNomSimpleBaseGenLangue = classeNomSimpleSuper;
 		indexerStockerSolr(classeLangueNom, classeDoc, "classeNomSimpleBaseGenLangue",  classeNomSimpleBaseGenLangue);
 
+		String classeOrdreStr = regex("^" + i18nGlobale.getString(I18n.var_Ordre) + ": (.*)", classeCommentaire);
+		if(NumberUtils.isParsable(classeOrdreStr))
+			classeOrdre = indexerStockerSolr(classeDoc, "classeOrdre", Integer.parseInt(classeOrdreStr)); 
+
+		String classeOrdreSqlStr = regex("^" + i18nGlobale.getString(I18n.var_OrdreSql) + ": (.*)", classeCommentaire, classeOrdreStr);
+		if(NumberUtils.isParsable(classeOrdreSqlStr))
+			classeOrdreSql = indexerStockerSolr(classeDoc, "classeOrdreSql", Integer.parseInt(classeOrdreSqlStr)); 
+
 		for(String siteEcrireMethode : siteEcrireMethodes) {
 			if(classeQdox.getMethodBySignature(siteEcrireMethode, new ArrayList<JavaType>()) != null
 					|| classeQdox.getMethodBySignature(siteEcrireMethode + classeNomSimple, new ArrayList<JavaType>()) != null) {
@@ -5452,15 +5460,6 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		indexerStockerSolr(classeDoc, "classeGenere", regexTrouve("^" + i18nGlobale.getString(I18n.str_Genere) + ": \\s*(true)$", classeCommentaire));
 		Boolean classeContexte = indexerStockerSolr(classeDoc, "classeContexte", regexTrouve("^" + i18nGlobale.getString(I18n.var_Contexte) + ": \\s*(true)$", classeCommentaire) || classePage || classeSmartDataModelStr != null);
-
-
-		String classeOrdreStr = regex("^" + i18nGlobale.getString(I18n.var_Ordre) + ": (.*)", classeCommentaire);
-		if(NumberUtils.isParsable(classeOrdreStr))
-			classeOrdre = indexerStockerSolr(classeDoc, "classeOrdre", Integer.parseInt(classeOrdreStr)); 
-
-		String classeOrdreSqlStr = regex("^" + i18nGlobale.getString(I18n.var_OrdreSql) + ": (.*)", classeCommentaire, classeOrdreStr);
-		if(NumberUtils.isParsable(classeOrdreSqlStr))
-			classeOrdreSql = indexerStockerSolr(classeDoc, "classeOrdreSql", Integer.parseInt(classeOrdreSqlStr)); 
 
 		if(classeContexte) {
 			classeCouleur = regex("^" + i18nGlobale.getString(I18n.var_Couleur) + ": (.*)", classeCommentaire);
