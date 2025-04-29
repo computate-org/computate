@@ -3576,6 +3576,8 @@ public class EcrireGenClasse extends EcrireClasse {
 							tl(1, "@JsonSerialize(contentUsing = ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".class)");
 
 						tl(1, "@JsonFormat(shape=JsonFormat.Shape.ARRAY, pattern=\"yyyy-MM-dd'T'HH:mm:ss.SSSV'['VV']'\")");
+					} else {
+						tl(1, "@JsonFormat(shape = JsonFormat.Shape.ARRAY)");
 					}
 				} else {
 					if("JsonArray".equals(entiteNomSimple)) {
