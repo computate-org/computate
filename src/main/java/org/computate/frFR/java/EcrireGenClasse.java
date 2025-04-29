@@ -3576,6 +3576,8 @@ public class EcrireGenClasse extends EcrireClasse {
 							tl(1, "@JsonSerialize(contentUsing = ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".class)");
 
 						tl(1, "@JsonFormat(shape=JsonFormat.Shape.ARRAY, pattern=\"yyyy-MM-dd'T'HH:mm:ss.SSSV'['VV']'\")");
+					} else {
+						tl(1, "@JsonFormat(shape = JsonFormat.Shape.ARRAY)");
 					}
 				} else {
 					if("JsonArray".equals(entiteNomSimple)) {
@@ -5393,7 +5395,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}	
 
 			o = wDefinirObjet;
-			if(classeIndexe && BooleanUtils.isTrue(entiteDefinir) || BooleanUtils.isTrue(entiteAttribuer) && !"array".equals(entiteTypeJson)) {
+			if(classeIndexe && (BooleanUtils.isTrue(entiteDefinir) || BooleanUtils.isTrue(entiteClePrimaire)) || BooleanUtils.isTrue(entiteAttribuer) && !"array".equals(entiteTypeJson)) {
 //					tl(3, "case \"", entiteVar.toLowerCase(), "\":");
 					tl(3, wDefinirObjet.getEmpty() ? "if" : "} else if", "(\"", entiteVar.toLowerCase(), "\".equals(varLower)) {");
 					if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {

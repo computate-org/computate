@@ -601,6 +601,16 @@ public class ConfigSite {
 				langueConfigGlobale.getString(I18n.var_SOLR_ID));
 	}
 
+	public String solrCollectionComputate;
+
+	public String getSolrCollectionComputate() {
+		return solrCollectionComputate;
+	}
+
+	public void setSolrCollectionComputate(String solrCollectionComputate) {
+		this.solrCollectionComputate = solrCollectionComputate;
+	}
+
 	/**
 	 * Var.enUS: solrUrlComputate enUS: The Solr web URL for the "computate" index.
 	 */
@@ -626,6 +636,11 @@ public class ConfigSite {
 	protected void _solrMotDePasse() throws Exception {
 		solrMotDePasse = config
 				.getString(langueConfigGlobale.getString(I18n.var_SOLR_MOT_DE_PASSE));
+	}
+
+	protected void _solrCollectionComputate() throws Exception {
+		solrCollectionComputate = config
+				.getString(langueConfigGlobale.getString(I18n.var_SOLR_COLLECTION_COMPUTATE));
 	}
 
 	/**
@@ -1029,6 +1044,7 @@ public class ConfigSite {
 //		_portSolr();
 		_solrUtilisateur();
 		_solrMotDePasse();
+		_solrCollectionComputate();
 		_solrUrlComputate();
 		_solrUrlFiware();
 		_clientSolrComputate();
