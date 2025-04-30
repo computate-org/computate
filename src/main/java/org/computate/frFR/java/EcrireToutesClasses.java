@@ -320,7 +320,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		classeEtendGen = (Boolean)doc.getBoolean("classeEtendGen_stored_boolean");
 		classeEstModeleBase = (Boolean)doc.getBoolean("classeEtendModeleBase_stored_boolean");
 		classeEstResultatBase = (Boolean)doc.getBoolean("classeEstResultatBase_stored_boolean");
-		classeEtendModeleBase = (Boolean)doc.getBoolean("classeEstModeleBase_stored_boolean");
+		classeEtendModeleBase = (Boolean)doc.getBoolean("classeEtendModeleBase_stored_boolean");
 		classeEtendResultatBase = (Boolean)doc.getBoolean("classeEtendResultatBase_stored_boolean");
 		classeBaseEtendGen = (Boolean)doc.getBoolean("classeBaseEtendGen_stored_boolean");
 		classeEtendBase = (Boolean)doc.getBoolean("classeEtendBase_stored_boolean");
