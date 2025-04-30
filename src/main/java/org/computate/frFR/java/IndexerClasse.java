@@ -5932,6 +5932,13 @@ public class IndexerClasse extends RegarderClasseBase {
 							classeApiMethodeMethode = "PUT";
 						else
 							classeApiMethodeMethode = "GET";
+
+						if(classeRoleSession) {
+							if(StringUtils.equalsAny(classeApiMethodeMethode, "GET", "POST", "PATCH"))
+								classeApiMethodeSecurite = false;
+						}
+						if("GET".equals(classeApiMethodeMethode) && classePublicLire)
+							classeApiMethodeSecurite = false;
 						
 						if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageAffichage)))
 							classeApiMethodeSecurite = false;
@@ -5941,12 +5948,6 @@ public class IndexerClasse extends RegarderClasseBase {
 							classeApiMethodeSecurite = true;
 						else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_Telechargement)))
 							classeApiMethodeSecurite = true;
-						if("GET".equals(classeApiMethodeMethode) && classePublicLire)
-							classeApiMethodeSecurite = false;
-						if(classeRoleSession) {
-							if(StringUtils.equalsAny(classeApiMethodeMethode, "GET", "POST", "PATCH"))
-								classeApiMethodeSecurite = false;
-						}
 		
 						classeApiMethodeMethode = indexerStockerSolr(langueNom, classeDoc, "classeApiMethode" + classeApiMethode, apiMethode.getString(i18nGlobale.getString(I18n.var_ApiMethode), classeApiMethodeMethode));
 						indexerStockerSolr(classeDoc, "classeApiSecurite" + classeApiMethode, classeApiMethodeSecurite);
