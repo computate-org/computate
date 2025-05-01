@@ -968,6 +968,10 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: entityMultiline
 	 */
 	Boolean entiteMultiligne;
+	List<String> entiteRadioValeurs;
+	List<String> entiteRadioTextes;
+	List<String> entiteOptionValeurs;
+	List<String> entiteOptionTextes;
 
 	/**
 	 * Var.enUS: entitySignature

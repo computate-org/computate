@@ -3543,6 +3543,21 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteCouleur)
 							indexerStockerSolr(classeDoc, "classeEntiteCouleur", entiteVar);
 
+						JsonObject entiteRadioObjet = regexYamlObject(i18nGlobale.getString(I18n.var_Radio), methodeCommentaire);
+						if(entiteRadioObjet != null) {
+							for(String valeur : entiteRadioObjet.fieldNames()) {
+								indexerStockerListeSolr(entiteDoc, "entiteRadioValeurs", valeur); 
+								indexerStockerListeSolr(entiteDoc, "entiteRadioTextes", entiteRadioObjet.getString(valeur)); 
+							}
+						}
+						JsonObject entiteOptionObjet = regexYamlObject(i18nGlobale.getString(I18n.var_Option), methodeCommentaire);
+						if(entiteOptionObjet != null) {
+							for(String valeur : entiteOptionObjet.fieldNames()) {
+								indexerStockerListeSolr(entiteDoc, "entiteOptionValeurs", valeur); 
+								indexerStockerListeSolr(entiteDoc, "entiteOptionTextes", entiteOptionObjet.getString(valeur)); 
+							}
+						}
+
 						Boolean entiteHighlighting = indexerStockerSolr(entiteDoc, "entiteHighlighting", regexTrouve("^Highlighting: (true)$", methodeCommentaire));
 						Boolean entiteHtml = entiteDefinir || regexTrouve("^Html: (true)$", methodeCommentaire);
 

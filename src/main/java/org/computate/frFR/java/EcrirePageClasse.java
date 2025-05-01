@@ -627,6 +627,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 				if(entiteMultiligne)
 					tl(9, "<", composantsWebPrefixe, "textarea resize=\"auto\"");
+				else if(entiteRadioValeurs.size() > 0)
+					tl(9, "<", composantsWebPrefixe, "radio-group");
+				else if(entiteOptionValeurs.size() > 0)
+					tl(9, "<", composantsWebPrefixe, "select");
 				else {
 					tl(9, "<", composantsWebPrefixe, "input");
 				}
@@ -681,10 +685,37 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(1, "{%- endif %}");
 				}
 
-				if(entiteMultiligne)
+				if(entiteMultiligne) {
 					s("</", composantsWebPrefixe, "textarea>");
-				else
+				} else if(entiteRadioValeurs.size() > 0) {
+					tl(11, ">");
+					for(Integer i = 0; i < entiteRadioValeurs.size(); i++) {
+						String valeur = entiteRadioValeurs.get(i);
+						String texte = entiteRadioTextes.get(i);
+
+						t(10, "<", composantsWebPrefixe, "radio value=\"");
+						sx(valeur);
+						s("\">");
+						sx(texte);
+						l("</", composantsWebPrefixe, "radio>");
+					}
+					tl(9, "</", composantsWebPrefixe, "radio-group>");
+				} else if(entiteOptionValeurs.size() > 0) {
+					tl(11, ">");
+					for(Integer i = 0; i < entiteOptionValeurs.size(); i++) {
+						String valeur = entiteOptionValeurs.get(i);
+						String texte = entiteOptionTextes.get(i);
+
+						t(10, "<", composantsWebPrefixe, "option value=\"");
+						sx(valeur);
+						s("\">");
+						sx(texte);
+						l("</", composantsWebPrefixe, "option>");
+					}
+					tl(9, "</", composantsWebPrefixe, "select>");
+				} else {
 					tl(11, "></", composantsWebPrefixe, "input>");
+				}
 
 				l();
 				if(entiteLien) {
@@ -1081,6 +1112,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								entiteVarH1 = (Boolean)entiteDocumentSolr.get("entiteVarH1_stored_boolean");
 								entiteVarH2 = (Boolean)entiteDocumentSolr.get("entiteVarH2_stored_boolean");
 								entiteVarH3 = (Boolean)entiteDocumentSolr.get("entiteVarH3_stored_boolean");
+								entiteRadioValeurs = Optional.ofNullable((List<String>)entiteDocumentSolr.get("entiteRadioValeurs_stored_strings")).orElse(Arrays.asList());
+								entiteRadioTextes = Optional.ofNullable((List<String>)entiteDocumentSolr.get("entiteRadioTextes_stored_strings")).orElse(Arrays.asList());
+								entiteOptionValeurs = Optional.ofNullable((List<String>)entiteDocumentSolr.get("entiteOptionValeurs_stored_strings")).orElse(Arrays.asList());
+								entiteOptionTextes = Optional.ofNullable((List<String>)entiteDocumentSolr.get("entiteOptionTextes_stored_strings")).orElse(Arrays.asList());
+								entiteRecharger = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteRecharger_stored_boolean"));
 								entiteMultiligne = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteMultiligne_stored_boolean"));
 								entiteModifier = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteModifier_stored_boolean"));
 								entiteDefinir = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteDefinir_stored_boolean"));
@@ -1307,7 +1343,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												wJsEditionInit.tl(7, "patch", classeNomSimple, "Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeVarId, ":' + event.currentTarget.getAttribute('data-", classeVarId, "') }]");
 												wJsEditionInit.tl(9, ", 'set", entiteVarCapitalise, "', event.currentTarget.value");
 												wJsEditionInit.tl(9, ", event.currentTarget");
-												wJsEditionInit.tl(9, ", function(", langueConfig.getString(I18n.var_reponse), ", target) { ", langueConfig.getString(I18n.var_ajouterLueur), "(target); }");
+												wJsEditionInit.tl(8, ", function(", langueConfig.getString(I18n.var_reponse), ", target) { ", langueConfig.getString(I18n.var_ajouterLueur), "(target);", entiteRecharger ? " window.location.reload();" : "", " }");
 												wJsEditionInit.tl(9, ", function(", langueConfig.getString(I18n.var_reponse), ", target) { ", langueConfig.getString(I18n.var_ajouterErreur), "(target); }");
 												wJsEditionInit.tl(9, ");");
 											}
