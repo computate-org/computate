@@ -2705,6 +2705,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "try {");
 						tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".setJsonObject(body);");
 						tl(4, i18nGlobale.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"query\").put(\"rows\", 1);");
+						tl(4, "Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteService), ".getParams().getJsonArray(\"scopes\")).ifPresent(scopes -> {");
+						tl(5, "scopes.stream().map(v -> v.toString()).forEach(scope -> {");
+						tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".addScopes(scope);");
+						tl(5, "});");
+						tl(4, "});");
 						tl(4, i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", i18nGlobale.getString(I18n.var_requeteSite), ", false, true, true).onSuccess(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, " -> {");
 						tl(5, "try {");
 						tl(6, classeNomSimple, " o = ", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first();");
@@ -2758,6 +2763,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "try {");
 						tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".setJsonObject(body);");
 						tl(4, i18nGlobale.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"query\").put(\"rows\", 1);");
+						tl(4, "Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteService), ".getParams().getJsonArray(\"scopes\")).ifPresent(scopes -> {");
+						tl(5, "scopes.stream().map(v -> v.toString()).forEach(scope -> {");
+						tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".addScopes(scope);");
+						tl(5, "});");
+						tl(4, "});");
 						tl(4, i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", i18nGlobale.getString(I18n.var_requeteSite), ", false, true, true).onSuccess(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, " -> {");
 						tl(5, "try {");
 						tl(6, classeNomSimple, " o = ", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first();");
