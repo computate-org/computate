@@ -5667,7 +5667,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						classeTous = indexerStockerSolr(langueNom, classeDoc, "classeTous", regexLangue(langueNom, "^" + i18nGlobale.getString(I18n.var_TousNom), classeCommentaire, CONTEXTE_enUS_ToutesPluriel));
 						classeTousNom = indexerStockerSolr(langueNom, classeDoc, "classeTousNom", regexLangue(langueNom, "^" + i18nGlobale.getString(I18n.var_TousNom), classeCommentaire, CONTEXTE_enUS_ToutesPluriel + classeNomPluriel));
 						classeRechercherTousNomPar = indexerStockerSolr(langueNom, classeDoc, "classeRechercherTousNomPar", regexLangue(langueNom, "^" + i18nGlobale.getString(I18n.var_RechercherTousNomPar), classeCommentaire, CONTEXTE_enUS_Rechercher + classeNomPluriel + CONTEXTE_enUS_Par));
-						classeRechercherTousNom = indexerStockerSolr(langueNom, classeDoc, "classeRechercherTousNomr", regexLangue(langueNom, "^" + i18nGlobale.getString(I18n.var_RechercherTousNom), classeCommentaire, CONTEXTE_enUS_Rechercher + classeNomPluriel));
+						classeRechercherTousNom = indexerStockerSolr(langueNom, classeDoc, "classeRechercherTousNom", regexLangue(langueNom, "^" + i18nGlobale.getString(I18n.var_RechercherTousNom), classeCommentaire, CONTEXTE_enUS_Rechercher + classeNomPluriel));
 						classeAucunNomTrouve = indexerStockerSolr(langueNom, classeDoc, "classeAucunNomTrouve", regexLangue(langueNom, "^" + i18nGlobale.getString(I18n.var_AucunNomTrouve), classeCommentaire, CONTEXTE_enUS_AucuneTrouveAvant + classeNomSingulier + CONTEXTE_enUS_AucuneTrouveApres));
 	
 						String suffixe = StringUtils.substringAfter(classeUnNom, " ");
