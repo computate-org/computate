@@ -938,6 +938,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			classeAdjectifVar = classeDoc.getString("classeAdjectifVar" + "_" + langueNom + "_stored_string");
 			classeNomAdjectifSingulier = classeDoc.getString("classeNomAdjectifSingulier" + "_" + langueNom + "_stored_string");
 			classeNomAdjectifPluriel = classeDoc.getString("classeNomAdjectifPluriel" + "_" + langueNom + "_stored_string");
+			classeRechercherTousNom = classeDoc.getString("classeRechercherTousNom" + "_" + langueNom + "_stored_string");
 			classeCe = classeDoc.getString("classeCe" + "_" + langueNom + "_stored_string");
 			classeUn = classeDoc.getString("classeUn" + "_" + langueNom + "_stored_string");
 			classeNomActuel = classeDoc.getString("classeNomActuel" + "_" + langueNom + "_stored_string");
@@ -5218,38 +5219,31 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 	public void ecrirePageRechercheAucun(String langueNom, JsonObject i18nPage) throws Exception {
 
-			///////////////////
-			// htmBodyCount0 //
-			///////////////////
+		///////////////////
+		// htmBodyCount0 //
+		///////////////////
 
-			tl(4, "<div class=\"", composantsWebPrefixe, "flank\">");
-			tl(5, "<div>");
-			tl(5, "{% if varsFqCount > 1 %}");
-			tl(5, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\">", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "</", composantsWebPrefixe, "tooltip></", composantsWebPrefixe, "tooltip>");
-			tl(5, "<", composantsWebPrefixe, "button id=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
-			tl(6, "<i class=\"{{ FONTAWESOME_STYLE }} fa-angle-left\"></i>");
-			tl(6, classeTousNom);
-			tl(5, "</", composantsWebPrefixe, "button>");
-			tl(5, "{% endif %}");
-			tl(4, "</div>");
-			t(5, "<h1>");
-			s(classeIcone);
-			s(" <span>", classeNomAdjectifPluriel, "</span>");
-			l("</h1>");
-			tl(4, "</div>");
+		tl(4, "<div class=\"", composantsWebPrefixe, "stack ", composantsWebPrefixe, "gap-3xl \">");
+		tl(5, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\">", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "</", composantsWebPrefixe, "tooltip></", composantsWebPrefixe, "tooltip>");
+		tl(5, "<", composantsWebPrefixe, "breadcrumb>");
+		tl(6, "<", composantsWebPrefixe, "breadcrumb-item id=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
+		tl(7, classeIcone);
+		tl(7, classeTousNom);
+		tl(6, "</", composantsWebPrefixe, "breadcrumb-item>");
+		tl(6, "<", composantsWebPrefixe, "breadcrumb-item>");
+		t(7).sx(classeAucunNomTrouve).l();
+		tl(6, "</", composantsWebPrefixe, "breadcrumb-item>");
+		tl(5, "</", composantsWebPrefixe, "breadcrumb>");
 
-			tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
-			tl(5, "<", composantsWebPrefixe, "divider></", composantsWebPrefixe, "divider>");
-			tl(0, "{% include ", classePageBoutonsRechercheTemplate, " %}");
-
-			tl(4, "<h2>");
-			tl(5, "<span>");
-			tl(1, "{% if ", i18nPage.getString(I18n.var_classeIconeClassesCss), " is defined %}");
-			tl(6, "<i class=\"{{ ", i18nPage.getString(I18n.var_classeIconeClassesCss), " }}  site-menu-icon \"></i>");
-			tl(1, "{% endif %}");
-			tl(6, "<span class=\"\">", classeAucunNomTrouve, "</span>");
-			tl(5, "</span>");
-			tl(4, "</h2>");
+		tl(5, "<div class=\"", composantsWebPrefixe, "stack ", composantsWebPrefixe, "align-items-center \">");
+		tl(6, "<div class=\"", composantsWebPrefixe, "heading-3xl \">");
+		tl(7, classeIcone);
+		tl(6, "</div>");
+		tl(6, "<span class=\"", composantsWebPrefixe, "heading-m \">", classeAucunNomTrouve, "</span>");
+		tl(6, "<p class=\"", composantsWebPrefixe, "caption-l \">", classeDescription, "</p>");
+		tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
+		tl(5, "</div>");
+		tl(4, "</div>");
 	}
 
 	public void ecrirePageBoutonsRecherche(String langueNom, JsonObject i18nPage) throws Exception {
@@ -5369,13 +5363,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		o = auteurBoutonsPaginationJinja;
 
 		l();
-		tl(5, "<div id=\"htm", i18nPage.getString(I18n.var_BoutonsPagination), "\">");
-		tl(6, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_precedents), classeNomAdjectifPluriel), "\"></", composantsWebPrefixe, "tooltip>");
-		tl(6, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_la_moitie_des_resultats), classeNomAdjectifPluriel), "\"></", composantsWebPrefixe, "tooltip>");
-		tl(6, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_le_double_des_resultats), classeNomAdjectifPluriel), "\"></", composantsWebPrefixe, "tooltip>");
-		tl(6, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_suivants), classeNomAdjectifPluriel), "\"></", composantsWebPrefixe, "tooltip>");
-		tl(6, "<", composantsWebPrefixe, "button-group>");
-		t(7, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " pill");
+
+		tl(5, "<div class=\"", composantsWebPrefixe, "split \">");
+		tl(6, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_BoutonsPagination), i18nPage.getString(I18n.var_Precedent), "\" placement=\"top\"", "wa-".equals(composantsWebPrefixe) ? ">" : " content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_precedents), classeNomAdjectifPluriel), "", "wa-".equals(composantsWebPrefixe) ? "" : "\">", "</", composantsWebPrefixe, "tooltip>");
+		tl(6, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_BoutonsPagination), i18nPage.getString(I18n.var_Diminuer), "\" placement=\"top\"", "wa-".equals(composantsWebPrefixe) ? ">" : " content=\"", String.format(i18nPage.getString(I18n.str_Afficher_la_moitie_des_resultats), classeNomAdjectifPluriel), "", "wa-".equals(composantsWebPrefixe) ? "" : "\">", "</", composantsWebPrefixe, "tooltip>");
+		tl(6, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_BoutonsPagination), i18nPage.getString(I18n.var_Augmenter), "\" placement=\"top\"", "wa-".equals(composantsWebPrefixe) ? ">" : " content=\"", String.format(i18nPage.getString(I18n.str_Afficher_le_double_des_resultats), classeNomAdjectifPluriel), "", "wa-".equals(composantsWebPrefixe) ? "" : "\">", "</", composantsWebPrefixe, "tooltip>");
+		tl(6, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_BoutonsPagination), i18nPage.getString(I18n.var_Suivant), "\" placement=\"top\"", "wa-".equals(composantsWebPrefixe) ? ">" : " content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_suivants), classeNomAdjectifPluriel), "", "wa-".equals(composantsWebPrefixe) ? "" : "\">", "</", composantsWebPrefixe, "tooltip>");
+		tl(6, "<div class=\"", composantsWebPrefixe, "caption-l \">{{ pagination.", i18nPage.getString(I18n.var_debut), "Num }} – {{ pagination.", i18nPage.getString(I18n.var_fin), "Num }} ", i18nPage.getString(I18n.var_de), " {{ pagination.", i18nPage.getString(I18n.var_numTrouve), " }} ", classeNomPluriel, "</div>");
+		tl(6, "<", composantsWebPrefixe, "button-group size=\"small\" class=\"", composantsWebPrefixe, "cluster ", composantsWebPrefixe, "gap-xs \" id=\"htm", i18nPage.getString(I18n.var_BoutonsPagination), "\">");
+
+		t(7, "<", composantsWebPrefixe, "button id=\"", i18nPage.getString(I18n.var_BoutonsPagination), i18nPage.getString(I18n.var_Precedent), "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline");
 		s("{% if pagination.page", i18nPage.getString(I18n.var_Precedent), " is defined %}");
 		s(" href=\"{{pageUri}}?start={{pagination.page", i18nPage.getString(I18n.var_Precedent), ".", i18nPage.getString(I18n.var_debut), "}}&amp;rows={{pagination.", i18nPage.getString(I18n.var_lignes), "}}\"");
 		s("{% else %}");
@@ -5383,9 +5380,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		s("{% endif %}");
 		l(">");
 		tl(8, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-arrow-square-left \"></i>");
+		tl(8, i18nPage.getString(I18n.str_Precedent));
 		tl(7, "</", composantsWebPrefixe, "button>");
 
-		t(7, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", "");
+		t(7, "<", composantsWebPrefixe, "button id=\"", i18nPage.getString(I18n.var_BoutonsPagination), i18nPage.getString(I18n.var_Diminuer), "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", "");
 		s("{% if pagination.", i18nPage.getString(I18n.var_lignes), i18nPage.getString(I18n.var_Precedent), " >= pagination['1L'] %}");
 		s(" href=\"{{pageUri}}?start={{pagination.", i18nPage.getString(I18n.var_debut), "}}&amp;rows={{ pagination.", i18nPage.getString(I18n.var_lignes), i18nPage.getString(I18n.var_Precedent), " }}\"");
 		s("{% else %}");
@@ -5393,25 +5391,27 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		s("{% endif %}");
 		l(">");
 		tl(8, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-minus-square \"></i>");
+		tl(8, i18nPage.getString(I18n.str_Moins));
 		tl(7, "</", composantsWebPrefixe, "button>");
 
-		t(7, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", "");
+		t(7, "<", composantsWebPrefixe, "button id=\"", i18nPage.getString(I18n.var_BoutonsPagination), i18nPage.getString(I18n.var_Augmenter), "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", "");
 		s(" href=\"{{pageUri}}?start={{pagination.", i18nPage.getString(I18n.var_debut), "}}&amp;rows={{ pagination.", i18nPage.getString(I18n.var_lignes), i18nPage.getString(I18n.var_Prochaine), " }}\"");
 		l(">");
 		tl(8, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-plus-square \"></i>");
+		tl(8, i18nPage.getString(I18n.str_Plus));
 		tl(7, "</", composantsWebPrefixe, "button>");
 
-		t(7, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " pill");
+		t(7, "<", composantsWebPrefixe, "button id=\"", i18nPage.getString(I18n.var_BoutonsPagination), i18nPage.getString(I18n.var_Suivant), "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline");
 		s("{% if pagination.page", i18nPage.getString(I18n.var_Prochaine), " is defined %}");
 		s(" href=\"{{pageUri}}?start={{pagination.page", i18nPage.getString(I18n.var_Prochaine), ".", i18nPage.getString(I18n.var_debut), "}}&amp;rows={{pagination.", i18nPage.getString(I18n.var_lignes), "}}\"");
 		s("{% else %}");
 		s(" disabled");
 		s("{% endif %}");
 		l(">");
-		tl(8, "<i slot=\"prefix\" class=\"{{ FONTAWESOME_STYLE }} fa-arrow-square-right \"></i>");
+		tl(8, i18nPage.getString(I18n.str_Suivant));
+		tl(8, "<i slot=\"suffix\" class=\"{{ FONTAWESOME_STYLE }} fa-arrow-square-right \"></i>");
 		tl(7, "</", composantsWebPrefixe, "button>");
 		tl(6, "</", composantsWebPrefixe, "button-group>");
-		tl(6, "<div>{{ pagination.", i18nPage.getString(I18n.var_debut), "Num }} – {{ pagination.", i18nPage.getString(I18n.var_fin), "Num }} ", i18nPage.getString(I18n.var_de), " {{ pagination.", i18nPage.getString(I18n.var_numTrouve), " }} ", classeNomPluriel, "</div>");
 		tl(5, "</div>");
 
 		o = oAncien;
@@ -5453,18 +5453,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(0, "{{ super() }}");
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Debut), classePageNomSimple, " %}");
 
-		tl(0, "{% if ", varResultat, "Count > 0 %}");
-		t(5, "<h1>");
-		s("<a href=\"{{pageUri}}\">");
-		s(classeIcone);
-		s(" <span>", classeNomAdjectifPluriel, "</span>");
-		s("</a>");
-		l("</h1>");
-		tl(0, "{%- include ", classePageRechercheSuggereTemplate, " %}");
-		tl(5, "<", composantsWebPrefixe, "divider></", composantsWebPrefixe, "divider>");
-		tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
-		tl(0, "{% endif %}");
-
 		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Debut), classePageNomSimple, " %}");
 		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Debut), classePageSuperNomSimple, " %}");
 		l();
@@ -5477,6 +5465,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(0, "{% else %}");
 
 		tl(0, "{%- include ", classePageBarreLateraleTemplate, " %}");
+		tl(0, "{%- include ", classePageRechercheSuggereTemplate, " %}");
+		tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
 
 		tl(5, "<form action=\"", classeApiUri, "\" id=\"", classeApiClasseNomSimple, "Form\" class=\"", i18nPage.getString(I18n.var_page), i18nPage.getString(I18n.var_Formulaire), " \" onsubmit=\"event.preventDefault(); return false; \">");
 		t(6, "<input");
@@ -5504,15 +5494,18 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //		tl(7, "<h3 id=\"site-calendar-title\">Calendar</h3>");
 		tl(6, "<div id=\"site-calendar\"><!-- // --></div>");
 		tl(5, "</div>");
-		tl(5, "{% if varsFqCount > 1 %}");
-		tl(5, "<div class=\"margin-block\">");
-		tl(6, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\">", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "</", composantsWebPrefixe, "tooltip>");
-		tl(6, "<", composantsWebPrefixe, "button id=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
-		tl(7, "<i class=\"{{ FONTAWESOME_STYLE }} fa-angle-left\"></i>");
+
+		tl(4, "<div class=\"", composantsWebPrefixe, "stack ", composantsWebPrefixe, "gap-m \">");
+		tl(5, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\">", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "</", composantsWebPrefixe, "tooltip></", composantsWebPrefixe, "tooltip>");
+		tl(5, "<", composantsWebPrefixe, "breadcrumb>");
+		tl(6, "<", composantsWebPrefixe, "breadcrumb-item id=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
+		tl(7, classeIcone);
 		tl(7, classeTousNom);
-		tl(6, "</", composantsWebPrefixe, "button>");
-		tl(5, "</div>");
-		tl(5, "{% endif %}");
+		tl(6, "</", composantsWebPrefixe, "breadcrumb-item>");
+		tl(6, "<", composantsWebPrefixe, "breadcrumb-item>");
+		t(7).sx(classeRechercherTousNom).l();
+		tl(6, "</", composantsWebPrefixe, "breadcrumb-item>");
+		tl(5, "</", composantsWebPrefixe, "breadcrumb>");
 
 		/////////////////
 		// htmBodyTous //
@@ -5522,30 +5515,33 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// tl(6, "{{ htm", i18nPage.getString(I18n.var_BoutonsPagination), classePageNomSimple, "() }}");
 
 		tl(5, "<div class=\"", composantsWebPrefixe, "flank ", composantsWebPrefixe, "align-items-baseline margin-block-start \">");
-		tl(0, "{% include ", classePageBoutonsPaginationTemplate, " %}");
 		tl(0, "{% include ", classePageBoutonsRechercheTemplate, " %}");
 		tl(5, "</div>");
-		tl(5, "<div class=\"card-like-thing background-color-surface-border\" id=\"site-results-grid\">");
-		tl(6, "<div>");
+		tl(5, "<div class=\"", composantsWebPrefixe, "stack ", composantsWebPrefixe, "gap-0 \">");
+		tl(0, "{% include ", classePageBoutonsPaginationTemplate, " %}");
+		tl(6, "<div class=\"card-like-thing background-color-surface-border\" id=\"site-results-grid\">");
+		tl(7, "<div>");
 		s(wTh);
-		tl(6, "</div>");
+		tl(7, "</div>");
 //			TODO
 //			tl(2, "Map<String, Map<String, List<String>>> highlighting = ", langueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, ".getResponse().getHighlighting();");
-		tl(6, "{% for item in ", i18nPage.getString(I18n.var_liste), classeApiClasseNomSimple, "%}");
+		tl(7, "{% for item in ", i18nPage.getString(I18n.var_liste), classeApiClasseNomSimple, "%}");
 //			TODO
 //			tl(3, classeApiClasseNomSimple, " o = ", langueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, ".getList().get(i);");
 //			tl(3, "Map<String, List<String>> highlights = highlighting == null ? null : highlighting.get(o.getId());");
 //			tl(3, "List<String> highlightList = highlights == null ? null : highlights.get(highlights.keySet().stream().findFirst().orElse(null));");
 //			tl(3, "String uri = ", classeEntiteVars.contains("pageUri") ? "o.getPageUri()" : (q(classePageUriMethode, "/") + " + o.get" + StringUtils.capitalize(classeVarClePrimaire) + "()"), ";");
-		tl(6, "<div>");
+		tl(7, "<div>");
 		// tl(6, "<a href=\"{{ item.", classeVarUrlPageAffichage, " }}\">");
 		s(wTd);
 		// tl(6, "</a>");
-		tl(6, "</div>");
-		tl(6, "{% endfor %}");
+		tl(7, "</div>");
+		tl(7, "{% endfor %}");
 //			TODO
 //			tl(3, "SimpleOrderedMap facets = (SimpleOrderedMap)Optional.ofNullable(", langueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, ".getResponse()).map(QueryResponse::getResponse).map(r -> r.get(\"facets\")).orElse(new SimpleOrderedMap());");
 		s(wFoot);
+		tl(6, "</div>");
+		tl(0, "{% include ", classePageBoutonsPaginationTemplate, " %}");
 		tl(5, "</div>");
 		tl(4, "</div>");
 		tl(0, "{% endif %}");
