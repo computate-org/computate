@@ -5218,38 +5218,31 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 	public void ecrirePageRechercheAucun(String langueNom, JsonObject i18nPage) throws Exception {
 
-			///////////////////
-			// htmBodyCount0 //
-			///////////////////
+		///////////////////
+		// htmBodyCount0 //
+		///////////////////
 
-			tl(4, "<div class=\"", composantsWebPrefixe, "flank\">");
-			tl(5, "<div>");
-			tl(5, "{% if varsFqCount > 1 %}");
-			tl(5, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\">", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "</", composantsWebPrefixe, "tooltip></", composantsWebPrefixe, "tooltip>");
-			tl(5, "<", composantsWebPrefixe, "button id=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
-			tl(6, "<i class=\"{{ FONTAWESOME_STYLE }} fa-angle-left\"></i>");
-			tl(6, classeTousNom);
-			tl(5, "</", composantsWebPrefixe, "button>");
-			tl(5, "{% endif %}");
-			tl(4, "</div>");
-			t(5, "<h1>");
-			s(classeIcone);
-			s(" <span>", classeNomAdjectifPluriel, "</span>");
-			l("</h1>");
-			tl(4, "</div>");
+		tl(4, "<div class=\"", composantsWebPrefixe, "stack ", composantsWebPrefixe, "gap-3xl \">");
+		tl(5, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\">", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "</", composantsWebPrefixe, "tooltip></", composantsWebPrefixe, "tooltip>");
+		tl(5, "<", composantsWebPrefixe, "breadcrumb>");
+		tl(6, "<", composantsWebPrefixe, "breadcrumb-item id=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
+		tl(7, classeIcone);
+		tl(7, classeTousNom);
+		tl(6, "</", composantsWebPrefixe, "breadcrumb-item>");
+		tl(6, "<", composantsWebPrefixe, "breadcrumb-item>");
+		t(7).sx(classeAucunNomTrouve).l();
+		tl(6, "</", composantsWebPrefixe, "breadcrumb-item>");
+		tl(5, "</", composantsWebPrefixe, "breadcrumb>");
 
-			tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
-			tl(5, "<", composantsWebPrefixe, "divider></", composantsWebPrefixe, "divider>");
-			tl(0, "{% include ", classePageBoutonsRechercheTemplate, " %}");
-
-			tl(4, "<h2>");
-			tl(5, "<span>");
-			tl(1, "{% if ", i18nPage.getString(I18n.var_classeIconeClassesCss), " is defined %}");
-			tl(6, "<i class=\"{{ ", i18nPage.getString(I18n.var_classeIconeClassesCss), " }}  site-menu-icon \"></i>");
-			tl(1, "{% endif %}");
-			tl(6, "<span class=\"\">", classeAucunNomTrouve, "</span>");
-			tl(5, "</span>");
-			tl(4, "</h2>");
+		tl(5, "<div class=\"", composantsWebPrefixe, "stack ", composantsWebPrefixe, "align-items-center \">");
+		tl(6, "<div class=\"", composantsWebPrefixe, "heading-3xl \">");
+		tl(7, classeIcone);
+		tl(6, "</div>");
+		tl(6, "<span class=\"", composantsWebPrefixe, "heading-m \">", classeAucunNomTrouve, "</span>");
+		tl(6, "<p class=\"", composantsWebPrefixe, "caption-l \">", classeDescription, "</p>");
+		tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
+		tl(5, "</div>");
+		tl(4, "</div>");
 	}
 
 	public void ecrirePageBoutonsRecherche(String langueNom, JsonObject i18nPage) throws Exception {
