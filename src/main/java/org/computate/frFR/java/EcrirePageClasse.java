@@ -5536,43 +5536,44 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(0, "{%- include ", classePageBarreLateraleTemplate, " %}");
 		tl(0, "{%- include ", classePageRechercheSuggereTemplate, " %}");
 
-		tl(5, "<form action=\"", classeApiUri, "\" id=\"", classeApiClasseNomSimple, "Form\" class=\"", i18nPage.getString(I18n.var_page), i18nPage.getString(I18n.var_Formulaire), " \" onsubmit=\"event.preventDefault(); return false; \">");
-		t(6, "<input");
+		tl(5, "<div>");
+		tl(6, "<form action=\"", classeApiUri, "\" id=\"", classeApiClasseNomSimple, "Form\" class=\"", i18nPage.getString(I18n.var_page), i18nPage.getString(I18n.var_Formulaire), " \" onsubmit=\"event.preventDefault(); return false; \">");
+		t(7, "<input");
 		s(" name=\"focusId\"");
 		s(" type=\"hidden\"");
 		l("/>");
-		t(6, "<input");
+		t(7, "<input");
 		s(" name=\"", i18nPage.getString(I18n.var_page), i18nPage.getString(I18n.var_Reponse), "\"");
 		s(" id=\"", i18nPage.getString(I18n.var_page), i18nPage.getString(I18n.var_Reponse), "\"");
 		s(" class=\"", i18nPage.getString(I18n.var_page), i18nPage.getString(I18n.var_Reponse), "\" ");
 		s(" value='{{ toJsonObjectStringInApostrophes(", i18nPage.getString(I18n.var_page), i18nPage.getString(I18n.var_Reponse), ") }}'");
 		s(" type=\"hidden\"");
 		l("/>");
-		t(6, "<input");
+		t(7, "<input");
 		s(" name=\"", i18nPage.getString(I18n.var_liste), classeNomSimple, "\"");
 		s(" id=\"", i18nPage.getString(I18n.var_liste), classeNomSimple, "\"");
 		s(" class=\"", i18nPage.getString(I18n.var_liste), classeNomSimple, "\" ");
 		s(" value='{{ toJsonArrayStringInApostrophes(", i18nPage.getString(I18n.var_liste), classeNomSimple, ") }}'");
 		s(" type=\"hidden\"");
 		l("/>");
-		tl(5, "</form>");
+		tl(6, "</form>");
 
-		tl(4, "<div id=\"site-calendar-box\">");
+		tl(6, "<div id=\"site-calendar-box\">");
 //		tl(7, "<h3 id=\"site-calendar-title\">Calendar</h3>");
-		tl(5, "<div id=\"site-calendar\"><!-- // --></div>");
-		tl(4, "</div>");
+		tl(7, "<div id=\"site-calendar\"><!-- // --></div>");
+		tl(6, "</div>");
 
-		tl(4, "<div class=\"", composantsWebPrefixe, "stack ", composantsWebPrefixe, "gap-m \">");
-		tl(5, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\">", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "</", composantsWebPrefixe, "tooltip>");
-		tl(5, "<", composantsWebPrefixe, "breadcrumb>");
-		tl(6, "<", composantsWebPrefixe, "breadcrumb-item id=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
-		tl(7, classeIcone);
-		tl(7, classeTousNom);
-		tl(6, "</", composantsWebPrefixe, "breadcrumb-item>");
-		tl(6, "<", composantsWebPrefixe, "breadcrumb-item>");
-		t(7).sx(classeRechercherTousNom).l();
-		tl(6, "</", composantsWebPrefixe, "breadcrumb-item>");
-		tl(5, "</", composantsWebPrefixe, "breadcrumb>");
+		tl(6, "<div class=\"", composantsWebPrefixe, "stack ", composantsWebPrefixe, "gap-m \">");
+		tl(7, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\">", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "</", composantsWebPrefixe, "tooltip>");
+		tl(7, "<", composantsWebPrefixe, "breadcrumb>");
+		tl(8, "<", composantsWebPrefixe, "breadcrumb-item id=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
+		tl(9, classeIcone);
+		tl(9, classeTousNom);
+		tl(8, "</", composantsWebPrefixe, "breadcrumb-item>");
+		tl(8, "<", composantsWebPrefixe, "breadcrumb-item>");
+		t(9).sx(classeRechercherTousNom).l();
+		tl(8, "</", composantsWebPrefixe, "breadcrumb-item>");
+		tl(7, "</", composantsWebPrefixe, "breadcrumb>");
 
 		tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
 
@@ -5584,33 +5585,34 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// tl(6, "{{ htm", i18nPage.getString(I18n.var_BoutonsPagination), classePageNomSimple, "() }}");
 
 		tl(0, "{% include ", classePageBoutonsRechercheTemplate, " %}");
-		tl(5, "<div class=\"", composantsWebPrefixe, "stack ", composantsWebPrefixe, "gap-0 \">");
+		tl(7, "<div class=\"", composantsWebPrefixe, "stack ", composantsWebPrefixe, "gap-0 \">");
 		tl(0, "{% include ", classePageBoutonsPaginationTemplate, " %}");
-		tl(6, "<div class=\"card-like-thing background-color-surface-border\" id=\"site-results-grid\">");
-		tl(7, "<div>");
+		tl(8, "<div class=\"card-like-thing background-color-surface-border\" id=\"site-results-grid\">");
+		tl(9, "<div>");
 		s(wTh);
-		tl(7, "</div>");
+		tl(9, "</div>");
 //			TODO
 //			tl(2, "Map<String, Map<String, List<String>>> highlighting = ", langueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, ".getResponse().getHighlighting();");
-		tl(7, "{% for item in ", i18nPage.getString(I18n.var_liste), classeApiClasseNomSimple, "%}");
+		tl(9, "{% for item in ", i18nPage.getString(I18n.var_liste), classeApiClasseNomSimple, "%}");
 //			TODO
 //			tl(3, classeApiClasseNomSimple, " o = ", langueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, ".getList().get(i);");
 //			tl(3, "Map<String, List<String>> highlights = highlighting == null ? null : highlighting.get(o.getId());");
 //			tl(3, "List<String> highlightList = highlights == null ? null : highlights.get(highlights.keySet().stream().findFirst().orElse(null));");
 //			tl(3, "String uri = ", classeEntiteVars.contains("pageUri") ? "o.getPageUri()" : (q(classePageUriMethode, "/") + " + o.get" + StringUtils.capitalize(classeVarClePrimaire) + "()"), ";");
-		tl(7, "<div>");
+		tl(9, "<div>");
 		// tl(6, "<a href=\"{{ item.", classeVarUrlPageAffichage, " }}\">");
 		s(wTd);
 		// tl(6, "</a>");
-		tl(7, "</div>");
-		tl(7, "{% endfor %}");
+		tl(9, "</div>");
+		tl(9, "{% endfor %}");
 //			TODO
 //			tl(3, "SimpleOrderedMap facets = (SimpleOrderedMap)Optional.ofNullable(", langueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, ".getResponse()).map(QueryResponse::getResponse).map(r -> r.get(\"facets\")).orElse(new SimpleOrderedMap());");
 		s(wFoot);
-		tl(6, "</div>");
+		tl(8, "</div>");
 		tl(0, "{% include ", classePageBoutonsPaginationTemplate, " %}");
+		tl(7, "</div>");
+		tl(6, "</div>");
 		tl(5, "</div>");
-		tl(4, "</div>");
 		tl(0, "{% endif %}");
 
 		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Milieu), classePageNomSimple, " %}");
