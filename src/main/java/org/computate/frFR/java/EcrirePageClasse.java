@@ -5292,7 +5292,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// htmBodyCount0 //
 		///////////////////
 
-		tl(4, "<div class=\"", composantsWebPrefixe, "stack ", composantsWebPrefixe, "gap-3xl \">");
+		tl(4, "<div class=\"", composantsWebPrefixe, "stack \">");
 		tl(5, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\">", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "</", composantsWebPrefixe, "tooltip></", composantsWebPrefixe, "tooltip>");
 		tl(5, "<", composantsWebPrefixe, "breadcrumb>");
 		tl(6, "<", composantsWebPrefixe, "breadcrumb-item id=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
@@ -5557,14 +5557,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		l("/>");
 		tl(5, "</form>");
 
-		tl(4, "<div class=\"pageContent \">");
-		tl(5, "<div id=\"site-calendar-box\">");
+		tl(4, "<div id=\"site-calendar-box\">");
 //		tl(7, "<h3 id=\"site-calendar-title\">Calendar</h3>");
-		tl(6, "<div id=\"site-calendar\"><!-- // --></div>");
-		tl(5, "</div>");
+		tl(5, "<div id=\"site-calendar\"><!-- // --></div>");
+		tl(4, "</div>");
 
 		tl(4, "<div class=\"", composantsWebPrefixe, "stack ", composantsWebPrefixe, "gap-m \">");
-		tl(5, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\">", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "</", composantsWebPrefixe, "tooltip></", composantsWebPrefixe, "tooltip>");
+		tl(5, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\">", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "</", composantsWebPrefixe, "tooltip>");
 		tl(5, "<", composantsWebPrefixe, "breadcrumb>");
 		tl(6, "<", composantsWebPrefixe, "breadcrumb-item id=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
 		tl(7, classeIcone);
