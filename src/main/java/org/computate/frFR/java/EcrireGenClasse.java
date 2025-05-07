@@ -5119,10 +5119,10 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray).toString());");
 					}
 					else if(entiteNomSimple.toString().equals("JsonObject")) {
-						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", ", entiteVar, ".toString());");
+						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", ", entiteVar, ".encode());");
 					}
 					else if(entiteNomSimple.toString().equals("JsonArray")) {
-						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", ", entiteVar, ".toString());");
+						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", ", entiteVar, ".encode());");
 					}
 					else if(entiteNomSimple.toString().equals("BigDecimal")) {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", ", entiteVar, ".doubleValue());");

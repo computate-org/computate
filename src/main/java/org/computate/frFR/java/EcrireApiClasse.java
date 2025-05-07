@@ -2873,7 +2873,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(11, "JsonArray bodyVals = (JsonArray)bodyVal;");
 								tl(11, "Object valsObj = o.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(f);");
 								tl(11, "Collection<?> vals = valsObj instanceof JsonArray ? ((JsonArray)valsObj).getList() : (Collection<?>)valsObj;");
-								tl(11, "if(bodyVals.size() == vals.size()) {");
+								tl(11, "if(vals != null && bodyVals.size() == vals.size()) {");
 								tl(12, "Boolean match = true;");
 								tl(12, "for(Object val : vals) {");
 								tl(13, "if(val != null) {");
@@ -2889,7 +2889,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(12, "vals.clear();");
 								tl(12, "body2.put(\"set\" + StringUtils.capitalize(f), bodyVal);");
 								tl(11, "} else {");
-								tl(12, "vals.clear();");
+								tl(12, "if(vals != null)");
+								tl(13, "vals.clear();");
 								tl(12, "body2.put(\"set\" + StringUtils.capitalize(f), bodyVal);");
 								tl(11, "}");
 								tl(10, "} else {");
@@ -2967,7 +2968,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(9, "JsonArray bodyVals = (JsonArray)bodyVal;");
 								tl(9, "Object valsObj = o.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(f);");
 								tl(9, "Collection<?> vals = valsObj instanceof JsonArray ? ((JsonArray)valsObj).getList() : (Collection<?>)valsObj;");
-								tl(9, "if(bodyVals.size() == vals.size()) {");
+								tl(9, "if(vals != null && bodyVals.size() == vals.size()) {");
 								tl(10, "Boolean match = true;");
 								tl(10, "for(Object val : vals) {");
 								tl(11, "if(val != null) {");
@@ -2985,7 +2986,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(10, "body2.put(\"set\" + StringUtils.capitalize(f), bodyVal);");
 //								tl(10, "}");
 								tl(9, "} else {");
-								tl(10, "vals.clear();");
+								tl(10, "if(vals != null)");
+								tl(11, "vals.clear();");
 								tl(10, "body2.put(\"set\" + StringUtils.capitalize(f), bodyVal);");
 								tl(9, "}");
 								tl(8, "} else {");
