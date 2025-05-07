@@ -995,9 +995,17 @@ public class EcrireGenClasse extends EcrireClasse {
 	Integer entiteHtmCellule;
 	Integer entiteLongeurMin;
 	Integer entiteLongeurMax;
-	Integer entiteMin;
-	Integer entiteMax;
+	String entiteFiwareType;
+	String entiteMin;
+	String entiteMax;
 	String entiteDefaut;
+	Boolean entiteCacherPOST;
+	Boolean entiteCacherPATCH;
+	Boolean entiteCacherRecherche;
+	String entiteRechercherMaxVarJsonArray;
+	String entiteRechercherMaxVarValeur;
+	String entiteRechercherMaxVar;
+	String entiteRechercherMaxValeur;
 
 	Boolean entiteIndexe;
 	Boolean entiteRequis;
@@ -3286,8 +3294,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			entiteHtmCellule = doc.getInteger("entiteHtmCellule_stored_int");
 			entiteLongeurMin = doc.getInteger("entiteLongeurMin_stored_int");
 			entiteLongeurMax = doc.getInteger("entiteLongeurMax_stored_int");
-			entiteMin = doc.getInteger("entiteMin_stored_int");
-			entiteMax = doc.getInteger("entiteMax_stored_int");
+			entiteMin = doc.getString("entiteMin_stored_string");
+			entiteMax = doc.getString("entiteMax_stored_string");
 			entiteDefaut = doc.getString("entiteDefaut_stored_string");
 			entiteRequis = doc.getBoolean("entiteRequis_stored_boolean");
 			entiteHtml = doc.getBoolean("entiteHtml_stored_boolean");

@@ -3494,6 +3494,9 @@ public class IndexerClasse extends RegarderClasseBase {
 						Boolean entiteStocke = indexerStockerSolr(entiteDoc, "entiteStocke", regexTrouve("^" + i18nGlobale.getString(I18n.var_Stocke) + ": (true)$", methodeCommentaire));
 						Boolean entiteRequis = indexerStockerSolr(entiteDoc, "entiteRequis", regexTrouve("^" + i18nGlobale.getString(I18n.var_Requis) + ": (true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteIndexeOuStocke", entiteCleUnique || entiteCrypte || entiteSuggere || entiteTexte || entiteIndexe || entiteStocke || entiteDocValues || entiteIncremente || entiteTexte);
+						indexerStockerSolr(entiteDoc, "entiteCacherPOST", regexTrouve("^" + i18nGlobale.getString(I18n.var_Cacher) + "POST: (true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteCacherPATCH", regexTrouve("^" + i18nGlobale.getString(I18n.var_Cacher) + "PATCH: (true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "cacherRecherche", regexTrouve("^" + i18nGlobale.getString(I18n.var_Cacher) + i18nGlobale.getString(I18n.var_Recherche) + ": (true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteIgnorer", regexTrouve("^" + i18nGlobale.getString(I18n.var_Ignorer) + ": (true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteDeclarer", regexTrouve("^" + i18nGlobale.getString(I18n.var_Declarer) + ": (true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteRechercher", regexTrouve("^" + i18nGlobale.getString(I18n.var_Rechercher) + ": (true)$", methodeCommentaire));
@@ -3543,6 +3546,13 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteCouleur)
 							indexerStockerSolr(classeDoc, "classeEntiteCouleur", entiteVar);
 
+						JsonObject entiteRechercherMaxObjet = regexYamlObject(i18nGlobale.getString(I18n.var_RechercherMax), methodeCommentaire);
+						if(entiteRechercherMaxObjet != null) {
+							indexerStockerSolr(entiteDoc, "entiteRechercherMaxVarJsonArray", entiteRechercherMaxObjet.getString(i18nGlobale.getString(I18n.var_Var) + "JsonArray")); 
+							indexerStockerSolr(entiteDoc, "entiteRechercherMaxVarValeur", entiteRechercherMaxObjet.getString(i18nGlobale.getString(I18n.var_VarValeur))); 
+							indexerStockerSolr(entiteDoc, "entiteRechercherMaxVar", entiteRechercherMaxObjet.getString(i18nGlobale.getString(I18n.var_Var))); 
+							indexerStockerSolr(entiteDoc, "entiteRechercherMaxValeur", entiteRechercherMaxObjet.getString(i18nGlobale.getString(I18n.var_Valeur))); 
+						}
 						JsonObject entiteRadioObjet = regexYamlObject(i18nGlobale.getString(I18n.var_Radio), methodeCommentaire);
 						if(entiteRadioObjet != null) {
 							for(String valeur : entiteRadioObjet.fieldNames()) {
