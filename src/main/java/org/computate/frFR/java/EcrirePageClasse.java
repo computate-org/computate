@@ -1648,19 +1648,19 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(1, "@Override");
 				tl(1, "protected void _", langueConfig.getString(I18n.var_page), langueConfig.getString(I18n.var_Reponse), "(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(I18n.var_cVar), ") {");
 				tl(2, "if(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_ != null)");
-				tl(3, langueConfig.getString(I18n.var_cVar), ".o(JsonObject.mapFrom(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse()).toString());");
+				tl(3, langueConfig.getString(I18n.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse()).map(response -> JsonObject.mapFrom(response).toString()).orElse(null));");
 				tl(1, "}");
 				l();
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
 				tl(1, "protected void _stats(", classePartsCouverture.nomSimple(langueNom), "<SolrResponse.Stats> ", langueConfig.getString(I18n.var_cVar), ") {");
-				tl(2, langueConfig.getString(I18n.var_cVar), ".o(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse().getStats());");
+				tl(2, langueConfig.getString(I18n.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse()).map(response -> response.getStats()).orElse(null));");
 				tl(1, "}");
 				l();
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
 				tl(1, "protected void _facetCounts(", classePartsCouverture.nomSimple(langueNom), "<SolrResponse.FacetCounts> ", langueConfig.getString(I18n.var_cVar), ") {");
-				tl(2, langueConfig.getString(I18n.var_cVar), ".o(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse().getFacetCounts());");
+				tl(2, langueConfig.getString(I18n.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse()).map(response -> response.getFacetCounts()).orElse(null));");
 				tl(1, "}");
 				l();
 				if(classePageSuperNomSimple != null)
@@ -1669,7 +1669,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(2, "JsonArray pages = new JsonArray();");
 				tl(2, "Long ", langueConfig.getString(I18n.var_debut), " = ", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getStart().longValue();");
 				tl(2, "Long ", langueConfig.getString(I18n.var_lignes), " = ", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getRows().longValue();");
-				tl(2, "Long ", langueConfig.getString(I18n.var_numTrouve), " = ", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse().getResponse().getNumFound().longValue();");
+				tl(2, "Long ", langueConfig.getString(I18n.var_numTrouve), " = Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse()).map(response -> response.getResponse().getNumFound().longValue()).orElse(Long.valueOf(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getList().size()));");
 				tl(2, "Long ", langueConfig.getString(I18n.var_debut), "Num = ", langueConfig.getString(I18n.var_debut), " + 1L;");
 				tl(2, "Long ", langueConfig.getString(I18n.var_fin), "Num = ", langueConfig.getString(I18n.var_debut), " + ", langueConfig.getString(I18n.var_lignes), ";");
 				tl(2, "Long floorMod = (", langueConfig.getString(I18n.var_lignes), " == 0L ? 0L : Math.floorMod(", langueConfig.getString(I18n.var_numTrouve), ", ", langueConfig.getString(I18n.var_lignes), "));");
@@ -1866,7 +1866,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(2, "JsonObject params = ", langueConfig.getString(I18n.var_requeteService), ".getParams();");
 				l();
 				tl(2, "JsonObject queryParams = Optional.ofNullable(", langueConfig.getString(I18n.var_requeteService), ").map(ServiceRequest::getParams).map(or -> or.getJsonObject(\"query\")).orElse(new JsonObject());");
-				tl(2, "Long num = ", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse().getResponse().getNumFound().longValue();");
+				tl(2, "Long num = Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse()).map(response -> response.getResponse().getNumFound().longValue()).orElse(Long.valueOf(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getList().size()));");
 				tl(2, "String q = \"*:*\";");
 				tl(2, "String q1 = \"", classeVarTexte, "\";");
 				tl(2, "String q2 = \"\";");
