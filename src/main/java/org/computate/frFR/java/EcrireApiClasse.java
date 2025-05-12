@@ -2908,7 +2908,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(9, "}");
 								tl(9, "if(", i18nGlobale.getString(I18n.var_resultat), ".size() >= 1) {");
 								tl(10, i18nGlobale.getString(I18n.var_requeteApi), ".setOriginal(o);");
-								tl(10, i18nGlobale.getString(I18n.var_requeteApi), ".setId(o.get", StringUtils.capitalize(classeVarId), "());");
+								tl(10, i18nGlobale.getString(I18n.var_requeteApi), ".setId(Optional.ofNullable(o.get", StringUtils.capitalize(classeVarId), "()).map(v -> v.toString()).orElse(null));");
 								if(classeModele)
 									tl(10, i18nGlobale.getString(I18n.var_requeteApi), ".set", classeVarClePrimaireCapitalise, "(o.get", StringUtils.capitalize(classeVarClePrimaire), "());");
 								tl(9, "}");
@@ -3005,7 +3005,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(7, "}");
 								tl(7, "if(", i18nGlobale.getString(I18n.var_listeRecherche), ".size() == 1) {");
 								tl(8, i18nGlobale.getString(I18n.var_requeteApi), ".setOriginal(o);");
-								tl(8, i18nGlobale.getString(I18n.var_requeteApi), ".setId(o.get", StringUtils.capitalize(classeVarId), "());");
+								tl(8, i18nGlobale.getString(I18n.var_requeteApi), ".setId(Optional.ofNullable(o.get", StringUtils.capitalize(classeVarId), "()).map(v -> v.toString()).orElse(null));");
 								if(classeModele)
 									tl(8, i18nGlobale.getString(I18n.var_requeteApi), ".set", classeVarClePrimaireCapitalise, "(o.get", StringUtils.capitalize(classeVarClePrimaire), "());");
 								tl(7, "}");
