@@ -403,7 +403,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			}
 			else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
 				tl(9, "<", composantsWebPrefixe, "input");
-				tl(11, "type=\"text\"");
+				tl(11, "type=\"datetime-local\"");
 
 				if(entiteModifier || entiteAttribuer) {
 					tl(11, "{% if ", langueConfig.getString(I18n.var_authPourEcrire), "Bool == true %}clearable{% else %}readonly{% endif %}");
@@ -415,7 +415,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					t(11, "hint=\"").sx(entiteDescription).l("\"");
 				}
 				if(entiteNomAffichage != null) {
-					t(11, "label=\"").sx(entiteNomAffichage).l("\"");
+					t(11, "label=\"").sx(entiteNomAffichage).l(" {{ formatZonedDateTime(", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, ", \"'['VV']'\", defaultLocaleId, defaultZoneId) | e }}\"");
 				}
 
 				tl(11, "class=\"label-on-left {{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, " datetimepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{ ", i18nGlobale.getString(I18n.var_resultat), ".", classeVarId, " }}", entiteVarCapitalise, " \"");
@@ -423,7 +423,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(11, "data-timeformat=\"", langueConfig.getString(I18n.str_ddDashMMDashyyyy_HHColonmm_VV), "\"");
 				tl(11, "id=\"{{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 //				tl(4, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", langueConfig.getString(ConfigCles.var_EEE_d_MMM_yyyy_HAposhAposmmColonss_zz_VV), "\").format(", entiteVar, "));");
-				tl(11, "value=\"{%- if ", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, " is defined %}{{ formatZonedDateTime(", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, ", \"", langueConfig.getString(I18n.str_ddDashMMDashyyyy_HHColonmm_VV), "\", defaultLocaleId, defaultZoneId) | e }}{%- endif %}\"");
+				tl(11, "value=\"{%- if ", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, " is defined %}{{ formatZonedDateTime(", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, ", \"yyyy-MM-dd'T'HH:mm\", defaultLocaleId, defaultZoneId) | e }}{%- endif %}\"");
 				tl(1, "{%- if 'Page' == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " %}");
 				tl(1, "{%- endif %}");
 				tl(11, "data-", classeVarId, "={{ ", i18nGlobale.getString(I18n.var_resultat), ".", classeVarId, " | tojson }}");
@@ -432,7 +432,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			}
 			else if("LocalTime".equals(entiteNomSimple)) {
 				tl(11, "<", composantsWebPrefixe, "input");
-				tl(11, "type=\"text\"");
+				tl(11, "type=\"time\"");
 				tl(11, "class=\"{{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, " timepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{ ", i18nGlobale.getString(I18n.var_resultat), ".", classeVarId, " }}", entiteVarCapitalise, " \"");
 				tl(11, "placeholder=\"", langueConfig.getString(I18n.var_HHColonMM), "\"");
 				tl(11, "id=\"{{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
