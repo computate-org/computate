@@ -1918,7 +1918,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								if(StringUtils.equals(classeApiMethodeMethode, "GET")) {
 									tl(5, "{");
 								} else {
-									tl(5, "if(authorizationDecisionResponse.failed()) {");
+									tl(5, "if(authorizationDecisionResponse.failed() || !scopes.contains(\"", classeApiMethodeMethode, "\")) {");
 									tl(6, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
 									tl(6, "eventHandler.handle(Future.succeededFuture(");
 									tl(7, "new ServiceResponse(403, \"FORBIDDEN\",");
@@ -2130,7 +2130,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								if(StringUtils.equals(classeApiMethodeMethode, "GET")) {
 									tl(5, "{");
 								} else {
-									tl(5, "if(authorizationDecisionResponse.failed()) {");
+									tl(5, "if(authorizationDecisionResponse.failed() || !scopes.contains(\"", classeApiMethodeMethode, "\")) {");
 									tl(6, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
 									tl(6, "eventHandler.handle(Future.succeededFuture(");
 									tl(7, "new ServiceResponse(403, \"FORBIDDEN\",");
