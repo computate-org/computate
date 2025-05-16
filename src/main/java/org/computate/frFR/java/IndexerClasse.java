@@ -1996,6 +1996,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeVarInheritClePrimaireSolr = null;
 		String classeVarSauvegardes = null;
 		String classeVarCleUnique = null;
+		String classeVarZone = null;
 		String classeVarEmplacement = null;
 		String classeVarEmplacementCouleur = null;
 		String classeVarEmplacementTitre = null;
@@ -3442,6 +3443,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						Boolean entiteInheritClePrimaire = indexerStockerSolr(entiteDoc, "entiteInheritClePrimaire", regexTrouve("^" + i18nGlobale.getString(I18n.var_InheritClePrimaire) + ": (true)$", methodeCommentaire));
 						Boolean entiteSauvegardes = indexerStockerSolr(entiteDoc, "entiteSauvegardes", regexTrouve("^" + i18nGlobale.getString(I18n.var_Sauvegardes) + ": (true)$", methodeCommentaire));
 						Boolean entiteCleUnique = indexerStockerSolr(entiteDoc, "entiteCleUnique", regexTrouve("^" + i18nGlobale.getString(I18n.var_CleUnique) + ": (true)$", methodeCommentaire));
+						Boolean entiteZone = indexerStockerSolr(entiteDoc, "entiteZone", regexTrouve("^" + i18nGlobale.getString(I18n.var_Zone) + ": (true)$", methodeCommentaire));
 						Boolean entiteEmplacement = indexerStockerSolr(entiteDoc, "entiteEmplacement", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + ": (true)$", methodeCommentaire));
 						Boolean entiteEmplacementCouleur = indexerStockerSolr(entiteDoc, "entiteEmplacementCouler", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Couleur) + ": (true)$", methodeCommentaire));
 						Boolean entiteEmplacementTitre = indexerStockerSolr(entiteDoc, "entiteEmplacementTitre", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Titre) + ": (true)$", methodeCommentaire));
@@ -4607,6 +4609,9 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteCleUnique) {
 							classeVarCleUnique = stockerSolr(classeLangueNom, classeDoc, "classeVarCleUnique", entiteVar);
 						}
+						if(entiteZone) {
+							classeVarZone = stockerSolr(classeLangueNom, classeDoc, "classeVarZone", entiteVar);
+						}
 						if(entiteEmplacement) {
 							classeVarEmplacement = stockerSolr(classeLangueNom, classeDoc, "classeVarEmplacement", entiteVar);
 						}
@@ -5084,6 +5089,21 @@ public class IndexerClasse extends RegarderClasseBase {
 						String classeVarCleUniqueLangue = (String)classeSuperDoc.get("classeVarCleUnique_" + langueNom + "_stored_string");
 						if(classeVarCleUniqueLangue != null) {
 							stockerSolr(langueNom, classeDoc, "classeVarCleUnique", classeVarCleUniqueLangue);
+						}
+					}
+				}
+			}
+		}
+
+		if(classeVarZone == null && classeSuperDoc != null) {
+			classeVarZone = (String)classeSuperDoc.get("classeVarZone_" + classeLangueNom + "_stored_string");
+			if(classeVarZone != null) {
+				stockerSolr(classeLangueNom, classeDoc, "classeVarZone", classeVarZone);
+				if(classeTraduire) {
+					for(String langueNom : classeAutresLangues) {  
+						String classeVarZoneLangue = (String)classeSuperDoc.get("classeVarZone_" + langueNom + "_stored_string");
+						if(classeVarZoneLangue != null) {
+							stockerSolr(langueNom, classeDoc, "classeVarZone", classeVarZoneLangue);
 						}
 					}
 				}

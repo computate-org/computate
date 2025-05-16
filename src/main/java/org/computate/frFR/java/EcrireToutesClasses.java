@@ -264,6 +264,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		classeVarIdSuffixeSolr = doc.getString("classeVarIdSuffixeSolr_stored_string");
 		classeVarNomSuffixeSolr = doc.getString("classeVarNomSuffixeSolr_stored_string");
 		classeVarCleUnique = doc.getString("classeVarCleUnique_" + langueNom + "_stored_string");
+		classeVarZone = doc.getString("classeVarZone_" + langueNom + "_stored_string");
 		classeVarEmplacement = doc.getString("classeVarEmplacement_" + langueNom + "_stored_string");
 		classeVarEmplacementCouleur = doc.getString("classeVarEmplacementCouleur_" + langueNom + "_stored_string");
 		classeVarEmplacementTitre = doc.getString("classeVarEmplacementTitre_" + langueNom + "_stored_string");

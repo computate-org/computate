@@ -398,6 +398,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "{%- if 'Page' == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " %}");
 				tl(1, "{%- endif %}");
 				tl(11, "data-", classeVarId, "={{ ", i18nGlobale.getString(I18n.var_resultat), ".", classeVarId, " | tojson }}");
+				if(classeVarZone != null)
+					tl(11, "data-zone=\"{{ ", i18nGlobale.getString(I18n.var_resultat), ".", classeVarZone, " | e }}\"");
+				else
+					tl(11, "data-zone=\"{{ defaultZoneId }}\"");
 				tl(11, ">");
 				tl(9, "</", composantsWebPrefixe, "input>");
 			}
@@ -427,6 +431,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "{%- if 'Page' == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " %}");
 				tl(1, "{%- endif %}");
 				tl(11, "data-", classeVarId, "={{ ", i18nGlobale.getString(I18n.var_resultat), ".", classeVarId, " | tojson }}");
+				if(classeVarZone != null)
+					tl(11, "data-zone=\"{{ ", i18nGlobale.getString(I18n.var_resultat), ".", classeVarZone, " | e }}\"");
+				else
+					tl(11, "data-zone=\"{{ defaultZoneId }}\"");
 				tl(11, ">");
 				tl(9, "</", composantsWebPrefixe, "input>");
 			}
@@ -457,6 +465,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(11, "id=\"{{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 				tl(11, "value=\"{{", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, " | e }}\"");
 				tl(11, "data-", classeVarId, "={{ ", i18nGlobale.getString(I18n.var_resultat), ".", classeVarId, " | tojson }}");
+				if(classeVarZone != null)
+					tl(11, "data-zone=\"{{ ", i18nGlobale.getString(I18n.var_resultat), ".", classeVarZone, " | e }}\"");
+				else
+					tl(11, "data-zone=\"{{ defaultZoneId }}\"");
 				tl(11, "></", composantsWebPrefixe, "input>");
 			}
 			else if("Boolean".equals(entiteNomSimple)) {
@@ -1315,9 +1327,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												wJsEditionInit.tl(9, ", function(", langueConfig.getString(I18n.var_reponse), ", target) { ", langueConfig.getString(I18n.var_ajouterErreur), "(target); }");
 												wJsEditionInit.tl(9, ");");
 											} else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
-												wJsEditionInit.tl(7, "var timeZone = event.currentTarget.value.split('[').pop().split(']')[0];");
-												wJsEditionInit.tl(7, "var t1 = moment(event.currentTarget.value.split('[')[0].trim(), '", langueConfig.getString(I18n.str_DDDashMMDashYYYY_HHColonmm), "');");
-												wJsEditionInit.tl(7, "var t2 = moment.tz(event.currentTarget.value.split('[')[0].trim(), '", langueConfig.getString(I18n.str_DDDashMMDashYYYY_HHColonmm), "', timeZone);");
+												wJsEditionInit.tl(7, "var timeZone = event.currentTarget.getAttribute('data-zone');");
+												// wJsEditionInit.tl(7, "var timeZone = event.currentTarget.value.split('[').pop().split(']')[0];");
+												wJsEditionInit.tl(7, "var t1 = moment(event.currentTarget.value, \"YYYY-MM-DDTHH:mm\");");
+												wJsEditionInit.tl(7, "var t2 = moment.tz(event.currentTarget.value, \"YYYY-MM-DDTHH:mm\", timeZone);");
 												wJsEditionInit.tl(7, "var t3 = new Date(t1._d);");
 												wJsEditionInit.tl(7, "t3.setTime(t1.toDate().getTime() + t2.toDate().getTime() - t1.toDate().getTime());");
 												wJsEditionInit.tl(7, "var t = moment(t3);");
