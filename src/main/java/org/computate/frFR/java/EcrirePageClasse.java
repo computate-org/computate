@@ -252,7 +252,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			}
 			else if(classePublicLire) {
 				wForm.l();
-				wForm.tl(7, "{%- if \"PATCH\" in ", langueConfig.getString(I18n.var_portees), " %}");
+				wForm.tl(7, "{%- if \"", classeApiMethodeMethode, "\" in ", langueConfig.getString(I18n.var_portees), " %}");
 				wForm.tl(8, "{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(I18n.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(I18n.var_authPourEcrire), "Bool=true, ", langueConfig.getString(I18n.var_authPourLire), "Bool=true", entiteMin == null ? "" : ", min=" + entiteMin, entiteMax == null ? "" : ", max=" + (entiteRechercherMaxVarValeur != null ? String.format("(%s | selectattr('%s', 'equalto', '%s') | list | first).%s", entiteRechercherMaxVarJsonArray, entiteRechercherMaxVarValeur, entiteRechercherMaxValeur, entiteRechercherMaxVar) : entiteMax), entiteDefaut == null ? "" : ", default=" + entiteDefaut, ") }}");
 				wForm.tl(7, "{%- else %}");
 				wForm.tl(8, "{%- if \"GET\" in ", langueConfig.getString(I18n.var_portees), " %}");
@@ -265,7 +265,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			else if(classeUtilisateurEcrire) {
 				if(classeAuth) {
 					wForm.l();
-					wForm.tl(7, "{%- if \"PATCH\" in ", langueConfig.getString(I18n.var_portees), " %}");
+					wForm.tl(7, "{%- if \"", classeApiMethodeMethode, "\" in ", langueConfig.getString(I18n.var_portees), " %}");
 					wForm.tl(8, "{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(I18n.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(I18n.var_authPourEcrire), "Bool=true, ", langueConfig.getString(I18n.var_authPourLire), "Bool=true", entiteMin == null ? "" : ", min=" + entiteMin, entiteMax == null ? "" : ", max=" + (entiteRechercherMaxVarValeur != null ? String.format("(%s | selectattr('%s', 'equalto', '%s') | list | first).%s", entiteRechercherMaxVarJsonArray, entiteRechercherMaxVarValeur, entiteRechercherMaxValeur, entiteRechercherMaxVar) : entiteMax), entiteDefaut == null ? "" : ", default=" + entiteDefaut, ") }}");
 					wForm.tl(7, "{%- else %}");
 					wForm.tl(8, "{%- if \"GET\" in ", langueConfig.getString(I18n.var_portees), " %}");
@@ -294,7 +294,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			}
 			else if(classeAuth) {
 				wForm.l();
-				wForm.tl(7, "{%- if \"PATCH\" in ", langueConfig.getString(I18n.var_portees), " %}");
+				wForm.tl(7, "{%- if \"", classeApiMethodeMethode, "\" in ", langueConfig.getString(I18n.var_portees), " %}");
 				wForm.tl(8, "{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(I18n.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(I18n.var_authPourEcrire), "Bool=true, ", langueConfig.getString(I18n.var_authPourLire), "Bool=true", entiteMin == null ? "" : ", min=" + entiteMin, entiteMax == null ? "" : ", max=" + (entiteRechercherMaxVarValeur != null ? String.format("(%s | selectattr('%s', 'equalto', '%s') | list | first).%s", entiteRechercherMaxVarJsonArray, entiteRechercherMaxVarValeur, entiteRechercherMaxValeur, entiteRechercherMaxVar) : entiteMax), entiteDefaut == null ? "" : ", default=" + entiteDefaut, ") }}");
 				wForm.tl(7, "{%- else %}");
 				wForm.tl(8, "{%- if \"GET\" in ", langueConfig.getString(I18n.var_portees), " %}");
