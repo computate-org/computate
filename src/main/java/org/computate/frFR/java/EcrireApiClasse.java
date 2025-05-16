@@ -1947,16 +1947,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(10, "fqs.add(String.format(\"%s:%s\", \"", StringUtils.substringAfter(classeRessourceAutorisation, "-"), "\", ", i18nGlobale.getString(I18n.var_valeur), "));");
 										tl(9, "});");
 									}
-									tl(7, "JsonObject params = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams();");
-									tl(7, "JsonObject query = params.getJsonObject(\"query\");");
-									tl(7, "if(query == null) {");
-									tl(8, "query = new JsonObject();");
-									tl(8, "params.put(\"query\", query);");
+									tl(7, "JsonObject authParams = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams();");
+									tl(7, "JsonObject authQuery = authParams.getJsonObject(\"query\");");
+									tl(7, "if(authQuery == null) {");
+									tl(8, "authQuery = new JsonObject();");
+									tl(8, "authParams.put(\"query\", authQuery);");
 									tl(7, "}");
-									tl(7, "JsonArray fq = query.getJsonArray(\"fq\");");
+									tl(7, "JsonArray fq = authQuery.getJsonArray(\"fq\");");
 									tl(7, "if(fq == null) {");
 									tl(8, "fq = new JsonArray();");
-									tl(8, "query.put(\"fq\", fq);");
+									tl(8, "authQuery.put(\"fq\", fq);");
 									tl(7, "}");
 									tl(7, "if(fqs.size() > 0) {");
 									tl(8, "fq.add(fqs.stream().collect(Collectors.joining(\" OR \")));");
@@ -2158,16 +2158,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(9, "fqs.add(String.format(\"%s:%s\", \"", StringUtils.substringAfter(classeRessourceAutorisation, "-"), "\", ", i18nGlobale.getString(I18n.var_valeur), "));");
 										tl(8, "});");
 									}
-									tl(6, "JsonObject params = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams();");
-									tl(6, "JsonObject query = params.getJsonObject(\"query\");");
-									tl(6, "if(query == null) {");
-									tl(7, "query = new JsonObject();");
-									tl(7, "params.put(\"query\", query);");
+									tl(6, "JsonObject authParams = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams();");
+									tl(6, "JsonObject authQuery = authParams.getJsonObject(\"query\");");
+									tl(6, "if(authQuery == null) {");
+									tl(7, "authQuery = new JsonObject();");
+									tl(7, "authParams.put(\"query\", authQuery);");
 									tl(6, "}");
-									tl(6, "JsonArray fq = query.getJsonArray(\"fq\");");
+									tl(6, "JsonArray fq = authQuery.getJsonArray(\"fq\");");
 									tl(6, "if(fq == null) {");
 									tl(7, "fq = new JsonArray();");
-									tl(7, "query.put(\"fq\", fq);");
+									tl(7, "authQuery.put(\"fq\", fq);");
 									tl(6, "}");
 									tl(6, "if(fqs.size() > 0) {");
 									tl(7, "fq.add(fqs.stream().collect(Collectors.joining(\" OR \")));");
