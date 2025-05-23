@@ -4480,10 +4480,17 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(3, "if(\"*:*\".equals(", i18nGlobale.getString(I18n.var_listeRecherche), ".getQuery()) && ", i18nGlobale.getString(I18n.var_listeRecherche), ".getSorts().size() == 0) {");
 				if(classeTrisVar != null && classeTrisVar.size() > 0) {
 					for(int i = 0; i < classeTrisVar.size(); i++) {
-						String classeTriVar = classeTrisVar.get(i);
-						String classeTriOrdre = classeTrisOrdre.get(i);
-						String classeTriSuffixeType = classeTrisSuffixeType.get(i);
-						tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".sort(\"", classeTriVar, "_docvalues", classeTriSuffixeType, "\", \"", classeTriOrdre, "\");");
+						String classeTriVar = null;
+						String classeTriOrdre = null;
+						String classeTriSuffixeType = null;
+						try {
+							classeTriVar = classeTrisVar.get(i);
+							classeTriOrdre = classeTrisOrdre.get(i);
+							classeTriSuffixeType = classeTrisSuffixeType.get(i);
+							tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".sort(\"", classeTriVar, "_docvalues", classeTriSuffixeType, "\", \"", classeTriOrdre, "\");");
+						} catch(Throwable ex) {
+							LOG.error(String.format(i18nGlobale.getString(I18n.str_la_variable_de_tri_nexiste_pas), classeTriVar, classeNomSimple), ex);
+						}
 					}
 					tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".setDefaultSort(true);");
 				}
