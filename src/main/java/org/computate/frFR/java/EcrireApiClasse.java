@@ -14,6 +14,7 @@
 package org.computate.frFR.java; 
 
 import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -446,13 +447,25 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							entiteNomSimpleComplet = (String)doc.get("entiteNomSimpleComplet_" + classeLangueNom + "_stored_string");
 							entiteNomSimpleCompletGenerique = (String)doc.get("entiteNomSimpleCompletGenerique_" + classeLangueNom + "_stored_string");
 							entiteNomSimple = (String)doc.get("entiteNomSimple_" + classeLangueNom + "_stored_string");
+							Boolean entiteEstListe = (StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()));
 
 							/////////////////////////
 							// classePageTemplates //
 							/////////////////////////
 
 							if(classePageAvecTemplate && entiteDefinir) {
-								wPageTemplates.tl(3, "page.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_", entiteVar, ")));");
+								if((
+										StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())
+										|| entiteEstListe && StringUtils.equals(entiteNomCanoniqueGenerique, ZonedDateTime.class.getCanonicalName()))) {
+									if(classeVarZone != null) {
+										wPageTemplates.tl(3, "page.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_", entiteVar, "), Optional.ofNullable(page.get", StringUtils.capitalize(classeVarZone), "()).map(v -> ZoneId.of(v)).orElse(Optional.ofNullable(", langueConfigGlobale.getString(I18n.var_requeteSite), ").map(r -> r.get", langueConfigGlobale.getString(I18n.var_Config), "()).map(config -> config.getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfigGlobale.getString(I18n.var_SITE_ZONE), ")).map(z -> ZoneId.of(z)).orElse(ZoneId.of(\"UTC\")))));");
+									} else {
+										wPageTemplates.tl(3, "page.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_", entiteVar, "), Optional.ofNullable(", langueConfigGlobale.getString(I18n.var_requeteSite), ").map(r -> r.get", langueConfigGlobale.getString(I18n.var_Config), "()).map(config -> config.getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfigGlobale.getString(I18n.var_SITE_ZONE), ")).map(z -> ZoneId.of(z)).orElse(ZoneId.of(\"UTC\"))));");
+									}
+								} else {
+									wPageTemplates.tl(3, "page.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_", entiteVar, ")));");
+								}
+								
 							}
 	
 							/////////////////

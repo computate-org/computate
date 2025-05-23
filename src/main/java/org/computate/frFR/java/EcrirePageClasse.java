@@ -419,7 +419,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					t(11, "hint=\"").sx(entiteDescription).l("\"");
 				}
 				if(entiteNomAffichage != null) {
-					t(11, "label=\"").sx(entiteNomAffichage).l(" {{ formatZonedDateTime(", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, ", \"'['VV']'\", defaultLocaleId, defaultZoneId) | e }}\"");
+					if(classeVarZone == null)
+						t(11, "label=\"").sx(entiteNomAffichage).l(" {{ formatZonedDateTime(", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, ", \"'['VV']'\", defaultLocaleId, defaultZoneId) | e }}\"");
+					else
+						t(11, "label=\"").sx(entiteNomAffichage).l(" {{ formatZonedDateTime(", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, ", \"'['VV']'\", defaultLocaleId, ", i18nGlobale.getString(I18n.var_resultat), ".", classeVarZone, ") | e }}\"");
 				}
 
 				tl(11, "class=\"label-on-left {{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, " datetimepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{ ", i18nGlobale.getString(I18n.var_resultat), ".", classeVarId, " }}", entiteVarCapitalise, " \"");
@@ -427,7 +430,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(11, "data-timeformat=\"", langueConfig.getString(I18n.str_ddDashMMDashyyyy_HHColonmm_VV), "\"");
 				tl(11, "id=\"{{", langueConfig.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 //				tl(4, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", langueConfig.getString(ConfigCles.var_EEE_d_MMM_yyyy_HAposhAposmmColonss_zz_VV), "\").format(", entiteVar, "));");
-				tl(11, "value=\"{%- if \"Page\" == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " and ", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, " is defined %}{{ formatZonedDateTime(", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, ", \"yyyy-MM-dd'T'HH:mm\", defaultLocaleId, defaultZoneId) | e }}{%- endif %}\"");
+
+				if(classeVarZone == null)
+					tl(11, "value=\"{%- if \"Page\" == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " and ", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, " is defined %}{{ formatZonedDateTime(", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, ", \"yyyy-MM-dd'T'HH:mm\", defaultLocaleId, defaultZoneId) | e }}{%- endif %}\"");
+				else
+					tl(11, "value=\"{%- if \"Page\" == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " and ", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, " is defined %}{{ formatZonedDateTime(", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, ", \"yyyy-MM-dd'T'HH:mm\", defaultLocaleId, ", i18nGlobale.getString(I18n.var_resultat), ".", classeVarZone, ") | e }}{%- endif %}\"");
 				tl(1, "{%- if 'Page' == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " %}");
 				tl(1, "{%- endif %}");
 				tl(11, "data-", classeVarId, "={{ ", i18nGlobale.getString(I18n.var_resultat), ".", classeVarId, " | tojson }}");
