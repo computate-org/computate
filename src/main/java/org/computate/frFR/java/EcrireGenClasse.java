@@ -6571,6 +6571,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			/////////////////
 			l();
 			tl(1, "public static String ", langueConfig.getString(I18n.var_description), classeNomSimple, "(String var) {");
+			tl(2, "if(var == null)");
+			tl(3, "return null;");
 			tl(2, "switch(var) {");
 			s(wDescriptionMethode);
 			tl(3, "default:");
