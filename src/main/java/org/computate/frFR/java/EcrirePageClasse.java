@@ -3777,7 +3777,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //				auteurPageJs.tl(3, langueConfig.getString(ConfigCles.var_rechercher), langueConfig.getString(ConfigCles.var_Page), "();");
 				auteurPageJs.tl(3, "var json = JSON.parse(message['body']);");
 				auteurPageJs.tl(3, "var ", classeVarId, " = json['id'];");
-				auteurPageJs.tl(3, "var ", classeVarClePrimairePluriel, " = json['", classeVarClePrimairePluriel, "'];");
+				auteurPageJs.tl(3, "var ", i18nGlobale.getString(I18n.var_solrIds), " = json['", i18nGlobale.getString(I18n.var_solrIds), "'];");
 				auteurPageJs.tl(3, "var empty = json['empty'];");
 //					auteurPageJs.tl(3, "if(!empty) {");
 				auteurPageJs.tl(3, "var numFound = parseInt(json['numFound']);");

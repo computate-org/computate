@@ -595,10 +595,14 @@ public class ConfigSite {
 	}
 
 	public String solrId;
-
 	protected void _solrId() throws Exception {
 		solrId = config.getString(
 				langueConfigGlobale.getString(I18n.var_SOLR_ID));
+	}
+
+	public String solrIdCapitalise;
+	protected void _solrIdCapitalise() throws Exception {
+		solrIdCapitalise = StringUtils.capitalize(solrId);
 	}
 
 	public String solrCollectionComputate;
@@ -1034,6 +1038,7 @@ public class ConfigSite {
 		_nomFichierConfig();
 		_siteZone();
 		_solrId();
+		_solrIdCapitalise();
 //		_versionMaven();
 //		_versionZookeeper();
 //		_prefixePortZookeeper();

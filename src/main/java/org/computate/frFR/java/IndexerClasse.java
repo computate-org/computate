@@ -3702,6 +3702,8 @@ public class IndexerClasse extends RegarderClasseBase {
 							if(listeRechercheClasse.size() > 0) {
 								SolrDocument docClasse = listeRechercheClasse.get(0);
 								String entiteAttribuerNomCanonique = (String)docClasse.get("classeNomCanonique_" + classeLangueNom + "_stored_string");
+								Boolean entiteAttribuerEtendModeleBase = BooleanUtils.isTrue((Boolean)docClasse.get("classeEtendModeleBase_stored_boolean"));
+								Boolean entiteAttribuerEtendResultatBase = BooleanUtils.isTrue((Boolean)docClasse.get("classeEtendResultatBase_stored_boolean"));
 								String entiteAttribuerNomCanoniqueGenApiServiceImpl = (String)docClasse.get("classeNomCanoniqueGenApiServiceImpl_" + classeLangueNom + "_stored_string");
 								String entiteAttribuerNomCanoniqueApiServiceImpl = (String)docClasse.get("classeNomCanoniqueApiServiceImpl_" + classeLangueNom + "_stored_string");
 								String entiteAttribuerNomSimpleGenApiServiceImpl = (String)docClasse.get("classeNomSimpleGenApiServiceImpl_" + classeLangueNom + "_stored_string");
@@ -3732,6 +3734,8 @@ public class IndexerClasse extends RegarderClasseBase {
 									indexerStockerSolr(entiteDoc, "entiteAttribuerAttribuer", BooleanUtils.isTrue((Boolean)docEntite.get("entiteAttribuer_stored_boolean")));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomSimple", entiteAttribuerNomSimple);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomCanonique", entiteAttribuerNomCanonique);
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerEtendModeleBase", entiteAttribuerEtendModeleBase);
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerEtendResultatBase", entiteAttribuerEtendResultatBase);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomCanoniqueGenApiServiceImpl", entiteAttribuerNomCanoniqueGenApiServiceImpl);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomSimpleGenApiServiceImpl", entiteAttribuerNomSimpleGenApiServiceImpl);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomSimpleApiServiceImpl", entiteAttribuerNomSimpleApiServiceImpl);

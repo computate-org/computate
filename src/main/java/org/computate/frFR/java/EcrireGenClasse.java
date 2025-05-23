@@ -185,9 +185,6 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeCommentaireLangue;
 
 	protected String classeVarClePrimaire;
-	protected String classeVarClePrimairePluriel;
-	protected String classeVarClePrimaireCapitalise;
-	protected String classeVarClePrimaireCapitalisePluriel;
 	protected String classeVarClePrimaireSuffixeSolr;
 
 	protected String classeVarInheritClePrimaire;
@@ -562,6 +559,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: entityAttribute
 	 */
 	Boolean entiteAttribuer;
+	Boolean entiteAttribuerEtendModeleBase;
+	Boolean entiteAttribuerEtendResultatBase;
 	Boolean entiteAttribuerAttribuer;
 
 	String entiteAttribuerNomSimple;
@@ -3249,6 +3248,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			entiteDeclarer = doc.getBoolean("entiteDeclarer_stored_boolean");
 			entiteRechercher = doc.getBoolean("entiteRechercher_stored_boolean");
 			entiteAttribuer = BooleanUtils.isTrue(doc.getBoolean("entiteAttribuer_stored_boolean"));
+			entiteAttribuerEtendModeleBase = BooleanUtils.isTrue(doc.getBoolean("entiteAttribuerEtendModeleBase_stored_boolean"));
+			entiteAttribuerEtendResultatBase = BooleanUtils.isTrue(doc.getBoolean("entiteAttribuerEtendResultatBase_stored_boolean"));
 			entiteAttribuerNomCanonique = doc.getString("entiteAttribuerNomCanonique_" + langueNom + "_stored_string");
 			entiteAttribuerNomSimple = doc.getString("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
 			entiteAttribuerNomCanoniqueGenApiServiceImpl = doc.getString("entiteAttribuerNomCanoniqueGenApiServiceImpl_" + langueNom + "_stored_string");
@@ -5300,12 +5301,12 @@ public class EcrireGenClasse extends EcrireClasse {
 
 			if(entiteAttribuer && !classesNomSimpleFacetFor.contains(entiteAttribuerNomSimple)) {
 				wIndexerFacetFor.l();
-				wIndexerFacetFor.tl(5, "if(\"", entiteAttribuerNomSimple, "\".equals(", langueConfig.getString(I18n.var_classeNomSimple), "2) && ", classeVarClePrimaire, "2 != null) {");
+				wIndexerFacetFor.tl(5, "if(\"", entiteAttribuerNomSimple, "\".equals(", langueConfig.getString(I18n.var_classeNomSimple), "2) && ", i18nGlobale.getString(I18n.var_solrId), "2 != null) {");
 				wIndexerFacetFor.tl(6, langueConfig.getString(I18n.var_ListeRecherche), "<", entiteAttribuerNomSimple, "> ", langueConfig.getString(I18n.var_listeRecherche), "2 = new ", langueConfig.getString(I18n.var_ListeRecherche), "<", entiteAttribuerNomSimple, ">();");
 				wIndexerFacetFor.tl(6, langueConfig.getString(I18n.var_listeRecherche), "2.set", langueConfig.getString(I18n.var_Stocker), "(true);");
 				wIndexerFacetFor.tl(6, langueConfig.getString(I18n.var_listeRecherche), "2.q(\"*:*\");");
 				wIndexerFacetFor.tl(6, langueConfig.getString(I18n.var_listeRecherche), "2.setC(", entiteAttribuerNomSimple, ".class);");
-				wIndexerFacetFor.tl(6, langueConfig.getString(I18n.var_listeRecherche), "2.fq(\"", classeVarClePrimaire, classeVarClePrimaireSuffixeSolr, ":\" + ", classeVarClePrimaire, "2);");
+				wIndexerFacetFor.tl(6, langueConfig.getString(I18n.var_listeRecherche), "2.fq(\"", i18nGlobale.getString(I18n.var_solrId), ":\" + ", i18nGlobale.getString(I18n.var_solrId), "2);");
 				wIndexerFacetFor.tl(6, langueConfig.getString(I18n.var_listeRecherche), "2.rows(1L);");
 				wIndexerFacetFor.tl(6, "futures.add(Future.future(promise2 -> {");
 				wIndexerFacetFor.tl(7, langueConfig.getString(I18n.var_listeRecherche), "2.", langueConfig.getString(I18n.var_promesseLoin), langueConfig.getString(I18n.var_ListeRecherche), "(", langueConfig.getString(I18n.var_requeteSite), ").onSuccess(b -> {");
@@ -5315,7 +5316,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				wIndexerFacetFor.tl(9, "params.put(\"body\", new JsonObject());");
 				wIndexerFacetFor.tl(9, "params.put(\"cookie\", new JsonObject());");
 				wIndexerFacetFor.tl(9, "params.put(\"path\", new JsonObject());");
-				wIndexerFacetFor.tl(9, "params.put(\"query\", new JsonObject().put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"", classeVarClePrimaire, ":\" + ", classeVarClePrimaire, "2)).put(\"var\", new JsonArray().add(\"refresh:false\")));");
+				wIndexerFacetFor.tl(9, "params.put(\"query\", new JsonObject().put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"", i18nGlobale.getString(I18n.var_solrId), ":\" + ", i18nGlobale.getString(I18n.var_solrId), "2)).put(\"var\", new JsonArray().add(\"refresh:false\")));");
 				wIndexerFacetFor.tl(9, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", ", langueConfig.getString(I18n.var_requeteSite), ".getUserPrincipal());");
 				wIndexerFacetFor.tl(9, "JsonObject json = new JsonObject().put(\"context\", context);");
 				wIndexerFacetFor.tl(9, "eventBus.request(\"", siteNom, "-", langueNom, "-", entiteAttribuerNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"patch", entiteAttribuerNomSimple, "Future\")).onSuccess(c -> {");
@@ -5364,7 +5365,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}	
 
 			o = wAttribuerSql;
-			if((classeEtendBase || classeEstBase) && entiteAttribuer) {
+			if((classeEtendBase || classeEstBase) && entiteAttribuer && entiteAttribuerEtendModeleBase) {
 				if(!wAttribuerSql.getEmpty())
 					wAttribuerSqlVars.s(", ");
 				wAttribuerSqlVars.s("o.get", StringUtils.capitalize(entiteVar), "()");
