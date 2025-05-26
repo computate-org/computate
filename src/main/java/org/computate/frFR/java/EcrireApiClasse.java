@@ -2023,12 +2023,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								}
 								tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".setScopes(scopes.stream().map(o -> o.toString()).collect(Collectors.toList()));");
 								tl(6, "List<String> scopes2 = ", i18nGlobale.getString(I18n.var_requeteSite), ".getScopes();");
-								if(classeRoleSession || classeRoleUtilisateur || classeRoleChacun) {
-									tl(6, "if(!scopes2.contains(\"POST\"))");
-									tl(7, "scopes2.add(\"POST\");");
-									tl(6, "if(!scopes2.contains(\"PATCH\"))");
-									tl(7, "scopes2.add(\"PATCH\");");
-								}
+								// if(classeRoleSession || classeRoleUtilisateur || classeRoleChacun) {
+								// 	tl(6, "if(!scopes2.contains(\"POST\"))");
+								// 	tl(7, "scopes2.add(\"POST\");");
+								// 	tl(6, "if(!scopes2.contains(\"PATCH\"))");
+								// 	tl(7, "scopes2.add(\"PATCH\");");
+								// }
 							} else {
 								tl(3, "authorizationProvider.getAuthorizations(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_Utilisateur), "()).onFailure(ex -> {");
 								tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
@@ -2237,12 +2237,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								}
 								tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".setScopes(scopes.stream().map(o -> o.toString()).collect(Collectors.toList()));");
 								tl(6, "List<String> scopes2 = ", i18nGlobale.getString(I18n.var_requeteSite), ".getScopes();");
-								if(classeRoleSession || classeRoleUtilisateur || classeRoleChacun) {
-									tl(6, "if(!scopes2.contains(\"POST\"))");
-									tl(7, "scopes2.add(\"POST\");");
-									tl(6, "if(!scopes2.contains(\"PATCH\"))");
-									tl(7, "scopes2.add(\"PATCH\");");
-								}
+								// if(classeRoleSession || classeRoleUtilisateur || classeRoleChacun) {
+								// 	tl(6, "if(!scopes2.contains(\"POST\"))");
+								// 	tl(7, "scopes2.add(\"POST\");");
+								// 	tl(6, "if(!scopes2.contains(\"PATCH\"))");
+								// 	tl(7, "scopes2.add(\"PATCH\");");
+								// }
 							} else {
 								tl(3, "authorizationProvider.getAuthorizations(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_Utilisateur), "()).onFailure(ex -> {");
 								tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
