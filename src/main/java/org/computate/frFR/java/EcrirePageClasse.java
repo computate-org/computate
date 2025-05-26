@@ -4080,7 +4080,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(4, "attribution: '&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>'");
 					auteurPageJs.tl(3, "}).addTo(window.map", classeNomSimple, ");");
 					auteurPageJs.l();
-					auteurPageJs.tl(3, "if(window.bounds && window['DEFAULT_MAP_ZOOM']) {");
+					auteurPageJs.tl(3, "if(window.bounds && window['DEFAULT_MAP_ZOOM'] && window.bounds.getNorthEast()) {");
 					auteurPageJs.tl(4, "if(", i18nPage.getString(I18n.var_liste), classeNomSimple, ".length == 1) {");
 					auteurPageJs.tl(5, "window.map", classeNomSimple, ".setView(window.bounds.getNorthEast(), window['DEFAULT_MAP_ZOOM']);");
 					auteurPageJs.tl(4, "} else {");
