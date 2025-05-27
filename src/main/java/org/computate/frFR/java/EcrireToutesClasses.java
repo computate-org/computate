@@ -266,6 +266,10 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		classeVarEmplacementCouleur = doc.getString("classeVarEmplacementCouleur_" + langueNom + "_stored_string");
 		classeVarEmplacementTitre = doc.getString("classeVarEmplacementTitre_" + langueNom + "_stored_string");
 		classeVarEmplacementUrl = doc.getString("classeVarEmplacementUrl_" + langueNom + "_stored_string");
+		classeEmplacementSvg = doc.getString("classeEmplacementSvg_stored_string");
+		classeEmplacementRayon = doc.getInteger("classeEmplacementRayon_stored_string");
+		classeVarEmplacementSvg = doc.getString("classeVarEmplacementSvg_" + langueNom + "_stored_string");
+		classeVarEmplacementRayon = doc.getString("classeVarEmplacementRayon_" + langueNom + "_stored_string");
 		classeVarAire = doc.getString("classeVarAire_" + langueNom + "_stored_string");
 		classeVarAireCouleur = doc.getString("classeVarAireCouleur_" + langueNom + "_stored_string");
 		classeVarAireTitre = doc.getString("classeVarAireTitre_" + langueNom + "_stored_string");

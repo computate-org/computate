@@ -2001,6 +2001,10 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeVarEmplacementCouleur = null;
 		String classeVarEmplacementTitre = null;
 		String classeVarEmplacementUrl = null;
+		String classeEmplacementSvg = null;
+		String classeEmplacementRayon = null;
+		String classeVarEmplacementSvg = null;
+		String classeVarEmplacementRayon = null;
 		String classeVarAire = null;
 		String classeVarAireCouleur = null;
 		String classeVarAireTitre = null;
@@ -3448,6 +3452,8 @@ public class IndexerClasse extends RegarderClasseBase {
 						Boolean entiteEmplacementCouleur = indexerStockerSolr(entiteDoc, "entiteEmplacementCouler", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Couleur) + ": (true)$", methodeCommentaire));
 						Boolean entiteEmplacementTitre = indexerStockerSolr(entiteDoc, "entiteEmplacementTitre", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Titre) + ": (true)$", methodeCommentaire));
 						Boolean entiteEmplacementUrl = indexerStockerSolr(entiteDoc, "entiteEmplacementUrl", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Url) + ": (true)$", methodeCommentaire));
+						Boolean entiteEmplacementSvg = indexerStockerSolr(entiteDoc, "entiteEmplacementSvg", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + "Svg: (true)$", methodeCommentaire));
+						Boolean entiteEmplacementRayon = indexerStockerSolr(entiteDoc, "entiteEmplacementRayon", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Rayon) + ": (true)$", methodeCommentaire));
 						Boolean entiteAire = indexerStockerSolr(entiteDoc, "entiteAire", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + ": (true)$", methodeCommentaire));
 						Boolean entiteAireCouleur = indexerStockerSolr(entiteDoc, "entiteAireCouler", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + i18nGlobale.getString(I18n.var_Couleur) + ": (true)$", methodeCommentaire));
 						Boolean entiteAireTitre = indexerStockerSolr(entiteDoc, "entiteAireTitre", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + i18nGlobale.getString(I18n.var_Titre) + ": (true)$", methodeCommentaire));
@@ -4628,6 +4634,12 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteEmplacementUrl) {
 							classeVarEmplacementUrl = stockerSolr(classeLangueNom, classeDoc, "classeVarEmplacementUrl", entiteVar);
 						}
+						if(entiteEmplacementSvg) {
+							classeVarEmplacementSvg = stockerSolr(classeLangueNom, classeDoc, "classeVarEmplacementSvg", entiteVar);
+						}
+						if(entiteEmplacementRayon) {
+							classeVarEmplacementRayon = stockerSolr(classeLangueNom, classeDoc, "classeVarEmplacementRayon", entiteVar);
+						}
 						if(entiteAire) {
 							classeVarAire = stockerSolr(classeLangueNom, classeDoc, "classeVarAire", entiteVar);
 						}
@@ -5519,6 +5531,14 @@ public class IndexerClasse extends RegarderClasseBase {
 			classeIcone = regex("^" + i18nGlobale.getString(I18n.var_Icone) + ": (.*)", classeCommentaire);
 			if(classeIcone != null)
 				indexerStockerSolr(classeDoc, "classeIcone", classeIcone); 
+
+			classeEmplacementSvg = regex("^" + i18nGlobale.getString(I18n.var_Emplacement) + "Svg: (.*)", classeCommentaire);
+			if(classeEmplacementSvg != null)
+				indexerStockerSolr(classeDoc, "classeEmplacementSvg", classeEmplacementSvg); 
+
+			String classeEmplacementRayonStr = regex("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Rayon) + ": (.*)", classeCommentaire);
+			if(NumberUtils.isParsable(classeEmplacementRayonStr))
+				classeLignes = indexerStockerSolr(classeDoc, "classeEmplacementRayon", Integer.parseInt(classeEmplacementRayonStr)); 
 
 			String classeLignesStr = regex("^" + i18nGlobale.getString(I18n.var_Lignes) + ": (.*)", classeCommentaire);
 			if(NumberUtils.isParsable(classeLignesStr))

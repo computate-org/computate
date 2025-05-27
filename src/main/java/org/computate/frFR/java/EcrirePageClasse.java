@@ -4012,14 +4012,36 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						auteurPageJs.tl(7, ", \"geometry\": shape");
 						auteurPageJs.tl(7, ", \"index\": index");
 						auteurPageJs.tl(6, "}];");
-						auteurPageJs.tl(6, "var layer = L.geoJSON(features, {");
+						auteurPageJs.tl(6, "var layerGeoJson = L.geoJSON(features, {");
 						auteurPageJs.tl(7, "onEachFeature: onEachFeature");
 						auteurPageJs.tl(7, ", style: ", i18nPage.getString(I18n.var_jsStyle), classeNomSimple, "");
 						auteurPageJs.tl(7, ", pointToLayer: function(feature, latlng) {");
 						auteurPageJs.tl(8, "return L.circleMarker(latlng, ", i18nPage.getString(I18n.var_jsStyle), classeNomSimple, "(feature));");
 						auteurPageJs.tl(7, "}");
 						auteurPageJs.tl(6, "});");
-						auteurPageJs.tl(6, "window.geoJSON", classeNomSimple, ".addLayer(layer);");
+						auteurPageJs.tl(6, "window.geoJSON", classeNomSimple, ".addLayer(layerGeoJson);");
+						if(classeEmplacementSvg != null || classeVarEmplacementSvg != null) {
+							auteurPageJs.l();
+							auteurPageJs.tl(6, "var layerSvg = L.geoJSON(features, {");
+							auteurPageJs.tl(7, "onEachFeature: onEachFeature");
+							auteurPageJs.tl(7, ", style: ", i18nPage.getString(I18n.var_jsStyle), classeNomSimple, "");
+							auteurPageJs.tl(7, ", pointToLayer: function(feature, latlng) {");
+							auteurPageJs.tl(8, "var svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');");
+							auteurPageJs.tl(8, "svgElement.setAttribute('xmlns', 'http://www.w3.org/2000/svg');");
+							if(classeVarEmplacementSvg != null) {
+								auteurPageJs.tl(8, "svgElement.innerHTML = ", varResultat, ".", classeVarEmplacementSvg, ";");
+							} else {
+								auteurPageJs.tl(8, "svgElement.innerHTML = '", classeEmplacementSvg.replace("'", "&apos;"), "';");
+							}
+							auteurPageJs.tl(8, "svgElementBounds = L.latLng(", varResultat, ".", classeVarEmplacement, ".coordinates[1], ", varResultat, ".", classeVarEmplacement, ".coordinates[0]).toBounds(", classeVarEmplacementRayon != null ? varResultat + "." + classeVarEmplacementRayon : (classeEmplacementRayon != null ? classeEmplacementRayon : 100), ");");
+							auteurPageJs.tl(8, "var layer = L.svgOverlay(svgElement, svgElementBounds, {");
+							auteurPageJs.tl(9, "interactive: true");
+							auteurPageJs.tl(8, "});");
+							auteurPageJs.tl(8, "return layer;");
+							auteurPageJs.tl(7, "}");
+							auteurPageJs.tl(6, "});");
+							auteurPageJs.tl(6, "window.geoJSON", classeNomSimple, ".addLayer(layerSvg);");
+						}
 						auteurPageJs.tl(5, "});");
 						auteurPageJs.tl(4, "}");
 					}
@@ -4037,14 +4059,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						auteurPageJs.tl(7, ", \"geometry\": shape");
 						auteurPageJs.tl(7, ", \"index\": index");
 						auteurPageJs.tl(6, "}];");
-						auteurPageJs.tl(6, "var layer = L.geoJSON(features, {");
+						auteurPageJs.tl(6, "var layerGeoJson = L.geoJSON(features, {");
 						auteurPageJs.tl(7, "onEachFeature: onEachFeature");
 						auteurPageJs.tl(7, ", style: ", i18nPage.getString(I18n.var_jsStyle), classeNomSimple, "");
 						auteurPageJs.tl(7, ", pointToLayer: function(feature, latlng) {");
 						auteurPageJs.tl(8, "return L.circleMarker(latlng, ", i18nPage.getString(I18n.var_jsStyle), classeNomSimple, "(feature));");
 						auteurPageJs.tl(7, "}");
 						auteurPageJs.tl(6, "});");
-						auteurPageJs.tl(6, "window.geoJSON", classeNomSimple, ".addLayer(layer);");
+						auteurPageJs.tl(6, "window.geoJSON", classeNomSimple, ".addLayer(layerGeoJson);");
 						auteurPageJs.tl(5, "});");
 						auteurPageJs.tl(4, "}");
 					}
@@ -4113,14 +4135,36 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						auteurPageJs.tl(7, ", \"geometry\": shape");
 						auteurPageJs.tl(7, ", \"index\": index");
 						auteurPageJs.tl(6, "}];");
-						auteurPageJs.tl(6, "var layer = L.geoJSON(features, {");
+						auteurPageJs.tl(6, "var layerGeoJson = L.geoJSON(features, {");
 						auteurPageJs.tl(7, "onEachFeature: onEachFeature");
 						auteurPageJs.tl(7, ", style: ", i18nPage.getString(I18n.var_jsStyle), classeNomSimple, "");
 						auteurPageJs.tl(7, ", pointToLayer: function(feature, latlng) {");
 						auteurPageJs.tl(8, "return L.circleMarker(latlng, ", i18nPage.getString(I18n.var_jsStyle), classeNomSimple, "(feature));");
 						auteurPageJs.tl(7, "}");
 						auteurPageJs.tl(6, "});");
-						auteurPageJs.tl(6, "window.geoJSON", classeNomSimple, ".addLayer(layer);");
+						auteurPageJs.tl(6, "window.geoJSON", classeNomSimple, ".addLayer(layerGeoJson);");
+						if(classeEmplacementSvg != null || classeVarEmplacementSvg != null) {
+							auteurPageJs.l();
+							auteurPageJs.tl(6, "var layerSvg = L.geoJSON(features, {");
+							auteurPageJs.tl(7, "onEachFeature: onEachFeature");
+							auteurPageJs.tl(7, ", style: ", i18nPage.getString(I18n.var_jsStyle), classeNomSimple, "");
+							auteurPageJs.tl(7, ", pointToLayer: function(feature, latlng) {");
+							auteurPageJs.tl(8, "var svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');");
+							auteurPageJs.tl(8, "svgElement.setAttribute('xmlns', 'http://www.w3.org/2000/svg');");
+							if(classeVarEmplacementSvg != null) {
+								auteurPageJs.tl(8, "svgElement.innerHTML = ", varResultat, ".", classeVarEmplacementSvg, ";");
+							} else {
+								auteurPageJs.tl(8, "svgElement.innerHTML = '", classeEmplacementSvg.replace("'", "&apos;"), "';");
+							}
+							auteurPageJs.tl(8, "svgElementBounds = L.latLng(", varResultat, ".", classeVarEmplacement, ".coordinates[1], ", varResultat, ".", classeVarEmplacement, ".coordinates[0]).toBounds(", classeVarEmplacementRayon != null ? varResultat + "." + classeVarEmplacementRayon : (classeEmplacementRayon != null ? classeEmplacementRayon : 100), ");");
+							auteurPageJs.tl(8, "var layer = L.svgOverlay(svgElement, svgElementBounds, {");
+							auteurPageJs.tl(9, "interactive: true");
+							auteurPageJs.tl(8, "});");
+							auteurPageJs.tl(8, "return layer;");
+							auteurPageJs.tl(7, "}");
+							auteurPageJs.tl(6, "});");
+							auteurPageJs.tl(6, "window.geoJSON", classeNomSimple, ".addLayer(layerSvg);");
+						}
 						auteurPageJs.tl(5, "});");
 						auteurPageJs.tl(4, "}");
 					}
@@ -4138,14 +4182,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						auteurPageJs.tl(7, ", \"geometry\": shape");
 						auteurPageJs.tl(7, ", \"index\": index");
 						auteurPageJs.tl(6, "}];");
-						auteurPageJs.tl(6, "var layer = L.geoJSON(features, {");
+						auteurPageJs.tl(6, "var layerGeoJson = L.geoJSON(features, {");
 						auteurPageJs.tl(7, "onEachFeature: onEachFeature");
 						auteurPageJs.tl(7, ", style: ", i18nPage.getString(I18n.var_jsStyle), classeNomSimple, "");
 						auteurPageJs.tl(7, ", pointToLayer: function(feature, latlng) {");
 						auteurPageJs.tl(8, "return L.circleMarker(latlng, ", i18nPage.getString(I18n.var_jsStyle), classeNomSimple, "(feature));");
 						auteurPageJs.tl(7, "}");
 						auteurPageJs.tl(6, "});");
-						auteurPageJs.tl(6, "window.geoJSON", classeNomSimple, ".addLayer(layer);");
+						auteurPageJs.tl(6, "window.geoJSON", classeNomSimple, ".addLayer(layerGeoJson);");
 						auteurPageJs.tl(5, "});");
 						auteurPageJs.tl(4, "}");
 					}

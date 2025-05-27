@@ -196,6 +196,10 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeVarEmplacementCouleur;
 	protected String classeVarEmplacementTitre;
 	protected String classeVarEmplacementUrl;
+	protected String classeEmplacementSvg;
+	protected Integer classeEmplacementRayon;
+	protected String classeVarEmplacementSvg;
+	protected String classeVarEmplacementRayon;
 
 	protected String classeVarAire;
 	protected String classeVarAireCouleur;
