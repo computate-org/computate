@@ -3277,7 +3277,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(1, "var vals = {};");
 					auteurPageJs.tl(1, "if(success == null) {");
 					auteurPageJs.tl(2, "success = function( data, textStatus, jQxhr ) {");
-					auteurPageJs.tl(3, i18nPage.getString(I18n.var_ajouterLueur), "(target);");
+					auteurPageJs.tl(3, i18nPage.getString(I18n.var_ajouterLueur), "(target, jqXhr);");
 					if(classeVarUrlPageEdition != null) {
 						auteurPageJs.tl(3, "var url = data['", classeVarUrlPageEdition, "'];");
 						auteurPageJs.tl(3, "if(url)");
@@ -3295,7 +3295,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				} else if(methodeDELETE || methodeDELETEFiltre) {
 					auteurPageJs.tl(1, "if(success == null) {");
 					auteurPageJs.tl(2, "success = function( data, textStatus, jQxhr ) {");
-					auteurPageJs.tl(3, i18nPage.getString(I18n.var_ajouterLueur), "(target);");
+					auteurPageJs.tl(3, i18nPage.getString(I18n.var_ajouterLueur), "(target, jqXhr);");
 					if(classeVarUrlPageEdition != null) {
 						auteurPageJs.tl(3, "var url = data['", classeVarUrlPageEdition, "'];");
 						auteurPageJs.tl(3, "if(url)");
@@ -3313,7 +3313,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(1, "var vals = {};");
 					auteurPageJs.tl(1, "if(success == null) {");
 					auteurPageJs.tl(2, "success = function( data, textStatus, jQxhr ) {");
-					auteurPageJs.tl(3, i18nPage.getString(I18n.var_ajouterLueur), "(target);");
+					auteurPageJs.tl(3, i18nPage.getString(I18n.var_ajouterLueur), "(target, jqXhr);");
 					if(classeVarUrlPageEdition != null) {
 						auteurPageJs.tl(3, "var url = data['", classeVarUrlPageEdition, "'];");
 						auteurPageJs.tl(3, "if(url)");
@@ -4441,7 +4441,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(6, "<", composantsWebPrefixe, "button slot=\"anchor\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " slot=\"footer\" type=\"submit\"");
 				tl(8, " id=\"htm", i18nPage.getString(I18n.var_Formulaire), i18nPage.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "\"");
 				tl(8, ">", methodeTitreValeurs, "</", composantsWebPrefixe, "button>");
-				tl(6, "<", composantsWebPrefixe, "badge variant=\"danger\" class=\"alertPopup\" id=\"alertPopup", i18nGlobale.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "\"></", composantsWebPrefixe, "badge>");
+				tl(6, "<", composantsWebPrefixe, "badge class=\"alertPopup\" id=\"alertPopup", i18nGlobale.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "\"></", composantsWebPrefixe, "badge>");
 				tl(5, "</", composantsWebPrefixe, "popup>");
 				l("{%- endmacro %}");
 
