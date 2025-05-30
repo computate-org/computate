@@ -617,7 +617,7 @@ public class RegarderRepertoire extends AbstractVerticle {
 				LOG.info(log);
 				promise.complete();
 			} catch(Exception ex) {
-				if(!(ex instanceof KeeperException))
+				if(!(ex instanceof KeeperException.NodeExistsException))
 					LOG.error("Une Problème d'exécution de RegarderRepertoire. ", ex);
 			}
 			return promise.future();
@@ -824,6 +824,12 @@ public class RegarderRepertoire extends AbstractVerticle {
 				}
 			}, zkClientConfig);
 			connectionLatch.await();
+			Stat zookeeperStat = new Stat();
+			try {
+				zookeeper.create(String.format("/%s", ZOOKEEPER_ROOT_PATH), "reserved".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL, zookeeperStat);
+			} catch(KeeperException.NodeExistsException ex) {
+				LOG.info(String.format("The zookeeper root node already exists: %s", String.format("/%s", ZOOKEEPER_ROOT_PATH)));
+			}
 
 			trace = true;
 			initialiserRegarderRepertoire(classeLangueConfig);
