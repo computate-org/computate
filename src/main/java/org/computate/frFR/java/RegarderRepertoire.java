@@ -21,9 +21,7 @@ import static java.nio.file.StandardWatchEventKinds.OVERFLOW;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -38,31 +36,45 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.solr.common.SolrInputDocument;
-import org.slf4j.Logger;
-import org.yaml.snakeyaml.Yaml;
-
-import com.google.common.io.Resources;
-import com.hubspot.jinjava.Jinjava;
-import com.hubspot.jinjava.JinjavaConfig;
-import com.hubspot.jinjava.loader.FileLocator;
-
-import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
-
+import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.Watcher;
+import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.client.ZKClientConfig;
+import org.apache.zookeeper.data.Stat;
 import org.computate.i18n.I18n;
+import org.computate.vertx.config.ComputateConfigKeys;
+import org.slf4j.Logger;
+
+import com.hubspot.jinjava.Jinjava;
+
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.DeploymentOptions;
+import io.vertx.core.Promise;
+import io.vertx.core.Verticle;
+import io.vertx.core.Vertx;
+import io.vertx.core.VertxBuilder;
+import io.vertx.core.VertxOptions;
+import io.vertx.core.WorkerExecutor;
+import io.vertx.core.eventbus.DeliveryOptions;
+import io.vertx.core.eventbus.Message;
+import io.vertx.core.json.JsonObject;
 
 /**
  * NomCanonique.enUS: org.computate.enUS.java.WatchDirectory
  */    
-public class RegarderRepertoire {  
+public class RegarderRepertoire extends AbstractVerticle {  
 	/** 
 	 * Var.enUS: log
 	 */
@@ -154,17 +166,22 @@ public class RegarderRepertoire {
 	 * Var.enUS: configuration
 	 */
 	protected JsonObject configuration;
+	protected JsonObject classeLangueConfig;
 	protected String langueNom;
 	/**
 	 * Var.enUS: SITE_NAME
 	 */
 	protected String SITE_NOM;
+	protected String ZOOKEEPER_ROOT_PATH;
 	/**
 	 * Var.enUS: SITE_PATH
 	 */
 	protected String SITE_SRC;
 	protected String COMPUTATE_SRC;
 	protected String COMPUTATE_VERTX_SRC;
+
+	protected WorkerExecutor workerExecutor;
+	protected ZooKeeper zookeeper;
 
 	 /**
 	 * r: SITE_NOM
@@ -197,6 +214,7 @@ public class RegarderRepertoire {
 	 * r.enUS: configFile
 	 */
 	public static void main(String[] args) throws Exception { 
+		Logger LOG = org.slf4j.LoggerFactory.getLogger(RegarderRepertoire.class);
 		try {
 			String lang = Optional.ofNullable(System.getenv("SITE_LANG")).orElse("frFR");
 			String appComputate = System.getenv("COMPUTATE_SRC");
@@ -208,6 +226,7 @@ public class RegarderRepertoire {
 
 			String SITE_NOM = regarderRepertoire.configuration.getString(classeLangueConfig.getString("var_SITE_NOM"));
 			String SITE_SRC = regarderRepertoire.configuration.getString(classeLangueConfig.getString("var_SITE_SRC"));
+			String ZOOKEEPER_ROOT_PATH = regarderRepertoire.configuration.getString("ZOOKEEPER_ROOT_PATH");
 			Boolean REGARDER = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_REGARDER"))).orElse("true"));
 			Boolean REGARDER_MAINTENANT = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_REGARDER_MAINTENANT"))).orElse("false"));
 			Boolean GENERER = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_GENERER"))).orElse("true"));
@@ -216,6 +235,7 @@ public class RegarderRepertoire {
 			regarderRepertoire.langueNom = lang;
 			regarderRepertoire.SITE_NOM = SITE_NOM;
 			regarderRepertoire.SITE_SRC = SITE_SRC;
+			regarderRepertoire.ZOOKEEPER_ROOT_PATH = ZOOKEEPER_ROOT_PATH;
 			regarderRepertoire.COMPUTATE_SRC = appComputate;
 			regarderRepertoire.COMPUTATE_VERTX_SRC = appComputateVertx;
 			regarderRepertoire.classeCheminRepertoireAppli = SITE_SRC;
@@ -236,7 +256,7 @@ public class RegarderRepertoire {
 					indexerPageClasses(SITE_SRC, classeLangueConfig);
 					indexerPageClasses(SITE_SRC, classeLangueConfig);
 				}
-				System.out.println(classeLangueConfig.getString(I18n.str_Pret));
+				LOG.info(classeLangueConfig.getString(I18n.str_Pret));
 				regarderRepertoire.traiterEvenements(classeLangueConfig);
 			} else {
 				if(!GENERER_MAINTENANT) {
@@ -252,13 +272,13 @@ public class RegarderRepertoire {
 				}
 			}
 		}
-		catch(Exception e) {
-			System.err.println("Erreur pendant traiterEvenements. ");
-			System.err.println(ExceptionUtils.getStackTrace(e));
+		catch(Exception ex) {
+			LOG.error("Erreur pendant traiterEvenements. ", ex);
 		}
 	} 
 
 	public static void indexerClasses(String SITE_SRC, JsonObject classeLangueConfig) throws Exception {
+		Logger LOG = org.slf4j.LoggerFactory.getLogger(RegarderRepertoire.class);
 		String classeLangueNom = StringUtils.defaultString(System.getenv("SITE_LANG"), "frFR");
 		File dir = new File(String.format("%s/src/main/java", SITE_SRC));
 
@@ -280,15 +300,16 @@ public class RegarderRepertoire {
 					regarderClasse.initRegarderClasseBase(classeLangueNom, classeLangueConfig);
 					SolrInputDocument classeDoc = new SolrInputDocument();
 					regarderClasse.indexerClasse(cheminStr, classeDoc, classeLangueNom);
-					System.out.println(String.format("%s %s", classeLangueConfig.getString(I18n.var_Indexe), cheminStr));
+					LOG.info(String.format("%s %s", classeLangueConfig.getString(I18n.var_Indexe), cheminStr));
 				} catch(Exception ex) {
-					System.err.println(String.format("An exception occured while indexing files: %s", ExceptionUtils.getStackTrace(ex)));
+					LOG.error(String.format("An exception occured while indexing files"), ex);
 				}
 			});
 		}
 	}
 
 	public static void indexerPageClasses(String SITE_SRC, JsonObject classeLangueConfig) throws Exception {
+		Logger LOG = org.slf4j.LoggerFactory.getLogger(RegarderRepertoire.class);
 		String classeLangueNom = StringUtils.defaultString(System.getenv("SITE_LANG"), "frFR");
 		File dir = new File(String.format("%s/src/main/java", SITE_SRC));
 
@@ -310,7 +331,7 @@ public class RegarderRepertoire {
 					regarderClasse.initRegarderClasseBase(classeLangueNom, classeLangueConfig);
 					SolrInputDocument classeDoc = new SolrInputDocument();
 					regarderClasse.indexerClasse(cheminStr, classeDoc, classeLangueNom);
-					System.out.println(String.format("%s %s", classeLangueConfig.getString(I18n.var_Indexe), cheminStr));
+					LOG.info(String.format("%s %s", classeLangueConfig.getString(I18n.var_Indexe), cheminStr));
 
 					Boolean classeEtendGen = (Boolean)classeDoc.get("classeEtendGen_stored_boolean").getValue();
 					String classeCheminGen = Optional.ofNullable(classeDoc.get("classeCheminGen_enUS_stored_string")).map(o -> (String)o.getValue()).orElse(null);
@@ -324,10 +345,10 @@ public class RegarderRepertoire {
 							regarderClasse2.initRegarderClasseBase(classeLangueNom, classeLangueConfig); 
 							SolrInputDocument classeDoc2 = new SolrInputDocument();
 							regarderClasse2.indexerClasse(classePageChemin, classeDoc2, classeLangueNom);
-							System.out.println(String.format("%s %s", classeLangueConfig.getString(I18n.var_Indexe), classePageChemin));
+							LOG.info(String.format("%s %s", classeLangueConfig.getString(I18n.var_Indexe), classePageChemin));
 						}
 						catch(Exception ex) {
-							System.err.println(String.format("An exception occured while indexing files: %s", ExceptionUtils.getStackTrace(ex)));
+							LOG.error(String.format("An exception occured while indexing files"), ex);
 						}
 					}
 					if(classePageChemin != null) {
@@ -339,10 +360,10 @@ public class RegarderRepertoire {
 							regarderClasse2.initRegarderClasseBase(classeLangueNom, classeLangueConfig); 
 							SolrInputDocument classeDoc2 = new SolrInputDocument();
 							regarderClasse2.indexerClasse(classePageGenChemin, classeDoc2, classeLangueNom);
-							System.out.println(String.format("%s %s", classeLangueConfig.getString(I18n.var_Indexe), classePageGenChemin));
+							LOG.info(String.format("%s %s", classeLangueConfig.getString(I18n.var_Indexe), classePageGenChemin));
 						}
 						catch(Exception ex) {
-							System.err.println(String.format("An exception occured while indexing files: %s", ExceptionUtils.getStackTrace(ex)));
+							LOG.error(String.format("An exception occured while indexing files"), ex);
 						}
 					}
 					if(classeGenPageChemin != null) {
@@ -352,10 +373,10 @@ public class RegarderRepertoire {
 							regarderClasse2.initRegarderClasseBase(classeLangueNom, classeLangueConfig); 
 							SolrInputDocument classeDoc2 = new SolrInputDocument();
 							regarderClasse2.indexerClasse(classeGenPageChemin, classeDoc2, classeLangueNom);
-							System.out.println(String.format("%s %s", classeLangueConfig.getString(I18n.var_Indexe), classeGenPageChemin));
+							LOG.info(String.format("%s %s", classeLangueConfig.getString(I18n.var_Indexe), classeGenPageChemin));
 						}
 						catch(Exception ex) {
-							System.err.println(String.format("An exception occured while indexing files: %s", ExceptionUtils.getStackTrace(ex)));
+							LOG.error(String.format("An exception occured while indexing files"), ex);
 						}
 					}
 					if(classeGenPageChemin != null) {
@@ -367,20 +388,21 @@ public class RegarderRepertoire {
 							regarderClasse2.initRegarderClasseBase(classeLangueNom, classeLangueConfig); 
 							SolrInputDocument classeDoc2 = new SolrInputDocument();
 							regarderClasse2.indexerClasse(classeGenPageGenChemin, classeDoc2, classeLangueNom);
-							System.out.println(String.format("%s %s", classeLangueConfig.getString(I18n.var_Indexe), classeGenPageGenChemin));
+							LOG.info(String.format("%s %s", classeLangueConfig.getString(I18n.var_Indexe), classeGenPageGenChemin));
 						}
 						catch(Exception ex) {
-							System.err.println(String.format("An exception occured while indexing files: %s", ExceptionUtils.getStackTrace(ex)));
+							LOG.error(String.format("An exception occured while indexing files"), ex);
 						}
 					}
 				} catch(Exception ex) {
-					System.err.println(String.format("An exception occured while indexing files: %s", ExceptionUtils.getStackTrace(ex)));
+					LOG.error(String.format("An exception occured while indexing files"), ex);
 				}
 			});
 		}
 	}
 
 	public static void indexerEcrireClasses(String SITE_SRC, JsonObject classeLangueConfig) throws Exception {
+		Logger LOG = org.slf4j.LoggerFactory.getLogger(RegarderRepertoire.class);
 		String appComputate = System.getenv("COMPUTATE_SRC");
 		String appComputateVertx = System.getenv("COMPUTATE_VERTX_SRC");
 		String classeLangueNom = StringUtils.defaultString(System.getenv("SITE_LANG"), "frFR");
@@ -405,9 +427,9 @@ public class RegarderRepertoire {
 					SolrInputDocument classeDoc = new SolrInputDocument();
 					regarderClasse.indexerClasse(cheminStr, classeDoc, classeLangueNom);
 					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, classeLangueNom, classeLangueNom, classeLangueConfig);
-					System.out.println(String.format("%s %s", classeLangueConfig.getString(I18n.var_Indexe), cheminStr));
+					LOG.info(String.format("%s %s", classeLangueConfig.getString(I18n.var_Indexe), cheminStr));
 				} catch(Exception ex) {
-					System.err.println(String.format("An exception occured while indexing files: %s", ExceptionUtils.getStackTrace(ex)));
+					LOG.error(String.format("An exception occured while indexing files: %s"), ex);
 				}
 			});
 		}
@@ -502,12 +524,12 @@ public class RegarderRepertoire {
 		for(String cheminARegarder : cheminsARegarder) {
 			try {
 				chemins.add(enregistrerTout(Paths.get(cheminARegarder)));
-				if(REGARDER)
-					LOG.info("{}: {}", classeLangueConfig.getString(I18n.var_Regarder), cheminARegarder);
-				else
-					LOG.info("{}: {}", classeLangueConfig.getString(I18n.var_Generer), cheminARegarder);
-			} catch (IOException e) { 
-				LOG.error("Erreur à ajouter chemin pour regarder.", e);
+				// if(REGARDER)
+				// 	LOG.info("{}: {}", classeLangueConfig.getString(I18n.var_Regarder), cheminARegarder);
+				// else
+				// 	LOG.info("{}: {}", classeLangueConfig.getString(I18n.var_Generer), cheminARegarder);
+			} catch (IOException ex) { 
+				LOG.error("Erreur à ajouter chemin pour regarder.", ex);
 			}
 		}
 	}      
@@ -563,41 +585,44 @@ public class RegarderRepertoire {
 		return demarrer;
 	} 
 
-	/*
-	 * Var.enUS: handleEvents
-	 * r: fluxSortie
-	 * r.enUS: outputStream
-	 * r: cheminsBin
-	 * r.enUS: pathsBin
-	 * r: cheminsCheminClasse
-	 * r.enUS: classPathPaths
-	 * r: cheminsARegarder
-	 * r.enUS: pathsToWatch
-	 * r: nomsMethodeTest
-	 * r.enUS: testMethodNames
-	 * r: cheminsSource
-	 * r.enUS: sourcePaths
-	 * r: toutCheminsSource
-	 * r.enUS: allSourcePaths
-	 * r: cheminsBibliotheque
-	 * r.enUS: libraryPaths
-	 * r: classeCheminRepertoireAppli
-	 * r.enUS: classAppDirPath
-	 * r: classeChemin
-	 * r.enUS: classPath
-	 * r: cheminSrcMainJava
-	 * r.enUS: srcMainJavaPath
-	 * r: cheminSrcGenJava
-	 * r.enUS: srcGenJavaPath
-	 * r: configChemin
-	 * r.enUS: configPath
-	 * r: fichierConfig
-	 * r.enUS: configFile
-	 * r: SITE_NOM
-	 * r.enUS: SITE_NAME
-	 * r: chemins
-	 * r.enUS: paths
-	 */
+	String REGARDER_CLASSE_ADDRESSE = "RegarderClasse";
+
+	private void regarderClasseEvenement(Message<Object> message) {
+		workerExecutor.executeBlocking(() -> {
+			Promise<Void> promise = Promise.promise();
+			try {
+				JsonObject body = ((JsonObject)message.body()).getJsonObject("context").getJsonObject("params").getJsonObject("body");
+				String cheminCompletStr = body.getString("cheminComplet");
+				LOG.debug(String.format("Received request on the event bus: %s", cheminCompletStr));
+				Path cheminComplet = Path.of(cheminCompletStr);
+				Stat zookeeperStat = new Stat();
+				String zookeeperNodeName = String.format("/%s%s", ZOOKEEPER_ROOT_PATH, cheminCompletStr.replace("/", "-"));
+				zookeeper.create(zookeeperNodeName, "reserved".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL, zookeeperStat);
+				String classeCheminAbsolu = cheminComplet.toAbsolutePath().toString();   
+				String cp = FileUtils.readFileToString(new File(COMPUTATE_SRC + "/config/cp.txt"), "UTF-8");
+				String classpath = String.format("%s:%s/target/classes", cp, COMPUTATE_SRC);
+				CommandLine ligneCommande = new CommandLine("java");
+				ligneCommande.addArgument("-cp");
+				ligneCommande.addArgument(classpath);
+				ligneCommande.addArgument(RegarderClasse.class.getCanonicalName());
+				ligneCommande.addArgument(classeCheminRepertoireAppli);
+				ligneCommande.addArgument(classeCheminAbsolu);
+				File repertoireTravail = new File(COMPUTATE_SRC);
+
+				executeur.setWorkingDirectory(repertoireTravail);
+				executeur.execute(ligneCommande); 
+				zookeeper.delete(zookeeperNodeName, zookeeperStat.getVersion());
+				String classeNomSimple = StringUtils.substringBeforeLast(cheminComplet.getFileName().toString(), ".");
+				String log = String.format(classeLangueConfig.getString(I18n.str_chemin_absolu), classeNomSimple);
+				LOG.info(log);
+				promise.complete();
+			} catch(Exception ex) {
+				if(!(ex instanceof KeeperException.NodeExistsException))
+					LOG.error("Une Problème d'exécution de RegarderRepertoire. ", ex);
+			}
+			return promise.future();
+		});
+	}
 
 	/** 
 	 * Var.enUS: handleEvents
@@ -643,71 +668,181 @@ public class RegarderRepertoire {
 	 * r.enUS: classAppDirPath
 	 */
 	protected void traiterEvenements(JsonObject classeLangueConfig) {
-		for(String cheminARegarder : cheminsARegarder)
-			System.out.println(classeLangueConfig.getString(I18n.var_Regarder) + " " + cheminARegarder);
-		for (;;) {
+		VertxBuilder vertxBuilder = Vertx.builder();
+		VertxOptions vertxOptions = new VertxOptions();
+		Long vertxWarningExceptionSeconds = configuration.getLong(ComputateConfigKeys.VERTX_WARNING_EXCEPTION_SECONDS);
+		Long vertxMaxEventLoopExecuteTime = configuration.getLong(ComputateConfigKeys.VERTX_MAX_EVENT_LOOP_EXECUTE_TIME);
+		Long vertxMaxWorkerExecuteTime = Long.MAX_VALUE;
+		vertxOptions.setWarningExceptionTime(vertxWarningExceptionSeconds);
+		vertxOptions.setWarningExceptionTimeUnit(TimeUnit.SECONDS);
+		vertxOptions.setMaxEventLoopExecuteTime(vertxMaxEventLoopExecuteTime);
+		vertxOptions.setMaxEventLoopExecuteTimeUnit(TimeUnit.SECONDS);
+		vertxOptions.setMaxWorkerExecuteTime(vertxMaxWorkerExecuteTime);
+		vertxOptions.setMaxWorkerExecuteTimeUnit(TimeUnit.SECONDS);
+		Integer workerPoolSize = 1;
+		vertxOptions.setWorkerPoolSize(workerPoolSize);
+		Integer siteInstances = Integer.parseInt(configuration.getString(ComputateConfigKeys.COMPUTATE_INSTANCES, "4"));
+		vertxBuilder.with(vertxOptions);
+		Vertx vertx = vertxBuilder.build();
 
-			WatchKey regarderCle;
-			try {
-				regarderCle = observateur.take();
-			} catch (InterruptedException x) {  
-				return;
-			}  
 
-			Path cheminRepertoire = cles.get(regarderCle);
-			if (cheminRepertoire == null) {
-				System.err.println("Cle de surveillance n'est pas reconnue !");
-				continue;
-			}
+		DeploymentOptions deploymentOptions = new DeploymentOptions();
+		LOG.info(String.format("instances: %s", siteInstances));
+		deploymentOptions.setInstances(siteInstances);
+		deploymentOptions.setConfig(configuration);
+		deploymentOptions.setMaxWorkerExecuteTime(vertxMaxWorkerExecuteTime);
+		deploymentOptions.setMaxWorkerExecuteTimeUnit(TimeUnit.SECONDS);
+		vertx.deployVerticle(new Supplier<Verticle>() {
+					@Override
+					public Verticle get() {
+						RegarderRepertoire verticle = new RegarderRepertoire();
+						return verticle;
+					}
+				}, deploymentOptions).onSuccess(a -> {
 
-			for (WatchEvent<?> event : regarderCle.pollEvents()) {
-				WatchEvent.Kind<?> kind = event.kind();
+			workerExecutor = vertx.createSharedWorkerExecutor(String.format("%s-worker", Thread.currentThread().getName()), workerPoolSize, vertxMaxWorkerExecuteTime, TimeUnit.SECONDS);
+			workerExecutor.executeBlocking(() -> {
+				Promise<Void> promise = Promise.promise();
+				for(String cheminARegarder : cheminsARegarder)
+					LOG.info(classeLangueConfig.getString(I18n.var_Regarder) + " " + cheminARegarder);
+				for (;;) {
 
-				if (kind == OVERFLOW) {
-					continue;
-				}
-
-				WatchEvent<Path> evenementSurveillance = cast(event);
-				Path cheminRelatif = evenementSurveillance.context();
-				Path cheminComplet = cheminRepertoire.resolve(cheminRelatif);
-
-				try { 
-					String classeCheminAbsolu = cheminComplet.toAbsolutePath().toString();   
-					String cp = FileUtils.readFileToString(new File(COMPUTATE_SRC + "/config/cp.txt"), "UTF-8");
-					String classpath = String.format("%s:%s/target/classes", cp, COMPUTATE_SRC);
-					CommandLine ligneCommande = new CommandLine("java");
-					ligneCommande.addArgument("-cp");
-					ligneCommande.addArgument(classpath);
-					ligneCommande.addArgument(RegarderClasse.class.getCanonicalName());
-					ligneCommande.addArgument(classeCheminRepertoireAppli);
-					ligneCommande.addArgument(classeCheminAbsolu);
-					File repertoireTravail = new File(COMPUTATE_SRC);
-
-					executeur.setWorkingDirectory(repertoireTravail);
-					executeur.execute(ligneCommande); 
-				} catch (Exception e) {  
-					LOG.error("Une Problème d'exécution de RegarderRepertoire: " + cheminComplet.toAbsolutePath().toString(), e);
-				} 
-
-				if (kind == ENTRY_CREATE) {
+					WatchKey regarderCle;
 					try {
-						if (Files.isDirectory(cheminComplet, NOFOLLOW_LINKS)) {
-							enregistrerTout(cheminComplet);
+						regarderCle = observateur.take();
+					} catch (InterruptedException x) {  
+						break;
+					}  
+
+					Path cheminRepertoire = cles.get(regarderCle);
+					if (cheminRepertoire == null) {
+						LOG.error("Cle de surveillance n'est pas reconnue !");
+						continue;
+					}
+
+					for (WatchEvent<?> event : regarderCle.pollEvents()) {
+						WatchEvent.Kind<?> kind = event.kind();
+
+						if (kind == OVERFLOW) {
+							continue;
 						}
-					} catch (IOException x) {
-						// Ignorer pour simplifier le log.
+
+						WatchEvent<Path> evenementSurveillance = cast(event);
+						Path cheminRelatif = evenementSurveillance.context();
+						Path cheminComplet = cheminRepertoire.resolve(cheminRelatif);
+						String cheminCompletStr = cheminComplet.toString();
+
+						try { 
+							if(!StringUtils.endsWithAny(cheminCompletStr, "GenApiServiceImpl.java", "ApiServiceImpl.java", "GenApiService.java")) {
+								JsonObject body = new JsonObject();
+								body.put("cheminComplet", cheminCompletStr);
+								JsonObject params = new JsonObject();
+								params.put("body", body);
+								params.put("path", new JsonObject());
+								params.put("cookie", new JsonObject());
+								params.put("header", new JsonObject());
+								params.put("form", new JsonObject());
+								JsonObject query = new JsonObject();
+								params.put("query", query);
+								JsonObject context = new JsonObject().put("params", params);
+								JsonObject json = new JsonObject().put("context", context);
+								LOG.debug(String.format("Sent request on the event bus: %s", cheminCompletStr));
+								vertx.eventBus().send(REGARDER_CLASSE_ADDRESSE, json, new DeliveryOptions());
+							}
+						} catch (Exception ex) {  
+							LOG.error("Une Problème d'exécution de RegarderRepertoire: " + cheminComplet.toAbsolutePath().toString(), ex);
+						} 
+
+						if (kind == ENTRY_CREATE) {
+							try {
+								if (Files.isDirectory(cheminComplet, NOFOLLOW_LINKS)) {
+									enregistrerTout(cheminComplet);
+								}
+							} catch (IOException x) {
+								// Ignorer pour simplifier le log.
+							}
+						}
+					}
+
+					boolean valide = regarderCle.reset();
+					if (!valide) {
+						cles.remove(regarderCle);
+
+						if (cles.isEmpty()) {
+							break;
+						} 
 					}
 				}
-			}
-
-			boolean valide = regarderCle.reset();
-			if (!valide) {
-				cles.remove(regarderCle);
-
-				if (cles.isEmpty()) {
-					break;
-				} 
-			}
-		}
+				promise.complete();
+				return promise.future();
+			});
+		}).onFailure(ex -> {
+			LOG.error("Une Problème d'exécution du Verticle de RegarderRepertoire: ", ex);
+			LOG.error("Failed to start main verticle. ", ex);
+			vertx.close();
+		});
 	}  
+
+	@Override
+	public void start(Promise<Void> startPromise) throws Exception {
+		try {
+			String lang = Optional.ofNullable(System.getenv("SITE_LANG")).orElse("frFR");
+			String appComputate = System.getenv("COMPUTATE_SRC");
+			String appComputateVertx = System.getenv("COMPUTATE_VERTX_SRC");
+			Jinjava jinjava = ConfigSite.getJinjava();
+			classeLangueConfig = ConfigSite.getLangueConfigGlobale(jinjava, appComputateVertx, lang);
+			configuration = ConfigSite.getConfiguration(jinjava, classeLangueConfig);
+
+			SITE_NOM = configuration.getString(classeLangueConfig.getString("var_SITE_NOM"));
+			SITE_SRC = configuration.getString(classeLangueConfig.getString("var_SITE_SRC"));
+			ZOOKEEPER_ROOT_PATH = configuration.getString("ZOOKEEPER_ROOT_PATH");
+			Boolean REGARDER = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_REGARDER"))).orElse("true"));
+			Boolean REGARDER_MAINTENANT = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_REGARDER_MAINTENANT"))).orElse("false"));
+			Boolean GENERER = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_GENERER"))).orElse("true"));
+			Boolean GENERER_MAINTENANT = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_GENERER_MAINTENANT"))).orElse("false"));
+
+			langueNom = lang;
+			COMPUTATE_SRC = appComputate;
+			COMPUTATE_VERTX_SRC = appComputateVertx;
+			classeCheminRepertoireAppli = SITE_SRC;
+
+			cheminSrcMainJava = SITE_SRC + "/src/main/java";
+			cheminSrcGenJava = SITE_SRC + "/src/gen/java";
+			cheminsBin.add(SITE_SRC + "/src/main/resources");
+
+			String zkHostName = configuration.getString("ZOOKEEPER_HOST_NAME");
+			Integer zkPort = Integer.parseInt(configuration.getString("ZOOKEEPER_PORT"));
+			String zkConnectionString = String.format("%s:%s", zkHostName, zkPort);
+			ZKClientConfig zkClientConfig = new ZKClientConfig();
+			Integer zkSessionTimeoutMillis = Integer.parseInt(configuration.getString("ZOOKEEPER_CONNECTION_TIMEOUT_MILLIS", "3000"));
+			CountDownLatch connectionLatch = new CountDownLatch(1);
+			zookeeper = new ZooKeeper(zkConnectionString, zkSessionTimeoutMillis, event -> {
+				if (event.getState() == Watcher.Event.KeeperState.SyncConnected) {
+					connectionLatch.countDown();
+				}
+			}, zkClientConfig);
+			connectionLatch.await();
+			Stat zookeeperStat = new Stat();
+			try {
+				zookeeper.create(String.format("/%s", ZOOKEEPER_ROOT_PATH), "reserved".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL, zookeeperStat);
+			} catch(KeeperException.NodeExistsException ex) {
+				LOG.info(String.format("The zookeeper root node already exists: %s", String.format("/%s", ZOOKEEPER_ROOT_PATH)));
+			}
+
+			trace = true;
+			initialiserRegarderRepertoire(classeLangueConfig);
+			ajouterCheminsARegarder(classeLangueConfig, REGARDER);
+
+			vertx.eventBus().consumer(REGARDER_CLASSE_ADDRESSE, message -> {
+				regarderClasseEvenement(message);
+			});
+			Long vertxMaxWorkerExecuteTime = configuration.getLong(ComputateConfigKeys.VERTX_MAX_WORKER_EXECUTE_TIME);
+			Integer workerPoolSize = 1;
+			workerExecutor = vertx.createSharedWorkerExecutor(String.format("%s-worker", Thread.currentThread().getName()), workerPoolSize, vertxMaxWorkerExecuteTime, TimeUnit.SECONDS);
+			startPromise.complete();
+		} catch (Exception ex) {
+			LOG.error("Couldn't start verticle. ", ex);
+			startPromise.fail(ex);
+		}
+	}
 }
