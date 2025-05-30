@@ -679,11 +679,9 @@ public class RegarderRepertoire extends AbstractVerticle {
 		vertxOptions.setMaxEventLoopExecuteTimeUnit(TimeUnit.SECONDS);
 		vertxOptions.setMaxWorkerExecuteTime(vertxMaxWorkerExecuteTime);
 		vertxOptions.setMaxWorkerExecuteTimeUnit(TimeUnit.SECONDS);
-		// Integer workerPoolSize = Integer.parseInt(configuration.getString(ComputateConfigKeys.WORKER_POOL_SIZE));
 		Integer workerPoolSize = 1;
 		vertxOptions.setWorkerPoolSize(workerPoolSize);
-		// Integer siteInstances = Integer.parseInt(configuration.getString(ComputateConfigKeys.SITE_INSTANCES));
-		Integer siteInstances = 4;
+		Integer siteInstances = Integer.parseInt(configuration.getString(ComputateConfigKeys.COMPUTATE_INSTANCES, "4"));
 		vertxBuilder.with(vertxOptions);
 		Vertx vertx = vertxBuilder.build();
 
