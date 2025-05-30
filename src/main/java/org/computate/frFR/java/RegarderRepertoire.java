@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -44,8 +45,16 @@ import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.solr.common.SolrInputDocument;
+import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.Watcher;
+import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.client.ZKClientConfig;
+import org.apache.zookeeper.data.Stat;
+import org.computate.i18n.I18n;
+import org.computate.vertx.config.ComputateConfigKeys;
 import org.slf4j.Logger;
 
 import com.hubspot.jinjava.Jinjava;
@@ -61,9 +70,6 @@ import io.vertx.core.WorkerExecutor;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
-
-import org.computate.i18n.I18n;
-import org.computate.vertx.config.ComputateConfigKeys;
 
 /**
  * NomCanonique.enUS: org.computate.enUS.java.WatchDirectory
@@ -166,6 +172,7 @@ public class RegarderRepertoire extends AbstractVerticle {
 	 * Var.enUS: SITE_NAME
 	 */
 	protected String SITE_NOM;
+	protected String ZOOKEEPER_ROOT_PATH;
 	/**
 	 * Var.enUS: SITE_PATH
 	 */
@@ -174,6 +181,7 @@ public class RegarderRepertoire extends AbstractVerticle {
 	protected String COMPUTATE_VERTX_SRC;
 
 	protected WorkerExecutor workerExecutor;
+	protected ZooKeeper zookeeper;
 
 	 /**
 	 * r: SITE_NOM
@@ -218,6 +226,7 @@ public class RegarderRepertoire extends AbstractVerticle {
 
 			String SITE_NOM = regarderRepertoire.configuration.getString(classeLangueConfig.getString("var_SITE_NOM"));
 			String SITE_SRC = regarderRepertoire.configuration.getString(classeLangueConfig.getString("var_SITE_SRC"));
+			String ZOOKEEPER_ROOT_PATH = regarderRepertoire.configuration.getString("ZOOKEEPER_ROOT_PATH");
 			Boolean REGARDER = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_REGARDER"))).orElse("true"));
 			Boolean REGARDER_MAINTENANT = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_REGARDER_MAINTENANT"))).orElse("false"));
 			Boolean GENERER = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_GENERER"))).orElse("true"));
@@ -226,6 +235,7 @@ public class RegarderRepertoire extends AbstractVerticle {
 			regarderRepertoire.langueNom = lang;
 			regarderRepertoire.SITE_NOM = SITE_NOM;
 			regarderRepertoire.SITE_SRC = SITE_SRC;
+			regarderRepertoire.ZOOKEEPER_ROOT_PATH = ZOOKEEPER_ROOT_PATH;
 			regarderRepertoire.COMPUTATE_SRC = appComputate;
 			regarderRepertoire.COMPUTATE_VERTX_SRC = appComputateVertx;
 			regarderRepertoire.classeCheminRepertoireAppli = SITE_SRC;
@@ -585,6 +595,9 @@ public class RegarderRepertoire extends AbstractVerticle {
 				String cheminCompletStr = body.getString("cheminComplet");
 				LOG.debug(String.format("Received request on the event bus: %s", cheminCompletStr));
 				Path cheminComplet = Path.of(cheminCompletStr);
+				Stat zookeeperStat = new Stat();
+				String zookeeperNodeName = String.format("/%s%s", ZOOKEEPER_ROOT_PATH, cheminCompletStr.replace("/", "-"));
+				zookeeper.create(zookeeperNodeName, "reserved".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL, zookeeperStat);
 				String classeCheminAbsolu = cheminComplet.toAbsolutePath().toString();   
 				String cp = FileUtils.readFileToString(new File(COMPUTATE_SRC + "/config/cp.txt"), "UTF-8");
 				String classpath = String.format("%s:%s/target/classes", cp, COMPUTATE_SRC);
@@ -598,12 +611,14 @@ public class RegarderRepertoire extends AbstractVerticle {
 
 				executeur.setWorkingDirectory(repertoireTravail);
 				executeur.execute(ligneCommande); 
+				zookeeper.delete(zookeeperNodeName, zookeeperStat.getVersion());
 				String classeNomSimple = StringUtils.substringBeforeLast(cheminComplet.getFileName().toString(), ".");
 				String log = String.format(classeLangueConfig.getString(I18n.str_chemin_absolu), classeNomSimple);
 				LOG.info(log);
 				promise.complete();
 			} catch(Exception ex) {
-				LOG.error("Une Problème d'exécution de RegarderRepertoire. ", ex);
+				if(!(ex instanceof KeeperException))
+					LOG.error("Une Problème d'exécution de RegarderRepertoire. ", ex);
 			}
 			return promise.future();
 		});
@@ -657,7 +672,7 @@ public class RegarderRepertoire extends AbstractVerticle {
 		VertxOptions vertxOptions = new VertxOptions();
 		Long vertxWarningExceptionSeconds = configuration.getLong(ComputateConfigKeys.VERTX_WARNING_EXCEPTION_SECONDS);
 		Long vertxMaxEventLoopExecuteTime = configuration.getLong(ComputateConfigKeys.VERTX_MAX_EVENT_LOOP_EXECUTE_TIME);
-		Long vertxMaxWorkerExecuteTime = configuration.getLong(ComputateConfigKeys.VERTX_MAX_WORKER_EXECUTE_TIME);
+		Long vertxMaxWorkerExecuteTime = Long.MAX_VALUE;
 		vertxOptions.setWarningExceptionTime(vertxWarningExceptionSeconds);
 		vertxOptions.setWarningExceptionTimeUnit(TimeUnit.SECONDS);
 		vertxOptions.setMaxEventLoopExecuteTime(vertxMaxEventLoopExecuteTime);
@@ -782,6 +797,7 @@ public class RegarderRepertoire extends AbstractVerticle {
 
 			SITE_NOM = configuration.getString(classeLangueConfig.getString("var_SITE_NOM"));
 			SITE_SRC = configuration.getString(classeLangueConfig.getString("var_SITE_SRC"));
+			ZOOKEEPER_ROOT_PATH = configuration.getString("ZOOKEEPER_ROOT_PATH");
 			Boolean REGARDER = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_REGARDER"))).orElse("true"));
 			Boolean REGARDER_MAINTENANT = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_REGARDER_MAINTENANT"))).orElse("false"));
 			Boolean GENERER = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_GENERER"))).orElse("true"));
@@ -796,6 +812,18 @@ public class RegarderRepertoire extends AbstractVerticle {
 			cheminSrcGenJava = SITE_SRC + "/src/gen/java";
 			cheminsBin.add(SITE_SRC + "/src/main/resources");
 
+			String zkHostName = configuration.getString("ZOOKEEPER_HOST_NAME");
+			Integer zkPort = Integer.parseInt(configuration.getString("ZOOKEEPER_PORT"));
+			String zkConnectionString = String.format("%s:%s", zkHostName, zkPort);
+			ZKClientConfig zkClientConfig = new ZKClientConfig();
+			Integer zkSessionTimeoutMillis = Integer.parseInt(configuration.getString("ZOOKEEPER_CONNECTION_TIMEOUT_MILLIS", "3000"));
+			CountDownLatch connectionLatch = new CountDownLatch(1);
+			zookeeper = new ZooKeeper(zkConnectionString, zkSessionTimeoutMillis, event -> {
+				if (event.getState() == Watcher.Event.KeeperState.SyncConnected) {
+					connectionLatch.countDown();
+				}
+			}, zkClientConfig);
+			connectionLatch.await();
 
 			trace = true;
 			initialiserRegarderRepertoire(classeLangueConfig);
@@ -805,7 +833,6 @@ public class RegarderRepertoire extends AbstractVerticle {
 				regarderClasseEvenement(message);
 			});
 			Long vertxMaxWorkerExecuteTime = configuration.getLong(ComputateConfigKeys.VERTX_MAX_WORKER_EXECUTE_TIME);
-			// Integer workerPoolSize = Integer.parseInt(configuration.getString(ComputateConfigKeys.WORKER_POOL_SIZE));
 			Integer workerPoolSize = 1;
 			workerExecutor = vertx.createSharedWorkerExecutor(String.format("%s-worker", Thread.currentThread().getName()), workerPoolSize, vertxMaxWorkerExecuteTime, TimeUnit.SECONDS);
 			startPromise.complete();
