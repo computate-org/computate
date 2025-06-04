@@ -680,6 +680,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain auteurGenClasseFin;
 	protected ToutEcrivain auteurGenPageClasse = null;
 	protected ToutEcrivain auteurPageClasse = null;
+	protected ToutEcrivain auteurPageClasseActuel = null;
 	protected ToutEcrivain auteurPageCss = null;
 	protected ToutEcrivain auteurPageJs = null;
 	protected ToutEcrivain auteurPageJsRecherche = null;
@@ -973,6 +974,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: entityMultiline
 	 */
 	Boolean entiteMultiligne;
+	Boolean entiteCouleur;
 	List<String> entiteRadioValeurs;
 	List<String> entiteRadioTextes;
 	List<String> entiteOptionValeurs;
@@ -2445,8 +2447,9 @@ public class EcrireGenClasse extends EcrireClasse {
 
 			if(classeGenPageFichier != null)
 				auteurGenPageClasse = ToutEcrivain.create(classeGenPageFichier, "  ");
-			if(classePageFichier != null && (!classePageFichier.exists() || classePageFichier.length() == 0L))
-				auteurPageClasse = ToutEcrivain.create(classePageFichier, "  ");
+			if(classePageFichier != null && (!classePageFichier.exists() || classePageFichier.length() == 0L)) {
+				auteurPageClasse = ToutEcrivain.create();
+			}
 			if(classePageFichierCss != null) {
 				classePageFichierCss.getParentFile().mkdirs();
 				auteurPageCss = ToutEcrivain.create(classePageFichierCss, "  ");
@@ -3276,6 +3279,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			entiteModifier = doc.getBoolean("entiteModifier_stored_boolean");
 			entiteRecharger = doc.getBoolean("entiteRecharger_stored_boolean");
 			entiteMultiligne = doc.getBoolean("entiteMultiligne_stored_boolean");
+			entiteCouleur = doc.getBoolean("entiteCouleur_stored_boolean");
 			entiteSignature = doc.getBoolean("entiteSignature_stored_boolean");
 			entiteImageBase64Url = doc.getString("entiteImageBase64Url_" + langueNom + "_stored_string");
 			entiteCles = doc.getBoolean("entiteCles_stored_boolean");

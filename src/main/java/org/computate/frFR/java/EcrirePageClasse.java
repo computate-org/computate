@@ -14,6 +14,8 @@
 package org.computate.frFR.java;
 
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -34,12 +36,10 @@ import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
+import org.computate.i18n.I18n;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-
-import org.computate.i18n.I18n;
-import org.computate.vertx.config.ComputateConfigKeys;
 
 /**   
  * NomCanonique.enUS: org.computate.enUS.java.WritePageClass
@@ -658,6 +658,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(9, "<", composantsWebPrefixe, "radio-group");
 				else if(entiteOptionValeurs.size() > 0)
 					tl(9, "<", composantsWebPrefixe, "select");
+				else if(entiteCouleur)
+					tl(9, "<", composantsWebPrefixe, "color-picker opacity");
 				else {
 					tl(9, "<", composantsWebPrefixe, "input");
 				}
@@ -719,8 +721,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						tl(11, "value=\"{{", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, " | e }}\"");
 					tl(0, "{%- endif %}");
 					tl(11, ">");
-				}
-				else {
+				} else if(entiteCouleur) {
+					tl(11, "value=\"{{", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, " | e }}\"");
+					tl(11, ">");
+				} else {
 					tl(1, "{%- if \"Page\" == ", langueConfig.getString(I18n.var_classeApiMethodeMethode), " %}");
 					if("JsonArray".equals(entiteNomSimpleVertxJson) || "JsonObject".equals(entiteNomSimpleVertxJson))
 						tl(11, "value=\"{{ to", entiteNomSimpleVertxJson, "String(", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, ") | e }}\"");
@@ -757,6 +761,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						l("</", composantsWebPrefixe, "option>");
 					}
 					tl(9, "</", composantsWebPrefixe, "select>");
+				} else if(entiteCouleur) {
+					tl(9, "</", composantsWebPrefixe, "color-picker>");
 				} else {
 					tl(11, "></", composantsWebPrefixe, "input>");
 				}
@@ -1174,10 +1180,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								entiteOptionTextes = Optional.ofNullable((List<String>)entiteDocumentSolr.get("entiteOptionTextes_stored_strings")).orElse(Arrays.asList());
 								entiteRecharger = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteRecharger_stored_boolean"));
 								entiteMultiligne = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteMultiligne_stored_boolean"));
+								entiteCouleur = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteCouleur_stored_boolean"));
 								entiteModifier = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteModifier_stored_boolean"));
 								entiteDefinir = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteDefinir_stored_boolean"));
 								entiteAttribuer = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteAttribuer_stored_boolean"));
 								entiteSignature = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteSignature_stored_boolean"));
+								entiteTexte = (Boolean)entiteDocumentSolr.get("entiteTexte_stored_boolean");
 								entiteSuggere = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteSuggere_stored_boolean"));
 								entiteRequis = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteRequis_stored_boolean"));
 								entiteListeTypeJson = (String)entiteDocumentSolr.get("entiteListeTypeJson_stored_string");
@@ -1202,6 +1210,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								entiteImageBase64Url = (String)entiteDocumentSolr.get("entiteImageBase64Url_" + langueNom + "_stored_string");
 								entiteNomSimpleVertxJson = (String)entiteDocumentSolr.get("entiteNomSimpleVertxJson_stored_string");
 								entiteFacetsTrouves = Optional.ofNullable((Boolean)entiteDocumentSolr.get("entiteFacetsTrouves_stored_boolean")).orElse(false);
+										// if(!entiteTexte && !entiteSuggere && entiteIndexe 
+										// 		&& entiteFacetsTrouves
 
 								wFormRecherche.l(entiteVar);
 								if(entiteHtml) {
@@ -2440,6 +2450,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							entiteHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean"));
 							entiteFormatHtm = (String)entiteDocumentSolr.get("entiteFormatHtm_stored_string");
 							entiteMultiligne = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteMultiligne_stored_boolean"));
+							entiteCouleur = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteCouleur_stored_boolean"));
 							entiteHighlighting = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHighlighting_stored_boolean"));
 							entiteVarTitre = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteVarTitre_stored_boolean"));
 							entiteLien = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteLien_stored_boolean"));
@@ -2824,7 +2835,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			auteurGenPageClasse.flushClose();
 			if(auteurPageClasse != null) {
-				auteurPageClasse.flushClose();
+				Files.writeString(Path.of(classePageChemin), auteurPageClasse.toString());
 			}
 			if(auteurPageCss != null)
 				auteurPageCss.flushClose();
@@ -3603,6 +3614,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								entiteIndexe = (Boolean)entiteDocumentSolr.get("entiteIndexe_stored_boolean");
 								entiteStocke = (Boolean)entiteDocumentSolr.get("entiteStocke_stored_boolean");
 								entiteMultiligne = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteMultiligne_stored_boolean"));
+								entiteCouleur = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteCouleur_stored_boolean"));
 								entiteModifier = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteModifier_stored_boolean"));
 								entiteDefinir = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteDefinir_stored_boolean"));
 								entiteAttribuer = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteAttribuer_stored_boolean"));
