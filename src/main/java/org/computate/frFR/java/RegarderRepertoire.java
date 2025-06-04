@@ -590,13 +590,15 @@ public class RegarderRepertoire extends AbstractVerticle {
 	private void regarderClasseEvenement(Message<Object> message) {
 		workerExecutor.executeBlocking(() -> {
 			Promise<Void> promise = Promise.promise();
+			String zookeeperNodeName = null;
+			Stat zookeeperStat = null;
 			try {
 				JsonObject body = ((JsonObject)message.body()).getJsonObject("context").getJsonObject("params").getJsonObject("body");
 				String cheminCompletStr = body.getString("cheminComplet");
 				LOG.debug(String.format("Received request on the event bus: %s", cheminCompletStr));
 				Path cheminComplet = Path.of(cheminCompletStr);
-				Stat zookeeperStat = new Stat();
-				String zookeeperNodeName = String.format("/%s%s", ZOOKEEPER_ROOT_PATH, cheminCompletStr.replace("/", "-"));
+				zookeeperStat = new Stat();
+				zookeeperNodeName = String.format("/%s/%s", ZOOKEEPER_ROOT_PATH, cheminCompletStr.replace("/", "-"));
 				zookeeper.create(zookeeperNodeName, "reserved".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL, zookeeperStat);
 				String classeCheminAbsolu = cheminComplet.toAbsolutePath().toString();   
 				String cp = FileUtils.readFileToString(new File(COMPUTATE_SRC + "/config/cp.txt"), "UTF-8");
