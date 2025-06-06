@@ -3310,6 +3310,10 @@ public class EcrireGenClasse extends EcrireClasse {
 			entiteDefaut = doc.getString("entiteDefaut_stored_string");
 			entiteRequis = doc.getBoolean("entiteRequis_stored_boolean");
 			entiteHtml = doc.getBoolean("entiteHtml_stored_boolean");
+			Boolean entiteEstListe = (StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()));
+
+			Boolean entiteEstZonedDateTime = StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())
+						|| entiteEstListe && StringUtils.equals(entiteNomCanoniqueGenerique, ZonedDateTime.class.getCanonicalName());
 
 			entiteClassesSuperEtMoiSansGen = Optional.ofNullable(doc.getJsonArray("classesSuperEtMoiSansGen_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 	
@@ -3776,7 +3780,6 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "return ", entiteVar, ";");
 			tl(1, "}");
 			Boolean staticSet = false;
-			Boolean entiteEstListe = (StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()));
 	
 			if(classePartsRequeteSite != null) {
 				if(StringUtils.equals(entiteNomCanonique, String.class.getCanonicalName())
@@ -4146,8 +4149,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 		
 				// Setter ZonedDateTime //
-				if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())
-						|| entiteEstListe && StringUtils.equals(entiteNomCanoniqueGenerique, ZonedDateTime.class.getCanonicalName())) {
+				if(entiteEstZonedDateTime) {
 					if(!entiteEstListe) {
 						tl(1, "@JsonIgnore");
 						tl(1, "public void set", entiteVarCapitalise, "(Instant o) {");
@@ -5590,11 +5592,18 @@ public class EcrireGenClasse extends EcrireClasse {
 							else {
 								if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList") || entiteNomSimple.equals("Set") || entiteNomSimple.equals("HashSet")) {
 									tl(4, "if(", entiteVar, " != null) {");
+									if(entiteEstZonedDateTime) {
+										if(classeVarZone == null)
+											tl(5, "ZoneId zoneId = Optional.ofNullable(", langueConfig.getString(I18n.var_requeteSite), "_).map(r -> r.get", langueConfig.getString(I18n.var_Config), "()).map(config -> config.getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), ")).map(z -> ZoneId.of(z)).orElse(ZoneId.of(\"UTC\"));");
+										else
+											tl(5, "ZoneId zoneId = Optional.ofNullable(", classeVarZone, ").map(v -> ZoneId.of(v)).orElse(Optional.ofNullable(", langueConfig.getString(I18n.var_requeteSite), "_).map(r -> r.get", langueConfig.getString(I18n.var_Config), "()).map(config -> config.getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), ")).map(z -> ZoneId.of(z)).orElse(ZoneId.of(\"UTC\")));");
+									}
 									tl(5, entiteVar, ".stream().forEach( v -> {");
-									if(entiteSolrNomSimple.endsWith("<String>"))
-										tl(6, "o", classeNomSimple, ".", entiteVar, ".add(", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, v));");
-									else
+									if(entiteSolrNomSimple.endsWith("<String>")) {
+										tl(6, "o", classeNomSimple, ".", entiteVar, ".add(", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, v", entiteEstZonedDateTime ? ", zoneId" : "", "));");
+									} else {
 										tl(6, "o", classeNomSimple, ".", entiteVar, ".add(v);");
+									}
 									tl(5, "});");
 									tl(4, "}");
 								} else {
@@ -5643,6 +5652,12 @@ public class EcrireGenClasse extends EcrireClasse {
 						if(entitePromesse || entiteCouverture) {
 							tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(new ArrayList<>());");
 	 					}
+						if(entiteEstZonedDateTime) {
+							if(classeVarZone == null)
+								tl(2, "ZoneId zoneId = Optional.ofNullable(", langueConfig.getString(I18n.var_requeteSite), "_).map(r -> r.get", langueConfig.getString(I18n.var_Config), "()).map(config -> config.getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), ")).map(z -> ZoneId.of(z)).orElse(ZoneId.of(\"UTC\"));");
+							else
+								tl(2, "ZoneId zoneId = Optional.ofNullable(", classeVarZone, ").map(v -> ZoneId.of(v)).orElse(Optional.ofNullable(", langueConfig.getString(I18n.var_requeteSite), "_).map(r -> r.get", langueConfig.getString(I18n.var_Config), "()).map(config -> config.getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), ")).map(z -> ZoneId.of(z)).orElse(ZoneId.of(\"UTC\")));");
+						}
 						if(entiteTexte) {
 							if("frFR".equals(langueNom) || "esES".equals(langueNom))
 								tl(2, "Optional.ofNullable((List<?>)doc.get(\"", entiteVar, "_text_", langueNom, "\")).orElse(Arrays.asList()).stream().filter(v -> v != null).forEach(v -> {");
@@ -5652,7 +5667,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						else {
 							tl(2, "Optional.ofNullable((List<?>)doc.get(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\")).orElse(Arrays.asList()).stream().filter(v -> v != null).forEach(v -> {");
 						}
-						tl(3, "o", classeNomSimple, ".add", entiteVarCapitalise, "(", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), ", v.toString()));");
+						tl(3, "o", classeNomSimple, ".add", entiteVarCapitalise, "(", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), ", v.toString()", entiteEstZonedDateTime ? ", zoneId" : "", "));");
 						tl(2, "});");
 					}
 					else {
