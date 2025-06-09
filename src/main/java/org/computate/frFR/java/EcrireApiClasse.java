@@ -3955,7 +3955,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "page.setVertx(vertx);");
 							tl(3, "page.", i18nGlobale.getString(I18n.var_promesseLoin), classePageNomSimpleMethode, "(", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(a -> {");
 							tl(4, "try {");
-							tl(5, "JsonObject ctx = ComputateConfigKeys.getPageContext(config);");
+							tl(5, "JsonObject ctx = ", classePartsConfigCles.nomSimple(classeLangueNom), ".getPageContext(config);");
 							tl(5, "ctx.mergeIn(JsonObject.mapFrom(page));");
 							tl(5, "String renderedTemplate = jinjava.render(template, ctx.getMap());");
 							tl(5, "Buffer buffer = Buffer.buffer(renderedTemplate);");
