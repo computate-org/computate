@@ -1975,6 +1975,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								if(StringUtils.equals(classeApiMethodeMethode, "GET")) {
 									tl(5, "{");
 								} else {
+									if(classeRoleUtilisateur) {
+										tl(5, "scopes.add(\"GET\");");
+										tl(5, "scopes.add(\"PATCH\");");
+									}
 									tl(5, "if(authorizationDecisionResponse.failed() || !scopes.contains(\"", classeApiMethodeMethode, "\")) {");
 									tl(6, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
 									tl(6, "eventHandler.handle(Future.succeededFuture(");
@@ -2190,7 +2194,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								if(StringUtils.equals(classeApiMethodeMethode, "GET")) {
 									tl(5, "{");
 								} else {
-									tl(5, "if(authorizationDecisionResponse.failed() || !scopes.contains(\"", classeApiMethodeMethode, "\")) {");
+									if(classeRoleUtilisateur) {
+										tl(5, "scopes.add(\"GET\");");
+										tl(5, "scopes.add(\"PATCH\");");
+									}
+									tl(5, "if(authorizationDecisionResponse.failed() ", classeRoleUtilisateur && StringUtils.equals(classeApiMethodeMethode, "PATCH") ? "&&" : "||", " !scopes.contains(\"", classeApiMethodeMethode, "\")) {");
 									tl(6, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
 									tl(6, "eventHandler.handle(Future.succeededFuture(");
 									tl(7, "new ServiceResponse(403, \"FORBIDDEN\",");
@@ -3872,59 +3880,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(1, "public void ", classeApiOperationIdMethode, i18nGlobale.getString(I18n.var_Page), "Init(", classePageNomSimpleMethode, " page, ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, "> ", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ") {");
 						tl(1, "}");
 					}
-//
-//					/////////////
-//					// Reponse //
-//					/////////////
-//					if (!classeApiMethode.equals("PUTImport") && !classeApiMethode.equals(classeLangueConfig.getString(ConfigCles.var_PUTFusion))){
-//						String var;
-//						String type;
-//						if(classeApiMethode.contains("POST")) {
-//							type = classeNomSimple;
-//							var = uncapitalizeClasseNomSimple;
-//						}
-//						else if(classeApiMethode.contains("PATCH") || classeApiMethode.equals("PUTImport") || classeApiMethode.equals(classeLangueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals(classeLangueConfig.getString(ConfigCles.var_PUTCopie))) {
-//							type = classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(classeLangueNom);
-//							var = classeLangueConfig.getString(ConfigCles.var_requeteSite);
-//						}
-//						else if(classeApiMethode.contains("GET") || classeApiMethode.contains(classeLangueConfig.getString(ConfigCles.var_Recherche))) {
-//							type = classePartsListeRecherche.nomSimple(classeLangueNom) + "<" + classeNomSimple + ">";
-//							var = classeLangueConfig.getString(ConfigCles.var_liste) + classeNomSimple;
-//						}
-//						else {
-//							type = classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(classeLangueNom);
-//							var = classeLangueConfig.getString(ConfigCles.var_requeteSite);
-//						}
-//
-//						t(1, "public void ", classeApiOperationIdMethode, classeLangueConfig.getString(ConfigCles.var_Reponse), "(");
-//						s(type, " ", var);
-//						l(", Handler<AsyncResult<ServiceResponse>> ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ") {");
-//						if(classeApiMethode.contains("POST") || classeApiMethode.contains("GET") || classeApiMethode.contains(classeLangueConfig.getString(ConfigCles.var_Recherche)))
-//							tl(2, classePartsRequeteSite.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteSite), " = ", var, ".get", classeLangueConfig.getString(ConfigCles.var_RequeteSite), "_();");
-//
-//						tl(2, "try {");
-//						if("text/html".equals(classeApiTypeMedia200Methode)) {
-//							tl(3, "Buffer buffer = Buffer.buffer();");
-//							if(classePartsToutEcrivain == null)
-//								throw new RuntimeException(String.format("%s %s %s %s %s. ", classeLangueConfig.getString(ConfigCles.var_classe), classeLangueConfig.getString(ConfigCles.var_ToutEcrivain), classeLangueConfig.getString(ConfigCles.var_manquante), classeLangueConfig.getString(ConfigCles.var_dans), cheminSrcMainJava));
-//							tl(3, classePartsToutEcrivain.nomSimple(classeLangueNom), " w = ", classePartsToutEcrivain.nomSimple(classeLangueNom), ".", classeLangueConfig.getString(ConfigCles.var_creer), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", buffer);");
-//							tl(3, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".setW(w);");
-//						}
-//
-//						tl(3, classeLangueConfig.getString(ConfigCles.var_reponse), "200", classeApiMethode, classeNomSimple, "(", var, ", a -> {");
-//						tl(4, "if(a.succeeded()) {");
-//						tl(5, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(a.result()));");
-//						tl(4, "} else {");
-//						tl(5, "LOG.error(String.format(\"", classeApiOperationIdMethode, classeLangueConfig.getString(ConfigCles.var_Reponse), " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \", a.cause()));");
-//						tl(5, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", a);");
-//						tl(4, "}");
-//						tl(3, "});");
-//						tl(2, "} catch(Exception ex) {");
-//						tl(3, "LOG.error(String.format(\"", classeApiOperationIdMethode, classeLangueConfig.getString(ConfigCles.var_Reponse), " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
-//						tl(3, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", null, ex);");
-//						tl(2, "}");
-//						tl(1, "}");
-//					}
 
 					/////////////////
 					// Reponse 200 //
@@ -4160,36 +4115,41 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					}
 				}
 			}
+		}
+	}
+
+	public void ecrireGenApiServiceImpl3(String classeLangueNom) throws Exception {
+		classeAutresLangues = ArrayUtils.removeAllOccurences(toutesLangues, classeLangueNom);
+
+		if(auteurGenApiServiceImpl != null) {
 	
-			{
-				SolrQuery rechercheSolr = new SolrQuery();   
-				rechercheSolr.setQuery("*:*");
-				rechercheSolr.setRows(1000000);
-				String fqClassesSuperEtMoi = "(" + classesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
-				rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
-				rechercheSolr.addFilterQuery("entiteEstSubstitue_indexed_boolean:false");
-				rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
-		    rechercheSolr.addSort("partNumero_indexed_int", ORDER.asc);
-				QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
-				SolrDocumentList rechercheListe = rechercheReponse.getResults();
-				Integer rechercheLignes = rechercheSolr.getRows();
+			SolrQuery rechercheSolr = new SolrQuery();   
+			rechercheSolr.setQuery("*:*");
+			rechercheSolr.setRows(1000000);
+			String fqClassesSuperEtMoi = "(" + classesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
+			rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
+			rechercheSolr.addFilterQuery("entiteEstSubstitue_indexed_boolean:false");
+			rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
+		   rechercheSolr.addSort("partNumero_indexed_int", ORDER.asc);
+			QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
+			SolrDocumentList rechercheListe = rechercheReponse.getResults();
+			Integer rechercheLignes = rechercheSolr.getRows();
 	
-				if(rechercheListe.size() > 0) {
-					for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=rechercheLignes) {
-						for(Integer j = 0; j < rechercheListe.size(); j++) {
-							SolrDocument entiteDocumentSolr = rechercheListe.get(j);
-							entiteVar = (String)entiteDocumentSolr.get("entiteVar_" + classeLangueNom + "_stored_string");
-							entiteVarCapitalise = (String)entiteDocumentSolr.get("entiteVarCapitalise_" + classeLangueNom + "_stored_string");
-							entiteSuffixeType = (String)entiteDocumentSolr.get("entiteSuffixeType_stored_string");
-							entiteIndexe = (Boolean)entiteDocumentSolr.get("entiteIndexe_stored_boolean");
-							entiteTexte = (Boolean)entiteDocumentSolr.get("entiteTexte_stored_boolean");
-							entiteLangue = (String)entiteDocumentSolr.get("entiteLangue_stored_string");
-							entiteSuggere = (Boolean)entiteDocumentSolr.get("entiteSuggere_stored_boolean");
-						}
-						rechercheSolr.setStart(i.intValue() + rechercheLignes);
-						rechercheReponse = clientSolrComputate.query(rechercheSolr);
-						rechercheListe = rechercheReponse.getResults();
+			if(rechercheListe.size() > 0) {
+				for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=rechercheLignes) {
+					for(Integer j = 0; j < rechercheListe.size(); j++) {
+						SolrDocument entiteDocumentSolr = rechercheListe.get(j);
+						entiteVar = (String)entiteDocumentSolr.get("entiteVar_" + classeLangueNom + "_stored_string");
+						entiteVarCapitalise = (String)entiteDocumentSolr.get("entiteVarCapitalise_" + classeLangueNom + "_stored_string");
+						entiteSuffixeType = (String)entiteDocumentSolr.get("entiteSuffixeType_stored_string");
+						entiteIndexe = (Boolean)entiteDocumentSolr.get("entiteIndexe_stored_boolean");
+						entiteTexte = (Boolean)entiteDocumentSolr.get("entiteTexte_stored_boolean");
+						entiteLangue = (String)entiteDocumentSolr.get("entiteLangue_stored_string");
+						entiteSuggere = (Boolean)entiteDocumentSolr.get("entiteSuggere_stored_boolean");
 					}
+					rechercheSolr.setStart(i.intValue() + rechercheLignes);
+					rechercheReponse = clientSolrComputate.query(rechercheSolr);
+					rechercheListe = rechercheReponse.getResults();
 				}
 			}
 		}
@@ -4197,7 +4157,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 
 	/** 
 	 */ 
-	public void ecrireGenApiServiceImpl3(String classeLangueNom) throws Exception {
+	public void ecrireGenApiServiceImpl4(String classeLangueNom) throws Exception {
 		classeAutresLangues = ArrayUtils.removeAllOccurences(toutesLangues, classeLangueNom);
 
 		if(auteurGenApiServiceImpl != null) {

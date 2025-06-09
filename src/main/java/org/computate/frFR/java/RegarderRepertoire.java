@@ -590,13 +590,16 @@ public class RegarderRepertoire extends AbstractVerticle {
 	private void regarderClasseEvenement(Message<Object> message) {
 		workerExecutor.executeBlocking(() -> {
 			Promise<Void> promise = Promise.promise();
+			String zookeeperNodeName = null;
+			Stat zookeeperStat = null;
+			String cheminCompletStr = null;
 			try {
 				JsonObject body = ((JsonObject)message.body()).getJsonObject("context").getJsonObject("params").getJsonObject("body");
-				String cheminCompletStr = body.getString("cheminComplet");
+				cheminCompletStr = body.getString("cheminComplet");
 				LOG.debug(String.format("Received request on the event bus: %s", cheminCompletStr));
 				Path cheminComplet = Path.of(cheminCompletStr);
-				Stat zookeeperStat = new Stat();
-				String zookeeperNodeName = String.format("/%s%s", ZOOKEEPER_ROOT_PATH, cheminCompletStr.replace("/", "-"));
+				zookeeperStat = new Stat();
+				zookeeperNodeName = String.format("/%s/%s", ZOOKEEPER_ROOT_PATH, cheminCompletStr.replace("/", "-"));
 				zookeeper.create(zookeeperNodeName, "reserved".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL, zookeeperStat);
 				String classeCheminAbsolu = cheminComplet.toAbsolutePath().toString();   
 				String cp = FileUtils.readFileToString(new File(COMPUTATE_SRC + "/config/cp.txt"), "UTF-8");
@@ -611,14 +614,16 @@ public class RegarderRepertoire extends AbstractVerticle {
 
 				executeur.setWorkingDirectory(repertoireTravail);
 				executeur.execute(ligneCommande); 
-				zookeeper.delete(zookeeperNodeName, zookeeperStat.getVersion());
 				String classeNomSimple = StringUtils.substringBeforeLast(cheminComplet.getFileName().toString(), ".");
 				String log = String.format(classeLangueConfig.getString(I18n.str_chemin_absolu), classeNomSimple);
 				LOG.info(log);
 				promise.complete();
 			} catch(Exception ex) {
 				if(!(ex instanceof KeeperException.NodeExistsException))
-					LOG.error("Une Problème d'exécution de RegarderRepertoire. ", ex);
+					LOG.error(String.format(classeLangueConfig.getString(I18n.str_UneProblemeExecutionRegarderRepertoire), cheminCompletStr), ex);
+				promise.fail(ex);
+			} finally {
+				zookeeper.delete(zookeeperNodeName, zookeeperStat.getVersion());
 			}
 			return promise.future();
 		});
@@ -824,7 +829,7 @@ public class RegarderRepertoire extends AbstractVerticle {
 			connectionLatch.await();
 			Stat zookeeperStat = new Stat();
 			try {
-				zookeeper.create(String.format("/%s", ZOOKEEPER_ROOT_PATH), "reserved".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL, zookeeperStat);
+				zookeeper.create(String.format("/%s", ZOOKEEPER_ROOT_PATH), "reserved".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT, zookeeperStat);
 			} catch(KeeperException.NodeExistsException ex) {
 				LOG.info(String.format("The zookeeper root node already exists: %s", String.format("/%s", ZOOKEEPER_ROOT_PATH)));
 			}
