@@ -46,13 +46,6 @@ import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.common.SolrInputDocument;
-import org.apache.zookeeper.CreateMode;
-import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.Watcher;
-import org.apache.zookeeper.ZooDefs;
-import org.apache.zookeeper.ZooKeeper;
-import org.apache.zookeeper.client.ZKClientConfig;
-import org.apache.zookeeper.data.Stat;
 import org.computate.i18n.I18n;
 import org.computate.vertx.config.ComputateConfigKeys;
 import org.slf4j.Logger;
@@ -70,6 +63,7 @@ import io.vertx.core.WorkerExecutor;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.shareddata.SharedData;
 
 /**
  * NomCanonique.enUS: org.computate.enUS.java.WatchDirectory
@@ -181,7 +175,6 @@ public class RegarderRepertoire extends AbstractVerticle {
 	protected String COMPUTATE_VERTX_SRC;
 
 	protected WorkerExecutor workerExecutor;
-	protected ZooKeeper zookeeper;
 
 	 /**
 	 * r: SITE_NOM
@@ -590,40 +583,45 @@ public class RegarderRepertoire extends AbstractVerticle {
 	private void regarderClasseEvenement(Message<Object> message) {
 		workerExecutor.executeBlocking(() -> {
 			Promise<Void> promise = Promise.promise();
-			String zookeeperNodeName = null;
-			Stat zookeeperStat = null;
-			String cheminCompletStr = null;
+			String orderLock = null;
 			try {
 				JsonObject body = ((JsonObject)message.body()).getJsonObject("context").getJsonObject("params").getJsonObject("body");
-				cheminCompletStr = body.getString("cheminComplet");
+				String cheminCompletStr = body.getString("cheminComplet");
 				LOG.debug(String.format("Received request on the event bus: %s", cheminCompletStr));
 				Path cheminComplet = Path.of(cheminCompletStr);
-				zookeeperStat = new Stat();
-				zookeeperNodeName = String.format("/%s/%s", ZOOKEEPER_ROOT_PATH, cheminCompletStr.replace("/", "-"));
-				zookeeper.create(zookeeperNodeName, "reserved".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL, zookeeperStat);
-				String classeCheminAbsolu = cheminComplet.toAbsolutePath().toString();   
-				String cp = FileUtils.readFileToString(new File(COMPUTATE_SRC + "/config/cp.txt"), "UTF-8");
-				String classpath = String.format("%s:%s/target/classes", cp, COMPUTATE_SRC);
-				CommandLine ligneCommande = new CommandLine("java");
-				ligneCommande.addArgument("-cp");
-				ligneCommande.addArgument(classpath);
-				ligneCommande.addArgument(RegarderClasse.class.getCanonicalName());
-				ligneCommande.addArgument(classeCheminRepertoireAppli);
-				ligneCommande.addArgument(classeCheminAbsolu);
-				File repertoireTravail = new File(COMPUTATE_SRC);
+				orderLock = String.format("/%s/%s", ZOOKEEPER_ROOT_PATH, cheminCompletStr.replace("/", "-"));
+				SharedData sharedData = vertx.sharedData();
+				sharedData.getLocalLockWithTimeout(orderLock, config().getLong(ComputateConfigKeys.ZOOKEEPER_CONNECTION_TIMEOUT_MILLIS, 3000L)).onSuccess(lock -> {
+					try {
+						String classeCheminAbsolu = cheminComplet.toAbsolutePath().toString();   
+						String cp = FileUtils.readFileToString(new File(COMPUTATE_SRC + "/config/cp.txt"), "UTF-8");
+						String classpath = String.format("%s:%s/target/classes", cp, COMPUTATE_SRC);
+						CommandLine ligneCommande = new CommandLine("java");
+						ligneCommande.addArgument("-cp");
+						ligneCommande.addArgument(classpath);
+						ligneCommande.addArgument(RegarderClasse.class.getCanonicalName());
+						ligneCommande.addArgument(classeCheminRepertoireAppli);
+						ligneCommande.addArgument(classeCheminAbsolu);
+						File repertoireTravail = new File(COMPUTATE_SRC);
 
-				executeur.setWorkingDirectory(repertoireTravail);
-				executeur.execute(ligneCommande); 
-				String classeNomSimple = StringUtils.substringBeforeLast(cheminComplet.getFileName().toString(), ".");
-				String log = String.format(classeLangueConfig.getString(I18n.str_chemin_absolu), classeNomSimple);
-				LOG.info(log);
-				promise.complete();
+						executeur.setWorkingDirectory(repertoireTravail);
+						executeur.execute(ligneCommande); 
+						String classeNomSimple = StringUtils.substringBeforeLast(cheminComplet.getFileName().toString(), ".");
+						String log = String.format(classeLangueConfig.getString(I18n.str_chemin_absolu), classeNomSimple);
+						LOG.info(log);
+						promise.complete();
+						lock.release();
+					} catch(Exception ex) {
+						LOG.error(String.format(classeLangueConfig.getString(I18n.str_UneProblemeExecutionRegarderRepertoire), cheminCompletStr), ex);
+						promise.fail(ex);
+						lock.release();
+					}
+				}).onFailure(ex -> {
+					promise.complete();
+				});
 			} catch(Exception ex) {
-				if(!(ex instanceof KeeperException.NodeExistsException))
-					LOG.error(String.format(classeLangueConfig.getString(I18n.str_UneProblemeExecutionRegarderRepertoire), cheminCompletStr), ex);
+					LOG.error(String.format(classeLangueConfig.getString(I18n.str_UneProblemeExecutionRegarderRepertoire), ((JsonObject)message.body()).getJsonObject("context").getJsonObject("params").getJsonObject("body").getString("cheminComplet")), ex);
 				promise.fail(ex);
-			} finally {
-				zookeeper.delete(zookeeperNodeName, zookeeperStat.getVersion());
 			}
 			return promise.future();
 		});
@@ -814,25 +812,6 @@ public class RegarderRepertoire extends AbstractVerticle {
 			cheminSrcMainJava = SITE_SRC + "/src/main/java";
 			cheminSrcGenJava = SITE_SRC + "/src/gen/java";
 			cheminsBin.add(SITE_SRC + "/src/main/resources");
-
-			String zkHostName = configuration.getString("ZOOKEEPER_HOST_NAME");
-			Integer zkPort = Integer.parseInt(configuration.getString("ZOOKEEPER_PORT"));
-			String zkConnectionString = String.format("%s:%s", zkHostName, zkPort);
-			ZKClientConfig zkClientConfig = new ZKClientConfig();
-			Integer zkSessionTimeoutMillis = Integer.parseInt(configuration.getString("ZOOKEEPER_CONNECTION_TIMEOUT_MILLIS", "3000"));
-			CountDownLatch connectionLatch = new CountDownLatch(1);
-			zookeeper = new ZooKeeper(zkConnectionString, zkSessionTimeoutMillis, event -> {
-				if (event.getState() == Watcher.Event.KeeperState.SyncConnected) {
-					connectionLatch.countDown();
-				}
-			}, zkClientConfig);
-			connectionLatch.await();
-			Stat zookeeperStat = new Stat();
-			try {
-				zookeeper.create(String.format("/%s", ZOOKEEPER_ROOT_PATH), "reserved".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT, zookeeperStat);
-			} catch(KeeperException.NodeExistsException ex) {
-				LOG.info(String.format("The zookeeper root node already exists: %s", String.format("/%s", ZOOKEEPER_ROOT_PATH)));
-			}
 
 			trace = true;
 			initialiserRegarderRepertoire(classeLangueConfig);
