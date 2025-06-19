@@ -1077,6 +1077,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			wJsHtmInit = ToutEcrivain.create("  ");
 			wJsHtmEditionInit = ToutEcrivain.create("  ");
+			wStyle = ToutEcrivain.create("  ");
 			wJsEditionInit = ToutEcrivain.create("  ");
 			wJsRechercheInit = ToutEcrivain.create("  ");
 			wWebsocket = ToutEcrivain.create("  ");
@@ -2387,31 +2388,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				Integer rechercheLigneActuel;
 	
 				if(rechercheListe.size() > 0) {
-					auteurPageCss.tl(0, "#site-results-grid {");
-					auteurPageCss.tl(1, "display: grid;");
-					auteurPageCss.tl(1, "gap: var(--site-secondary-space);");
-					auteurPageCss.tl(1, "background-color: var(--wa-color-surface-lowered);");
-					auteurPageCss.tl(1, "> * {");
-					auteurPageCss.tl(2, "display: grid;");
-					auteurPageCss.tl(2, "grid-template-columns: subgrid;");
-					auteurPageCss.tl(2, "grid-column: span ", rechercheListe.size(), ";");
-					auteurPageCss.tl(2, "align-items: center;");
-					auteurPageCss.tl(2, "background-color: var(--", composantsWebPrefixe, "color-surface-raised);");
-					auteurPageCss.tl(2, "&:not(:first-child) {");
-					auteurPageCss.tl(3, "padding-inline-start: var(--", composantsWebPrefixe, "space-m);");
-					auteurPageCss.tl(2, "}");
-					// auteurPageCss.tl(2, "&:hover {");
-					// auteurPageCss.tl(3, "background-color: var(--", composantsWebPrefixe, "color-brand-fill-quiet);");
-					// auteurPageCss.tl(2, "}");
-					auteurPageCss.tl(2, composantsWebPrefixe, "button {");
-					auteurPageCss.tl(3, "&::part(base) {");
-					auteurPageCss.tl(3, "}");
-					auteurPageCss.tl(2, "}");
-					auteurPageCss.tl(2, "@media (max-width:767px) {");
-					auteurPageCss.tl(3, "grid-column: span 1;");
-					auteurPageCss.tl(2, "}");
-					auteurPageCss.tl(1, "}");
-					auteurPageCss.tl(0, "}");
+					wStyle.tl(3, ":root {");
+					wStyle.tl(4, "--site-results-number-of-columns: ", rechercheListe.size(), ";");
+					wStyle.tl(3, "}");
 
 					for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=rechercheLignes) {
 						List<SolrDocument> resultatsSubstitues = rechercheListe.stream().filter(o -> BooleanUtils.isTrue((Boolean)o.get("entiteEstSubstitue_stored_boolean"))).collect(Collectors.toList());
@@ -2919,6 +2898,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "{%- endblock htmStyles", classePageSuperNomSimple, " %}");
 			l();
 			tl(0, "{%- block htmStyle", classePageSuperNomSimple, " %}");
+			s(wStyle);
 			tl(0, "{{ super() }}");
 			tl(0, "{%- block htmStyle", classePageNomSimple, " %}");
 			tl(0, "{%- endblock htmStyle", classePageNomSimple, " %}");
@@ -5412,7 +5392,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		o = auteurBoutonsRechercheJinja;
 
 		tl(5, "<", composantsWebPrefixe, "scroller>");
-		tl(6, "<", composantsWebPrefixe, "button-group id=\"htm", i18nPage.getString(I18n.var_BoutonsRecherche), "\">");
+		tl(6, "<", composantsWebPrefixe, "button-group class=\"no-gradient\" id=\"htm", i18nPage.getString(I18n.var_BoutonsRecherche), "\">");
 
 		//////////////
 		// bouton q //
@@ -5538,7 +5518,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(6, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_BoutonsPagination), i18nPage.getString(I18n.var_Suivant), "\" placement=\"top\"", "wa-".equals(composantsWebPrefixe) ? ">" : " content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_suivants), classeNomAdjectifPluriel), "", "wa-".equals(composantsWebPrefixe) ? "" : "\">", "</", composantsWebPrefixe, "tooltip>");
 		tl(6, "<div class=\"", composantsWebPrefixe, "caption-l \">{{ pagination.", i18nPage.getString(I18n.var_debut), "Num }} – {{ pagination.", i18nPage.getString(I18n.var_fin), "Num }} ", i18nPage.getString(I18n.var_de), " {{ pagination.", i18nPage.getString(I18n.var_numTrouve), " }} ", classeNomPluriel, "</div>");
 		tl(6, "<", composantsWebPrefixe, "scroller>");
-		tl(7, "<", composantsWebPrefixe, "button-group size=\"small\" class=\"", composantsWebPrefixe, "cluster ", composantsWebPrefixe, "gap-xs \" id=\"htm", i18nPage.getString(I18n.var_BoutonsPagination), "\">");
+		tl(7, "<", composantsWebPrefixe, "button-group size=\"small\" class=\"no-gradient ", composantsWebPrefixe, "cluster ", composantsWebPrefixe, "gap-xs \" id=\"htm", i18nPage.getString(I18n.var_BoutonsPagination), "\">");
 
 		t(8, "<", composantsWebPrefixe, "button id=\"", i18nPage.getString(I18n.var_BoutonsPagination), i18nPage.getString(I18n.var_Precedent), "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline");
 		s("{% if pagination.page", i18nPage.getString(I18n.var_Precedent), " is defined %}");

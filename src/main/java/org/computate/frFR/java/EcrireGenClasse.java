@@ -1296,6 +1296,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	ToutEcrivain wFormPATCH;
 	ToutEcrivain wFormDELETE;
 	ToutEcrivain wFormDELETEFiltre;
+	ToutEcrivain wStyle;
 	ToutEcrivain wJsHtmInit;
 	ToutEcrivain wJsHtmEditionInit;
 	ToutEcrivain wJsRechercheInit;
@@ -2450,7 +2451,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(classePageFichier != null && (!classePageFichier.exists() || classePageFichier.length() == 0L)) {
 				auteurPageClasse = ToutEcrivain.create();
 			}
-			if(classePageFichierCss != null) {
+			if(classePageFichierCss != null && (!classePageFichierCss.exists() || classePageFichierCss.length() == 0L)) {
 				classePageFichierCss.getParentFile().mkdirs();
 				auteurPageCss = ToutEcrivain.create(classePageFichierCss, "  ");
 			}
