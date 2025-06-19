@@ -6632,7 +6632,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(2, "switch(var) {");
 				s(wNgsiTypeMethode);
 				tl(3, "default:");
+				if(classeNomSimpleSuperGenerique.equals(classePartsModeleBase.nomSimple(langueNom)))
 					tl(4, "return null;");
+				else
+					tl(4, "return ", classeNomSimpleSuperGenerique, ".", "ngsiType(var);");
 				tl(2, "}");
 				tl(1, "}");
 				l();
@@ -6640,7 +6643,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(2, "switch(var) {");
 				s(wNgsiMethode);
 				tl(3, "default:");
+				if(classeNomSimpleSuperGenerique.equals(classePartsModeleBase.nomSimple(langueNom)))
 					tl(4, "return null;");
+				else
+					tl(4, "return ngsi", classeNomSimpleSuperGenerique, "(var, o);");
 				tl(2, "}");
 				tl(1, "}");
 			}
