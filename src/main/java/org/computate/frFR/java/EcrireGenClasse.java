@@ -348,6 +348,14 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected Boolean classePage;
 	protected String classePageNomSimple;
 	protected String classePageNomSimpleMethode;
+	protected String classePageNomCanoniqueMethode;
+	protected String classeApiOperationIdMethode;
+	protected String classeApiUriMethode;
+	protected String classeApiMethodeMethode;
+	protected String classeApiTypeMedia200Methode;
+	protected String classeApiTypeMediaRequeteMethode;
+	protected String classePageTemplateMethode;
+	protected Boolean classePageAvecTemplateMethode;
 	protected String classePageSuperNomSimple;
 	protected String classePageSuperNomCanonique;
 	protected String classeApiClasseNomSimple;

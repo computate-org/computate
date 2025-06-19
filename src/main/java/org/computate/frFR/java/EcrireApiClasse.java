@@ -1898,16 +1898,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(1, "protected static final Logger LOG = LoggerFactory.getLogger(", classeNomSimpleGenApiServiceImpl, ".class);");
 
 			for(String classeApiMethode : classeApiMethodes) {
-				String classePageNomCanoniqueMethode = classeDoc.getString("classePageNomCanonique" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
-				String classePageNomSimpleMethode = classeDoc.getString("classePageNomSimple" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
-				String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
-				String classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
-				String classeApiMethodeMethode = classeDoc.getString("classeApiMethode" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
-				String classeApiTypeMedia200Methode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
-				String classeApiTypeMediaRequeteMethode = classeDoc.getString("classeApiTypeMediaRequete" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
-				String classePageLangueNom = classeDoc.getString("classePageLangueNom" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
-				String classePageTemplateMethode = classeDoc.getString("classe" + classeApiMethode + "Template_" + classeLangueNom + "_stored_string");
-				Boolean classePageAvecTemplateMethode = classeDoc.getBoolean("classePageAvecTemplate" + classeApiMethode + "_stored_boolean");
+				classePageNomCanoniqueMethode = classeDoc.getString("classePageNomCanonique" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+				classePageNomSimpleMethode = classeDoc.getString("classePageNomSimple" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+				classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+				classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+				classeApiMethodeMethode = classeDoc.getString("classeApiMethode" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+				classeApiTypeMedia200Methode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+				classeApiTypeMediaRequeteMethode = classeDoc.getString("classeApiTypeMediaRequete" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+				classePageLangueNom = classeDoc.getString("classePageLangueNom" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+				classePageTemplateMethode = classeDoc.getString("classe" + classeApiMethode + "Template_" + classeLangueNom + "_stored_string");
+				classePageAvecTemplateMethode = classeDoc.getBoolean("classePageAvecTemplate" + classeApiMethode + "_stored_boolean");
 
 				if(classePageLangueNom == null || classePageLangueNom.equals(classeLangueNom)) {
 
@@ -2830,7 +2830,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(7, i18nGlobale.getString(I18n.var_requeteApi), ".setId(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarId), "().toString()).orElse(null));");
 						if(classeModele)
 							tl(7, i18nGlobale.getString(I18n.var_requeteApi), ".set", i18nGlobale.getString(I18n.var_SolrId), "(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", solrIdCapitalise, "()).orElse(null));");
-//						tl(7, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
 						tl(7, classeApiOperationIdMethode, "Future(o).onSuccess(o2 -> {");
 						tl(8, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture(ServiceResponse.completedWithJson(Buffer.buffer(new JsonObject().encodePrettily()))));");
 						tl(7, "}).onFailure(ex -> {");
@@ -2888,7 +2887,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(7, i18nGlobale.getString(I18n.var_requeteApi), ".setId(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarId), "().toString()).orElse(null));");
 						if(classeModele)
 							tl(7, i18nGlobale.getString(I18n.var_requeteApi), ".set", i18nGlobale.getString(I18n.var_SolrId), "(Optional.ofNullable(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", solrIdCapitalise, "()).orElse(null));");
-//						tl(7, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
 						tl(7, "JsonObject jsonObject = JsonObject.mapFrom(o);");
 						tl(7, classeNomSimple, " o2 = jsonObject.mapTo(", classeNomSimple, ".class);");
 						tl(7, "o2.set", i18nGlobale.getString(I18n.var_RequeteSite), "_(", i18nGlobale.getString(I18n.var_requeteSite), ");");
@@ -3088,10 +3086,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(12, "break;");
 								tl(11, "}");
 								tl(10, "}");
-//								tl(10, "if(!match) {");
 								tl(10, "vals.clear();");
 								tl(10, "body2.put(\"set\" + StringUtils.capitalize(f), bodyVal);");
-//								tl(10, "}");
 								tl(9, "} else {");
 								tl(10, "if(vals != null)");
 								tl(11, "vals.clear();");
@@ -3890,6 +3886,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(1, "public void ", classeApiOperationIdMethode, i18nGlobale.getString(I18n.var_Page), "Init(", classePageNomSimpleMethode, " page, ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, "> ", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ") {");
 						tl(1, "}");
 					}
+					ecrireGenApiServiceImplReponse(classeLangueNom, classeApiMethode);
+				}
+			}
+		}
+	}
+	public void ecrireGenApiServiceImplReponse(String classeLangueNom, String classeApiMethode) throws Exception {
 
 					/////////////////
 					// Reponse 200 //
@@ -4005,7 +4007,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					else if(classeApiMethode.contains("GET")) {
 						if(classePageNomCanoniqueMethode != null) {
 							tl(3, classePageNomSimpleMethode, " page = new ", classePageNomSimpleMethode, "();");
-//							tl(3, "page.setPageUrl(\"", siteUrlBase, classeApiUri, "\");");
 							tl(3, "SolrDocument page", i18nGlobale.getString(I18n.var_DocumentSolr), " = new SolrDocument();");
 							tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), " = ", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ".get", i18nGlobale.getString(I18n.var_RequeteSite), "_(", classePartsRequeteSite.nomSimple(classeLangueNom), ".class);");
 							tl(3, "MultiMap ", i18nGlobale.getString(I18n.var_requeteEnTetes), " = MultiMap.caseInsensitiveMultiMap();");
@@ -4123,9 +4124,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(2, "}");
 						tl(1, "}");
 					}
-				}
-			}
-		}
 	}
 
 	public void ecrireGenApiServiceImpl3(String classeLangueNom) throws Exception {
