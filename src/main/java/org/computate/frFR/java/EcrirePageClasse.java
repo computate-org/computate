@@ -4087,7 +4087,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(3, "window.map", classeNomSimple, " = L.map('htmBody", i18nPage.getString(I18n.var_Graphique), i18nPage.getString(I18n.var_Emplacement), classePageNomSimple, "', {");
 					auteurPageJs.tl(4, "position: 'topright'");
 					auteurPageJs.tl(4, ", zoomControl: true");
-					auteurPageJs.tl(4, ", scrollWheelZoom: false");
+					auteurPageJs.tl(4, ", scrollWheelZoom: true");
 					auteurPageJs.tl(4, ", closePopupOnClick: false");
 					auteurPageJs.tl(4, ", contextmenu: true");
 					auteurPageJs.tl(4, ", contextmenuWidth: 140");
@@ -4108,7 +4108,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(3, "layout['uirevision'] = 'true';");
 					auteurPageJs.tl(3, "var legend = L.control({position: 'bottomright'});");
 					auteurPageJs.tl(3, "legend.onAdd = ", i18nPage.getString(I18n.var_jsLegende), classeNomSimple, ";");
-					auteurPageJs.tl(3, "legend.addTo(window.map", classeNomSimple, ");");
+					// auteurPageJs.tl(3, "legend.addTo(window.map", classeNomSimple, ");");
 					auteurPageJs.tl(3, "L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {");
 					auteurPageJs.tl(4, "maxZoom: 19,");
 					auteurPageJs.tl(4, "attribution: '&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>'");
