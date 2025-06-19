@@ -5735,7 +5735,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				} else if("Polygon".equals(entiteNomSimple)) {
 					wNgsiMethode.tl(3, "JsonArray pointsArray", entiteVarCapitalise, " = new JsonArray();");
 					wNgsiMethode.tl(3, "o.get", entiteVarCapitalise, "().getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray", entiteVarCapitalise, ".add(pointArray));");
-					wNgsiMethode.tl(3, "return new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray", entiteVarCapitalise, ");");
+					wNgsiMethode.tl(3, "return new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", new JsonArray().add(pointsArray", entiteVarCapitalise, "));");
 				} else {
 					wNgsiMethode.tl(3, "return o.get", entiteVarCapitalise, "();");
 				}

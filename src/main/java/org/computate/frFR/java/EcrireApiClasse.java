@@ -2745,6 +2745,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(2, "Boolean ", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), " = ", classePublicLire || classeRoleSession || classeRoleUtilisateur, ";");
 						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", ", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), ").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
 						tl(3, "try {");
+						tl(4, "Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteService), ".getParams().getJsonArray(\"scopes\")).ifPresent(scopes -> {");
+						tl(5, "scopes.stream().map(v -> v.toString()).forEach(scope -> {");
+						tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".addScopes(scope);");
+						tl(5, "});");
+						tl(4, "});");
 						tl(4, classePartsRequeteApi.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
 						tl(4, i18nGlobale.getString(I18n.var_requeteApi), ".setRows(1L);");
 						tl(4, i18nGlobale.getString(I18n.var_requeteApi), ".setNumFound(1L);");
@@ -2922,6 +2927,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(2, i18nGlobale.getString(I18n.var_utilisateur), "(", i18nGlobale.getString(I18n.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", ", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), ").onSuccess(", i18nGlobale.getString(I18n.var_requeteSite), " -> {");
 						tl(3, "try {");
 						if(StringUtils.equals(classeApiTypeMediaRequeteMethode, "application/json")) {
+							tl(4, "Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteService), ".getParams().getJsonArray(\"scopes\")).ifPresent(scopes -> {");
+							tl(5, "scopes.stream().map(v -> v.toString()).forEach(scope -> {");
+							tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".addScopes(scope);");
+							tl(5, "});");
+							tl(4, "});");
 							tl(4, classePartsRequeteApi.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
 							tl(4, i18nGlobale.getString(I18n.var_requeteApi), ".setRows(1L);");
 							tl(4, i18nGlobale.getString(I18n.var_requeteApi), ".setNumFound(1L);");
@@ -3242,7 +3252,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(6, "promise2.complete(", uncapitalizeClasseNomSimple, ");");
 								tl(5, "} catch(Exception ex) {");
 								tl(6, "LOG.error(String.format(\"", classeApiOperationIdMethode, "Future ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-								tl(6, "promise.fail(ex);");
+								tl(6, "promise2.fail(ex);");
 								tl(5, "}");
 								tl(4, "}).onFailure(ex -> {");
 								tl(5, "promise2.fail(ex);");
@@ -3395,7 +3405,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(6, "promise2.complete(", uncapitalizeClasseNomSimple, ");");
 								tl(5, "} catch(Exception ex) {");
 								tl(6, "LOG.error(String.format(\"", classeApiOperationIdMethode, "Future ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-								tl(6, "promise.fail(ex);");
+								tl(6, "promise2.fail(ex);");
 								tl(5, "}");
 								tl(4, "}).onFailure(ex -> {");
 								tl(5, "promise2.fail(ex);");
