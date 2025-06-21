@@ -4049,8 +4049,8 @@ public class IndexerClasse extends RegarderClasseBase {
 									entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonObject;
 								}
 								else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniquePolygon)) {
-									entiteNomSimpleVertxJson = "JsonArray";
-									entiteNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonArray;
+									entiteNomSimpleVertxJson = "JsonObject";
+									entiteNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonObject;
 									entiteListeNomSimpleVertxJson = "JsonObject";
 									entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonObject;
 								}
@@ -4208,7 +4208,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniquePolygon)) {
 								entiteSolrNomCanonique = VAL_nomCanoniqueList + "<" + VAL_nomCanoniquePolygon + ">";
 								entiteSolrNomSimple = "List<" + StringUtils.substringAfterLast(VAL_nomCanoniquePolygon, ".") + ">";
-								entiteSuffixeType = "_strings";
+								entiteSuffixeType = "_location";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueBigDecimal)) {
 								entiteSolrNomCanonique = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueBigDecimal + ">";
@@ -4346,6 +4346,18 @@ public class IndexerClasse extends RegarderClasseBase {
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueString)) {
 								entiteTypeSql = "text[]";
 								entiteListeTypeSql = "text";
+							}
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniquePoint)) {
+								entiteTypeSql = "point[]";
+								entiteListeTypeSql = "point";
+							}
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniquePath)) {
+								entiteTypeSql = "path[]";
+								entiteListeTypeSql = "path";
+							}
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniquePolygon)) {
+								entiteTypeSql = "Geometry(Polygon, 4326)";
+								entiteListeTypeSql = "polygon";
 							}
 							stockerSolr(entiteDoc, "entiteListeTypeSql", entiteListeTypeSql);
 						}
@@ -4561,6 +4573,14 @@ public class IndexerClasse extends RegarderClasseBase {
 								entiteListeFiwareType = "string";
 								entiteNgsiType = "Property";
 								entiteListeTypeJson = "string";
+							}
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniquePolygon)) {
+								entiteTypeJson = "object";
+								if(entiteFiwareType == null)
+									entiteFiwareType = "object";
+								entiteNgsiType = "GeoProperty";
+								if(entiteFormatHtm == null)
+									entiteFormatHtm = "default";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueString)) {
 								entiteTypeJson = "array";

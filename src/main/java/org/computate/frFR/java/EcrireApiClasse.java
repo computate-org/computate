@@ -802,6 +802,23 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //	
 //							Integer tBase = 3;
 
+							///////////////////
+							// wApiSqlSelect //
+							///////////////////
+							if(classeSauvegarde && BooleanUtils.isTrue(entiteAttribuer)) {
+								if(!wApiSqlSelect.getEmpty())
+									wApiSqlSelect.s(", ");
+								wApiSqlSelect.s(entiteVar);
+							} else if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
+								if(!wApiSqlSelect.getEmpty())
+									wApiSqlSelect.s(", ");
+								if(VAL_nomCanoniquePolygon.equals(entiteNomCanoniqueGenerique))
+									wApiSqlSelect.s("ST_AsGeoJSON(", entiteVar, ") as ", entiteVar);
+								else
+									wApiSqlSelect.s(entiteVar);
+							}
+							
+
 							////////////////////////
 							// codeApiGenererPost //
 							////////////////////////
@@ -1845,7 +1862,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(7, "o2.set", entiteVarCapitalise, "(jsonObject.get", entiteNomSimpleVertxJson, "(", i18nGlobale.getString(I18n.var_entite), "Var));");
 										tl(7, "if(bParams.size() > 0)");
 										tl(8, "bSql.append(\", \");");
-										tl(7, "bSql.append(", classeNomSimple, ".VAR_", entiteVar, " + \"=$\" + num);");
+										if(VAL_nomCanoniquePolygon.equals(entiteNomCanoniqueGenerique))
+											tl(7, "bSql.append(String.format(\"%s=ST_GeomFromGeoJSON($%s)\", ", classeNomSimple, ".VAR_", entiteVar, ", num));");
+										else
+											tl(7, "bSql.append(", classeNomSimple, ".VAR_", entiteVar, " + \"=$\" + num);");
 										tl(7, "num++;");
 										tl(7, "bParams.add(o2.sql", entiteVarCapitalise, "());");
 										tl(6, "break;");
@@ -4590,7 +4610,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), " = o.get", i18nGlobale.getString(I18n.var_RequeteSite), "_();");
 				tl(3, "SqlConnection ", i18nGlobale.getString(I18n.var_connexionSql), " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_ConnexionSql), "();");
 				tl(3, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
-				tl(3, i18nGlobale.getString(I18n.var_connexionSql), ".preparedQuery(\"SELECT * FROM ", classeNomSimple, " WHERE ", classeVarClePrimaire, "=$1\")");
+				tl(3, i18nGlobale.getString(I18n.var_connexionSql), ".preparedQuery(\"SELECT ", wApiSqlSelect, " FROM ", classeNomSimple, " WHERE ", classeVarClePrimaire, "=$1\")");
 				tl(5, ".collecting(Collectors.toList())");
 				tl(5, ".execute(Tuple.of(", classeVarClePrimaire, ")");
 				tl(5, ").onSuccess(", i18nGlobale.getString(I18n.var_resultat), " -> {");
@@ -4722,17 +4742,19 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(5, "if(value != null) {");
 				tl(6, "Object ngsildVal = ", classeNomSimple, ".ngsi", classeNomSimple, "(var, o);");
 				tl(6, "String ngsildType = ", classeNomSimple, ".ngsiType(var);");
-				tl(6, "entityBody.put(displayName");
-				tl(8, ", new JsonObject()");
-				tl(8, ".put(\"type\", ngsildType)");
-				tl(8, ".put(\"value\", ngsildVal)");
-				tl(8, ".put(\"observedAt\", observedAtStr)");
-				tl(8, ");");
+				tl(6, "if(ngsildVal != null) {");
+				tl(7, "entityBody.put(displayName");
+				tl(9, ", new JsonObject()");
+				tl(9, ".put(\"type\", ngsildType)");
+				tl(9, ".put(\"value\", ngsildVal)");
+				tl(9, ".put(\"observedAt\", observedAtStr)");
+				tl(9, ");");
+				tl(6, "}");
 				tl(5, "}");
 				tl(4, "}");
 				tl(3, "}");
 				tl(3, "entityArray.add(entityBody);");
-				tl(3, "LOG.info(entityArray.encodePrettily());");
+				tl(3, "LOG.debug(entityArray.encodePrettily());");
 				tl(3, "webClient.post(");
 				tl(5, "Integer.parseInt(config.getString(ComputateConfigKeys.CONTEXT_BROKER_PORT))");
 				tl(5, ", config.getString(ComputateConfigKeys.CONTEXT_BROKER_HOST_NAME)");
