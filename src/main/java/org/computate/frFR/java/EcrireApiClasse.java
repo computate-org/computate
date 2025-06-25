@@ -1992,26 +1992,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(4, "try {");
 								tl(5, "HttpResponse<Buffer> authorizationDecision = authorizationDecisionResponse.result();");
 								tl(5, "JsonArray scopes = authorizationDecisionResponse.failed() ? new JsonArray() : authorizationDecision.bodyAsJsonArray().stream().findFirst().map(decision -> ((JsonObject)decision).getJsonArray(\"scopes\")).orElse(new JsonArray());");
-								if(StringUtils.equals(classeApiMethodeMethode, "GET")) {
-								} else {
-									if(classeRoleUtilisateur) {
-										tl(5, "scopes.add(\"GET\");");
-										tl(5, "scopes.add(\"PATCH\");");
-									}
-									tl(5, "if(authorizationDecisionResponse.failed() || !scopes.contains(\"", classeApiMethodeMethode, "\")) {");
-									tl(6, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
-									tl(6, "eventHandler.handle(Future.succeededFuture(");
-									tl(7, "new ServiceResponse(403, \"FORBIDDEN\",");
-									tl(8, "Buffer.buffer().appendString(");
-									tl(9, "new JsonObject()");
-									tl(10, ".put(\"errorCode\", \"403\")");
-									tl(10, ".put(\"errorMessage\", msg)");
-									tl(10, ".encodePrettily()");
-									tl(9, "), MultiMap.caseInsensitiveMultiMap()");
-									tl(7, ")");
-									tl(6, "));");
-									tl(5, "}");
-								}
 								if(classeRessourcesAutorisation.size() > 0) {
 									tl(5, "if(!scopes.contains(\"", classeApiMethodeMethode, "\")) {");
 									tl(6, "//");
@@ -2044,7 +2024,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									tl(5, "}");
 									tl(5, "{");
 								} else {
-									tl(5, "} else {");
+									tl(5, "{");
 								}
 								tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".setScopes(scopes.stream().map(o -> o.toString()).collect(Collectors.toList()));");
 								tl(6, "List<String> scopes2 = ", i18nGlobale.getString(I18n.var_requeteSite), ".getScopes();");
@@ -2212,26 +2192,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(4, "try {");
 								tl(5, "HttpResponse<Buffer> authorizationDecision = authorizationDecisionResponse.result();");
 								tl(5, "JsonArray scopes = authorizationDecisionResponse.failed() ? new JsonArray() : authorizationDecision.bodyAsJsonArray().stream().findFirst().map(decision -> ((JsonObject)decision).getJsonArray(\"scopes\")).orElse(new JsonArray());");
-								if(StringUtils.equals(classeApiMethodeMethode, "GET")) {
-								} else {
-									if(classeRoleUtilisateur) {
-										tl(5, "scopes.add(\"GET\");");
-										tl(5, "scopes.add(\"PATCH\");");
-									}
-									tl(5, "if(authorizationDecisionResponse.failed() ", classeRoleUtilisateur && StringUtils.equals(classeApiMethodeMethode, "PATCH") ? "&&" : "||", " !scopes.contains(\"", classeApiMethodeMethode, "\")) {");
-									tl(6, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
-									tl(6, "eventHandler.handle(Future.succeededFuture(");
-									tl(7, "new ServiceResponse(403, \"FORBIDDEN\",");
-									tl(8, "Buffer.buffer().appendString(");
-									tl(9, "new JsonObject()");
-									tl(10, ".put(\"errorCode\", \"403\")");
-									tl(10, ".put(\"errorMessage\", msg)");
-									tl(10, ".encodePrettily()");
-									tl(9, "), MultiMap.caseInsensitiveMultiMap()");
-									tl(7, ")");
-									tl(6, "));");
-									tl(5, "}");
-								}
 								if(classeRessourcesAutorisation.size() > 0) {
 									tl(5, "if(!scopes.contains(\"", classeApiMethodeMethode, "\")) {");
 									tl(6, "//");
@@ -2262,8 +2222,26 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									tl(7, "scopes.add(\"", classeApiMethodeMethode, "\");");
 									tl(6, "}");
 									tl(5, "}");
+								}
+								if(StringUtils.equals(classeApiMethodeMethode, "GET")) {
 									tl(5, "{");
 								} else {
+									if(classeRoleUtilisateur) {
+										tl(5, "scopes.add(\"GET\");");
+										tl(5, "scopes.add(\"PATCH\");");
+									}
+									tl(5, "if(authorizationDecisionResponse.failed() && !scopes.contains(\"", classeApiMethodeMethode, "\")) {");
+									tl(6, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
+									tl(6, "eventHandler.handle(Future.succeededFuture(");
+									tl(7, "new ServiceResponse(403, \"FORBIDDEN\",");
+									tl(8, "Buffer.buffer().appendString(");
+									tl(9, "new JsonObject()");
+									tl(10, ".put(\"errorCode\", \"403\")");
+									tl(10, ".put(\"errorMessage\", msg)");
+									tl(10, ".encodePrettily()");
+									tl(9, "), MultiMap.caseInsensitiveMultiMap()");
+									tl(7, ")");
+									tl(6, "));");
 									tl(5, "} else {");
 								}
 								tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".setScopes(scopes.stream().map(o -> o.toString()).collect(Collectors.toList()));");
