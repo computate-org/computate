@@ -220,6 +220,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		classeCheminGenApiServiceImpl = doc.getString("classeCheminGenApiServiceImpl_" + langueNom + "_stored_string"); 
 		classeCheminApiServiceImpl = doc.getString("classeCheminApiServiceImpl_" + langueNom + "_stored_string"); 
 		classeCheminGenApiService = doc.getString("classeCheminGenApiService_" + langueNom + "_stored_string"); 
+		classeAuthRessource = doc.getString("classeAuthRessource_" + langueNom + "_stored_string");
 
 		if(classeCheminApiEnsembleInfo != null)
 			classeFichierApiEnsembleInfo = new File(classeCheminApiEnsembleInfo);

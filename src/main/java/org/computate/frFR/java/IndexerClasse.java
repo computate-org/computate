@@ -5958,6 +5958,10 @@ public class IndexerClasse extends RegarderClasseBase {
 					}
 				}
 
+				if(classeAuth) {
+					indexerStockerSolr(langueNom, classeDoc, "classeAuthRessource", regexLangue(langueNom, "^" + i18nGlobale.getString(I18n.var_AuthRessource), classeCommentaire, StringUtils.upperCase(classeNomSimple)));
+				}
+
 				JsonObject apiMethodeObjet = regexYamlObject(i18nGlobale.getString(I18n.var_ApiMethode), classeCommentaire);
 
 				if(classeUriPageRecherche != null && !apiMethodeObjet.containsKey(i18nGlobale.getString(I18n.var_PageRecherche))) {
