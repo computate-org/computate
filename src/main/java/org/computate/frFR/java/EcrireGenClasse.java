@@ -170,6 +170,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: classSimpleName
 	 */
 	protected String classeNomSimple;
+	protected String classeAuthRessource;
 	protected String classePageTemplate;
 	protected String classeGenPageTemplate;
 	protected String classePageSuperTemplate;
@@ -3207,7 +3208,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: saves
 	 * r: definir
 	 * r.enUS: define
-	 */   
+	 */
 	public void genCodeEntite(String langueNom, JsonObject langueConfig) throws Exception {
 		o = auteurGenClasseFin;
 		Integer partNumero = (Integer)doc.getInteger("partNumero_stored_int");
@@ -6465,6 +6466,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		l();
 		tl(1, "public static final String ", langueConfig.getString(I18n.var_CLASSE_NOM_SIMPLE), " = \"", classeNomSimple, "\";");
 		tl(1, "public static final String ", langueConfig.getString(I18n.var_CLASSE_NOM_CANONIQUE), " = \"", classeNomCanonique, "\";");
+		tl(1, "public static final String ", langueConfig.getString(I18n.var_CLASSE_AUTH_RESSOURCE), " = \"", classeAuthRessource, "\";");
 		if(classeApi) {
 			tl(1, "public static final String ", i18nGlobale.getString(I18n.var_CLASSE_API_ADDRESSE), "_", classeNomSimple, " = \"", siteNom, "-", classeLangueNom, "-", classeNomSimple, "\";");
 			tl(1, "public static String get", i18nGlobale.getString(I18n.var_ClasseApiAddresse), "() {");
