@@ -673,8 +673,8 @@ public class RegarderRepertoire extends AbstractVerticle {
 	protected void traiterEvenements(JsonObject classeLangueConfig) {
 		VertxBuilder vertxBuilder = Vertx.builder();
 		VertxOptions vertxOptions = new VertxOptions();
-		Long vertxWarningExceptionSeconds = configuration.getLong(ComputateConfigKeys.VERTX_WARNING_EXCEPTION_SECONDS);
-		Long vertxMaxEventLoopExecuteTime = configuration.getLong(ComputateConfigKeys.VERTX_MAX_EVENT_LOOP_EXECUTE_TIME);
+		Long vertxWarningExceptionSeconds = Long.MAX_VALUE;
+		Long vertxMaxEventLoopExecuteTime = Long.MAX_VALUE;
 		Long vertxMaxWorkerExecuteTime = Long.MAX_VALUE;
 		vertxOptions.setWarningExceptionTime(vertxWarningExceptionSeconds);
 		vertxOptions.setWarningExceptionTimeUnit(TimeUnit.SECONDS);
@@ -820,7 +820,7 @@ public class RegarderRepertoire extends AbstractVerticle {
 			vertx.eventBus().consumer(REGARDER_CLASSE_ADDRESSE, message -> {
 				regarderClasseEvenement(message);
 			});
-			Long vertxMaxWorkerExecuteTime = configuration.getLong(ComputateConfigKeys.VERTX_MAX_WORKER_EXECUTE_TIME);
+			Long vertxMaxWorkerExecuteTime = Long.MAX_VALUE;
 			Integer workerPoolSize = 1;
 			workerExecutor = vertx.createSharedWorkerExecutor(String.format("%s-worker", Thread.currentThread().getName()), workerPoolSize, vertxMaxWorkerExecuteTime, TimeUnit.SECONDS);
 			startPromise.complete();
