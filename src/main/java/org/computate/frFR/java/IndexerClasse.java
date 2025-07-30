@@ -3734,8 +3734,8 @@ public class IndexerClasse extends RegarderClasseBase {
 									indexerStockerSolr(entiteDoc, "entiteAttribuerAttribuer", BooleanUtils.isTrue((Boolean)docEntite.get("entiteAttribuer_stored_boolean")));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomSimple", entiteAttribuerNomSimple);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomCanonique", entiteAttribuerNomCanonique);
-									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerEtendModeleBase", entiteAttribuerEtendModeleBase);
-									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerEtendResultatBase", entiteAttribuerEtendResultatBase);
+									indexerStockerSolr(entiteDoc, "entiteAttribuerEtendModeleBase", entiteAttribuerEtendModeleBase);
+									indexerStockerSolr(entiteDoc, "entiteAttribuerEtendResultatBase", entiteAttribuerEtendResultatBase);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomCanoniqueGenApiServiceImpl", entiteAttribuerNomCanoniqueGenApiServiceImpl);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomSimpleGenApiServiceImpl", entiteAttribuerNomSimpleGenApiServiceImpl);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomSimpleApiServiceImpl", entiteAttribuerNomSimpleApiServiceImpl);

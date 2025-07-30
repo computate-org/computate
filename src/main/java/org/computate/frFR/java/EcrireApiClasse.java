@@ -447,6 +447,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							entiteNomSimpleComplet = (String)doc.get("entiteNomSimpleComplet_" + classeLangueNom + "_stored_string");
 							entiteNomSimpleCompletGenerique = (String)doc.get("entiteNomSimpleCompletGenerique_" + classeLangueNom + "_stored_string");
 							entiteNomSimple = (String)doc.get("entiteNomSimple_" + classeLangueNom + "_stored_string");
+							entiteAttribuerEtendModeleBase = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuerEtendModeleBase_stored_boolean"));
+							entiteAttribuerEtendResultatBase = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuerEtendResultatBase_stored_boolean"));
 							Boolean entiteEstListe = (StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()));
 
 							/////////////////////////
