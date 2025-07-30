@@ -1965,6 +1965,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								) {
 							if(authPolitiqueGranulee) {
 								tl(3, "String ", classeVarId, " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\").getString(\"", classeVarId, "\");");
+								if(classeVarId != null && classeAuthRessource != null && !classeVarId.equals(classeAuthRessource))
+									tl(3, "String ", classeAuthRessource, " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\").getString(\"", classeAuthRessource, "\");");
 								tl(3, "MultiMap form = MultiMap.caseInsensitiveMultiMap();");
 								tl(3, "form.add(\"grant_type\", \"urn:ietf:params:oauth:grant-type:uma-ticket\");");
 								tl(3, "form.add(\"audience\", config.getString(ComputateConfigKeys.AUTH_CLIENT));");
@@ -1977,7 +1979,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(3, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", \"PATCH\"));");
 								tl(3, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", \"PUT\"));");
 								tl(3, "if(", classeVarId, " != null)");
-								tl(4, "form.add(\"permission\", String.format(\"%s-%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", ", classeVarId, ", \"", classeApiMethodeMethode, "\"));");
+								if(classeAuthRessource == null) {
+									tl(4, "form.add(\"permission\", String.format(\"%s-%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", ", classeVarId, ", \"", classeApiMethodeMethode, "\"));");
+								} else {
+									tl(4, "form.add(\"permission\", String.format(\"%s#%s\", ", classeVarId, ", \"", classeApiMethodeMethode, "\"));");
+								}
 								if(classeRoleUtilisateur) {
 									tl(3, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_PublicLire), "(", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), ");");
 								}
@@ -2002,7 +2008,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									for(String classeRessourceAutorisation : classeRessourcesAutorisation) {
 
 										tl(6, "groups.stream().map(group -> {");
-										tl(9, "Matcher mPermission = Pattern.compile(\"^/", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-(.*)-", classeApiMethodeMethode, "$\").matcher(group);");
+										tl(9, "Matcher mPermission = Pattern.compile(\"^/(.*-?", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-(.*))-(", classeApiMethodeMethode, ")$\").matcher(group);");
 										tl(9, "return mPermission.find() ? mPermission.group(1) : null;");
 										tl(8, "}).filter(v -> v != null).forEach(", i18nGlobale.getString(I18n.var_valeur), " -> {");
 										tl(9, "fqs.add(String.format(\"%s:%s\", \"", StringUtils.substringAfter(classeRessourceAutorisation, "-"), "\", ", i18nGlobale.getString(I18n.var_valeur), "));");
@@ -2163,6 +2169,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							if(authPolitiqueGranulee) {
 								if(classeVarId != null)
 									tl(3, "String ", classeVarId, " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\").getString(\"", classeVarId, "\");");
+								if(classeVarId != null && classeAuthRessource != null && !classeVarId.equals(classeAuthRessource))
+									tl(3, "String ", classeAuthRessource, " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\").getString(\"", classeAuthRessource, "\");");
 								tl(3, "MultiMap form = MultiMap.caseInsensitiveMultiMap();");
 								tl(3, "form.add(\"grant_type\", \"urn:ietf:params:oauth:grant-type:uma-ticket\");");
 								tl(3, "form.add(\"audience\", config.getString(ComputateConfigKeys.AUTH_CLIENT));");
@@ -2176,7 +2184,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(3, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", \"PUT\"));");
 								if(classeVarId != null) {
 									tl(3, "if(", classeVarId, " != null)");
-									tl(4, "form.add(\"permission\", String.format(\"%s-%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", ", classeVarId, ", \"", classeApiMethodeMethode, "\"));");
+									if(classeAuthRessource == null) {
+										tl(4, "form.add(\"permission\", String.format(\"%s-%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", ", classeVarId, ", \"", classeApiMethodeMethode, "\"));");
+									} else {
+										tl(4, "form.add(\"permission\", String.format(\"%s#%s\", ", classeVarId, ", \"", classeApiMethodeMethode, "\"));");
+									}
 								}
 								if(classeRoleUtilisateur) {
 									tl(3, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_PublicLire), "(", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), ");");
@@ -2202,7 +2214,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									for(String classeRessourceAutorisation : classeRessourcesAutorisation) {
 
 										tl(6, "groups.stream().map(group -> {");
-										tl(9, "Matcher mPermission = Pattern.compile(\"^/", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-(.*)-", classeApiMethodeMethode, "$\").matcher(group);");
+										tl(9, "Matcher mPermission = Pattern.compile(\"^/(.*-?", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-(.*))-(", classeApiMethodeMethode, ")$\").matcher(group);");
 										tl(9, "return mPermission.find() ? mPermission.group(1) : null;");
 										tl(8, "}).filter(v -> v != null).forEach(", i18nGlobale.getString(I18n.var_valeur), " -> {");
 										tl(9, "fqs.add(String.format(\"%s:%s\", \"", StringUtils.substringAfter(classeRessourceAutorisation, "-"), "\", ", i18nGlobale.getString(I18n.var_valeur), "));");
