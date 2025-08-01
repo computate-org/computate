@@ -984,7 +984,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(6, "break;");
 							} else if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
 								tl(5, "case ", classeNomSimple, ".VAR_", entiteVar, ":");
-								tl(6, "o2.set", entiteVarCapitalise, "(jsonObject.get", entiteNomSimpleVertxJson, "(", i18nGlobale.getString(I18n.var_entite), "Var));");
+								if(StringUtils.equals(entiteNomSimpleVertxJson, "Boolean"))
+									tl(6, "o2.set", entiteVarCapitalise, "(jsonObject.getString(", i18nGlobale.getString(I18n.var_entite), "Var));");
+								else
+									tl(6, "o2.set", entiteVarCapitalise, "(jsonObject.get", entiteNomSimpleVertxJson, "(", i18nGlobale.getString(I18n.var_entite), "Var));");
 								tl(6, "if(bParams.size() > 0) {");
 								tl(7, "bSql.append(\", \");");
 								tl(6, "}");
@@ -1875,7 +1878,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									else {
 						
 										tl(5, "case \"set", entiteVarCapitalise, "\":");
-										tl(7, "o2.set", entiteVarCapitalise, "(jsonObject.get", entiteNomSimpleVertxJson, "(", i18nGlobale.getString(I18n.var_entite), "Var));");
+										if(StringUtils.equals(entiteNomSimpleVertxJson, "Boolean"))
+											tl(7, "o2.set", entiteVarCapitalise, "(jsonObject.getString(", i18nGlobale.getString(I18n.var_entite), "Var));");
+										else
+											tl(7, "o2.set", entiteVarCapitalise, "(jsonObject.get", entiteNomSimpleVertxJson, "(", i18nGlobale.getString(I18n.var_entite), "Var));");
 										tl(7, "if(bParams.size() > 0)");
 										tl(8, "bSql.append(\", \");");
 										tl(7, "bSql.append(", classeNomSimple, ".VAR_", entiteVar, " + \"=$\" + num);");
