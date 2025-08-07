@@ -1311,6 +1311,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											wJsRechercheInit.tl(5, "document.querySelector('#pageFacetPivot", classeNomSimple, "_", entiteVar, "')?.addEventListener('", "sl-".equals(composantsWebPrefixe) ? "sl-" : "", "change', (event) => {");
 											wJsRechercheInit.tl(6, "facetPivotChange('", classeNomSimple, "', event.currentTarget);");
 											wJsRechercheInit.tl(5, "});");
+											wJsRechercheInit.tl(5, "document.querySelector('#pageFacetRangeGap", classeNomSimple, "_", entiteVar, "')?.addEventListener('", "sl-".equals(composantsWebPrefixe) ? "sl-" : "", "change', (event) => {");
+											wJsRechercheInit.tl(6, "facetRangeGapChange('", classeNomSimple, "', event.currentTarget);");
+											wJsRechercheInit.tl(5, "});");
 										}
 
 										if("Boolean".equals(entiteNomSimple) && entiteVar.equals(langueConfig.getString(I18n.var_archive))) {
@@ -3061,6 +3064,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(3, "Promise.all([");
 				tl(4, "customElements.whenDefined('", composantsWebPrefixe, "button')");
 				tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "input')");
+				tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "select')");
 				// tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "checkbox')");
 				// tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "option')");
 				// tl(4, ", customElements.whenDefined('select')");
@@ -3187,6 +3191,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						tl(4, "});");
 					}
 				}
+				tl(0, "{%- block htmScriptInit", classePageNomSimple, " %}{%- endblock htmScriptInit", classePageNomSimple, " %}");
 				tl(3, "});");
 				tl(2, "</script>");
 				tl(0, "{%- endblock htmScript", classePageNomSimple, " %}");
@@ -3543,7 +3548,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
 					rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
 					rechercheSolr.addFilterQuery("(entiteSuggere_indexed_boolean:true OR entiteAttribuer_indexed_boolean:true)");
-		      rechercheSolr.addSort("partNumero_indexed_int", ORDER.asc);
+					rechercheSolr.addSort("partNumero_indexed_int", ORDER.asc);
 					QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
 					SolrDocumentList rechercheListe = rechercheReponse.getResults();
 		
@@ -3622,20 +3627,22 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									auteurPageJs.l();
 									auteurPageJs.tl(0, "function ", i18nPage.getString(I18n.var_suggere), classeApiClasseNomSimple, entiteVarCapitalise, "($", i18nPage.getString(I18n.var_formulaireFiltres), ", $list, target) {");
 									auteurPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {");
-									auteurPageJs.tl(2, "$list.innerHTML = '';");
-									auteurPageJs.tl(2, "data['list'].forEach((o, i) => {");
-									auteurPageJs.tl(3, "var $i = document.querySelector('", classeIcone, "');");
-									auteurPageJs.t(3, "var $span = document.createElement('span');");
-									auteurPageJs.t(3, "$span.setAttribute('class', '');");
+									auteurPageJs.tl(2, "if($list) {");
+									auteurPageJs.tl(3, "$list.innerHTML = '';");
+									auteurPageJs.tl(3, "data['list'].forEach((o, i) => {");
+									auteurPageJs.tl(4, "var $i = document.querySelector('", classeIcone, "');");
+									auteurPageJs.t(4, "var $span = document.createElement('span');");
+									auteurPageJs.t(4, "$span.setAttribute('class', '');");
 									if(classeVarTitre != null)
-										auteurPageJs.tl(3, "$span.innerText = o['", classeVarTitre, "'];");
-									auteurPageJs.tl(3, "var $li = document.createElement('li');");
-									auteurPageJs.tl(3, "var $a = document.createElement('a').setAttribute('href', o['", classeVarUrlPageEdition, "']);");
-									auteurPageJs.tl(3, "$a.append($i);");
-									auteurPageJs.tl(3, "$a.append($span);");
-									auteurPageJs.tl(3, "$li.append($a);");
-									auteurPageJs.tl(3, "$list.append($li);");
-									auteurPageJs.tl(2, "});");
+										auteurPageJs.tl(4, "$span.innerText = o['", classeVarTitre, "'];");
+									auteurPageJs.tl(4, "var $li = document.createElement('li');");
+									auteurPageJs.tl(4, "var $a = document.createElement('a').setAttribute('href', o['", classeVarUrlPageEdition, "']);");
+									auteurPageJs.tl(4, "$a.append($i);");
+									auteurPageJs.tl(4, "$a.append($span);");
+									auteurPageJs.tl(4, "$li.append($a);");
+									auteurPageJs.tl(4, "$list.append($li);");
+									auteurPageJs.tl(3, "});");
+									auteurPageJs.tl(2, "}");
 									auteurPageJs.tl(1, "};");
 									auteurPageJs.tl(1, "error = function( jqXhr, target2 ) {};");
 									auteurPageJs.tl(1, i18nPage.getString(I18n.var_rechercher), classeApiClasseNomSimple, "Vals($", i18nPage.getString(I18n.var_formulaireFiltres), ", target, success, error);");
@@ -3646,72 +3653,73 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									auteurPageJs.l();
 									auteurPageJs.tl(0, "function ", i18nPage.getString(I18n.var_suggere), classeApiClasseNomSimple, entiteVarCapitalise, "(", i18nPage.getString(I18n.var_filtres), ", $list, ", classeVarId, " = null, ", entiteVar, " = null, ", i18nPage.getString(I18n.var_attribuer), "=true, target) {");
 									auteurPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {");
-									auteurPageJs.tl(2, "$list.innerHTML = '';");
-									auteurPageJs.tl(2, "data['list'].forEach((o, i) => {");
-									auteurPageJs.tl(3, "var iTemplate = document.createElement('template');");
-									auteurPageJs.tl(3, "iTemplate.innerHTML = '", entiteAttribuerContexteIcone, "';");
-									auteurPageJs.tl(3, "var $i = iTemplate.content;");
-									auteurPageJs.tl(3, "var $span = document.createElement('span');");
-									auteurPageJs.tl(3, "$span.setAttribute('class', '');");
-									auteurPageJs.tl(3, "$span.innerText = ");
+									auteurPageJs.tl(2, "if($list) {");
+									auteurPageJs.tl(3, "$list.innerHTML = '';");
+									auteurPageJs.tl(3, "data['list'].forEach((o, i) => {");
+									auteurPageJs.tl(4, "var iTemplate = document.createElement('template');");
+									auteurPageJs.tl(4, "iTemplate.innerHTML = '", entiteAttribuerContexteIcone, "';");
+									auteurPageJs.tl(4, "var $i = iTemplate.content;");
+									auteurPageJs.tl(4, "var $span = document.createElement('span');");
+									auteurPageJs.tl(4, "$span.setAttribute('class', '');");
+									auteurPageJs.tl(4, "$span.innerText = ");
 									if(entiteAttribuerVarTitre != null)
 										auteurPageJs.s("o['", entiteAttribuerVarTitre, "']");
 									auteurPageJs.l(";");
 
 									if(entiteAttribuerVarUrlPageEdition != null) {
-										auteurPageJs.tl(3, "var $a = document.createElement('a');");
+										auteurPageJs.tl(4, "var $a = document.createElement('a');");
 										// auteurPageJs.tl(3, "$a.setAttribute('id', o['", entiteAttribuerVar, "']);");
-										auteurPageJs.tl(3, "$a.setAttribute('href', o['", entiteAttribuerVarUrlPageEdition, "']);");
+										auteurPageJs.tl(4, "$a.setAttribute('href', o['", entiteAttribuerVarUrlPageEdition, "']);");
 									} else {
-										auteurPageJs.tl(3, "var $a = document.createElement('span');");
+										auteurPageJs.tl(4, "var $a = document.createElement('span');");
 									}
 
-									auteurPageJs.tl(3, "$a.append($i);");
-									auteurPageJs.tl(3, "$a.append($span);");
-									auteurPageJs.tl(3, "var val = o['", entiteAttribuerVar, "'];");
-									auteurPageJs.tl(3, "var checked = val == null ? false : (Array.isArray(val) ? val.includes(", classeVarId, ".toString()) : val == ", entiteVar, ");");
-									auteurPageJs.tl(3, "var $input = document.createElement('", composantsWebPrefixe, "checkbox');");
-									auteurPageJs.tl(3, "$input.setAttribute('id', '", classeApiMethodeMethode, "_", entiteVar, "_' + ", classeVarId, " + '_", entiteAttribuerVar, "_' + o['", entiteAttribuerVar, "']);");
-									auteurPageJs.tl(3, "$input.setAttribute('name', '", entiteAttribuerVar, "');");
-									auteurPageJs.tl(3, "$input.setAttribute('value', o['", entiteAttribuerVar, "']);");
-									auteurPageJs.tl(3, "$input.setAttribute('class', '", i18nPage.getString(I18n.var_valeur), entiteVarCapitalise, " ');");
+									auteurPageJs.tl(4, "$a.append($i);");
+									auteurPageJs.tl(4, "$a.append($span);");
+									auteurPageJs.tl(4, "var val = o['", entiteAttribuerVar, "'];");
+									auteurPageJs.tl(4, "var checked = val == null ? false : (Array.isArray(val) ? val.includes(", classeVarId, ".toString()) : val == ", entiteVar, ");");
+									auteurPageJs.tl(4, "var $input = document.createElement('", composantsWebPrefixe, "checkbox');");
+									auteurPageJs.tl(4, "$input.setAttribute('id', '", classeApiMethodeMethode, "_", entiteVar, "_' + ", classeVarId, " + '_", entiteAttribuerVar, "_' + o['", entiteAttribuerVar, "']);");
+									auteurPageJs.tl(4, "$input.setAttribute('name', '", entiteAttribuerVar, "');");
+									auteurPageJs.tl(4, "$input.setAttribute('value', o['", entiteAttribuerVar, "']);");
+									auteurPageJs.tl(4, "$input.setAttribute('class', '", i18nPage.getString(I18n.var_valeur), entiteVarCapitalise, " ');");
 
-									auteurPageJs.tl(3, "if(", classeVarId, " != null) {");
-									auteurPageJs.tl(4, "$input.addEventListener('", "sl-".equals(composantsWebPrefixe) ? "sl-" : "", "change', function(event) {");
+									auteurPageJs.tl(4, "if(", classeVarId, " != null) {");
+									auteurPageJs.tl(5, "$input.addEventListener('", "sl-".equals(composantsWebPrefixe) ? "sl-" : "", "change', function(event) {");
 									if("array".equals(entiteTypeJson)) {
-										auteurPageJs.tl(5, entiteOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeVarId, ":' + ", classeVarId, " }], { [(event.target.checked ? 'add' : 'remove') + '", entiteVarCapitalise, "']: o['", entiteAttribuerVar, "'] }");
+										auteurPageJs.tl(6, entiteOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeVarId, ":' + ", classeVarId, " }], { [(event.target.checked ? 'add' : 'remove') + '", entiteVarCapitalise, "']: o['", entiteAttribuerVar, "'] }");
 									}
 									else {
-										auteurPageJs.tl(5, entiteOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeVarId, ":' + ", classeVarId, " }], { [(event.target.checked ? 'set' : 'remove') + '", entiteVarCapitalise, "']: o['", entiteAttribuerVar, "'] }");
+										auteurPageJs.tl(6, entiteOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeVarId, ":' + ", classeVarId, " }], { [(event.target.checked ? 'set' : 'remove') + '", entiteVarCapitalise, "']: o['", entiteAttribuerVar, "'] }");
 									}
-									auteurPageJs.tl(7, ", target");
-									auteurPageJs.tl(7, ", function(", i18nPage.getString(I18n.var_reponse), ", target) {");
-									auteurPageJs.tl(8, i18nPage.getString(I18n.var_ajouterLueur), "(target);");
-									auteurPageJs.tl(8, i18nPage.getString(I18n.var_suggere), classeApiClasseNomSimple, entiteVarCapitalise, "(", i18nPage.getString(I18n.var_filtres), ", $list, ", classeVarId, ", ", entiteVar, ", ", i18nPage.getString(I18n.var_attribuer), ", target);");
-									auteurPageJs.tl(7, "}");
-									auteurPageJs.tl(7, ", function(", i18nPage.getString(I18n.var_reponse), ", target) { ", i18nPage.getString(I18n.var_ajouterErreur), "(target); }");
-									auteurPageJs.tl(5, ");");
-									auteurPageJs.tl(4, "});");
+									auteurPageJs.tl(8, ", target");
+									auteurPageJs.tl(8, ", function(", i18nPage.getString(I18n.var_reponse), ", target) {");
+									auteurPageJs.tl(9, i18nPage.getString(I18n.var_ajouterLueur), "(target);");
+									auteurPageJs.tl(9, i18nPage.getString(I18n.var_suggere), classeApiClasseNomSimple, entiteVarCapitalise, "(", i18nPage.getString(I18n.var_filtres), ", $list, ", classeVarId, ", ", entiteVar, ", ", i18nPage.getString(I18n.var_attribuer), ", target);");
+									auteurPageJs.tl(8, "}");
+									auteurPageJs.tl(8, ", function(", i18nPage.getString(I18n.var_reponse), ", target) { ", i18nPage.getString(I18n.var_ajouterErreur), "(target); }");
+									auteurPageJs.tl(6, ");");
+									auteurPageJs.tl(5, "});");
 
 									// auteurPageJs.tl(4, "$input.setAttribute('onclick', '", i18nPage.getString(I18n.var_enleverLueur), "(this); ');");
-									auteurPageJs.tl(3, "}");
+									auteurPageJs.tl(4, "}");
 
-									auteurPageJs.tl(3, "if(checked)");
-									auteurPageJs.tl(4, "$input.setAttribute('checked', 'checked');");
-									auteurPageJs.tl(3, "var $li = document.createElement('li');");
+									auteurPageJs.tl(4, "if(checked)");
+									auteurPageJs.tl(5, "$input.setAttribute('checked', 'checked');");
+									auteurPageJs.tl(4, "var $li = document.createElement('li');");
 									if(entiteAttribuerTrisVar != null && entiteAttribuerTrisSuffixeType != null && entiteAttribuerTrisSuffixeType.size() > 0 && "_double".equals(entiteAttribuerTrisSuffixeType.get(0))) {
 										for(String entiteAttribuerTriVar : entiteAttribuerTrisVar) {
-											auteurPageJs.tl(3, "var ", entiteAttribuerTriVar, " = o['", entiteAttribuerTriVar, "'];");
+											auteurPageJs.tl(4, "var ", entiteAttribuerTriVar, " = o['", entiteAttribuerTriVar, "'];");
 										}
 										String entiteAttribuerTriVarAncien = null;
-										Integer k = 3;
+										Integer k = 4;
 										for(String entiteAttribuerTriVar : entiteAttribuerTrisVar) {
 											if(entiteAttribuerTriVarAncien != null)
-												k = 4;
+												k = 5;
 
 											auteurPageJs.l();
 											if(entiteAttribuerTriVarAncien != null)
-												auteurPageJs.tl(3, "if(", entiteAttribuerTriVarAncien, " != null) {");
+												auteurPageJs.tl(4, "if(", entiteAttribuerTriVarAncien, " != null) {");
 											auteurPageJs.tl(k, "$sort = document.createElement('span').setAttribute('style', 'padding-right: 8px; ');");
 											auteurPageJs.tl(k, "var $sortInput = document.createElement('", composantsWebPrefixe, "input')");
 											auteurPageJs.tl(k, "$sortInput.setAttribute('style', 'width: 4em; ');");
@@ -3729,16 +3737,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											auteurPageJs.tl(k, "$sort.append($sortInput);");
 											auteurPageJs.tl(k, "$li.append($sort);");
 											if(entiteAttribuerTriVarAncien != null)
-												auteurPageJs.tl(3, "}");
+												auteurPageJs.tl(4, "}");
 
 											entiteAttribuerTriVarAncien = entiteAttribuerTriVar;
 										}
 									}
-									auteurPageJs.tl(3, "if(", i18nPage.getString(I18n.var_attribuer), ")");
-									auteurPageJs.tl(4, "$li.append($input);");
-									auteurPageJs.tl(3, "$li.append($a);");
-									auteurPageJs.tl(3, "$list.append($li);");
-									auteurPageJs.tl(2, "});");
+									auteurPageJs.tl(4, "if(", i18nPage.getString(I18n.var_attribuer), ")");
+									auteurPageJs.tl(5, "$li.append($input);");
+									auteurPageJs.tl(4, "$li.append($a);");
+									auteurPageJs.tl(4, "$list.append($li);");
+									auteurPageJs.tl(3, "});");
+									auteurPageJs.tl(2, "}");
 									// auteurPageJs.tl(2, "var focusId = document.querySelector('#", classeApiClasseNomSimple, "Form :input[name=\"focusId\"]')?.value;");
 									// auteurPageJs.tl(2, "if(focusId)");
 									// auteurPageJs.tl(3, "document.querySelector('#' + focusId).parent().next().querySelector('", "sl-".equals(composantsWebPrefixe) ? "sl-" : "", "input').focus();");
@@ -5073,7 +5082,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 		tl(8, "<tr class=\"\">");
 		tl(9, "<td class=\"\" colspan=\"2\">");
-		tl(10, "<span>Range Start</span>");
+		tl(10, "<span>Range Start ({{ formatZonedDateTime(defaultRangeStart, \"VV\", defaultLocaleId, defaultZoneId) }})</span>");
 		tl(9, "</td>");
 		tl(8, "</tr>");
 		tl(8, "<tr class=\"\">");
@@ -5081,16 +5090,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		t(10, "<span>");
 		s("<", composantsWebPrefixe, "input type=\"datetime-local\"");
 		s(" name=\"facetRangeStart\"");
-		s(" id=\"pageFacetRangeStart-", classeNomSimple, "\"");
+		s(" id=\"pageSearchVal-pageFacetRangeStart-", classeNomSimple, "-input\"");
 		s(" value=\"{{ formatZonedDateTime(defaultRangeStart, \"yyyy-MM-dd'T'HH:mm\", defaultLocaleId, defaultZoneId) }}\"");
-		s(" onclick=\"facet", i18nPage.getString(I18n.var_Gamme), "StartChange('", classeNomSimple, "', this); \"");
+		s(" onchange=\"facet", i18nPage.getString(I18n.var_Gamme), "StartChange('", classeNomSimple, "', this, '{{ defaultZoneId }}'); \"");
 		l("></", composantsWebPrefixe, "input></span>");
 		tl(9, "</td>");
 		tl(8, "</tr>");
 
 		tl(8, "<tr class=\"\">");
 		tl(9, "<td class=\"\" colspan=\"2\">");
-		tl(10, "<span>Range End</span>");
+		tl(10, "<span>Range End ({{ formatZonedDateTime(defaultRangeStart, \"VV\", defaultLocaleId, defaultZoneId) }})</span>");
 		tl(9, "</td>");
 		tl(8, "</tr>");
 		tl(8, "<tr class=\"\">");
@@ -5098,9 +5107,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		t(10, "<span>");
 		s("<", composantsWebPrefixe, "input type=\"datetime-local\"");
 		s(" name=\"facetRangeEnd\"");
-		s(" id=\"pageFacetRangeEnd-", classeNomSimple, "\"");
+		s(" id=\"pageSearchVal-pageFacetRangeEnd-", classeNomSimple, "-input\"");
 		s(" value=\"{{ formatZonedDateTime(defaultRangeEnd, \"yyyy-MM-dd'T'HH:mm\", defaultLocaleId, defaultZoneId) }}\"");
-		s(" onclick=\"facet", i18nPage.getString(I18n.var_Gamme), "EndChange('", classeNomSimple, "', this); \"");
+		s(" onchange=\"facet", i18nPage.getString(I18n.var_Gamme), "EndChange('", classeNomSimple, "', this, '{{ defaultZoneId }}'); \"");
 		l("></", composantsWebPrefixe, "input></span>");
 		tl(9, "</td>");
 		tl(8, "</tr>");
