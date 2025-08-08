@@ -4550,7 +4550,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(6, "max = max.plus(2, ChronoUnit.DAYS);");
 			tl(5, "}");
 			tl(5, "Duration duration = Duration.between(min, max);");
-			tl(5, "String gap = \"DAY\";");
+			tl(5, "String gap = \"HOUR\";");
 			tl(5, "if(duration.toDays() >= 365)");
 			tl(6, "gap = \"YEAR\";");
 			tl(5, "else if(duration.toDays() >= 28)");
