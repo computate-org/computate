@@ -2801,6 +2801,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				//STUFF0
 				//STUFF1
 
+				ecrirePageEmplacement(langueNom, i18nPage);
 				ecrirePageBarreLaterale(langueNom, i18nPage);
 				ecrirePageBoutonsRecherche(langueNom, i18nPage);
 				ecrirePageFormulaireRecherche(langueNom, i18nPage);
@@ -2827,6 +2828,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJsRecherche.flushClose();
 			if(auteurPageJsEdition != null)
 				auteurPageJsEdition.flushClose();
+
+			if(auteurEmplacementJinja != null) {
+				auteurEmplacementJinja.flushClose();
+			}
 
 			if(auteurBarreLateraleJinja != null) {
 				auteurBarreLateraleJinja.flushClose();
@@ -4702,15 +4707,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		o = oAncien;
 	}
 
-	public void ecrirePageBarreLaterale(String langueNom, JsonObject i18nPage) throws Exception {
+	public void ecrirePageEmplacement(String langueNom, JsonObject i18nPage) throws Exception {
 		ToutEcrivain oAncien = o;
-		o = auteurBarreLateraleJinja;
-
-		/////////////////
-		// pageContent //
-		/////////////////
+		o = auteurEmplacementJinja;
 
 		if(classeVarEmplacement != null || classeVarAire != null) {
+			tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Emplacement), "", classePageNomSimple, " %}");
 			tl(4, "<", composantsWebPrefixe, "details open>");
 			tl(5, "<div slot=\"summary\">", String.format(i18nPage.getString(I18n.str_Cartes_des), classeNomAdjectifPluriel), "</div>");
 
@@ -4735,7 +4737,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Graphique), classePageNomSimple, " %}");
 
 			tl(4, "</", composantsWebPrefixe, "details>");
+			tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Emplacement), "", classePageNomSimple, " %}");
 		}
+	}
+
+	public void ecrirePageBarreLaterale(String langueNom, JsonObject i18nPage) throws Exception {
+		ToutEcrivain oAncien = o;
+		o = auteurBarreLateraleJinja;
+
+		/////////////////
+		// pageContent //
+		/////////////////
 
 		tl(5, "<div class=\"htmBody", i18nPage.getString(I18n.var_BarreLaterale), "", classePageNomSimple, " \">");
 
@@ -5300,7 +5312,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 		tl(7, "<table>");
 		tl(8, "{% for key, value in varsFq.items() %}");
-		tl(9, "{% if ", i18nPage.getString(I18n.var_activer), i18nPage.getString(I18n.var_Stats), " is defined %}");
+		tl(9, "{% if value.", i18nPage.getString(I18n.var_activer), i18nPage.getString(I18n.var_Stats), " is defined %}");
 		tl(10, "<tr class=\"\">");
 		tl(11, "<td class=\"\">");
 		t(12, "<span>");
@@ -5611,12 +5623,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(0, "{{ super() }}");
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Debut), classePageNomSimple, " %}");
 
-		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Debut), classePageNomSimple, " %}");
-		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Debut), classePageSuperNomSimple, " %}");
-		l();
-		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Milieu), classePageSuperNomSimple, " %}");
-		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Milieu), classePageNomSimple, " %}");
-
 		// htmBodyCount0 //
 		tl(0, "{% if ", varResultat, "Count == 0 %}");
 		ecrirePageRechercheAucun(langueNom, i18nPage);
@@ -5674,6 +5680,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// tl(6, "{{ htm", i18nPage.getString(I18n.var_BoutonsPagination), classePageNomSimple, "() }}");
 
 		tl(0, "{% include ", classePageBoutonsRechercheTemplate, " %}");
+		tl(0, "{% endif %}");
+		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Debut), classePageNomSimple, " %}");
+		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Debut), classePageSuperNomSimple, " %}");
+		l();
+		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Milieu), classePageSuperNomSimple, " %}");
+		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Milieu), classePageNomSimple, " %}");
+		tl(0, "{% if ", varResultat, "Count > 0 %}");
 		tl(7, "<div class=\"", composantsWebPrefixe, "stack ", composantsWebPrefixe, "gap-0 \">");
 		tl(0, "{% include ", classePageBoutonsPaginationTemplate, " %}");
 		tl(8, "<div class=\"card-like-thing background-color-surface-border\" id=\"site-results-grid\">");
@@ -5708,9 +5721,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Milieu), classePageSuperNomSimple, " %}");
 		l();
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Fin), classePageSuperNomSimple, " %}");
-		tl(1, "{{ super() }}");
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Fin), classePageNomSimple, " %}");
+		tl(0, "{%- include ", classePageEmplacementTemplate, " %}");
 		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Fin), classePageNomSimple, " %}");
+		tl(1, "{{ super() }}");
 		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Fin), classePageSuperNomSimple, " %}");
 	}
 
@@ -5839,9 +5853,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Milieu), classePageSuperNomSimple, " %}");
 		l();
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Fin), classePageSuperNomSimple, " %}");
-		tl(3, "{{ super() }}");
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Fin), classePageNomSimple, " %}");
+		tl(0, "{%- include ", classePageEmplacementTemplate, " %}");
 		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Fin), classePageNomSimple, " %}");
+		tl(3, "{{ super() }}");
 		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Fin), classePageSuperNomSimple, " %}");
 	}
 }

@@ -697,6 +697,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain auteurPageJsEdition = null;
 	// protected ToutEcrivain auteurPageJinja = null;
 	// protected ToutEcrivain auteurGenPageJinja = null;
+	protected ToutEcrivain auteurEmplacementJinja = null;
 	protected ToutEcrivain auteurBarreLateraleJinja = null;
 	protected ToutEcrivain auteurBoutonsRechercheJinja = null;
 	protected ToutEcrivain auteurBoutonsPaginationJinja = null;
@@ -1225,6 +1226,9 @@ public class EcrireGenClasse extends EcrireClasse {
 	String classePageChemin;
 
 	String classeGenPageChemin;
+
+	String classePageEmplacementTemplate;
+	String classePageEmplacementCheminJinja;
 
 	String classePageBarreLateraleTemplate;
 	String classePageBarreLateraleCheminJinja;
@@ -2375,6 +2379,9 @@ public class EcrireGenClasse extends EcrireClasse {
 			classePageCheminJsRecherche = classeDoc.getString("classePageCheminJsRecherche"  + "_" + langueNom + "_stored_string");
 			classePageCheminJsEdition = classeDoc.getString("classePageCheminJsEdition"  + "_" + langueNom + "_stored_string");
 
+			classePageEmplacementTemplate = classeDoc.getString("classePageEmplacementTemplate" + "_" + langueNom + "_stored_string");
+			classePageEmplacementCheminJinja = classeDoc.getString("classePageEmplacementCheminJinja" + "_" + langueNom + "_stored_string");
+
 			classePageBarreLateraleTemplate = classeDoc.getString("classePageBarreLateraleTemplate" + "_" + langueNom + "_stored_string");
 			classePageBarreLateraleCheminJinja = classeDoc.getString("classePageBarreLateraleCheminJinja" + "_" + langueNom + "_stored_string");
 
@@ -2410,6 +2417,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			File classePageFichierJs = null;
 			File classePageFichierJsRecherche = null;
 			File classePageFichierJsEdition = null;
+			File classePageEmplacementFichierJinja = null;
 			File classePageBarreLateraleFichierJinja = null;
 			File classePageBoutonsRechercheFichierJinja = null;
 			File classePageBoutonsPaginationFichierJinja = null;
@@ -2433,6 +2441,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(classePageCheminJsEdition != null)
 				classePageFichierJsEdition = new File(classePageCheminJsEdition);
 
+			if(classePageEmplacementCheminJinja != null)
+				classePageEmplacementFichierJinja = new File(classePageEmplacementCheminJinja);
 			if(classePageBarreLateraleCheminJinja != null)
 				classePageBarreLateraleFichierJinja = new File(classePageBarreLateraleCheminJinja);
 
@@ -2477,6 +2487,11 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(classePageFichierJsEdition != null) {
 				classePageFichierJsEdition.getParentFile().mkdirs();
 				auteurPageJsEdition = ToutEcrivain.create(classePageFichierJsEdition, "  ");
+			}
+
+			if(classePageEmplacementFichierJinja != null) {
+				classeGenPageRechercheFichierJinja.getParentFile().mkdirs();
+				auteurEmplacementJinja = ToutEcrivain.create(classePageEmplacementFichierJinja, "  ");
 			}
 
 			if(classePageBarreLateraleFichierJinja != null) {
