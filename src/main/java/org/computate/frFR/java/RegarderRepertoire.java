@@ -44,6 +44,7 @@ import java.util.stream.Stream;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.common.SolrInputDocument;
 import org.computate.i18n.I18n;
@@ -593,6 +594,14 @@ public class RegarderRepertoire extends AbstractVerticle {
 				SharedData sharedData = vertx.sharedData();
 				sharedData.getLocalLockWithTimeout(orderLock, config().getLong(ComputateConfigKeys.ZOOKEEPER_CONNECTION_TIMEOUT_MILLIS, 3000L)).onSuccess(lock -> {
 					try {
+						String classeNomSimple = StringUtils.substringBeforeLast(cheminComplet.getFileName().toString(), ".");
+						String logLevel = "INFO";
+						if(classeNomSimple.endsWith("GenPage"))
+							logLevel = "DEBUG";
+
+						if("INFO".equals(logLevel))
+							LOG.info(String.format(classeLangueConfig.getString(I18n.str_classe_touchee), classeNomSimple));
+
 						String classeCheminAbsolu = cheminComplet.toAbsolutePath().toString();   
 						String cp = FileUtils.readFileToString(new File(COMPUTATE_SRC + "/config/cp.txt"), "UTF-8");
 						String classpath = String.format("%s:%s/target/classes", cp, COMPUTATE_SRC);
@@ -606,11 +615,10 @@ public class RegarderRepertoire extends AbstractVerticle {
 
 						executeur.setWorkingDirectory(repertoireTravail);
 						executeur.execute(ligneCommande); 
-						String classeNomSimple = StringUtils.substringBeforeLast(cheminComplet.getFileName().toString(), ".");
-						String log = String.format(classeLangueConfig.getString(I18n.str_chemin_absolu), classeNomSimple);
-						LOG.info(log);
 						promise.complete();
 						lock.release();
+						if("INFO".equals(logLevel))
+							LOG.info(String.format(classeLangueConfig.getString(I18n.str_classe_generee), classeNomSimple));
 					} catch(Exception ex) {
 						LOG.error(String.format(classeLangueConfig.getString(I18n.str_UneProblemeExecutionRegarderRepertoire), cheminCompletStr), ex);
 						promise.fail(ex);
