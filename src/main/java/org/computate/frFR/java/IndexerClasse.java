@@ -6300,6 +6300,10 @@ public class IndexerClasse extends RegarderClasseBase {
 			if(classePage && classePageRechercheTemplate != null) {
 				String classePageRechercheTemplateRepertoire = StringUtils.substringBeforeLast(classePageRechercheTemplate, "/");
 
+				String classePageEmplacementTemplate = String.format("%s/%s%s.htm", classePageRechercheTemplateRepertoire, classeNomSimple, i18nGlobale.getString(I18n.var_Emplacement));
+				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageEmplacementTemplate", classePageEmplacementTemplate);
+				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageEmplacementCheminJinja", String.format("%s/%s", templateChemin, classePageEmplacementTemplate));
+
 				String classePageBarreLateraleTemplate = String.format("%s/%s%s.htm", classePageRechercheTemplateRepertoire, classeNomSimple, i18nGlobale.getString(I18n.var_BarreLaterale));
 				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageBarreLateraleTemplate", classePageBarreLateraleTemplate);
 				indexerStockerSolr(langueNomGlobale, classeDoc, "classePageBarreLateraleCheminJinja", String.format("%s/%s", templateChemin, classePageBarreLateraleTemplate));
