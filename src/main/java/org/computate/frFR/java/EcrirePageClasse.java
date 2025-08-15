@@ -2641,6 +2641,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								auteurPageJsRecherche.tl(1, "document.querySelector('#pageFacet", i18nPage.getString(I18n.var_Tri), classeNomSimple, "_", entiteVar, "')?.addEventListener('", "sl-".equals(composantsWebPrefixe) ? "sl-" : "", "change', (event) => {");
 								auteurPageJsRecherche.tl(2, i18nPage.getString(I18n.var_tri), "('", classeNomSimple, "', '", entiteVar, "', event.currentTarget.value);");
 								auteurPageJsRecherche.tl(1, "});");
+
+								// JS Stats //
+								auteurPageJsRecherche.l();
+								auteurPageJsRecherche.tl(1, "document.querySelector('#page", i18nPage.getString(I18n.var_Stats), classeNomSimple, "_", entiteVar, "')?.addEventListener('", composantsWebPrefixe, "show', (event) => {");
+								auteurPageJsRecherche.tl(2, "facet", i18nPage.getString(I18n.var_Stats), "Change('", classeNomSimple, "', '", entiteVar, "', true);");
+								auteurPageJsRecherche.tl(1, "});");
+								auteurPageJsRecherche.tl(1, "document.querySelector('#page", i18nPage.getString(I18n.var_Stats), classeNomSimple, "_", entiteVar, "')?.addEventListener('", composantsWebPrefixe, "hide', (event) => {");
+								auteurPageJsRecherche.tl(2, "facet", i18nPage.getString(I18n.var_Stats), "Change('", classeNomSimple, "', '", entiteVar, "', false);");
+								auteurPageJsRecherche.tl(1, "});");
 							}
 
 							if(entiteHtml) {
@@ -5310,65 +5319,55 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(8, "{% endif %}");
 		tl(7, "</div>");
 
-		tl(7, "<table>");
+		tl(7, "<div>");
 		tl(8, "{% for key, value in varsFq.items() %}");
 		tl(9, "{% if value.", i18nPage.getString(I18n.var_activer), i18nPage.getString(I18n.var_Stats), " is defined %}");
-		tl(10, "<tr class=\"\">");
-		tl(11, "<td class=\"\">");
-		t(12, "<span>");
-		s("<", composantsWebPrefixe, "checkbox");
-		s(" name=\"page", i18nPage.getString(I18n.var_Stats), "\"");
-		s(" class=\"page", i18nPage.getString(I18n.var_Stats), " \"");
-		s(" id=\"page", i18nPage.getString(I18n.var_Stats), classeNomSimple, "_{{ key }}\"");
-		s(" value=\"{{ value.var }}\"");
-		s("{% if value.", i18nPage.getString(I18n.var_stats), " is defined %} checked=\"checked\"{% endif %}");
-		s(" onclick=\"facet", i18nPage.getString(I18n.var_Stats), "Change('", classeNomSimple, "', value); \"");
-		l(">{{ value.", i18nPage.getString(I18n.var_nomAffichage), " }}</", composantsWebPrefixe, "checkbox></span>");
-		tl(11, "</td>");
-		tl(11, "<td>");
-		tl(12, "<div>");
-		tl(13, "<label for=\"page", i18nPage.getString(I18n.var_Stats), classeNomSimple, "_{{ key }}\">{{ value.", i18nPage.getString(I18n.var_nomAffichage), " }}</label>");
-		tl(12, "</div>");
+		tl(10, "<", composantsWebPrefixe, "details");
+		tl(12, "summary=\"{{ value.", i18nPage.getString(I18n.var_nomAffichage), " | e }}\"");
+		tl(12, "class=\"page", i18nPage.getString(I18n.var_Stats), " \"");
+		tl(12, "id=\"page", i18nPage.getString(I18n.var_Stats), classeNomSimple, "_{{ key }}\"");
+		tl(12, "data-value=\"{{ value.var | e }}\"");
+		tl(12, "{% if value.", i18nPage.getString(I18n.var_stats), " is defined %}open{% endif %}");
+		tl(12, ">");
 
-		t(12, "<div");
-		s(" class=\"pageStatsField pageStatsField", classeNomSimple, "_{{ key }} \"");
+		t(11, "<div");
+		s(" class=\"", composantsWebPrefixe, "stack pageStatsField pageStatsField", classeNomSimple, "_{{ key }} \"");
 		s(" id=\"pageStatsField", classeNomSimple, "_{{ key }}\"");
 		l(">");
-		tl(13, "{% if value.stats is defined %}");
-		tl(14, "{% for item in value.stats %}");
-		tl(15, "{% if item.key == 'name' %}{% else %}");
-		t(16, "<div");
-		s(" data-class=\"", classeNomSimple, "\"");
-		s(" data-var=\"{{ item.var }}\"");
-		s(" data-val=\"{{ item.key }}\"");
-		s(">");
-		s("{{ item.key }}");
-		s(": ");
-		s("{{ item }}");
-		l("</div>");
-		tl(15, "{% endif %}");
-		tl(14, "{% endfor %}");
-		tl(14, "{% if value.stats.max is defined %}");
-		tl(15, "<div>");
-		tl(16, "<span> step </span>");
-		tl(16, "<", composantsWebPrefixe, "input id=\"animate", i18nPage.getString(I18n.var_Stats), "Step\" placeholder=\"step\" value=\"1\" style=\"width: 4em; \"></", composantsWebPrefixe, "input>");
-		tl(16, "<span> min </span>");
-		tl(16, "<", composantsWebPrefixe, "input id=\"animate", i18nPage.getString(I18n.var_Stats), "Min\" placeholder=\"min\" value=\"{{ value.stats.min }}\" style=\"width: 4em; \"></", composantsWebPrefixe, "input>");
-		tl(16, "<span> max </span>");
-		tl(16, "<", composantsWebPrefixe, "input id=\"animate", i18nPage.getString(I18n.var_Stats), "Max\" placeholder=\"max\" value=\"{{ value.stats.max }}\" style=\"width: 4em; \"></", composantsWebPrefixe, "input>");
-		tl(16, "<span> speed in seconds </span>");
-		tl(16, "<", composantsWebPrefixe, "input id=\"animate", i18nPage.getString(I18n.var_Stats), "Speed\" placeholder=\"speed\" value=\"1\" style=\"width: 4em; \"></", composantsWebPrefixe, "input>");
-		tl(16, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " onclick=\"animate", i18nPage.getString(I18n.var_Stats), "(); \">animate</", composantsWebPrefixe, "button>");
+		tl(12, "{% if value.stats is defined %}");
+		tl(13, "{% for itemKey, itemValue in value.stats.items() %}");
+		tl(14, "{% if itemKey == 'name' %}{% else %}");
+		tl(15, "<div");
+		tl(17, " class=\"", composantsWebPrefixe, "split \"");
+		tl(17, " data-class=\"", classeNomSimple, "\"");
+		tl(17, " data-var=\"{{ itemKey }}\"");
+		tl(17, " data-val=\"{{ itemValue }}\"");
+		tl(17, ">");
+		tl(16, "<span>{{ itemKey | e }}</span>");
+		tl(16, "<span>{{ itemValue | e }}</span>");
 		tl(15, "</div>");
 		tl(14, "{% endif %}");
-		tl(13, "{% endif %}");
-		tl(12, "</div>");
+		tl(13, "{% endfor %}");
+		// tl(13, "{% if value.stats.max is defined %}");
+		// tl(14, "<div>");
+		// tl(15, "<span> step </span>");
+		// tl(15, "<", composantsWebPrefixe, "input id=\"animate", i18nPage.getString(I18n.var_Stats), "Step\" placeholder=\"step\" value=\"1\" style=\"width: 4em; \"></", composantsWebPrefixe, "input>");
+		// tl(15, "<span> min </span>");
+		// tl(15, "<", composantsWebPrefixe, "input id=\"animate", i18nPage.getString(I18n.var_Stats), "Min\" placeholder=\"min\" value=\"{{ value.stats.min }}\" style=\"width: 4em; \"></", composantsWebPrefixe, "input>");
+		// tl(15, "<span> max </span>");
+		// tl(15, "<", composantsWebPrefixe, "input id=\"animate", i18nPage.getString(I18n.var_Stats), "Max\" placeholder=\"max\" value=\"{{ value.stats.max }}\" style=\"width: 4em; \"></", composantsWebPrefixe, "input>");
+		// tl(15, "<span> speed in seconds </span>");
+		// tl(15, "<", composantsWebPrefixe, "input id=\"animate", i18nPage.getString(I18n.var_Stats), "Speed\" placeholder=\"speed\" value=\"1\" style=\"width: 4em; \"></", composantsWebPrefixe, "input>");
+		// tl(15, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " onclick=\"animate", i18nPage.getString(I18n.var_Stats), "(); \">animate</", composantsWebPrefixe, "button>");
+		// tl(14, "</div>");
+		// tl(13, "{% endif %}");
+		tl(12, "{% endif %}");
+		tl(11, "</div>");
 
-		tl(11, "</td>");
-		tl(10, "</tr>");
+		tl(10, "</", composantsWebPrefixe, "details>");
 		tl(9, "{% endif %}");
 		tl(8, "{% endfor %}");
-		tl(7, "</table>");
+		tl(7, "</div>");
 		tl(0, "{%- endblock htmBody", i18nPage.getString(I18n.var_Stats), classePageNomSimple, " %}");
 		tl(6, "</div>");
 		tl(5, "</", composantsWebPrefixe, "drawer>");
@@ -5478,12 +5477,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		//////////////////
 		// bouton stats //
 		//////////////////
+		tl(7, "{% if ", classeVarCleUnique, " is not defined %}");
 		// tl(5, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
 		tl(7, "<", composantsWebPrefixe, "button class=\"", i18nPage.getString(I18n.var_BoutonsRecherche), "_", i18nPage.getString(I18n.var_Stats), " ", i18nPage.getString(I18n.var_BoutonsRecherche), "_", i18nPage.getString(I18n.var_Stats), "_", classeNomSimple, " \"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Stats), "').open = true; \">");
 		tl(8, "<", composantsWebPrefixe, "icon slot=\"start\" class=\"{{ FONTAWESOME_STYLE }} fa-chart-candlestick hover-box-shadow \"></", composantsWebPrefixe, "icon> ");
 		tl(8, i18nPage.getString(I18n.var_Stats));
 		tl(7, "</", composantsWebPrefixe, "button>");
 		// tl(5, "</", composantsWebPrefixe, "tooltip>");
+		tl(7, "{% endif %}");
 
 		////////////////
 		// bouton API //
@@ -5631,7 +5632,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(0, "{%- include ", classePageBarreLateraleTemplate, " %}");
 		tl(0, "{%- include ", classePageRechercheSuggereTemplate, " %}");
 
-		tl(5, "<div>");
+		tl(5, "<div class=\"pageContent \">");
 		tl(6, "<form action=\"", classeApiUri, "\" id=\"", classeApiClasseNomSimple, "Form\" class=\"", i18nPage.getString(I18n.var_page), i18nPage.getString(I18n.var_Formulaire), " \" onsubmit=\"event.preventDefault(); return false; \">");
 		t(7, "<input");
 		s(" name=\"focusId\"");
@@ -5789,7 +5790,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Milieu), classePageSuperNomSimple, " %}");
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Milieu), classePageNomSimple, " %}");
 
-		tl(4, "<div>");
+		tl(4, "<div class=\"pageContent \">");
 		// htmBodyCount0 //
 		tl(0, "{% if ", varResultat, "Count == 0 %}");
 		ecrirePageRechercheAucun(langueNom, i18nPage);
