@@ -423,7 +423,7 @@ public class RegarderRepertoire extends AbstractVerticle {
 					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, classeLangueNom, classeLangueNom, classeLangueConfig);
 					LOG.info(String.format("%s %s", classeLangueConfig.getString(I18n.var_Indexe), cheminStr));
 				} catch(Exception ex) {
-					LOG.error(String.format("An exception occured while indexing files: %s"), ex);
+					LOG.error("An exception occured while indexing files", ex);
 				}
 			});
 		}
