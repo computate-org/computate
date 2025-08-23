@@ -6329,7 +6329,7 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		indexerStockerSolr(classeDoc, "classeAuth", classeAuth);
 
-		if(classeSmartDataModelStr != null) {
+		if(classeSmartDataModelStr != null && (classeFiware == null || !classeFiware)) {
 			String encodedStr = "\"" + Arrays.asList(classeSmartDataModelStr.replaceAll("([a-z])([A-Z])", "$1 $2").split(" +")).stream().map(s -> encodeUrl(s)).collect(Collectors.joining("\" OR \"")) + "\"";
 			System.out.println(encodedStr);
 			SolrQuery rechercheSolr = new SolrQuery();   
