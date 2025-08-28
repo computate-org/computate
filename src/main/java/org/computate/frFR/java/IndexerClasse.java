@@ -6640,6 +6640,7 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		Boolean classeIndexe = indexerStockerSolr(classeDoc, "classeIndexe", regexTrouve("^" + i18nGlobale.getString(I18n.var_Indexe) + ": (true)$", classeCommentaire) || classeSauvegarde || classeModele || classeFiware || classePage);
 		Boolean classeImage = indexerStockerSolr(classeDoc, "classeImage", regexTrouve("^" + i18nGlobale.getString(I18n.var_Image) + ": (true)$", classeCommentaire));
+		indexerStockerSolr(classeDoc, "classeIgnorer", regexTrouve("^" + i18nGlobale.getString(I18n.var_Ignorer) + ": (true)$", classeCommentaire));
 
 		stockerSolr(classeDoc, "classePromesse", classePromesse);
 		if(activerVertx || activerQuarkus) {
