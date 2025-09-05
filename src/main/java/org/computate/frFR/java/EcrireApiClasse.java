@@ -3898,7 +3898,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 
 					if(classePageNomCanoniqueMethode != null) {
 						l();
-						tl(1, "public void ", classeApiOperationIdMethode, i18nGlobale.getString(I18n.var_Page), "Init(", classePageNomSimpleMethode, " page, ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, "> ", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ") {");
+						tl(1, "public void ", classeApiOperationIdMethode, i18nGlobale.getString(I18n.var_Page), "Init(", classePageNomSimpleMethode, " page, ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, "> ", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ", Promise<Void> promise) {");
+						tl(2, "promise.complete();");
 						tl(1, "}");
 					}
 					ecrireGenApiServiceImplReponse(classeLangueNom, classeApiMethode);
@@ -3984,8 +3985,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(4, "try {");
 							tl(5, "JsonObject ctx = ", classePartsConfigCles.nomSimple(classeLangueNom), ".getPageContext(config);");
 							tl(5, "ctx.mergeIn(JsonObject.mapFrom(page));");
-							tl(5, "String renderedTemplate = jinjava.render(template, ctx.getMap());");
-							tl(5, "Buffer buffer = Buffer.buffer(renderedTemplate);");
 						}
 						else {
 							tl(3, "List<String> fls = ", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ".getRequest().getFields();");
@@ -4055,7 +4054,15 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					}
 	
 					if((classeApiMethode.contains("GET") || classePageAvecTemplateMethode || classeApiMethode.contains(i18nGlobale.getString(I18n.var_Recherche))) && classePageNomCanoniqueMethode != null) {
-						tl(5, "promise.complete(new ServiceResponse(200, \"OK\", buffer, ", i18nGlobale.getString(I18n.var_requeteEnTetes), "));");
+						tl(5, "Promise<Void> promise1 = Promise.promise();");
+						tl(5, classeApiOperationIdMethode, i18nGlobale.getString(I18n.var_Page), "Init(page, ", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ", promise1);");
+						tl(5, "promise1.future().onSuccess(b -> {");
+						tl(6, "String renderedTemplate = jinjava.render(template, ctx.getMap());");
+						tl(6, "Buffer buffer = Buffer.buffer(renderedTemplate);");
+						tl(6, "promise.complete(new ServiceResponse(200, \"OK\", buffer, ", i18nGlobale.getString(I18n.var_requeteEnTetes), "));");
+						tl(5, "}).onFailure(ex -> {");
+						tl(6, "promise.fail(ex);");
+						tl(5, "});");
 						tl(4, "} catch(Exception ex) {");
 						tl(5, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_reponse), "200", classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
 						tl(5, "promise.fail(ex);");

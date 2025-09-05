@@ -1157,6 +1157,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								entiteMax = (String)entiteDocumentSolr.get("entiteMax_stored_string");
 								entiteDefaut = (String)entiteDocumentSolr.get("entiteDefaut_stored_string");
 								entiteIcone = (String)entiteDocumentSolr.get("entiteIcone_stored_string");
+								entiteCookie = (String)entiteDocumentSolr.get("entiteCookie_stored_string");
 								entiteHtml = (Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean");
 								entiteHtmLigne = (Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int");
 								entiteHtmLigneTitre = (String)entiteDocumentSolr.get("entiteHtmLigneTitre_stored_string");
@@ -1336,6 +1337,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											wJsEditionInit.tl(5, "document.querySelector('#", langueConfig.getString(I18n.var_Page), "_", entiteVar, "')?.addEventListener('", "sl-".equals(composantsWebPrefixe) ? "sl-" : "", "change', (event) => {");
 											wJsEditionInit.tl(6, "const form = document.querySelector('#", langueConfig.getString(I18n.var_Page), langueConfig.getString(I18n.var_Formulaire), "_", entiteVar, "');");
 											wJsEditionInit.tl(6, "const ", langueConfig.getString(I18n.var_valide), " = form.checkValidity();");
+                      if(entiteCookie != null)
+											  wJsEditionInit.tl(6, "document.cookie = \"", entiteCookie, "=\" + escape(event.currentTarget.value) + \"; path=/\";");
 											wJsEditionInit.tl(6, "if(", langueConfig.getString(I18n.var_valide), ") {");
 											if(entiteListeTypeJson != null) {
 												wJsEditionInit.tl(7, "patch", classeNomSimple, "Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeVarId, ":' + event.currentTarget.getAttribute('data-", classeVarId, "') }]");
@@ -2435,6 +2438,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							entiteMax = (String)entiteDocumentSolr.get("entiteMax_stored_string");
 							entiteDefaut = (String)entiteDocumentSolr.get("entiteDefaut_stored_string");
 							entiteIcone = (String)entiteDocumentSolr.get("entiteIcone_stored_string");
+							entiteCookie = (String)entiteDocumentSolr.get("entiteCookie_stored_string");
 							entiteHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean"));
 							entiteFormatHtm = (String)entiteDocumentSolr.get("entiteFormatHtm_stored_string");
 							entiteMultiligne = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteMultiligne_stored_boolean"));
@@ -2605,6 +2609,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							entiteMax = (String)entiteDocumentSolr.get("entiteMax_stored_string");
 							entiteDefaut = (String)entiteDocumentSolr.get("entiteDefaut_stored_string");
 							entiteIcone = (String)entiteDocumentSolr.get("entiteIcone_stored_string");
+							entiteCookie = (String)entiteDocumentSolr.get("entiteCookie_stored_string");
 							entiteHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean"));
 							entiteMultiligne = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteMultiligne_stored_boolean"));
 							entiteIndexe = (Boolean)entiteDocumentSolr.get("entiteIndexe_stored_boolean");
@@ -3608,6 +3613,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								entiteMax = (String)entiteDocumentSolr.get("entiteMax_stored_string");
 								entiteDefaut = (String)entiteDocumentSolr.get("entiteDefaut_stored_string");
 								entiteIcone = (String)entiteDocumentSolr.get("entiteIcone_stored_string");
+							  entiteCookie = (String)entiteDocumentSolr.get("entiteCookie_stored_string");
 								entiteHtmLigne = (Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int");
 								entiteHtmLigneTitre = (String)entiteDocumentSolr.get("entiteHtmLigneTitre_stored_string");
 								entiteHtmLigneTitreOuvert = (String)entiteDocumentSolr.get("entiteHtmLigneTitreOuvert_stored_string");

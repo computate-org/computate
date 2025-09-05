@@ -1002,6 +1002,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	String entiteNomAffichage;
 	String entiteFormatHtm;
 	String entiteIcone;
+	String entiteCookie;
 
 	/**
 	 * Var.enUS: entityDescription

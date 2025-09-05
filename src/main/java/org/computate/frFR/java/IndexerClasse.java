@@ -3544,6 +3544,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteImageBase64Url", regexLangue(classeLangueNom, "^ImageBase64Url", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteIcone", regex("^" + i18nGlobale.getString(I18n.var_Icone) + ": (.*)", methodeCommentaire, 1));
 						indexerStockerSolr(entiteDoc, "entiteLien", regexTrouve("^" + i18nGlobale.getString(I18n.var_Lien) + ": (true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteCookie", regex("^" + i18nGlobale.getString(I18n.var_Cookie) + ": (.*)", methodeCommentaire, 1));
 						Boolean entiteCouleur = indexerStockerSolr(entiteDoc, "entiteCouleur", regexTrouve("^" + i18nGlobale.getString(I18n.var_Couleur) + ": (true)$", methodeCommentaire));
 						if(entiteCouleur)
 							indexerStockerSolr(classeDoc, "classeEntiteCouleur", entiteVar);
