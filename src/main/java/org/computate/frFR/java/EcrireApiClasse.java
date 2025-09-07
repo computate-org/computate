@@ -3314,7 +3314,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(9, i18nGlobale.getString(I18n.var_requeteApi), ".setNumPATCH(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumPATCH() + 1);");
 								tl(9, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumFound() == 1L && Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getJsonObject()).map(json -> json.size() > 0).orElse(false)) {");
 								tl(10, "o", classeSauvegarde ? "2" : "", ".", i18nGlobale.getString(I18n.var_requeteApi), classeNomSimple, "();");
-								tl(10, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getVars().size() > 0)");
+								tl(10, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getVars().size() > 0 && Optional.ofNullable(siteRequest.get", i18nGlobale.getString(I18n.var_Requete), "Vars().get(\"refresh\")).map(refresh -> !refresh.equals(\"false\")).orElse(false))");
 								tl(11, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", i18nGlobale.getString(I18n.var_requeteApi), ").toString());");
 								tl(9, "}");
 								tl(8, "}");
@@ -3466,7 +3466,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									tl(12, i18nGlobale.getString(I18n.var_requeteApi), ".setNumPATCH(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumPATCH() + 1);");
 									tl(12, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumFound() == 1L && Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getJsonObject()).map(json -> json.size() > 0).orElse(false)) {");
 									tl(13, "o", classeSauvegarde ? "2" : "", ".", i18nGlobale.getString(I18n.var_requeteApi), classeNomSimple, "();");
-									tl(13, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getVars().size() > 0)");
+									tl(13, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getVars().size() > 0 && Optional.ofNullable(siteRequest.get", i18nGlobale.getString(I18n.var_Requete), "Vars().get(\"refresh\")).map(refresh -> !refresh.equals(\"false\")).orElse(false))");
 									tl(14, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", i18nGlobale.getString(I18n.var_requeteApi), ").toString());");
 									tl(12, "}");
 									tl(11, "}");
@@ -3498,7 +3498,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									tl(11, i18nGlobale.getString(I18n.var_requeteApi), ".setNumPATCH(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumPATCH() + 1);");
 									tl(11, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumFound() == 1L && Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getJsonObject()).map(json -> json.size() > 0).orElse(false)) {");
 									tl(12, "o", classeSauvegarde ? "2" : "", ".", i18nGlobale.getString(I18n.var_requeteApi), classeNomSimple, "();");
-									tl(12, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getVars().size() > 0)");
+									tl(12, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getVars().size() > 0 && Optional.ofNullable(siteRequest.get", i18nGlobale.getString(I18n.var_Requete), "Vars().get(\"refresh\")).map(refresh -> !refresh.equals(\"false\")).orElse(false))");
 									tl(13, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", i18nGlobale.getString(I18n.var_requeteApi), ").toString());");
 									tl(11, "}");
 									tl(10, "}");
@@ -3525,7 +3525,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									tl(10, i18nGlobale.getString(I18n.var_requeteApi), ".setNumPATCH(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumPATCH() + 1);");
 									tl(10, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumFound() == 1L && Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getJsonObject()).map(json -> json.size() > 0).orElse(false)) {");
 									tl(11, "o", classeSauvegarde ? "2" : "", ".", i18nGlobale.getString(I18n.var_requeteApi), classeNomSimple, "();");
-									tl(11, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getVars().size() > 0)");
+									tl(11, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getVars().size() > 0 && Optional.ofNullable(siteRequest.get", i18nGlobale.getString(I18n.var_Requete), "Vars().get(\"refresh\")).map(refresh -> !refresh.equals(\"false\")).orElse(false))");
 									tl(12, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", i18nGlobale.getString(I18n.var_requeteApi), ").toString());");
 									tl(10, "}");
 									tl(9, "}");
@@ -3572,7 +3572,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(6, i18nGlobale.getString(I18n.var_requeteApi), ".setNumPATCH(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumPATCH() + 1);");
 								tl(6, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumFound() == 1L && Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getJsonObject()).map(json -> json.size() > 0).orElse(false)) {");
 								tl(7, "o", classeSauvegarde ? "2" : "", ".", i18nGlobale.getString(I18n.var_requeteApi), classeNomSimple, "();");
-								tl(7, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getVars().size() > 0)");
+								tl(7, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getVars().size() > 0 && Optional.ofNullable(siteRequest.get", i18nGlobale.getString(I18n.var_Requete), "Vars().get(\"refresh\")).map(refresh -> !refresh.equals(\"false\")).orElse(false))");
 								tl(8, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", i18nGlobale.getString(I18n.var_requeteApi), ").toString());");
 								tl(6, "}");
 								tl(5, "}");
@@ -3898,7 +3898,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 
 					if(classePageNomCanoniqueMethode != null) {
 						l();
-						tl(1, "public void ", classeApiOperationIdMethode, i18nGlobale.getString(I18n.var_Page), "Init(", classePageNomSimpleMethode, " page, ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, "> ", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ", Promise<Void> promise) {");
+						tl(1, "public void ", classeApiOperationIdMethode, i18nGlobale.getString(I18n.var_Page), "Init(JsonObject ctx, ", classePageNomSimpleMethode, " page, ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, "> ", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ", Promise<Void> promise) {");
 						tl(2, "promise.complete();");
 						tl(1, "}");
 					}
@@ -4055,7 +4055,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	
 					if((classeApiMethode.contains("GET") || classePageAvecTemplateMethode || classeApiMethode.contains(i18nGlobale.getString(I18n.var_Recherche))) && classePageNomCanoniqueMethode != null) {
 						tl(5, "Promise<Void> promise1 = Promise.promise();");
-						tl(5, classeApiOperationIdMethode, i18nGlobale.getString(I18n.var_Page), "Init(page, ", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ", promise1);");
+						tl(5, classeApiOperationIdMethode, i18nGlobale.getString(I18n.var_Page), "Init(ctx, page, ", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ", promise1);");
 						tl(5, "promise1.future().onSuccess(b -> {");
 						tl(6, "String renderedTemplate = jinjava.render(template, ctx.getMap());");
 						tl(6, "Buffer buffer = Buffer.buffer(renderedTemplate);");
