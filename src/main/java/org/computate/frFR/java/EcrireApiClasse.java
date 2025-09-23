@@ -2034,6 +2034,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									tl(6, "if(fqs.size() > 0) {");
 									tl(7, "fq.add(fqs.stream().collect(Collectors.joining(\" OR \")));");
 									tl(7, "scopes.add(\"", classeApiMethodeMethode, "\");");
+									tl(7, i18nGlobale.getString(I18n.var_requeteSite), ".setFilteredScope(true);");
 									tl(6, "}");
 									tl(5, "}");
 									tl(5, "{");
@@ -2240,6 +2241,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									tl(6, "if(fqs.size() > 0) {");
 									tl(7, "fq.add(fqs.stream().collect(Collectors.joining(\" OR \")));");
 									tl(7, "scopes.add(\"", classeApiMethodeMethode, "\");");
+									tl(7, i18nGlobale.getString(I18n.var_requeteSite), ".setFilteredScope(true);");
 									tl(6, "}");
 									tl(5, "}");
 								}
