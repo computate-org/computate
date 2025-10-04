@@ -2277,8 +2277,8 @@ public class IndexerClasse extends RegarderClasseBase {
 		Boolean classeFiware = indexerStockerSolr(classeDoc, "classeFiware", regexTrouve("^Fiware: \\s*(true)$", classeCommentaire));
 		String classeModeleAlternatif = indexerStockerSolr(classeDoc, "classeModeleAlternatif", regexLangue(langueNomGlobale, "^" + i18nGlobale.getString(I18n.var_ModeleAlternatif), classeCommentaire, classeNomSimple));
 		String classeUriPageRecherche = indexerStockerSolr(langueNomGlobale, classeDoc, "classeUriPageRecherche", regex("^" + i18nGlobale.getString(I18n.var_UriPageRecherche) + ": (.*)", classeCommentaire));
-		String classeUriPageAffichage = indexerStockerSolr(langueNomGlobale, classeDoc, "classeUriPageAffichage", regex("^" + i18nGlobale.getString(I18n.var_UriPageAffichage) + ": (.*)", classeCommentaire));
 		String classeUriPageUtilisateur = indexerStockerSolr(langueNomGlobale, classeDoc, "classeUriPageUtilisateur", regex("^" + i18nGlobale.getString(I18n.var_UriPageUtilisateur) + ": (.*)", classeCommentaire));
+		String classeUriPageAffichage = indexerStockerSolr(langueNomGlobale, classeDoc, "classeUriPageAffichage", regex("^" + i18nGlobale.getString(I18n.var_UriPageAffichage) + ": (.*)", classeCommentaire, classeUriPageUtilisateur));
 		String classeUriTelechargement = indexerStockerSolr(langueNomGlobale, classeDoc, "classeUriTelechargement", regex("^" + i18nGlobale.getString(I18n.var_UriTelechargement) + ": (.*)", classeCommentaire));
 		String classeUriPageEdition = indexerStockerSolr(langueNomGlobale, classeDoc, "classeUriPageEdition", regex("^" + i18nGlobale.getString(I18n.var_UriPageEdition) + ": (.*)", classeCommentaire));
 		Boolean classeApi = indexerStockerSolr(classeDoc, "classeApi", regexTrouve("^(classe)?Api: \\s*(true)$", classeCommentaire)
