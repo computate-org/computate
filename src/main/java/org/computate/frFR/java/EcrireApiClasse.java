@@ -456,17 +456,18 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							/////////////////////////
 
 							if(classePageAvecTemplate && entiteDefinir) {
-								// if((
-								// 		StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())
-								// 		|| entiteEstListe && StringUtils.equals(entiteNomCanoniqueGenerique, ZonedDateTime.class.getCanonicalName()))) {
-								// 	if(classeVarZone != null) {
-								// 		wPageTemplates.tl(3, "page.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_", entiteVar, "), Optional.ofNullable(page.get", StringUtils.capitalize(classeVarZone), "()).map(v -> ZoneId.of(v)).orElse(Optional.ofNullable(", langueConfigGlobale.getString(I18n.var_requeteSite), ").map(r -> r.get", langueConfigGlobale.getString(I18n.var_Config), "()).map(config -> config.getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfigGlobale.getString(I18n.var_SITE_ZONE), ")).map(z -> ZoneId.of(z)).orElse(ZoneId.of(\"UTC\")))));");
-								// 	} else {
-								// 		wPageTemplates.tl(3, "page.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_", entiteVar, "), Optional.ofNullable(", langueConfigGlobale.getString(I18n.var_requeteSite), ").map(r -> r.get", langueConfigGlobale.getString(I18n.var_Config), "()).map(config -> config.getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfigGlobale.getString(I18n.var_SITE_ZONE), ")).map(z -> ZoneId.of(z)).orElse(ZoneId.of(\"UTC\"))));");
-								// 	}
-								// } else {
-									wPageTemplates.tl(3, "page.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_", entiteVar, "));");
-								// }
+								if((
+										StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())
+										|| entiteEstListe && StringUtils.equals(entiteNomCanoniqueGenerique, ZonedDateTime.class.getCanonicalName()))) {
+									if(classeVarZone != null) {
+										wPageTemplates.tl(3, "page.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_", entiteVar, "), Optional.ofNullable(page.get", StringUtils.capitalize(classeVarZone), "()).map(v -> ZoneId.of(v)).orElse(Optional.ofNullable(", langueConfigGlobale.getString(I18n.var_requeteSite), ").map(r -> r.get", langueConfigGlobale.getString(I18n.var_Config), "()).map(config -> config.getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfigGlobale.getString(I18n.var_SITE_ZONE), ")).map(z -> ZoneId.of(z)).orElse(ZoneId.of(\"UTC\")))));");
+									} else {
+										wPageTemplates.tl(3, "page.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_", entiteVar, "), Optional.ofNullable(", langueConfigGlobale.getString(I18n.var_requeteSite), ").map(r -> r.get", langueConfigGlobale.getString(I18n.var_Config), "()).map(config -> config.getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfigGlobale.getString(I18n.var_SITE_ZONE), ")).map(z -> ZoneId.of(z)).orElse(ZoneId.of(\"UTC\"))));");
+									}
+								} else {
+									wPageTemplates.tl(3, "page.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_", entiteVar, ")));");
+								}
+								
 							}
 	
 							/////////////////
@@ -5074,10 +5075,31 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			if(classePageAvecTemplate) {
 				l();
 				tl(1, "@Override");
-				tl(1, "public Future<JsonObject> ", i18nGlobale.getString(I18n.var_genererCorpsPage), "(ComputateSiteRequest ", i18nGlobale.getString(I18n.var_requeteSite), ", Object ", i18nGlobale.getString(I18n.var_resultat), ", String ", i18nGlobale.getString(I18n.var_templateChemin), ", String ", i18nGlobale.getString(I18n.var_classeNomSimple), ") {");
+				tl(1, "public Future<JsonObject> ", i18nGlobale.getString(I18n.var_genererCorpsPage), "(ComputateSiteRequest ", i18nGlobale.getString(I18n.var_requeteSite), ", Map<String, Object> ctx, String ", i18nGlobale.getString(I18n.var_templateChemin), ", String ", i18nGlobale.getString(I18n.var_classeNomSimple), ") {");
 				tl(2, "Promise<JsonObject> promise = Promise.promise();");
 				tl(2, "try {");
-				tl(3, "promise.complete(JsonObject.mapFrom(", i18nGlobale.getString(I18n.var_resultat), "));");
+				tl(3, "Map<String, Object> ", i18nGlobale.getString(I18n.var_resultat), " = (Map<String, Object>)ctx.get(\"", i18nGlobale.getString(I18n.var_resultat), "\");");
+				tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), "2 = (", classePartsRequeteSite.nomSimple(classeLangueNom), ")", i18nGlobale.getString(I18n.var_requeteSite), ";");
+				tl(3, "String siteBaseUrl = config.getString(ComputateConfigKeys.SITE_BASE_URL);");
+				tl(3, classeNomSimple, " page = new ", classeNomSimple, "();");
+				tl(3, "page.set", i18nGlobale.getString(I18n.var_RequeteSite), "_((", i18nGlobale.getString(I18n.var_RequeteSite), ")", i18nGlobale.getString(I18n.var_requeteSite), ");");
+				l();
+				s(wPageTemplates);
+				l();
+				tl(3, "page.promiseDeepForClass((", i18nGlobale.getString(I18n.var_RequeteSite), ")", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(o -> {");
+				tl(4, "try {");
+				tl(5, "JsonObject data = JsonObject.mapFrom(o);");
+				tl(5, "ctx.put(\"", i18nGlobale.getString(I18n.var_resultat), "\", data.getMap());");
+				// tl(5, "data.put(", classeNomSimple, ".VAR_", classeVarId, ", uri);");
+				tl(5, "promise.complete(data);");
+				tl(4, "} catch(Exception ex) {");
+				tl(5, "LOG.error(String.format(importModelFail, classSimpleName), ex);");
+				tl(5, "promise.fail(ex);");
+				tl(4, "}");
+				tl(3, "}).onFailure(ex -> {");
+				tl(4, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_genererCorpsPage), " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+				tl(4, "promise.fail(ex);");
+				tl(3, "});");
 				tl(2, "} catch(Exception ex) {");
 				tl(3, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_genererCorpsPage), " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
 				tl(3, "promise.fail(ex);");
