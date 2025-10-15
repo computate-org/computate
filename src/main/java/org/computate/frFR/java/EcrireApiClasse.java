@@ -3923,7 +3923,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								) {
 							tl(2, "return \"", classePageTemplateMethode, "\";");
 						} else {
-							tl(2, "return String.format(\"", classePageTemplateMethode, "\", ", i18nGlobale.getString(I18n.var_requeteService), ".getExtra().getString(\"uri\").substring(1));");
+							tl(2, "return String.format(\"", classePageTemplateMethode, "\", StringUtils.substringBefore(", i18nGlobale.getString(I18n.var_requeteService), ".getExtra().getString(\"uri\").substring(1), \"?\"));");
 						}
 						t(1, "}");
 					}
