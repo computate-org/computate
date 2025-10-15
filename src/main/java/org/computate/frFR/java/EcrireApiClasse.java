@@ -2163,7 +2163,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"))
 							tl(2, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_démarré), ". \"));");
 	
-						if(classeRessourcesAutorisation.size() > 0 && classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) {
+						if(!classePublicLire && classeRessourcesAutorisation.size() > 0 && classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) {
 							tl(2, "oauth2AuthenticationProvider.refresh(User.create(", i18nGlobale.getString(I18n.var_requeteService), ".getUser())).onSuccess(user -> {");
 							tl(3, "serviceRequest.setUser(user.principal());");
 						}
@@ -2562,7 +2562,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, i18nGlobale.getString(I18n.var_erreur), "(null, ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ", ex);");
 						}
 						tl(2, "});");
-						if(classeRessourcesAutorisation.size() > 0 && classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) {
+						if(!classePublicLire && classeRessourcesAutorisation.size() > 0 && classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) {
 							tl(2, "}).onFailure(ex -> {");
 							if(activerOpenIdConnect) {
 								tl(3, "if(\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\")) {");
