@@ -1984,6 +1984,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(3, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", \"DELETE\"));");
 								tl(3, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", \"PATCH\"));");
 								tl(3, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", \"PUT\"));");
+								tl(3, "form.add(\"permission\", String.format(\"%s-%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", ", classeVarId, ", \"GET\"));");
 								tl(3, "if(", classeVarId, " != null)");
 								if(classeAuthRessource == null) {
 									tl(4, "form.add(\"permission\", String.format(\"%s-%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", ", classeVarId, ", \"", classeApiMethodeMethode, "\"));");
@@ -2007,7 +2008,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(5, "HttpResponse<Buffer> authorizationDecision = authorizationDecisionResponse.result();");
 								tl(5, "JsonArray scopes = authorizationDecisionResponse.failed() ? new JsonArray() : authorizationDecision.bodyAsJsonArray().stream().findFirst().map(decision -> ((JsonObject)decision).getJsonArray(\"scopes\")).orElse(new JsonArray());");
 								if(classeRessourcesAutorisation.size() > 0) {
-									tl(5, "if(!scopes.contains(\"", classeApiMethodeMethode, "\")) {");
+									tl(5, "if(!scopes.contains(\"", classeApiMethodeMethode, "\") && !", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), ") {");
 									tl(6, "//");
 									tl(6, "List<String> fqs = new ArrayList<>();");
 									tl(6, "List<String> groups = Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getGroups()).orElse(new ArrayList<>());");
@@ -2163,7 +2164,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH", "DELETE"))
 							tl(2, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_démarré), ". \"));");
 	
-						if(classeRessourcesAutorisation.size() > 0 && classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) {
+						if(!classePublicLire && classeRessourcesAutorisation.size() > 0 && classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) {
 							tl(2, "oauth2AuthenticationProvider.refresh(User.create(", i18nGlobale.getString(I18n.var_requeteService), ".getUser())).onSuccess(user -> {");
 							tl(3, "serviceRequest.setUser(user.principal());");
 						}
@@ -2214,7 +2215,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(5, "HttpResponse<Buffer> authorizationDecision = authorizationDecisionResponse.result();");
 								tl(5, "JsonArray scopes = authorizationDecisionResponse.failed() ? new JsonArray() : authorizationDecision.bodyAsJsonArray().stream().findFirst().map(decision -> ((JsonObject)decision).getJsonArray(\"scopes\")).orElse(new JsonArray());");
 								if(classeRessourcesAutorisation.size() > 0) {
-									tl(5, "if(!scopes.contains(\"", classeApiMethodeMethode, "\")) {");
+									tl(5, "if(!scopes.contains(\"", classeApiMethodeMethode, "\") && !", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), ") {");
 									tl(6, "//");
 									tl(6, "List<String> fqs = new ArrayList<>();");
 									tl(6, "List<String> groups = Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getGroups()).orElse(new ArrayList<>());");
@@ -2562,7 +2563,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, i18nGlobale.getString(I18n.var_erreur), "(null, ", i18nGlobale.getString(I18n.var_gestionnaireEvenements), ", ex);");
 						}
 						tl(2, "});");
-						if(classeRessourcesAutorisation.size() > 0 && classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) {
+						if(!classePublicLire && classeRessourcesAutorisation.size() > 0 && classeApiMethode.equals(i18nGlobale.getString(I18n.var_PageRecherche))) {
 							tl(2, "}).onFailure(ex -> {");
 							if(activerOpenIdConnect) {
 								tl(3, "if(\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\")) {");
@@ -3923,7 +3924,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								) {
 							tl(2, "return \"", classePageTemplateMethode, "\";");
 						} else {
-							tl(2, "return String.format(\"", classePageTemplateMethode, "\", ", i18nGlobale.getString(I18n.var_requeteService), ".getExtra().getString(\"uri\").substring(1));");
+							tl(2, "return String.format(\"", classePageTemplateMethode, "\", StringUtils.substringBefore(", i18nGlobale.getString(I18n.var_requeteService), ".getExtra().getString(\"uri\").substring(1), \"?\"));");
 						}
 						t(1, "}");
 					}
