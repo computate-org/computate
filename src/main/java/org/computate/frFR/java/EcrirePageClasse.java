@@ -3089,7 +3089,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(3, "Promise.all([");
 				tl(4, "customElements.whenDefined('", composantsWebPrefixe, "button')");
 				tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "input')");
-				tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "select')");
+				// tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "select')");
 				// tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "checkbox')");
 				// tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "option')");
 				// tl(4, ", customElements.whenDefined('select')");
