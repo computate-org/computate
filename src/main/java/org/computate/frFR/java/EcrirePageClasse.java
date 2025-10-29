@@ -3721,7 +3721,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									auteurPageJs.tl(8, ", target");
 									auteurPageJs.tl(8, ", function(", i18nPage.getString(I18n.var_reponse), ", target) {");
 									auteurPageJs.tl(9, i18nPage.getString(I18n.var_ajouterLueur), "(target);");
-									auteurPageJs.tl(9, i18nPage.getString(I18n.var_suggere), classeApiClasseNomSimple, entiteVarCapitalise, "(", i18nPage.getString(I18n.var_filtres), ", $list, ", classeVarId, ", ", entiteVar, ", ", i18nPage.getString(I18n.var_attribuer), ", target);");
+									auteurPageJs.tl(9, i18nPage.getString(I18n.var_suggere), classeApiClasseNomSimple, entiteVarCapitalise, "(", i18nPage.getString(I18n.var_filtres), ", $list, ", classeVarId, ", o['", entiteAttribuerVar, "'], ", i18nPage.getString(I18n.var_attribuer), ", target);");
 									auteurPageJs.tl(8, "}");
 									auteurPageJs.tl(8, ", function(", i18nPage.getString(I18n.var_reponse), ", target) { ", i18nPage.getString(I18n.var_ajouterErreur), "(target); }");
 									auteurPageJs.tl(6, ");");

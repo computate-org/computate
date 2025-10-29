@@ -3319,7 +3319,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(9, i18nGlobale.getString(I18n.var_requeteApi), ".setNumPATCH(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumPATCH() + 1);");
 								tl(9, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumFound() == 1L && Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getJsonObject()).map(json -> json.size() > 0).orElse(false)) {");
 								tl(10, "o", classeSauvegarde ? "2" : "", ".", i18nGlobale.getString(I18n.var_requeteApi), classeNomSimple, "();");
-								tl(10, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getVars().size() > 0 && Optional.ofNullable(siteRequest.get", i18nGlobale.getString(I18n.var_Requete), "Vars().get(\"refresh\")).map(refresh -> !refresh.equals(\"false\")).orElse(false))");
+								tl(10, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getVars().size() > 0 && Optional.ofNullable(siteRequest.get", i18nGlobale.getString(I18n.var_Requete), "Vars().get(\"refresh\")).map(refresh -> !refresh.equals(\"false\")).orElse(true))");
 								tl(11, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", i18nGlobale.getString(I18n.var_requeteApi), ").toString());");
 								tl(9, "}");
 								tl(8, "}");
@@ -3471,7 +3471,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									tl(12, i18nGlobale.getString(I18n.var_requeteApi), ".setNumPATCH(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumPATCH() + 1);");
 									tl(12, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumFound() == 1L && Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getJsonObject()).map(json -> json.size() > 0).orElse(false)) {");
 									tl(13, "o", classeSauvegarde ? "2" : "", ".", i18nGlobale.getString(I18n.var_requeteApi), classeNomSimple, "();");
-									tl(13, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getVars().size() > 0 && Optional.ofNullable(siteRequest.get", i18nGlobale.getString(I18n.var_Requete), "Vars().get(\"refresh\")).map(refresh -> !refresh.equals(\"false\")).orElse(false))");
+									tl(13, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getVars().size() > 0 && Optional.ofNullable(siteRequest.get", i18nGlobale.getString(I18n.var_Requete), "Vars().get(\"refresh\")).map(refresh -> !refresh.equals(\"false\")).orElse(true))");
 									tl(14, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", i18nGlobale.getString(I18n.var_requeteApi), ").toString());");
 									tl(12, "}");
 									tl(11, "}");
@@ -3503,7 +3503,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									tl(11, i18nGlobale.getString(I18n.var_requeteApi), ".setNumPATCH(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumPATCH() + 1);");
 									tl(11, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumFound() == 1L && Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getJsonObject()).map(json -> json.size() > 0).orElse(false)) {");
 									tl(12, "o", classeSauvegarde ? "2" : "", ".", i18nGlobale.getString(I18n.var_requeteApi), classeNomSimple, "();");
-									tl(12, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getVars().size() > 0 && Optional.ofNullable(siteRequest.get", i18nGlobale.getString(I18n.var_Requete), "Vars().get(\"refresh\")).map(refresh -> !refresh.equals(\"false\")).orElse(false))");
+									tl(12, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getVars().size() > 0 && Optional.ofNullable(siteRequest.get", i18nGlobale.getString(I18n.var_Requete), "Vars().get(\"refresh\")).map(refresh -> !refresh.equals(\"false\")).orElse(true))");
 									tl(13, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", i18nGlobale.getString(I18n.var_requeteApi), ").toString());");
 									tl(11, "}");
 									tl(10, "}");
@@ -3530,7 +3530,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									tl(10, i18nGlobale.getString(I18n.var_requeteApi), ".setNumPATCH(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumPATCH() + 1);");
 									tl(10, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumFound() == 1L && Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getJsonObject()).map(json -> json.size() > 0).orElse(false)) {");
 									tl(11, "o", classeSauvegarde ? "2" : "", ".", i18nGlobale.getString(I18n.var_requeteApi), classeNomSimple, "();");
-									tl(11, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getVars().size() > 0 && Optional.ofNullable(siteRequest.get", i18nGlobale.getString(I18n.var_Requete), "Vars().get(\"refresh\")).map(refresh -> !refresh.equals(\"false\")).orElse(false))");
+									tl(11, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getVars().size() > 0 && Optional.ofNullable(siteRequest.get", i18nGlobale.getString(I18n.var_Requete), "Vars().get(\"refresh\")).map(refresh -> !refresh.equals(\"false\")).orElse(true))");
 									tl(12, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", i18nGlobale.getString(I18n.var_requeteApi), ").toString());");
 									tl(10, "}");
 									tl(9, "}");
@@ -3577,7 +3577,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(6, i18nGlobale.getString(I18n.var_requeteApi), ".setNumPATCH(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumPATCH() + 1);");
 								tl(6, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getNumFound() == 1L && Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getJsonObject()).map(json -> json.size() > 0).orElse(false)) {");
 								tl(7, "o", classeSauvegarde ? "2" : "", ".", i18nGlobale.getString(I18n.var_requeteApi), classeNomSimple, "();");
-								tl(7, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getVars().size() > 0 && Optional.ofNullable(siteRequest.get", i18nGlobale.getString(I18n.var_Requete), "Vars().get(\"refresh\")).map(refresh -> !refresh.equals(\"false\")).orElse(false))");
+								tl(7, "if(", i18nGlobale.getString(I18n.var_requeteApi), ".getVars().size() > 0 && Optional.ofNullable(siteRequest.get", i18nGlobale.getString(I18n.var_Requete), "Vars().get(\"refresh\")).map(refresh -> !refresh.equals(\"false\")).orElse(true))");
 								tl(8, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", i18nGlobale.getString(I18n.var_requeteApi), ").toString());");
 								tl(6, "}");
 								tl(5, "}");
