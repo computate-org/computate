@@ -1,4 +1,15 @@
-# The computate platform
+# The open source SPINE Programming Reactive Code Generation platform
+
+A completely secure and localhost approach to AI code generation on your own computer and Red Hat OpenShift AI. 
+Generate a reactive, data-driven website and API in Java Vert.x intelligently by: 
+
+1. By writing YAML rules into a Java class and method comments. 
+2. Define some spine discs in your Java classes, which are `protected void` methods that start with the `_` underscore character. 
+3. Let the Computate code generation watcher service index your code in a Solr search engine on your own computer. 
+4. The Computate code generation service will generate the code you need. 
+5. Use the [Computate Developer products](https://computate.org/en-us/search/product) like the [Computate Smart Website Builder](https://computate.org/en-us/search/product?fq=pageId:computate-smart-website-builder) to build the rest of your site. 
+
+SPINE Programming is an acronym for "SPINE Programming is not easy". 
 
 Code that generates more code as you save. Internationalized. Integrated with Solr search. A new way to write code to make persistence easier. 
 
