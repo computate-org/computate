@@ -3335,6 +3335,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							}
 							indexerStockerSolr(entiteDoc, "entiteMotsClesTrouves", entiteMotsClesTrouves); 
 
+							Boolean entiteFacetDefaut = indexerStockerSolr(entiteDoc, "entiteFacetDefaut", regexTrouve("^" + i18nGlobale.getString(I18n.var_FacetDefaut) + ": (true)$", methodeCommentaire));
 							Matcher entiteFacetsRecherche = Pattern.compile("^Facet: (.*)\\s*", Pattern.MULTILINE).matcher(methodeCommentaire);
 							boolean entiteFacetsTrouves = entiteFacetsRecherche.find();
 							boolean entiteFacetsTrouvesActuel = entiteFacetsTrouves;
@@ -3343,6 +3344,8 @@ public class IndexerClasse extends RegarderClasseBase {
 								indexerStockerListeSolr(entiteDoc, "entiteFacets", entiteFacetValeur);
 								entiteFacetsTrouves = true;
 								entiteFacetsTrouvesActuel = entiteFacetsRecherche.find();
+								if(entiteFacetDefaut)
+									indexerStockerListeSolr(classeDoc, "classeFacetsDefaut", entiteVar);
 							}
 							indexerStockerSolr(entiteDoc, "entiteFacetsTrouves", entiteFacetsTrouves); 
 

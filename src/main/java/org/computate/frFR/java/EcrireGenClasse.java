@@ -236,6 +236,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	protected Boolean classeMotsClesTrouves;
 	protected List<String> classeMotsCles;
+	protected List<String> classeFacetsDefaut;
 
 	/**
 	 * Var.enUS: classInitDeepExceptions

@@ -295,6 +295,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		classeCommentaireLangue = doc.getString("classeCommentaire_" + langueNom + "_stored_string");
 		classeMotsClesTrouves = doc.getBoolean("classeMotsClesTrouves_stored_boolean");
 		classeMotsCles = classeMotsClesTrouves ? Optional.ofNullable(doc.getJsonArray("classeMotsCles_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList()).stream().map(v -> (String)v).collect(Collectors.toList()) : Arrays.asList();
+		classeFacetsDefaut = Optional.ofNullable(doc.getJsonArray("classeFacetsDefaut_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList()).stream().map(v -> (String)v).collect(Collectors.toList());
 		if(classeMotsCles == null)
 			classeMotsCles = Arrays.asList();
 		classeImportationsGen = Optional.ofNullable(doc.getJsonArray("classeImportationsGen_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
