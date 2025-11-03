@@ -3694,6 +3694,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							SolrQuery rechercheSolrClasse = new SolrQuery();   
 							rechercheSolrClasse.setQuery("*:*");
 							rechercheSolrClasse.setRows(1);
+
 							rechercheSolrClasse.addFilterQuery("classeNomSimple_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(entiteAttribuerNomSimple));
 							rechercheSolrClasse.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
 							rechercheSolrClasse.addFilterQuery("partEstClasse_indexed_boolean:true");
@@ -3720,7 +3721,10 @@ public class IndexerClasse extends RegarderClasseBase {
 								SolrQuery rechercheSolrVar = new SolrQuery();   
 								rechercheSolrVar.setQuery("*:*");
 								rechercheSolrVar.setRows(1);
-								rechercheSolrVar.addFilterQuery("classeNomCanonique_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(entiteAttribuerNomCanonique));
+
+		            List<String> classesSuperEtMoiAttribuer = Optional.ofNullable((List<String>)docClasse.get("classesSuperEtMoiSansGen_stored_strings")).orElse(Arrays.asList()).stream().map(v -> (String)v).collect(Collectors.toList());
+		            String fqClassesSuperEtMoiAttribuer = "(" + classesSuperEtMoiAttribuer.stream().collect(Collectors.joining(" OR ")) + ")";
+							  rechercheSolrVar.addFilterQuery("classesSuperEtMoiSansGen_indexed_strings:" + fqClassesSuperEtMoiAttribuer);
 								rechercheSolrVar.addFilterQuery("entiteVar_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(entiteAttribuerVar));
 								rechercheSolrVar.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
 								rechercheSolrVar.addFilterQuery("partEstEntite_indexed_boolean:true");
