@@ -5,7 +5,7 @@ Generate a reactive, data-driven website and API in Java Vert.x intelligently by
 
 1. By writing YAML rules into a Java class and method comments. 
 2. Define some spine discs in your Java classes, which are `protected void` methods that start with the `_` underscore character. 
-3. Let the Computate code generation watcher service index your code in a Solr search engine on your own computer. 
+3. The Computate code generation watcher service will recognize that your Java class has changed, and automatically index your code in a Solr search engine on your own computer. 
 4. The Computate code generation service will generate the code you need. 
 5. Use the [Computate Developer products](https://computate.org/en-us/search/product) like the [Computate Smart Website Builder](https://computate.org/en-us/search/product?fq=pageId:computate-smart-website-builder) to build the rest of your site. 
 
