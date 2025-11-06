@@ -3040,8 +3040,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(4, "if(feature.geometry.type == 'Point') {");
 					tl(5, "return {");
 					tl(6, "radius: 8");
-					tl(6, ", fillColor: (feature.properties.areaServedColors && feature.properties.areaServedColors[feature.index] ? feature.properties.areaServedColors[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
-					tl(6, ", color: (feature.properties.areaServedColors && feature.properties.areaServedColors[feature.index] ? feature.properties.areaServedColors[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
+					tl(6, ", fillColor: (feature.properties.", classeVarEmplacementCouleur, " && feature.properties.", classeVarEmplacementCouleur, "[feature.index] ? feature.properties.", classeVarEmplacementCouleur, "[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
+					tl(6, ", color: (feature.properties.", classeVarEmplacementCouleur, " && feature.properties.", classeVarEmplacementCouleur, "[feature.index] ? feature.properties.", classeVarEmplacementCouleur, "[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
 					tl(6, ", weight: 1");
 					tl(6, ", opacity: 0.7");
 					tl(6, ", fillOpacity: 0.7");
@@ -3059,14 +3059,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(5, "};");
 					tl(4, "} else if(feature.geometry.type == 'LineString') {");
 					tl(5, "return {");
-					tl(6, "color: (feature.properties.areaServedColors && feature.properties.areaServedColors[feature.index] ? feature.properties.areaServedColors[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
+					tl(6, "color: (feature.properties.", classeVarEmplacementCouleur, " && feature.properties.", classeVarEmplacementCouleur, "[feature.index] ? feature.properties.", classeVarEmplacementCouleur, "[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
 					tl(6, ", weight: 5");
 					tl(6, ", opacity: 0.7");
 					tl(5, "};");
 					tl(4, "} else {");
 					tl(5, "return {");
-					tl(6, " fillColor: (feature.properties.areaServedColors && feature.properties.areaServedColors[feature.index] ? feature.properties.areaServedColors[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
-					tl(6, ", color: (feature.properties.areaServedColors && feature.properties.areaServedColors[feature.index] ? feature.properties.areaServedColors[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
+					tl(6, " fillColor: (feature.properties.", classeVarEmplacementCouleur, " && feature.properties.", classeVarEmplacementCouleur, "[feature.index] ? feature.properties.", classeVarEmplacementCouleur, "[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
+					tl(6, ", color: (feature.properties.", classeVarEmplacementCouleur, " && feature.properties.", classeVarEmplacementCouleur, "[feature.index] ? feature.properties.", classeVarEmplacementCouleur, "[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
 					tl(6, ", weight: 3");
 					tl(6, ", opacity: 0.7");
 					tl(6, ", fillOpacity: 0.7");
@@ -4252,7 +4252,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						auteurPageJs.tl(5, "contextmenuItems.push({");
 						auteurPageJs.tl(6, "text: '", i18nPage.getString(I18n.str_Definir), " ", classeVarEmplacement, " ", i18nPage.getString(I18n.str_de), " ' + ", varResultat, ".", classeVarTitre);
 						auteurPageJs.tl(6, ", callback: function(event2) {");
-						auteurPageJs.tl(7, "patch", i18nPage.getString(I18n.var_Emplacement), "(event.layer, "
+						auteurPageJs.tl(7, "patch", classeNomSimple, i18nPage.getString(I18n.var_Emplacement), "(event.layer, "
 								, "{ coordinates: [event.layer.getLatLng()['lng'], event.layer.getLatLng()['lat']], type: \"Point\" }"
 								, ");");
 						auteurPageJs.tl(6, "}");
@@ -4273,8 +4273,23 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						auteurPageJs.tl(8, "});");
 						auteurPageJs.tl(8, "latLngs.push(latLngs1);");
 						auteurPageJs.tl(7, "});");
-						auteurPageJs.tl(7, "patch", i18nPage.getString(I18n.var_Aire), "(event.layer, "
+						auteurPageJs.tl(7, "patch", classeNomSimple, i18nPage.getString(I18n.var_Aire), "(event.layer, "
 								, "{ coordinates: latLngs, type: \"Polygon\" }"
+								, ");");
+						auteurPageJs.tl(6, "}");
+						auteurPageJs.tl(5, "});");
+						auteurPageJs.tl(4, "}");
+						auteurPageJs.tl(4, "if(event.layerType == 'polyline') {");
+						auteurPageJs.tl(5, "contextmenuItems.push({");
+						auteurPageJs.tl(6, "text: '", i18nPage.getString(I18n.str_Definir), " ", classeVarAire, " ", i18nPage.getString(I18n.str_de), " ' + ", varResultat, ".", classeVarTitre);
+						auteurPageJs.tl(6, ", callback: function(event2) {");
+						auteurPageJs.tl(7, "var latLngs = [];");
+						auteurPageJs.tl(7, "event.layer.getLatLngs().forEach(ll1 => {");
+						auteurPageJs.tl(8, "var latLngs1 = [ll1['lng'], ll1['lat']];");
+						auteurPageJs.tl(8, "latLngs.push(latLngs1);");
+						auteurPageJs.tl(7, "});");
+						auteurPageJs.tl(7, "patch", classeNomSimple, i18nPage.getString(I18n.var_Aire), "(event.layer, "
+								, "{ coordinates: latLngs, type: \"LineString\" }"
 								, ");");
 						auteurPageJs.tl(6, "}");
 						auteurPageJs.tl(5, "});");
@@ -4290,7 +4305,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(1, "}");
 				auteurPageJs.tl(0, "}");
 				if(classeVarEmplacement != null) {
-					auteurPageJs.tl(0, "function patch", i18nPage.getString(I18n.var_Emplacement), "(target, ", classeVarEmplacement, ") {");
+					auteurPageJs.tl(0, "function patch", classeNomSimple, i18nPage.getString(I18n.var_Emplacement), "(target, ", classeVarEmplacement, ") {");
 					auteurPageJs.tl(1, "patch", classeNomSimple, "Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeVarId, ":' + ", varResultat, ".", classeVarId, " }]");
 					auteurPageJs.tl(3, ", 'set", StringUtils.capitalize(classeVarEmplacement), "', ", classeVarEmplacement);
 					auteurPageJs.tl(3, ", target");
@@ -4300,7 +4315,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(0, "}");
 				}
 				if(classeVarAire != null) {
-					auteurPageJs.tl(0, "function patch", i18nPage.getString(I18n.var_Aire), "(target, ", classeVarAire, ") {");
+					auteurPageJs.tl(0, "function patch", classeNomSimple, i18nPage.getString(I18n.var_Aire), "(target, ", classeVarAire, ") {");
 					auteurPageJs.tl(1, "patch", classeNomSimple, "Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeVarId, ":' + ", varResultat, ".", classeVarId, " }]");
 					auteurPageJs.tl(3, ", 'set", StringUtils.capitalize(classeVarAire), "', ", classeVarAire);
 					auteurPageJs.tl(3, ", target");
