@@ -2433,11 +2433,15 @@ public class IndexerClasse extends RegarderClasseBase {
 		Boolean classeEtendModeleBase = indexerStockerSolr(classeDoc, "classeEtendModeleBase"
 				, classePartsModeleBase != null 
 				&& classeNomSimpleSuperGenerique != null 
-				&& classeNomSimpleSuperGenerique.equals(classePartsModeleBase.nomSimple(langueNomGlobale)));
+				&& (classeNomSimpleSuperGenerique.equals(classePartsModeleBase.nomSimple(langueNomGlobale))
+            || (classeSuperDoc != null && (Boolean)classeSuperDoc.get("classeEtendModeleBase_stored_boolean"))
+        ));
 		Boolean classeEtendResultatBase = indexerStockerSolr(classeDoc, "classeEtendResultatBase"
 				, classePartsResultatBase != null 
 				&& classeNomSimpleSuperGenerique != null 
-				&& classeNomSimpleSuperGenerique.equals(classePartsResultatBase.nomSimple(langueNomGlobale)));
+				&& (classeNomSimpleSuperGenerique.equals(classePartsResultatBase.nomSimple(langueNomGlobale))
+            || (classeSuperDoc != null && (Boolean)classeSuperDoc.get("classeEtendResultatBase_stored_boolean"))
+        ));
 		indexerStockerSolr(classeDoc, "classeInitLoinAvant" , regexTrouve("^" + i18nGlobale.getString(I18n.var_InitLoin) + i18nGlobale.getString(I18n.var_Avant) + ": (true)$", classeCommentaire));
 		if(activerVertx) {
 			if(classeEtendBase) {
