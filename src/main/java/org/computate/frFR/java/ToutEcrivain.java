@@ -275,7 +275,7 @@ public class ToutEcrivain {
 	/**
 	 * The tab characters to use
 	 */
-	protected String tab = "\t";
+	protected String tab = "  ";
 
 	public String getTab() {
 		return tab;

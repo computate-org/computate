@@ -2081,12 +2081,26 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeCheminRepertoire = StringUtils.substringBeforeLast(classeChemin, "/");
 		String classeCheminGen = concat(cheminSrcGenJava, "/", StringUtils.replace(classeNomCanonique, ".", "/"), "Gen.java");
 
+		if(classeCommentaire != null) {
+			Matcher classeMotsClesRecherche = Pattern.compile("^" + i18nGlobale.getString(I18n.var_MotCle) + ": (.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
+			boolean classeMotsClesTrouvesActuel = classeMotsClesRecherche.find();
+			while(classeMotsClesTrouvesActuel) {
+				String classeMotCleValeur = classeMotsClesRecherche.group(1);
+				classeMotsClesTrouvesActuel = classeMotsClesRecherche.find();
+				if(!classeMotsCles.contains(classeMotCleValeur))
+					classeMotsCles.add(classeMotCleValeur);
+				classeMotsClesTrouves = true;
+			}
+    }
+
 		Boolean classePromesse = regexTrouve("^(classe)?" + i18nGlobale.getString(I18n.var_Promesse) + ": (true)$", classeCommentaire);
 		indexerStockerSolr(classeDoc, "classeBaseEtendGen", classeBaseEtendGen);
 		Boolean classeContientRequeteSite = false;
 		try {
 			classeContientRequeteSite = classeQdox.getMethodBySignature("get" + i18nGlobale.getString(I18n.var_RequeteSite) +"_", new ArrayList<JavaType>(), true) != null
-					|| classePartsBase != null && BooleanUtils.isTrue((Boolean)classePartsBase.getDocumentSolr().get("classeContientRequeteSite_stored_boolean"));
+					|| classePartsBase != null && BooleanUtils.isTrue((Boolean)classePartsBase.getDocumentSolr().get("classeContientRequeteSite_stored_boolean"))
+          || classeMotsCles.contains(langueConfigGlobale.getString(I18n.var_classeNomSimple) + langueConfigGlobale.getString(I18n.var_RequeteSite))
+          ;
 		} catch (Throwable ex) {
 			// TODO ctate fix this to pull from solr. 
 		}
@@ -2605,16 +2619,6 @@ public class IndexerClasse extends RegarderClasseBase {
 				classeFiltresTrouvesActuel = classeFiltresRecherche.find();
 			}
 			indexerStockerSolr(classeDoc, "classeFiltresTrouves", classeFiltresTrouves); 
-
-			Matcher classeMotsClesRecherche = Pattern.compile("^" + i18nGlobale.getString(I18n.var_MotCle) + ": (.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
-			boolean classeMotsClesTrouvesActuel = classeMotsClesRecherche.find();
-			while(classeMotsClesTrouvesActuel) {
-				String classeMotCleValeur = classeMotsClesRecherche.group(1);
-				classeMotsClesTrouvesActuel = classeMotsClesRecherche.find();
-				if(!classeMotsCles.contains(classeMotCleValeur))
-					classeMotsCles.add(classeMotCleValeur);
-				classeMotsClesTrouves = true;
-			}
 
 			Matcher classeTrisRecherche = Pattern.compile("^" + i18nGlobale.getString(I18n.var_Tri) + "\\.([^:]+): (.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
 			boolean classeTrisTrouvesActuel = classeTrisRecherche.find();
