@@ -1,10 +1,10 @@
 /*
- * Copyright (c) 2018-2022 Computate Limited Liability Company in Utah, USA. 
- *
+ * Copyright Computate Limited Liability Company in Utah, USA. 
+ * SPDX-License-Identifier: AGPL-3.0
  * This program and the accompanying materials are made available under the
- * terms of the GNU GENERAL PUBLIC LICENSE Version 3 which is available at
+ * terms of the GNU AFFERO GENERAL PUBLIC LICENSE which is available at
  * 
- * https://www.gnu.org/licenses/gpl-3.0.en.html
+ * https://www.gnu.org/licenses/agpl-3.0.html
  * 
  * You may not propagate or modify a covered work except as expressly provided 
  * under this License. Any attempt otherwise to propagate or modify it is void, 
@@ -3561,11 +3561,9 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 
 			if(ecrireCommentaire) {
-				t(1, "/**");
-			s(entiteValsEcrivain);
-				t(1);
-					s(langueConfig.getString(I18n.str_L_entité_), entiteVar);
-				l();
+				tl(1, "/**");
+			// s(entiteValsEcrivain);
+				tl(1, " * ", langueConfig.getString(I18n.str_L_entité_), entiteVar);
 		
 				if(entiteCommentaire != null) {
 					String[] lignes = entiteCommentaire.toString().split("\n");
@@ -3729,10 +3727,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			// Methode underscore //
 			l();
 			if(ecrireCommentaire) {
-				t(1, "/**");
-				t(1);
-				s("<br>", langueConfig.getString(I18n.str_L_entité_), entiteVar);
-				l();
+				tl(1, "/**");
+				tl(1, " * <br>", langueConfig.getString(I18n.str_L_entité_), entiteVar);
 		
 				if(entiteCommentaire != null) {
 					String[] lignes = entiteCommentaire.toString().split("\n");

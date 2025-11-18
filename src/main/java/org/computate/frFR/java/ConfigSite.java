@@ -1,10 +1,10 @@
 /*
- * Copyright (c) 2018-2022 Computate Limited Liability Company in Utah, USA. 
- *
+ * Copyright Computate Limited Liability Company in Utah, USA. 
+ * SPDX-License-Identifier: AGPL-3.0
  * This program and the accompanying materials are made available under the
- * terms of the GNU GENERAL PUBLIC LICENSE Version 3 which is available at
+ * terms of the GNU AFFERO GENERAL PUBLIC LICENSE which is available at
  * 
- * https://www.gnu.org/licenses/gpl-3.0.en.html
+ * https://www.gnu.org/licenses/agpl-3.0.html
  * 
  * You may not propagate or modify a covered work except as expressly provided 
  * under this License. Any attempt otherwise to propagate or modify it is void, 
