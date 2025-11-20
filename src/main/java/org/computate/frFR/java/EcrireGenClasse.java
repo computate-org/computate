@@ -5528,7 +5528,7 @@ public class EcrireGenClasse extends EcrireClasse {
 								|| VAL_nomCanoniqueBigDecimal.equals(entiteNomCanoniqueGenerique)
 								) {
 							tl(4, "} else if(val instanceof Number[]) {");
-							tl(5, "Arrays.asList((Number[])val).stream().forEach(v -> set", entiteVarCapitalise, "((Number)v));");
+							tl(5, "Arrays.asList((Number[])val).stream().forEach(v -> add", entiteVarCapitalise, "(((Number)v).longValue()));");
 						}
 						if(VAL_nomCanoniquePolygon.equals(entiteNomCanoniqueGenerique)) {
 							tl(4, "} else if(val instanceof JsonObject) {");
