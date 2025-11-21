@@ -2370,10 +2370,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			auteurPageJsRecherche.tl(0, "Promise.all([");
 			auteurPageJsRecherche.tl(2, "customElements.whenDefined('", composantsWebPrefixe, "button')");
 			auteurPageJsRecherche.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "input')");
-			// auteurPageJsRecherche. tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "checkbox')");
-			// auteurPageJsRecherche. tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "option')");
-			// auteurPageJsRecherche. tl(4, ", customElements.whenDefined('select')");
-			// auteurPageJsRecherche. tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "textarea')");
+			auteurPageJsRecherche.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "select')");
+			auteurPageJsRecherche.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "radio')");
+			auteurPageJsRecherche.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "checkbox')");
 			auteurPageJsRecherche.tl(2, "]).then(() => {");
 
 			auteurPageJsRecherche.l();
@@ -3089,11 +3088,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(3, "Promise.all([");
 				tl(4, "customElements.whenDefined('", composantsWebPrefixe, "button')");
 				tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "input')");
-				// tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "select')");
-				// tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "checkbox')");
-				// tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "option')");
-				// tl(4, ", customElements.whenDefined('select')");
-				// tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "textarea')");
+				tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "select')");
+				tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "radio')");
+				tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "checkbox')");
 				tl(3, "]).then(() => {");
 				if(classeVarId != null) {
 					l();
@@ -4350,6 +4347,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			auteurPageJsEdition.tl(0, "Promise.all([");
 			auteurPageJsEdition.tl(2, "customElements.whenDefined('", composantsWebPrefixe, "button')");
 			auteurPageJsEdition.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "input')");
+			auteurPageJsEdition.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "select')");
+			auteurPageJsEdition.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "radio')");
+			auteurPageJsEdition.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "checkbox')");
 			auteurPageJsEdition.tl(2, "]).then(() => {");
 
 			for(String classeApiMethode : classeApiMethodes) {
@@ -5657,11 +5657,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Debut), classePageNomSimple, " %}");
 
 		// htmBodyCount0 //
+		tl(0, "{%- include ", classePageBarreLateraleTemplate, " %}");
 		tl(0, "{% if ", varResultat, "Count == 0 %}");
 		ecrirePageRechercheAucun(langueNom, i18nPage);
 		tl(0, "{% else %}");
 
-		tl(0, "{%- include ", classePageBarreLateraleTemplate, " %}");
 		tl(0, "{%- include ", classePageRechercheSuggereTemplate, " %}");
 
 		tl(5, "<div class=\"pageContent \">");
@@ -5823,12 +5823,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Milieu), classePageNomSimple, " %}");
 
 		tl(4, "<div class=\"pageContent \">");
+		tl(0, "{%- include ", classePageBarreLateraleTemplate, " %}");
 		// htmBodyCount0 //
 		tl(0, "{% if ", varResultat, "Count == 0 %}");
 		ecrirePageRechercheAucun(langueNom, i18nPage);
 		tl(0, "{% else %}");
 
-		tl(0, "{%- include ", classePageBarreLateraleTemplate, " %}");
 		tl(0, "{%- include ", classePageRechercheSuggereTemplate, " %}");
 
 		// htmBodyCount1 //
