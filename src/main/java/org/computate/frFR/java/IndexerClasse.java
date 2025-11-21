@@ -196,6 +196,7 @@ public class IndexerClasse extends RegarderClasseBase {
 
 	ClasseParts classePartsPointSerializer;
 	ClasseParts classePartsPointDeserializer;
+	ClasseParts classePartsVertxTool;
 
 	ClasseParts classePartsPathSerializer;
 	ClasseParts classePartsPathDeserializer;
@@ -1779,6 +1780,13 @@ public class IndexerClasse extends RegarderClasseBase {
 		return parts;
 	}
 
+	protected ClasseParts classePartsVertxTool(String nomEnsembleDomaine, String langueNom) throws Exception {
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, "VertxTool", langueNom);
+		if(parts == null)
+			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.tool.VertxTool", langueNom);
+		return parts;
+	}
+
 	protected ClasseParts classePartsPointDeserializer(String nomEnsembleDomaine, String langueNom) throws Exception {
 		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, "PointDeserializer", langueNom);
 		if(parts == null)
@@ -2193,6 +2201,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsConfigCles = classePartsConfigCles(nomEnsembleDomaine, classeLangueNom);
 		classePartsJsonObjectDeserializer = classePartsJsonObjectDeserializer(nomEnsembleDomaine, classeLangueNom);
 		classePartsJsonArrayDeserializer = classePartsJsonArrayDeserializer(nomEnsembleDomaine, classeLangueNom);
+		classePartsVertxTool = classePartsVertxTool(nomEnsembleDomaine, classeLangueNom);
 		classePartsPointDeserializer = classePartsPointDeserializer(nomEnsembleDomaine, classeLangueNom);
 		classePartsPointSerializer = classePartsPointSerializer(nomEnsembleDomaine, classeLangueNom);
 		classePartsPathDeserializer = classePartsPathDeserializer(nomEnsembleDomaine, classeLangueNom);
@@ -3105,6 +3114,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								"Point".equals(entiteNomSimple) || "Path".equals(entiteNomSimple) || "Polygon".equals(entiteNomSimple)
 								|| "Point".equals(entiteNomSimpleGenerique) || "Path".equals(entiteNomSimpleGenerique) || "Polygon".equals(entiteNomSimpleGenerique)
 								) {
+							classePartsGenAjouter(classePartsVertxTool, classeLangueNom);
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.ObjectMapper", classeLangueNom), classeLangueNom);
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.module.SimpleModule", classeLangueNom), classeLangueNom);
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.deser.BeanDeserializerModifier", classeLangueNom), classeLangueNom);
