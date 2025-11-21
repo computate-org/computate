@@ -4785,7 +4785,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		// pageContent //
 		/////////////////
 
-		tl(5, "<div class=\"htmBody", i18nPage.getString(I18n.var_BarreLaterale), "", classePageNomSimple, " \">");
+		tl(4, "<div class=\"htmBody", i18nPage.getString(I18n.var_BarreLaterale), "", classePageNomSimple, " \">");
 
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_BarreLaterale), "", classePageNomSimple, " %}");
 
@@ -5657,12 +5657,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Debut), classePageNomSimple, " %}");
 
 		// htmBodyCount0 //
-		tl(0, "{%- include ", classePageBarreLateraleTemplate, " %}");
+		tl(0, "{% include ", classePageBarreLateraleTemplate, " %}");
 		tl(0, "{% if ", varResultat, "Count == 0 %}");
 		ecrirePageRechercheAucun(langueNom, i18nPage);
 		tl(0, "{% else %}");
 
-		tl(0, "{%- include ", classePageRechercheSuggereTemplate, " %}");
+		tl(0, "{% include ", classePageRechercheSuggereTemplate, " %}");
 
 		tl(5, "<div class=\"pageContent \">");
 		tl(6, "<form action=\"", classeApiUri, "\" id=\"", classeApiClasseNomSimple, "Form\" class=\"", i18nPage.getString(I18n.var_page), i18nPage.getString(I18n.var_Formulaire), " \" onsubmit=\"event.preventDefault(); return false; \">");
