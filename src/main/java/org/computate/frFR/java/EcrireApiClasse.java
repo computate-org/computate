@@ -3969,6 +3969,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							if(classePartsToutEcrivain == null)
 								throw new RuntimeException(String.format("%s %s %s %s %s. ", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_ToutEcrivain), i18nGlobale.getString(I18n.var_manquante), i18nGlobale.getString(I18n.var_dans), cheminSrcMainJava));
 							tl(3, "String pageTemplateUri = ", i18nGlobale.getString(I18n.var_template), classeApiMethode, classeNomSimple, "(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "());");
+							tl(3, "if(", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ".size() == 0)");
+							tl(4, "pageTemplateUri = ", i18nGlobale.getString(I18n.var_template), i18nGlobale.getString(I18n.var_PageRecherche), classeNomSimple, "(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "());");
 							tl(3, "String siteTemplatePath = config.getString(ComputateConfigKeys.TEMPLATE_PATH);");
 							tl(3, "Path resourceTemplatePath = Path.of(siteTemplatePath, pageTemplateUri);");
 							tl(3, "String template = siteTemplatePath == null ? Resources.toString(Resources.getResource(resourceTemplatePath.toString()), StandardCharsets.UTF_8) : Files.readString(resourceTemplatePath, Charset.forName(\"UTF-8\"));");
