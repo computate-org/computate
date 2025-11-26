@@ -1315,6 +1315,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
                       wJsRechercheInit.tl(5, "document.querySelector('#pageFacetRangeGap", classeNomSimple, "_", entiteVar, "')?.addEventListener('", "sl-".equals(composantsWebPrefixe) ? "sl-" : "", "change', (event) => {");
                       wJsRechercheInit.tl(6, "facetRangeGapChange('", classeNomSimple, "', event.currentTarget);");
                       wJsRechercheInit.tl(5, "});");
+                      wJsRechercheInit.tl(5, "document.querySelector('#pageFacetRangeStart", classeNomSimple, "_", entiteVar, "')?.addEventListener('", "sl-".equals(composantsWebPrefixe) ? "sl-" : "", "change', (event) => {");
+                      wJsRechercheInit.tl(6, "facetRangeStartChange('", classeNomSimple, "', event.currentTarget);");
+                      wJsRechercheInit.tl(5, "});");
+                      wJsRechercheInit.tl(5, "document.querySelector('#pageFacetRangeEnd", classeNomSimple, "_", entiteVar, "')?.addEventListener('", "sl-".equals(composantsWebPrefixe) ? "sl-" : "", "change', (event) => {");
+                      wJsRechercheInit.tl(6, "facetRangeEndChange('", classeNomSimple, "', event.currentTarget);");
+                      wJsRechercheInit.tl(5, "});");
                     }
 
                     if("Boolean".equals(entiteNomSimple) && entiteVar.equals(langueConfig.getString(I18n.var_archive))) {
@@ -3083,6 +3089,26 @@ public class EcrirePageClasse extends EcrireApiClasse {
           tl(3, "function facet", i18nPage.getString(I18n.var_Gamme), "GapChange", classeNomSimple, "(", i18nPage.getString(I18n.var_classeNomSimple), ", event) {");
           tl(4, "facet", i18nPage.getString(I18n.var_Gamme), "GapChange(", i18nPage.getString(I18n.var_classeNomSimple), ", event, facet", i18nPage.getString(I18n.var_Gamme), "GapChange", classeNomSimple, "Success, facet", i18nPage.getString(I18n.var_Gamme), "GapChange", classeNomSimple, "Error);");
           tl(3, "}");
+          l();
+          tl(3, "function facet", i18nPage.getString(I18n.var_Gamme), "StartChange", classeNomSimple, "Success(pageContent) {");
+          tl(0, "{% block facet", i18nPage.getString(I18n.var_Gamme), "StartChange", classeNomSimple, "Success %}{%- endblock facet", i18nPage.getString(I18n.var_Gamme), "StartChange", classeNomSimple, "Success %}");
+          tl(3, "}");
+          tl(3, "function facet", i18nPage.getString(I18n.var_Gamme), "StartChange", classeNomSimple, "Error(pageContent) {");
+          tl(0, "{% block facet", i18nPage.getString(I18n.var_Gamme), "StartChange", classeNomSimple, "Error %}{%- endblock facet", i18nPage.getString(I18n.var_Gamme), "StartChange", classeNomSimple, "Error %}");
+          tl(3, "}");
+          tl(3, "function facet", i18nPage.getString(I18n.var_Gamme), "StartChange", classeNomSimple, "(", i18nPage.getString(I18n.var_classeNomSimple), ", event) {");
+          tl(4, "facet", i18nPage.getString(I18n.var_Gamme), "StartChange(", i18nPage.getString(I18n.var_classeNomSimple), ", event, facet", i18nPage.getString(I18n.var_Gamme), "StartChange", classeNomSimple, "Success, facet", i18nPage.getString(I18n.var_Gamme), "StartChange", classeNomSimple, "Error);");
+          tl(3, "}");
+          l();
+          tl(3, "function facet", i18nPage.getString(I18n.var_Gamme), "EndChange", classeNomSimple, "Success(pageContent) {");
+          tl(0, "{% block facet", i18nPage.getString(I18n.var_Gamme), "EndChange", classeNomSimple, "Success %}{%- endblock facet", i18nPage.getString(I18n.var_Gamme), "EndChange", classeNomSimple, "Success %}");
+          tl(3, "}");
+          tl(3, "function facet", i18nPage.getString(I18n.var_Gamme), "EndChange", classeNomSimple, "Error(pageContent) {");
+          tl(0, "{% block facet", i18nPage.getString(I18n.var_Gamme), "EndChange", classeNomSimple, "Error %}{%- endblock facet", i18nPage.getString(I18n.var_Gamme), "EndChange", classeNomSimple, "Error %}");
+          tl(3, "}");
+          tl(3, "function facet", i18nPage.getString(I18n.var_Gamme), "EndChange", classeNomSimple, "(", i18nPage.getString(I18n.var_classeNomSimple), ", event) {");
+          tl(4, "facet", i18nPage.getString(I18n.var_Gamme), "EndChange(", i18nPage.getString(I18n.var_classeNomSimple), ", event, facet", i18nPage.getString(I18n.var_Gamme), "EndChange", classeNomSimple, "Success, facet", i18nPage.getString(I18n.var_Gamme), "EndChange", classeNomSimple, "Error);");
+          tl(3, "}");
         }
         tl(2, "</script>");
         tl(2, "<script type=\"module\">");
@@ -3139,10 +3165,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
         tl(4, "window.varsFq = JSON.parse('{{ toJsonObjectStringInApostrophes(varsFq) }}');");
         tl(4, "window.varsRange = JSON.parse('{{ toJsonObjectStringInApostrophes(varsRange) }}');");
         tl(4, "window.defaultRangeVar = '{{ defaultRangeVar }}';");
+        tl(4, "document.querySelector('#siteSidebarToggleRange')?.addEventListener('wa-after-hide', function(e) { document.querySelector('#pageFacetRangeTimeZonePopup').active = false; });");
+        tl(4, "document.querySelector('#pageFacetRangeTimeZoneInput')?.addEventListener('input', siteSuggestTimeZone);");
+        tl(4, "document.querySelector('#pageFacetRangeTimeZoneInput')?.addEventListener('focus', siteSuggestTimeZone);");
         tl(4, i18nPage.getString(I18n.var_page), i18nPage.getString(I18n.var_Graphique), classeNomSimple, "();");
-
-
-
         tl(4, "{% for key, value in varsQ.items() %}");
         l();
         tl(4, "document.querySelector('#q", classeNomSimple, "_{{ key }}')?.addEventListener('", composantsWebPrefixe, "{% if var == '", classeVarSuggere, "' %}keyup{% else %}", "sl-".equals(composantsWebPrefixe) ? "sl-" : "", "change{% endif %}', event => {");
@@ -5119,6 +5145,26 @@ public class EcrirePageClasse extends EcrireApiClasse {
     tl(8, "</tr>");
     tl(7, "</table>");
 
+    tl(7, "<div>");
+    tl(8, "<wa-popup placement=\"bottom-start\" id=\"pageFacetRangeTimeZonePopup\">");
+    t(9, "<wa-input");
+    s(" type=\"text\"");
+    s(" slot=\"anchor\"");
+    s(" placeholder=\"", i18nPage.getString(I18n.str_fuseau_horaire), "\"");
+    s(" label=\"", i18nPage.getString(I18n.str_fuseau_horaire), "\"");
+    s(" hint=\"", String.format(i18nPage.getString(I18n.str_Le_fuseau_horaire_description), classeCeNom), "\"");
+    s(" id=\"pageFacetRangeTimeZoneInput\"");
+    s(" data-popup=\"pageFacetRangeTimeZonePopup\"");
+    s(" data-list=\"pageFacetRangeTimeZoneList\"");
+    s(" autocomplete=\"off\"");
+    s(" value=\"{{ defaultZoneId | e }}\"");
+    s(" size=\"medium\"");
+    s(" appearance=\"outlined\"");
+    s(">");
+    l("</wa-input>");
+    tl(9, "<div id=\"pageFacetRangeTimeZoneList\"></div>");
+    tl(8, "</wa-popup>");
+    tl(7, "</div>");
     tl(7, "<table>");
     tl(8, "<tr class=\"\">");
     tl(9, "<td class=\"\">");
@@ -5153,7 +5199,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
     s(" name=\"facetRangeStart\"");
     s(" id=\"pageSearchVal-pageFacetRangeStart-", classeNomSimple, "-input\"");
     s(" value=\"{{ formatZonedDateTime(defaultRangeStart, \"yyyy-MM-dd'T'HH:mm\", defaultLocaleId, defaultZoneId) }}\"");
-    s(" onchange=\"facet", i18nPage.getString(I18n.var_Gamme), "StartChange('", classeNomSimple, "', this, '{{ defaultZoneId }}'); \"");
+    s(" onchange=\"facet", i18nPage.getString(I18n.var_Gamme), "StartChange", classeNomSimple, "('", classeNomSimple, "', this, '{{ defaultZoneId }}'); \"");
     l("></", composantsWebPrefixe, "input></span>");
     tl(9, "</td>");
     tl(8, "</tr>");
@@ -5170,7 +5216,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
     s(" name=\"facetRangeEnd\"");
     s(" id=\"pageSearchVal-pageFacetRangeEnd-", classeNomSimple, "-input\"");
     s(" value=\"{{ formatZonedDateTime(defaultRangeEnd, \"yyyy-MM-dd'T'HH:mm\", defaultLocaleId, defaultZoneId) }}\"");
-    s(" onchange=\"facet", i18nPage.getString(I18n.var_Gamme), "EndChange('", classeNomSimple, "', this, '{{ defaultZoneId }}'); \"");
+    s(" onchange=\"facet", i18nPage.getString(I18n.var_Gamme), "EndChange", classeNomSimple, "('", classeNomSimple, "', this, '{{ defaultZoneId }}'); \"");
     l("></", composantsWebPrefixe, "input></span>");
     tl(9, "</td>");
     tl(8, "</tr>");
