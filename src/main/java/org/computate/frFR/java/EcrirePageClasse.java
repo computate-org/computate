@@ -5609,12 +5609,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
     //////////////
     // bouton q //
     //////////////
-    // // tl(5, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
-    // tl(7, "<", composantsWebPrefixe, "button class=\"", i18nPage.getString(I18n.var_BoutonsRecherche), "_", i18nPage.getString(I18n.var_Rechercher), " ", i18nPage.getString(I18n.var_BoutonsRecherche), "_", i18nPage.getString(I18n.var_Rechercher), "_", classeNomSimple, " \"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Recherche), "').open = true; \">");
-    // tl(8, "<i slot=\"start\" class=\"{{ FONTAWESOME_STYLE }} fa-magnifying-glass hover-box-shadow \"></i> ");
-    // tl(8, i18nPage.getString(I18n.str_rechercher));
-    // tl(7, "</", composantsWebPrefixe, "button>");
-    // // tl(5, "</", composantsWebPrefixe, "tooltip>");
+    // tl(5, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
+    tl(7, "<", composantsWebPrefixe, "button class=\"", i18nPage.getString(I18n.var_BoutonsRecherche), "_", i18nPage.getString(I18n.var_Rechercher), " ", i18nPage.getString(I18n.var_BoutonsRecherche), "_", i18nPage.getString(I18n.var_Rechercher), "_", classeNomSimple, " \"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Recherche), "').open = true; \">");
+    tl(8, "<i slot=\"start\" class=\"{{ FONTAWESOME_STYLE }} fa-magnifying-glass hover-box-shadow \"></i> ");
+    tl(8, i18nPage.getString(I18n.str_rechercher));
+    tl(7, "</", composantsWebPrefixe, "button>");
+    // tl(5, "</", composantsWebPrefixe, "tooltip>");
 
     ///////////////
     // bouton fq //
@@ -5651,12 +5651,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
     //////////////////
     // bouton pivot //
     //////////////////
-    // tl(5, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
-    tl(7, "<", composantsWebPrefixe, "button class=\"", i18nPage.getString(I18n.var_BoutonsRecherche), "_", i18nPage.getString(I18n.var_Pivot), " ", i18nPage.getString(I18n.var_BoutonsRecherche), "_", i18nPage.getString(I18n.var_Pivot), "_", classeNomSimple, " \"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Pivot), "').open = true; \">");
-    tl(8, "<i slot=\"start\" class=\"{{ FONTAWESOME_STYLE }} fa-table-pivot hover-box-shadow \"></i> ");
-    tl(8, i18nPage.getString(I18n.str_pivot));
-    tl(7, "</", composantsWebPrefixe, "button>");
-    // tl(5, "</", composantsWebPrefixe, "tooltip>");
+    // // tl(5, "<", composantsWebPrefixe, "tooltip placement=\"top\" content=\"", i18nPage.getString(I18n.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
+    // tl(7, "<", composantsWebPrefixe, "button class=\"", i18nPage.getString(I18n.var_BoutonsRecherche), "_", i18nPage.getString(I18n.var_Pivot), " ", i18nPage.getString(I18n.var_BoutonsRecherche), "_", i18nPage.getString(I18n.var_Pivot), "_", classeNomSimple, " \"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " onclick=\"document.querySelector('#site", i18nPage.getString(I18n.var_BarreLaterale), "Toggle", i18nPage.getString(I18n.var_Pivot), "').open = true; \">");
+    // tl(8, "<i slot=\"start\" class=\"{{ FONTAWESOME_STYLE }} fa-table-pivot hover-box-shadow \"></i> ");
+    // tl(8, i18nPage.getString(I18n.str_pivot));
+    // tl(7, "</", composantsWebPrefixe, "button>");
+    // // tl(5, "</", composantsWebPrefixe, "tooltip>");
 
     /////////////////////////
     // bouton liste champs //
@@ -5813,6 +5813,21 @@ public class EcrirePageClasse extends EcrireApiClasse {
     // htmBody //
     /////////////
 
+
+    tl(0, "{%- if ", i18nPage.getString(I18n.var_pageFilDAriane), " is not defined %}");
+    tl(0, "{%- set ", i18nPage.getString(I18n.var_pageFilDAriane), " %}");
+    tl(7, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\">", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "</", composantsWebPrefixe, "tooltip>");
+    tl(7, "<", composantsWebPrefixe, "breadcrumb>");
+    tl(8, "<", composantsWebPrefixe, "breadcrumb-item id=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
+    tl(9, classeIcone);
+    tl(9, classeTousNom);
+    tl(8, "</", composantsWebPrefixe, "breadcrumb-item>");
+    tl(8, "<", composantsWebPrefixe, "breadcrumb-item>");
+    t(9).sx(classeRechercherTousNom).l();
+    tl(8, "</", composantsWebPrefixe, "breadcrumb-item>");
+    tl(7, "</", composantsWebPrefixe, "breadcrumb>");
+    tl(0, "{%- endset ", i18nPage.getString(I18n.var_pageFilDAriane), " %}");
+    tl(0, "{%- endif  %}");
     l();
     tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Debut), classePageSuperNomSimple, " %}");
     tl(0, "{{ super() }}");
@@ -5852,19 +5867,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //		tl(7, "<h3 id=\"site-calendar-title\">Calendar</h3>");
     tl(7, "<div id=\"site-calendar\"><!-- // --></div>");
     tl(6, "</div>");
-
     tl(6, "<div class=\"", composantsWebPrefixe, "stack ", composantsWebPrefixe, "gap-m \">");
-    tl(7, "<", composantsWebPrefixe, "tooltip for=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\">", i18nPage.getString(I18n.str_retourner_a_), classeTousNom, "</", composantsWebPrefixe, "tooltip>");
-    tl(7, "<", composantsWebPrefixe, "breadcrumb>");
-    tl(8, "<", composantsWebPrefixe, "breadcrumb-item id=\"", i18nPage.getString(I18n.var_retourner_a_), classeNomSimple, "\"", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " href=\"{{ SITE_BASE_URL }}{{ pageUri }}\">");
-    tl(9, classeIcone);
-    tl(9, classeTousNom);
-    tl(8, "</", composantsWebPrefixe, "breadcrumb-item>");
-    tl(8, "<", composantsWebPrefixe, "breadcrumb-item>");
-    t(9).sx(classeRechercherTousNom).l();
-    tl(8, "</", composantsWebPrefixe, "breadcrumb-item>");
-    tl(7, "</", composantsWebPrefixe, "breadcrumb>");
-
 
     /////////////////
     // htmBodyTous //
