@@ -582,7 +582,7 @@ public class ConfigSite {
     composantsWebPrefixe = config
         .getString(langueConfigGlobale.getString(I18n.var_COMPOSANTS_WEB_PREFIXE));
     if (StringUtils.isEmpty(composantsWebPrefixe)) {
-      composantsWebPrefixe = "sl-";
+      composantsWebPrefixe = "pf-";
     }
   }
 

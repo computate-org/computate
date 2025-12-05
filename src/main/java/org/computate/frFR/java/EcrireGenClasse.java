@@ -702,6 +702,7 @@ public class EcrireGenClasse extends EcrireClasse {
   protected ToutEcrivain auteurBarreLateraleJinja = null;
   protected ToutEcrivain auteurBoutonsRechercheJinja = null;
   protected ToutEcrivain auteurBoutonsPaginationJinja = null;
+  protected ToutEcrivain auteurBoutonsFormulaireRechercheJinja = null;
   protected ToutEcrivain auteurFormulaireRechercheJinja = null;
   protected ToutEcrivain auteurRechercheSuggereJinja = null;
   protected ToutEcrivain auteurPageRechercheJinja = null;
@@ -1240,6 +1241,9 @@ public class EcrireGenClasse extends EcrireClasse {
 
   String classePageBoutonsPaginationTemplate;
   String classePageBoutonsPaginationCheminJinja;
+
+  String classePageBoutonsFormulaireRechercheTemplate;
+  String classePageBoutonsFormulaireRechercheCheminJinja;
 
   String classePageFormulaireRechercheTemplate;
   String classePageFormulaireRechercheCheminJinja;
@@ -2393,6 +2397,9 @@ public class EcrireGenClasse extends EcrireClasse {
       classePageBoutonsPaginationTemplate = classeDoc.getString("classePageBoutonsPaginationTemplate" + "_" + langueNom + "_stored_string");
       classePageBoutonsPaginationCheminJinja = classeDoc.getString("classePageBoutonsPaginationCheminJinja" + "_" + langueNom + "_stored_string");
 
+      classePageBoutonsFormulaireRechercheTemplate = classeDoc.getString("classePageBoutonsFormulaireRechercheTemplate" + "_" + langueNom + "_stored_string");
+      classePageBoutonsFormulaireRechercheCheminJinja = classeDoc.getString("classePageBoutonsFormulaireRechercheCheminJinja" + "_" + langueNom + "_stored_string");
+
       classePageFormulaireRechercheTemplate = classeDoc.getString("classePageFormulaireRechercheTemplate" + "_" + langueNom + "_stored_string");
       classePageFormulaireRechercheCheminJinja = classeDoc.getString("classePageFormulaireRechercheCheminJinja" + "_" + langueNom + "_stored_string");
 
@@ -2423,6 +2430,7 @@ public class EcrireGenClasse extends EcrireClasse {
       File classePageBarreLateraleFichierJinja = null;
       File classePageBoutonsRechercheFichierJinja = null;
       File classePageBoutonsPaginationFichierJinja = null;
+      File classePageBoutonsFormulaireRechercheFichierJinja = null;
       File classePageFormulaireRechercheFichierJinja = null;
       File classePageRechercheSuggereFichierJinja = null;
       File classePageRechercheFichierJinja = null;
@@ -2453,6 +2461,9 @@ public class EcrireGenClasse extends EcrireClasse {
 
       if(classePageBoutonsPaginationCheminJinja != null)
         classePageBoutonsPaginationFichierJinja = new File(classePageBoutonsPaginationCheminJinja);
+
+      if(classePageBoutonsFormulaireRechercheCheminJinja != null)
+        classePageBoutonsFormulaireRechercheFichierJinja = new File(classePageBoutonsFormulaireRechercheCheminJinja);
 
       if(classePageFormulaireRechercheCheminJinja != null)
         classePageFormulaireRechercheFichierJinja = new File(classePageFormulaireRechercheCheminJinja);
@@ -2510,8 +2521,13 @@ public class EcrireGenClasse extends EcrireClasse {
         auteurBoutonsPaginationJinja = ToutEcrivain.create(classePageBoutonsPaginationFichierJinja, "  ");
       }
 
+      if(classePageBoutonsFormulaireRechercheFichierJinja != null) {
+        classePageBoutonsFormulaireRechercheFichierJinja.getParentFile().mkdirs();
+        auteurBoutonsFormulaireRechercheJinja = ToutEcrivain.create(classePageBoutonsFormulaireRechercheFichierJinja, "  ");
+      }
+
       if(classePageFormulaireRechercheFichierJinja != null) {
-        classeGenPageRechercheFichierJinja.getParentFile().mkdirs();
+        classePageFormulaireRechercheFichierJinja.getParentFile().mkdirs();
         auteurFormulaireRechercheJinja = ToutEcrivain.create(classePageFormulaireRechercheFichierJinja, "  ");
       }
 
