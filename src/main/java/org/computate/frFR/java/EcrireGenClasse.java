@@ -927,6 +927,8 @@ public class EcrireGenClasse extends EcrireClasse {
    * Var.enUS: entityHtml
    */
   Boolean entiteHtml;
+  Integer entitePrecision;
+  String entiteModeDArrondi;
 
   /**
    * Var.enUS: entityModify
@@ -3355,6 +3357,8 @@ public class EcrireGenClasse extends EcrireClasse {
       entiteDefaut = doc.getString("entiteDefaut_stored_string");
       entiteRequis = doc.getBoolean("entiteRequis_stored_boolean");
       entiteHtml = doc.getBoolean("entiteHtml_stored_boolean");
+      entiteModeDArrondi = doc.getString("entiteModeDArrondi_stored_string");
+      entitePrecision = doc.getInteger("entitePrecision_stored_int");
       Boolean entiteEstListe = (StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()));
 
       Boolean entiteEstZonedDateTime = StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())
@@ -3976,25 +3980,25 @@ public class EcrireGenClasse extends EcrireClasse {
           }
           tl(1, "}");
           tl(1, "public static MathContext staticMathContext", entiteVarCapitalise, "() {");
-          tl(2, "return new MathContext(precision, RoundingMode.HALF_UP);");
+          tl(2, "return new MathContext(", entitePrecision, ", RoundingMode.valueOf(\"", entiteModeDArrondi, "\"));");
           tl(1, "}");
           tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
           tl(2, "o = StringUtils.removeAll(o, \"[^\\\\d\\\\.]\");");
           tl(2, "if(NumberUtils.isParsable(o))");
-          tl(3, "return new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.HALF_UP);");
+          tl(3, "return new BigDecimal(o, staticMathContext", entiteVarCapitalise, "());");
           tl(2, "return null;");
           tl(1, "}");
           tl(1, "@JsonIgnore");
           tl(1, "public void set", entiteVarCapitalise, "(Double o) {");
-          tl(2, entiteEstListe ? "add" : "set", entiteVarCapitalise, "(new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.HALF_UP));");
+          tl(2, entiteEstListe ? "add" : "set", entiteVarCapitalise, "(new BigDecimal(o, staticMathContext", entiteVarCapitalise, "()));");
           tl(1, "}");
           tl(1, "@JsonIgnore");
           tl(1, "public void set", entiteVarCapitalise, "(Integer o) {");
-          tl(2, entiteEstListe ? "add" : "set", entiteVarCapitalise, "(new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.HALF_UP));");
+          tl(2, entiteEstListe ? "add" : "set", entiteVarCapitalise, "(new BigDecimal(o, staticMathContext", entiteVarCapitalise, "()));");
           tl(1, "}");
           tl(1, "@JsonIgnore");
           tl(1, "public void set", entiteVarCapitalise, "(Number o) {");
-          tl(2, entiteEstListe ? "add" : "set", entiteVarCapitalise, "(new BigDecimal(o.doubleValue(), MathContext.DECIMAL64).setScale(2, RoundingMode.HALF_UP));");
+          tl(2, entiteEstListe ? "add" : "set", entiteVarCapitalise, "(new BigDecimal(o.doubleValue(), staticMathContext", entiteVarCapitalise, "()));");
           tl(1, "}");
           staticSet = true;
         }
@@ -4051,7 +4055,7 @@ public class EcrireGenClasse extends EcrireClasse {
           tl(4, "}");
           tl(4, "return shape;");
           tl(3, "} catch(Exception ex) {");
-          tl(4, "ExceptionUtils.rethrow(ex);");
+          tl(4, "LOG.error(String.format(\"Could not parse GeoJSON. %s: %s\", ex.getMessage(), o));");
           tl(3, "}");
           tl(2, "}");
           tl(2, "return null;");
@@ -4086,7 +4090,7 @@ public class EcrireGenClasse extends EcrireClasse {
           }
           tl(4, "return shape", StringUtils.equals(entiteNomCanoniqueGenerique, VAL_nomCanoniquePolygon) ? "s" : "", ";");
           tl(3, "} catch(Exception ex) {");
-          tl(4, "ExceptionUtils.rethrow(ex);");
+          tl(4, "LOG.error(String.format(\"Could not parse GeoJSON. %s: %s\", ex.getMessage(), o));");
           tl(3, "}");
           tl(2, "}");
           tl(2, "return null;");
@@ -4385,6 +4389,9 @@ public class EcrireGenClasse extends EcrireClasse {
     
         // Setter BigDecimal //
         if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, BigDecimal.class.getCanonicalName())) {
+          tl(1, "public static MathContext staticMathContext", entiteVarCapitalise, "() {");
+          tl(2, "return new MathContext(", entitePrecision, ", RoundingMode.valueOf(\"", entiteModeDArrondi, "\"));");
+          tl(1, "}");
           tl(1, "@JsonIgnore");
           tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
           tl(2, entiteVar, ".clear();");
@@ -4392,12 +4399,12 @@ public class EcrireGenClasse extends EcrireClasse {
           tl(3, "return;");
           tl(2, "for(int i = 0; i < objects.size(); i++) {");
           tl(3, entiteListeNomSimpleVertxJson, " o = objects.get", entiteListeNomSimpleVertxJson, "(i);");
-          tl(3, "add", entiteVarCapitalise, "(new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.HALF_UP));");
+          tl(3, "add", entiteVarCapitalise, "(new BigDecimal(o, staticMathContext", entiteVarCapitalise, "()));");
           tl(2, "}");
           tl(1, "}");
           tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
           tl(2, "if(NumberUtils.isParsable(o)) {");
-          tl(3, entiteNomSimpleCompletGenerique, " p = new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.HALF_UP);");
+          tl(3, entiteNomSimpleCompletGenerique, " p = new BigDecimal(o, staticMathContext", entiteVarCapitalise, "());");
           tl(3, "add", entiteVarCapitalise, "(p);");
           tl(2, "}");
           tl(2, "return (", classeNomSimple, ")this;");
@@ -5605,9 +5612,9 @@ public class EcrireGenClasse extends EcrireClasse {
             }
             if(VAL_nomCanoniquePolygon.equals(entiteNomCanoniqueGenerique)) {
               tl(4, "} else if(val instanceof JsonObject) {");
-              tl(5, "staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, val.toString()).stream().forEach(v -> add", entiteVarCapitalise, "(v));");
+              tl(5, "Optional.ofNullable(staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, val.toString())).ifPresent(u -> u.stream().forEach(v -> add", entiteVarCapitalise, "(v)));");
               tl(4, "} else if(val instanceof String) {");
-              tl(5, "staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, (String)val).stream().forEach(v -> add", entiteVarCapitalise, "(v));");
+              tl(5, "Optional.ofNullable(staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, (String)val)).ifPresent(u -> u.stream().forEach(v -> add", entiteVarCapitalise, "(v)));");
             } else {
               tl(4, "} else if(val instanceof JsonArray) {");
               tl(5, "((JsonArray)val).stream().forEach(v -> add", entiteVarCapitalise, "(staticSet", entiteVarCapitalise, "(", langueConfig.getString(I18n.var_requeteSite), "_, v.toString())));");
