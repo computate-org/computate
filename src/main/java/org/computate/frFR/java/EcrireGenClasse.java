@@ -3985,7 +3985,7 @@ public class EcrireGenClasse extends EcrireClasse {
           tl(2, "return new MathContext(", entitePrecision, ", RoundingMode.valueOf(\"", entiteModeDArrondi, "\"));");
           tl(1, "}");
           tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
-          tl(2, "o = StringUtils.removeAll(o, \"[^\\\\d\\\\.]\");");
+          tl(2, "o = StringUtils.removeAll(o, \"[^\\\\d\\\\.-]\");");
           tl(2, "if(NumberUtils.isParsable(o))");
           tl(3, "return new BigDecimal(o, staticMathContext", entiteVarCapitalise, "());");
           tl(2, "return null;");
