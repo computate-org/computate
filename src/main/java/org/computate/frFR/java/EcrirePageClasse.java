@@ -686,6 +686,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
         if(StringUtils.equalsAny(entiteFiwareType, "date", "datetime-local", "email", "number", "password", "search", "tel", "text", "time", "url"))
           tl(11, "type=\"", entiteFiwareType, "\"");
+        if(StringUtils.equalsAny(entiteFiwareType, "number") && entiteEtape != null)
+          tl(11, "step=\"", entiteEtape, "\"");
 
         if(entiteMin != null)
           tl(11, "min=\"{{ min }}\"");
@@ -1146,6 +1148,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
                 entiteDescription = (String)entiteDocumentSolr.get("entiteDescription_" + langueNom + "_stored_string");
                 entiteNomAffichage = (String)entiteDocumentSolr.get("entiteNomAffichage_" + langueNom + "_stored_string");
                 entiteFiwareType = (String)entiteDocumentSolr.get("entiteFiwareType_stored_string");
+                entiteEtape = (String)entiteDocumentSolr.get("entiteEtape_stored_string");
                 entiteCacherPOST = (Boolean)entiteDocumentSolr.get("entiteCacherPOST_stored_boolean");
                 entiteCacherPATCH = (Boolean)entiteDocumentSolr.get("entiteCacherPATCH_stored_boolean");
                 entiteCacherRecherche = (Boolean)entiteDocumentSolr.get("entiteCacherRecherche_stored_boolean");

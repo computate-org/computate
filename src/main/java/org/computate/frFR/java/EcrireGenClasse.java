@@ -928,6 +928,7 @@ public class EcrireGenClasse extends EcrireClasse {
    */
   Boolean entiteHtml;
   Integer entitePrecision;
+  String entiteEtape;
   String entiteModeDArrondi;
 
   /**
@@ -3359,6 +3360,7 @@ public class EcrireGenClasse extends EcrireClasse {
       entiteHtml = doc.getBoolean("entiteHtml_stored_boolean");
       entiteModeDArrondi = doc.getString("entiteModeDArrondi_stored_string");
       entitePrecision = doc.getInteger("entitePrecision_stored_int");
+      entiteEtape = doc.getString("entitePrecision_stored_string");
       Boolean entiteEstListe = (StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()));
 
       Boolean entiteEstZonedDateTime = StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())
