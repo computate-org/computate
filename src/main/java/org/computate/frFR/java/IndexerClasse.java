@@ -4196,7 +4196,7 @@ public class IndexerClasse extends RegarderClasseBase {
             else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBigDecimal)) {
               entiteSolrNomCanonique = VAL_nomCanoniqueDouble;
               entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
-              entiteSuffixeType = "_double";
+              entiteSuffixeType = "_string";
             }
             else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueDouble)) {
               entiteSolrNomCanonique = VAL_nomCanoniqueDouble;
@@ -4252,7 +4252,7 @@ public class IndexerClasse extends RegarderClasseBase {
               else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueBigDecimal)) {
                 entiteSolrNomCanonique = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueBigDecimal + ">";
                 entiteSolrNomSimple = "List<" + StringUtils.substringAfterLast(VAL_nomCanoniqueBigDecimal, ".") + ">";
-                entiteSuffixeType = "_doubles";
+                entiteSuffixeType = "_strings";
               }
               else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueDouble)) {
                 entiteSolrNomCanonique = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueDouble + ">";
