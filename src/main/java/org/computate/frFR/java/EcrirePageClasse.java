@@ -6041,8 +6041,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
     tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Milieu), classePageSuperNomSimple, " %}");
     tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Milieu), classePageNomSimple, " %}");
 
-    tl(4, "<div class=\"pageContent \">");
     tl(0, "{%- include ", classePageBarreLateraleTemplate, " %}");
+    tl(4, "<div class=\"pageContent \">");
     // htmBodyCount0 //
     tl(0, "{% if ", varResultat, "Count == 0 %}");
     ecrirePageRechercheAucun(langueNom, i18nPage);
