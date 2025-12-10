@@ -2382,6 +2382,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
       auteurPageJsRecherche.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "select')");
       auteurPageJsRecherche.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "radio')");
       auteurPageJsRecherche.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "checkbox')");
+      auteurPageJsRecherche.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "dropdown')");
       auteurPageJsRecherche.tl(2, "]).then(() => {");
 
       auteurPageJsRecherche.l();
@@ -3164,6 +3165,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
         tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "select')");
         tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "radio')");
         tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "checkbox')");
+        tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "dropdown')");
         tl(3, "]).then(() => {");
         if(classeVarId != null) {
           l();
@@ -4425,6 +4427,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
       auteurPageJsEdition.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "select')");
       auteurPageJsEdition.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "radio')");
       auteurPageJsEdition.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "checkbox')");
+      auteurPageJsEdition.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "dropdown')");
       auteurPageJsEdition.tl(2, "]).then(() => {");
 
       for(String classeApiMethode : classeApiMethodes) {
@@ -6038,8 +6041,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
     tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Milieu), classePageSuperNomSimple, " %}");
     tl(0, "{%- block htmBody", i18nPage.getString(I18n.var_Milieu), classePageNomSimple, " %}");
 
-    tl(4, "<div class=\"pageContent \">");
     tl(0, "{%- include ", classePageBarreLateraleTemplate, " %}");
+    tl(4, "<div class=\"pageContent \">");
     // htmBodyCount0 //
     tl(0, "{% if ", varResultat, "Count == 0 %}");
     ecrirePageRechercheAucun(langueNom, i18nPage);
