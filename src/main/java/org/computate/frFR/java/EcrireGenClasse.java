@@ -5632,26 +5632,36 @@ public class EcrireGenClasse extends EcrireClasse {
               tl(5, "set", entiteVarCapitalise, "((String)val);");
               tl(4, "} else if(val instanceof Point) {");
               tl(5, "set", entiteVarCapitalise, "((Point)val);");
+              tl(4, "} else if(val instanceof ", entiteNomSimple, ") {");
+              tl(5, "set", entiteVarCapitalise, "((", entiteNomSimple, ")val);");
             } else if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
               tl(4, "if(val instanceof String) {");
               tl(5, "set", entiteVarCapitalise, "((String)val);");
               tl(4, "} else if(val instanceof JsonObject) {");
               tl(5, "set", entiteVarCapitalise, "((JsonObject)val);");
+              tl(4, "} else if(val instanceof ", entiteNomSimple, ") {");
+              tl(5, "set", entiteVarCapitalise, "((", entiteNomSimple, ")val);");
             } else if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniqueVertxJsonArray)) {
               tl(4, "if(val instanceof String) {");
               tl(5, "set", entiteVarCapitalise, "((String)val);");
               tl(4, "} else if(val instanceof JsonArray) {");
               tl(5, "set", entiteVarCapitalise, "((JsonArray)val);");
+              tl(4, "} else if(val instanceof ", entiteNomSimple, ") {");
+              tl(5, "set", entiteVarCapitalise, "((", entiteNomSimple, ")val);");
             } else if(StringUtils.equals(entiteNomCanonique, BigDecimal.class.getCanonicalName())) {
               tl(4, "if(val instanceof String) {");
               tl(5, "set", entiteVarCapitalise, "((String)val);");
               tl(4, "} else if(val instanceof Number) {");
               tl(5, "set", entiteVarCapitalise, "(new BigDecimal(((Number)val).doubleValue()));");
+              tl(4, "} else if(val instanceof ", entiteNomSimple, ") {");
+              tl(5, "set", entiteVarCapitalise, "((", entiteNomSimple, ")val);");
             } else if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
               tl(4, "if(val instanceof String) {");
               tl(5, "set", entiteVarCapitalise, "((String)val);");
               tl(4, "} else if(val instanceof OffsetDateTime) {");
               tl(5, "set", entiteVarCapitalise, "(((OffsetDateTime)val).atZoneSameInstant(ZoneId.of(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(I18n.var_SITE_ZONE), "))));");
+              tl(4, "} else if(val instanceof ", entiteNomSimple, ") {");
+              tl(5, "set", entiteVarCapitalise, "((", entiteNomSimple, ")val);");
             } else {
               tl(4, "if(val instanceof ", entiteNomSimpleComplet, ") {");
               tl(5, "set", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val);");
