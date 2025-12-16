@@ -2015,7 +2015,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   for(String classeRessourceAutorisation : classeRessourcesAutorisation) {
 
                     tl(6, "groups.stream().map(group -> {");
-                    tl(9, "Matcher mPermission = Pattern.compile(\"^/(.*-?", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-(.*))-(", classeApiMethodeMethode, ")$\").matcher(group);");
+                    tl(9, "Matcher mPermission = Pattern.compile(\"^/(.*-?", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-([a-z0-9\\\\-]+))-(", classeApiMethodeMethode, ")$\").matcher(group);");
                     tl(9, "return mPermission.find() ? mPermission.group(1) : null;");
                     tl(8, "}).filter(v -> v != null).forEach(", i18nGlobale.getString(I18n.var_valeur), " -> {");
                     tl(9, "fqs.add(String.format(\"%s:%s\", \"", StringUtils.substringAfter(classeRessourceAutorisation, "-"), "\", ", i18nGlobale.getString(I18n.var_valeur), "));");
@@ -2222,7 +2222,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   for(String classeRessourceAutorisation : classeRessourcesAutorisation) {
 
                     tl(6, "groups.stream().map(group -> {");
-                    tl(9, "Matcher mPermission = Pattern.compile(\"^/(.*-?", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-(.*))-(", classeApiMethodeMethode, ")$\").matcher(group);");
+                    tl(9, "Matcher mPermission = Pattern.compile(\"^/(.*-?", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-([a-z0-9\\\\-]+))-(", classeApiMethodeMethode, ")$\").matcher(group);");
                     tl(9, "return mPermission.find() ? mPermission.group(1) : null;");
                     tl(8, "}).filter(v -> v != null).forEach(", i18nGlobale.getString(I18n.var_valeur), " -> {");
                     tl(9, "fqs.add(String.format(\"%s:%s\", \"", StringUtils.substringAfter(classeRessourceAutorisation, "-"), "\", ", i18nGlobale.getString(I18n.var_valeur), "));");
