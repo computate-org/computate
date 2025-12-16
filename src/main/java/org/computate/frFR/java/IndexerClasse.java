@@ -5575,6 +5575,8 @@ public class IndexerClasse extends RegarderClasseBase {
       classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "org.computate.search.tool.SearchTool", classeLangueNom), classeLangueNom);
       classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.time.ZoneId", classeLangueNom), classeLangueNom);
       classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "io.vertx.pgclient.data.Point", classeLangueNom), classeLangueNom);
+      classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.util.regex.Matcher", classeLangueNom), classeLangueNom);
+      classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.util.regex.Pattern", classeLangueNom), classeLangueNom);
   
       for(ClasseParts classePartGenPage : classePartsGenPage.values()) {
         indexerStockerListeSolr(langueNomGlobale, classeDoc, "classeImportationsGenPage", classePartGenPage.nomCanonique(classeLangueNom));
