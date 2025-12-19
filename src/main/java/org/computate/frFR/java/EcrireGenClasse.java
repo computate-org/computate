@@ -3358,8 +3358,8 @@ public class EcrireGenClasse extends EcrireClasse {
       entiteDefaut = doc.getString("entiteDefaut_stored_string");
       entiteRequis = doc.getBoolean("entiteRequis_stored_boolean");
       entiteHtml = doc.getBoolean("entiteHtml_stored_boolean");
-      entiteModeDArrondi = doc.getString("entiteModeDArrondi_stored_string");
-      entitePrecision = doc.getInteger("entitePrecision_stored_int");
+      entiteModeDArrondi = doc.getString("entiteModeDArrondi_stored_string", "HALF_UP");
+      entitePrecision = doc.getInteger("entitePrecision_stored_int", 2);
       entiteEtape = doc.getString("entitePrecision_stored_string");
       Boolean entiteEstListe = (StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()));
 
