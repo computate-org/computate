@@ -409,11 +409,6 @@ public class EcrireGenClasse extends EcrireClasse {
   protected List<String> classeFiltres;
 
   /**
-   * Var.enUS: classApiMethods
-   */
-  protected List<String> classeApiMethodes;
-
-  /**
    * Var.enUS: classEntityVars
    */ 
   protected List<String> classeEntiteVars;
@@ -1270,7 +1265,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
   String classePageUriMethode;
 
-  String classePageLangueNom;
+  // String classePageLangueNom;
 
   String classePageUriCss;
   String classePageUriJs;
@@ -7098,6 +7093,9 @@ public class EcrireGenClasse extends EcrireClasse {
         , classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen
         );
 
+    List<String> classeApiMethodes = Optional.ofNullable(doc.getJsonArray("classeApiMethodes_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+    if(classeApiMethodes == null)
+      classeApiMethodes = new ArrayList<>();
     for(Integer i = 0; i < classeApiMethodes.size(); i++) {
       String classeApiMethode = classeApiMethodes.get(i);
       ecrireClasseCommentaireChamp(langueNom, classeRef, "ApiMethode", "commentaire", wClasseDescription

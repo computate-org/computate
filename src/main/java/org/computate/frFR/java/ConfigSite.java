@@ -493,7 +493,7 @@ public class ConfigSite {
    * Var.enUS:classOtherLanguages enUS: Other language names supported in this
    * application.
    */
-  public String[] classeAutresLangues;
+  // public String[] classeAutresLangues;
 
   /**
    * Var.enUS: _allLanguages r: toutesLangues r.enUS: allLanguages r: siteNom
@@ -501,7 +501,7 @@ public class ConfigSite {
    * languageName
    **/
   protected void _toutesLangues() throws Exception {
-    toutesLangues = ArrayUtils.add(ArrayUtils.addAll(autresLangues), langueNomGlobale);
+    toutesLangues = ArrayUtils.add(autresLangues, langueNomGlobale);
   }
 
   /**
@@ -1136,7 +1136,7 @@ public class ConfigSite {
       throws Exception {
     String valeurChamp = null;
     if (nomChampRegex != null && commentaire != null) {
-      Matcher m = Pattern.compile("^" + nomChampRegex + "(." + langueNom + ")?:\\s*(.*)", Pattern.MULTILINE)
+      Matcher m = Pattern.compile("^" + nomChampRegex + "(\\." + langueNom + ")?:\\s*(.*)", Pattern.MULTILINE)
           .matcher(commentaire);
       if (m.find()) {
         valeurChamp = m.group(m.groupCount());

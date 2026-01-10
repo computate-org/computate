@@ -388,9 +388,6 @@ public class EcrireToutesClasses extends EcrirePageClasse {
     classeTrisSuffixeType = Optional.ofNullable(doc.getJsonArray("classeTrisSuffixeType_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
     classeFiltresTrouves = BooleanUtils.isTrue((Boolean)doc.getBoolean("classeFiltresTrouves_stored_boolean"));
     classeFiltres = Optional.ofNullable(doc.getJsonArray("classeFiltres_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
-    classeApiMethodes = Optional.ofNullable(doc.getJsonArray("classeApiMethodes_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
-    if(classeApiMethodes == null)
-      classeApiMethodes = new ArrayList<>();
     classeEntiteVars = Optional.ofNullable(doc.getJsonArray("classeEntiteVars_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
     if(classeEntiteVars == null)
       classeEntiteVars = new ArrayList<>();

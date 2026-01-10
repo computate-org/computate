@@ -957,12 +957,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
     classeApiUri = classeDoc.getString("classeApiUri" + "_" + langueNom + "_stored_string");
     classePageUriMethode = classeDoc.getString("classeApiUri" + langueConfig.getString(I18n.var_PageRecherche) + "_" + langueNom + "_stored_string");
-    classePageLangueNom = classeDoc.getString("classePageLangueNom"  + "_" + langueNom + "_stored_string");
+    // classePageLangueNom = classeDoc.getString("classePageLangueNom"  + "_" + langueNom + "_stored_string");
     classeModele = (Boolean)classeDoc.getBoolean("classeModele_stored_boolean");
-    classePageLangueConfig = null;
-    if(classePageLangueNom != null) {
-      classePageLangueConfig = langueConfig;
-    }
+    // classePageLangueConfig = null;
+    // if(classePageLangueNom != null) {
+    //   classePageLangueConfig = langueConfig;
+    // }
 
     classePageNomSimple = classeDoc.getString("classePageNomSimple"   + "_" + langueNom + "_stored_string");
     classePageSuperNomSimple = classeDoc.getString("classePageSuperNomSimple"   + "_" + langueNom + "_stored_string");
@@ -975,7 +975,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
     classeAttribuerNomSimplePages = Optional.ofNullable(classeDoc.getJsonArray("classeAttribuerNomSimplePages_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
     classeAttribuerNomSimples = Optional.ofNullable(classeDoc.getJsonArray("classeAttribuerNomSimple_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 
-    if(!classePageCheminsGen.contains(classeGenPageChemin) && classeGenPageChemin != null && StringUtils.equals(classePageLangueNom, langueNom)) {
+    if(!classePageCheminsGen.contains(classeGenPageChemin) && classeGenPageChemin != null) {
       classePageCheminsGen.add(classeGenPageChemin);
 
       classeImageLargeur = (Integer)classeDoc.getInteger("classeImageLargeur" + "_" + langueNom + "_stored_int");
@@ -2248,7 +2248,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
       l();
       if(classePageSuperNomSimple != null)
         tl(1, "@Override");
-      tl(1, "protected void _", classePageLangueConfig.getString(I18n.var_classeNomSimple), "(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(I18n.var_cVar), ") {");
+      tl(1, "protected void _", langueConfig.getString(I18n.var_classeNomSimple), "(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(I18n.var_cVar), ") {");
       tl(2, langueConfig.getString(I18n.var_cVar), ".o(\"", classeApiClasseNomSimple, "\");");
       tl(1, "}");
 
@@ -2281,8 +2281,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
       tl(2, "c.o(", q(classePageUriMethode), ");");
       tl(1, "}");
       for(String pageLangueNom : toutesLangues) {
-        if(!StringUtils.equals(classePageLangueNom, pageLangueNom)) {
-          String classePageUriMethodeLangue = classeDoc.getString(StringUtils.replace("classeApiUri_stored_string", StringUtils.capitalize(classePageLangueNom), StringUtils.capitalize(pageLangueNom)));
+        if(!StringUtils.equals(langueNom, pageLangueNom)) {
+          String classePageUriMethodeLangue = classeDoc.getString(StringUtils.replace("classeApiUri_stored_string", StringUtils.capitalize(langueNom), StringUtils.capitalize(pageLangueNom)));
           
           if(classePageUriMethodeLangue != null) {
             l();
@@ -2404,11 +2404,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
       auteurPageJsRecherche.tl(2, "facet", i18nPage.getString(I18n.var_Gamme), "Change('", classeNomSimple, "', event.target.value);");
       auteurPageJsRecherche.tl(1, "});");
     }
-    if(classePageCheminsGen.contains(classeGenPageChemin) && classeGenPageChemin != null && StringUtils.equals(classePageLangueNom, langueNom)) {
+    if(classePageCheminsGen.contains(classeGenPageChemin) && classeGenPageChemin != null) {
 
 
       {
-        SolrQuery rechercheSolr = new SolrQuery();   
+        SolrQuery rechercheSolr = new SolrQuery();
         rechercheSolr.setQuery("*:*");
         rechercheSolr.setRows(1000000);
         String fqClassesSuperEtMoi = "(" + classesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
@@ -3248,6 +3248,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
         // tl(5, "initialView: 'dayGridMonth'");
         // tl(4, "});");
         // tl(4, "//calendar.render();");
+        List<String> classeApiMethodes = Optional.ofNullable(doc.getJsonArray("classeApiMethodes_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+        if(classeApiMethodes == null)
+          classeApiMethodes = new ArrayList<>();
         for(String classeApiMethode : classeApiMethodes) {
           String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
           String classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
@@ -3343,6 +3346,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
   }
 
   public void ecrirePageJs(String langueNom, JsonObject i18nPage) throws Exception {
+    List<String> classeApiMethodes = Optional.ofNullable(doc.getJsonArray("classeApiMethodes_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+    if(classeApiMethodes == null)
+      classeApiMethodes = new ArrayList<>();
     for(String classeApiMethode : classeApiMethodes) {
       String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
       String classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
@@ -4565,6 +4571,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
     o = auteurFormulaireRechercheJinja;
     s(auteurGenPageJinjaEntite);
 
+    List<String> classeApiMethodes = Optional.ofNullable(doc.getJsonArray("classeApiMethodes_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+    if(classeApiMethodes == null)
+      classeApiMethodes = new ArrayList<>();
     for(String classeApiMethode : classeApiMethodes) {
       String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
       String classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
