@@ -34,6 +34,8 @@ import io.vertx.core.json.JsonObject;
 
 import org.computate.i18n.I18n;
 
+import com.hubspot.jinjava.Jinjava;
+
 /**   
  * NomCanonique.enUS: org.computate.enUS.java.WriteAllClasses
  * 
@@ -185,8 +187,15 @@ public class EcrireToutesClasses extends EcrirePageClasse {
             genCodeClasseFin(langueNom, langueConfig);
 //					}
           if(classePage) {
-            pageCodeClasseJava(langueNom, langueConfig);
-            pageCodeClasseJinja(langueNom, langueConfig);
+            Jinjava jinjava = ConfigSite.getJinjava();
+            for(String langueNomActuel : toutesLangues) {
+              JsonObject langueConfigActuel = ConfigSite.getLangueConfigGlobale(jinjava, appComputateVertx, langueNomActuel);
+              pageVarsStaticInit(classeLangueNom, langueNomActuel, langueConfigActuel);
+              if(langueNomActuel.equals(classeLangueNom)) {
+                pageCodeClasseJava(classeLangueNom, langueConfig);
+              }
+              pageCodeClasseJinja(classeLangueNom, langueNomActuel, langueConfigActuel);
+            }
           }
           if(classeApi) {
 //						ecrireApiEnsembleInfo(langueNom);
