@@ -100,7 +100,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
    * enUS: Retrieve the records for the class from the search engine, 
    * enUS: process them and write them into class files for each supported language. 
    */  
-  public void ecrireGenClasses(QueryResponse reponseRecherche, String classeLangueNom, String langueNom, JsonObject langueConfig) throws Exception { 
+  public void ecrireGenClasses(QueryResponse reponseRecherche, String classeLangueNom, String langueNom, JsonObject i18nClasse) throws Exception { 
     SolrDocumentList listeRecherche = reponseRecherche.getResults();
 
     if(listeRecherche.size() > 0 && (langueIndexe || !StringUtils.equals(langueNom, this.langueNom))) {    
@@ -140,13 +140,13 @@ public class EcrireToutesClasses extends EcrirePageClasse {
             auteurGenClasseFin = ToutEcrivain.create();
             auteurGenClasse = ToutEcrivain.create(classeFichierGen);
   
-            genCodeInitLoin(langueNom, langueConfig);
-            genCodeRequeteSite(langueNom, langueConfig);
-            genCodeObtenir(langueNom, langueConfig);
-            genCodeAttribuer(langueNom, langueConfig);
-            genCodePut(langueNom, langueConfig);
-            genCodePeupler(langueNom, langueConfig);
-            genCodeClasseDebut(langueNom, langueConfig);
+            genCodeInitLoin(langueNom, i18nClasse);
+            genCodeRequeteSite(langueNom, i18nClasse);
+            genCodeObtenir(langueNom, i18nClasse);
+            genCodeAttribuer(langueNom, i18nClasse);
+            genCodePut(langueNom, i18nClasse);
+            genCodePeupler(langueNom, i18nClasse);
+            genCodeClasseDebut(langueNom, i18nClasse);
 //					}
           if(classeApi)
             apiCodeClasseDebut(langueNom);
@@ -159,21 +159,21 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 //					if(StringUtils.equals(classeLangueNom, langueNom)) {
             if(BooleanUtils.isTrue(partEstConstructeur)) {
               try {
-                genCodeConstructeur(langueNom, langueConfig);
+                genCodeConstructeur(langueNom, i18nClasse);
               } catch(Exception ex) {
                 throw new RuntimeException(String.format("%s %s %s", classeNomSimple, i18nGlobale.getString(I18n.var_constructeur), classeNomSimple), ex);
               }
             }
             else if(BooleanUtils.isTrue(partEstMethode)) {
               try {
-                genCodeMethode(langueNom, langueConfig);
+                genCodeMethode(langueNom, i18nClasse);
               } catch(Exception ex) {
                 throw new RuntimeException(String.format("%s %s %s", classeNomSimple, i18nGlobale.getString(I18n.var_methode), methodeVar), ex);
               }
             }
             else if(BooleanUtils.isTrue(partEstEntite)) {
               try {
-                genCodeEntite(langueNom, langueConfig);
+                genCodeEntite(langueNom, i18nClasse);
               } catch(Exception ex) {
                 throw new RuntimeException(String.format("%s %s %s", classeNomSimple, i18nGlobale.getString(I18n.var_entite), entiteVar), ex);
               }
@@ -184,17 +184,17 @@ public class EcrireToutesClasses extends EcrirePageClasse {
       if(o != null) {
         if(listeRecherche.size() > 0 && !StringUtils.equals(classeCheminAbsolu, classeCheminGen)) {
 //					if(StringUtils.equals(classeLangueNom, langueNom)) {
-            genCodeClasseFin(langueNom, langueConfig);
+            genCodeClasseFin(langueNom, i18nClasse);
 //					}
           if(classePage) {
             Jinjava jinjava = ConfigSite.getJinjava();
             for(String langueNomActuel : toutesLangues) {
-              JsonObject langueConfigActuel = ConfigSite.getLangueConfigGlobale(jinjava, appComputateVertx, langueNomActuel);
-              pageVarsStaticInit(classeLangueNom, langueNomActuel, langueConfigActuel);
+              JsonObject i18nPage = ConfigSite.getLangueConfigGlobale(jinjava, appComputateVertx, langueNomActuel);
+              pageVarsStaticInit(classeLangueNom, langueNomActuel, i18nClasse, i18nPage);
               if(langueNomActuel.equals(classeLangueNom)) {
-                pageCodeClasseJava(classeLangueNom, langueConfig);
+                pageCodeClasseJava(classeLangueNom, i18nClasse);
               }
-              pageCodeClasseJinja(classeLangueNom, langueNomActuel, langueConfigActuel);
+              pageCodeClasseJinja(classeLangueNom, langueNomActuel, i18nClasse, i18nPage);
             }
           }
           if(classeApi) {
