@@ -6511,49 +6511,65 @@ public class EcrireGenClasse extends EcrireClasse {
     ///////////////////////
     // classePageEdition //
     ///////////////////////
-    if(classeStringFormatUrlPageEdition != null || classeEstModeleBase || classeEstResultatBase) {
-      l();
-      if(!classeEstBase)
-        tl(1, "@Override");
-      tl(1, "public String ", langueConfig.getString(I18n.var_classeStringFormatUrlPageEdition), langueConfig.getString(I18n.var_PourClasse), "() {");
-      tl(2, "return ", classeStringFormatUrlPageEdition == null ? "null" : "\"%s" + String.format("%s\"", classeStringFormatUrlPageEdition), ";");
-      tl(1, "}");
+    for(String langueNom2 : toutesLangues) {
+      String classeUriPageEditionLangue = classeDoc.getString("classeUriPageEdition_" + langueNom2 + "_stored_string");
+      String classeStringFormatUrlPageEditionLangue = classeUriPageEditionLangue == null ? null : classeUriPageEditionLangue.replaceAll("\\{[^\\}]+\\}", "%s");
+      if(classeStringFormatUrlPageEditionLangue != null || classeEstModeleBase || classeEstResultatBase) {
+        l();
+        if(!classeEstBase)
+          tl(1, "@Override");
+        tl(1, "public String ", langueNom2, langueConfig.getString(I18n.var_StringFormatUrlPageEdition), langueConfig.getString(I18n.var_PourClasse), "() {");
+        tl(2, "return ", classeStringFormatUrlPageEditionLangue == null ? "null" : "\"%s" + String.format("%s\"", classeStringFormatUrlPageEditionLangue), ";");
+        tl(1, "}");
+      }
     }
 
     /////////////////////////
     // classePageAffichage //
     /////////////////////////
-    if(classeStringFormatUrlPageAffichage != null || classeEstModeleBase || classeEstResultatBase) {
-      l();
-      if(!classeEstBase)
-        tl(1, "@Override");
-      tl(1, "public String ", langueConfig.getString(I18n.var_classeStringFormatUrlPageAffichage), langueConfig.getString(I18n.var_PourClasse), "() {");
-      tl(2, "return ", classeStringFormatUrlPageAffichage == null ? "null" : "\"%s" + String.format("%s\"", classeStringFormatUrlPageAffichage), ";");
-      tl(1, "}");
+    for(String langueNom2 : toutesLangues) {
+      String classeUriPageAffichageLangue = classeDoc.getString("classeUriPageAffichage_" + langueNom2 + "_stored_string");
+      String classeStringFormatUrlPageAffichageLangue = classeUriPageAffichageLangue == null ? null : classeUriPageAffichageLangue.replaceAll("\\{[^\\}]+\\}", "%s");
+      if(classeStringFormatUrlPageAffichageLangue != null || classeEstModeleBase || classeEstResultatBase) {
+        l();
+        if(!classeEstBase)
+          tl(1, "@Override");
+        tl(1, "public String ", langueNom2, langueConfig.getString(I18n.var_StringFormatUrlPageAffichage), langueConfig.getString(I18n.var_PourClasse), "() {");
+        tl(2, "return ", classeStringFormatUrlPageAffichageLangue == null ? "null" : "\"%s" + String.format("%s\"", classeStringFormatUrlPageAffichageLangue), ";");
+        tl(1, "}");
+      }
     }
 
     ///////////////////////////
     // classePageUtilisateur //
     ///////////////////////////
-    if(classeStringFormatUrlPageUtilisateur != null || classeEstModeleBase || classeEstResultatBase) {
-      l();
-      if(!classeEstBase)
-        tl(1, "@Override");
-      tl(1, "public String ", langueConfig.getString(I18n.var_classeStringFormatUrlPageUtilisateur), langueConfig.getString(I18n.var_PourClasse), "() {");
-      tl(2, "return ", classeStringFormatUrlPageUtilisateur == null ? "null" : "\"%s" + String.format("%s\"", classeStringFormatUrlPageUtilisateur), ";");
-      tl(1, "}");
+    for(String langueNom2 : toutesLangues) {
+      String classeUriPageUtilisateurLangue = classeDoc.getString("classeUriPageUtilisateur_" + langueNom2 + "_stored_string");
+      String classeStringFormatUrlPageUtilisateurLangue = classeUriPageUtilisateurLangue == null ? null : classeUriPageUtilisateurLangue.replaceAll("\\{[^\\}]+\\}", "%s");
+      if(classeStringFormatUrlPageUtilisateurLangue != null || classeEstModeleBase || classeEstResultatBase) {
+        l();
+        if(!classeEstBase)
+          tl(1, "@Override");
+        tl(1, "public String ", langueNom2, langueConfig.getString(I18n.var_StringFormatUrlPageUtilisateur), langueConfig.getString(I18n.var_PourClasse), "() {");
+        tl(2, "return ", classeStringFormatUrlPageUtilisateurLangue == null ? "null" : "\"%s" + String.format("%s\"", classeStringFormatUrlPageUtilisateurLangue), ";");
+        tl(1, "}");
+      }
     }
 
     //////////////////////////
     // classeTelechargement //
     //////////////////////////
-    if(classeStringFormatUrlTelechargement != null || classeEstModeleBase || classeEstResultatBase) {
-      l();
-      if(!classeEstBase)
-        tl(1, "@Override");
-      tl(1, "public String ", langueConfig.getString(I18n.var_classeStringFormatUrlTelechargement), langueConfig.getString(I18n.var_PourClasse), "() {");
-      tl(2, "return ", classeStringFormatUrlTelechargement == null ? "null" : "\"%s" + String.format("%s\"", classeStringFormatUrlTelechargement), ";");
-      tl(1, "}");
+    for(String langueNom2 : toutesLangues) {
+      String classeUriTelechargementLangue = classeDoc.getString("classeUriTelechargement_" + langueNom2 + "_stored_string");
+      String classeStringFormatUrlTelechargementLangue = classeUriTelechargementLangue == null ? null : classeUriTelechargementLangue.replaceAll("\\{[^\\}]+\\}", "%s");
+      if(classeStringFormatUrlTelechargementLangue != null || classeEstModeleBase || classeEstResultatBase) {
+        l();
+        if(!classeEstBase)
+          tl(1, "@Override");
+        tl(1, "public String ", langueNom2, langueConfig.getString(I18n.var_StringFormatUrlTelechargement), langueConfig.getString(I18n.var_PourClasse), "() {");
+        tl(2, "return ", classeStringFormatUrlTelechargementLangue == null ? "null" : "\"%s" + String.format("%s\"", classeStringFormatUrlTelechargementLangue), ";");
+        tl(1, "}");
+      }
     }
 
     ////////////////////////////

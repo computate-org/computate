@@ -3476,10 +3476,10 @@ public class IndexerClasse extends RegarderClasseBase {
             Boolean entiteAireUrl = indexerStockerSolr(entiteDoc, "entiteAireUrl", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + i18nGlobale.getString(I18n.var_Url) + ": (true)$", methodeCommentaire));
             Boolean entiteCrypte = indexerStockerSolr(entiteDoc, "entiteCrypte", regexTrouve("^" + i18nGlobale.getString(I18n.var_Crypte) + ": (true)$", methodeCommentaire));
             Boolean entiteSuggere = indexerStockerSolr(entiteDoc, "entiteSuggere", regexTrouve("^" + i18nGlobale.getString(I18n.var_Suggere) + ": (true)$", methodeCommentaire));
-            Boolean entiteVarUrlPageAffichage = indexerStockerSolr(entiteDoc, "entiteVarUrlPageAffichage", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageAffichage) + ": (true)$", methodeCommentaire));
-            Boolean entiteVarUrlPageEdition = indexerStockerSolr(entiteDoc, "entiteVarUrlPageEdition", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageEdition) + ": (true)$", methodeCommentaire));
-            Boolean entiteVarUrlPageUtilisateur = indexerStockerSolr(entiteDoc, "entiteVarUrlPageUtilisateur", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageUtilisateur) + ": (true)$", methodeCommentaire));
-            Boolean entiteVarUrlTelechargement = indexerStockerSolr(entiteDoc, "entiteVarUrlTelechargement", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_Telechargement) + ": (true)$", methodeCommentaire));
+            Boolean entiteVarUrlPageAffichage = indexerStockerSolr(classeLangueNom, entiteDoc, "entiteVarUrlPageAffichage", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageAffichage) + "(\\." + classeLangueNom + ")?: (true)$", methodeCommentaire));
+            Boolean entiteVarUrlPageEdition = indexerStockerSolr(classeLangueNom, entiteDoc, "entiteVarUrlPageEdition", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageEdition) + "(\\." + classeLangueNom + ")?: (true)$", methodeCommentaire));
+            Boolean entiteVarUrlPageUtilisateur = indexerStockerSolr(classeLangueNom, entiteDoc, "entiteVarUrlPageUtilisateur", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageUtilisateur) + "(\\." + classeLangueNom + ")?: (true)$", methodeCommentaire));
+            Boolean entiteVarUrlTelechargement = indexerStockerSolr(classeLangueNom, entiteDoc, "entiteVarUrlTelechargement", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_Telechargement) + "(\\." + classeLangueNom + ")?: (true)$", methodeCommentaire));
             Boolean entiteVarUrlApi = indexerStockerSolr(entiteDoc, "entiteVarUrlApi", regexTrouve("^VarUrlApi: (true)$", methodeCommentaire));
             String entiteVarUrl = regex("^" + i18nGlobale.getString(I18n.var_VarUrl) + ": (.*)$", methodeCommentaire);
             if(entiteVarUrl != null)
@@ -4788,6 +4788,13 @@ public class IndexerClasse extends RegarderClasseBase {
                 entiteVarLangue = indexerStockerSolr(langueNom, entiteDoc, "entiteVar", entiteVarLangue == null ? entiteVar : entiteVarLangue);
                 indexerStockerSolr(langueNom, entiteDoc, "entiteVarCapitalise", StringUtils.capitalize(entiteVarLangue));
                 indexerStockerListeSolr(langueNom, classeDoc, "classeEntiteVars", entiteVarLangue);
+
+
+                Boolean entiteVarUrlPageAffichageLangue = indexerStockerSolr(langueNom, entiteDoc, "entiteVarUrlPageAffichage", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageAffichage) + "(\\." + langueNom + ")?: (true)$", methodeCommentaire));
+                Boolean entiteVarUrlPageEditionLangue = indexerStockerSolr(langueNom, entiteDoc, "entiteVarUrlPageEdition", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageEdition) + "(\\." + langueNom + ")?: (true)$", methodeCommentaire));
+                Boolean entiteVarUrlPageUtilisateurLangue = indexerStockerSolr(langueNom, entiteDoc, "entiteVarUrlPageUtilisateur", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageUtilisateur) + "(\\." + langueNom + ")?: (true)$", methodeCommentaire));
+                Boolean entiteVarUrlTelechargementLangue = indexerStockerSolr(langueNom, entiteDoc, "entiteVarUrlTelechargement", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_Telechargement) + "(\\." + langueNom + ")?: (true)$", methodeCommentaire));
+
                 if(entiteSuggere && entiteVarLangue.equals(i18nGlobale.getString(I18n.var_objetSuggere))) {
                   stockerSolr(langueNom, classeDoc, "classeVarSuggere", entiteVarLangue);
                 }
@@ -4806,16 +4813,16 @@ public class IndexerClasse extends RegarderClasseBase {
                 if(entiteCleUnique) {
                   stockerSolr(langueNom, classeDoc, "classeVarCleUnique", entiteVarLangue);
                 }
-                if(entiteVarUrlPageAffichage) {
+                if(entiteVarUrlPageAffichageLangue) {
                   classeVarUrlPageAffichage = stockerSolr(langueNom, classeDoc, "classeVarUrlPageAffichage", entiteVarLangue);
                 }
-                if(entiteVarUrlPageEdition) {
+                if(entiteVarUrlPageEditionLangue) {
                   classeVarUrlPageEdition = stockerSolr(langueNom, classeDoc, "classeVarUrlPageEdition", entiteVarLangue);
                 }
-                if(entiteVarUrlPageUtilisateur) {
+                if(entiteVarUrlPageUtilisateurLangue) {
                   classeVarUrlPageUtilisateur = stockerSolr(langueNom, classeDoc, "classeVarUrlPageUtilisateur", entiteVarLangue);
                 }
-                if(entiteVarUrlTelechargement) {
+                if(entiteVarUrlTelechargementLangue) {
                   classeVarUrlTelechargement = stockerSolr(langueNom, classeDoc, "classeVarUrlTelechargement", entiteVarLangue);
                 }
                 if(entiteVarUrlApi) {
@@ -6134,6 +6141,17 @@ public class IndexerClasse extends RegarderClasseBase {
               classePageAvecTemplateMethode = true;
               if(StringUtils.isBlank(classeApiMotCleMethode))
                 classeApiMotCleMethode = StringUtils.substringAfterLast(classeApiUriMethode, "/");
+
+              if(!classeLangueNom.equals(classeApiMethodeLangue)) {
+                if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageRecherche)))
+                  indexerStockerSolr(classeApiMethodeLangue, classeDoc, "classeUriPageRecherche", classeApiUriMethode);
+                else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageEdition)))
+                  indexerStockerSolr(classeApiMethodeLangue, classeDoc, "classeUriPageEdition", classeApiUriMethode);
+                else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageAffichage)))
+                  indexerStockerSolr(classeApiMethodeLangue, classeDoc, "classeUriPageAffichage", classeApiUriMethode);
+                else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageUtilisateur)))
+                  indexerStockerSolr(classeApiMethodeLangue, classeDoc, "classeUriPageUtilisateur", classeApiUriMethode);
+              }
 
               if(classePageMethode != null) {
                 if(classeApiUriMethode == null) {
