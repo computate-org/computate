@@ -1018,10 +1018,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
       classeVarH1 = classeDoc.getString("classeVarH1" + "_" + langueNom + "_stored_string");
       classeVarH2 = classeDoc.getString("classeVarH2" + "_" + langueNom + "_stored_string");
       classeVarH3 = classeDoc.getString("classeVarH3" + "_" + langueNom + "_stored_string");
-      classeVarUrlPageAffichage = classeDoc.getString("classeVarUrlPageAffichage" + "_" + classeLangueNom + "_stored_string");
-      classeVarUrlPageEdition = classeDoc.getString("classeVarUrlPageEdition" + "_" + classeLangueNom + "_stored_string");
-      classeVarUrlPageUtilisateur = classeDoc.getString("classeVarUrlPageUtilisateur" + "_" + classeLangueNom + "_stored_string");
-      classeVarUrlTelechargement = classeDoc.getString("classeVarUrlTelechargement" + "_" + classeLangueNom + "_stored_string");
+      classeVarUrlPageAffichage = classeDoc.getString("classeVarUrlPageAffichage" + "_" + langueNom + "_stored_string");
+      classeVarUrlPageEdition = classeDoc.getString("classeVarUrlPageEdition" + "_" + langueNom + "_stored_string");
+      classeVarUrlPageUtilisateur = classeDoc.getString("classeVarUrlPageUtilisateur" + "_" + langueNom + "_stored_string");
+      classeVarUrlTelechargement = classeDoc.getString("classeVarUrlTelechargement" + "_" + langueNom + "_stored_string");
       classeVarSuggere = classeDoc.getString("classeVarSuggere" + "_" + classeLangueNom + "_stored_string");
       classeVarTexte = classeDoc.getString("classeVarTexte" + "_" + langueNom + "_stored_string");
 
@@ -1814,7 +1814,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
   
   }
 
-  public void pageCodeClasseJava(String langueNom, JsonObject langueConfig) throws Exception {
+  public void pageCodeClasseJava(String langueNom, JsonObject i18nPage) throws Exception {
 
     if(!classePageCheminsGen.contains(classeGenPageChemin) && classeGenPageChemin != null) {
       classePageCheminsGen.add(classeGenPageChemin);
@@ -1826,11 +1826,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
         auteurPageClasse.l();
         auteurPageClasse.l("/**");
 
-        auteurPageClasse.l(" * ", langueConfig.getString(I18n.var_Promesse), ": true");
+        auteurPageClasse.l(" * ", i18nPage.getString(I18n.var_Promesse), ": true");
         for(String langueNom2 : autresLangues) {
-          String classePageNomSimple2 = classeDoc.getString("classePageNomCanonique" + langueConfig.getString(I18n.var_PageRecherche)  + "_" + langueNom2 + "_stored_string");
+          String classePageNomSimple2 = classeDoc.getString("classePageNomCanonique" + i18nPage.getString(I18n.var_PageRecherche)  + "_" + langueNom2 + "_stored_string");
           if(classePageNomSimple2 != null)
-            auteurPageClasse.	l(" * ", langueConfig.getString(I18n.var_NomCanonique), ".", langueNom2, ": ", classePageNomSimple2);
+            auteurPageClasse.	l(" * ", i18nPage.getString(I18n.var_NomCanonique), ".", langueNom2, ": ", classePageNomSimple2);
         }
         auteurPageClasse.l(" **/");
         auteurPageClasse.s("public class ", classePageNomSimple);
@@ -1853,11 +1853,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
       tl(0, "");
 //				ecrireCommentaire(classeCommentaire, 0); 
       l("/**");
-      l(" * ", langueConfig.getString(I18n.var_Traduire), ": false");
+      l(" * ", i18nPage.getString(I18n.var_Traduire), ": false");
       for(String langueNom2 : autresLangues) {
-        String classeGenPageNomSimple2 = classeDoc.getString("classeGenPageNomCanonique" + langueConfig.getString(I18n.var_PageRecherche)  + "_" + langueNom2 + "_stored_string");
+        String classeGenPageNomSimple2 = classeDoc.getString("classeGenPageNomCanonique" + i18nPage.getString(I18n.var_PageRecherche)  + "_" + langueNom2 + "_stored_string");
         if(classeGenPageNomSimple2 != null)
-          l(" * ", langueConfig.getString(I18n.var_NomCanonique), ".", langueNom2, ": ", classeGenPageNomSimple2);
+          l(" * ", i18nPage.getString(I18n.var_NomCanonique), ".", langueNom2, ": ", classeGenPageNomSimple2);
       }
       l(" * ", i18nGlobale.getString(I18n.str_Genere), ": true");
       l(" **/");
@@ -1869,9 +1869,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
       if(classePageSuperNomSimple == null) {
         l();
         tl(1, "/**");
-        tl(1, " * ", langueConfig.getString(I18n.var_Ignorer), ": true");
+        tl(1, " * ", i18nPage.getString(I18n.var_Ignorer), ": true");
         tl(1, "**/");
-        tl(1, "protected void _", langueConfig.getString(I18n.var_requeteSite), "_(", classePartsCouverture.nomSimple(langueNom), "<", classePartsRequeteSite.nomSimple(langueNom), "> c", ") {");
+        tl(1, "protected void _", i18nPage.getString(I18n.var_requeteSite), "_(", classePartsCouverture.nomSimple(langueNom), "<", classePartsRequeteSite.nomSimple(langueNom), "> c", ") {");
         tl(1, "}");
       }
 
@@ -1879,72 +1879,72 @@ public class EcrirePageClasse extends EcrireApiClasse {
         l();
         tl(1, "/**");
         tl(1, " * {@inheritDoc}");
-        tl(1, " * ", langueConfig.getString(I18n.var_Ignorer), ": true");
+        tl(1, " * ", i18nPage.getString(I18n.var_Ignorer), ": true");
         tl(1, " **/");
-        tl(1, "protected void _", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_(", classePartsCouverture.nomSimple(langueNom), "<", langueConfig.getString(I18n.var_ListeRecherche), "<", classeApiClasseNomSimple, ">> ", langueConfig.getString(I18n.var_cVar), ") {");
+        tl(1, "protected void _", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_(", classePartsCouverture.nomSimple(langueNom), "<", i18nPage.getString(I18n.var_ListeRecherche), "<", classeApiClasseNomSimple, ">> ", i18nPage.getString(I18n.var_cVar), ") {");
         tl(1, "}");
         l();
         if(classePageSuperNomSimple != null)
           tl(1, "@Override");
-        tl(1, "protected void _", langueConfig.getString(I18n.var_page), langueConfig.getString(I18n.var_Reponse), "(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(I18n.var_cVar), ") {");
-        tl(2, "if(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_ != null)");
-        tl(3, langueConfig.getString(I18n.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse()).map(response -> JsonObject.mapFrom(response).toString()).orElse(null));");
+        tl(1, "protected void _", i18nPage.getString(I18n.var_page), i18nPage.getString(I18n.var_Reponse), "(", classePartsCouverture.nomSimple(langueNom), "<String> ", i18nPage.getString(I18n.var_cVar), ") {");
+        tl(2, "if(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_ != null)");
+        tl(3, i18nPage.getString(I18n.var_cVar), ".o(Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse()).map(response -> JsonObject.mapFrom(response).toString()).orElse(null));");
         tl(1, "}");
         l();
         if(classePageSuperNomSimple != null)
           tl(1, "@Override");
-        tl(1, "protected void _stats(", classePartsCouverture.nomSimple(langueNom), "<SolrResponse.Stats> ", langueConfig.getString(I18n.var_cVar), ") {");
-        tl(2, langueConfig.getString(I18n.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse()).map(response -> response.getStats()).orElse(null));");
+        tl(1, "protected void _stats(", classePartsCouverture.nomSimple(langueNom), "<SolrResponse.Stats> ", i18nPage.getString(I18n.var_cVar), ") {");
+        tl(2, i18nPage.getString(I18n.var_cVar), ".o(Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse()).map(response -> response.getStats()).orElse(null));");
         tl(1, "}");
         l();
         if(classePageSuperNomSimple != null)
           tl(1, "@Override");
-        tl(1, "protected void _facetCounts(", classePartsCouverture.nomSimple(langueNom), "<SolrResponse.FacetCounts> ", langueConfig.getString(I18n.var_cVar), ") {");
-        tl(2, langueConfig.getString(I18n.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse()).map(response -> response.getFacetCounts()).orElse(null));");
+        tl(1, "protected void _facetCounts(", classePartsCouverture.nomSimple(langueNom), "<SolrResponse.FacetCounts> ", i18nPage.getString(I18n.var_cVar), ") {");
+        tl(2, i18nPage.getString(I18n.var_cVar), ".o(Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse()).map(response -> response.getFacetCounts()).orElse(null));");
         tl(1, "}");
         l();
         if(classePageSuperNomSimple != null)
           tl(1, "@Override");
         tl(1, "protected void _pagination(JsonObject pagination) {");
         tl(2, "JsonArray pages = new JsonArray();");
-        tl(2, "Long ", langueConfig.getString(I18n.var_debut), " = ", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getStart().longValue();");
-        tl(2, "Long ", langueConfig.getString(I18n.var_lignes), " = ", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getRows().longValue();");
-        tl(2, "Long ", langueConfig.getString(I18n.var_numTrouve), " = Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse()).map(response -> response.getResponse().getNumFound().longValue()).orElse(Long.valueOf(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getList().size()));");
-        tl(2, "Long ", langueConfig.getString(I18n.var_debut), "Num = ", langueConfig.getString(I18n.var_debut), " + 1L;");
-        tl(2, "Long ", langueConfig.getString(I18n.var_fin), "Num = ", langueConfig.getString(I18n.var_debut), " + ", langueConfig.getString(I18n.var_lignes), ";");
-        tl(2, "Long floorMod = (", langueConfig.getString(I18n.var_lignes), " == 0L ? 0L : Math.floorMod(", langueConfig.getString(I18n.var_numTrouve), ", ", langueConfig.getString(I18n.var_lignes), "));");
-        tl(2, "Long ", langueConfig.getString(I18n.var_dernier), " = (", langueConfig.getString(I18n.var_lignes), " == 0L ? 0L : Math.floorDiv(", langueConfig.getString(I18n.var_numTrouve), ", ", langueConfig.getString(I18n.var_lignes), ") - (floorMod.equals(0L) ? 1L : 0L) * ", langueConfig.getString(I18n.var_lignes), ");");
-        tl(2, langueConfig.getString(I18n.var_fin), "Num = ", langueConfig.getString(I18n.var_fin), "Num < ", langueConfig.getString(I18n.var_numTrouve), " ? ", langueConfig.getString(I18n.var_fin), "Num : ", langueConfig.getString(I18n.var_numTrouve), ";");
-        tl(2, langueConfig.getString(I18n.var_debut), "Num = ", langueConfig.getString(I18n.var_numTrouve), " == 0L ? 0L : ", langueConfig.getString(I18n.var_debut), "Num;");
-        tl(2, "Long pagination", langueConfig.getString(I18n.var_Debut), " = ", langueConfig.getString(I18n.var_debut), " - 10L * ", langueConfig.getString(I18n.var_lignes), ";");
-        tl(2, "if(pagination", langueConfig.getString(I18n.var_Debut), " < 0L)");
-        tl(3, "pagination", langueConfig.getString(I18n.var_Debut), " = 0L;");
-        tl(2, "Long pagination", langueConfig.getString(I18n.var_Fin), " = ", langueConfig.getString(I18n.var_debut), " + 10L * ", langueConfig.getString(I18n.var_lignes), ";");
-        tl(2, "if(pagination", langueConfig.getString(I18n.var_Fin), " > ", langueConfig.getString(I18n.var_numTrouve), ")");
-        tl(3, "pagination", langueConfig.getString(I18n.var_Fin), " = ", langueConfig.getString(I18n.var_numTrouve), ";");
+        tl(2, "Long ", i18nPage.getString(I18n.var_debut), " = ", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getStart().longValue();");
+        tl(2, "Long ", i18nPage.getString(I18n.var_lignes), " = ", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getRows().longValue();");
+        tl(2, "Long ", i18nPage.getString(I18n.var_numTrouve), " = Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse()).map(response -> response.getResponse().getNumFound().longValue()).orElse(Long.valueOf(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getList().size()));");
+        tl(2, "Long ", i18nPage.getString(I18n.var_debut), "Num = ", i18nPage.getString(I18n.var_debut), " + 1L;");
+        tl(2, "Long ", i18nPage.getString(I18n.var_fin), "Num = ", i18nPage.getString(I18n.var_debut), " + ", i18nPage.getString(I18n.var_lignes), ";");
+        tl(2, "Long floorMod = (", i18nPage.getString(I18n.var_lignes), " == 0L ? 0L : Math.floorMod(", i18nPage.getString(I18n.var_numTrouve), ", ", i18nPage.getString(I18n.var_lignes), "));");
+        tl(2, "Long ", i18nPage.getString(I18n.var_dernier), " = (", i18nPage.getString(I18n.var_lignes), " == 0L ? 0L : Math.floorDiv(", i18nPage.getString(I18n.var_numTrouve), ", ", i18nPage.getString(I18n.var_lignes), ") - (floorMod.equals(0L) ? 1L : 0L) * ", i18nPage.getString(I18n.var_lignes), ");");
+        tl(2, i18nPage.getString(I18n.var_fin), "Num = ", i18nPage.getString(I18n.var_fin), "Num < ", i18nPage.getString(I18n.var_numTrouve), " ? ", i18nPage.getString(I18n.var_fin), "Num : ", i18nPage.getString(I18n.var_numTrouve), ";");
+        tl(2, i18nPage.getString(I18n.var_debut), "Num = ", i18nPage.getString(I18n.var_numTrouve), " == 0L ? 0L : ", i18nPage.getString(I18n.var_debut), "Num;");
+        tl(2, "Long pagination", i18nPage.getString(I18n.var_Debut), " = ", i18nPage.getString(I18n.var_debut), " - 10L * ", i18nPage.getString(I18n.var_lignes), ";");
+        tl(2, "if(pagination", i18nPage.getString(I18n.var_Debut), " < 0L)");
+        tl(3, "pagination", i18nPage.getString(I18n.var_Debut), " = 0L;");
+        tl(2, "Long pagination", i18nPage.getString(I18n.var_Fin), " = ", i18nPage.getString(I18n.var_debut), " + 10L * ", i18nPage.getString(I18n.var_lignes), ";");
+        tl(2, "if(pagination", i18nPage.getString(I18n.var_Fin), " > ", i18nPage.getString(I18n.var_numTrouve), ")");
+        tl(3, "pagination", i18nPage.getString(I18n.var_Fin), " = ", i18nPage.getString(I18n.var_numTrouve), ";");
         l();
         tl(2, "pagination.put(\"1L\", 1L);");
         tl(2, "pagination.put(\"0L\", 0L);");
-        tl(2, "pagination.put(\"", langueConfig.getString(I18n.var_debut), "\", ", langueConfig.getString(I18n.var_debut), ");");
-        tl(2, "pagination.put(\"", langueConfig.getString(I18n.var_lignes), "\", ", langueConfig.getString(I18n.var_lignes), ");");
-        tl(2, "pagination.put(\"", langueConfig.getString(I18n.var_lignes), langueConfig.getString(I18n.var_Precedent), "\", ", langueConfig.getString(I18n.var_lignes), " / 2);");
-        tl(2, "pagination.put(\"", langueConfig.getString(I18n.var_lignes), langueConfig.getString(I18n.var_Prochaine), "\", ", langueConfig.getString(I18n.var_lignes), " * 2);");
-        tl(2, "pagination.put(\"", langueConfig.getString(I18n.var_debut), "Num\", ", langueConfig.getString(I18n.var_debut), "Num);");
-        tl(2, "pagination.put(\"", langueConfig.getString(I18n.var_fin), "Num\", ", langueConfig.getString(I18n.var_fin), "Num);");
-        tl(2, "pagination.put(\"", langueConfig.getString(I18n.var_numTrouve), "\", ", langueConfig.getString(I18n.var_numTrouve), ");");
-        tl(2, "pagination.put(\"page", langueConfig.getString(I18n.var_Debut), "\", new JsonObject().put(\"", langueConfig.getString(I18n.var_debut), "\", 0L).put(\"page", langueConfig.getString(I18n.var_Numero), "\", 1L));");
-        tl(2, "if(", langueConfig.getString(I18n.var_debut), " > 0L)");
-        tl(3, "pagination.put(\"page", langueConfig.getString(I18n.var_Precedent), "\", new JsonObject().put(\"", langueConfig.getString(I18n.var_debut), "\", ", langueConfig.getString(I18n.var_debut), " - ", langueConfig.getString(I18n.var_lignes), ").put(\"page", langueConfig.getString(I18n.var_Numero), "\", ", langueConfig.getString(I18n.var_debut), " - ", langueConfig.getString(I18n.var_lignes), " + 1L));");
-        tl(2, "if(", langueConfig.getString(I18n.var_debut), " + ", langueConfig.getString(I18n.var_lignes), " < ", langueConfig.getString(I18n.var_numTrouve), ")");
-        tl(3, "pagination.put(\"page", langueConfig.getString(I18n.var_Prochaine), "\", new JsonObject().put(\"", langueConfig.getString(I18n.var_debut), "\", ", langueConfig.getString(I18n.var_debut), " + ", langueConfig.getString(I18n.var_lignes), ").put(\"page", langueConfig.getString(I18n.var_Numero), "\", ", langueConfig.getString(I18n.var_debut), " + ", langueConfig.getString(I18n.var_lignes), " + 1L));");
-        tl(2, "pagination.put(\"page", langueConfig.getString(I18n.var_Fin), "\", new JsonObject().put(\"", langueConfig.getString(I18n.var_debut), "\", ", langueConfig.getString(I18n.var_dernier), ").put(\"page", langueConfig.getString(I18n.var_Numero), "\", ", langueConfig.getString(I18n.var_dernier), " + 1L));");
+        tl(2, "pagination.put(\"", i18nPage.getString(I18n.var_debut), "\", ", i18nPage.getString(I18n.var_debut), ");");
+        tl(2, "pagination.put(\"", i18nPage.getString(I18n.var_lignes), "\", ", i18nPage.getString(I18n.var_lignes), ");");
+        tl(2, "pagination.put(\"", i18nPage.getString(I18n.var_lignes), i18nPage.getString(I18n.var_Precedent), "\", ", i18nPage.getString(I18n.var_lignes), " / 2);");
+        tl(2, "pagination.put(\"", i18nPage.getString(I18n.var_lignes), i18nPage.getString(I18n.var_Prochaine), "\", ", i18nPage.getString(I18n.var_lignes), " * 2);");
+        tl(2, "pagination.put(\"", i18nPage.getString(I18n.var_debut), "Num\", ", i18nPage.getString(I18n.var_debut), "Num);");
+        tl(2, "pagination.put(\"", i18nPage.getString(I18n.var_fin), "Num\", ", i18nPage.getString(I18n.var_fin), "Num);");
+        tl(2, "pagination.put(\"", i18nPage.getString(I18n.var_numTrouve), "\", ", i18nPage.getString(I18n.var_numTrouve), ");");
+        tl(2, "pagination.put(\"page", i18nPage.getString(I18n.var_Debut), "\", new JsonObject().put(\"", i18nPage.getString(I18n.var_debut), "\", 0L).put(\"page", i18nPage.getString(I18n.var_Numero), "\", 1L));");
+        tl(2, "if(", i18nPage.getString(I18n.var_debut), " > 0L)");
+        tl(3, "pagination.put(\"page", i18nPage.getString(I18n.var_Precedent), "\", new JsonObject().put(\"", i18nPage.getString(I18n.var_debut), "\", ", i18nPage.getString(I18n.var_debut), " - ", i18nPage.getString(I18n.var_lignes), ").put(\"page", i18nPage.getString(I18n.var_Numero), "\", ", i18nPage.getString(I18n.var_debut), " - ", i18nPage.getString(I18n.var_lignes), " + 1L));");
+        tl(2, "if(", i18nPage.getString(I18n.var_debut), " + ", i18nPage.getString(I18n.var_lignes), " < ", i18nPage.getString(I18n.var_numTrouve), ")");
+        tl(3, "pagination.put(\"page", i18nPage.getString(I18n.var_Prochaine), "\", new JsonObject().put(\"", i18nPage.getString(I18n.var_debut), "\", ", i18nPage.getString(I18n.var_debut), " + ", i18nPage.getString(I18n.var_lignes), ").put(\"page", i18nPage.getString(I18n.var_Numero), "\", ", i18nPage.getString(I18n.var_debut), " + ", i18nPage.getString(I18n.var_lignes), " + 1L));");
+        tl(2, "pagination.put(\"page", i18nPage.getString(I18n.var_Fin), "\", new JsonObject().put(\"", i18nPage.getString(I18n.var_debut), "\", ", i18nPage.getString(I18n.var_dernier), ").put(\"page", i18nPage.getString(I18n.var_Numero), "\", ", i18nPage.getString(I18n.var_dernier), " + 1L));");
         tl(2, "pagination.put(\"pages\", pages);");
-        tl(2, "for(Long i = pagination", langueConfig.getString(I18n.var_Debut), "; i < pagination", langueConfig.getString(I18n.var_Fin), "; i += ", langueConfig.getString(I18n.var_lignes), ") {");
-        tl(3, "Long page", langueConfig.getString(I18n.var_Numero), " = Math.floorDiv(i, ", langueConfig.getString(I18n.var_lignes), ") + 1L;");
+        tl(2, "for(Long i = pagination", i18nPage.getString(I18n.var_Debut), "; i < pagination", i18nPage.getString(I18n.var_Fin), "; i += ", i18nPage.getString(I18n.var_lignes), ") {");
+        tl(3, "Long page", i18nPage.getString(I18n.var_Numero), " = Math.floorDiv(i, ", i18nPage.getString(I18n.var_lignes), ") + 1L;");
         tl(3, "JsonObject page = new JsonObject();");
-        tl(3, "page.put(\"page", langueConfig.getString(I18n.var_Numero), "\", page", langueConfig.getString(I18n.var_Numero), ");");
-        tl(3, "page.put(\"", langueConfig.getString(I18n.var_pageActuel), "\", ", langueConfig.getString(I18n.var_debut), ".equals(i));");
-        tl(3, "page.put(\"", langueConfig.getString(I18n.var_debut), "\", i);");
+        tl(3, "page.put(\"page", i18nPage.getString(I18n.var_Numero), "\", page", i18nPage.getString(I18n.var_Numero), ");");
+        tl(3, "page.put(\"", i18nPage.getString(I18n.var_pageActuel), "\", ", i18nPage.getString(I18n.var_debut), ".equals(i));");
+        tl(3, "page.put(\"", i18nPage.getString(I18n.var_debut), "\", i);");
         tl(3, "pages.add(page);");
         tl(2, "}");
         tl(1, "}");
@@ -1957,12 +1957,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
         if(classePageSuperNomSimple != null)
           tl(1, "@Override");
         tl(1, "protected void _varsQ(JsonObject vars) {");
-        tl(2, classeNomSimple, ".varsQ", langueConfig.getString(I18n.var_PourClasse), "().forEach(var -> {");
+        tl(2, classeNomSimple, ".varsQ", i18nPage.getString(I18n.var_PourClasse), "().forEach(var -> {");
         tl(3, "JsonObject json = new JsonObject();");
         tl(3, "json.put(\"var\", var);");
-        tl(3, "json.put(\"", langueConfig.getString(I18n.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(I18n.var_nomAffichage), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
-        tl(3, "json.put(\"", langueConfig.getString(I18n.var_classeNomSimple), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(I18n.var_classeNomSimple), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
-        tl(3, "json.put(\"val\", Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getQuery()).filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).map(s -> SearchTool.unescapeQueryChars(StringUtils.substringAfter(s, \":\"))).orElse(null));");
+        tl(3, "json.put(\"", i18nPage.getString(I18n.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", i18nPage.getString(I18n.var_nomAffichage), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
+        tl(3, "json.put(\"", i18nPage.getString(I18n.var_classeNomSimple), "\", Optional.ofNullable(", classeNomSimple, ".", i18nPage.getString(I18n.var_classeNomSimple), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
+        tl(3, "json.put(\"val\", Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getQuery()).filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).map(s -> SearchTool.unescapeQueryChars(StringUtils.substringAfter(s, \":\"))).orElse(null));");
         tl(3, "vars.put(var, json);");
         tl(2, "});");
         tl(1, "}");
@@ -1983,17 +1983,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
         tl(1, "protected void _varsFq(JsonObject vars) {");
         tl(2, "Map<String, SolrResponse.FacetField> facetFields = Optional.ofNullable(facetCounts).map(c -> c.getFacetFields()).map(f -> f.getFacets()).orElse(new HashMap<String,SolrResponse.FacetField>());");
         tl(2, "varsFqCount = 0;");
-        tl(2, "for(String var : ", classeNomSimple, ".varsFq", langueConfig.getString(I18n.var_PourClasse), "()) {");
-        tl(3, "String var", langueConfig.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", langueConfig.getString(I18n.var_Indexe), classeNomSimple, "(var);");
-        tl(3, "String var", langueConfig.getString(I18n.var_Stocke), " = ", classeNomSimple, ".var", langueConfig.getString(I18n.var_Stocke), classeNomSimple, "(var);");
+        tl(2, "for(String var : ", classeNomSimple, ".varsFq", i18nPage.getString(I18n.var_PourClasse), "()) {");
+        tl(3, "String var", i18nPage.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", i18nPage.getString(I18n.var_Indexe), classeNomSimple, "(var);");
+        tl(3, "String var", i18nPage.getString(I18n.var_Stocke), " = ", classeNomSimple, ".var", i18nPage.getString(I18n.var_Stocke), classeNomSimple, "(var);");
         tl(3, "JsonObject json = new JsonObject();");
         tl(3, "json.put(\"var\", var);");
-        tl(3, "json.put(\"var", langueConfig.getString(I18n.var_Stocke), "\", var", langueConfig.getString(I18n.var_Stocke), ");");
-        tl(3, "json.put(\"var", langueConfig.getString(I18n.var_Indexe), "\", var", langueConfig.getString(I18n.var_Indexe), ");");
-        tl(3, "String type = StringUtils.substringAfterLast(var", langueConfig.getString(I18n.var_Indexe), ", \"_\");");
-        tl(3, "json.put(\"", langueConfig.getString(I18n.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(I18n.var_nomAffichage), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
-        tl(3, "json.put(\"", langueConfig.getString(I18n.var_classeNomSimple), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(I18n.var_classeNomSimple), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
-        tl(3, "Object v = ", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getFilterQueries().stream().filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).findFirst().map(s -> SearchTool.unescapeQueryChars(StringUtils.substringAfter(s, \":\"))).orElse(null);");
+        tl(3, "json.put(\"var", i18nPage.getString(I18n.var_Stocke), "\", var", i18nPage.getString(I18n.var_Stocke), ");");
+        tl(3, "json.put(\"var", i18nPage.getString(I18n.var_Indexe), "\", var", i18nPage.getString(I18n.var_Indexe), ");");
+        tl(3, "String type = StringUtils.substringAfterLast(var", i18nPage.getString(I18n.var_Indexe), ", \"_\");");
+        tl(3, "json.put(\"", i18nPage.getString(I18n.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", i18nPage.getString(I18n.var_nomAffichage), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
+        tl(3, "json.put(\"", i18nPage.getString(I18n.var_classeNomSimple), "\", Optional.ofNullable(", classeNomSimple, ".", i18nPage.getString(I18n.var_classeNomSimple), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
+        tl(3, "Object v = ", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getFilterQueries().stream().filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).findFirst().map(s -> SearchTool.unescapeQueryChars(StringUtils.substringAfter(s, \":\"))).orElse(null);");
         tl(3, "if(v != null) {");
         tl(4, "Matcher mFq = Pattern.compile(\"(\\\\w+):(.+?(?=(\\\\)|\\\\s+OR\\\\s+|\\\\s+AND\\\\s+|$)))\").matcher(SearchTool.unescapeQueryChars((String)v));");
         tl(4, "StringBuffer sb = new StringBuffer();");
@@ -2012,11 +2012,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
         tl(4, "}");
         tl(4, "varsFqCount++;");
         tl(3, "}");
-        tl(3, "Optional.ofNullable(stats).map(s -> s.get(var", langueConfig.getString(I18n.var_Indexe), ")).ifPresent(stat -> {");
+        tl(3, "Optional.ofNullable(stats).map(s -> s.get(var", i18nPage.getString(I18n.var_Indexe), ")).ifPresent(stat -> {");
         tl(4, "json.put(\"stats\", JsonObject.mapFrom(stat));");
         tl(3, "});");
   
-        tl(3, "Optional.ofNullable(facetFields.get(var", langueConfig.getString(I18n.var_Indexe), ")).ifPresent(facetField -> {");
+        tl(3, "Optional.ofNullable(facetFields.get(var", i18nPage.getString(I18n.var_Indexe), ")).ifPresent(facetField -> {");
         tl(4, "JsonObject facetJson = new JsonObject();");
         tl(4, "JsonObject counts = new JsonObject();");
         tl(4, "facetJson.put(\"var\", var);");
@@ -2027,8 +2027,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
         tl(4, "json.put(\"facetField\", facetJson);");
         tl(3, "});");
   
-        tl(3, "if(default", langueConfig.getString(I18n.var_ListeChamps), "Vars.contains(var)) {");
-        tl(4, "json.put(\"", langueConfig.getString(I18n.var_listeChamps), "\", true);");
+        tl(3, "if(default", i18nPage.getString(I18n.var_ListeChamps), "Vars.contains(var)) {");
+        tl(4, "json.put(\"", i18nPage.getString(I18n.var_listeChamps), "\", true);");
         tl(3, "}");
   
         tl(3, "if(StringUtils.equalsAny(type, \"date\") && json.containsKey(\"stats\")) {");
@@ -2058,24 +2058,24 @@ public class EcrirePageClasse extends EcrireApiClasse {
         tl(4, "json.put(\"defaultRangeGap\", String.format(\"+1%s\", gap));");
         tl(4, "json.put(\"defaultRangeEnd\", max.toString());");
         tl(4, "json.put(\"defaultRangeStart\", min.toString());");
-        tl(4, "json.put(\"", langueConfig.getString(I18n.var_activer), langueConfig.getString(I18n.var_Calendrier), "\", true);");
-        tl(4, "setDefault", langueConfig.getString(I18n.var_Gamme), langueConfig.getString(I18n.var_Stats), "(json);");
+        tl(4, "json.put(\"", i18nPage.getString(I18n.var_activer), i18nPage.getString(I18n.var_Calendrier), "\", true);");
+        tl(4, "setDefault", i18nPage.getString(I18n.var_Gamme), i18nPage.getString(I18n.var_Stats), "(json);");
         tl(3, "}");
-        tl(3, "json.put(\"", langueConfig.getString(I18n.var_activer), langueConfig.getString(I18n.var_Stats), "\", !StringUtils.equalsAny(type, \"boolean\", \"location\"));");
-        tl(3, "if(default", langueConfig.getString(I18n.var_Stats), "Vars.contains(var)) {");
-        tl(4, "SolrResponse.StatsField varStats = stats.get(var", langueConfig.getString(I18n.var_Indexe), ");");
+        tl(3, "json.put(\"", i18nPage.getString(I18n.var_activer), i18nPage.getString(I18n.var_Stats), "\", !StringUtils.equalsAny(type, \"boolean\", \"location\"));");
+        tl(3, "if(default", i18nPage.getString(I18n.var_Stats), "Vars.contains(var)) {");
+        tl(4, "SolrResponse.StatsField varStats = stats.get(var", i18nPage.getString(I18n.var_Indexe), ");");
         tl(4, "if(varStats != null)");
-        tl(5, "json.put(\"", langueConfig.getString(I18n.var_stats), "\", varStats);");
+        tl(5, "json.put(\"", i18nPage.getString(I18n.var_stats), "\", varStats);");
         tl(3, "}");
   
-        tl(3, "if(default", langueConfig.getString(I18n.var_Pivot), "Vars.contains(var)) {");
-        tl(4, "json.put(\"", langueConfig.getString(I18n.var_pivot), "\", true);");
+        tl(3, "if(default", i18nPage.getString(I18n.var_Pivot), "Vars.contains(var)) {");
+        tl(4, "json.put(\"", i18nPage.getString(I18n.var_pivot), "\", true);");
         tl(3, "}");
   
-        tl(3, "if(default", langueConfig.getString(I18n.var_Tri), "Vars.contains(String.format(\"%s asc\", var))) {");
-        tl(4, "json.put(\"", langueConfig.getString(I18n.var_tri), "\", \"asc\");");
-        tl(3, "} else if(default", langueConfig.getString(I18n.var_Tri), "Vars.contains(String.format(\"%s desc\", var))) {");
-        tl(4, "json.put(\"", langueConfig.getString(I18n.var_tri), "\", \"desc\");");
+        tl(3, "if(default", i18nPage.getString(I18n.var_Tri), "Vars.contains(String.format(\"%s asc\", var))) {");
+        tl(4, "json.put(\"", i18nPage.getString(I18n.var_tri), "\", \"asc\");");
+        tl(3, "} else if(default", i18nPage.getString(I18n.var_Tri), "Vars.contains(String.format(\"%s desc\", var))) {");
+        tl(4, "json.put(\"", i18nPage.getString(I18n.var_tri), "\", \"desc\");");
         tl(3, "}");
   
         tl(3, "vars.put(var, json);");
@@ -2089,15 +2089,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
         l();
         if(classePageSuperNomSimple != null)
           tl(1, "@Override");
-        tl(1, "protected void _vars", langueConfig.getString(I18n.var_Gamme), "(JsonObject vars) {");
+        tl(1, "protected void _vars", i18nPage.getString(I18n.var_Gamme), "(JsonObject vars) {");
   //			tl(2, "Map<String, SolrResponse.Pivot> pivotFields = Optional.ofNullable(facetCounts).map(c -> c.getFacetPivot()).map(f -> f.getPivotMap()).orElse(new HashMap<String,SolrResponse.Pivot>());");
-        tl(2, classeNomSimple, ".vars", langueConfig.getString(I18n.var_Gamme), langueConfig.getString(I18n.var_PourClasse), "().forEach(var -> {");
-        tl(3, "String var", langueConfig.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", langueConfig.getString(I18n.var_Indexe), classeNomSimple, "(var);");
+        tl(2, classeNomSimple, ".vars", i18nPage.getString(I18n.var_Gamme), i18nPage.getString(I18n.var_PourClasse), "().forEach(var -> {");
+        tl(3, "String var", i18nPage.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", i18nPage.getString(I18n.var_Indexe), classeNomSimple, "(var);");
         tl(3, "JsonObject json = new JsonObject();");
         tl(3, "json.put(\"var\", var);");
-        tl(3, "json.put(\"", langueConfig.getString(I18n.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(I18n.var_nomAffichage), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
-        tl(3, "json.put(\"", langueConfig.getString(I18n.var_classeNomSimple), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(I18n.var_classeNomSimple), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
-        tl(3, "json.put(\"val\", ", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getFilterQueries().stream().filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).findFirst().map(s -> SearchTool.unescapeQueryChars(StringUtils.substringAfter(s, \":\"))).orElse(null));");
+        tl(3, "json.put(\"", i18nPage.getString(I18n.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", i18nPage.getString(I18n.var_nomAffichage), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
+        tl(3, "json.put(\"", i18nPage.getString(I18n.var_classeNomSimple), "\", Optional.ofNullable(", classeNomSimple, ".", i18nPage.getString(I18n.var_classeNomSimple), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
+        tl(3, "json.put(\"val\", ", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getFilterQueries().stream().filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).findFirst().map(s -> SearchTool.unescapeQueryChars(StringUtils.substringAfter(s, \":\"))).orElse(null));");
   
   //			tl(3, "Optional.ofNullable(facetFields.get(var", langueConfig.getString(ConfigCles.var_Indexe), ")).ifPresent(facetField -> {");
   //			tl(4, "JsonObject facetJson = new JsonObject();");
@@ -2122,29 +2122,29 @@ public class EcrirePageClasse extends EcrireApiClasse {
         if(classePageSuperNomSimple != null)
           tl(1, "@Override");
         tl(1, "protected void _query(JsonObject query) {");
-        tl(2, "ServiceRequest ", langueConfig.getString(I18n.var_requeteService), " = ", langueConfig.getString(I18n.var_requeteSite), "_.getServiceRequest();");
-        tl(2, "JsonObject params = ", langueConfig.getString(I18n.var_requeteService), ".getParams();");
+        tl(2, "ServiceRequest ", i18nPage.getString(I18n.var_requeteService), " = ", i18nPage.getString(I18n.var_requeteSite), "_.getServiceRequest();");
+        tl(2, "JsonObject params = ", i18nPage.getString(I18n.var_requeteService), ".getParams();");
         l();
-        tl(2, "JsonObject queryParams = Optional.ofNullable(", langueConfig.getString(I18n.var_requeteService), ").map(ServiceRequest::getParams).map(or -> or.getJsonObject(\"query\")).orElse(new JsonObject());");
-        tl(2, "Long num = Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse()).map(response -> response.getResponse().getNumFound().longValue()).orElse(Long.valueOf(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getList().size()));");
+        tl(2, "JsonObject queryParams = Optional.ofNullable(", i18nPage.getString(I18n.var_requeteService), ").map(ServiceRequest::getParams).map(or -> or.getJsonObject(\"query\")).orElse(new JsonObject());");
+        tl(2, "Long num = Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse()).map(response -> response.getResponse().getNumFound().longValue()).orElse(Long.valueOf(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getList().size()));");
         tl(2, "String q = \"*:*\";");
         tl(2, "String q1 = \"", classeVarTexte, "\";");
         tl(2, "String q2 = \"\";");
-        tl(2, "for(String param", langueConfig.getString(I18n.var_Nom), " : queryParams.fieldNames()) {");
-        tl(3, "String ", langueConfig.getString(I18n.var_entite), "Var = null;");
-        tl(3, "String ", langueConfig.getString(I18n.var_valeur), langueConfig.getString(I18n.var_Indexe), " = null;");
-        tl(3, "Object param", langueConfig.getString(I18n.var_ValeursObjet), " = queryParams.getValue(param", langueConfig.getString(I18n.var_Nom), ");");
-        tl(3, "JsonArray param", langueConfig.getString(I18n.var_Objets), " = param", langueConfig.getString(I18n.var_ValeursObjet), " instanceof JsonArray ? (JsonArray)param", langueConfig.getString(I18n.var_ValeursObjet), " : new JsonArray().add(param", langueConfig.getString(I18n.var_ValeursObjet), ");");
+        tl(2, "for(String param", i18nPage.getString(I18n.var_Nom), " : queryParams.fieldNames()) {");
+        tl(3, "String ", i18nPage.getString(I18n.var_entite), "Var = null;");
+        tl(3, "String ", i18nPage.getString(I18n.var_valeur), i18nPage.getString(I18n.var_Indexe), " = null;");
+        tl(3, "Object param", i18nPage.getString(I18n.var_ValeursObjet), " = queryParams.getValue(param", i18nPage.getString(I18n.var_Nom), ");");
+        tl(3, "JsonArray param", i18nPage.getString(I18n.var_Objets), " = param", i18nPage.getString(I18n.var_ValeursObjet), " instanceof JsonArray ? (JsonArray)param", i18nPage.getString(I18n.var_ValeursObjet), " : new JsonArray().add(param", i18nPage.getString(I18n.var_ValeursObjet), ");");
         l();
         tl(3, "try {");
-        tl(4, "for(Object param", langueConfig.getString(I18n.var_Objet), " : param", langueConfig.getString(I18n.var_Objets), ") {");
-        tl(5, "switch(param", langueConfig.getString(I18n.var_Nom), ") {");
+        tl(4, "for(Object param", i18nPage.getString(I18n.var_Objet), " : param", i18nPage.getString(I18n.var_Objets), ") {");
+        tl(5, "switch(param", i18nPage.getString(I18n.var_Nom), ") {");
         tl(5, "case \"q\":");
-        tl(6, "q = (String)param", langueConfig.getString(I18n.var_Objet), ";");
-        tl(6, langueConfig.getString(I18n.var_entite), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", langueConfig.getString(I18n.var_Objet), ", \":\"));");
-        tl(6, langueConfig.getString(I18n.var_valeur), langueConfig.getString(I18n.var_Indexe), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", langueConfig.getString(I18n.var_Objet), ", \":\")), \"UTF-8\");");
-        tl(6, "q1 = ", langueConfig.getString(I18n.var_entite), "Var.equals(\"*\") ? q1 : ", langueConfig.getString(I18n.var_entite), "Var;");
-        tl(6, "q2 = ", langueConfig.getString(I18n.var_valeur), langueConfig.getString(I18n.var_Indexe), ";");
+        tl(6, "q = (String)param", i18nPage.getString(I18n.var_Objet), ";");
+        tl(6, i18nPage.getString(I18n.var_entite), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", i18nPage.getString(I18n.var_Objet), ", \":\"));");
+        tl(6, i18nPage.getString(I18n.var_valeur), i18nPage.getString(I18n.var_Indexe), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", i18nPage.getString(I18n.var_Objet), ", \":\")), \"UTF-8\");");
+        tl(6, "q1 = ", i18nPage.getString(I18n.var_entite), "Var.equals(\"*\") ? q1 : ", i18nPage.getString(I18n.var_entite), "Var;");
+        tl(6, "q2 = ", i18nPage.getString(I18n.var_valeur), i18nPage.getString(I18n.var_Indexe), ";");
         tl(6, "q = q1 + \":\" + q2;");
         tl(5, "}");
         tl(4, "}");
@@ -2154,28 +2154,28 @@ public class EcrirePageClasse extends EcrireApiClasse {
         tl(2, "}");
         tl(2, "query.put(\"q\", q);");
         l();
-        tl(2, "Long rows1 = Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_).map(l -> l.getRows()).orElse(10L);");
-        tl(2, "Long start1 = Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_).map(l -> l.getStart()).orElse(1L);");
+        tl(2, "Long rows1 = Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_).map(l -> l.getRows()).orElse(10L);");
+        tl(2, "Long start1 = Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_).map(l -> l.getStart()).orElse(1L);");
         tl(2, "Long start2 = start1 - rows1;");
         tl(2, "Long start3 = start1 + rows1;");
         tl(2, "Long rows2 = rows1 / 2;");
         tl(2, "Long rows3 = rows1 * 2;");
         tl(2, "start2 = start2 < 0 ? 0 : start2;");
         tl(2, "JsonObject fqs = new JsonObject();");
-        tl(2, "for(String fq : Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_).map(l -> l.getFilterQueries()).orElse(Arrays.asList())) {");
+        tl(2, "for(String fq : Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_).map(l -> l.getFilterQueries()).orElse(Arrays.asList())) {");
         tl(3, "if(!StringUtils.contains(fq, \"(\")) {");
-        tl(4, "String fq1 = ", classeNomSimple, ".", langueConfig.getString(I18n.var_recherche), "Var", classeNomSimple, "(StringUtils.substringBefore(fq, \":\"));");
+        tl(4, "String fq1 = ", classeNomSimple, ".", i18nPage.getString(I18n.var_recherche), "Var", classeNomSimple, "(StringUtils.substringBefore(fq, \":\"));");
         tl(4, "String fq2 = StringUtils.substringAfter(fq, \":\");");
-        tl(4, "if(!StringUtils.startsWithAny(fq, \"", langueConfig.getString(I18n.var_classeNomsCanoniques), "_\", \"", langueConfig.getString(I18n.var_archive), "_\", \"sessionId\", \"", langueConfig.getString(I18n.var_utilisateur), langueConfig.getString(I18n.var_Cle), "s\"))");
-        tl(5, "fqs.put(fq1, new JsonObject().put(\"var\", fq1).put(\"val\", fq2).put(\"", langueConfig.getString(I18n.var_nomAffichage), "\", ", classeNomSimple, ".", langueConfig.getString(I18n.var_nomAffichage), langueConfig.getString(I18n.var_PourClasse), "(fq1)));");
+        tl(4, "if(!StringUtils.startsWithAny(fq, \"", i18nPage.getString(I18n.var_classeNomsCanoniques), "_\", \"", i18nPage.getString(I18n.var_archive), "_\", \"sessionId\", \"", i18nPage.getString(I18n.var_utilisateur), i18nPage.getString(I18n.var_Cle), "s\"))");
+        tl(5, "fqs.put(fq1, new JsonObject().put(\"var\", fq1).put(\"val\", fq2).put(\"", i18nPage.getString(I18n.var_nomAffichage), "\", ", classeNomSimple, ".", i18nPage.getString(I18n.var_nomAffichage), i18nPage.getString(I18n.var_PourClasse), "(fq1)));");
         tl(4, "}");
         tl(3, "}");
         tl(2, "query.put(\"fq\", fqs);");
         l();
         tl(2, "JsonArray sorts = new JsonArray();");
-        tl(2, "for(String sort : Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_).map(l -> l.getSorts()).orElse(Arrays.asList())) {");
-        tl(3, "String sort1 = ", classeNomSimple, ".", langueConfig.getString(I18n.var_recherche), "Var", classeNomSimple, "(StringUtils.substringBefore(sort, \" \"));");
-        tl(3, "sorts.add(new JsonObject().put(\"var\", sort1).put(\"order\", StringUtils.substringAfter(sort, \" \")).put(\"", langueConfig.getString(I18n.var_nomAffichage), "\", ", classeNomSimple, ".", langueConfig.getString(I18n.var_nomAffichage), langueConfig.getString(I18n.var_PourClasse), "(sort1)));");
+        tl(2, "for(String sort : Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_).map(l -> l.getSorts()).orElse(Arrays.asList())) {");
+        tl(3, "String sort1 = ", classeNomSimple, ".", i18nPage.getString(I18n.var_recherche), "Var", classeNomSimple, "(StringUtils.substringBefore(sort, \" \"));");
+        tl(3, "sorts.add(new JsonObject().put(\"var\", sort1).put(\"order\", StringUtils.substringAfter(sort, \" \")).put(\"", i18nPage.getString(I18n.var_nomAffichage), "\", ", classeNomSimple, ".", i18nPage.getString(I18n.var_nomAffichage), i18nPage.getString(I18n.var_PourClasse), "(sort1)));");
         tl(2, "}");
         tl(2, "query.put(\"sort\", sorts);");
         tl(1, "}");
@@ -2183,165 +2183,165 @@ public class EcrirePageClasse extends EcrireApiClasse {
           l();
           if(classePageSuperNomSimple != null)
             tl(1, "@Override");
-          tl(1, "protected void _defaultZoneId(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(I18n.var_cVar), ") {");
-          tl(2, langueConfig.getString(I18n.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Requete), "Vars().get(VAR_defaultZoneId)).orElse(", langueConfig.getString(I18n.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_ZONE)));");
+          tl(1, "protected void _defaultZoneId(", classePartsCouverture.nomSimple(langueNom), "<String> ", i18nPage.getString(I18n.var_cVar), ") {");
+          tl(2, i18nPage.getString(I18n.var_cVar), ".o(Optional.ofNullable(", i18nPage.getString(I18n.var_requeteSite), "_.get", i18nPage.getString(I18n.var_Requete), "Vars().get(VAR_defaultZoneId)).orElse(", i18nPage.getString(I18n.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_ZONE)));");
           tl(1, "}");
           l();
           tl(1, "/**");
-          tl(1, " * ", langueConfig.getString(I18n.var_Ignorer), ": true");
+          tl(1, " * ", i18nPage.getString(I18n.var_Ignorer), ": true");
           tl(1, " **/");
           if(classePageSuperNomSimple != null)
             tl(1, "@Override");
-          tl(1, "protected void _defaultTimeZone(", classePartsCouverture.nomSimple(langueNom), "<ZoneId> ", langueConfig.getString(I18n.var_cVar), ") {");
-          tl(2, langueConfig.getString(I18n.var_cVar), ".o(ZoneId.of(defaultZoneId));");
+          tl(1, "protected void _defaultTimeZone(", classePartsCouverture.nomSimple(langueNom), "<ZoneId> ", i18nPage.getString(I18n.var_cVar), ") {");
+          tl(2, i18nPage.getString(I18n.var_cVar), ".o(ZoneId.of(defaultZoneId));");
           tl(1, "}");
           l();
           if(classePageSuperNomSimple != null)
             tl(1, "@Override");
-          tl(1, "protected void _defaultLocaleId(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(I18n.var_cVar), ") {");
-          tl(2, langueConfig.getString(I18n.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(I18n.var_requeteSite), "_.getRequestHeaders().get(\"Accept-Language\")).map(acceptLanguage -> StringUtils.substringBefore(acceptLanguage, \",\")).orElse(", langueConfig.getString(I18n.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_LOCALE)));");
+          tl(1, "protected void _defaultLocaleId(", classePartsCouverture.nomSimple(langueNom), "<String> ", i18nPage.getString(I18n.var_cVar), ") {");
+          tl(2, i18nPage.getString(I18n.var_cVar), ".o(Optional.ofNullable(", i18nPage.getString(I18n.var_requeteSite), "_.getRequestHeaders().get(\"Accept-Language\")).map(acceptLanguage -> StringUtils.substringBefore(acceptLanguage, \",\")).orElse(", i18nPage.getString(I18n.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_LOCALE)));");
           tl(1, "}");
           l();
           tl(1, "/**");
-          tl(1, " * ", langueConfig.getString(I18n.var_Ignorer), ": true");
+          tl(1, " * ", i18nPage.getString(I18n.var_Ignorer), ": true");
           tl(1, " **/");
           if(classePageSuperNomSimple != null)
             tl(1, "@Override");
-          tl(1, "protected void _defaultLocale(", classePartsCouverture.nomSimple(langueNom), "<Locale> ", langueConfig.getString(I18n.var_cVar), ") {");
-          tl(2, langueConfig.getString(I18n.var_cVar), ".o(Locale.forLanguageTag(defaultLocaleId));");
+          tl(1, "protected void _defaultLocale(", classePartsCouverture.nomSimple(langueNom), "<Locale> ", i18nPage.getString(I18n.var_cVar), ") {");
+          tl(2, i18nPage.getString(I18n.var_cVar), ".o(Locale.forLanguageTag(defaultLocaleId));");
           tl(1, "}");
           l();
           if(classePageSuperNomSimple != null)
             tl(1, "@Override");
-          tl(1, "protected void _rows(", classePartsCouverture.nomSimple(langueNom), "<Long> ", langueConfig.getString(I18n.var_cVar), ") {");
-          tl(2, "if(", langueConfig.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"query\").getString(\"rows\", null) != null)");
-          tl(3, langueConfig.getString(I18n.var_cVar), ".o(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getRows());");
+          tl(1, "protected void _rows(", classePartsCouverture.nomSimple(langueNom), "<Long> ", i18nPage.getString(I18n.var_cVar), ") {");
+          tl(2, "if(", i18nPage.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"query\").getString(\"rows\", null) != null)");
+          tl(3, i18nPage.getString(I18n.var_cVar), ".o(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getRows());");
           tl(1, "}");
           l();
           if(classePageSuperNomSimple != null)
             tl(1, "@Override");
-          tl(1, "protected void _start(", classePartsCouverture.nomSimple(langueNom), "<Long> ", langueConfig.getString(I18n.var_cVar), ") {");
-          tl(2, "if(", langueConfig.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"query\").getString(\"start\", null) != null)");
-          tl(3, langueConfig.getString(I18n.var_cVar), ".o(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getStart());");
+          tl(1, "protected void _start(", classePartsCouverture.nomSimple(langueNom), "<Long> ", i18nPage.getString(I18n.var_cVar), ") {");
+          tl(2, "if(", i18nPage.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"query\").getString(\"start\", null) != null)");
+          tl(3, i18nPage.getString(I18n.var_cVar), ".o(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getStart());");
           tl(1, "}");
           l();
           if(classePageSuperNomSimple != null)
             tl(1, "@Override");
-          tl(1, "protected void _rangeGap(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(I18n.var_cVar), ") {");
-          tl(2, "if(", langueConfig.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"query\").getString(\"facet.range.gap\", null) != null)");
-          tl(3, langueConfig.getString(I18n.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeGap()).orElse(null));");
+          tl(1, "protected void _rangeGap(", classePartsCouverture.nomSimple(langueNom), "<String> ", i18nPage.getString(I18n.var_cVar), ") {");
+          tl(2, "if(", i18nPage.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"query\").getString(\"facet.range.gap\", null) != null)");
+          tl(3, i18nPage.getString(I18n.var_cVar), ".o(Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeGap()).orElse(null));");
           tl(1, "}");
           l();
           if(classePageSuperNomSimple != null)
             tl(1, "@Override");
-          tl(1, "protected void _rangeEnd(", classePartsCouverture.nomSimple(langueNom), "<ZonedDateTime> ", langueConfig.getString(I18n.var_cVar), ") {");
-          tl(2, "if(", langueConfig.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"query\").getString(\"facet.range.end\", null) != null)");
-          tl(3, langueConfig.getString(I18n.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeEnd()).map(s -> TimeTool.parseZonedDateTime(defaultTimeZone, s)).orElse(null));");
+          tl(1, "protected void _rangeEnd(", classePartsCouverture.nomSimple(langueNom), "<ZonedDateTime> ", i18nPage.getString(I18n.var_cVar), ") {");
+          tl(2, "if(", i18nPage.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"query\").getString(\"facet.range.end\", null) != null)");
+          tl(3, i18nPage.getString(I18n.var_cVar), ".o(Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeEnd()).map(s -> TimeTool.parseZonedDateTime(defaultTimeZone, s)).orElse(null));");
           tl(1, "}");
           l();
           if(classePageSuperNomSimple != null)
             tl(1, "@Override");
-          tl(1, "protected void _rangeStart(", classePartsCouverture.nomSimple(langueNom), "<ZonedDateTime> ", langueConfig.getString(I18n.var_cVar), ") {");
-          tl(2, "if(", langueConfig.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"query\").getString(\"facet.range.start\", null) != null)");
-          tl(3, langueConfig.getString(I18n.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeStart()).map(s -> TimeTool.parseZonedDateTime(defaultTimeZone, s)).orElse(null));");
+          tl(1, "protected void _rangeStart(", classePartsCouverture.nomSimple(langueNom), "<ZonedDateTime> ", i18nPage.getString(I18n.var_cVar), ") {");
+          tl(2, "if(", i18nPage.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"query\").getString(\"facet.range.start\", null) != null)");
+          tl(3, i18nPage.getString(I18n.var_cVar), ".o(Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeStart()).map(s -> TimeTool.parseZonedDateTime(defaultTimeZone, s)).orElse(null));");
           tl(1, "}");
           l();
           if(classePageSuperNomSimple != null)
             tl(1, "@Override");
-          tl(1, "protected void _defaultRangeGap(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(I18n.var_cVar), ") {");
-          tl(2, langueConfig.getString(I18n.var_cVar), ".o(Optional.ofNullable(rangeGap).orElse(Optional.ofNullable(defaultRangeStats).map(s -> s.getString(\"defaultRangeGap\")).orElse(\"+1HOUR\")));");
+          tl(1, "protected void _defaultRangeGap(", classePartsCouverture.nomSimple(langueNom), "<String> ", i18nPage.getString(I18n.var_cVar), ") {");
+          tl(2, i18nPage.getString(I18n.var_cVar), ".o(Optional.ofNullable(rangeGap).orElse(Optional.ofNullable(defaultRangeStats).map(s -> s.getString(\"defaultRangeGap\")).orElse(\"+1HOUR\")));");
           tl(1, "}");
           l();
           if(classePageSuperNomSimple != null)
             tl(1, "@Override");
-          tl(1, "protected void _defaultRangeEnd(", classePartsCouverture.nomSimple(langueNom), "<ZonedDateTime> ", langueConfig.getString(I18n.var_cVar), ") {");
-          tl(2, langueConfig.getString(I18n.var_cVar), ".o(Optional.ofNullable(rangeEnd).orElse(Optional.ofNullable(defaultRangeStats).map(s -> Instant.parse(s.getString(\"defaultRangeEnd\")).atZone(defaultTimeZone)).orElse(ZonedDateTime.now(defaultTimeZone).toLocalDate().atStartOfDay(defaultTimeZone).plusDays(1))));");
+          tl(1, "protected void _defaultRangeEnd(", classePartsCouverture.nomSimple(langueNom), "<ZonedDateTime> ", i18nPage.getString(I18n.var_cVar), ") {");
+          tl(2, i18nPage.getString(I18n.var_cVar), ".o(Optional.ofNullable(rangeEnd).orElse(Optional.ofNullable(defaultRangeStats).map(s -> Instant.parse(s.getString(\"defaultRangeEnd\")).atZone(defaultTimeZone)).orElse(ZonedDateTime.now(defaultTimeZone).toLocalDate().atStartOfDay(defaultTimeZone).plusDays(1))));");
           tl(1, "}");
           l();
           if(classePageSuperNomSimple != null)
             tl(1, "@Override");
-          tl(1, "protected void _defaultRangeStart(", classePartsCouverture.nomSimple(langueNom), "<ZonedDateTime> ", langueConfig.getString(I18n.var_cVar), ") {");
-          tl(2, langueConfig.getString(I18n.var_cVar), ".o(Optional.ofNullable(rangeStart).orElse(Optional.ofNullable(defaultRangeStats).map(s -> Instant.parse(s.getString(\"defaultRangeStart\")).atZone(defaultTimeZone)).orElse(defaultRangeEnd.minusDays(7).toLocalDate().atStartOfDay(defaultTimeZone))));");
+          tl(1, "protected void _defaultRangeStart(", classePartsCouverture.nomSimple(langueNom), "<ZonedDateTime> ", i18nPage.getString(I18n.var_cVar), ") {");
+          tl(2, i18nPage.getString(I18n.var_cVar), ".o(Optional.ofNullable(rangeStart).orElse(Optional.ofNullable(defaultRangeStats).map(s -> Instant.parse(s.getString(\"defaultRangeStart\")).atZone(defaultTimeZone)).orElse(defaultRangeEnd.minusDays(7).toLocalDate().atStartOfDay(defaultTimeZone))));");
           tl(1, "}");
           l();
           if(classePageSuperNomSimple != null)
             tl(1, "@Override");
-          tl(1, "protected void _defaultRangeVar(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(I18n.var_cVar), ") {");
-          tl(2, langueConfig.getString(I18n.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRanges()).orElse(Optional.ofNullable(defaultRangeStats).map(s -> Arrays.asList(s.getString(\"defaultRangeVar\"))).orElse(Arrays.asList())).stream().findFirst().map(v -> { if(v.contains(\"}\")) return StringUtils.substringBefore(StringUtils.substringAfterLast(v, \"}\"), \"_\"); else return ", classeNomSimple, ".", langueConfig.getString(I18n.var_recherche), "Var", classeNomSimple, "(v); }).orElse(\"", classeVarCree, "\"));");
+          tl(1, "protected void _defaultRangeVar(", classePartsCouverture.nomSimple(langueNom), "<String> ", i18nPage.getString(I18n.var_cVar), ") {");
+          tl(2, i18nPage.getString(I18n.var_cVar), ".o(Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRanges()).orElse(Optional.ofNullable(defaultRangeStats).map(s -> Arrays.asList(s.getString(\"defaultRangeVar\"))).orElse(Arrays.asList())).stream().findFirst().map(v -> { if(v.contains(\"}\")) return StringUtils.substringBefore(StringUtils.substringAfterLast(v, \"}\"), \"_\"); else return ", classeNomSimple, ".", i18nPage.getString(I18n.var_recherche), "Var", classeNomSimple, "(v); }).orElse(\"", classeVarCree, "\"));");
           tl(1, "}");
           l();
           if(classePageSuperNomSimple != null)
             tl(1, "@Override");
-          tl(1, "protected void _defaultFacetSort(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(I18n.var_cVar), ") {");
-          tl(2, langueConfig.getString(I18n.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetSort()).orElse(\"index\"));");
+          tl(1, "protected void _defaultFacetSort(", classePartsCouverture.nomSimple(langueNom), "<String> ", i18nPage.getString(I18n.var_cVar), ") {");
+          tl(2, i18nPage.getString(I18n.var_cVar), ".o(Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetSort()).orElse(\"index\"));");
           tl(1, "}");
           l();
           if(classePageSuperNomSimple != null)
             tl(1, "@Override");
-          tl(1, "protected void _defaultFacetLimit(", classePartsCouverture.nomSimple(langueNom), "<Integer> ", langueConfig.getString(I18n.var_cVar), ") {");
-          tl(2, langueConfig.getString(I18n.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetLimit()).orElse(1));");
+          tl(1, "protected void _defaultFacetLimit(", classePartsCouverture.nomSimple(langueNom), "<Integer> ", i18nPage.getString(I18n.var_cVar), ") {");
+          tl(2, i18nPage.getString(I18n.var_cVar), ".o(Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetLimit()).orElse(1));");
           tl(1, "}");
           l();
           if(classePageSuperNomSimple != null)
             tl(1, "@Override");
-          tl(1, "protected void _defaultFacetMinCount(", classePartsCouverture.nomSimple(langueNom), "<Integer> ", langueConfig.getString(I18n.var_cVar), ") {");
-          tl(2, langueConfig.getString(I18n.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetMinCount()).orElse(1));");
+          tl(1, "protected void _defaultFacetMinCount(", classePartsCouverture.nomSimple(langueNom), "<Integer> ", i18nPage.getString(I18n.var_cVar), ") {");
+          tl(2, i18nPage.getString(I18n.var_cVar), ".o(Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetMinCount()).orElse(1));");
           tl(1, "}");
           l();
           if(classePageSuperNomSimple != null)
             tl(1, "@Override");
-          tl(1, "protected void _defaultPivotMinCount(", classePartsCouverture.nomSimple(langueNom), "<Integer> ", langueConfig.getString(I18n.var_cVar), ") {");
-          tl(2, langueConfig.getString(I18n.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetPivotMinCount()).orElse(0));");
+          tl(1, "protected void _defaultPivotMinCount(", classePartsCouverture.nomSimple(langueNom), "<Integer> ", i18nPage.getString(I18n.var_cVar), ") {");
+          tl(2, i18nPage.getString(I18n.var_cVar), ".o(Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetPivotMinCount()).orElse(0));");
           tl(1, "}");
           l();
           if(classePageSuperNomSimple != null)
             tl(1, "@Override");
-          tl(1, "protected void _DEFAULT_MAP_LOCATION(", classePartsCouverture.nomSimple(langueNom), "<JsonObject> ", langueConfig.getString(I18n.var_cVar), ") {");
+          tl(1, "protected void _DEFAULT_MAP_LOCATION(", classePartsCouverture.nomSimple(langueNom), "<JsonObject> ", i18nPage.getString(I18n.var_cVar), ") {");
           if(classeVarEmplacement != null) {
-            tl(2, "Point point = ", classeNomSimple, ".staticSet", StringUtils.capitalize(classeVarEmplacement), "(", langueConfig.getString(I18n.var_requeteSite), "_, Optional.ofNullable(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Requete), "Vars().get(VAR_DEFAULT_MAP_LOCATION)).orElse(", langueConfig.getString(I18n.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_LOCATION)));");
+            tl(2, "Point point = ", classeNomSimple, ".staticSet", StringUtils.capitalize(classeVarEmplacement), "(", i18nPage.getString(I18n.var_requeteSite), "_, Optional.ofNullable(", i18nPage.getString(I18n.var_requeteSite), "_.get", i18nPage.getString(I18n.var_Requete), "Vars().get(VAR_DEFAULT_MAP_LOCATION)).orElse(", i18nPage.getString(I18n.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_LOCATION)));");
             tl(2, "w.o(new JsonObject().put(\"type\", \"Point\").put(\"coordinates\", new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))));");
           }
           tl(1, "}");
           l();
           if(classePageSuperNomSimple != null)
             tl(1, "@Override");
-          tl(1, "protected void _DEFAULT_MAP_ZOOM(", classePartsCouverture.nomSimple(langueNom), "<BigDecimal> ", langueConfig.getString(I18n.var_cVar), ") {");
-          tl(2, "String s = Optional.ofNullable(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_Requete), "Vars().get(VAR_DEFAULT_MAP_ZOOM)).orElse(", langueConfig.getString(I18n.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_ZOOM));");
+          tl(1, "protected void _DEFAULT_MAP_ZOOM(", classePartsCouverture.nomSimple(langueNom), "<BigDecimal> ", i18nPage.getString(I18n.var_cVar), ") {");
+          tl(2, "String s = Optional.ofNullable(", i18nPage.getString(I18n.var_requeteSite), "_.get", i18nPage.getString(I18n.var_Requete), "Vars().get(VAR_DEFAULT_MAP_ZOOM)).orElse(", i18nPage.getString(I18n.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_ZOOM));");
           tl(2, "if(s != null)");
-          tl(3, langueConfig.getString(I18n.var_cVar), ".o(new BigDecimal(s));");
+          tl(3, i18nPage.getString(I18n.var_cVar), ".o(new BigDecimal(s));");
           tl(1, "}");
         } else {
           l();
           if(classePageSuperNomSimple != null)
             tl(1, "@Override");
-          tl(1, "protected void _defaultRangeStats(", classePartsCouverture.nomSimple(langueNom), "<JsonObject> ", langueConfig.getString(I18n.var_cVar), ") {");
+          tl(1, "protected void _defaultRangeStats(", classePartsCouverture.nomSimple(langueNom), "<JsonObject> ", i18nPage.getString(I18n.var_cVar), ") {");
           tl(1, "}");
         }
         l();
         if(classePageSuperNomSimple != null)
           tl(1, "@Override");
-        tl(1, "protected void _default", langueConfig.getString(I18n.var_Tri), "Vars(List<String> l) {");
-        tl(2, "if(!", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getDefaultSort()) {");
-        tl(3, "Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getSorts()).orElse(Arrays.asList()).forEach(var", langueConfig.getString(I18n.var_Tri), "Str -> {");
-        tl(4, "String var", langueConfig.getString(I18n.var_Tri), langueConfig.getString(I18n.var_Parties), "[] = var", langueConfig.getString(I18n.var_Tri), "Str.split(\" \");");
-        tl(4, "String var", langueConfig.getString(I18n.var_Tri), " = ", classeNomSimple, ".", langueConfig.getString(I18n.var_recherche), "Var", classeNomSimple, "(var", langueConfig.getString(I18n.var_Tri), langueConfig.getString(I18n.var_Parties), "[0]);");
-        tl(4, "String var", langueConfig.getString(I18n.var_Tri), langueConfig.getString(I18n.var_Direction), " = var", langueConfig.getString(I18n.var_Tri), langueConfig.getString(I18n.var_Parties), "[1];");
-        tl(4, "l.add(String.format(\"%s %s\", var", langueConfig.getString(I18n.var_Tri), ", var", langueConfig.getString(I18n.var_Tri), langueConfig.getString(I18n.var_Direction), "));");
+        tl(1, "protected void _default", i18nPage.getString(I18n.var_Tri), "Vars(List<String> l) {");
+        tl(2, "if(!", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getDefaultSort()) {");
+        tl(3, "Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getSorts()).orElse(Arrays.asList()).forEach(var", i18nPage.getString(I18n.var_Tri), "Str -> {");
+        tl(4, "String var", i18nPage.getString(I18n.var_Tri), i18nPage.getString(I18n.var_Parties), "[] = var", i18nPage.getString(I18n.var_Tri), "Str.split(\" \");");
+        tl(4, "String var", i18nPage.getString(I18n.var_Tri), " = ", classeNomSimple, ".", i18nPage.getString(I18n.var_recherche), "Var", classeNomSimple, "(var", i18nPage.getString(I18n.var_Tri), i18nPage.getString(I18n.var_Parties), "[0]);");
+        tl(4, "String var", i18nPage.getString(I18n.var_Tri), i18nPage.getString(I18n.var_Direction), " = var", i18nPage.getString(I18n.var_Tri), i18nPage.getString(I18n.var_Parties), "[1];");
+        tl(4, "l.add(String.format(\"%s %s\", var", i18nPage.getString(I18n.var_Tri), ", var", i18nPage.getString(I18n.var_Tri), i18nPage.getString(I18n.var_Direction), "));");
         tl(3, "});");
         tl(2, "}");
         tl(1, "}");
         l();
         if(classePageSuperNomSimple != null)
           tl(1, "@Override");
-        tl(1, "protected void _default", langueConfig.getString(I18n.var_ListeChamps), "Vars(List<String> l) {");
-        tl(2, "Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getFields()).orElse(Arrays.asList()).forEach(var", langueConfig.getString(I18n.var_Stocke), " -> {");
-        tl(3, "String var", langueConfig.getString(I18n.var_Stocke), "2 = var", langueConfig.getString(I18n.var_Stocke), ";");
-        tl(3, "if(StringUtils.contains(var", langueConfig.getString(I18n.var_Stocke), "2, \"}\"))");
-        tl(4, "var", langueConfig.getString(I18n.var_Stocke), "2 = StringUtils.substringAfterLast(var", langueConfig.getString(I18n.var_Stocke), "2, \"}\");");
-        tl(3, "String[] parts = var", langueConfig.getString(I18n.var_Stocke), "2.split(\",\");");
+        tl(1, "protected void _default", i18nPage.getString(I18n.var_ListeChamps), "Vars(List<String> l) {");
+        tl(2, "Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getFields()).orElse(Arrays.asList()).forEach(var", i18nPage.getString(I18n.var_Stocke), " -> {");
+        tl(3, "String var", i18nPage.getString(I18n.var_Stocke), "2 = var", i18nPage.getString(I18n.var_Stocke), ";");
+        tl(3, "if(StringUtils.contains(var", i18nPage.getString(I18n.var_Stocke), "2, \"}\"))");
+        tl(4, "var", i18nPage.getString(I18n.var_Stocke), "2 = StringUtils.substringAfterLast(var", i18nPage.getString(I18n.var_Stocke), "2, \"}\");");
+        tl(3, "String[] parts = var", i18nPage.getString(I18n.var_Stocke), "2.split(\",\");");
         tl(3, "for(String part : parts) {");
         tl(4, "if(StringUtils.isNotBlank(part)) {");
-        tl(5, "String var = ", classeNomSimple, ".", langueConfig.getString(I18n.var_recherche), "Var", classeNomSimple, "(part);");
+        tl(5, "String var = ", classeNomSimple, ".", i18nPage.getString(I18n.var_recherche), "Var", classeNomSimple, "(part);");
         tl(5, "if(StringUtils.isNotBlank(var))");
         tl(6, "l.add(var);");
         tl(4, "}");
@@ -2351,15 +2351,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
         l();
         if(classePageSuperNomSimple != null)
           tl(1, "@Override");
-        tl(1, "protected void _default", langueConfig.getString(I18n.var_Stats), "Vars(List<String> l) {");
-        tl(2, "Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getStatsFields()).orElse(Arrays.asList()).forEach(var", langueConfig.getString(I18n.var_Indexe), " -> {");
-        tl(3, "String var", langueConfig.getString(I18n.var_Indexe), "2 = var", langueConfig.getString(I18n.var_Indexe), ";");
-        tl(3, "if(StringUtils.contains(var", langueConfig.getString(I18n.var_Indexe), "2, \"}\"))");
-        tl(4, "var", langueConfig.getString(I18n.var_Indexe), "2 = StringUtils.substringAfterLast(var", langueConfig.getString(I18n.var_Indexe), "2, \"}\");");
-        tl(3, "String[] parts = var", langueConfig.getString(I18n.var_Indexe), "2.split(\",\");");
+        tl(1, "protected void _default", i18nPage.getString(I18n.var_Stats), "Vars(List<String> l) {");
+        tl(2, "Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getStatsFields()).orElse(Arrays.asList()).forEach(var", i18nPage.getString(I18n.var_Indexe), " -> {");
+        tl(3, "String var", i18nPage.getString(I18n.var_Indexe), "2 = var", i18nPage.getString(I18n.var_Indexe), ";");
+        tl(3, "if(StringUtils.contains(var", i18nPage.getString(I18n.var_Indexe), "2, \"}\"))");
+        tl(4, "var", i18nPage.getString(I18n.var_Indexe), "2 = StringUtils.substringAfterLast(var", i18nPage.getString(I18n.var_Indexe), "2, \"}\");");
+        tl(3, "String[] parts = var", i18nPage.getString(I18n.var_Indexe), "2.split(\",\");");
         tl(3, "for(String part : parts) {");
         tl(4, "if(StringUtils.isNotBlank(part)) {");
-        tl(5, "String var = ", classeNomSimple, ".", langueConfig.getString(I18n.var_recherche), "Var", classeNomSimple, "(part);");
+        tl(5, "String var = ", classeNomSimple, ".", i18nPage.getString(I18n.var_recherche), "Var", classeNomSimple, "(part);");
         tl(5, "if(StringUtils.isNotBlank(var))");
         tl(6, "l.add(var);");
         tl(4, "}");
@@ -2369,15 +2369,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
         l();
         if(classePageSuperNomSimple != null)
           tl(1, "@Override");
-        tl(1, "protected void _default", langueConfig.getString(I18n.var_Pivot), "Vars(List<String> l) {");
-        tl(2, "Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetPivots()).orElse(Arrays.asList()).forEach(facetPivot -> {");
+        tl(1, "protected void _default", i18nPage.getString(I18n.var_Pivot), "Vars(List<String> l) {");
+        tl(2, "Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetPivots()).orElse(Arrays.asList()).forEach(facetPivot -> {");
         tl(3, "String facetPivot2 = facetPivot;");
         tl(3, "if(StringUtils.contains(facetPivot2, \"}\"))");
         tl(4, "facetPivot2 = StringUtils.substringAfterLast(facetPivot2, \"}\");");
         tl(3, "String[] parts = facetPivot2.split(\",\");");
         tl(3, "for(String part : parts) {");
         tl(4, "if(StringUtils.isNotBlank(part)) {");
-        tl(5, "String var = ", classeNomSimple, ".", langueConfig.getString(I18n.var_recherche), "Var", classeNomSimple, "(part);");
+        tl(5, "String var = ", classeNomSimple, ".", i18nPage.getString(I18n.var_recherche), "Var", classeNomSimple, "(part);");
         tl(5, "if(StringUtils.isNotBlank(var))");
         tl(6, "l.add(var);");
         tl(4, "}");
@@ -2388,38 +2388,38 @@ public class EcrirePageClasse extends EcrireApiClasse {
         tl(1, "/**");
         tl(1, " * {@inheritDoc}");
         tl(1, " **/");
-        tl(1, "protected void _", langueConfig.getString(I18n.var_liste), classeApiClasseNomSimple, "(JsonArray l) {");
-        tl(2, "Optional.ofNullable(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_).map(o -> o.get", langueConfig.getString(I18n.var_Liste), "()).orElse(Arrays.asList()).stream().map(o -> JsonObject.mapFrom(o)).forEach(o -> l.add(o));");
+        tl(1, "protected void _", i18nPage.getString(I18n.var_liste), classeApiClasseNomSimple, "(JsonArray l) {");
+        tl(2, "Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_).map(o -> o.get", i18nPage.getString(I18n.var_Liste), "()).orElse(Arrays.asList()).stream().map(o -> JsonObject.mapFrom(o)).forEach(o -> l.add(o));");
         tl(1, "}");
         l();
-        tl(1, "protected void _", varResultat, "Count(", classePartsCouverture.nomSimple(langueNom), "<Integer> ", langueConfig.getString(I18n.var_cVar), ") {");
-        tl(2, langueConfig.getString(I18n.var_cVar), ".o(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_ == null ? 0 : ", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.size());");
+        tl(1, "protected void _", varResultat, "Count(", classePartsCouverture.nomSimple(langueNom), "<Integer> ", i18nPage.getString(I18n.var_cVar), ") {");
+        tl(2, i18nPage.getString(I18n.var_cVar), ".o(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_ == null ? 0 : ", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.size());");
         tl(1, "}");
       }
       l();
       tl(1, "/**");
       tl(1, " * ", i18nGlobale.getString(I18n.var_Initialise), ": false");
       tl(1, "**/");
-      tl(1, "protected void _", varResultat, "(", classePartsCouverture.nomSimple(langueNom), "<", classeApiClasseNomSimple, "> ", langueConfig.getString(I18n.var_cVar), ") {");
+      tl(1, "protected void _", varResultat, "(", classePartsCouverture.nomSimple(langueNom), "<", classeApiClasseNomSimple, "> ", i18nPage.getString(I18n.var_cVar), ") {");
       if(classePageSimple) {
-        tl(2, langueConfig.getString(I18n.var_cVar), ".o(new ", classeApiClasseNomSimple, "());");
+        tl(2, i18nPage.getString(I18n.var_cVar), ".o(new ", classeApiClasseNomSimple, "());");
       } else {
-        tl(2, "if(", varResultat, "Count >= 1 && Optional.ofNullable(", langueConfig.getString(I18n.var_requeteSite), "_.get", langueConfig.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\")).map(o -> o.getString(\"", classeVarId, "\")).orElse(null) != null)");
-        tl(3, langueConfig.getString(I18n.var_cVar), ".o(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.get(0));");
+        tl(2, "if(", varResultat, "Count >= 1 && Optional.ofNullable(", i18nPage.getString(I18n.var_requeteSite), "_.get", i18nPage.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\")).map(o -> o.getString(\"", classeVarId, "\")).orElse(null) != null)");
+        tl(3, i18nPage.getString(I18n.var_cVar), ".o(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.get(0));");
       }
       tl(1, "}");
       if(!classePageSimple) {
         if(classeModele) {
           l();
-          tl(1, "protected void _", classeVarClePrimaire, "(", classePartsCouverture.nomSimple(langueNom), "<Long> ", langueConfig.getString(I18n.var_cVar), ") {");
+          tl(1, "protected void _", classeVarClePrimaire, "(", classePartsCouverture.nomSimple(langueNom), "<Long> ", i18nPage.getString(I18n.var_cVar), ") {");
           tl(2, "if(", varResultat, " != null)");
-          tl(3, langueConfig.getString(I18n.var_cVar), ".o(", varResultat, ".get", StringUtils.capitalize(classeVarClePrimaire), "());");
+          tl(3, i18nPage.getString(I18n.var_cVar), ".o(", varResultat, ".get", StringUtils.capitalize(classeVarClePrimaire), "());");
           tl(1, "}");
         }
         l();
-        tl(1, "protected void _", classeVarCleUnique, "(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(I18n.var_cVar), ") {");
+        tl(1, "protected void _", classeVarCleUnique, "(", classePartsCouverture.nomSimple(langueNom), "<String> ", i18nPage.getString(I18n.var_cVar), ") {");
         tl(2, "if(", varResultat, " != null)");
-        tl(3, langueConfig.getString(I18n.var_cVar), ".o(", varResultat, ".get", StringUtils.capitalize(classeVarCleUnique), "());");
+        tl(3, i18nPage.getString(I18n.var_cVar), ".o(", varResultat, ".get", StringUtils.capitalize(classeVarCleUnique), "());");
         tl(1, "}");
       }
 
@@ -2428,24 +2428,24 @@ public class EcrirePageClasse extends EcrireApiClasse {
         tl(1, "@Override");
       } else {
         tl(1, "/**");
-        tl(1, " * ", langueConfig.getString(I18n.var_Ignorer), ": true");
+        tl(1, " * ", i18nPage.getString(I18n.var_Ignorer), ": true");
         tl(1, "**/");
       }
-      tl(1, "protected void _promise", langueConfig.getString(I18n.var_Avant), "(Promise<Void> promise) {");
+      tl(1, "protected void _promise", i18nPage.getString(I18n.var_Avant), "(Promise<Void> promise) {");
       tl(2, "promise.complete();");
       tl(1, "}");
 
       l();
       if(classePageSuperNomSimple != null)
         tl(1, "@Override");
-      tl(1, "protected void _", langueConfig.getString(I18n.var_classeNomSimple), "(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(I18n.var_cVar), ") {");
-      tl(2, langueConfig.getString(I18n.var_cVar), ".o(\"", classeApiClasseNomSimple, "\");");
+      tl(1, "protected void _", i18nPage.getString(I18n.var_classeNomSimple), "(", classePartsCouverture.nomSimple(langueNom), "<String> ", i18nPage.getString(I18n.var_cVar), ") {");
+      tl(2, i18nPage.getString(I18n.var_cVar), ".o(\"", classeApiClasseNomSimple, "\");");
       tl(1, "}");
 
       l();
       if(classePageSuperNomSimple != null)
         tl(1, "@Override");
-      tl(1, "protected void _page", langueConfig.getString(I18n.var_Titre), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
+      tl(1, "protected void _page", i18nPage.getString(I18n.var_Titre), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
       if(classeVarTitre != null) {
         tl(2, "if(", varResultat, " != null && ", varResultat, ".get", StringUtils.capitalize(classeVarTitre), "() != null)");
         tl(3, "c.o(", varResultat, ".get", StringUtils.capitalize(classeVarTitre), "()", ");");
@@ -2455,7 +2455,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
       }
       tl(3, "c.o(", q(classeTitre), ");");
       if(!classePageSimple) {
-        tl(2, "else if(", langueConfig.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_ == null || ", varResultat, "Count == 0)");
+        tl(2, "else if(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_ == null || ", varResultat, "Count == 0)");
         tl(3, "c.o(", q(classeAucunNomTrouve), ");");
       }
       if(classeTitre != null) {
@@ -2467,29 +2467,24 @@ public class EcrirePageClasse extends EcrireApiClasse {
       l();
       if(classePageSuperNomSimple != null)
         tl(1, "@Override");
-      tl(1, "protected void _pageUri(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
-      tl(2, "c.o(", q(classePageUriMethode), ");");
-      tl(1, "}");
-      for(String pageLangueNom : toutesLangues) {
-        if(!StringUtils.equals(langueNom, pageLangueNom)) {
-          String classePageUriMethodeLangue = classeDoc.getString(StringUtils.replace("classeApiUri_stored_string", StringUtils.capitalize(langueNom), StringUtils.capitalize(pageLangueNom)));
-          
-          if(classePageUriMethodeLangue != null) {
-            l();
-            if(classePageSuperNomSimple != null)
-              tl(1, "@Override");
-            tl(1, "protected void _pageUri", StringUtils.capitalize(pageLangueNom), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
-            tl(2, "c.o(", q(classePageUriMethodeLangue), ");");
-            tl(1, "}");
-          }
+      String classeUriPageRechercheLangue = classeDoc.getString("classeUriPageRecherche_" + classeLangueNom + "_stored_string");
+      tl(1, "protected void _pageUri(", classePartsCouverture.nomSimple(langueNom), "<String> w) {");
+      tl(2, "if(\"", classeLangueNom, "\".equals(lang))");
+      tl(3, "w.o(", q(classeUriPageRechercheLangue), ");");
+      for(String pageLangueNom : autresLangues) {
+        classeUriPageRechercheLangue = classeDoc.getString("classeUriPageRecherche_" + pageLangueNom + "_stored_string");
+        if(classeUriPageRechercheLangue != null) {
+          tl(2, "else if(\"", pageLangueNom, "\".equals(lang))");
+          tl(3, "w.o(", q(classeUriPageRechercheLangue), ");");
         }
       }
+      tl(1, "}");
 
       l();
       if(classePageSuperNomSimple != null)
         tl(1, "@Override");
-      tl(1, "protected void _apiUri(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
-      tl(2, "c.o(", q(classeApiUri), ");");
+      tl(1, "protected void _apiUri(", classePartsCouverture.nomSimple(langueNom), "<String> w) {");
+      tl(2, "w.o(", q(classeApiUri), ");");
       tl(1, "}");
 
       l();
@@ -2497,10 +2492,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
         tl(1, "@Override");
       } else {
         tl(1, "/**");
-        tl(1, " * ", langueConfig.getString(I18n.var_Ignorer), ": true");
+        tl(1, " * ", i18nPage.getString(I18n.var_Ignorer), ": true");
         tl(1, "**/");
       }
-      tl(1, "protected void _promise", langueConfig.getString(I18n.var_Apres), "(Promise<Void> promise) {");
+      tl(1, "protected void _promise", i18nPage.getString(I18n.var_Apres), "(Promise<Void> promise) {");
       tl(2, "promise.complete();");
       tl(1, "}");
 
@@ -2526,7 +2521,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
         l();
         if(classePageSuperNomSimple != null)
           tl(1, "@Override");
-        tl(1, "protected void _pageImage", langueConfig.getString(I18n.var_Largeur), "(", classePartsCouverture.nomSimple(langueNom), "<Integer> c) {");
+        tl(1, "protected void _pageImage", i18nPage.getString(I18n.var_Largeur), "(", classePartsCouverture.nomSimple(langueNom), "<Integer> c) {");
         tl(3, "c.o(", classeImageLargeur, ");");
         tl(1, "}");
       }
@@ -2535,7 +2530,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
         l();
         if(classePageSuperNomSimple != null)
           tl(1, "@Override");
-        tl(1, "protected void _pageImage", langueConfig.getString(I18n.var_Hauteur), "(", classePartsCouverture.nomSimple(langueNom), "<Integer> c) {");
+        tl(1, "protected void _pageImage", i18nPage.getString(I18n.var_Hauteur), "(", classePartsCouverture.nomSimple(langueNom), "<Integer> c) {");
         tl(3, "c.o(", classeImageHauteur, ");");
         tl(1, "}");
       }
@@ -2553,7 +2548,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
         l();
         if(classePageSuperNomSimple != null)
           tl(1, "@Override");
-        tl(1, "protected void _", langueConfig.getString(I18n.var_classe), langueConfig.getString(I18n.var_Icone), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
+        tl(1, "protected void _", i18nPage.getString(I18n.var_classe), i18nPage.getString(I18n.var_Icone), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
         tl(3, "c.o(", q(classeIcone), ");");
         tl(1, "}");
       }
@@ -2676,62 +2671,59 @@ public class EcrirePageClasse extends EcrireApiClasse {
                   jsVal = ".checked";
                 }
                 if(entiteLien) {
-                  wTh.tl(7, "<div></div>");
+                  wTh.tl(10, "<div></div>");
                 } else {
                   // JS Tri //
-                  wTh.tl(7, "<", composantsWebPrefixe, "dropdown id=\"htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "\">");
-                  wTh.tl(8, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " slot=\"trigger\" caret>", entiteNomAffichage, "</", composantsWebPrefixe, "button>");
-                  wTh.tl(8, "<", composantsWebPrefixe, "menu>");
-                  wTh.tl(9, "<", composantsWebPrefixe, "menu-item onclick=\"var e = document.querySelector('#pageFacet", i18nClasse.getString(I18n.var_Tri), classeNomSimple, "_", entiteVar, "'); e.value = this.getAttribute('data-order'); document.querySelectorAll('.pageSearchVal-page", i18nClasse.getString(I18n.var_Tri), "-", classeNomSimple, "').forEach(e => e.remove()); e.dispatchEvent(new Event('change', {})); \" data-action=\"", i18nClasse.getString(I18n.var_tri), "\" data-order=\"asc\" id=\"htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "-asc\">");
-                  wTh.tl(10, "<i slot=\"start\" class=\"{{ FONTAWESOME_STYLE }} fa-arrow-down-a-z\"></i>");
-                  wTh.t(10).sx(String.format(i18nPage.getString(I18n.str_trier_par___croissante), entiteNomAffichage)).l();
-                  wTh.tl(9, "</", composantsWebPrefixe, "menu-item>");
-                  wTh.tl(9, "<", composantsWebPrefixe, "menu-item onclick=\"var e = document.querySelector('#pageFacet", i18nClasse.getString(I18n.var_Tri), classeNomSimple, "_", entiteVar, "'); e.value = this.getAttribute('data-order'); document.querySelectorAll('.pageSearchVal-page", i18nClasse.getString(I18n.var_Tri), "-", classeNomSimple, "').forEach(e => e.remove()); e.dispatchEvent(new Event('change', {})); \" data-action=\"", i18nClasse.getString(I18n.var_tri), "\" data-order=\"desc\" id=\"htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "-desc\">");
-                  wTh.tl(10, "<i slot=\"start\" class=\"{{ FONTAWESOME_STYLE }} fa-arrow-down-z-a\"></i>");
-                  wTh.t(10).sx(String.format(i18nPage.getString(I18n.str_trier_par___decroissante), entiteNomAffichage)).l();
-                  wTh.tl(9, "</", composantsWebPrefixe, "menu-item>");
-                  wTh.tl(8, "</", composantsWebPrefixe, "menu>");
-                  wTh.tl(7, "</", composantsWebPrefixe, "dropdown>");
+                  wTh.tl(10, "<", composantsWebPrefixe, "dropdown id=\"htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "\">");
+                  wTh.tl(11, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", " slot=\"trigger\" caret>", entiteNomAffichage, "</", composantsWebPrefixe, "button>");
+                  wTh.tl(11, "<", composantsWebPrefixe, "menu>");
+                  wTh.tl(12, "<", composantsWebPrefixe, "menu-item onclick=\"var e = document.querySelector('#pageFacet", i18nClasse.getString(I18n.var_Tri), classeNomSimple, "_", entiteVar, "'); e.value = this.getAttribute('data-order'); document.querySelectorAll('.pageSearchVal-page", i18nClasse.getString(I18n.var_Tri), "-", classeNomSimple, "').forEach(e => e.remove()); e.dispatchEvent(new Event('change', {})); \" data-action=\"", i18nClasse.getString(I18n.var_tri), "\" data-order=\"asc\" id=\"htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "-asc\">");
+                  wTh.tl(13, "<i slot=\"start\" class=\"{{ FONTAWESOME_STYLE }} fa-arrow-down-a-z\"></i>");
+                  wTh.t(13).sx(String.format(i18nPage.getString(I18n.str_trier_par___croissante), entiteNomAffichage)).l();
+                  wTh.tl(12, "</", composantsWebPrefixe, "menu-item>");
+                  wTh.tl(12, "<", composantsWebPrefixe, "menu-item onclick=\"var e = document.querySelector('#pageFacet", i18nClasse.getString(I18n.var_Tri), classeNomSimple, "_", entiteVar, "'); e.value = this.getAttribute('data-order'); document.querySelectorAll('.pageSearchVal-page", i18nClasse.getString(I18n.var_Tri), "-", classeNomSimple, "').forEach(e => e.remove()); e.dispatchEvent(new Event('change', {})); \" data-action=\"", i18nClasse.getString(I18n.var_tri), "\" data-order=\"desc\" id=\"htm", i18nGlobale.getString(I18n.var_ListeDeroulante), "-", entiteVar, "-desc\">");
+                  wTh.tl(13, "<i slot=\"start\" class=\"{{ FONTAWESOME_STYLE }} fa-arrow-down-z-a\"></i>");
+                  wTh.t(13).sx(String.format(i18nPage.getString(I18n.str_trier_par___decroissante), entiteNomAffichage)).l();
+                  wTh.tl(12, "</", composantsWebPrefixe, "menu-item>");
+                  wTh.tl(11, "</", composantsWebPrefixe, "menu>");
+                  wTh.tl(10, "</", composantsWebPrefixe, "dropdown>");
                 }
 
                 if(entiteLien) {
-                  wTd.tl(7, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", "");
-                  wTd.tl(9, "id=\"{{", i18nClasse.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
+                  wTd.tl(10, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", "");
+                  wTd.tl(11, "id=\"{{", i18nClasse.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 
                   if(entiteNomAffichage != null) {
-                    wTd.tl(9, "placeholder=\"[", entiteNomSimple, "] ", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
-                    wTd.tl(9, "label=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
+                    wTd.tl(11, "placeholder=\"[", entiteNomSimple, "] ", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
+                    wTd.tl(11, "label=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
                   }
                   if(entiteDescription != null) {
-                    wTd.t(9, "title=\"").sx(entiteDescription).l("\"");
+                    wTd.t(11, "title=\"").sx(entiteDescription).l("\"");
                   }
 
                   if(classeVarId != null) {
-                    wTd.tl(9, "class=\"button-on-left {{", i18nClasse.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, " class", classeNomSimple, " input", classeNomSimple, "{{ ", i18nGlobale.getString(I18n.var_resultat), ".", classeVarId, " }}", entiteVarCapitalise, " \"");
+                    wTd.tl(11, "class=\"button-on-left {{", i18nClasse.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, " class", classeNomSimple, " input", classeNomSimple, "{{ ", i18nGlobale.getString(I18n.var_resultat), ".", classeVarId, " }}", entiteVarCapitalise, " \"");
                   } else {
-                    wTd.tl(9, "class=\"button-on-left {{", i18nClasse.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, " class", classeNomSimple, " \"");
+                    wTd.tl(11, "class=\"button-on-left {{", i18nClasse.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, " class", classeNomSimple, " \"");
                   }
-                  wTd.tl(9, "name=\"set", entiteVarCapitalise, "\"");
-                  wTd.tl(9, "href=\"{{ item.", entiteVar, " | e }}\"");
-                  wTd.tl(9, ">");
+                  wTd.tl(11, "name=\"set", entiteVarCapitalise, "\"");
+                  wTd.tl(11, "href=\"{{ item.", entiteVar, " | e }}\"");
+                  wTd.tl(11, ">");
                   if(entiteIcone != null) {
-                    wTd.tl(8, entiteIcone.replace("<i ", "<i slot=\"start\" "));
+                    wTd.tl(12, entiteIcone.replace("<i ", "<i slot=\"start\" "));
                   }
                   if(entiteNomAffichage != null) {
-                    wTd.t(8).sx(entiteNomAffichage).l();
+                    wTd.t(12).sx(entiteNomAffichage).l();
                   }
-                  wTd.tl(7, "</", composantsWebPrefixe, "button>");
+                  wTd.tl(10, "</", composantsWebPrefixe, "button>");
                 } else {
                   if(wTd.getEmpty()) {
-                    wTd.tl(7, "<a href=\"{{ item.", classeVarUrlPageAffichage, " }}\">");
-                    // wTd.tl(8, "<div>");
-                    wTd.tl(8, classeIcone);
+                    wTd.tl(10, "<a href=\"{{ item.", classeVarUrlPageAffichage, " }}\">");
+                    wTd.tl(11, classeIcone);
                   } else {
-                    wTd.tl(7, "<a href=\"{{ item.", classeVarUrlPageAffichage, " }}\">");
-                    // wTd.tl(8, "<div>");
+                    wTd.tl(10, "<a href=\"{{ item.", classeVarUrlPageAffichage, " }}\">");
                   }
-                  wTd.t(7);
-                  wTd.s("<span", entiteMultiligne ? " class=\"white-space-pre-wrap \"" : "", ">");
+                  wTd.t(11, "<span", entiteMultiligne ? " class=\"white-space-pre-wrap \"" : "", ">");
                   if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
                     wTd.l("<", composantsWebPrefixe, "format-date weekday=\"short\" month=\"short\" day=\"numeric\" year=\"numeric\" hour=\"numeric\" minute=\"numeric\" second=\"numeric\" time-zone-name=\"short\" date=\"{{ formatZonedDateTime(item.", entiteVar, ", \"yyyy-MM-dd'T'HH:mm:ss.SSSX\", defaultLocaleId, \"UTC\") }}\"></", composantsWebPrefixe, "format-date>");
                   } else if(StringUtils.equals(entiteNomCanonique, LocalDate.class.getCanonicalName())) {
@@ -2743,17 +2735,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
                   } else if(StringUtils.equals(entiteNomCanonique, BigDecimal.class.getCanonicalName())) {
                     wTd.l("{{ formatNumber(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
                   } else {
-                    wTd.l("{{ item.", entiteVar, " | e }}");
+                    wTd.s("{{ item.", entiteVar, " | e }}");
                   }
-                  wTd.s("</span>");
-                  // wTd.tl(8, "</div>");
-                  wTd.tl(7, "</a>");
+                  wTd.l("</span>");
+                  wTd.tl(10, "</a>");
                   if(entiteHighlighting) {
-                    wTd.tl(7, "{% if highlightList is defined %}");
-                    wTd.tl(7, "<div class=\"site-highlight \">");
-                      wTd.tl(8, "StringUtils.join(highlightList, \" ... \")");
-                    wTd.tl(7, "</div>");
-                    wTd.tl(7, "{% endif %}");
+                    wTd.tl(10, "{% if highlightList is defined %}");
+                    wTd.tl(10, "<div class=\"site-highlight \">");
+                      wTd.tl(11, "StringUtils.join(highlightList, \" ... \")");
+                    wTd.tl(10, "</div>");
+                    wTd.tl(10, "{% endif %}");
                   }
                 }
               }
@@ -5979,7 +5970,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
       tl(6, "<", composantsWebPrefixe, "tooltip for=\"", i18nClasse.getString(I18n.var_BoutonsPagination), i18nClasse.getString(I18n.var_Diminuer), "\" placement=\"top\"", "wa-".equals(composantsWebPrefixe) ? ">" : " content=\"", String.format(i18nPage.getString(I18n.str_Afficher_la_moitie_des_resultats), classeNomAdjectifPluriel), "", "wa-".equals(composantsWebPrefixe) ? "" : "\">", "</", composantsWebPrefixe, "tooltip>");
       tl(6, "<", composantsWebPrefixe, "tooltip for=\"", i18nClasse.getString(I18n.var_BoutonsPagination), i18nClasse.getString(I18n.var_Augmenter), "\" placement=\"top\"", "wa-".equals(composantsWebPrefixe) ? ">" : " content=\"", String.format(i18nPage.getString(I18n.str_Afficher_le_double_des_resultats), classeNomAdjectifPluriel), "", "wa-".equals(composantsWebPrefixe) ? "" : "\">", "</", composantsWebPrefixe, "tooltip>");
       tl(6, "<", composantsWebPrefixe, "tooltip for=\"", i18nClasse.getString(I18n.var_BoutonsPagination), i18nClasse.getString(I18n.var_Suivant), "\" placement=\"top\"", "wa-".equals(composantsWebPrefixe) ? ">" : " content=\"", String.format(i18nPage.getString(I18n.str_Afficher_les_resultats_suivants), classeNomAdjectifPluriel), "", "wa-".equals(composantsWebPrefixe) ? "" : "\">", "</", composantsWebPrefixe, "tooltip>");
-      tl(6, "<div class=\"", composantsWebPrefixe, "caption-l \">{{ pagination.", i18nClasse.getString(I18n.var_debut), "Num }} – {{ pagination.", i18nClasse.getString(I18n.var_fin), "Num }} ", i18nClasse.getString(I18n.var_de), " {{ pagination.", i18nClasse.getString(I18n.var_numTrouve), " }} ", classeNomPluriel, "</div>");
+      tl(6, "<div class=\"", composantsWebPrefixe, "caption-l \">{{ pagination.", i18nClasse.getString(I18n.var_debut), "Num }} – {{ pagination.", i18nClasse.getString(I18n.var_fin), "Num }} ", i18nPage.getString(I18n.var_de), " {{ pagination.", i18nClasse.getString(I18n.var_numTrouve), " }} ", classeNomPluriel, "</div>");
       tl(6, "<", composantsWebPrefixe, "scroller>");
       tl(7, "<", composantsWebPrefixe, "button-group size=\"small\" class=\"no-gradient ", composantsWebPrefixe, "cluster ", composantsWebPrefixe, "gap-xs \" id=\"htm", i18nClasse.getString(I18n.var_BoutonsPagination), "\">");
 
