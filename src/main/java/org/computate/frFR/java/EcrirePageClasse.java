@@ -695,7 +695,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
         if(entiteMax != null)
           tl(11, "max=\"{{ max }}\"");
         if(entiteDescription != null) {
-          tl(11, "hint=\"").sx(entiteDescription).l("\"");
+          t(11, "hint=\"").sx(entiteDescription).l("\"");
         }
         if(entiteRequis) {
           tl(11, "required");
@@ -3035,7 +3035,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
       // htmBodyMenu //
       /////////////////
 
-      ecrirePageJs(langueNom, i18nClasse, i18nPage);
+      ecrirePageJs(langueNom, langueNom, i18nClasse, i18nPage);
+      ecrirePageJsApiMethodes(langueNom, langueNom, i18nClasse, i18nPage);
+      if(!classeLangueNom.equals(langueNom))
+        ecrirePageJsApiMethodes(classeLangueNom, langueNom, i18nClasse, i18nPage);
 
       if(auteurGenPageEditionJinja != null) {
         ecrirePageEditionJinja(langueNom, i18nClasse, i18nPage);
@@ -3449,63 +3452,48 @@ public class EcrirePageClasse extends EcrireApiClasse {
         // tl(5, "initialView: 'dayGridMonth'");
         // tl(4, "});");
         // tl(4, "//calendar.render();");
-        List<String> classeApiMethodes = Optional.ofNullable(classeDoc.getJsonArray("classeApiMethodes_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
-        if(classeApiMethodes == null)
-          classeApiMethodes = new ArrayList<>();
-        for(String classeApiMethode : classeApiMethodes) {
-          String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
-          String classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
-          String classeApiTypeMediaMethode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
-          String classeApiMethodeMethode = classeDoc.getString("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
+        for(String langueNomApi : toutesLangues) {
+          List<String> classeApiMethodes = Optional.ofNullable(classeDoc.getJsonArray("classeApiMethodes_" + langueNomApi + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+          if(classeApiMethodes == null)
+            classeApiMethodes = new ArrayList<>();
+          for(String classeApiMethode : classeApiMethodes) {
+            String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + langueNomApi + "_stored_string");
+            String classeApiMethodeMethode = classeDoc.getString("classeApiMethode" + classeApiMethode + "_" + langueNomApi + "_stored_string");
 
-          if(classeApiMethode.contains(i18nClasse.getString(I18n.var_PageRecherche)) || classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals("DELETE") || classeApiMethode.equals(i18nClasse.getString(I18n.var_DELETEFiltre)) || classeApiMethode.equals(i18nClasse.getString(I18n.var_PUTCopie)) || classeApiMethode.equals(i18nClasse.getString(I18n.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
+            if(classeApiMethode.contains(i18nClasse.getString(I18n.var_PageRecherche)) || classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals("DELETE") || classeApiMethode.equals(i18nClasse.getString(I18n.var_DELETEFiltre)) || classeApiMethode.equals(i18nClasse.getString(I18n.var_PUTCopie)) || classeApiMethode.equals(i18nClasse.getString(I18n.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
 
-            l();
-            tl(4, "var submit", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, " = document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "')?.addEventListener('submit', event => {");
-            tl(5, "event.preventDefault();");
-            // if("POST".equals(classeApiMethodeMethode))
-            // 	tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'), (response, target) => { response.then((json) => { window.location.href = json.", classeVarUrlPageEdition, "; }); });");
-            // else if("PATCH".equals(classeApiMethode))
-            // 	tl(5, classeApiOperationIdMethode, "(null, document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'));");
-            // else if("PUTImport".equals(classeApiMethode))
-            // 	tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'));");
-            // else if(i18nClasse.getString(I18n.var_PUTFusion).equals(classeApiMethode))
-            // 	tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), ", classeModele ? "{{ " + classeVarClePrimaire + " }}" : "'{{ " + classeVarCleUnique + " }}', document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'));");
-            // else if(i18nClasse.getString(I18n.var_PUTCopie).equals(classeApiMethode))
-            // 	tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), ", classeModele ? "{{ " + classeVarClePrimaire + " }}" : "'{{ " + classeVarCleUnique + " }}', document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'));");
-            // else
-            // 	tl(5, classeApiOperationIdMethode, "();");
-            tl(5, "return false;");
-            tl(4, "});");
+              l();
+              tl(4, "var submit", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, " = document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "')?.addEventListener('submit', event => {");
+              tl(5, "event.preventDefault();");
+              tl(5, "return false;");
+              tl(4, "});");
 
-            tl(4, "document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')?.addEventListener('click', event => {");
-            // tl(5, "event.preventDefault();");
-            // tl(5, "document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "').dispatchEvent(new Event('submit'));");
-            // tl(5, "return false;");
-            tl(5, "event.preventDefault();");
-            if("POST".equals(classeApiMethodeMethode)) {
-              tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "')");
-              tl(5, ", document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')");
-              tl(5, ", (json, target) => {");
-              tl(6, "window.location.href = json.", classeVarUrlPageEdition, ";");
-              tl(5, "});");
+              tl(4, "document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')?.addEventListener('click', event => {");
+              tl(5, "event.preventDefault();");
+              if("POST".equals(classeApiMethodeMethode)) {
+                tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "')");
+                tl(5, ", document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')");
+                tl(5, ", (json, target) => {");
+                tl(6, "window.location.href = json.", classeVarUrlPageEdition, ";");
+                tl(5, "});");
+              }
+              else if("PATCH".equals(classeApiMethode))
+                tl(5, classeApiOperationIdMethode, "(null, document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'), event.target.getAttribute('data-", classeVarId, "'));");
+              else if("DELETE".equals(classeApiMethode))
+                tl(5, classeApiOperationIdMethode, "(event.target, event.target.getAttribute('data-", classeVarId, "'));");
+              else if(classeApiMethode.equals(i18nClasse.getString(I18n.var_DELETEFiltre)))
+                tl(5, classeApiOperationIdMethode, "(event.target);");
+              else if("PUTImport".equals(classeApiMethode))
+                tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'));");
+              else if(i18nClasse.getString(I18n.var_PUTFusion).equals(classeApiMethode))
+                tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), ", classeModele ? "{{ " + classeVarClePrimaire + " }}" : "'{{ " + classeVarCleUnique + " }}', document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'));");
+              else if(i18nClasse.getString(I18n.var_PUTCopie).equals(classeApiMethode))
+                tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), ", classeModele ? "{{ " + classeVarClePrimaire + " }}" : "'{{ " + classeVarCleUnique + " }}', document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'));");
+              else
+                tl(5, classeApiOperationIdMethode, "();");
+              tl(5, "return false;");
+              tl(4, "});");
             }
-            else if("PATCH".equals(classeApiMethode))
-              tl(5, classeApiOperationIdMethode, "(null, document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'), event.target.getAttribute('data-", classeVarId, "'));");
-            else if("DELETE".equals(classeApiMethode))
-              tl(5, classeApiOperationIdMethode, "(event.target, event.target.getAttribute('data-", classeVarId, "'));");
-            else if(classeApiMethode.equals(i18nClasse.getString(I18n.var_DELETEFiltre)))
-              tl(5, classeApiOperationIdMethode, "(event.target);");
-            else if("PUTImport".equals(classeApiMethode))
-              tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'));");
-            else if(i18nClasse.getString(I18n.var_PUTFusion).equals(classeApiMethode))
-              tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), ", classeModele ? "{{ " + classeVarClePrimaire + " }}" : "'{{ " + classeVarCleUnique + " }}', document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'));");
-            else if(i18nClasse.getString(I18n.var_PUTCopie).equals(classeApiMethode))
-              tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), ", classeModele ? "{{ " + classeVarClePrimaire + " }}" : "'{{ " + classeVarCleUnique + " }}', document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'));");
-            else
-              tl(5, classeApiOperationIdMethode, "();");
-            tl(5, "return false;");
-            tl(4, "});");
           }
         }
         tl(0, "{%- block htmScriptInit", classePageNomSimple, " %}{%- endblock htmScriptInit", classePageNomSimple, " %}");
@@ -3546,558 +3534,597 @@ public class EcrirePageClasse extends EcrireApiClasse {
       l("{%- endblock htmUrl", classePageNomSimple, " %}");
   }
 
-  public void ecrirePageJs(String langueNom, JsonObject i18nClasse, JsonObject i18nPage) throws Exception {
-    List<String> classeApiMethodes = Optional.ofNullable(classeDoc.getJsonArray("classeApiMethodes_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
-    if(classeApiMethodes == null)
-      classeApiMethodes = new ArrayList<>();
-    for(String classeApiMethode : classeApiMethodes) {
-      String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
-      String classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
-      String classeApiTypeMediaRequete = classeDoc.getString("classeApiTypeMediaRequete" + classeApiMethode + "_" + langueNom + "_stored_string");
-      String classeApiTypeMediaMethode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
-      String classeApiMethodeMethode = classeDoc.getString("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
-      List<String> classeTrisVar = Optional.ofNullable(doc.getJsonArray("classeTrisVar_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+  public void ecrirePageJsApiMethodes(String langueNomApi, String langueNom, JsonObject i18nClasse, JsonObject i18nPage) throws Exception {
+    List<String> classeApiMethodes = Optional.ofNullable(classeDoc.getJsonArray("classeApiMethodes_" + langueNomApi + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+    if(auteurPageJs != null) {
+      if(classeApiMethodes == null)
+        classeApiMethodes = new ArrayList<>();
+      for(String classeApiMethode : classeApiMethodes) {
+        String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + langueNomApi + "_stored_string");
+        String classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + langueNomApi + "_stored_string");
+        String classeApiTypeMediaRequete = classeDoc.getString("classeApiTypeMediaRequete" + classeApiMethode + "_" + langueNomApi + "_stored_string");
+        String classeApiTypeMediaMethode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + langueNomApi + "_stored_string");
+        String classeApiMethodeMethode = classeDoc.getString("classeApiMethode" + classeApiMethode + "_" + langueNomApi + "_stored_string");
+        List<String> classeTrisVar = Optional.ofNullable(doc.getJsonArray("classeTrisVar_" + langueNomApi + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
   
-      if("application/json".equals(classeApiTypeMediaMethode)) {
-        Boolean methodePOST = classeApiMethodeMethode.equals("POST");
-        Boolean methodeGET = classeApiMethode.contains("GET");
-        Boolean methodePUTImport = classeApiMethode.equals("PUTImport");
-        Boolean methodePUTFusion = classeApiMethode.equals(i18nClasse.getString(I18n.var_PUTFusion));
-        Boolean methodePUTCopie = classeApiMethode.equals(i18nClasse.getString(I18n.var_PUTCopie));
-        Boolean methodePATCH = classeApiMethodeMethode.equals("PATCH");
-        Boolean methodeDELETE = classeApiMethode.equals("DELETE");
-        Boolean methodeDELETEFiltre = classeApiMethode.equals(i18nClasse.getString(I18n.var_DELETEFiltre));
-        Boolean methodeRecherche = classeApiMethode.contains(i18nClasse.getString(I18n.var_Recherche));
-        auteurPageJs.l();
-        auteurPageJs.tl(0, "// ", classeApiMethode, " //");
-        auteurPageJs.l();
-        auteurPageJs.t(0, "async function ", classeApiOperationIdMethode, "(");
-        if(methodePOST) {
-          auteurPageJs.s("$", i18nClasse.getString(I18n.var_formulaireValeurs));
-          auteurPageJs.s(", target");
-          auteurPageJs.s(", success");
-          auteurPageJs.s(", error");
-        } else if(methodeDELETE) {
-          auteurPageJs.s("target");
-          auteurPageJs.s(", ", classeVarId);
-          auteurPageJs.s(", success");
-          auteurPageJs.s(", error");
-        } else if(methodeDELETEFiltre) {
-          auteurPageJs.s("target");
-          auteurPageJs.s(", success");
-          auteurPageJs.s(", error");
-        } else if(methodePUTImport) {
-          auteurPageJs.s("$", i18nClasse.getString(I18n.var_formulaireValeurs));
-          auteurPageJs.s(", target");
-          auteurPageJs.s(", ", classeVarId);
-          auteurPageJs.s(", success");
-          auteurPageJs.s(", error");
-        } else if(methodePUTFusion) {
-          auteurPageJs.s("$", i18nClasse.getString(I18n.var_formulaireValeurs));
-          auteurPageJs.s(", target");
-          auteurPageJs.s(", ", classeVarId);
-          auteurPageJs.s(", success");
-          auteurPageJs.s(", error");
-        } else if(methodePUTCopie) {
-          auteurPageJs.s("$", i18nClasse.getString(I18n.var_formulaireValeurs));
-          auteurPageJs.s(", target");
-          auteurPageJs.s(", ", classeVarId);
-          auteurPageJs.s(", success");
-          auteurPageJs.s(", error");
-        } else if(methodePATCH) {
-          auteurPageJs.s("$", i18nClasse.getString(I18n.var_formulaireFiltres), ", $", i18nClasse.getString(I18n.var_formulaireValeurs));
-          auteurPageJs.s(", target");
-          auteurPageJs.s(", ", classeVarId);
-          auteurPageJs.s(", success");
-          auteurPageJs.s(", error");
-        } else if(methodeRecherche) {
-          auteurPageJs.s("$", i18nClasse.getString(I18n.var_formulaireFiltres), "");
-          auteurPageJs.s(", success");
-          auteurPageJs.s(", error");
-        } else if(methodeGET || methodeDELETE) {
-          auteurPageJs.s(classeVarClePrimaire);
-        }
+        if("application/json".equals(classeApiTypeMediaMethode)) {
+          Boolean methodePOST = classeApiMethodeMethode.equals("POST");
+          Boolean methodeGET = classeApiMethode.contains("GET");
+          Boolean methodePUTImport = classeApiMethode.equals("PUTImport");
+          Boolean methodePUTFusion = classeApiMethode.equals(i18nClasse.getString(I18n.var_PUTFusion));
+          Boolean methodePUTCopie = classeApiMethode.equals(i18nClasse.getString(I18n.var_PUTCopie));
+          Boolean methodePATCH = classeApiMethodeMethode.equals("PATCH");
+          Boolean methodeDELETE = classeApiMethode.equals("DELETE");
+          Boolean methodeDELETEFiltre = classeApiMethode.equals(i18nClasse.getString(I18n.var_DELETEFiltre));
+          Boolean methodeRecherche = classeApiMethode.contains(i18nClasse.getString(I18n.var_Recherche));
+          auteurPageJs.l();
+          auteurPageJs.tl(0, "// ", classeApiMethode, " //");
+          auteurPageJs.l();
+          auteurPageJs.t(0, "async function ", classeApiOperationIdMethode, "(");
+          if(methodePOST) {
+            auteurPageJs.s("$", i18nClasse.getString(I18n.var_formulaireValeurs));
+            auteurPageJs.s(", target");
+            auteurPageJs.s(", success");
+            auteurPageJs.s(", error");
+          } else if(methodeDELETE) {
+            auteurPageJs.s("target");
+            auteurPageJs.s(", ", classeVarId);
+            auteurPageJs.s(", success");
+            auteurPageJs.s(", error");
+          } else if(methodeDELETEFiltre) {
+            auteurPageJs.s("target");
+            auteurPageJs.s(", success");
+            auteurPageJs.s(", error");
+          } else if(methodePUTImport) {
+            auteurPageJs.s("$", i18nClasse.getString(I18n.var_formulaireValeurs));
+            auteurPageJs.s(", target");
+            auteurPageJs.s(", ", classeVarId);
+            auteurPageJs.s(", success");
+            auteurPageJs.s(", error");
+          } else if(methodePUTFusion) {
+            auteurPageJs.s("$", i18nClasse.getString(I18n.var_formulaireValeurs));
+            auteurPageJs.s(", target");
+            auteurPageJs.s(", ", classeVarId);
+            auteurPageJs.s(", success");
+            auteurPageJs.s(", error");
+          } else if(methodePUTCopie) {
+            auteurPageJs.s("$", i18nClasse.getString(I18n.var_formulaireValeurs));
+            auteurPageJs.s(", target");
+            auteurPageJs.s(", ", classeVarId);
+            auteurPageJs.s(", success");
+            auteurPageJs.s(", error");
+          } else if(methodePATCH) {
+            auteurPageJs.s("$", i18nClasse.getString(I18n.var_formulaireFiltres), ", $", i18nClasse.getString(I18n.var_formulaireValeurs));
+            auteurPageJs.s(", target");
+            auteurPageJs.s(", ", classeVarId);
+            auteurPageJs.s(", success");
+            auteurPageJs.s(", error");
+          } else if(methodeRecherche) {
+            auteurPageJs.s("$", i18nClasse.getString(I18n.var_formulaireFiltres), "");
+            auteurPageJs.s(", success");
+            auteurPageJs.s(", error");
+          } else if(methodeGET || methodeDELETE) {
+            auteurPageJs.s(classeVarClePrimaire);
+          }
   
-        auteurPageJs.l(") {");
-        if(methodePOST) {
-          auteurPageJs.tl(1, "var vals = {};");
-          auteurPageJs.tl(1, "if(success == null) {");
-          auteurPageJs.tl(2, "success = function( data, textStatus, jQxhr ) {");
-          auteurPageJs.tl(3, i18nClasse.getString(I18n.var_ajouterLueur), "(target, jqXhr);");
-          if(classeVarUrlPageEdition != null) {
-            auteurPageJs.tl(3, "var url = data['", classeVarUrlPageEdition, "'];");
-            auteurPageJs.tl(3, "if(url)");
-            auteurPageJs.tl(4, "window.location.href = url;");
-          }
-          auteurPageJs.tl(2, "};");
-          auteurPageJs.tl(1, "}");
-          auteurPageJs.tl(1, "if(error == null) {");
-          auteurPageJs.tl(2, "error = function( jqXhr, target2 ) {");
-          auteurPageJs.tl(3, i18nClasse.getString(I18n.var_ajouterErreur), "(target, jqXhr);");
-          auteurPageJs.tl(2, "};");
-          auteurPageJs.tl(1, "}");
-          auteurPageJs.s(wPOST);
-          auteurPageJs.l();
-        } else if(methodeDELETE || methodeDELETEFiltre) {
-          auteurPageJs.tl(1, "if(success == null) {");
-          auteurPageJs.tl(2, "success = function( data, textStatus, jQxhr ) {");
-          auteurPageJs.tl(3, i18nClasse.getString(I18n.var_ajouterLueur), "(target, jqXhr);");
-          if(classeVarUrlPageEdition != null) {
-            auteurPageJs.tl(3, "var url = data['", classeVarUrlPageEdition, "'];");
-            auteurPageJs.tl(3, "if(url)");
-            auteurPageJs.tl(4, "window.location.href = url;");
-          }
-          auteurPageJs.tl(2, "};");
-          auteurPageJs.tl(1, "}");
-          auteurPageJs.tl(1, "if(error == null) {");
-          auteurPageJs.tl(2, "error = function( jqXhr, target2 ) {");
-          auteurPageJs.tl(3, i18nClasse.getString(I18n.var_ajouterErreur), "(target, jqXhr);");
-          auteurPageJs.tl(2, "};");
-          auteurPageJs.tl(1, "}");
-          auteurPageJs.l();
-        } else if(methodePUTCopie) {
-          auteurPageJs.tl(1, "var vals = {};");
-          auteurPageJs.tl(1, "if(success == null) {");
-          auteurPageJs.tl(2, "success = function( data, textStatus, jQxhr ) {");
-          auteurPageJs.tl(3, i18nClasse.getString(I18n.var_ajouterLueur), "(target, jqXhr);");
-          if(classeVarUrlPageEdition != null) {
-            auteurPageJs.tl(3, "var url = data['", classeVarUrlPageEdition, "'];");
-            auteurPageJs.tl(3, "if(url)");
-            auteurPageJs.tl(4, "window.location.href = url;");
-          }
-          auteurPageJs.tl(2, "};");
-          auteurPageJs.tl(1, "}");
-          auteurPageJs.tl(1, "if(error == null) {");
-          auteurPageJs.tl(2, "error = function( jqXhr, target2 ) {");
-          auteurPageJs.tl(3, i18nClasse.getString(I18n.var_ajouterErreur), "(target, jqXhr);");
-          auteurPageJs.tl(2, "};");
-          auteurPageJs.tl(1, "}");
-          auteurPageJs.s(wPUTCopie);
-          auteurPageJs.l();
-        } else if(methodePUTImport) {
-          auteurPageJs.tl(1, "var json = $", i18nClasse.getString(I18n.var_formulaireValeurs), ".querySelector('.", "PUTImport", "_", i18nClasse.getString(I18n.var_listeRecherche), "')?.value;");
-          auteurPageJs.tl(1, "if(json != null && json !== '')");
-          if(StringUtils.equals("application/json", classeApiTypeMediaRequete))
-            auteurPageJs.tl(2, classeApiOperationIdMethode, "Vals(JSON.parse(json), target, success, error);");
-          else
-            auteurPageJs.tl(2, classeApiOperationIdMethode, "Vals(json, target, success, error);");
-        } else if(methodePUTFusion) {
-          auteurPageJs.tl(1, "var json = $", i18nClasse.getString(I18n.var_formulaireValeurs), ".querySelector('.", i18nClasse.getString(I18n.var_PUTFusion), "_", i18nClasse.getString(I18n.var_listeRecherche), "')?.value;");
-          auteurPageJs.tl(1, "if(json != null && json !== '')");
-          if(StringUtils.equals("application/json", classeApiTypeMediaRequete))
-            auteurPageJs.tl(2, classeApiOperationIdMethode, "Vals(JSON.parse(json), target, success, error);");
-          else
-            auteurPageJs.tl(2, classeApiOperationIdMethode, "Vals(json, target, success, error);");
-        // } else if(methodePUTCopie) {
-        // 	auteurPageJs.tl(1, "var vals = {};");
-        // 	auteurPageJs.s(wPUTCopie);
-        // 	auteurPageJs.l();
-        } else if(methodePATCH) {
-          auteurPageJs.tl(1, "var ", i18nClasse.getString(I18n.var_filtres), " = ", classeApiOperationIdMethode,i18nClasse.getString(I18n.var_Filtres), "($", i18nClasse.getString(I18n.var_formulaireFiltres), ");");
-          auteurPageJs.l();
-          auteurPageJs.tl(1, "var vals = {};");
-          auteurPageJs.s(wPATCH);
-          auteurPageJs.l();
-        } else if(methodeRecherche) {
-          auteurPageJs.tl(1, "var ", i18nClasse.getString(I18n.var_filtres), " = ", classeApiOperationIdMethode,i18nClasse.getString(I18n.var_Filtres), "($", i18nClasse.getString(I18n.var_formulaireFiltres), ");");
-          auteurPageJs.tl(1, "if(success == null)");
-          auteurPageJs.tl(2, "success = function( data, textStatus, jQxhr ) {};");
-          auteurPageJs.tl(1, "if(error == null)");
-          auteurPageJs.tl(2, "error = function( jqXhr, target2 ) {};");
-          auteurPageJs.l();
-        }
-  
-        if(methodePATCH) {
-          if(classeJsPATCH != null) {
-            auteurPageJs.l(classeJsPATCH);
+          auteurPageJs.l(") {");
+          if(methodePOST) {
+            auteurPageJs.tl(1, "var vals = {};");
+            auteurPageJs.tl(1, "if(success == null) {");
+            auteurPageJs.tl(2, "success = function( data, textStatus, jQxhr ) {");
+            auteurPageJs.tl(3, i18nClasse.getString(I18n.var_ajouterLueur), "(target, jqXhr);");
+            if(classeVarUrlPageEdition != null) {
+              auteurPageJs.tl(3, "var url = data['", classeVarUrlPageEdition, "'];");
+              auteurPageJs.tl(3, "if(url)");
+              auteurPageJs.tl(4, "window.location.href = url;");
+            }
+            auteurPageJs.tl(2, "};");
+            auteurPageJs.tl(1, "}");
+            auteurPageJs.tl(1, "if(error == null) {");
+            auteurPageJs.tl(2, "error = function( jqXhr, target2 ) {");
+            auteurPageJs.tl(3, i18nClasse.getString(I18n.var_ajouterErreur), "(target, jqXhr);");
+            auteurPageJs.tl(2, "};");
+            auteurPageJs.tl(1, "}");
+            auteurPageJs.s(wPOST);
+            auteurPageJs.l();
+          } else if(methodeDELETE || methodeDELETEFiltre) {
+            auteurPageJs.tl(1, "if(success == null) {");
+            auteurPageJs.tl(2, "success = function( data, textStatus, jQxhr ) {");
+            auteurPageJs.tl(3, i18nClasse.getString(I18n.var_ajouterLueur), "(target, jqXhr);");
+            if(classeVarUrlPageEdition != null) {
+              auteurPageJs.tl(3, "var url = data['", classeVarUrlPageEdition, "'];");
+              auteurPageJs.tl(3, "if(url)");
+              auteurPageJs.tl(4, "window.location.href = url;");
+            }
+            auteurPageJs.tl(2, "};");
+            auteurPageJs.tl(1, "}");
+            auteurPageJs.tl(1, "if(error == null) {");
+            auteurPageJs.tl(2, "error = function( jqXhr, target2 ) {");
+            auteurPageJs.tl(3, i18nClasse.getString(I18n.var_ajouterErreur), "(target, jqXhr);");
+            auteurPageJs.tl(2, "};");
+            auteurPageJs.tl(1, "}");
+            auteurPageJs.l();
+          } else if(methodePUTCopie) {
+            auteurPageJs.tl(1, "var vals = {};");
+            auteurPageJs.tl(1, "if(success == null) {");
+            auteurPageJs.tl(2, "success = function( data, textStatus, jQxhr ) {");
+            auteurPageJs.tl(3, i18nClasse.getString(I18n.var_ajouterLueur), "(target, jqXhr);");
+            if(classeVarUrlPageEdition != null) {
+              auteurPageJs.tl(3, "var url = data['", classeVarUrlPageEdition, "'];");
+              auteurPageJs.tl(3, "if(url)");
+              auteurPageJs.tl(4, "window.location.href = url;");
+            }
+            auteurPageJs.tl(2, "};");
+            auteurPageJs.tl(1, "}");
+            auteurPageJs.tl(1, "if(error == null) {");
+            auteurPageJs.tl(2, "error = function( jqXhr, target2 ) {");
+            auteurPageJs.tl(3, i18nClasse.getString(I18n.var_ajouterErreur), "(target, jqXhr);");
+            auteurPageJs.tl(2, "};");
+            auteurPageJs.tl(1, "}");
+            auteurPageJs.s(wPUTCopie);
+            auteurPageJs.l();
+          } else if(methodePUTImport) {
+            auteurPageJs.tl(1, "var json = $", i18nClasse.getString(I18n.var_formulaireValeurs), ".querySelector('.", "PUTImport", "_", i18nClasse.getString(I18n.var_listeRecherche), "')?.value;");
+            auteurPageJs.tl(1, "if(json != null && json !== '')");
+            if(StringUtils.equals("application/json", classeApiTypeMediaRequete))
+              auteurPageJs.tl(2, classeApiOperationIdMethode, "Vals(JSON.parse(json), target, success, error);");
+            else
+              auteurPageJs.tl(2, classeApiOperationIdMethode, "Vals(json, target, success, error);");
+          } else if(methodePUTFusion) {
+            auteurPageJs.tl(1, "var json = $", i18nClasse.getString(I18n.var_formulaireValeurs), ".querySelector('.", i18nClasse.getString(I18n.var_PUTFusion), "_", i18nClasse.getString(I18n.var_listeRecherche), "')?.value;");
+            auteurPageJs.tl(1, "if(json != null && json !== '')");
+            if(StringUtils.equals("application/json", classeApiTypeMediaRequete))
+              auteurPageJs.tl(2, classeApiOperationIdMethode, "Vals(JSON.parse(json), target, success, error);");
+            else
+              auteurPageJs.tl(2, classeApiOperationIdMethode, "Vals(json, target, success, error);");
+          // } else if(methodePUTCopie) {
+          // 	auteurPageJs.tl(1, "var vals = {};");
+          // 	auteurPageJs.s(wPUTCopie);
+          // 	auteurPageJs.l();
+          } else if(methodePATCH) {
+            auteurPageJs.tl(1, "var ", i18nClasse.getString(I18n.var_filtres), " = ", classeApiOperationIdMethode,i18nClasse.getString(I18n.var_Filtres), "($", i18nClasse.getString(I18n.var_formulaireFiltres), ");");
+            auteurPageJs.l();
+            auteurPageJs.tl(1, "var vals = {};");
+            auteurPageJs.s(wPATCH);
+            auteurPageJs.l();
+          } else if(methodeRecherche) {
+            auteurPageJs.tl(1, "var ", i18nClasse.getString(I18n.var_filtres), " = ", classeApiOperationIdMethode,i18nClasse.getString(I18n.var_Filtres), "($", i18nClasse.getString(I18n.var_formulaireFiltres), ");");
+            auteurPageJs.tl(1, "if(success == null)");
+            auteurPageJs.tl(2, "success = function( data, textStatus, jQxhr ) {};");
+            auteurPageJs.tl(1, "if(error == null)");
+            auteurPageJs.tl(2, "error = function( jqXhr, target2 ) {};");
             auteurPageJs.l();
           }
-          auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals(", classeVarId, " == null ? deparam(window.location.search ? window.location.search.substring(1) : window.location.search) : [{name:'fq', value:'", classeVarId, ":' + ", classeVarId, "}], vals, target, success, error);");
-        }
-        else if(methodePUTImport) {
-        }
-        else if(methodePUTFusion) {
-        }
-        else if(methodePUTCopie) {
-          auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals(", classeVarId, " == null ? deparam(window.location.search ? window.location.search.substring(1) : window.location.search) : [{name:'fq', value:'", classeVarId, ":' + ", classeVarId, "}], vals, target, success, error);");
-        }
-        else if(methodeRecherche) {
-          auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals(", i18nClasse.getString(I18n.var_filtres), ", target, success, error);");
-        }
-        else {
-          auteurPageJs.tl(1, "fetch(");
+  
+          if(methodePATCH) {
+            if(classeJsPATCH != null) {
+              auteurPageJs.l(classeJsPATCH);
+              auteurPageJs.l();
+            }
+            auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals(", classeVarId, " == null ? deparam(window.location.search ? window.location.search.substring(1) : window.location.search) : [{name:'fq', value:'", classeVarId, ":' + ", classeVarId, "}], vals, target, success, error);");
+          }
+          else if(methodePUTImport) {
+          }
+          else if(methodePUTFusion) {
+          }
+          else if(methodePUTCopie) {
+            auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals(", classeVarId, " == null ? deparam(window.location.search ? window.location.search.substring(1) : window.location.search) : [{name:'fq', value:'", classeVarId, ":' + ", classeVarId, "}], vals, target, success, error);");
+          }
+          else if(methodeRecherche) {
+            auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals(", i18nClasse.getString(I18n.var_filtres), ", target, success, error);");
+          }
+          else {
+            auteurPageJs.tl(1, "fetch(");
     
-          if(methodeGET || methodePUTCopie)
-            auteurPageJs.tl(2, "'", StringUtils.replace(classeApiUriMethode + "'", "{" + classeVarId + "}'", "' + " + classeVarId));
-          else if(methodePATCH || methodeRecherche)
+            if(methodeGET || methodePUTCopie)
+              auteurPageJs.tl(2, "'", StringUtils.replace(classeApiUriMethode + "'", "{" + classeVarId + "}'", "' + " + classeVarId));
+            else if(methodePATCH || methodeRecherche)
+              auteurPageJs.tl(2, "'", classeApiUriMethode, "?' + ", i18nClasse.getString(I18n.var_filtres), ".map(function(m) { return m.name + '=' + encodeURIComponent(m.value) }).join('&')");
+            else if(methodeDELETEFiltre)
+              auteurPageJs.tl(2, "'", classeApiUri, "'");
+            else if(methodeDELETE)
+              auteurPageJs.tl(2, "'", classeApiUri, "/' + encodeURIComponent(", classeVarId, ")");
+            else
+              auteurPageJs.tl(2, "'", classeApiUriMethode, "'");
+
+            auteurPageJs.tl(2, ", {");
+            auteurPageJs.tl(3, "headers: {'Content-Type':'application/json; charset=utf-8'}");
+            if(!"GET".equals(classeApiMethodeMethode)) {
+              auteurPageJs.tl(3, ", method: '", classeApiMethodeMethode, "'");
+              if(!"DELETE".equals(classeApiMethodeMethode)) {
+                auteurPageJs.tl(3, ", body: JSON.stringify(vals)");
+              }
+            }
+            auteurPageJs.tl(2, "}).then(", i18nClasse.getString(I18n.var_reponse), " => {");
+            auteurPageJs.tl(3, "if(", i18nClasse.getString(I18n.var_reponse), ".ok) {");
+            if("DELETE".equals(classeApiMethodeMethode)) {
+              auteurPageJs.tl(4, "success(response, target);");
+            } else {
+              auteurPageJs.tl(4, i18nClasse.getString(I18n.var_reponse), ".json().then((json) => {");
+              auteurPageJs.tl(5, "success(json, target);");
+              auteurPageJs.tl(4, "})");
+            }
+            auteurPageJs.tl(3, "} else {");
+            auteurPageJs.tl(4, "error(", i18nClasse.getString(I18n.var_reponse), ", target);");
+            auteurPageJs.tl(3, "}");
+            auteurPageJs.tl(2, "})");
+            auteurPageJs.tl(2, ".catch(", i18nClasse.getString(I18n.var_reponse), " => error(", i18nClasse.getString(I18n.var_reponse), ", target));");
+          }
+          auteurPageJs.l("}");
+
+          if(methodePATCH || methodeRecherche) {
+//		  			auteurPageJs.l();
+//		  			auteurPageJs.tl(0, "function varsFq", classeNomSimple, "() {");
+//		  			auteurPageJs.tl(1, "var vars = [];");
+//		  			auteurPageJs.s(wVarsFqJs);
+//		  			auteurPageJs.tl(1, "return vars;");
+//		  			auteurPageJs.tl(0, "}");
+
+            auteurPageJs.l();
+            auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, i18nClasse.getString(I18n.var_Filtres), "($", i18nClasse.getString(I18n.var_formulaireFiltres), ") {");
+            auteurPageJs.tl(1, "var ", i18nClasse.getString(I18n.var_filtres), " = [];");
+            auteurPageJs.tl(1, "if($", i18nClasse.getString(I18n.var_formulaireFiltres), ") {");
+            if(methodePATCH)
+              auteurPageJs.tl(2, i18nClasse.getString(I18n.var_filtres), ".push({ name: 'softCommit', value: 'true' });");
+            auteurPageJs.s(wRecherche);
+            auteurPageJs.tl(1, "}");
+            auteurPageJs.tl(1, "return ", i18nClasse.getString(I18n.var_filtres), ";");
+            auteurPageJs.tl(0, "}");
+          }
+          if(methodePATCH) {
+            auteurPageJs.l();
+            auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, "Val(", i18nClasse.getString(I18n.var_filtres), ", v, val, target, success, error) {");
+            auteurPageJs.tl(1, "var vals = {};");
+            auteurPageJs.tl(1, "vals[v] = val;");
+            auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals(", i18nClasse.getString(I18n.var_filtres), ", vals, target, success, error);");
+            auteurPageJs.l("}"); 
+          }
+          if(methodeRecherche) {
+            auteurPageJs.l();
+            auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, "Vals(", i18nClasse.getString(I18n.var_filtres), ", target, success, error) {");
+            if(classeLignes != null) {
+              auteurPageJs.l();
+//		  						auteurPageJs.tl(1, langueConfig.getString(ConfigCles.var_filtres), ".push({ name: 'rows', value: ", classeLignes, " });");
+            }
+            if(classeTrisVar != null) {
+              auteurPageJs.l();
+              for(Integer i = 0; i < classeTrisVar.size(); i++) {
+                String classeTriVar = classeTrisVar.get(i);
+                String classeTriOrdre = classeTrisOrdre.get(i);
+
+                auteurPageJs.tl(1, i18nClasse.getString(I18n.var_filtres), ".push({ name: '", "sort", "', value: '", classeTriVar, " ", classeTriOrdre, "' });");
+              }
+            }
+            auteurPageJs.tl(1, "fetch(");
             auteurPageJs.tl(2, "'", classeApiUriMethode, "?' + ", i18nClasse.getString(I18n.var_filtres), ".map(function(m) { return m.name + '=' + encodeURIComponent(m.value) }).join('&')");
-          else if(methodeDELETEFiltre)
-            auteurPageJs.tl(2, "'", classeApiUri, "'");
-          else if(methodeDELETE)
-            auteurPageJs.tl(2, "'", classeApiUri, "/' + encodeURIComponent(", classeVarId, ")");
-          else
-            auteurPageJs.tl(2, "'", classeApiUriMethode, "'");
-
-          auteurPageJs.tl(2, ", {");
-          auteurPageJs.tl(3, "headers: {'Content-Type':'application/json; charset=utf-8'}");
-          if(!"GET".equals(classeApiMethodeMethode)) {
-            auteurPageJs.tl(3, ", method: '", classeApiMethodeMethode, "'");
-            if(!"DELETE".equals(classeApiMethodeMethode)) {
-              auteurPageJs.tl(3, ", body: JSON.stringify(vals)");
-            }
           }
-          auteurPageJs.tl(2, "}).then(", i18nClasse.getString(I18n.var_reponse), " => {");
-          auteurPageJs.tl(3, "if(", i18nClasse.getString(I18n.var_reponse), ".ok) {");
-          if("DELETE".equals(classeApiMethodeMethode)) {
-            auteurPageJs.tl(4, "success(response, target);");
-          } else {
-            auteurPageJs.tl(4, i18nClasse.getString(I18n.var_reponse), ".json().then((json) => {");
-            auteurPageJs.tl(5, "success(json, target);");
-            auteurPageJs.tl(4, "})");
-          }
-          auteurPageJs.tl(3, "} else {");
-          auteurPageJs.tl(4, "error(", i18nClasse.getString(I18n.var_reponse), ", target);");
-          auteurPageJs.tl(3, "}");
-          auteurPageJs.tl(2, "})");
-          auteurPageJs.tl(2, ".catch(", i18nClasse.getString(I18n.var_reponse), " => error(", i18nClasse.getString(I18n.var_reponse), ", target));");
-        }
-        auteurPageJs.l("}");
-
-        if(methodePATCH || methodeRecherche) {
-//					auteurPageJs.l();
-//					auteurPageJs.tl(0, "function varsFq", classeNomSimple, "() {");
-//					auteurPageJs.tl(1, "var vars = [];");
-//					auteurPageJs.s(wVarsFqJs);
-//					auteurPageJs.tl(1, "return vars;");
-//					auteurPageJs.tl(0, "}");
-
-          auteurPageJs.l();
-          auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, i18nClasse.getString(I18n.var_Filtres), "($", i18nClasse.getString(I18n.var_formulaireFiltres), ") {");
-          auteurPageJs.tl(1, "var ", i18nClasse.getString(I18n.var_filtres), " = [];");
-          auteurPageJs.tl(1, "if($", i18nClasse.getString(I18n.var_formulaireFiltres), ") {");
-          if(methodePATCH)
-            auteurPageJs.tl(2, i18nClasse.getString(I18n.var_filtres), ".push({ name: 'softCommit', value: 'true' });");
-          auteurPageJs.s(wRecherche);
-          auteurPageJs.tl(1, "}");
-          auteurPageJs.tl(1, "return ", i18nClasse.getString(I18n.var_filtres), ";");
-          auteurPageJs.tl(0, "}");
-        }
-        if(methodePATCH) {
-          auteurPageJs.l();
-          auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, "Val(", i18nClasse.getString(I18n.var_filtres), ", v, val, target, success, error) {");
-          auteurPageJs.tl(1, "var vals = {};");
-          auteurPageJs.tl(1, "vals[v] = val;");
-          auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals(", i18nClasse.getString(I18n.var_filtres), ", vals, target, success, error);");
-          auteurPageJs.l("}"); 
-        }
-        if(methodeRecherche) {
-          auteurPageJs.l();
-          auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, "Vals(", i18nClasse.getString(I18n.var_filtres), ", target, success, error) {");
-          if(classeLignes != null) {
+          if(methodePATCH || methodePUTCopie) {
             auteurPageJs.l();
-//								auteurPageJs.tl(1, langueConfig.getString(ConfigCles.var_filtres), ".push({ name: 'rows', value: ", classeLignes, " });");
-          }
-          if(classeTrisVar != null) {
-            auteurPageJs.l();
-            for(Integer i = 0; i < classeTrisVar.size(); i++) {
-              String classeTriVar = classeTrisVar.get(i);
-              String classeTriOrdre = classeTrisOrdre.get(i);
-
-              auteurPageJs.tl(1, i18nClasse.getString(I18n.var_filtres), ".push({ name: '", "sort", "', value: '", classeTriVar, " ", classeTriOrdre, "' });");
-            }
-          }
-          auteurPageJs.tl(1, "fetch(");
-          auteurPageJs.tl(2, "'", classeApiUriMethode, "?' + ", i18nClasse.getString(I18n.var_filtres), ".map(function(m) { return m.name + '=' + encodeURIComponent(m.value) }).join('&')");
-        }
-        if(methodePATCH || methodePUTCopie) {
-          auteurPageJs.l();
-          auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, "Vals(", i18nClasse.getString(I18n.var_filtres), ", vals, target, success, error) {");
-          auteurPageJs.tl(1, "fetch(");
-          auteurPageJs.tl(2, "'", classeApiUriMethode, "?' + ", i18nClasse.getString(I18n.var_filtres), ".map(function(m) { return m.name + '=' + encodeURIComponent(m.value) }).join('&')");
-        }
-        if(methodePUTImport || methodePUTFusion) {
-          auteurPageJs.l();
-          auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, "Vals(json, target, success, error) {");
-          auteurPageJs.tl(1, "fetch(");
-          auteurPageJs.tl(2, "'", classeApiUriMethode, "'");
-        }
-        if(methodePOST) {
-          auteurPageJs.l();
-          auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, "Vals(vals, target, success, error) {");
-          auteurPageJs.tl(1, "fetch(");
-          auteurPageJs.tl(2, "'", classeApiUriMethode, "'");
-        }
-        if(methodePATCH || methodePUTCopie || methodePUTImport || methodePUTFusion || methodePOST || methodeRecherche) {
-          auteurPageJs.tl(2, ", {");
-          auteurPageJs.tl(3, "headers: {'Content-Type':'application/json; charset=utf-8'}");
-
-          if(methodePATCH || methodePOST) {
-            auteurPageJs.tl(3, ", method: '", classeApiMethodeMethode, "'");
-            auteurPageJs.tl(3, ", body: JSON.stringify(vals)");
-          }
-          if(methodePUTCopie) {
-            auteurPageJs.tl(3, ", method: '", classeApiMethodeMethode, "'");
-            auteurPageJs.tl(3, ", body: JSON.stringify({patch: vals})");
+            auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, "Vals(", i18nClasse.getString(I18n.var_filtres), ", vals, target, success, error) {");
+            auteurPageJs.tl(1, "fetch(");
+            auteurPageJs.tl(2, "'", classeApiUriMethode, "?' + ", i18nClasse.getString(I18n.var_filtres), ".map(function(m) { return m.name + '=' + encodeURIComponent(m.value) }).join('&')");
           }
           if(methodePUTImport || methodePUTFusion) {
-            auteurPageJs.tl(3, ", method: '", classeApiMethodeMethode, "'");
-            auteurPageJs.tl(3, ", body: JSON.stringify(json)");
+            auteurPageJs.l();
+            auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, "Vals(json, target, success, error) {");
+            auteurPageJs.tl(1, "fetch(");
+            auteurPageJs.tl(2, "'", classeApiUriMethode, "'");
           }
-          auteurPageJs.tl(2, "}).then(", i18nClasse.getString(I18n.var_reponse), " => {");
-          auteurPageJs.tl(3, "if(", i18nClasse.getString(I18n.var_reponse), ".ok) {");
-          if("DELETE".equals(classeApiMethodeMethode)) {
-            auteurPageJs.tl(4, "success(response, target);");
-          } else {
-            auteurPageJs.tl(4, i18nClasse.getString(I18n.var_reponse), ".json().then((json) => {");
-            auteurPageJs.tl(5, "success(json, target);");
-            auteurPageJs.tl(4, "})");
+          if(methodePOST) {
+            auteurPageJs.l();
+            auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, "Vals(vals, target, success, error) {");
+            auteurPageJs.tl(1, "fetch(");
+            auteurPageJs.tl(2, "'", classeApiUriMethode, "'");
           }
-          auteurPageJs.tl(3, "} else {");
-          auteurPageJs.tl(4, "error(", i18nClasse.getString(I18n.var_reponse), ", target);");
-          auteurPageJs.tl(3, "}");
-          auteurPageJs.tl(2, "})");
-          auteurPageJs.tl(2, ".catch(", i18nClasse.getString(I18n.var_reponse), " => error(", i18nClasse.getString(I18n.var_reponse), ", target));");
-          auteurPageJs.l("}");
-        }
-        if(methodeRecherche) {
+          if(methodePATCH || methodePUTCopie || methodePUTImport || methodePUTFusion || methodePOST || methodeRecherche) {
+            auteurPageJs.tl(2, ", {");
+            auteurPageJs.tl(3, "headers: {'Content-Type':'application/json; charset=utf-8'}");
 
-          SolrQuery rechercheSolr = new SolrQuery();   
-          rechercheSolr.setQuery("*:*");
-          rechercheSolr.setRows(1000000);
-          String fqClassesSuperEtMoi = "(" + classesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
-          rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
-          rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
-          rechercheSolr.addFilterQuery("(entiteSuggere_indexed_boolean:true OR entiteAttribuer_indexed_boolean:true)");
-          rechercheSolr.addSort("partNumero_indexed_int", ORDER.asc);
-          QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
-          SolrDocumentList rechercheListe = rechercheReponse.getResults();
-    
-          rechercheLignes = rechercheSolr.getRows();
-    
-          if(rechercheListe.size() > 0) {
-    
-            for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=rechercheLignes) {
-              List<SolrDocument> resultatsSubstitues = rechercheListe.stream().filter(o -> BooleanUtils.isTrue((Boolean)o.get("entiteEstSubstitue_stored_boolean"))).collect(Collectors.toList());
-              List<SolrDocument> resultatsNormales = rechercheListe.stream().filter(o -> BooleanUtils.isFalse((Boolean)o.get("entiteEstSubstitue_stored_boolean"))).collect(Collectors.toList());
-
-              for(Integer j = 0; j < resultatsNormales.size(); j++) {
-                entiteDocumentSolr = rechercheListe.get(j);
-                entiteVar = (String)entiteDocumentSolr.get("entiteVar_" + langueNom + "_stored_string");
-                SolrDocument resultatSubstitue = resultatsSubstitues.stream().filter(o -> entiteVar.equals(o.get("entiteVar_" + langueNom + "_stored_string"))).findFirst().orElse(null);
-                if(resultatSubstitue != null) {
-                  if(entiteDocumentSolr.equals(resultatSubstitue))
-                    continue;
-                  entiteDocumentSolr = resultatSubstitue;
-                }
-
-                entiteVarCapitalise = (String)entiteDocumentSolr.get("entiteVarCapitalise_" + langueNom + "_stored_string");
-                entiteNomSimple = (String)entiteDocumentSolr.get("entiteNomSimple_" + langueNom + "_stored_string");
-                entiteNomSimpleGenerique = (String)entiteDocumentSolr.get("entiteNomSimpleGenerique_" + langueNom + "_stored_string");
-                entiteNomSimpleComplet = (String)entiteDocumentSolr.get("entiteNomSimpleComplet_" + langueNom + "_stored_string");
-                entiteDescription = (String)entiteDocumentSolr.get("entiteDescription_" + langueNom + "_stored_string");
-                entiteNomAffichage = (String)entiteDocumentSolr.get("entiteNomAffichage_" + langueNom + "_stored_string");
-                entiteFiwareType = (String)entiteDocumentSolr.get("entiteFiwareType_stored_string");
-                entiteCacherPOST = (Boolean)entiteDocumentSolr.get("entiteCacherPOST_stored_boolean");
-                entiteCacherPATCH = (Boolean)entiteDocumentSolr.get("entiteCacherPATCH_stored_boolean");
-                entiteCacherRecherche = (Boolean)entiteDocumentSolr.get("entiteCacherRecherche_stored_boolean");
-                entiteRechercherMaxVarJsonArray = (String)entiteDocumentSolr.get("entiteRechercherMaxVarJsonArray_stored_string");
-                entiteRechercherMaxVarValeur = (String)entiteDocumentSolr.get("entiteRechercherMaxVarValeur_stored_string");
-                entiteRechercherMaxVar = (String)entiteDocumentSolr.get("entiteRechercherMaxVar_stored_string");
-                entiteRechercherMaxValeur = (String)entiteDocumentSolr.get("entiteRechercherMaxValeur_stored_string");
-                entiteMin = (String)entiteDocumentSolr.get("entiteMin_stored_string");
-                entiteMax = (String)entiteDocumentSolr.get("entiteMax_stored_string");
-                entiteDefaut = (String)entiteDocumentSolr.get("entiteDefaut_stored_string");
-                entiteIcone = (String)entiteDocumentSolr.get("entiteIcone_stored_string");
-                entiteCookie = (String)entiteDocumentSolr.get("entiteCookie_stored_string");
-                entiteHtmLigne = (Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int");
-                entiteHtmLigneTitre = (String)entiteDocumentSolr.get("entiteHtmLigneTitre_stored_string");
-                entiteHtmLigneTitreOuvert = (String)entiteDocumentSolr.get("entiteHtmLigneTitreOuvert_stored_string");
-                entiteHtmLigneVerticale = (Boolean)entiteDocumentSolr.get("entiteHtmLigneVerticale_stored_boolean");
-                entiteHtmLigneEnTeteExpression = (String)entiteDocumentSolr.get("entiteHtmLigneEnTeteExpression_stored_string");
-                entiteCouverture = (Boolean)entiteDocumentSolr.get("entiteCouverture_stored_boolean");
-                entiteHtml = (Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean");
-                entiteDocValues = (Boolean)entiteDocumentSolr.get("entiteDocValues_stored_boolean");
-                entiteIndexe = (Boolean)entiteDocumentSolr.get("entiteIndexe_stored_boolean");
-                entiteStocke = (Boolean)entiteDocumentSolr.get("entiteStocke_stored_boolean");
-                entiteMultiligne = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteMultiligne_stored_boolean"));
-                entiteCouleur = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteCouleur_stored_boolean"));
-                entiteModifier = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteModifier_stored_boolean"));
-                entiteDefinir = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteDefinir_stored_boolean"));
-                entiteAttribuer = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteAttribuer_stored_boolean"));
-                entiteSuggere = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteSuggere_stored_boolean"));
-                entiteAttribuerNomSimple = (String)entiteDocumentSolr.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
-                entiteAttribuerVar = (String)entiteDocumentSolr.get("entiteAttribuerVar_" + langueNom + "_stored_string");
-                entiteAttribuerVarUrlPageAffichage = (String)entiteDocumentSolr.get("entiteAttribuerVarUrlPageAffichage_" + langueNom + "_stored_string");
-                entiteAttribuerVarUrlPageEdition = (String)entiteDocumentSolr.get("entiteAttribuerVarUrlPageEdition_" + langueNom + "_stored_string");
-                entiteAttribuerVarTitre = (String)entiteDocumentSolr.get("entiteAttribuerVarTitre_" + langueNom + "_stored_string");
-                entiteAttribuerVarDescription = (String)entiteDocumentSolr.get("entiteAttribuerVarDescription_" + langueNom + "_stored_string");
-                entiteAttribuerVarImageUrl = (String)entiteDocumentSolr.get("entiteAttribuerVarImageUrl_" + langueNom + "_stored_string");
-                entiteAttribuerVarSuggere = (String)entiteDocumentSolr.get("entiteAttribuerVarSuggere_" + langueNom + "_stored_string");
-                entiteAttribuerOperationIdRecherche = (String)entiteDocumentSolr.get("entiteAttribuerOperationId" + i18nClasse.getString(I18n.var_Recherche) + "_" + langueNom + "_stored_string");
-                entiteAttribuerOperationIdPATCH = (String)entiteDocumentSolr.get("entiteAttribuerOperationIdPATCH_" + langueNom + "_stored_string");
-                entiteOperationIdPATCH = (String)entiteDocumentSolr.get("entiteOperationIdPATCH_" + langueNom + "_stored_string");
-                entiteTypeJson = (String)entiteDocumentSolr.get("entiteTypeJson_stored_string");
-                entiteAttribuerTypeJson = (String)entiteDocumentSolr.get("entiteAttribuerTypeJson_stored_string");
-                entiteAttribuerContexteIcone = (String)entiteDocumentSolr.get("entiteAttribuerContexteIcone_stored_string");
-                entiteAttribuerTrisVar = (List<String>)entiteDocumentSolr.get("entiteAttribuerTrisVar_" + langueNom + "_stored_strings");
-                entiteAttribuerTrisSuffixeType = (List<String>)entiteDocumentSolr.get("entiteAttribuerTrisSuffixeType_stored_strings");
-                entiteAttribuerContexteUnNom = (String)entiteDocumentSolr.get("entiteAttribuerContexteUnNom_" + langueNom + "_stored_string");
-                entiteAttribuerContexteNomPluriel = (String)entiteDocumentSolr.get("entiteAttribuerContexteNomPluriel_" + langueNom + "_stored_string");
-    
-                if(entiteSuggere) {
-                  auteurPageJs.l();
-                  auteurPageJs.tl(0, "function ", i18nClasse.getString(I18n.var_suggere), classeApiClasseNomSimple, entiteVarCapitalise, "($", i18nClasse.getString(I18n.var_formulaireFiltres), ", $list, target) {");
-                  auteurPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {");
-                  auteurPageJs.tl(2, "if($list) {");
-                  auteurPageJs.tl(3, "$list.innerHTML = '';");
-                  auteurPageJs.tl(3, "data['list'].forEach((o, i) => {");
-                  auteurPageJs.tl(4, "var $i = document.querySelector('", classeIcone, "');");
-                  auteurPageJs.t(4, "var $span = document.createElement('span');");
-                  auteurPageJs.t(4, "$span.setAttribute('class', '');");
-                  if(classeVarTitre != null)
-                    auteurPageJs.tl(4, "$span.innerText = o['", classeVarTitre, "'];");
-                  auteurPageJs.tl(4, "var $li = document.createElement('li');");
-                  auteurPageJs.tl(4, "var $a = document.createElement('a').setAttribute('href', o['", classeVarUrlPageEdition, "']);");
-                  auteurPageJs.tl(4, "$a.append($i);");
-                  auteurPageJs.tl(4, "$a.append($span);");
-                  auteurPageJs.tl(4, "$li.append($a);");
-                  auteurPageJs.tl(4, "$list.append($li);");
-                  auteurPageJs.tl(3, "});");
-                  auteurPageJs.tl(2, "}");
-                  auteurPageJs.tl(1, "};");
-                  auteurPageJs.tl(1, "error = function( jqXhr, target2 ) {};");
-                  auteurPageJs.tl(1, i18nClasse.getString(I18n.var_rechercher), classeApiClasseNomSimple, "Vals($", i18nClasse.getString(I18n.var_formulaireFiltres), ", target, success, error);");
-                  auteurPageJs.tl(0, "}");
-                }
-                else if(entiteAttribuer) {
-                  // Attribuer //
-                  auteurPageJs.l();
-                  auteurPageJs.tl(0, "function ", i18nClasse.getString(I18n.var_suggere), classeApiClasseNomSimple, entiteVarCapitalise, "(", i18nClasse.getString(I18n.var_filtres), ", $list, ", classeVarId, " = null, ", entiteVar, " = null, ", i18nClasse.getString(I18n.var_attribuer), "=true, target) {");
-                  auteurPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {");
-                  auteurPageJs.tl(2, "if($list) {");
-                  auteurPageJs.tl(3, "$list.innerHTML = '';");
-                  auteurPageJs.tl(3, "data['list'].forEach((o, i) => {");
-                  auteurPageJs.tl(4, "var iTemplate = document.createElement('template');");
-                  auteurPageJs.tl(4, "iTemplate.innerHTML = '", entiteAttribuerContexteIcone, "';");
-                  auteurPageJs.tl(4, "var $i = iTemplate.content;");
-                  auteurPageJs.tl(4, "var $span = document.createElement('span');");
-                  auteurPageJs.tl(4, "$span.setAttribute('class', '');");
-                  auteurPageJs.tl(4, "$span.innerText = ");
-                  if(entiteAttribuerVarTitre != null)
-                    auteurPageJs.s("o['", entiteAttribuerVarTitre, "']");
-                  auteurPageJs.l(";");
-
-                  if(entiteAttribuerVarUrlPageEdition != null) {
-                    auteurPageJs.tl(4, "var $a = document.createElement('a');");
-                    // auteurPageJs.tl(3, "$a.setAttribute('id', o['", entiteAttribuerVar, "']);");
-                    auteurPageJs.tl(4, "$a.setAttribute('href', o['", entiteAttribuerVarUrlPageEdition, "']);");
-                  } else {
-                    auteurPageJs.tl(4, "var $a = document.createElement('span');");
-                  }
-
-                  auteurPageJs.tl(4, "$a.append($i);");
-                  auteurPageJs.tl(4, "$a.append($span);");
-                  auteurPageJs.tl(4, "var val = o['", entiteAttribuerVar, "'];");
-                  auteurPageJs.tl(4, "var checked = val == null ? false : (Array.isArray(val) ? val.includes(", classeVarId, ".toString()) : val == ", entiteVar, ");");
-                  auteurPageJs.tl(4, "var $input = document.createElement('", composantsWebPrefixe, "checkbox');");
-                  auteurPageJs.tl(4, "$input.setAttribute('id', '", classeApiMethodeMethode, "_", entiteVar, "_' + ", classeVarId, " + '_", entiteAttribuerVar, "_' + o['", entiteAttribuerVar, "']);");
-                  auteurPageJs.tl(4, "$input.setAttribute('name', '", entiteAttribuerVar, "');");
-                  auteurPageJs.tl(4, "$input.setAttribute('value', o['", entiteAttribuerVar, "']);");
-                  auteurPageJs.tl(4, "$input.setAttribute('class', '", i18nClasse.getString(I18n.var_valeur), entiteVarCapitalise, " ');");
-
-                  auteurPageJs.tl(4, "if(", classeVarId, " != null) {");
-                  auteurPageJs.tl(5, "$input.addEventListener('", "pf-".equals(composantsWebPrefixe) ? "pf-" : "", "change', function(event) {");
-                  if("array".equals(entiteTypeJson)) {
-                    auteurPageJs.tl(6, entiteOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeVarId, ":' + ", classeVarId, " }], { [(event.target.checked ? 'add' : 'remove') + '", entiteVarCapitalise, "']: o['", entiteAttribuerVar, "'] }");
-                  }
-                  else {
-                    auteurPageJs.tl(6, entiteOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeVarId, ":' + ", classeVarId, " }], { [(event.target.checked ? 'set' : 'remove') + '", entiteVarCapitalise, "']: o['", entiteAttribuerVar, "'] }");
-                  }
-                  auteurPageJs.tl(8, ", target");
-                  auteurPageJs.tl(8, ", function(", i18nClasse.getString(I18n.var_reponse), ", target) {");
-                  auteurPageJs.tl(9, i18nClasse.getString(I18n.var_ajouterLueur), "(target);");
-                  auteurPageJs.tl(9, i18nClasse.getString(I18n.var_suggere), classeApiClasseNomSimple, entiteVarCapitalise, "(", i18nClasse.getString(I18n.var_filtres), ", $list, ", classeVarId, ", o['", entiteAttribuerVar, "'], ", i18nClasse.getString(I18n.var_attribuer), ", target);");
-                  auteurPageJs.tl(8, "}");
-                  auteurPageJs.tl(8, ", function(", i18nClasse.getString(I18n.var_reponse), ", target) { ", i18nClasse.getString(I18n.var_ajouterErreur), "(target); }");
-                  auteurPageJs.tl(6, ");");
-                  auteurPageJs.tl(5, "});");
-
-                  // auteurPageJs.tl(4, "$input.setAttribute('onclick', '", i18nClasse.getString(I18n.var_enleverLueur), "(this); ');");
-                  auteurPageJs.tl(4, "}");
-
-                  auteurPageJs.tl(4, "if(checked)");
-                  auteurPageJs.tl(5, "$input.setAttribute('checked', 'checked');");
-                  auteurPageJs.tl(4, "var $li = document.createElement('li');");
-                  if(entiteAttribuerTrisVar != null && entiteAttribuerTrisSuffixeType != null && entiteAttribuerTrisSuffixeType.size() > 0 && "_double".equals(entiteAttribuerTrisSuffixeType.get(0))) {
-                    for(String entiteAttribuerTriVar : entiteAttribuerTrisVar) {
-                      auteurPageJs.tl(4, "var ", entiteAttribuerTriVar, " = o['", entiteAttribuerTriVar, "'];");
-                    }
-                    String entiteAttribuerTriVarAncien = null;
-                    Integer k = 4;
-                    for(String entiteAttribuerTriVar : entiteAttribuerTrisVar) {
-                      if(entiteAttribuerTriVarAncien != null)
-                        k = 5;
-
-                      auteurPageJs.l();
-                      if(entiteAttribuerTriVarAncien != null)
-                        auteurPageJs.tl(4, "if(", entiteAttribuerTriVarAncien, " != null) {");
-                      auteurPageJs.tl(k, "$sort = document.createElement('span').setAttribute('style', 'padding-right: 8px; ');");
-                      auteurPageJs.tl(k, "var $sortInput = document.createElement('", composantsWebPrefixe, "input')");
-                      auteurPageJs.tl(k, "$sortInput.setAttribute('style', 'width: 4em; ');");
-                      auteurPageJs.tl(k, "$sortInput.setAttribute('id', \"", i18nClasse.getString(I18n.var_attribuer), "_\" + o['", entiteAttribuerVar, "'] + \"_", i18nClasse.getString(I18n.var_tri), "_", entiteAttribuerTriVar, "\");");
-                      auteurPageJs.tl(k, "$sortInput.setAttribute('value', ", entiteAttribuerTriVar, ").setAttribute('onchange', ");
-                      auteurPageJs.tl(k + 1, "\"document.querySelector('#", classeApiClasseNomSimple, "Form :input[name=\\\"focusId\\\"]').value = this.getAttribute('id'); \"");
-                      auteurPageJs.tl(k + 1, "+ \"", entiteAttribuerOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeVarId, ":\" + o['", entiteAttribuerVar, "'] + \"' }], { ['set", StringUtils.capitalize(entiteAttribuerTriVar), "']: this.value ? this.value : null }\"");
-                      auteurPageJs.tl(k + 2, ", $input");
-                      auteurPageJs.tl(k + 2, ", function(", i18nClasse.getString(I18n.var_reponse), ", target) { ", i18nClasse.getString(I18n.var_ajouterLueur), "(target); }");
-                      auteurPageJs.tl(k + 2, ", function(", i18nClasse.getString(I18n.var_reponse), ", target) { ", i18nClasse.getString(I18n.var_ajouterErreur), "(target); }");
-                      // auteurPageJs.tl(k + 2, "+ \", function() { \"");
-                      // auteurPageJs.tl(k + 2, "+ \"}\"");
-                      // auteurPageJs.tl(k + 2, "+ \", function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "(document.querySelector('#", langueConfig.getString(ConfigCles.var_attribuer), "_\" + o['", entiteAttribuerVar, "'] + \"_", langueConfig.getString(ConfigCles.var_tri), "_", entiteAttribuerTriVar, "')); }\"");
-                      // auteurPageJs.tl(k + 2, "+ \" ); \"); ");
-                      auteurPageJs.tl(k, "$sort.append($sortInput);");
-                      auteurPageJs.tl(k, "$li.append($sort);");
-                      if(entiteAttribuerTriVarAncien != null)
-                        auteurPageJs.tl(4, "}");
-
-                      entiteAttribuerTriVarAncien = entiteAttribuerTriVar;
-                    }
-                  }
-                  auteurPageJs.tl(4, "if(", i18nClasse.getString(I18n.var_attribuer), ")");
-                  auteurPageJs.tl(5, "$li.append($input);");
-                  auteurPageJs.tl(4, "$li.append($a);");
-                  auteurPageJs.tl(4, "$list.append($li);");
-                  auteurPageJs.tl(3, "});");
-                  auteurPageJs.tl(2, "}");
-                  // auteurPageJs.tl(2, "var focusId = document.querySelector('#", classeApiClasseNomSimple, "Form :input[name=\"focusId\"]')?.value;");
-                  // auteurPageJs.tl(2, "if(focusId)");
-                  // auteurPageJs.tl(3, "document.querySelector('#' + focusId).parent().next().querySelector('", "pf-".equals(composantsWebPrefixe) ? "pf-" : "", "input').focus();");
-                  auteurPageJs.tl(1, "};");
-                  auteurPageJs.tl(1, "error = function( jqXhr, target2 ) {};");
-                  auteurPageJs.tl(1, entiteAttribuerOperationIdRecherche, "Vals(", i18nClasse.getString(I18n.var_filtres), ", target, success, error);");
-                  auteurPageJs.tl(0, "}");
-
-                  auteurWebsocket.l();
-                  auteurWebsocket.tl(2, "window.eventBus.registerHandler('websocket", entiteAttribuerNomSimple, "', function (error, message) {");
-//										auteurWebsocket.tl(3, "var json = JSON.parse(message['body']);");
-//										auteurWebsocket.tl(3, "var id = json['id'];");
-//										auteurWebsocket.tl(3, langueConfig.getString(ConfigCles.var_suggere), classeApiClasseNomSimple, entiteVarCapitalise, "(document.querySelector('#' + (this.value ? '", langueConfig.getString(ConfigCles.var_suggere), "' : 'form') + '", classeApiClasseNomSimple, entiteVarCapitalise, "'), document.querySelector('#", "list", classeApiClasseNomSimple, entiteVarCapitalise, "_", classeApiMethodeMethode, "'));");
-                  auteurWebsocket.tl(3, "document.querySelector('.Page_", entiteVar, "').trigger('oninput');");
-                  auteurWebsocket.tl(3, "document.querySelector('.Page_", entiteVar, "_", i18nClasse.getString(I18n.var_ajouter), "').innerText = '", i18nClasse.getString(I18n.var_ajouter), " ", entiteAttribuerContexteUnNom, "';");
-                  auteurWebsocket.tl(3, "document.querySelector('.Page_", entiteVar, "_", i18nClasse.getString(I18n.var_ajouter), "').classList.remove('w3-disabled');");
-                  auteurWebsocket.tl(3, "document.querySelector('.Page_", entiteVar, "_", i18nClasse.getString(I18n.var_ajouter), "').setAttribute('disabled', false);");
-                  auteurWebsocket.tl(2, "});");
-                }
-              }
-              rechercheSolr.setStart(i.intValue() + rechercheLignes);
-              rechercheReponse = clientSolrComputate.query(rechercheSolr);
-              rechercheListe = rechercheReponse.getResults();
+            if(methodePATCH || methodePOST) {
+              auteurPageJs.tl(3, ", method: '", classeApiMethodeMethode, "'");
+              auteurPageJs.tl(3, ", body: JSON.stringify(vals)");
             }
+            if(methodePUTCopie) {
+              auteurPageJs.tl(3, ", method: '", classeApiMethodeMethode, "'");
+              auteurPageJs.tl(3, ", body: JSON.stringify({patch: vals})");
+            }
+            if(methodePUTImport || methodePUTFusion) {
+              auteurPageJs.tl(3, ", method: '", classeApiMethodeMethode, "'");
+              auteurPageJs.tl(3, ", body: JSON.stringify(json)");
+            }
+            auteurPageJs.tl(2, "}).then(", i18nClasse.getString(I18n.var_reponse), " => {");
+            auteurPageJs.tl(3, "if(", i18nClasse.getString(I18n.var_reponse), ".ok) {");
+            if("DELETE".equals(classeApiMethodeMethode)) {
+              auteurPageJs.tl(4, "success(response, target);");
+            } else {
+              auteurPageJs.tl(4, i18nClasse.getString(I18n.var_reponse), ".json().then((json) => {");
+              auteurPageJs.tl(5, "success(json, target);");
+              auteurPageJs.tl(4, "})");
+            }
+            auteurPageJs.tl(3, "} else {");
+            auteurPageJs.tl(4, "error(", i18nClasse.getString(I18n.var_reponse), ", target);");
+            auteurPageJs.tl(3, "}");
+            auteurPageJs.tl(2, "})");
+            auteurPageJs.tl(2, ".catch(", i18nClasse.getString(I18n.var_reponse), " => error(", i18nClasse.getString(I18n.var_reponse), ", target));");
+            auteurPageJs.l("}");
+          }
+          if(methodeRecherche) {
+
+            SolrQuery rechercheSolr = new SolrQuery();   
+            rechercheSolr.setQuery("*:*");
+            rechercheSolr.setRows(1000000);
+            String fqClassesSuperEtMoi = "(" + classesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
+            rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
+            rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
+            rechercheSolr.addFilterQuery("(entiteSuggere_indexed_boolean:true OR entiteAttribuer_indexed_boolean:true)");
+            rechercheSolr.addSort("partNumero_indexed_int", ORDER.asc);
+            QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
+            SolrDocumentList rechercheListe = rechercheReponse.getResults();
+    
+            rechercheLignes = rechercheSolr.getRows();
+    
+            if(rechercheListe.size() > 0) {
+    
+              for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=rechercheLignes) {
+                List<SolrDocument> resultatsSubstitues = rechercheListe.stream().filter(o -> BooleanUtils.isTrue((Boolean)o.get("entiteEstSubstitue_stored_boolean"))).collect(Collectors.toList());
+                List<SolrDocument> resultatsNormales = rechercheListe.stream().filter(o -> BooleanUtils.isFalse((Boolean)o.get("entiteEstSubstitue_stored_boolean"))).collect(Collectors.toList());
+
+                for(Integer j = 0; j < resultatsNormales.size(); j++) {
+                  entiteDocumentSolr = rechercheListe.get(j);
+                  entiteVar = (String)entiteDocumentSolr.get("entiteVar_" + langueNomApi + "_stored_string");
+                  SolrDocument resultatSubstitue = resultatsSubstitues.stream().filter(o -> entiteVar.equals(o.get("entiteVar_" + langueNomApi + "_stored_string"))).findFirst().orElse(null);
+                  if(resultatSubstitue != null) {
+                    if(entiteDocumentSolr.equals(resultatSubstitue))
+                      continue;
+                    entiteDocumentSolr = resultatSubstitue;
+                  }
+
+                  entiteVarCapitalise = (String)entiteDocumentSolr.get("entiteVarCapitalise_" + langueNomApi + "_stored_string");
+                  entiteNomSimple = (String)entiteDocumentSolr.get("entiteNomSimple_" + langueNomApi + "_stored_string");
+                  entiteNomSimpleGenerique = (String)entiteDocumentSolr.get("entiteNomSimpleGenerique_" + langueNomApi + "_stored_string");
+                  entiteNomSimpleComplet = (String)entiteDocumentSolr.get("entiteNomSimpleComplet_" + langueNomApi + "_stored_string");
+                  entiteDescription = (String)entiteDocumentSolr.get("entiteDescription_" + langueNom + "_stored_string");
+                  entiteNomAffichage = (String)entiteDocumentSolr.get("entiteNomAffichage_" + langueNom + "_stored_string");
+                  entiteFiwareType = (String)entiteDocumentSolr.get("entiteFiwareType_stored_string");
+                  entiteCacherPOST = (Boolean)entiteDocumentSolr.get("entiteCacherPOST_stored_boolean");
+                  entiteCacherPATCH = (Boolean)entiteDocumentSolr.get("entiteCacherPATCH_stored_boolean");
+                  entiteCacherRecherche = (Boolean)entiteDocumentSolr.get("entiteCacherRecherche_stored_boolean");
+                  entiteRechercherMaxVarJsonArray = (String)entiteDocumentSolr.get("entiteRechercherMaxVarJsonArray_stored_string");
+                  entiteRechercherMaxVarValeur = (String)entiteDocumentSolr.get("entiteRechercherMaxVarValeur_stored_string");
+                  entiteRechercherMaxVar = (String)entiteDocumentSolr.get("entiteRechercherMaxVar_stored_string");
+                  entiteRechercherMaxValeur = (String)entiteDocumentSolr.get("entiteRechercherMaxValeur_stored_string");
+                  entiteMin = (String)entiteDocumentSolr.get("entiteMin_stored_string");
+                  entiteMax = (String)entiteDocumentSolr.get("entiteMax_stored_string");
+                  entiteDefaut = (String)entiteDocumentSolr.get("entiteDefaut_stored_string");
+                  entiteIcone = (String)entiteDocumentSolr.get("entiteIcone_stored_string");
+                  entiteCookie = (String)entiteDocumentSolr.get("entiteCookie_stored_string");
+                  entiteHtmLigne = (Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int");
+                  entiteHtmLigneTitre = (String)entiteDocumentSolr.get("entiteHtmLigneTitre_stored_string");
+                  entiteHtmLigneTitreOuvert = (String)entiteDocumentSolr.get("entiteHtmLigneTitreOuvert_stored_string");
+                  entiteHtmLigneVerticale = (Boolean)entiteDocumentSolr.get("entiteHtmLigneVerticale_stored_boolean");
+                  entiteHtmLigneEnTeteExpression = (String)entiteDocumentSolr.get("entiteHtmLigneEnTeteExpression_stored_string");
+                  entiteCouverture = (Boolean)entiteDocumentSolr.get("entiteCouverture_stored_boolean");
+                  entiteHtml = (Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean");
+                  entiteDocValues = (Boolean)entiteDocumentSolr.get("entiteDocValues_stored_boolean");
+                  entiteIndexe = (Boolean)entiteDocumentSolr.get("entiteIndexe_stored_boolean");
+                  entiteStocke = (Boolean)entiteDocumentSolr.get("entiteStocke_stored_boolean");
+                  entiteMultiligne = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteMultiligne_stored_boolean"));
+                  entiteCouleur = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteCouleur_stored_boolean"));
+                  entiteModifier = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteModifier_stored_boolean"));
+                  entiteDefinir = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteDefinir_stored_boolean"));
+                  entiteAttribuer = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteAttribuer_stored_boolean"));
+                  entiteSuggere = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteSuggere_stored_boolean"));
+                  entiteAttribuerNomSimple = (String)entiteDocumentSolr.get("entiteAttribuerNomSimple_" + langueNomApi + "_stored_string");
+                  entiteAttribuerVar = (String)entiteDocumentSolr.get("entiteAttribuerVar_" + langueNomApi + "_stored_string");
+                  entiteAttribuerVarUrlPageAffichage = (String)entiteDocumentSolr.get("entiteAttribuerVarUrlPageAffichage_" + langueNom + "_stored_string");
+                  entiteAttribuerVarUrlPageEdition = (String)entiteDocumentSolr.get("entiteAttribuerVarUrlPageEdition_" + langueNom + "_stored_string");
+                  entiteAttribuerVarTitre = (String)entiteDocumentSolr.get("entiteAttribuerVarTitre_" + langueNom + "_stored_string");
+                  entiteAttribuerVarDescription = (String)entiteDocumentSolr.get("entiteAttribuerVarDescription_" + langueNom + "_stored_string");
+                  entiteAttribuerVarImageUrl = (String)entiteDocumentSolr.get("entiteAttribuerVarImageUrl_" + langueNomApi + "_stored_string");
+                  entiteAttribuerVarSuggere = (String)entiteDocumentSolr.get("entiteAttribuerVarSuggere_" + langueNomApi + "_stored_string");
+                  entiteAttribuerOperationIdRecherche = (String)entiteDocumentSolr.get("entiteAttribuerOperationId" + i18nClasse.getString(I18n.var_Recherche) + "_" + langueNomApi + "_stored_string");
+                  entiteAttribuerOperationIdPATCH = (String)entiteDocumentSolr.get("entiteAttribuerOperationIdPATCH_" + langueNomApi + "_stored_string");
+                  entiteOperationIdPATCH = (String)entiteDocumentSolr.get("entiteOperationIdPATCH_" + langueNomApi + "_stored_string");
+                  entiteTypeJson = (String)entiteDocumentSolr.get("entiteTypeJson_stored_string");
+                  entiteAttribuerTypeJson = (String)entiteDocumentSolr.get("entiteAttribuerTypeJson_stored_string");
+                  entiteAttribuerContexteIcone = (String)entiteDocumentSolr.get("entiteAttribuerContexteIcone_stored_string");
+                  entiteAttribuerTrisVar = (List<String>)entiteDocumentSolr.get("entiteAttribuerTrisVar_" + langueNomApi + "_stored_strings");
+                  entiteAttribuerTrisSuffixeType = (List<String>)entiteDocumentSolr.get("entiteAttribuerTrisSuffixeType_stored_strings");
+                  entiteAttribuerContexteUnNom = (String)entiteDocumentSolr.get("entiteAttribuerContexteUnNom_" + langueNom + "_stored_string");
+                  entiteAttribuerContexteNomPluriel = (String)entiteDocumentSolr.get("entiteAttribuerContexteNomPluriel_" + langueNom + "_stored_string");
+    
+                  if(entiteSuggere) {
+                    auteurPageJs.l();
+                    auteurPageJs.tl(0, "function ", i18nClasse.getString(I18n.var_suggere), classeApiClasseNomSimple, entiteVarCapitalise, "($", i18nClasse.getString(I18n.var_formulaireFiltres), ", $list, target) {");
+                    auteurPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {");
+                    auteurPageJs.tl(2, "if($list) {");
+                    auteurPageJs.tl(3, "$list.innerHTML = '';");
+                    auteurPageJs.tl(3, "data['list'].forEach((o, i) => {");
+                    auteurPageJs.tl(4, "var $i = document.querySelector('", classeIcone, "');");
+                    auteurPageJs.t(4, "var $span = document.createElement('span');");
+                    auteurPageJs.t(4, "$span.setAttribute('class', '');");
+                    if(classeVarTitre != null)
+                      auteurPageJs.tl(4, "$span.innerText = o['", classeVarTitre, "'];");
+                    auteurPageJs.tl(4, "var $li = document.createElement('li');");
+                    auteurPageJs.tl(4, "var $a = document.createElement('a').setAttribute('href', o['", classeVarUrlPageEdition, "']);");
+                    auteurPageJs.tl(4, "$a.append($i);");
+                    auteurPageJs.tl(4, "$a.append($span);");
+                    auteurPageJs.tl(4, "$li.append($a);");
+                    auteurPageJs.tl(4, "$list.append($li);");
+                    auteurPageJs.tl(3, "});");
+                    auteurPageJs.tl(2, "}");
+                    auteurPageJs.tl(1, "};");
+                    auteurPageJs.tl(1, "error = function( jqXhr, target2 ) {};");
+                    auteurPageJs.tl(1, i18nClasse.getString(I18n.var_rechercher), classeApiClasseNomSimple, "Vals($", i18nClasse.getString(I18n.var_formulaireFiltres), ", target, success, error);");
+                    auteurPageJs.tl(0, "}");
+                  }
+                  else if(entiteAttribuer) {
+                    // Attribuer //
+                    auteurPageJs.l();
+                    auteurPageJs.tl(0, "function ", i18nClasse.getString(I18n.var_suggere), classeApiClasseNomSimple, entiteVarCapitalise, "(", i18nClasse.getString(I18n.var_filtres), ", $list, ", classeVarId, " = null, ", entiteVar, " = null, ", i18nClasse.getString(I18n.var_attribuer), "=true, target) {");
+                    auteurPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {");
+                    auteurPageJs.tl(2, "if($list) {");
+                    auteurPageJs.tl(3, "$list.innerHTML = '';");
+                    auteurPageJs.tl(3, "data['list'].forEach((o, i) => {");
+                    auteurPageJs.tl(4, "var iTemplate = document.createElement('template');");
+                    auteurPageJs.tl(4, "iTemplate.innerHTML = '", entiteAttribuerContexteIcone, "';");
+                    auteurPageJs.tl(4, "var $i = iTemplate.content;");
+                    auteurPageJs.tl(4, "var $span = document.createElement('span');");
+                    auteurPageJs.tl(4, "$span.setAttribute('class', '');");
+                    auteurPageJs.tl(4, "$span.innerText = ");
+                    if(entiteAttribuerVarTitre != null)
+                      auteurPageJs.s("o['", entiteAttribuerVarTitre, "']");
+                    auteurPageJs.l(";");
+
+                    if(entiteAttribuerVarUrlPageEdition != null) {
+                      auteurPageJs.tl(4, "var $a = document.createElement('a');");
+                      // auteurPageJs.tl(3, "$a.setAttribute('id', o['", entiteAttribuerVar, "']);");
+                      auteurPageJs.tl(4, "$a.setAttribute('href', o['", entiteAttribuerVarUrlPageEdition, "']);");
+                    } else {
+                      auteurPageJs.tl(4, "var $a = document.createElement('span');");
+                    }
+
+                    auteurPageJs.tl(4, "$a.append($i);");
+                    auteurPageJs.tl(4, "$a.append($span);");
+                    auteurPageJs.tl(4, "var val = o['", entiteAttribuerVar, "'];");
+                    auteurPageJs.tl(4, "var checked = val == null ? false : (Array.isArray(val) ? val.includes(", classeVarId, ".toString()) : val == ", entiteVar, ");");
+                    auteurPageJs.tl(4, "var $input = document.createElement('", composantsWebPrefixe, "checkbox');");
+                    auteurPageJs.tl(4, "$input.setAttribute('id', '", classeApiMethodeMethode, "_", entiteVar, "_' + ", classeVarId, " + '_", entiteAttribuerVar, "_' + o['", entiteAttribuerVar, "']);");
+                    auteurPageJs.tl(4, "$input.setAttribute('name', '", entiteAttribuerVar, "');");
+                    auteurPageJs.tl(4, "$input.setAttribute('value', o['", entiteAttribuerVar, "']);");
+                    auteurPageJs.tl(4, "$input.setAttribute('class', '", i18nClasse.getString(I18n.var_valeur), entiteVarCapitalise, " ');");
+
+                    auteurPageJs.tl(4, "if(", classeVarId, " != null) {");
+                    auteurPageJs.tl(5, "$input.addEventListener('", "pf-".equals(composantsWebPrefixe) ? "pf-" : "", "change', function(event) {");
+                    if("array".equals(entiteTypeJson)) {
+                      auteurPageJs.tl(6, entiteOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeVarId, ":' + ", classeVarId, " }], { [(event.target.checked ? 'add' : 'remove') + '", entiteVarCapitalise, "']: o['", entiteAttribuerVar, "'] }");
+                    }
+                    else {
+                      auteurPageJs.tl(6, entiteOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeVarId, ":' + ", classeVarId, " }], { [(event.target.checked ? 'set' : 'remove') + '", entiteVarCapitalise, "']: o['", entiteAttribuerVar, "'] }");
+                    }
+                    auteurPageJs.tl(8, ", target");
+                    auteurPageJs.tl(8, ", function(", i18nClasse.getString(I18n.var_reponse), ", target) {");
+                    auteurPageJs.tl(9, i18nClasse.getString(I18n.var_ajouterLueur), "(target);");
+                    auteurPageJs.tl(9, i18nClasse.getString(I18n.var_suggere), classeApiClasseNomSimple, entiteVarCapitalise, "(", i18nClasse.getString(I18n.var_filtres), ", $list, ", classeVarId, ", o['", entiteAttribuerVar, "'], ", i18nClasse.getString(I18n.var_attribuer), ", target);");
+                    auteurPageJs.tl(8, "}");
+                    auteurPageJs.tl(8, ", function(", i18nClasse.getString(I18n.var_reponse), ", target) { ", i18nClasse.getString(I18n.var_ajouterErreur), "(target); }");
+                    auteurPageJs.tl(6, ");");
+                    auteurPageJs.tl(5, "});");
+
+                    // auteurPageJs.tl(4, "$input.setAttribute('onclick', '", i18nClasse.getString(I18n.var_enleverLueur), "(this); ');");
+                    auteurPageJs.tl(4, "}");
+
+                    auteurPageJs.tl(4, "if(checked)");
+                    auteurPageJs.tl(5, "$input.setAttribute('checked', 'checked');");
+                    auteurPageJs.tl(4, "var $li = document.createElement('li');");
+                    if(entiteAttribuerTrisVar != null && entiteAttribuerTrisSuffixeType != null && entiteAttribuerTrisSuffixeType.size() > 0 && "_double".equals(entiteAttribuerTrisSuffixeType.get(0))) {
+                      for(String entiteAttribuerTriVar : entiteAttribuerTrisVar) {
+                        auteurPageJs.tl(4, "var ", entiteAttribuerTriVar, " = o['", entiteAttribuerTriVar, "'];");
+                      }
+                      String entiteAttribuerTriVarAncien = null;
+                      Integer k = 4;
+                      for(String entiteAttribuerTriVar : entiteAttribuerTrisVar) {
+                        if(entiteAttribuerTriVarAncien != null)
+                          k = 5;
+
+                        auteurPageJs.l();
+                        if(entiteAttribuerTriVarAncien != null)
+                          auteurPageJs.tl(4, "if(", entiteAttribuerTriVarAncien, " != null) {");
+                        auteurPageJs.tl(k, "$sort = document.createElement('span').setAttribute('style', 'padding-right: 8px; ');");
+                        auteurPageJs.tl(k, "var $sortInput = document.createElement('", composantsWebPrefixe, "input')");
+                        auteurPageJs.tl(k, "$sortInput.setAttribute('style', 'width: 4em; ');");
+                        auteurPageJs.tl(k, "$sortInput.setAttribute('id', \"", i18nClasse.getString(I18n.var_attribuer), "_\" + o['", entiteAttribuerVar, "'] + \"_", i18nClasse.getString(I18n.var_tri), "_", entiteAttribuerTriVar, "\");");
+                        auteurPageJs.tl(k, "$sortInput.setAttribute('value', ", entiteAttribuerTriVar, ").setAttribute('onchange', ");
+                        auteurPageJs.tl(k + 1, "\"document.querySelector('#", classeApiClasseNomSimple, "Form :input[name=\\\"focusId\\\"]').value = this.getAttribute('id'); \"");
+                        auteurPageJs.tl(k + 1, "+ \"", entiteAttribuerOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeVarId, ":\" + o['", entiteAttribuerVar, "'] + \"' }], { ['set", StringUtils.capitalize(entiteAttribuerTriVar), "']: this.value ? this.value : null }\"");
+                        auteurPageJs.tl(k + 2, ", $input");
+                        auteurPageJs.tl(k + 2, ", function(", i18nClasse.getString(I18n.var_reponse), ", target) { ", i18nClasse.getString(I18n.var_ajouterLueur), "(target); }");
+                        auteurPageJs.tl(k + 2, ", function(", i18nClasse.getString(I18n.var_reponse), ", target) { ", i18nClasse.getString(I18n.var_ajouterErreur), "(target); }");
+                        // auteurPageJs.tl(k + 2, "+ \", function() { \"");
+                        // auteurPageJs.tl(k + 2, "+ \"}\"");
+                        // auteurPageJs.tl(k + 2, "+ \", function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "(document.querySelector('#", langueConfig.getString(ConfigCles.var_attribuer), "_\" + o['", entiteAttribuerVar, "'] + \"_", langueConfig.getString(ConfigCles.var_tri), "_", entiteAttribuerTriVar, "')); }\"");
+                        // auteurPageJs.tl(k + 2, "+ \" ); \"); ");
+                        auteurPageJs.tl(k, "$sort.append($sortInput);");
+                        auteurPageJs.tl(k, "$li.append($sort);");
+                        if(entiteAttribuerTriVarAncien != null)
+                          auteurPageJs.tl(4, "}");
+
+                        entiteAttribuerTriVarAncien = entiteAttribuerTriVar;
+                      }
+                    }
+                    auteurPageJs.tl(4, "if(", i18nClasse.getString(I18n.var_attribuer), ")");
+                    auteurPageJs.tl(5, "$li.append($input);");
+                    auteurPageJs.tl(4, "$li.append($a);");
+                    auteurPageJs.tl(4, "$list.append($li);");
+                    auteurPageJs.tl(3, "});");
+                    auteurPageJs.tl(2, "}");
+                    // auteurPageJs.tl(2, "var focusId = document.querySelector('#", classeApiClasseNomSimple, "Form :input[name=\"focusId\"]')?.value;");
+                    // auteurPageJs.tl(2, "if(focusId)");
+                    // auteurPageJs.tl(3, "document.querySelector('#' + focusId).parent().next().querySelector('", "pf-".equals(composantsWebPrefixe) ? "pf-" : "", "input').focus();");
+                    auteurPageJs.tl(1, "};");
+                    auteurPageJs.tl(1, "error = function( jqXhr, target2 ) {};");
+                    auteurPageJs.tl(1, entiteAttribuerOperationIdRecherche, "Vals(", i18nClasse.getString(I18n.var_filtres), ", target, success, error);");
+                    auteurPageJs.tl(0, "}");
+
+                    auteurWebsocket.l();
+                    auteurWebsocket.tl(2, "window.eventBus.registerHandler('websocket", entiteAttribuerNomSimple, "', function (error, message) {");
+//		  								auteurWebsocket.tl(3, "var json = JSON.parse(message['body']);");
+//		  								auteurWebsocket.tl(3, "var id = json['id'];");
+//		  								auteurWebsocket.tl(3, langueConfig.getString(ConfigCles.var_suggere), classeApiClasseNomSimple, entiteVarCapitalise, "(document.querySelector('#' + (this.value ? '", langueConfig.getString(ConfigCles.var_suggere), "' : 'form') + '", classeApiClasseNomSimple, entiteVarCapitalise, "'), document.querySelector('#", "list", classeApiClasseNomSimple, entiteVarCapitalise, "_", classeApiMethodeMethode, "'));");
+                    auteurWebsocket.tl(3, "document.querySelector('.Page_", entiteVar, "').trigger('oninput');");
+                    auteurWebsocket.tl(3, "document.querySelector('.Page_", entiteVar, "_", i18nClasse.getString(I18n.var_ajouter), "').innerText = '", i18nClasse.getString(I18n.var_ajouter), " ", entiteAttribuerContexteUnNom, "';");
+                    auteurWebsocket.tl(3, "document.querySelector('.Page_", entiteVar, "_", i18nClasse.getString(I18n.var_ajouter), "').classList.remove('w3-disabled');");
+                    auteurWebsocket.tl(3, "document.querySelector('.Page_", entiteVar, "_", i18nClasse.getString(I18n.var_ajouter), "').setAttribute('disabled', false);");
+                    auteurWebsocket.tl(2, "});");
+                  }
+                }
+                rechercheSolr.setStart(i.intValue() + rechercheLignes);
+                rechercheReponse = clientSolrComputate.query(rechercheSolr);
+                rechercheListe = rechercheReponse.getResults();
+              }
+            }
+          }
+        }
+
+        if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageRecherche)) || classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals("DELETE") || classeApiMethode.equals(i18nClasse.getString(I18n.var_DELETEFiltre)) || classeApiMethode.equals(i18nGlobale.getString(I18n.var_PUTCopie)) || classeApiMethode.equals(i18nGlobale.getString(I18n.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
+          if(classeApiMethode.equals("DELETE")) {
+            auteurPageJsRecherche.l();
+            auteurPageJsRecherche.tl(1, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')?.addEventListener('click', (event) => {");
+            auteurPageJsRecherche.tl(2, "var confirmResponse = confirm('", i18nGlobale.getString(I18n.str_confirmer_supprimer), "'); ");
+            auteurPageJsRecherche.tl(2, "if(confirmResponse) { ");
+            auteurPageJsRecherche.tl(3, "var ", classeVarId, " =  event.currentTarget.getAttribute('data-", classeVarId, "');");
+            auteurPageJsRecherche.tl(3, "delete", classeNomSimple, "(");
+            auteurPageJsRecherche.tl(5, "event.currentTarget");
+            auteurPageJsRecherche.tl(5, ", ", classeVarId);
+            auteurPageJsRecherche.tl(5, ", function(", i18nGlobale.getString(I18n.var_reponse), ", target) { ", i18nGlobale.getString(I18n.var_ajouterLueur), "(target); }");
+            auteurPageJsRecherche.tl(5, ", function(", i18nGlobale.getString(I18n.var_reponse), ", target) { ", i18nGlobale.getString(I18n.var_ajouterErreur), "(target); }");
+            auteurPageJsRecherche.tl(5, ");");
+            auteurPageJsRecherche.tl(2, "}");
+            auteurPageJsRecherche.tl(1, "});");
+          } else if(classeApiMethode.equals(i18nClasse.getString(I18n.var_DELETEFiltre))) {
+            auteurPageJsRecherche.l();
+            auteurPageJsRecherche.tl(1, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')?.addEventListener('click', (event) => {");
+            auteurPageJsRecherche.tl(2, "var confirmResponse = confirm('", i18nGlobale.getString(I18n.str_confirmer_supprimer), "'); ");
+            auteurPageJsRecherche.tl(2, "if(confirmResponse) { ");
+            auteurPageJsRecherche.tl(3, "delete", i18nGlobale.getString(I18n.var_filtre), classeNomSimple, "(");
+            auteurPageJsRecherche.tl(5, "event.currentTarget");
+            auteurPageJsRecherche.tl(5, ", function(", i18nGlobale.getString(I18n.var_reponse), ", target) { ", i18nGlobale.getString(I18n.var_ajouterLueur), "(target); }");
+            auteurPageJsRecherche.tl(5, ", function(", i18nGlobale.getString(I18n.var_reponse), ", target) { ", i18nGlobale.getString(I18n.var_ajouterErreur), "(target); }");
+            auteurPageJsRecherche.tl(5, ");");
+            auteurPageJsRecherche.tl(2, "}");
+            auteurPageJsRecherche.tl(1, "});");
+          } else {
+            auteurPageJsRecherche.l();
+            auteurPageJsRecherche.tl(1, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')?.addEventListener('click', (event) => {");
+            auteurPageJsRecherche.tl(2, "document.querySelector('#", classeApiOperationIdMethode, i18nGlobale.getString(I18n.var_Dialogue), "').open = true;");
+            auteurPageJsRecherche.tl(1, "});");
           }
         }
       }
     }
+  }
 
+  public void ecrirePageJs(String langueNomApi, String langueNom, JsonObject i18nClasse, JsonObject i18nPage) throws Exception {
     if(auteurPageJs != null) {
       if(!classePageSimple) {
         auteurWebsocket.flushClose();
@@ -4651,48 +4678,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
       auteurPageJsEdition.tl(2, ", customElements.whenDefined('", composantsWebPrefixe, "dropdown')");
       auteurPageJsEdition.tl(2, "]).then(() => {");
 
-      for(String classeApiMethode : classeApiMethodes) {
-        String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
-        String classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
-        String classeApiTypeMediaMethode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
-        String classeApiMethodeMethode = classeDoc.getString("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
-
-        if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageRecherche)) || classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals("DELETE") || classeApiMethode.equals(i18nClasse.getString(I18n.var_DELETEFiltre)) || classeApiMethode.equals(i18nGlobale.getString(I18n.var_PUTCopie)) || classeApiMethode.equals(i18nGlobale.getString(I18n.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
-          if(classeApiMethode.equals("DELETE")) {
-            auteurPageJsRecherche.l();
-            auteurPageJsRecherche.tl(1, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')?.addEventListener('click', (event) => {");
-            auteurPageJsRecherche.tl(2, "var confirmResponse = confirm('", i18nGlobale.getString(I18n.str_confirmer_supprimer), "'); ");
-            auteurPageJsRecherche.tl(2, "if(confirmResponse) { ");
-            auteurPageJsRecherche.tl(3, "var ", classeVarId, " =  event.currentTarget.getAttribute('data-", classeVarId, "');");
-            auteurPageJsRecherche.tl(3, "delete", classeNomSimple, "(");
-            auteurPageJsRecherche.tl(5, "event.currentTarget");
-            auteurPageJsRecherche.tl(5, ", ", classeVarId);
-            auteurPageJsRecherche.tl(5, ", function(", i18nGlobale.getString(I18n.var_reponse), ", target) { ", i18nGlobale.getString(I18n.var_ajouterLueur), "(target); }");
-            auteurPageJsRecherche.tl(5, ", function(", i18nGlobale.getString(I18n.var_reponse), ", target) { ", i18nGlobale.getString(I18n.var_ajouterErreur), "(target); }");
-            auteurPageJsRecherche.tl(5, ");");
-            auteurPageJsRecherche.tl(2, "}");
-            auteurPageJsRecherche.tl(1, "});");
-          } else if(classeApiMethode.equals(i18nClasse.getString(I18n.var_DELETEFiltre))) {
-            auteurPageJsRecherche.l();
-            auteurPageJsRecherche.tl(1, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')?.addEventListener('click', (event) => {");
-            auteurPageJsRecherche.tl(2, "var confirmResponse = confirm('", i18nGlobale.getString(I18n.str_confirmer_supprimer), "'); ");
-            auteurPageJsRecherche.tl(2, "if(confirmResponse) { ");
-            auteurPageJsRecherche.tl(3, "delete", i18nGlobale.getString(I18n.var_filtre), classeNomSimple, "(");
-            auteurPageJsRecherche.tl(5, "event.currentTarget");
-            auteurPageJsRecherche.tl(5, ", function(", i18nGlobale.getString(I18n.var_reponse), ", target) { ", i18nGlobale.getString(I18n.var_ajouterLueur), "(target); }");
-            auteurPageJsRecherche.tl(5, ", function(", i18nGlobale.getString(I18n.var_reponse), ", target) { ", i18nGlobale.getString(I18n.var_ajouterErreur), "(target); }");
-            auteurPageJsRecherche.tl(5, ");");
-            auteurPageJsRecherche.tl(2, "}");
-            auteurPageJsRecherche.tl(1, "});");
-          } else {
-            auteurPageJsRecherche.l();
-            auteurPageJsRecherche.tl(1, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')?.addEventListener('click', (event) => {");
-            auteurPageJsRecherche.tl(2, "document.querySelector('#", classeApiOperationIdMethode, i18nGlobale.getString(I18n.var_Dialogue), "').open = true;");
-            auteurPageJsRecherche.tl(1, "});");
-          }
-        }
-      }
-
       auteurPageJsEdition.s(wJsEditionInit);
 
       auteurPageJsRecherche.s(wJsRechercheInit);
@@ -4773,7 +4758,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
     if(auteurFormulaireRechercheJinja != null) {
       List<String> classeApiMethodes = Optional.ofNullable(classeDoc.getJsonArray("classeApiMethodes_" + langueNomApi + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
-      List<String> classeApiMethodesApi = classeLangueNom.equals(langueNom) ? Optional.ofNullable(classeDoc.getJsonArray("classeApiMethodes_" + langueNomApi + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList()): Arrays.asList();
 
       if(classeApiMethodes == null)
         classeApiMethodes = new ArrayList<>();

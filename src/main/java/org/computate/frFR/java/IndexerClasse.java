@@ -3540,20 +3540,20 @@ public class IndexerClasse extends RegarderClasseBase {
             if(entiteLangue != null)
               indexerStockerSolr(entiteDoc, "entiteLangue", entiteLangue);
 
-            {
-              String str = regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_NomAffichage), methodeCommentaire);
+            for(String langueNom : toutesLangues) {
+              String str;
+              str = regexLangueYamlString(langueNom, i18nGlobale.getString(I18n.var_NomAffichage), methodeCommentaire);
               if(methodeCommentaireActuelle != null)
-                str = Optional.ofNullable(regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_NomAffichage), methodeCommentaireActuelle)).orElse(str);
+                str = Optional.ofNullable(regexLangueYamlString(langueNom, i18nGlobale.getString(I18n.var_NomAffichage), methodeCommentaireActuelle)).orElse(str);
               if(str != null) {
-                indexerStockerSolr(classeLangueNom, entiteDoc, "entiteNomAffichage", str);
+                indexerStockerSolr(langueNom, entiteDoc, "entiteNomAffichage", str);
               }
-            }
-            {
-              String str = regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_Description), methodeCommentaire);
+
+              str = regexLangueYamlString(langueNom, i18nGlobale.getString(I18n.var_Description), methodeCommentaire);
               if(methodeCommentaireActuelle != null)
-                str = Optional.ofNullable(regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_Description), methodeCommentaireActuelle)).orElse(str);
+                str = Optional.ofNullable(regexLangueYamlString(langueNom, i18nGlobale.getString(I18n.var_Description), methodeCommentaireActuelle)).orElse(str);
               if(str != null) {
-                indexerStockerSolr(classeLangueNom, entiteDoc, "entiteDescription", str);
+                indexerStockerSolr(langueNom, entiteDoc, "entiteDescription", str);
               }
             }
             indexerStockerSolr(classeLangueNom, entiteDoc, "entiteUniteLabel", regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_UniteLabel), methodeCommentaire));
@@ -3667,7 +3667,6 @@ public class IndexerClasse extends RegarderClasseBase {
 
             if(classeTraduire) {
               for(String langueNom : autresLangues) {  
-                indexerStockerSolr(langueNom, entiteDoc, "entiteNomAffichage", regexLangue(langueNom, i18nGlobale.getString(I18n.var_NomAffichage), methodeCommentaire));
                 indexerStockerSolr(langueNom, entiteDoc, "entiteEnumVarDescription", regexLangue(langueNom, i18nGlobale.getString(I18n.var_EnumVarDescription), methodeCommentaire));
                 indexerStockerSolr(langueNom, entiteDoc, "entiteHtmInfobulle", regexLangue(langueNom, i18nGlobale.getString(I18n.var_HtmInfobulle), methodeCommentaire));
                 indexerStockerSolrRegex(langueNom, entiteDoc, "entiteVarApi", "VarApi", methodeCommentaire);
