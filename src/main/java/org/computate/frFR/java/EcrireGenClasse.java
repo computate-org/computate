@@ -3160,8 +3160,8 @@ public class EcrireGenClasse extends EcrireClasse {
       entiteHtmInfobulle = doc.getString("entiteHtmInfobulle_" + langueNom + "_stored_string");
       entiteHtmColonne = doc.getInteger("entiteHtmColonne_stored_int");
       entiteHtmLigne = doc.getInteger("entiteHtmLigne_stored_int");
-      entiteHtmLigneTitre = doc.getString("entiteHtmLigneTitre_stored_string");
-      entiteHtmLigneTitreOuvert = doc.getString("entiteHtmLigneTitre_stored_string");
+      entiteHtmLigneTitre = doc.getString("entiteHtmLigneTitre_" + langueNom + "_stored_string");
+      entiteHtmLigneTitreOuvert = doc.getString("entiteHtmLigneTitre_" + langueNom + "_stored_string");
       entiteHtmLigneVerticale = doc.getBoolean("entiteHtmLigneVerticale_stored_boolean");
       entiteHtmLigneEnTeteExpression = doc.getString("entiteHtmLigneEnTeteExpression_stored_string");
       entiteHtmCellule = doc.getInteger("entiteHtmCellule_stored_int");

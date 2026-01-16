@@ -1222,6 +1222,10 @@ public class ConfigSite {
   }
 
   public String regexLangueYamlString(String langueNom, String champ, String texte) {
+    return regexLangueYamlString(langueNom, champ, texte, null);
+  }
+
+  public String regexLangueYamlString(String langueNom, String champ, String texte, String valeurDefaut) {
     String o = null;
     if (champ != null && texte != null) {
       String motif = "^" + champ + "(\\." + langueNom + ")?: ?([>|-]{0,2}(\\d*)\\n)?([\\s\\S]*?)(?=\\n^\\w|\\Z)";
@@ -1254,6 +1258,8 @@ public class ConfigSite {
         }
       }
     }
+    if (o == null)
+      o = valeurDefaut;
     return o;
   }
 

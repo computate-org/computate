@@ -3613,8 +3613,8 @@ public class IndexerClasse extends RegarderClasseBase {
                 Integer i = Integer.parseInt(str);
                 indexerStockerSolr(entiteDoc, "entiteHtmLigne", i);
                 entiteHtml = true;
-                String entiteHtmLigneTitreOuvert = indexerStockerSolr(entiteDoc, "entiteHtmLigneTitreOuvert", regex("^" + i18nGlobale.getString(I18n.var_HtmLigneTitreOuvert) + ": (.*)$", methodeCommentaire));
-                indexerStockerSolr(entiteDoc, "entiteHtmLigneTitre", regex("^" + i18nGlobale.getString(I18n.var_HtmLigneTitre) + ": (.*)$", methodeCommentaire, entiteHtmLigneTitreOuvert));
+                String entiteHtmLigneTitreOuvert = indexerStockerSolr(classeLangueNom, entiteDoc, "entiteHtmLigneTitreOuvert", regexLangueYamlString(classeLangueNom, i18nGlobale.getString(I18n.var_HtmLigneTitreOuvert), methodeCommentaire));
+                indexerStockerSolr(classeLangueNom, entiteDoc, "entiteHtmLigneTitre", regexLangueYamlString(classeLangueNom, i18nGlobale.getString(I18n.var_HtmLigneTitre), methodeCommentaire, entiteHtmLigneTitreOuvert));
                 indexerStockerSolr(entiteDoc, "entiteHtmLigneEnTeteExpression", regex("^" + i18nGlobale.getString(I18n.var_HtmLigne) + i18nGlobale.getString(I18n.var_EnTeteExpression) + ": (.*)$", methodeCommentaire));
                 if(regexTrouve("^" + i18nGlobale.getString(I18n.var_HtmLigne) + i18nGlobale.getString(I18n.var_Verticale) + ": (true)$", methodeCommentaire))
                   indexerStockerSolr(entiteDoc, "entiteHtmLigneVerticale", true);
@@ -3667,6 +3667,8 @@ public class IndexerClasse extends RegarderClasseBase {
 
             if(classeTraduire) {
               for(String langueNom : autresLangues) {  
+                String entiteHtmLigneTitreOuvertLangue = indexerStockerSolr(langueNom, entiteDoc, "entiteHtmLigneTitreOuvert", regexLangueYamlString(langueNom, i18nGlobale.getString(I18n.var_HtmLigneTitreOuvert), methodeCommentaire));
+                indexerStockerSolr(langueNom, entiteDoc, "entiteHtmLigneTitre", regexLangueYamlString(langueNom, i18nGlobale.getString(I18n.var_HtmLigneTitre), methodeCommentaire, entiteHtmLigneTitreOuvertLangue));
                 indexerStockerSolr(langueNom, entiteDoc, "entiteEnumVarDescription", regexLangue(langueNom, i18nGlobale.getString(I18n.var_EnumVarDescription), methodeCommentaire));
                 indexerStockerSolr(langueNom, entiteDoc, "entiteHtmInfobulle", regexLangue(langueNom, i18nGlobale.getString(I18n.var_HtmInfobulle), methodeCommentaire));
                 indexerStockerSolrRegex(langueNom, entiteDoc, "entiteVarApi", "VarApi", methodeCommentaire);

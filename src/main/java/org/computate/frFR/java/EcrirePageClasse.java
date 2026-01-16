@@ -1348,8 +1348,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
                 entiteCookie = (String)entiteDocumentSolr.get("entiteCookie_stored_string");
                 entiteHtml = (Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean");
                 entiteHtmLigne = (Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int");
-                entiteHtmLigneTitre = (String)entiteDocumentSolr.get("entiteHtmLigneTitre_stored_string");
-                entiteHtmLigneTitreOuvert = (String)entiteDocumentSolr.get("entiteHtmLigneTitreOuvert_stored_string");
+                entiteHtmLigneTitre = (String)entiteDocumentSolr.get("entiteHtmLigneTitre_" + langueNom + "_stored_string");
+                entiteHtmLigneTitreOuvert = (String)entiteDocumentSolr.get("entiteHtmLigneTitreOuvert_" + langueNom + "_stored_string");
                 entiteHtmLigneVerticale = (Boolean)entiteDocumentSolr.get("entiteHtmLigneVerticale_stored_boolean");
                 entiteHtmLigneEnTeteExpression = (String)entiteDocumentSolr.get("entiteHtmLigneEnTeteExpression_stored_string");
                 entiteHtmCellule = (Integer)entiteDocumentSolr.get("entiteHtmCellule_stored_int");
@@ -3890,8 +3890,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
                   entiteIcone = (String)entiteDocumentSolr.get("entiteIcone_stored_string");
                   entiteCookie = (String)entiteDocumentSolr.get("entiteCookie_stored_string");
                   entiteHtmLigne = (Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int");
-                  entiteHtmLigneTitre = (String)entiteDocumentSolr.get("entiteHtmLigneTitre_stored_string");
-                  entiteHtmLigneTitreOuvert = (String)entiteDocumentSolr.get("entiteHtmLigneTitreOuvert_stored_string");
+                  entiteHtmLigneTitre = (String)entiteDocumentSolr.get("entiteHtmLigneTitre_" + langueNom + "_stored_string");
+                  entiteHtmLigneTitreOuvert = (String)entiteDocumentSolr.get("entiteHtmLigneTitreOuvert_" + langueNom + "_stored_string");
                   entiteHtmLigneVerticale = (Boolean)entiteDocumentSolr.get("entiteHtmLigneVerticale_stored_boolean");
                   entiteHtmLigneEnTeteExpression = (String)entiteDocumentSolr.get("entiteHtmLigneEnTeteExpression_stored_string");
                   entiteCouverture = (Boolean)entiteDocumentSolr.get("entiteCouverture_stored_boolean");
