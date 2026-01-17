@@ -2856,7 +2856,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
                 wRecherche.tl(3, i18nClasse.getString(I18n.var_filtres), ".push({ name: '", (entiteSuggere ? "q" : "fq"), "', value: '", entiteVar, ":' + ", i18nClasse.getString(I18n.var_filtre), entiteVarCapitalise, " });");
 
                 wVarsFqJs.tl(1, "vars.push({ var: '", entiteVar, "', "
-                    , "var", i18nClasse.getString(I18n.var_Indexe), ": '", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "'"
+                    , "var", i18nClasse.getString(I18n.var_Indexe), ": '", entiteVar, (entiteDocValues != null && entiteDocValues ? "_docvalues" : (entiteStocke != null && entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "'"
                     , ", ", i18nClasse.getString(I18n.var_nomAffichage), ": ", entiteNomAffichage == null ? "null" : "'" + entiteNomAffichage + "'", "});");
 
 
@@ -3107,7 +3107,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
       }
 
       if(langueNom.equals(classeLangueNom)) {
-        // {
+        {
           RegarderClasse regarderClasse = new RegarderClasse();
           regarderClasse.siteChemin = siteChemin;
           regarderClasse.siteNom = siteNom;
@@ -3119,21 +3119,21 @@ public class EcrirePageClasse extends EcrireApiClasse {
           SolrInputDocument classeDoc = new SolrInputDocument();
           regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu, classeDoc, langueNom);
           regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom, langueNom, i18nClasse);
-        // }
+        }
 
-        // {
-        //   RegarderClasse regarderClasse = new RegarderClasse();
-        //   regarderClasse.siteChemin = siteChemin;
-        //   regarderClasse.siteNom = siteNom;
-        //   regarderClasse.classeCheminAbsolu = classeGenPageChemin;
-        //   regarderClasse.cheminSrcGenJava = cheminSrcGenJava;
-        //   regarderClasse.cheminSrcMainJava = cheminSrcMainJava;
-        //   regarderClasse.cheminSrcMainResources = cheminSrcMainResources;
-        //   regarderClasse.initRegarderClasseBase(classeLangueNom, i18nGlobale); 
-        //   SolrInputDocument classeDoc = new SolrInputDocument();
-        //   regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu, classeDoc, langueNom);
-        //   regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom, langueNom, i18nPage);
-        // }
+        {
+          RegarderClasse regarderClasse = new RegarderClasse();
+          regarderClasse.siteChemin = siteChemin;
+          regarderClasse.siteNom = siteNom;
+          regarderClasse.classeCheminAbsolu = classeGenPageChemin;
+          regarderClasse.cheminSrcGenJava = cheminSrcGenJava;
+          regarderClasse.cheminSrcMainJava = cheminSrcMainJava;
+          regarderClasse.cheminSrcMainResources = cheminSrcMainResources;
+          regarderClasse.initRegarderClasseBase(classeLangueNom, i18nGlobale); 
+          SolrInputDocument classeDoc = new SolrInputDocument();
+          regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu, classeDoc, langueNom);
+          regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom, langueNom, i18nPage);
+        }
       }
     // }
   }
@@ -3932,8 +3932,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
                     auteurPageJs.tl(3, "$list.innerHTML = '';");
                     auteurPageJs.tl(3, "data['list'].forEach((o, i) => {");
                     auteurPageJs.tl(4, "var $i = document.querySelector('", classeIcone, "');");
-                    auteurPageJs.t(4, "var $span = document.createElement('span');");
-                    auteurPageJs.t(4, "$span.setAttribute('class', '');");
+                    auteurPageJs.tl(4, "var $span = document.createElement('span');");
+                    auteurPageJs.tl(4, "$span.setAttribute('class', '');");
                     if(classeVarTitre != null)
                       auteurPageJs.tl(4, "$span.innerText = o['", classeVarTitre, "'];");
                     auteurPageJs.tl(4, "var $li = document.createElement('li');");
@@ -3962,7 +3962,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
                     auteurPageJs.tl(4, "var $i = iTemplate.content;");
                     auteurPageJs.tl(4, "var $span = document.createElement('span');");
                     auteurPageJs.tl(4, "$span.setAttribute('class', '');");
-                    auteurPageJs.tl(4, "$span.innerText = ");
+                    auteurPageJs.t(4, "$span.innerText = ");
                     if(entiteAttribuerVarTitre != null)
                       auteurPageJs.s("o['", entiteAttribuerVarTitre, "']");
                     auteurPageJs.l(";");
