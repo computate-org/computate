@@ -4396,273 +4396,290 @@ public class EcrireApiClasse extends EcrireGenClasse {
       tl(1, "public Future<", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, ">> ", i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), ", Boolean ", i18nGlobale.getString(I18n.var_peupler), ", Boolean ", i18nGlobale.getString(I18n.var_stocker), ", Boolean ", i18nGlobale.getString(I18n.var_modifier), ") {");
       tl(2, "Promise<", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, ">> promise = Promise.promise();");
       tl(2, "try {");
-      tl(3, "ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "();");
-      tl(3, "String ", i18nGlobale.getString(I18n.var_entite), i18nGlobale.getString(I18n.var_Liste), "Str = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(", q("query"), ").getString(", q("fl"), ");");
-      tl(3, "String[] ", i18nGlobale.getString(I18n.var_entite), i18nGlobale.getString(I18n.var_Liste), " = ", i18nGlobale.getString(I18n.var_entite), i18nGlobale.getString(I18n.var_Liste), "Str == null ? null : ", i18nGlobale.getString(I18n.var_entite), i18nGlobale.getString(I18n.var_Liste), "Str.split(", q(",\\s*"), ");");
-      tl(3, classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, "> ", i18nGlobale.getString(I18n.var_listeRecherche), " = new ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, ">();");
-      tl(3, "String facetRange = null;");
-      tl(3, "Date facetRangeStart = null;");
-      tl(3, "Date facetRangeEnd = null;");
-      tl(3, "String facetRangeGap = null;");
-      tl(3, "String statsField = null;");
-      tl(3, "String statsFieldIndexed = null;");
-      tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".set", i18nGlobale.getString(I18n.var_Peupler), "(", i18nGlobale.getString(I18n.var_peupler), ");");
-      tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".set", i18nGlobale.getString(I18n.var_Stocker), "(", i18nGlobale.getString(I18n.var_stocker), ");");
-      tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".q(\"*:*\");");
-      tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".setC(", classeApiClasseNomSimple, ".class);");
-      tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".set", i18nGlobale.getString(I18n.var_RequeteSite), "_(", i18nGlobale.getString(I18n.var_requeteSite), ");");
-      tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".facetMinCount(1);");
-      tl(3, "if(", i18nGlobale.getString(I18n.var_entite), i18nGlobale.getString(I18n.var_Liste), " != null) {");
-      tl(4, "for(String v : ", i18nGlobale.getString(I18n.var_entite), i18nGlobale.getString(I18n.var_Liste), ") {");
-      tl(5, i18nGlobale.getString(I18n.var_listeRecherche), ".fl(", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), classeNomSimple, "(v));");
-      tl(4, "}");
-      tl(3, "}");
-      s(wFacets);
-      if(classeVarId != null) {
-        l();
-        tl(3, "String ", classeVarId, " = ", i18nGlobale.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"path\").getString(\"", classeVarId, "\");");
-        if(classeModele) {
-          tl(3, "if(", classeVarId, " != null) {");
-          tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"", classeVarId, classeVarIdSuffixeSolr, ":\" + SearchTool.escapeQueryChars(", classeVarId, "));");
-          tl(3, "}");
-        } else {
-          tl(3, "if(", classeVarId, " != null) {");
-          tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"", classeVarId, classeVarIdSuffixeSolr, ":\" + SearchTool.escapeQueryChars(", classeVarId, "));");
-          tl(3, "}");
-        }
-      }
-      if(classeAuth && (classeRoleSession || classeRoleUtilisateur)) {
-        l();
-        tl(3, "if(!", i18nGlobale.getString(I18n.var_requeteSite), ".getScopes().contains(\"GET\")) {");
-        tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getSessionId()).orElse(\"\\\"-----\\\"\")) + \" OR \" + \"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getSessionId", i18nGlobale.getString(I18n.var_Avant), "()).orElse(\"\\\"-----\\\"\"))");
-        tl(6, "+ \" OR ", i18nGlobale.getString(I18n.var_utilisateurId), "_docvalues_string:\" + Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_UtilisateurId), "()).orElse(\"\\\"-----\\\"\"));");
+      if(classePartsUtilisateurSite != null && classePartsUtilisateurSite.nomSimple(classeLangueNom).equals(classeNomSimple)) {
+        tl(3, classeNomSimple, " ", uncapitalizeClasseNomSimple, " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_UtilisateurSite), "_();");
+        tl(3, uncapitalizeClasseNomSimple, ".", i18nGlobale.getString(I18n.var_promesseLoin), i18nGlobale.getString(I18n.var_PourClasse), "(", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(a -> {");
+        tl(4, classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, "> ", i18nGlobale.getString(I18n.var_listeRecherche), " = new ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, ">();");
+        tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".addList(", uncapitalizeClasseNomSimple, ");");
+        tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".", i18nGlobale.getString(I18n.var_promesseLoin), i18nGlobale.getString(I18n.var_PourClasse), "(", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(", i18nGlobale.getString(I18n.var_listeRecherche), "2 -> {");
+        tl(5, "promise.complete(", i18nGlobale.getString(I18n.var_listeRecherche), ");");
+        tl(4, "}).onFailure(ex -> {");
+        tl(5, "LOG.error(\"", i18nGlobale.getString(I18n.str_Impossible_de_creer_l_utilisateur_du_site), "\", ex);");
+        tl(5, "promise.fail(ex);");
+        tl(4, "});");
+        tl(3, "}).onFailure(ex -> {");
+        tl(4, "LOG.error(\"", i18nGlobale.getString(I18n.str_Impossible_de_creer_l_utilisateur_du_site), "\", ex);");
+        tl(4, "promise.fail(ex);");
+        tl(3, "});");
+      } else {
+        tl(3, "ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "();");
+        tl(3, "String ", i18nGlobale.getString(I18n.var_entite), i18nGlobale.getString(I18n.var_Liste), "Str = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(", q("query"), ").getString(", q("fl"), ");");
+        tl(3, "String[] ", i18nGlobale.getString(I18n.var_entite), i18nGlobale.getString(I18n.var_Liste), " = ", i18nGlobale.getString(I18n.var_entite), i18nGlobale.getString(I18n.var_Liste), "Str == null ? null : ", i18nGlobale.getString(I18n.var_entite), i18nGlobale.getString(I18n.var_Liste), "Str.split(", q(",\\s*"), ");");
+        tl(3, classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, "> ", i18nGlobale.getString(I18n.var_listeRecherche), " = new ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, ">();");
+        tl(3, "String facetRange = null;");
+        tl(3, "Date facetRangeStart = null;");
+        tl(3, "Date facetRangeEnd = null;");
+        tl(3, "String facetRangeGap = null;");
+        tl(3, "String statsField = null;");
+        tl(3, "String statsFieldIndexed = null;");
+        tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".set", i18nGlobale.getString(I18n.var_Peupler), "(", i18nGlobale.getString(I18n.var_peupler), ");");
+        tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".set", i18nGlobale.getString(I18n.var_Stocker), "(", i18nGlobale.getString(I18n.var_stocker), ");");
+        tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".q(\"*:*\");");
+        tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".setC(", classeApiClasseNomSimple, ".class);");
+        tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".set", i18nGlobale.getString(I18n.var_RequeteSite), "_(", i18nGlobale.getString(I18n.var_requeteSite), ");");
+        tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".facetMinCount(1);");
+        tl(3, "if(", i18nGlobale.getString(I18n.var_entite), i18nGlobale.getString(I18n.var_Liste), " != null) {");
+        tl(4, "for(String v : ", i18nGlobale.getString(I18n.var_entite), i18nGlobale.getString(I18n.var_Liste), ") {");
+        tl(5, i18nGlobale.getString(I18n.var_listeRecherche), ".fl(", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), classeNomSimple, "(v));");
+        tl(4, "}");
         tl(3, "}");
-      } else if(classeRoleSession || classeRoleUtilisateur) {
-        l();
-        tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getSessionId()).orElse(\"\\\"-----\\\"\")) + \" OR \" + \"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getSessionId", i18nGlobale.getString(I18n.var_Avant), "()).orElse(\"\\\"-----\\\"\"))");
-        tl(6, "+ \" OR ", i18nGlobale.getString(I18n.var_utilisateurId), "_docvalues_string:\" + Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_UtilisateurId), "()).orElse(\"\\\"-----\\\"\"));");
-      }
-      l();
-      tl(3, "for(String param", i18nGlobale.getString(I18n.var_Nom), " : ", i18nGlobale.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"query\").fieldNames()) {");
-      tl(4, "Object param", i18nGlobale.getString(I18n.var_Valeurs), i18nGlobale.getString(I18n.var_Objet), " = ", i18nGlobale.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"query\").getValue(param", i18nGlobale.getString(I18n.var_Nom), ");");
-      tl(4, "String ", i18nGlobale.getString(I18n.var_entite), "Var = null;");
-      tl(4, "String ", i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), " = null;");
-      tl(4, "String var", i18nGlobale.getString(I18n.var_Indexe), " = null;");
-      tl(4, "String ", i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Tri), " = null;");
-      tl(4, "Long ", i18nGlobale.getString(I18n.var_valeur), "Start = null;");
-      tl(4, "Long ", i18nGlobale.getString(I18n.var_valeur), "Rows = null;");
-      tl(4, "String ", i18nGlobale.getString(I18n.var_valeur), "CursorMark = null;");
-      tl(4, "JsonArray param", i18nGlobale.getString(I18n.var_Objets), " = param", i18nGlobale.getString(I18n.var_Valeurs), i18nGlobale.getString(I18n.var_Objet), " instanceof JsonArray ? (JsonArray)param", i18nGlobale.getString(I18n.var_Valeurs), i18nGlobale.getString(I18n.var_Objet), " : new JsonArray().add(param", i18nGlobale.getString(I18n.var_Valeurs), i18nGlobale.getString(I18n.var_Objet), ");");
-      l();
-      tl(4, "try {");
-  
-      tl(5, "if(param", i18nGlobale.getString(I18n.var_Valeurs), i18nGlobale.getString(I18n.var_Objet), " != null && \"facet.pivot\".equals(param", i18nGlobale.getString(I18n.var_Nom), ")) {");
-      tl(6, "Matcher mFacetPivot = Pattern.compile(\"(?:(\\\\{![^\\\\}]+\\\\}))?(.*)\").matcher(StringUtils.join(param", i18nGlobale.getString(I18n.var_Objets), ".getList().toArray(), \",\"));");
-      tl(6, "if(mFacetPivot.find()) {");
-      tl(7, "String solrLocalParams = mFacetPivot.group(1);");
-      tl(7, "String[] ", i18nGlobale.getString(I18n.var_entite), "Vars = mFacetPivot.group(2).trim().split(\",\");");
-      tl(7, "String[] vars", i18nGlobale.getString(I18n.var_Indexe), " = new String[", i18nGlobale.getString(I18n.var_entite), "Vars.length];");
-      tl(7, "for(Integer i = 0; i < ", i18nGlobale.getString(I18n.var_entite), "Vars.length; i++) {");
-      tl(8, i18nGlobale.getString(I18n.var_entite), "Var = ", i18nGlobale.getString(I18n.var_entite), "Vars[i];");
-      tl(8, "vars", i18nGlobale.getString(I18n.var_Indexe), "[i] = ", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), "", classeNomSimple, "(", i18nGlobale.getString(I18n.var_entite), "Var);");
-      tl(7, "}");
-      tl(7, i18nGlobale.getString(I18n.var_listeRecherche), ".facetPivot((solrLocalParams == null ? \"\" : solrLocalParams) + StringUtils.join(vars", i18nGlobale.getString(I18n.var_Indexe), ", \",\"));");
-      tl(6, "}");
-      tl(5, "} else if(param", i18nGlobale.getString(I18n.var_Valeurs), i18nGlobale.getString(I18n.var_Objet), " != null) {");
-
-      tl(6, "for(Object param", i18nGlobale.getString(I18n.var_Objet), " : param", i18nGlobale.getString(I18n.var_Objets), ") {");
-      tl(7, "if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"q\")) {");
-      tl(8, "Matcher mQ = Pattern.compile(\"(\\\\w+):(.+?(?=(\\\\)|\\\\s+OR\\\\s+|\\\\s+AND\\\\s+|\\\\^|$)))\").matcher((String)param", i18nGlobale.getString(I18n.var_Objet), ");");
-      tl(8, "StringBuffer sb = new StringBuffer();");
-      tl(8, "while(mQ.find()) {");
-      tl(9, i18nGlobale.getString(I18n.var_entite), "Var = mQ.group(1).trim();");
-      tl(9, i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), " = mQ.group(2).trim();");
-      tl(9, "var", i18nGlobale.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), "", classeNomSimple, "(", i18nGlobale.getString(I18n.var_entite), "Var);");
-      tl(9, "String ", i18nGlobale.getString(I18n.var_entite), "Q = ", i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, "Fq(", i18nGlobale.getString(I18n.var_listeRecherche), ", ", i18nGlobale.getString(I18n.var_entite), "Var, ", i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), ", ", "var", i18nGlobale.getString(I18n.var_Indexe), ");");
-      tl(9, "mQ.appendReplacement(sb, ", i18nGlobale.getString(I18n.var_entite), "Q);");
-      tl(8, "}");
-      tl(8, "if(!sb.isEmpty()) {");
-      tl(9, "mQ.appendTail(sb);");
-      tl(9, i18nGlobale.getString(I18n.var_listeRecherche), ".q(sb.toString());");
-      tl(8, "}");
-  
-      tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"fq\")) {");
-      tl(8, "Matcher mFq = Pattern.compile(\"(\\\\w+):(.+?(?=(\\\\)|\\\\s+OR\\\\s+|\\\\s+AND\\\\s+|$)))\").matcher((String)param", i18nGlobale.getString(I18n.var_Objet), ");");
-      tl(9, "StringBuffer sb = new StringBuffer();");
-      tl(8, "while(mFq.find()) {");
-      tl(9, i18nGlobale.getString(I18n.var_entite), "Var = mFq.group(1).trim();");
-      tl(9, i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), " = mFq.group(2).trim();");
-      tl(9, "var", i18nGlobale.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), "", classeNomSimple, "(", i18nGlobale.getString(I18n.var_entite), "Var);");
-      tl(9, "String ", i18nGlobale.getString(I18n.var_entite), "Fq = ", i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, "Fq(", i18nGlobale.getString(I18n.var_listeRecherche), ", ", i18nGlobale.getString(I18n.var_entite), "Var, ", i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), ", ", "var", i18nGlobale.getString(I18n.var_Indexe), ");");
-      tl(9, "mFq.appendReplacement(sb, ", i18nGlobale.getString(I18n.var_entite), "Fq);");
-      tl(8, "}");
-      tl(8, "if(!sb.isEmpty()) {");
-      tl(9, "mFq.appendTail(sb);");
-      tl(9, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(sb.toString());");
-      tl(8, "}");
-
-      tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"sort\")) {");
-      tl(8, i18nGlobale.getString(I18n.var_entite), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", i18nGlobale.getString(I18n.var_Objet), ", \" \"));");
-      tl(8, i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), " = StringUtils.trim(StringUtils.substringAfter((String)param", i18nGlobale.getString(I18n.var_Objet), ", \" \"));");
-      tl(8, "var", i18nGlobale.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), classeNomSimple, "(", i18nGlobale.getString(I18n.var_entite), "Var);");
-      tl(8, i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, "Sort(", i18nGlobale.getString(I18n.var_listeRecherche), ", ", i18nGlobale.getString(I18n.var_entite), "Var, ", i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), ", ", "var", i18nGlobale.getString(I18n.var_Indexe), ");");
-//	
-//			tl(7, "} else if(param", classeLangueConfig.getString(ConfigCles.var_Nom), ".equals( \"fl\")) {");
-//			tl(8, langueConfig.getString(ConfigCles.var_entite), "Var = StringUtils.trim((String)param", langueConfig.getString(ConfigCles.var_Objet), ");");
-//			tl(8, "var", langueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", langueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(", langueConfig.getString(ConfigCles.var_entite), "Var);");
-//			tl(8, langueConfig.getString(ConfigCles.var_liste), langueConfig.getString(ConfigCles.var_Recherche), ".addField(var", langueConfig.getString(ConfigCles.var_Indexe), ");");
-  
-      tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"start\")) {");
-      tl(8, i18nGlobale.getString(I18n.var_valeur), "Start = param", i18nGlobale.getString(I18n.var_Objet), " instanceof Long ? (Long)param", i18nGlobale.getString(I18n.var_Objet), " : Long.parseLong(param", i18nGlobale.getString(I18n.var_Objet), ".toString());");
-      tl(8, i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, "Start(", i18nGlobale.getString(I18n.var_listeRecherche), ", ", i18nGlobale.getString(I18n.var_valeur), "Start);");
-  
-      tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"rows\")) {");
-      tl(8, i18nGlobale.getString(I18n.var_valeur), "Rows = param", i18nGlobale.getString(I18n.var_Objet), " instanceof Long ? (Long)param", i18nGlobale.getString(I18n.var_Objet), " : Long.parseLong(param", i18nGlobale.getString(I18n.var_Objet), ".toString());");
-      tl(8, i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, "Rows(", i18nGlobale.getString(I18n.var_listeRecherche), ", ", i18nGlobale.getString(I18n.var_valeur), "Rows);");
-  
-      tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"stats\")) {");
-      tl(8, i18nGlobale.getString(I18n.var_listeRecherche), ".stats((Boolean)param", i18nGlobale.getString(I18n.var_Objet), ");");
-  
-      tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"stats.field\")) {");
-      tl(8, "Matcher mStats = Pattern.compile(\"(?:(\\\\{![^\\\\}]+\\\\}))?(.*)\").matcher((String)param", i18nGlobale.getString(I18n.var_Objet), ");");
-      tl(8, "if(mStats.find()) {");
-      tl(9, "String solrLocalParams = mStats.group(1);");
-      tl(9, i18nGlobale.getString(I18n.var_entite), "Var = mStats.group(2).trim();");
-      tl(9, "var", i18nGlobale.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), "", classeNomSimple, "(", i18nGlobale.getString(I18n.var_entite), "Var);");
-      tl(9, i18nGlobale.getString(I18n.var_listeRecherche), ".statsField((solrLocalParams == null ? \"\" : solrLocalParams) + var", i18nGlobale.getString(I18n.var_Indexe), ");");
-      tl(9, "statsField = ", i18nGlobale.getString(I18n.var_entite), "Var;");
-      tl(9, "statsFieldIndexed = var", i18nGlobale.getString(I18n.var_Indexe), ";");
-      tl(8, "}");
-  
-      tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"facet\")) {");
-      tl(8, i18nGlobale.getString(I18n.var_listeRecherche), ".facet((Boolean)param", i18nGlobale.getString(I18n.var_Objet), ");");
-  
-      tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"facet.range.start\")) {");
-      tl(8, "String startMathStr = (String)param", i18nGlobale.getString(I18n.var_Objet), ";");
-      tl(8, "Date start = SearchTool.parseMath(startMathStr);");
-      tl(8, i18nGlobale.getString(I18n.var_listeRecherche), ".facetRangeStart(start.toInstant().toString());");
-      tl(8, "facetRangeStart = start;");
-  
-      tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"facet.range.end\")) {");
-      tl(8, "String endMathStr = (String)param", i18nGlobale.getString(I18n.var_Objet), ";");
-      tl(8, "Date end = SearchTool.parseMath(endMathStr);");
-      tl(8, i18nGlobale.getString(I18n.var_listeRecherche), ".facetRangeEnd(end.toInstant().toString());");
-      tl(8, "facetRangeEnd = end;");
-  
-      tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"facet.range.gap\")) {");
-      tl(8, "String gap = (String)param", i18nGlobale.getString(I18n.var_Objet), ";");
-      tl(8, i18nGlobale.getString(I18n.var_listeRecherche), ".facetRangeGap(gap);");
-      tl(8, "facetRangeGap = gap;");
-  
-      tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"facet.range\")) {");
-      tl(8, "Matcher mFacetRange = Pattern.compile(\"(?:(\\\\{![^\\\\}]+\\\\}))?(.*)\").matcher((String)param", i18nGlobale.getString(I18n.var_Objet), ");");
-      tl(8, "if(mFacetRange.find()) {");
-      tl(9, "String solrLocalParams = mFacetRange.group(1);");
-      tl(9, i18nGlobale.getString(I18n.var_entite), "Var = mFacetRange.group(2).trim();");
-      tl(9, "var", i18nGlobale.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), "", classeNomSimple, "(", i18nGlobale.getString(I18n.var_entite), "Var);");
-      tl(9, i18nGlobale.getString(I18n.var_listeRecherche), ".facetRange((solrLocalParams == null ? \"\" : solrLocalParams) + var", i18nGlobale.getString(I18n.var_Indexe), ");");
-      tl(9, "facetRange = ", i18nGlobale.getString(I18n.var_entite), "Var;");
-      tl(8, "}");
-  
-      tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"facet.field\")) {");
-      tl(8, i18nGlobale.getString(I18n.var_entite), "Var = (String)param", i18nGlobale.getString(I18n.var_Objet), ";");
-      tl(8, "var", i18nGlobale.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), classeNomSimple, "(", i18nGlobale.getString(I18n.var_entite), "Var);");
-      tl(8, "if(var", i18nGlobale.getString(I18n.var_Indexe), " != null)");
-      tl(9, i18nGlobale.getString(I18n.var_listeRecherche), ".facetField(var", i18nGlobale.getString(I18n.var_Indexe), ");");
-  
-      tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"var\")) {");
-      tl(8, i18nGlobale.getString(I18n.var_entite), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", i18nGlobale.getString(I18n.var_Objet), ", \":\"));");
-      tl(8, i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", i18nGlobale.getString(I18n.var_Objet), ", \":\")), \"UTF-8\");");
-      tl(8, i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, "Var(", i18nGlobale.getString(I18n.var_listeRecherche), ", ", i18nGlobale.getString(I18n.var_entite), "Var, ", i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), ");");
-  
-      tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"cursorMark\")) {");
-      tl(8, i18nGlobale.getString(I18n.var_valeur), "CursorMark = (String)param", i18nGlobale.getString(I18n.var_Objet), ";");
-      tl(8, i18nGlobale.getString(I18n.var_listeRecherche), ".cursorMark((String)param", i18nGlobale.getString(I18n.var_Objet), ");");
-  
-      tl(7, "}");
-      tl(6, "}");
-      tl(6, i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, "Uri(", i18nGlobale.getString(I18n.var_listeRecherche), ");");
-      tl(5, "}");
-      tl(4, "} catch(Exception e) {");
-      tl(5, "ExceptionUtils.rethrow(e);");
-      tl(4, "}");
-
-      tl(3, "}");
-      if(classeVarCree != null) {
-        tl(3, "if(\"*:*\".equals(", i18nGlobale.getString(I18n.var_listeRecherche), ".getQuery()) && ", i18nGlobale.getString(I18n.var_listeRecherche), ".getSorts().size() == 0) {");
-        if(classeTrisVar != null && classeTrisVar.size() > 0) {
-          for(int i = 0; i < classeTrisVar.size(); i++) {
-            String classeTriVar = null;
-            String classeTriOrdre = null;
-            String classeTriSuffixeType = null;
-            try {
-              classeTriVar = classeTrisVar.get(i);
-              classeTriOrdre = classeTrisOrdre.get(i);
-              classeTriSuffixeType = classeTrisSuffixeType.get(i);
-              tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".sort(\"", classeTriVar, "_docvalues", classeTriSuffixeType, "\", \"", classeTriOrdre, "\");");
-            } catch(Throwable ex) {
-              LOG.error(String.format(i18nGlobale.getString(I18n.str_la_variable_de_tri_nexiste_pas), classeTriVar, classeNomSimple), ex);
-            }
+        s(wFacets);
+        if(classeVarId != null) {
+          l();
+          tl(3, "String ", classeVarId, " = ", i18nGlobale.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"path\").getString(\"", classeVarId, "\");");
+          if(classeModele) {
+            tl(3, "if(", classeVarId, " != null) {");
+            tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"", classeVarId, classeVarIdSuffixeSolr, ":\" + SearchTool.escapeQueryChars(", classeVarId, "));");
+            tl(3, "}");
+          } else {
+            tl(3, "if(", classeVarId, " != null) {");
+            tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"", classeVarId, classeVarIdSuffixeSolr, ":\" + SearchTool.escapeQueryChars(", classeVarId, "));");
+            tl(3, "}");
           }
-          tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".setDefaultSort(true);");
         }
-        else {
-          tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".sort(\"", classeVarCree, "_docvalues_date\", \"desc\");");
+        if(classeAuth && (classeRoleSession || classeRoleUtilisateur)) {
+          l();
+          tl(3, "if(!", i18nGlobale.getString(I18n.var_requeteSite), ".getScopes().contains(\"GET\")) {");
+          tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getSessionId()).orElse(\"\\\"-----\\\"\")) + \" OR \" + \"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getSessionId", i18nGlobale.getString(I18n.var_Avant), "()).orElse(\"\\\"-----\\\"\"))");
+          tl(6, "+ \" OR ", i18nGlobale.getString(I18n.var_utilisateurId), "_docvalues_string:\" + Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_UtilisateurId), "()).orElse(\"\\\"-----\\\"\"));");
+          tl(3, "}");
+        } else if(classeRoleSession || classeRoleUtilisateur) {
+          l();
+          tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(\"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getSessionId()).orElse(\"\\\"-----\\\"\")) + \" OR \" + \"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getSessionId", i18nGlobale.getString(I18n.var_Avant), "()).orElse(\"\\\"-----\\\"\"))");
+          tl(6, "+ \" OR ", i18nGlobale.getString(I18n.var_utilisateurId), "_docvalues_string:\" + Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_UtilisateurId), "()).orElse(\"\\\"-----\\\"\"));");
         }
+        l();
+        tl(3, "for(String param", i18nGlobale.getString(I18n.var_Nom), " : ", i18nGlobale.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"query\").fieldNames()) {");
+        tl(4, "Object param", i18nGlobale.getString(I18n.var_Valeurs), i18nGlobale.getString(I18n.var_Objet), " = ", i18nGlobale.getString(I18n.var_requeteService), ".getParams().getJsonObject(\"query\").getValue(param", i18nGlobale.getString(I18n.var_Nom), ");");
+        tl(4, "String ", i18nGlobale.getString(I18n.var_entite), "Var = null;");
+        tl(4, "String ", i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), " = null;");
+        tl(4, "String var", i18nGlobale.getString(I18n.var_Indexe), " = null;");
+        tl(4, "String ", i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Tri), " = null;");
+        tl(4, "Long ", i18nGlobale.getString(I18n.var_valeur), "Start = null;");
+        tl(4, "Long ", i18nGlobale.getString(I18n.var_valeur), "Rows = null;");
+        tl(4, "String ", i18nGlobale.getString(I18n.var_valeur), "CursorMark = null;");
+        tl(4, "JsonArray param", i18nGlobale.getString(I18n.var_Objets), " = param", i18nGlobale.getString(I18n.var_Valeurs), i18nGlobale.getString(I18n.var_Objet), " instanceof JsonArray ? (JsonArray)param", i18nGlobale.getString(I18n.var_Valeurs), i18nGlobale.getString(I18n.var_Objet), " : new JsonArray().add(param", i18nGlobale.getString(I18n.var_Valeurs), i18nGlobale.getString(I18n.var_Objet), ");");
+        l();
+        tl(4, "try {");
+  
+        tl(5, "if(param", i18nGlobale.getString(I18n.var_Valeurs), i18nGlobale.getString(I18n.var_Objet), " != null && \"facet.pivot\".equals(param", i18nGlobale.getString(I18n.var_Nom), ")) {");
+        tl(6, "Matcher mFacetPivot = Pattern.compile(\"(?:(\\\\{![^\\\\}]+\\\\}))?(.*)\").matcher(StringUtils.join(param", i18nGlobale.getString(I18n.var_Objets), ".getList().toArray(), \",\"));");
+        tl(6, "if(mFacetPivot.find()) {");
+        tl(7, "String solrLocalParams = mFacetPivot.group(1);");
+        tl(7, "String[] ", i18nGlobale.getString(I18n.var_entite), "Vars = mFacetPivot.group(2).trim().split(\",\");");
+        tl(7, "String[] vars", i18nGlobale.getString(I18n.var_Indexe), " = new String[", i18nGlobale.getString(I18n.var_entite), "Vars.length];");
+        tl(7, "for(Integer i = 0; i < ", i18nGlobale.getString(I18n.var_entite), "Vars.length; i++) {");
+        tl(8, i18nGlobale.getString(I18n.var_entite), "Var = ", i18nGlobale.getString(I18n.var_entite), "Vars[i];");
+        tl(8, "vars", i18nGlobale.getString(I18n.var_Indexe), "[i] = ", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), "", classeNomSimple, "(", i18nGlobale.getString(I18n.var_entite), "Var);");
+        tl(7, "}");
+        tl(7, i18nGlobale.getString(I18n.var_listeRecherche), ".facetPivot((solrLocalParams == null ? \"\" : solrLocalParams) + StringUtils.join(vars", i18nGlobale.getString(I18n.var_Indexe), ", \",\"));");
+        tl(6, "}");
+        tl(5, "} else if(param", i18nGlobale.getString(I18n.var_Valeurs), i18nGlobale.getString(I18n.var_Objet), " != null) {");
+
+        tl(6, "for(Object param", i18nGlobale.getString(I18n.var_Objet), " : param", i18nGlobale.getString(I18n.var_Objets), ") {");
+        tl(7, "if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"q\")) {");
+        tl(8, "Matcher mQ = Pattern.compile(\"(\\\\w+):(.+?(?=(\\\\)|\\\\s+OR\\\\s+|\\\\s+AND\\\\s+|\\\\^|$)))\").matcher((String)param", i18nGlobale.getString(I18n.var_Objet), ");");
+        tl(8, "StringBuffer sb = new StringBuffer();");
+        tl(8, "while(mQ.find()) {");
+        tl(9, i18nGlobale.getString(I18n.var_entite), "Var = mQ.group(1).trim();");
+        tl(9, i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), " = mQ.group(2).trim();");
+        tl(9, "var", i18nGlobale.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), "", classeNomSimple, "(", i18nGlobale.getString(I18n.var_entite), "Var);");
+        tl(9, "String ", i18nGlobale.getString(I18n.var_entite), "Q = ", i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, "Fq(", i18nGlobale.getString(I18n.var_listeRecherche), ", ", i18nGlobale.getString(I18n.var_entite), "Var, ", i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), ", ", "var", i18nGlobale.getString(I18n.var_Indexe), ");");
+        tl(9, "mQ.appendReplacement(sb, ", i18nGlobale.getString(I18n.var_entite), "Q);");
+        tl(8, "}");
+        tl(8, "if(!sb.isEmpty()) {");
+        tl(9, "mQ.appendTail(sb);");
+        tl(9, i18nGlobale.getString(I18n.var_listeRecherche), ".q(sb.toString());");
+        tl(8, "}");
+  
+        tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"fq\")) {");
+        tl(8, "Matcher mFq = Pattern.compile(\"(\\\\w+):(.+?(?=(\\\\)|\\\\s+OR\\\\s+|\\\\s+AND\\\\s+|$)))\").matcher((String)param", i18nGlobale.getString(I18n.var_Objet), ");");
+        tl(9, "StringBuffer sb = new StringBuffer();");
+        tl(8, "while(mFq.find()) {");
+        tl(9, i18nGlobale.getString(I18n.var_entite), "Var = mFq.group(1).trim();");
+        tl(9, i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), " = mFq.group(2).trim();");
+        tl(9, "var", i18nGlobale.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), "", classeNomSimple, "(", i18nGlobale.getString(I18n.var_entite), "Var);");
+        tl(9, "String ", i18nGlobale.getString(I18n.var_entite), "Fq = ", i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, "Fq(", i18nGlobale.getString(I18n.var_listeRecherche), ", ", i18nGlobale.getString(I18n.var_entite), "Var, ", i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), ", ", "var", i18nGlobale.getString(I18n.var_Indexe), ");");
+        tl(9, "mFq.appendReplacement(sb, ", i18nGlobale.getString(I18n.var_entite), "Fq);");
+        tl(8, "}");
+        tl(8, "if(!sb.isEmpty()) {");
+        tl(9, "mFq.appendTail(sb);");
+        tl(9, i18nGlobale.getString(I18n.var_listeRecherche), ".fq(sb.toString());");
+        tl(8, "}");
+
+        tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"sort\")) {");
+        tl(8, i18nGlobale.getString(I18n.var_entite), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", i18nGlobale.getString(I18n.var_Objet), ", \" \"));");
+        tl(8, i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), " = StringUtils.trim(StringUtils.substringAfter((String)param", i18nGlobale.getString(I18n.var_Objet), ", \" \"));");
+        tl(8, "var", i18nGlobale.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), classeNomSimple, "(", i18nGlobale.getString(I18n.var_entite), "Var);");
+        tl(8, i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, "Sort(", i18nGlobale.getString(I18n.var_listeRecherche), ", ", i18nGlobale.getString(I18n.var_entite), "Var, ", i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), ", ", "var", i18nGlobale.getString(I18n.var_Indexe), ");");
+//	
+//			t l(7, "} else if(param", classeLangueConfig.getString(ConfigCles.var_Nom), ".equals( \"fl\")) {");
+//			t l(8, langueConfig.getString(ConfigCles.var_entite), "Var = StringUtils.trim((String)param", langueConfig.getString(ConfigCles.var_Objet), ");");
+//			t l(8, "var", langueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", langueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(", langueConfig.getString(ConfigCles.var_entite), "Var);");
+//			t l(8, langueConfig.getString(ConfigCles.var_liste), langueConfig.getString(ConfigCles.var_Recherche), ".addField(var", langueConfig.getString(ConfigCles.var_Indexe), ");");
+  
+        tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"start\")) {");
+        tl(8, i18nGlobale.getString(I18n.var_valeur), "Start = param", i18nGlobale.getString(I18n.var_Objet), " instanceof Long ? (Long)param", i18nGlobale.getString(I18n.var_Objet), " : Long.parseLong(param", i18nGlobale.getString(I18n.var_Objet), ".toString());");
+        tl(8, i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, "Start(", i18nGlobale.getString(I18n.var_listeRecherche), ", ", i18nGlobale.getString(I18n.var_valeur), "Start);");
+  
+        tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"rows\")) {");
+        tl(8, i18nGlobale.getString(I18n.var_valeur), "Rows = param", i18nGlobale.getString(I18n.var_Objet), " instanceof Long ? (Long)param", i18nGlobale.getString(I18n.var_Objet), " : Long.parseLong(param", i18nGlobale.getString(I18n.var_Objet), ".toString());");
+        tl(8, i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, "Rows(", i18nGlobale.getString(I18n.var_listeRecherche), ", ", i18nGlobale.getString(I18n.var_valeur), "Rows);");
+  
+        tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"stats\")) {");
+        tl(8, i18nGlobale.getString(I18n.var_listeRecherche), ".stats((Boolean)param", i18nGlobale.getString(I18n.var_Objet), ");");
+  
+        tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"stats.field\")) {");
+        tl(8, "Matcher mStats = Pattern.compile(\"(?:(\\\\{![^\\\\}]+\\\\}))?(.*)\").matcher((String)param", i18nGlobale.getString(I18n.var_Objet), ");");
+        tl(8, "if(mStats.find()) {");
+        tl(9, "String solrLocalParams = mStats.group(1);");
+        tl(9, i18nGlobale.getString(I18n.var_entite), "Var = mStats.group(2).trim();");
+        tl(9, "var", i18nGlobale.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), "", classeNomSimple, "(", i18nGlobale.getString(I18n.var_entite), "Var);");
+        tl(9, i18nGlobale.getString(I18n.var_listeRecherche), ".statsField((solrLocalParams == null ? \"\" : solrLocalParams) + var", i18nGlobale.getString(I18n.var_Indexe), ");");
+        tl(9, "statsField = ", i18nGlobale.getString(I18n.var_entite), "Var;");
+        tl(9, "statsFieldIndexed = var", i18nGlobale.getString(I18n.var_Indexe), ";");
+        tl(8, "}");
+  
+        tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"facet\")) {");
+        tl(8, i18nGlobale.getString(I18n.var_listeRecherche), ".facet((Boolean)param", i18nGlobale.getString(I18n.var_Objet), ");");
+  
+        tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"facet.range.start\")) {");
+        tl(8, "String startMathStr = (String)param", i18nGlobale.getString(I18n.var_Objet), ";");
+        tl(8, "Date start = SearchTool.parseMath(startMathStr);");
+        tl(8, i18nGlobale.getString(I18n.var_listeRecherche), ".facetRangeStart(start.toInstant().toString());");
+        tl(8, "facetRangeStart = start;");
+  
+        tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"facet.range.end\")) {");
+        tl(8, "String endMathStr = (String)param", i18nGlobale.getString(I18n.var_Objet), ";");
+        tl(8, "Date end = SearchTool.parseMath(endMathStr);");
+        tl(8, i18nGlobale.getString(I18n.var_listeRecherche), ".facetRangeEnd(end.toInstant().toString());");
+        tl(8, "facetRangeEnd = end;");
+  
+        tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"facet.range.gap\")) {");
+        tl(8, "String gap = (String)param", i18nGlobale.getString(I18n.var_Objet), ";");
+        tl(8, i18nGlobale.getString(I18n.var_listeRecherche), ".facetRangeGap(gap);");
+        tl(8, "facetRangeGap = gap;");
+  
+        tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"facet.range\")) {");
+        tl(8, "Matcher mFacetRange = Pattern.compile(\"(?:(\\\\{![^\\\\}]+\\\\}))?(.*)\").matcher((String)param", i18nGlobale.getString(I18n.var_Objet), ");");
+        tl(8, "if(mFacetRange.find()) {");
+        tl(9, "String solrLocalParams = mFacetRange.group(1);");
+        tl(9, i18nGlobale.getString(I18n.var_entite), "Var = mFacetRange.group(2).trim();");
+        tl(9, "var", i18nGlobale.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), "", classeNomSimple, "(", i18nGlobale.getString(I18n.var_entite), "Var);");
+        tl(9, i18nGlobale.getString(I18n.var_listeRecherche), ".facetRange((solrLocalParams == null ? \"\" : solrLocalParams) + var", i18nGlobale.getString(I18n.var_Indexe), ");");
+        tl(9, "facetRange = ", i18nGlobale.getString(I18n.var_entite), "Var;");
+        tl(8, "}");
+  
+        tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"facet.field\")) {");
+        tl(8, i18nGlobale.getString(I18n.var_entite), "Var = (String)param", i18nGlobale.getString(I18n.var_Objet), ";");
+        tl(8, "var", i18nGlobale.getString(I18n.var_Indexe), " = ", classeNomSimple, ".var", i18nGlobale.getString(I18n.var_Indexe), classeNomSimple, "(", i18nGlobale.getString(I18n.var_entite), "Var);");
+        tl(8, "if(var", i18nGlobale.getString(I18n.var_Indexe), " != null)");
+        tl(9, i18nGlobale.getString(I18n.var_listeRecherche), ".facetField(var", i18nGlobale.getString(I18n.var_Indexe), ");");
+  
+        tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"var\")) {");
+        tl(8, i18nGlobale.getString(I18n.var_entite), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", i18nGlobale.getString(I18n.var_Objet), ", \":\"));");
+        tl(8, i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", i18nGlobale.getString(I18n.var_Objet), ", \":\")), \"UTF-8\");");
+        tl(8, i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, "Var(", i18nGlobale.getString(I18n.var_listeRecherche), ", ", i18nGlobale.getString(I18n.var_entite), "Var, ", i18nGlobale.getString(I18n.var_valeur), i18nGlobale.getString(I18n.var_Indexe), ");");
+  
+        tl(7, "} else if(param", i18nGlobale.getString(I18n.var_Nom), ".equals(\"cursorMark\")) {");
+        tl(8, i18nGlobale.getString(I18n.var_valeur), "CursorMark = (String)param", i18nGlobale.getString(I18n.var_Objet), ";");
+        tl(8, i18nGlobale.getString(I18n.var_listeRecherche), ".cursorMark((String)param", i18nGlobale.getString(I18n.var_Objet), ");");
+  
+        tl(7, "}");
+        tl(6, "}");
+        tl(6, i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, "Uri(", i18nGlobale.getString(I18n.var_listeRecherche), ");");
+        tl(5, "}");
+        tl(4, "} catch(Exception e) {");
+        tl(5, "ExceptionUtils.rethrow(e);");
+        tl(4, "}");
+
         tl(3, "}");
+        if(classeVarCree != null) {
+          tl(3, "if(\"*:*\".equals(", i18nGlobale.getString(I18n.var_listeRecherche), ".getQuery()) && ", i18nGlobale.getString(I18n.var_listeRecherche), ".getSorts().size() == 0) {");
+          if(classeTrisVar != null && classeTrisVar.size() > 0) {
+            for(int i = 0; i < classeTrisVar.size(); i++) {
+              String classeTriVar = null;
+              String classeTriOrdre = null;
+              String classeTriSuffixeType = null;
+              try {
+                classeTriVar = classeTrisVar.get(i);
+                classeTriOrdre = classeTrisOrdre.get(i);
+                classeTriSuffixeType = classeTrisSuffixeType.get(i);
+                tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".sort(\"", classeTriVar, "_docvalues", classeTriSuffixeType, "\", \"", classeTriOrdre, "\");");
+              } catch(Throwable ex) {
+                LOG.error(String.format(i18nGlobale.getString(I18n.str_la_variable_de_tri_nexiste_pas), classeTriVar, classeNomSimple), ex);
+              }
+            }
+            tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".setDefaultSort(true);");
+          }
+          else {
+            tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".sort(\"", classeVarCree, "_docvalues_date\", \"desc\");");
+          }
+          tl(3, "}");
+        }
+        tl(3, "String facetRange2 = facetRange;");
+        tl(3, "Date facetRangeStart2 = facetRangeStart;");
+        tl(3, "Date facetRangeEnd2 = facetRangeEnd;");
+        tl(3, "String facetRangeGap2 = facetRangeGap;");
+        tl(3, "String statsField2 = statsField;");
+        tl(3, "String statsFieldIndexed2 = statsFieldIndexed;");
+        tl(3, i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, "2(", i18nGlobale.getString(I18n.var_requeteSite), ", ", i18nGlobale.getString(I18n.var_peupler), ", ", i18nGlobale.getString(I18n.var_stocker), ", ", i18nGlobale.getString(I18n.var_modifier), ", ", i18nGlobale.getString(I18n.var_listeRecherche), ");");
+        tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".", i18nGlobale.getString(I18n.var_promesseLoin), i18nGlobale.getString(I18n.var_PourClasse), "(", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(", i18nGlobale.getString(I18n.var_listeRecherche), "2 -> {");
+        tl(4, "if(facetRange2 != null && statsField2 != null && facetRange2.equals(statsField2)) {");
+        tl(5, "StatsField stats = ", i18nGlobale.getString(I18n.var_listeRecherche), ".getResponse().getStats().getStatsFields().get(statsFieldIndexed2);");
+        tl(5, "Instant min = Optional.ofNullable(stats.getMin()).map(val -> Instant.parse(val.toString())).orElse(Instant.now());");
+        tl(5, "Instant max = Optional.ofNullable(stats.getMax()).map(val -> Instant.parse(val.toString())).orElse(Instant.now());");
+        tl(5, "if(min.equals(max)) {");
+        tl(6, "min = min.minus(1, ChronoUnit.DAYS);");
+        tl(6, "max = max.plus(2, ChronoUnit.DAYS);");
+        tl(5, "}");
+        tl(5, "Duration duration = Duration.between(min, max);");
+        tl(5, "String gap = \"HOUR\";");
+        tl(5, "if(duration.toDays() >= 365)");
+        tl(6, "gap = \"YEAR\";");
+        tl(5, "else if(duration.toDays() >= 28)");
+        tl(6, "gap = \"MONTH\";");
+        tl(5, "else if(duration.toDays() >= 1)");
+        tl(6, "gap = \"DAY\";");
+        tl(5, "else if(duration.toHours() >= 1)");
+        tl(6, "gap = \"HOUR\";");
+        tl(5, "else if(duration.toMinutes() >= 1)");
+        tl(6, "gap = \"MINUTE\";");
+        tl(5, "else if(duration.toMillis() >= 1000)");
+        tl(6, "gap = \"SECOND\";");
+        tl(5, "else if(duration.toMillis() >= 1)");
+        tl(6, "gap = \"MILLI\";");
+        l();
+        tl(5, "if(facetRangeStart2 == null)");
+        tl(6, i18nGlobale.getString(I18n.var_listeRecherche), ".facetRangeStart(min.toString());");
+        tl(5, "if(facetRangeEnd2 == null)");
+        tl(6, i18nGlobale.getString(I18n.var_listeRecherche), ".facetRangeEnd(max.toString());");
+        tl(5, "if(facetRangeGap2 == null)");
+        tl(6, i18nGlobale.getString(I18n.var_listeRecherche), ".facetRangeGap(String.format(\"+1%s\", gap));");
+        tl(5, i18nGlobale.getString(I18n.var_listeRecherche), ".query().onSuccess(b -> {");
+        tl(6, "promise.complete(", i18nGlobale.getString(I18n.var_listeRecherche), ");");
+        tl(5, "}).onFailure(ex -> {");
+        tl(6, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+        tl(6, "promise.fail(ex);");
+        tl(5, "});");
+        tl(4, "} else {");
+        tl(5, "promise.complete(", i18nGlobale.getString(I18n.var_listeRecherche), ");");
+        tl(4, "}");
+        tl(3, "}).onFailure(ex -> {");
+        tl(4, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+        tl(4, "promise.fail(ex);");
+        tl(3, "});");
       }
-      tl(3, "String facetRange2 = facetRange;");
-      tl(3, "Date facetRangeStart2 = facetRangeStart;");
-      tl(3, "Date facetRangeEnd2 = facetRangeEnd;");
-      tl(3, "String facetRangeGap2 = facetRangeGap;");
-      tl(3, "String statsField2 = statsField;");
-      tl(3, "String statsFieldIndexed2 = statsFieldIndexed;");
-      tl(3, i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, "2(", i18nGlobale.getString(I18n.var_requeteSite), ", ", i18nGlobale.getString(I18n.var_peupler), ", ", i18nGlobale.getString(I18n.var_stocker), ", ", i18nGlobale.getString(I18n.var_modifier), ", ", i18nGlobale.getString(I18n.var_listeRecherche), ");");
-      tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".", i18nGlobale.getString(I18n.var_promesseLoin), i18nGlobale.getString(I18n.var_PourClasse), "(", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(", i18nGlobale.getString(I18n.var_listeRecherche), "2 -> {");
-      tl(4, "if(facetRange2 != null && statsField2 != null && facetRange2.equals(statsField2)) {");
-      tl(5, "StatsField stats = ", i18nGlobale.getString(I18n.var_listeRecherche), ".getResponse().getStats().getStatsFields().get(statsFieldIndexed2);");
-      tl(5, "Instant min = Optional.ofNullable(stats.getMin()).map(val -> Instant.parse(val.toString())).orElse(Instant.now());");
-      tl(5, "Instant max = Optional.ofNullable(stats.getMax()).map(val -> Instant.parse(val.toString())).orElse(Instant.now());");
-      tl(5, "if(min.equals(max)) {");
-      tl(6, "min = min.minus(1, ChronoUnit.DAYS);");
-      tl(6, "max = max.plus(2, ChronoUnit.DAYS);");
-      tl(5, "}");
-      tl(5, "Duration duration = Duration.between(min, max);");
-      tl(5, "String gap = \"HOUR\";");
-      tl(5, "if(duration.toDays() >= 365)");
-      tl(6, "gap = \"YEAR\";");
-      tl(5, "else if(duration.toDays() >= 28)");
-      tl(6, "gap = \"MONTH\";");
-      tl(5, "else if(duration.toDays() >= 1)");
-      tl(6, "gap = \"DAY\";");
-      tl(5, "else if(duration.toHours() >= 1)");
-      tl(6, "gap = \"HOUR\";");
-      tl(5, "else if(duration.toMinutes() >= 1)");
-      tl(6, "gap = \"MINUTE\";");
-      tl(5, "else if(duration.toMillis() >= 1000)");
-      tl(6, "gap = \"SECOND\";");
-      tl(5, "else if(duration.toMillis() >= 1)");
-      tl(6, "gap = \"MILLI\";");
-      l();
-      tl(5, "if(facetRangeStart2 == null)");
-      tl(6, i18nGlobale.getString(I18n.var_listeRecherche), ".facetRangeStart(min.toString());");
-      tl(5, "if(facetRangeEnd2 == null)");
-      tl(6, i18nGlobale.getString(I18n.var_listeRecherche), ".facetRangeEnd(max.toString());");
-      tl(5, "if(facetRangeGap2 == null)");
-      tl(6, i18nGlobale.getString(I18n.var_listeRecherche), ".facetRangeGap(String.format(\"+1%s\", gap));");
-      tl(5, i18nGlobale.getString(I18n.var_listeRecherche), ".query().onSuccess(b -> {");
-      tl(6, "promise.complete(", i18nGlobale.getString(I18n.var_listeRecherche), ");");
-      tl(5, "}).onFailure(ex -> {");
-      tl(6, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-      tl(6, "promise.fail(ex);");
-      tl(5, "});");
-      tl(4, "} else {");
-      tl(5, "promise.complete(", i18nGlobale.getString(I18n.var_listeRecherche), ");");
-      tl(4, "}");
-      tl(3, "}).onFailure(ex -> {");
-      tl(4, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-      tl(4, "promise.fail(ex);");
-      tl(3, "});");
       tl(2, "} catch(Exception ex) {");
       tl(3, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
       tl(3, "promise.fail(ex);");
