@@ -2216,6 +2216,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
                 tl(6, ".onSuccess(userResponse -> {");
                 tl(7, "try {");
                 tl(8, "JsonObject userBody = userResponse.bodyAsJsonObject();");
+                tl(8, "if(userBody.getJsonObject(\"attributes\") == null)");
+                tl(9, "userBody.put(\"attributes\", new JsonObject());");
                 tl(8, "body.stream().filter(entry -> entry.getKey().startsWith(\"set\")).forEach(entry -> {");
                 tl(9, "userBody.getJsonObject(\"attributes\").put(StringUtils.uncapitalize(entry.getKey().substring(3)), new JsonArray().add(entry.getValue()));");
                 tl(8, "});");
