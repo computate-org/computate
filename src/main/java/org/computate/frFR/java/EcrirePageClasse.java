@@ -1580,7 +1580,18 @@ public class EcrirePageClasse extends EcrireApiClasse {
                         wJsEditionInit.tl(7, "patch", classeNomSimple, "Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeVarId, ":' + event.currentTarget.getAttribute('data-", classeVarId, "') }]");
                         wJsEditionInit.tl(9, ", 'set", entiteVarCapitalise, "', event.currentTarget.checked");
                         wJsEditionInit.tl(9, ", event.currentTarget");
-                        wJsEditionInit.tl(8, ", function(", i18nClasse.getString(I18n.var_reponse), ", target) { ", i18nClasse.getString(I18n.var_ajouterLueur), "(target);", entiteRecharger ? " window.location.reload();" : "", " }");
+                        if(entiteRecharger) {
+                          wJsEditionInit.tl(8, ", function(", i18nClasse.getString(I18n.var_reponse), ", target) {");
+                          wJsEditionInit.tl(9, i18nClasse.getString(I18n.var_ajouterLueur), "(target);");
+                          wJsEditionInit.tl(9, "fetch('/refresh').then(response => {");
+                          wJsEditionInit.tl(10, "response.text().then(text => {");
+                          wJsEditionInit.tl(11, "window.location.reload();");
+                          wJsEditionInit.tl(10, "});");
+                          wJsEditionInit.tl(9, "});");
+                          wJsEditionInit.tl(8, "}");
+                        } else {
+                          wJsEditionInit.tl(8, ", function(", i18nClasse.getString(I18n.var_reponse), ", target) { ", i18nClasse.getString(I18n.var_ajouterLueur), "(target); }");
+                        }
                         wJsEditionInit.tl(9, ", function(", i18nClasse.getString(I18n.var_reponse), ", target) { ", i18nClasse.getString(I18n.var_ajouterErreur), "(target); }");
                         wJsEditionInit.tl(9, ");");
                       } else if(entiteImageBase64Url != null) {
@@ -1611,7 +1622,20 @@ public class EcrirePageClasse extends EcrireApiClasse {
                         wJsEditionInit.tl(7, "patch", classeNomSimple, "Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeVarId, ":' + event.currentTarget.getAttribute('data-", classeVarId, "') }]");
                         wJsEditionInit.tl(9, ", 'set", entiteVarCapitalise, "', event.currentTarget.value");
                         wJsEditionInit.tl(9, ", event.currentTarget");
-                        wJsEditionInit.tl(8, ", function(", i18nClasse.getString(I18n.var_reponse), ", target) { ", i18nClasse.getString(I18n.var_ajouterLueur), "(target);", entiteRecharger ? " window.location.reload();" : "", " }");
+
+                        if(entiteRecharger) {
+                          wJsEditionInit.tl(8, ", function(", i18nClasse.getString(I18n.var_reponse), ", target) {");
+                          wJsEditionInit.tl(9, i18nClasse.getString(I18n.var_ajouterLueur), "(target);");
+                          wJsEditionInit.tl(9, "fetch('/refresh').then(response => {");
+                          wJsEditionInit.tl(10, "response.text().then(text => {");
+                          wJsEditionInit.tl(11, "window.location.reload();");
+                          wJsEditionInit.tl(10, "});");
+                          wJsEditionInit.tl(9, "});");
+                          wJsEditionInit.tl(8, "}");
+                        } else {
+                          wJsEditionInit.tl(8, ", function(", i18nClasse.getString(I18n.var_reponse), ", target) { ", i18nClasse.getString(I18n.var_ajouterLueur), "(target); }");
+                        }
+
                         wJsEditionInit.tl(9, ", function(", i18nClasse.getString(I18n.var_reponse), ", target) { ", i18nClasse.getString(I18n.var_ajouterErreur), "(target); }");
                         wJsEditionInit.tl(9, ");");
                       }
