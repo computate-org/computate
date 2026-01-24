@@ -478,7 +478,8 @@ public class ConfigSite {
    **/
   protected void _autresLangues() throws Exception {
     autresLangues = Optional.ofNullable(config
-        .getJsonArray(langueConfigGlobale.getString(I18n.var_AUTRES_LANGUES)))
+        .getString(langueConfigGlobale.getString(I18n.var_AUTRES_LANGUES)))
+        .map(s -> new JsonArray(s))
         .orElse(new JsonArray())
         .stream().map(o -> o.toString()).toArray(String[]::new);
   }
