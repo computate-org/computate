@@ -2351,6 +2351,8 @@ public class IndexerClasse extends RegarderClasseBase {
       classeTypeContenu = null;
 
     indexerStockerSolr(classeLangueNom, classeDoc, "classeNomAffichage", regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_NomAffichage), classeCommentaire));
+    String classeTitreMenuOuvert = indexerStockerSolr(classeLangueNom, classeDoc, "classeTitreMenuOuvert", regexLangueYamlString(classeLangueNom, i18nGlobale.getString(I18n.var_TitreMenuOuvert), classeCommentaire));
+    indexerStockerSolr(classeLangueNom, classeDoc, "classeTitreMenu", regexLangueYamlString(classeLangueNom, i18nGlobale.getString(I18n.var_TitreMenu), classeCommentaire, classeTitreMenuOuvert));
 
 //		indexerStockerSolr(classeDoc, "siteChemin", siteChemin);
 
@@ -2417,6 +2419,8 @@ public class IndexerClasse extends RegarderClasseBase {
         indexerStockerSolr(langueNom, classeDoc, "classeNomSimpleGenPage", classeNomSimpleGenPageLangue); 
 
         indexerStockerSolr(langueNom, classeDoc, "classeNomAffichage", regexLangue(langueNom, i18nGlobale.getString(I18n.var_NomAffichage), classeCommentaire));
+        String classeTitreMenuOuvertLangue = indexerStockerSolr(langueNom, classeDoc, "classeTitreMenuOuvert", regexLangueYamlString(langueNom, i18nGlobale.getString(I18n.var_TitreMenuOuvert), classeCommentaire));
+        indexerStockerSolr(langueNom, classeDoc, "classeTitreMenu", regexLangueYamlString(langueNom, i18nGlobale.getString(I18n.var_TitreMenu), classeCommentaire, classeTitreMenuOuvertLangue));
   
         if(classeApi) {
 
