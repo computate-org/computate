@@ -2353,6 +2353,8 @@ public class IndexerClasse extends RegarderClasseBase {
     indexerStockerSolr(classeLangueNom, classeDoc, "classeNomAffichage", regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_NomAffichage), classeCommentaire));
     String classeTitreMenuOuvert = indexerStockerSolr(classeLangueNom, classeDoc, "classeTitreMenuOuvert", regexLangueYamlString(classeLangueNom, i18nGlobale.getString(I18n.var_TitreMenuOuvert), classeCommentaire));
     indexerStockerSolr(classeLangueNom, classeDoc, "classeTitreMenu", regexLangueYamlString(classeLangueNom, i18nGlobale.getString(I18n.var_TitreMenu), classeCommentaire, classeTitreMenuOuvert));
+    indexerStockerSolr(classeDoc, "classeTitreMenuFonctionnalite", regexLangueYamlString(classeLangueNom, i18nGlobale.getString(I18n.var_TitreMenuFonctionnalite), classeCommentaire));
+    indexerStockerSolr(classeDoc, "classeFonctionnalite", regexLangueYamlString(classeLangueNom, i18nGlobale.getString(I18n.var_Fonctionnalite), classeCommentaire));
 
 //		indexerStockerSolr(classeDoc, "siteChemin", siteChemin);
 
