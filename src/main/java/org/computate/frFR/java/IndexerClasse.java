@@ -2351,9 +2351,8 @@ public class IndexerClasse extends RegarderClasseBase {
       classeTypeContenu = null;
 
     indexerStockerSolr(classeLangueNom, classeDoc, "classeNomAffichage", regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_NomAffichage), classeCommentaire));
-    String classeTitreMenuOuvert = indexerStockerSolr(classeLangueNom, classeDoc, "classeTitreMenuOuvert", regexLangueYamlString(classeLangueNom, i18nGlobale.getString(I18n.var_TitreMenuOuvert), classeCommentaire));
-    indexerStockerSolr(classeLangueNom, classeDoc, "classeTitreMenu", regexLangueYamlString(classeLangueNom, i18nGlobale.getString(I18n.var_TitreMenu), classeCommentaire, classeTitreMenuOuvert));
-    indexerStockerSolr(classeDoc, "classeTitreMenuFonctionnalite", regexLangueYamlString(classeLangueNom, i18nGlobale.getString(I18n.var_TitreMenuFonctionnalite), classeCommentaire));
+    indexerStockerSolr(classeDoc, "classeDetailsMenuOuvert", regexTrouve("^" + i18nGlobale.getString(I18n.var_DetailsMenuOuvert) + ": (true)$", classeCommentaire));
+    indexerStockerSolr(classeDoc, "classeDetailsMenuFonctionnalite", regexLangueYamlString(classeLangueNom, i18nGlobale.getString(I18n.var_DetailsMenuFonctionnalite), classeCommentaire));
     indexerStockerSolr(classeDoc, "classeFonctionnalite", regexLangueYamlString(classeLangueNom, i18nGlobale.getString(I18n.var_Fonctionnalite), classeCommentaire));
 
 //		indexerStockerSolr(classeDoc, "siteChemin", siteChemin);
@@ -2421,9 +2420,7 @@ public class IndexerClasse extends RegarderClasseBase {
         indexerStockerSolr(langueNom, classeDoc, "classeNomSimpleGenPage", classeNomSimpleGenPageLangue); 
 
         indexerStockerSolr(langueNom, classeDoc, "classeNomAffichage", regexLangue(langueNom, i18nGlobale.getString(I18n.var_NomAffichage), classeCommentaire));
-        String classeTitreMenuOuvertLangue = indexerStockerSolr(langueNom, classeDoc, "classeTitreMenuOuvert", regexLangueYamlString(langueNom, i18nGlobale.getString(I18n.var_TitreMenuOuvert), classeCommentaire));
-        indexerStockerSolr(langueNom, classeDoc, "classeTitreMenu", regexLangueYamlString(langueNom, i18nGlobale.getString(I18n.var_TitreMenu), classeCommentaire, classeTitreMenuOuvertLangue));
-  
+
         if(classeApi) {
 
           String classeNomSimpleApiEnsembleInfoLangue = indexerStockerSolr(langueNom, classeDoc, "classeNomSimpleApiEnsembleInfo", "package-info");
@@ -5683,7 +5680,7 @@ public class IndexerClasse extends RegarderClasseBase {
               classeNomAdjectifSingulier = indexerStockerSolr(langueNom, classeDoc, "classeNomAdjectifSingulier", regexLangue(langueNom, i18nGlobale.getString(I18n.var_NomAdjectifSingulier), classeCommentaire, classeNomSingulier));
               classeNomAdjectifPluriel = indexerStockerSolr(langueNom, classeDoc, "classeNomAdjectifPluriel", regexLangue(langueNom, i18nGlobale.getString(I18n.var_NomAdjectifPluriel), classeCommentaire, classeNomPluriel));
             }
-    
+
             if(classeUnNom.startsWith(CONTEXTE_frFR_UneFeminin)) {
               classeCe = indexerStockerSolr(langueNom, classeDoc, "classeCe", regexLangue(langueNom, i18nGlobale.getString(I18n.var_Ce), classeCommentaire, CONTEXTE_frFR_CetteFemininConsonne));
               classeUn = indexerStockerSolr(langueNom, classeDoc, "classeUn", regexLangue(langueNom, i18nGlobale.getString(I18n.var_Un), classeCommentaire, CONTEXTE_frFR_UneFeminin));
@@ -5863,6 +5860,8 @@ public class IndexerClasse extends RegarderClasseBase {
         }
   
         classeTitre = regexLangue(langueNom, i18nGlobale.getString(I18n.var_Titre), classeCommentaire, classeNomPluriel);
+        indexerStockerSolr(langueNom, classeDoc, "classeDetailsMenu", regexLangueYamlString(langueNom, i18nGlobale.getString(I18n.var_DetailsMenu), classeCommentaire));
+        indexerStockerSolr(langueNom, classeDoc, "classeTitreMenu", regexLangueYamlString(langueNom, i18nGlobale.getString(I18n.var_TitreMenu), classeCommentaire, classeNomAdjectifPluriel));
         if(classeTitre != null)
           indexerStockerSolr(langueNom, classeDoc, "classeTitre", classeTitre); 
   
