@@ -3470,13 +3470,13 @@ public class IndexerClasse extends RegarderClasseBase {
             Boolean entiteEmplacement = indexerStockerSolr(entiteDoc, "entiteEmplacement", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + ": (true)$", methodeCommentaire));
             Boolean entiteEmplacementCouleur = indexerStockerSolr(entiteDoc, "entiteEmplacementCouler", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Couleur) + ": (true)$", methodeCommentaire));
             Boolean entiteEmplacementTitre = indexerStockerSolr(entiteDoc, "entiteEmplacementTitre", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Titre) + ": (true)$", methodeCommentaire));
-            Boolean entiteEmplacementUrl = indexerStockerSolr(entiteDoc, "entiteEmplacementUrl", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Url) + ": (true)$", methodeCommentaire));
+            Boolean entiteEmplacementUrl = indexerStockerSolr(classeLangueNom, entiteDoc, "entiteEmplacementUrl", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Url) + "(\\." + classeLangueNom + "): (true)$", methodeCommentaire));
             Boolean entiteEmplacementSvg = indexerStockerSolr(entiteDoc, "entiteEmplacementSvg", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + "Svg: (true)$", methodeCommentaire));
             Boolean entiteEmplacementRayon = indexerStockerSolr(entiteDoc, "entiteEmplacementRayon", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Rayon) + ": (true)$", methodeCommentaire));
             Boolean entiteAire = indexerStockerSolr(entiteDoc, "entiteAire", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + ": (true)$", methodeCommentaire));
             Boolean entiteAireCouleur = indexerStockerSolr(entiteDoc, "entiteAireCouler", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + i18nGlobale.getString(I18n.var_Couleur) + ": (true)$", methodeCommentaire));
             Boolean entiteAireTitre = indexerStockerSolr(entiteDoc, "entiteAireTitre", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + i18nGlobale.getString(I18n.var_Titre) + ": (true)$", methodeCommentaire));
-            Boolean entiteAireUrl = indexerStockerSolr(entiteDoc, "entiteAireUrl", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + i18nGlobale.getString(I18n.var_Url) + ": (true)$", methodeCommentaire));
+            Boolean entiteAireUrl = indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAireUrl", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + i18nGlobale.getString(I18n.var_Url) + "(\\." + classeLangueNom + "): (true)$", methodeCommentaire));
             Boolean entiteCrypte = indexerStockerSolr(entiteDoc, "entiteCrypte", regexTrouve("^" + i18nGlobale.getString(I18n.var_Crypte) + ": (true)$", methodeCommentaire));
             Boolean entiteSuggere = indexerStockerSolr(entiteDoc, "entiteSuggere", regexTrouve("^" + i18nGlobale.getString(I18n.var_Suggere) + ": (true)$", methodeCommentaire));
             Boolean entiteVarUrlPageAffichage = indexerStockerSolr(classeLangueNom, entiteDoc, "entiteVarUrlPageAffichage", regexTrouve("^VarUrl" + i18nGlobale.getString(I18n.var_PageAffichage) + "(\\." + classeLangueNom + ")?: (true)$", methodeCommentaire));
@@ -4777,6 +4777,15 @@ public class IndexerClasse extends RegarderClasseBase {
             if(classeTraduire) {
               for(String langueNom : autresLangues) {  
 //								ClasseParts entiteClassePartsLangue = ClasseParts.initClasseParts(this, entiteClasseParts, langueNom);
+
+                Boolean entiteEmplacementUrlLangue = indexerStockerSolr(langueNom, entiteDoc, "entiteEmplacementUrl", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Url) + "\\." + langueNom + ": (true)$", methodeCommentaire));
+                Boolean entiteAireUrlLangue = indexerStockerSolr(langueNom, entiteDoc, "entiteAireUrl", regexTrouve("^" + i18nGlobale.getString(I18n.var_Aire) + i18nGlobale.getString(I18n.var_Url) + "\\." + langueNom + ": (true)$", methodeCommentaire));
+                if(entiteEmplacementUrlLangue) {
+                  classeVarEmplacementUrl = stockerSolr(langueNom, classeDoc, "classeVarEmplacementUrl", entiteVar);
+                }
+                if(entiteAireUrlLangue) {
+                  classeVarAireUrl = stockerSolr(langueNom, classeDoc, "classeVarAireUrl", entiteVar);
+                }
           
                 indexerStockerSolr(langueNom, entiteDoc, "entiteNomCanonique", entiteClasseParts.nomCanonique(langueNom)); 
                 indexerStockerSolr(langueNom, entiteDoc, "entiteNomSimple", entiteClasseParts.nomSimple(langueNom)); 
@@ -6482,7 +6491,7 @@ public class IndexerClasse extends RegarderClasseBase {
           wSmartDataModel.l("import org.apache.commons.lang3.StringUtils;");
           wSmartDataModel.l("import org.computate.search.tool.SearchTool;");
           wSmartDataModel.l("import org.computate.search.wrap.Wrap;");
-          wSmartDataModel.l("import ", classePartsModeleBase.nomCanonique(classeLangueNom), ";");
+          wSmartDataModel.l("import ", classePartsModeleBase.nomCanonique(classeLangueNom).replace(".BaseModel", ".MapModel"), ";");
           wSmartDataModel.l("import org.computate.vertx.search.list.SearchList;");
           wSmartDataModel.l("import org.computate.vertx.config.ComputateConfigKeys;");
           wSmartDataModel.l("import io.vertx.core.Promise;");
@@ -6535,7 +6544,7 @@ public class IndexerClasse extends RegarderClasseBase {
           wSmartDataModel.l(" *     DELETE:");
           wSmartDataModel.l(" *     Admin:");
           wSmartDataModel.l(" **/");
-          wSmartDataModel.l("public class ", classeNomSimple, " extends ", classeNomSimple, "Gen<BaseModel> {");
+          wSmartDataModel.l("public class ", classeNomSimple, " extends ", classeNomSimple, "Gen<MapModel> {");
   
           Integer row = 3;
           Integer cell = 0;
@@ -6560,174 +6569,32 @@ public class IndexerClasse extends RegarderClasseBase {
                 javaType = "BigDecimal";
               else if("location".equals(fieldName))
                 javaType = "Path";
-              wSmartDataModel.l();
-              wSmartDataModel.l("	/**");
-              wSmartDataModel.l("	 * {@inheritDoc}");
               if("areaServed".equals(fieldName)) {
-                wSmartDataModel.l("	");
-                wSmartDataModel.l("	 * LocationColor: true");
-                wSmartDataModel.l("	 * Indexed: true");
-                wSmartDataModel.l("	 * Stored: true");
-                wSmartDataModel.l("	 * DisplayName: area served colors");
-                wSmartDataModel.l("	 * Description: The colors of each areaServed Paths. ");
-                wSmartDataModel.l("	 */");
-                wSmartDataModel.l("	protected void _areaServedColors(List<String> l) {");
-                wSmartDataModel.l("	}");
-                wSmartDataModel.l();
-                wSmartDataModel.l("	/**");
-                wSmartDataModel.l("	 * {@inheritDoc}");
-                wSmartDataModel.l("	 * LocationTitle: true");
-                wSmartDataModel.l("	 * Indexed: true");
-                wSmartDataModel.l("	 * Stored: true");
-                wSmartDataModel.l("	 * DisplayName: area served titles");
-                wSmartDataModel.l("	 * Description: The titles of each areaServed Paths. ");
-                wSmartDataModel.l("	 */");
-                wSmartDataModel.l("	protected void _areaServedTitles(List<String> l) {");
-                wSmartDataModel.l("	}");
-                wSmartDataModel.l();
-                wSmartDataModel.l("	/**");
-                wSmartDataModel.l("	 * {@inheritDoc}");
-                wSmartDataModel.l("	 * LocationUrl: true");
-                wSmartDataModel.l("	 * Indexed: true");
-                wSmartDataModel.l("	 * Stored: true");
-                wSmartDataModel.l("	 * DisplayName: area served links");
-                wSmartDataModel.l("	 * Description: The links of each areaServed Paths. ");
-                wSmartDataModel.l("	 */");
-                wSmartDataModel.l("	protected void _areaServedLinks(List<String> l) {");
-                wSmartDataModel.l("	}");
-                wSmartDataModel.l();
-                wSmartDataModel.l("	/**");
-                wSmartDataModel.l("	 * {@inheritDoc}");
-                wSmartDataModel.l("	 * FiwareType: geo:linestring");
-                wSmartDataModel.l("	 * Area: true");
-              }
-              if("location".equals(fieldName)) {
-                row = 4;
-                cell = 0;
-                wSmartDataModel.l(String.format("	 * HtmRowTitleOpen: GeoJSON details", classeSmartDataModel));
-                wSmartDataModel.l("	 * FiwareType: geo:point");
-                wSmartDataModel.l("	 * Location: true");
-              }
-              wSmartDataModel.l("	 * DocValues: true");
-              wSmartDataModel.l("	 * Persist: true");
-              wSmartDataModel.l("	 * DisplayName: ", StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(fieldName), " ").toLowerCase(), "");
-              if(description != null)
-                wSmartDataModel.l("	 * Description: ", description.replace("\r\n", " ").replace("\n", " "), "");
-              if("name".equals(fieldName)) {
-                wSmartDataModel.l(String.format("	 * HtmRowTitleOpen: name and description", classeSmartDataModel));
-                wSmartDataModel.l("	 * HtmColumn: 1");
-                wSmartDataModel.l("	 * VarName: true");
-              }
-              if("description".equals(fieldName)) {
-                wSmartDataModel.l("	 * HtmColumn: 2");
-                wSmartDataModel.l("	 * VarDescription: true");
-              }
-              if("id".equals(fieldName)) {
-                row = 5;
-                cell = 0;
-                wSmartDataModel.l("	 * HtmRowTitleOpen: NGSI-LD details");
-                wSmartDataModel.l("	 * HtmRow: ", row, "");
-                wSmartDataModel.l("	 * HtmCell: ", cell, "");
-                wSmartDataModel.l("	 * Facet: true");
-                wSmartDataModel.l("	 **/");
-                wSmartDataModel.l("	protected void _", fieldName, "(Wrap<", javaType, "> w) {");
-                wSmartDataModel.l("		w.o(String.format(\"urn:ngsi-ld:%s:%s\", CLASS_SIMPLE_NAME, toId(name)));");
-                wSmartDataModel.l("	}");
-                wSmartDataModel.l("");
-                wSmartDataModel.l("	/**");
-                wSmartDataModel.l("	 * {@inheritDoc}");
-                wSmartDataModel.l("	 * DisplayName: short entity ID");
-                wSmartDataModel.l("	 * Description: A short ID for this Smart Data Model");
-                wSmartDataModel.l("	 * DocValues: true");
-                wSmartDataModel.l("	 * Facet: true");
-                wSmartDataModel.l("	 * VarId: true");
-                wSmartDataModel.l("	 */");
-                wSmartDataModel.l("	protected void _entityShortId(Wrap<String> w) {");
-                wSmartDataModel.l("		if(id != null) {");
-                wSmartDataModel.l("			w.o(StringUtils.substringAfter(id, String.format(\"urn:ngsi-ld:%s:\", CLASS_SIMPLE_NAME)));");
-                wSmartDataModel.l("		}");
-                wSmartDataModel.l("	}");
-                cell++;
-                wSmartDataModel.l();
-                wSmartDataModel.l("	/**");
-                wSmartDataModel.l("	 * {@inheritDoc}");
-                wSmartDataModel.l("	 * DocValues: true");
-                wSmartDataModel.l("	 * Persist: true");
-                wSmartDataModel.l("	 * DisplayName: NGSILD-Tenant");
-                wSmartDataModel.l("	 * Description: The NGSILD-Tenant or Fiware-Service");
-                wSmartDataModel.l("	 * HtmRow: ", row, "");
-                wSmartDataModel.l("	 * HtmCell: ", cell, "");
-                wSmartDataModel.l("	 * Facet: true");
-                wSmartDataModel.l("	 */");
-                wSmartDataModel.l("	protected void _ngsildTenant(Wrap<String> w) {");
-                wSmartDataModel.l("		w.o(", i18nGlobale.getString(I18n.var_requeteSite), "_.getConfig().getString(ComputateConfigKeys.NGSILD_TENANT));");
-                wSmartDataModel.l("	}");
-                cell++;
-                wSmartDataModel.l();
-                wSmartDataModel.l("	/**");
-                wSmartDataModel.l("	 * {@inheritDoc}");
-                wSmartDataModel.l("	 * DocValues: true");
-                wSmartDataModel.l("	 * Persist: true");
-                wSmartDataModel.l("	 * DisplayName: NGSILD-Path");
-                wSmartDataModel.l("	 * Description: The NGSILD-Path or Fiware-ServicePath");
-                wSmartDataModel.l("	 * HtmRow: ", row, "");
-                wSmartDataModel.l("	 * HtmCell: ", cell, "");
-                wSmartDataModel.l("	 * Facet: true");
-                wSmartDataModel.l("	 */");
-                wSmartDataModel.l("	protected void _ngsildPath(Wrap<String> w) {");
-                wSmartDataModel.l("		w.o(", i18nGlobale.getString(I18n.var_requeteSite), "_.getConfig().getString(ComputateConfigKeys.NGSILD_PATH));");
-                wSmartDataModel.l("	}");
-                cell++;
-                wSmartDataModel.l();
-                wSmartDataModel.l("	/**");
-                wSmartDataModel.l("	 * {@inheritDoc}");
-                wSmartDataModel.l("	 * DocValues: true");
-                wSmartDataModel.l("	 * Persist: true");
-                wSmartDataModel.l("	 * DisplayName: NGSILD context");
-                wSmartDataModel.l("	 * Description: The NGSILD context URL for @context data");
-                wSmartDataModel.l("	 * HtmRow: ", row, "");
-                wSmartDataModel.l("	 * HtmCell: ", cell, "");
-                wSmartDataModel.l("	 * Facet: true");
-                wSmartDataModel.l("	 */");
-                wSmartDataModel.l("	protected void _ngsildContext(Wrap<String> w) {");
-                wSmartDataModel.l("		w.o(", i18nGlobale.getString(I18n.var_requeteSite), "_.getConfig().getString(ComputateConfigKeys.CONTEXT_BROKER_CONTEXT));");
-                wSmartDataModel.l("	}");
-                cell++;
-                wSmartDataModel.l();
-                wSmartDataModel.l("	/**");
-                wSmartDataModel.l("	 * {@inheritDoc}");
-                wSmartDataModel.l("	 * DocValues: true");
-                wSmartDataModel.l("	 * Persist: true");
-                wSmartDataModel.l("	 * DisplayName: NGSILD data");
-                wSmartDataModel.l("	 * Description: The NGSILD data with @context from the context broker");
-                wSmartDataModel.l("	 * HtmRow: ", row, "");
-                wSmartDataModel.l("	 * HtmCell: ", cell, "");
-                wSmartDataModel.l("	 * Facet: true");
-                wSmartDataModel.l("	 * Multiline: true");
-                wSmartDataModel.l("	 */");
-                wSmartDataModel.l("	protected void _ngsildData(Wrap<JsonObject> w) {");
-                wSmartDataModel.l("	}");
-                row++;
-                cell = -1;
+              } else if("location".equals(fieldName)) {
+              } else if("name".equals(fieldName)) {
+              } else if("description".equals(fieldName)) {
+              } else if("id".equals(fieldName)) {
               } else {
+                wSmartDataModel.l();
+                wSmartDataModel.l("  /**");
+                wSmartDataModel.l("   * {@inheritDoc}");
+                wSmartDataModel.l("   * DocValues: true");
+                wSmartDataModel.l("   * Persist: true");
+                wSmartDataModel.l("   * DisplayName: ", StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(fieldName), " ").toLowerCase(), "");
                 if(row == 6 && cell == 0)
-                  wSmartDataModel.l(String.format("	 * HtmRowTitleOpen: %s details", classeSmartDataModel));
-                wSmartDataModel.l("	 * HtmRow: ", row, "");
-                wSmartDataModel.l("	 * HtmCell: ", cell, "");
-                wSmartDataModel.l("	 * Facet: true");
-                wSmartDataModel.l("	 **/");
-                wSmartDataModel.l("	protected void _", fieldName, "(Wrap<", javaType, "> w) {");
+                  wSmartDataModel.l(String.format("   * HtmRowTitleOpen: %s details", classeSmartDataModel));
+                wSmartDataModel.l("   * HtmRow: ", row, "");
+                wSmartDataModel.l("   * HtmCell: ", cell, "");
+                wSmartDataModel.l("   * Facet: true");
+                wSmartDataModel.l("   **/");
+                wSmartDataModel.l("  protected void _", fieldName, "(Wrap<", javaType, "> w) {");
                 if("location".equals(fieldName)) {
-                  wSmartDataModel.l("		w.o(staticSetLocation(siteRequest_, siteRequest_.getConfig().getString(ComputateConfigKeys.DEFAULT_MAP_LOCATION)));");
+                  wSmartDataModel.l("    w.o(staticSetLocation(siteRequest_, siteRequest_.getConfig().getString(ComputateConfigKeys.DEFAULT_MAP_LOCATION)));");
                 }
-                wSmartDataModel.l("	}");
+                wSmartDataModel.l("  }");
+                cell++;
+                wSmartDataModel.l();
               }
-              cell++;
-              // if(cell > 3) {
-              // 	row++;
-              // 	cell = 1;
-              // }
-              wSmartDataModel.l();
             }
           }
           wSmartDataModel.l("}");

@@ -3258,9 +3258,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
           tl(3, "}");
           l();
           tl(3, "function ", i18nClasse.getString(I18n.var_htmLegende), classeNomSimple, "(map, shape, ", varResultat, ", index, count) {");
-          tl(4, "var color = ", varResultat, ".", classeVarEmplacement != null ? classeVarEmplacementCouleur : classeVarAireCouleur, "[index];");
-          tl(4, "var title = ", varResultat, ".", classeVarEmplacement != null ? classeVarEmplacementTitre : classeVarAireTitre, "[index];");
-          tl(4, "var url = ", varResultat, ".", classeVarEmplacement != null ? classeVarEmplacementUrl : classeVarAireUrl, "[index];");
+          tl(4, "var color = ", Optional.ofNullable(classeVarEmplacement != null ? classeVarEmplacementCouleur : classeVarAireCouleur).map(v -> varResultat + "." + v + "[index]").orElse("null"), ";");
+          tl(4, "var title = ", Optional.ofNullable(classeVarEmplacement != null ? classeVarEmplacementTitre : classeVarAireTitre).map(v -> varResultat + "." + v + "[index]").orElse("null"), ";");
+          tl(4, "var url = ", Optional.ofNullable(classeVarEmplacement != null ? classeVarEmplacementUrl : classeVarAireUrl).map(v -> varResultat + "." + v + "[index]").orElse("null"), ";");
           tl(4, "var htm = '';");
           tl(4, "htm += `<div class=\"cursor-pointer \" style=\"max-width: 400px; \">");
           tl(0, "`;");
