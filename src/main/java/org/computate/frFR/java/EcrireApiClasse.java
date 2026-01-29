@@ -4061,8 +4061,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
           /////////////////
           if(classePageNomCanoniqueMethode != null) {
             l();
-            tl(1, "public String ", i18nGlobale.getString(I18n.var_template), classeApiMethode, classeNomSimple, "(ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), ") {");
-            //STUFF0
+            tl(1, "public String ", i18nGlobale.getString(I18n.var_uriTemplate), classeApiMethode, classeNomSimple, "(ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), ") {");
             if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
                 || classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageRecherche))
                 ) {
@@ -4070,6 +4069,31 @@ public class EcrireApiClasse extends EcrireGenClasse {
             } else {
               tl(2, "return String.format(\"", classePageTemplateMethode, "\", StringUtils.substringBefore(", i18nGlobale.getString(I18n.var_requeteService), ".getExtra().getString(\"uri\").substring(1), \"?\"));");
             }
+            t(1, "}");
+            l();
+            tl(1, "public String ", i18nGlobale.getString(I18n.var_template), classeApiMethode, classeNomSimple, "(ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), ", ", classeNomSimple, " ", i18nGlobale.getString(I18n.var_resultat), ") {");
+            tl(2, "String template = null;");
+            tl(2, "try {");
+            if(classeVarTemplatePage == null) {
+              tl(3, "String pageTemplateUri = ", i18nGlobale.getString(I18n.var_uriTemplate), classeApiMethode, classeNomSimple, "(", i18nGlobale.getString(I18n.var_requeteService), ");");
+              tl(3, "String siteTemplatePath = config.getString(ComputateConfigKeys.TEMPLATE_PATH);");
+              tl(3, "Path resourceTemplatePath = Path.of(siteTemplatePath, pageTemplateUri);");
+              tl(3, "template = siteTemplatePath == null ? Resources.toString(Resources.getResource(resourceTemplatePath.toString()), StandardCharsets.UTF_8) : Files.readString(resourceTemplatePath, Charset.forName(\"UTF-8\"));");
+            } else {
+              tl(3, "if(", i18nGlobale.getString(I18n.var_resultat), " != null && ", i18nGlobale.getString(I18n.var_resultat), ".get", StringUtils.capitalize(classeVarTemplatePage), "() != null) {");
+              tl(4, "return ", i18nGlobale.getString(I18n.var_resultat), ".get", StringUtils.capitalize(classeVarTemplatePage), "();");
+              tl(3, "} else {");
+              tl(4, "String pageTemplateUri = ", i18nGlobale.getString(I18n.var_uriTemplate), classeApiMethode, classeNomSimple, "(", i18nGlobale.getString(I18n.var_requeteService), ");");
+              tl(4, "String siteTemplatePath = config.getString(ComputateConfigKeys.TEMPLATE_PATH);");
+              tl(4, "Path resourceTemplatePath = Path.of(siteTemplatePath, pageTemplateUri);");
+              tl(4, "template = siteTemplatePath == null ? Resources.toString(Resources.getResource(resourceTemplatePath.toString()), StandardCharsets.UTF_8) : Files.readString(resourceTemplatePath, Charset.forName(\"UTF-8\"));");
+              tl(3, "}");
+            }
+            tl(2, "} catch(Exception ex) {");
+            tl(3, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_template), classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+            tl(3, "ExceptionUtils.rethrow(ex);");
+            tl(2, "}");
+            tl(2, "return template;");
             t(1, "}");
           }
           l();
@@ -4110,12 +4134,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
             if(classePageNomCanoniqueMethode != null) {
               if(classePartsToutEcrivain == null)
                 throw new RuntimeException(String.format("%s %s %s %s %s. ", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_ToutEcrivain), i18nGlobale.getString(I18n.var_manquante), i18nGlobale.getString(I18n.var_dans), cheminSrcMainJava));
-              tl(3, "String pageTemplateUri = ", i18nGlobale.getString(I18n.var_template), classeApiMethode, classeNomSimple, "(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "());");
-              tl(3, "if(", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ".size() == 0)");
-              tl(4, "pageTemplateUri = ", i18nGlobale.getString(I18n.var_template), i18nGlobale.getString(I18n.var_PageRecherche), classeNomSimple, "(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "());");
-              tl(3, "String siteTemplatePath = config.getString(ComputateConfigKeys.TEMPLATE_PATH);");
-              tl(3, "Path resourceTemplatePath = Path.of(siteTemplatePath, pageTemplateUri);");
-              tl(3, "String template = siteTemplatePath == null ? Resources.toString(Resources.getResource(resourceTemplatePath.toString()), StandardCharsets.UTF_8) : Files.readString(resourceTemplatePath, Charset.forName(\"UTF-8\"));");
+              tl(3, "String template = ", i18nGlobale.getString(I18n.var_template), classeApiMethode, classeNomSimple, "(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "(), ", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ".first());");
               tl(3, classePageNomSimpleMethode, " page = new ", classePageNomSimpleMethode, "();");
               tl(3, "MultiMap ", i18nGlobale.getString(I18n.var_requeteEnTetes), " = MultiMap.caseInsensitiveMultiMap();");
               tl(3, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_RequeteEnTetes), "(", i18nGlobale.getString(I18n.var_requeteEnTetes), ");");
@@ -5243,7 +5262,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
       if(classePageAvecTemplate) {
         l();
         tl(1, "@Override");
-        tl(1, "public Future<JsonObject> ", i18nGlobale.getString(I18n.var_genererCorpsPage), "(ComputateSiteRequest ", i18nGlobale.getString(I18n.var_requeteSite), ", Map<String, Object> ctx, String ", i18nGlobale.getString(I18n.var_templateChemin), ", String ", i18nGlobale.getString(I18n.var_classeNomSimple), ") {");
+        tl(1, "public Future<JsonObject> ", i18nGlobale.getString(I18n.var_genererCorpsPage), "(ComputateSiteRequest ", i18nGlobale.getString(I18n.var_requeteSite), ", Map<String, Object> ctx, String ", i18nGlobale.getString(I18n.var_templateChemin), ", String ", i18nGlobale.getString(I18n.var_classeNomSimple), ", String ", i18nGlobale.getString(I18n.var_templatePage), ") {");
         tl(2, "Promise<JsonObject> promise = Promise.promise();");
         tl(2, "try {");
         tl(3, "Map<String, Object> ", i18nGlobale.getString(I18n.var_resultat), " = (Map<String, Object>)ctx.get(\"", i18nGlobale.getString(I18n.var_resultat), "\");");
@@ -5253,6 +5272,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
         tl(3, "page.set", i18nGlobale.getString(I18n.var_RequeteSite), "_((", i18nGlobale.getString(I18n.var_RequeteSite), ")", i18nGlobale.getString(I18n.var_requeteSite), ");");
         l();
         s(wPageTemplates);
+        if(classeVarTemplatePage != null) {
+          l();
+          tl(3, "if(", i18nGlobale.getString(I18n.var_templateChemin), ".endsWith(\".md\")) {");
+          tl(4, "page.persistForClass(", classeNomSimple, ".VAR_", classeVarTemplatePage, ", ", classeNomSimple, ".staticSet", StringUtils.capitalize(classeVarTemplatePage), "(", i18nGlobale.getString(I18n.var_requeteSite), "2, ", i18nGlobale.getString(I18n.var_templatePage), "));");
+          tl(3, "}");
+        }
         l();
         tl(3, "page.promiseDeepForClass((", i18nGlobale.getString(I18n.var_RequeteSite), ")", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(o -> {");
         tl(4, "try {");

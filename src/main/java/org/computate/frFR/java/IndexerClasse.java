@@ -1980,6 +1980,8 @@ public class IndexerClasse extends RegarderClasseBase {
     String classeVarIdSuffixeSolr = null;
     String classeVarNomSuffixeSolr = null;
     String classeVarNom = null;
+    String classeVarTemplatePage = null;
+    String classeVarTemplatePageSuffixeSolr = null;
     String classeVarTitre = null;
     String classeHtmInfobulle = null;
     String classeJsInfobulle = null;
@@ -3505,6 +3507,14 @@ public class IndexerClasse extends RegarderClasseBase {
                 indexerStockerSolr(entiteDoc, "entiteVarNom", entiteVarNom);
               }
             }
+            Boolean entiteVarTemplatePage = regexTrouve("^" + i18nGlobale.getString(I18n.var_VarTemplatePage) + ": (true)$", methodeCommentaire);
+            {
+              if(methodeCommentaireActuelle != null)
+                entiteVarTemplatePage = Optional.ofNullable(regexTrouve("^" + i18nGlobale.getString(I18n.var_VarTemplatePage) + ": (true)$", methodeCommentaireActuelle)).orElse(entiteVarTemplatePage);
+              if(entiteVarTemplatePage != null) {
+                indexerStockerSolr(entiteDoc, "entiteVarTemplatePage", entiteVarTemplatePage);
+              }
+            }
             Boolean entiteVarTitre = indexerStockerSolr(entiteDoc, "entiteVarTitre", regexTrouve("^" + i18nGlobale.getString(I18n.var_VarTitre) + ": (true)$", methodeCommentaire));
             Boolean entiteVarH1 = indexerStockerSolr(entiteDoc, "entiteVarH1", regexTrouve("^VarH1: (true)$", methodeCommentaire));
             Boolean entiteVarH2 = indexerStockerSolr(entiteDoc, "entiteVarH2", regexTrouve("^VarH2: (true)$", methodeCommentaire));
@@ -4748,6 +4758,10 @@ public class IndexerClasse extends RegarderClasseBase {
             if(entiteVarNom) {
               classeVarNom = stockerSolr(classeLangueNom, classeDoc, "classeVarNom", entiteVar);
               classeVarNomSuffixeSolr = stockerSolr(classeDoc, "classeVarNomSuffixeSolr", entiteSuffixeSolr);
+            }
+            if(entiteVarTemplatePage) {
+              classeVarTemplatePage = stockerSolr(classeDoc, "classeVarTemplatePage", entiteVar);
+              classeVarTemplatePageSuffixeSolr = stockerSolr(classeDoc, "classeVarTemplatePageSuffixeSolr", entiteSuffixeSolr);
             }
             if(entiteVarTitre) {
               classeVarTitre = stockerSolr(classeLangueNom, classeDoc, "classeVarTitre", entiteVar);

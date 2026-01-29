@@ -185,6 +185,7 @@ public class EcrireGenClasse extends EcrireClasse {
   protected String classeCommentaire;
   protected String classeCommentaireLangue;
 
+  protected String classeVarTemplatePage;
   protected String classeVarClePrimaire;
   protected String classeVarClePrimaireSuffixeSolr;
 
