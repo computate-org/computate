@@ -2135,7 +2135,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 
               tl(2, "}).onFailure(ex -> {");
               if(activerOpenIdConnect) {
-                tl(3, "if(\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\")) {");
+                tl(3, "if(\"GET\".equals(serviceRequest.getExtra().getString(\"method\")) && (\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\"))) {");
                 tl(4, "try {");
                 tl(5, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture(new ServiceResponse(302, \"Found\", null, MultiMap.caseInsensitiveMultiMap().add(HttpHeaders.LOCATION, \"/", i18nGlobale.getString(I18n.var_deconnexion), "?redirect_uri=\" + URLEncoder.encode(serviceRequest.getExtra().getString(\"uri\"), \"UTF-8\")))));");
                 tl(4, "} catch(Exception ex2) {");
@@ -2640,7 +2640,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 
               tl(2, "}).onFailure(ex -> {");
               if(activerOpenIdConnect) {
-                tl(3, "if(\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\")) {");
+                tl(3, "if(\"GET\".equals(serviceRequest.getExtra().getString(\"method\")) && (\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\"))) {");
                 tl(4, "try {");
                 tl(5, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture(new ServiceResponse(302, \"Found\", null, MultiMap.caseInsensitiveMultiMap().add(HttpHeaders.LOCATION, \"/", i18nGlobale.getString(I18n.var_deconnexion), "?redirect_uri=\" + URLEncoder.encode(serviceRequest.getExtra().getString(\"uri\"), \"UTF-8\")))));");
                 tl(4, "} catch(Exception ex2) {");
@@ -2670,7 +2670,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
               if(!classePublicLire && classeRessourcesAutorisation.size() > 0 && classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageRecherche))) {
                 tl(2, "}).onFailure(ex -> {");
                 if(activerOpenIdConnect) {
-                  tl(3, "if(\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\")) {");
+                  tl(3, "if(\"GET\".equals(serviceRequest.getExtra().getString(\"method\")) && (\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\"))) {");
                   tl(4, "try {");
                   tl(5, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture(new ServiceResponse(302, \"Found\", null, MultiMap.caseInsensitiveMultiMap().add(HttpHeaders.LOCATION, \"/", i18nGlobale.getString(I18n.var_deconnexion), "?redirect_uri=\" + URLEncoder.encode(serviceRequest.getExtra().getString(\"uri\"), \"UTF-8\")))));");
                   tl(4, "} catch(Exception ex2) {");
@@ -2893,7 +2893,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
               tl(3, "}");
               tl(2, "}).onFailure(ex -> {");
               if(activerOpenIdConnect) {
-                tl(3, "if(\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\")) {");
+                tl(3, "if(\"GET\".equals(serviceRequest.getExtra().getString(\"method\")) && (\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\"))) {");
                 tl(4, "try {");
                 tl(5, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture(new ServiceResponse(302, \"Found\", null, MultiMap.caseInsensitiveMultiMap().add(HttpHeaders.LOCATION, \"/", i18nGlobale.getString(I18n.var_deconnexion), "?redirect_uri=\" + URLEncoder.encode(serviceRequest.getExtra().getString(\"uri\"), \"UTF-8\")))));");
                 tl(4, "} catch(Exception ex2) {");
@@ -3275,7 +3275,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
               tl(3, "}");
               tl(2, "}).onFailure(ex -> {");
               if(activerOpenIdConnect) {
-                tl(3, "if(\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\")) {");
+                tl(3, "if(\"GET\".equals(serviceRequest.getExtra().getString(\"method\")) && (\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\"))) {");
                 tl(4, "try {");
                 tl(5, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture(new ServiceResponse(302, \"Found\", null, MultiMap.caseInsensitiveMultiMap().add(HttpHeaders.LOCATION, \"/", i18nGlobale.getString(I18n.var_deconnexion), "?redirect_uri=\" + URLEncoder.encode(serviceRequest.getExtra().getString(\"uri\"), \"UTF-8\")))));");
                 tl(4, "} catch(Exception ex2) {");
