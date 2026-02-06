@@ -1536,7 +1536,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
                       wJsEditionInit.tl(6, "if(", i18nClasse.getString(I18n.var_valide), ") {");
                       if(entiteListeTypeJson != null) {
                         wJsEditionInit.tl(7, "patch", classeNomSimple, "Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeVarId, ":' + event.currentTarget.getAttribute('data-", classeVarId, "') }]");
-                        wJsEditionInit.tl(9, ", 'set", entiteVarCapitalise, "', event.currentTarget.value.replace('[','').replace(']','').split(/[ ,]+/)");
+                        wJsEditionInit.tl(9, ", 'set", entiteVarCapitalise, "', event.currentTarget.value == '' ? null : JSON.parse(event.currentTarget.value)");
                         wJsEditionInit.tl(9, ", event.currentTarget");
                         wJsEditionInit.tl(9, ", function(", i18nClasse.getString(I18n.var_reponse), ", target) { ", i18nClasse.getString(I18n.var_ajouterLueur), "(target); }");
                         wJsEditionInit.tl(9, ", function(", i18nClasse.getString(I18n.var_reponse), ", target) { ", i18nClasse.getString(I18n.var_ajouterErreur), "(target); }");
