@@ -262,7 +262,6 @@ public class EcrireToutesClasses extends EcrirePageClasse {
     classeNomSimpleApiServiceImpl = doc.getString("classeNomSimpleApiServiceImpl_" + langueNom + "_stored_string");
     classeNomSimpleGenApiServiceImpl = doc.getString("classeNomSimpleGenApiServiceImpl_" + langueNom + "_stored_string");
     classeNomSimpleGenApiService = doc.getString("classeNomSimpleGenApiService_" + langueNom + "_stored_string");
-    classeVarTemplatePage = doc.getString("classeVarTemplatePage_stored_string");
     classeVarClePrimaire = doc.getString("classeVarClePrimaire_" + langueNom + "_stored_string");
     classeVarClePrimaireSuffixeSolr = doc.getString("classeVarClePrimaireSuffixeSolr_stored_string");
     classeVarInheritClePrimaire = doc.getString("classeVarInheritClePrimaire_" + langueNom + "_stored_string");
