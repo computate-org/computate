@@ -5897,7 +5897,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
     tl(6, "</div>");
     tl(6, "<span class=\"", composantsWebPrefixe, "heading-m \">", classeAucunNomTrouve, "</span>");
     tl(6, "<p class=\"", composantsWebPrefixe, "caption-l \">", classeDescription, "</p>");
-    tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
     tl(5, "</div>");
     tl(4, "</div>");
   }
@@ -6189,6 +6188,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
       // tl(6, "{{ htm", i18nClasse.getString(I18n.var_BoutonsPagination), classePageNomSimple, "() }}");
 
       tl(0, "{% endif %}");
+      tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
       tl(0, "{%- endblock htmBody", i18nClasse.getString(I18n.var_Debut), classePageNomSimple, " %}");
       tl(0, "{%- endblock htmBody", i18nClasse.getString(I18n.var_Debut), classePageSuperNomSimple, " %}");
       tl(0, "{%- if ", i18nClasse.getString(I18n.var_pageBoutonsRecherche), " is not defined %}");
@@ -6201,7 +6201,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
       tl(0, "{% include ", classePageBoutonsFormulaireRechercheTemplate, " %}");
       tl(0, "{%- endset ", i18nClasse.getString(I18n.var_pageBoutonsFormulaireRecherche), " %}");
       tl(0, "{%- endif %}");
-      tl(0, "{% include ", classePageFormulaireRechercheTemplate, " %}");
       l();
       tl(0, "{%- block htmBody", i18nClasse.getString(I18n.var_Milieu), classePageSuperNomSimple, " %}");
       tl(0, "{%- block htmBody", i18nClasse.getString(I18n.var_Milieu), classePageNomSimple, " %}");
