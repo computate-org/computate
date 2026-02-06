@@ -850,10 +850,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").insertInto(", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ").relateValues(", classeVarClePrimaire, ", ", classeVarClePrimaire, "2, ", i18nGlobale.getString(I18n.var_solrId), "2).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   } else if("array".equals(entiteTypeJson)) {
@@ -868,10 +868,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, o.get", StringUtils.capitalize(i18nGlobale.getString(I18n.var_solrId)), "(), val).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   } else if("array".equals(entiteAttribuerTypeJson)) {
@@ -886,10 +886,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", i18nGlobale.getString(I18n.var_solrId), "2, val).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   } else {
@@ -904,10 +904,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", i18nGlobale.getString(I18n.var_solrId), "2, val).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   }
@@ -924,10 +924,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").insertInto(", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ").relateValues(", classeVarClePrimaire, "2, ", classeVarClePrimaire, ", o.get", solrIdCapitalise, "()).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   } else if("array".equals(entiteTypeJson)) {
@@ -942,10 +942,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, o.get", StringUtils.capitalize(i18nGlobale.getString(I18n.var_solrId)), "(), val).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   } else if("array".equals(entiteAttribuerTypeJson)) {
@@ -960,10 +960,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", i18nGlobale.getString(I18n.var_solrId), "2, val).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   } else {
@@ -978,10 +978,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, o.get", StringUtils.capitalize(i18nGlobale.getString(I18n.var_solrId)), "(), val).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   }
@@ -1028,10 +1028,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").deleteFrom(", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ").relateValues(", classeVarClePrimaire, ", ", classeVarClePrimaire, "2, ", i18nGlobale.getString(I18n.var_solrId), "2).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   } else if("array".equals(entiteTypeJson)) {
@@ -1046,10 +1046,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, null, null).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   } else if("array".equals(entiteAttribuerTypeJson)) {
@@ -1064,10 +1064,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, null, null).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   } else {
@@ -1082,10 +1082,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, null, null).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   }
@@ -1102,10 +1102,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").insertInto(", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ").relateValues(", classeVarClePrimaire, ", null, ", i18nGlobale.getString(I18n.var_solrId), "2).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   } else if("array".equals(entiteTypeJson)) {
@@ -1120,10 +1120,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, null, null).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   } else if("array".equals(entiteAttribuerTypeJson)) {
@@ -1138,10 +1138,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, null, null).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   } else {
@@ -1156,10 +1156,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, null, null).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   }
@@ -1204,10 +1204,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").insertInto(", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ").relateValues(", classeVarClePrimaire, ", ", classeVarClePrimaire, "2, ", i18nGlobale.getString(I18n.var_solrId), "2).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   } else if("array".equals(entiteTypeJson)) {
@@ -1222,10 +1222,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, o.get", StringUtils.capitalize(i18nGlobale.getString(I18n.var_solrId)), "(), val).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   } else if("array".equals(entiteAttribuerTypeJson)) {
@@ -1240,10 +1240,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", i18nGlobale.getString(I18n.var_solrId), "2, val).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   } else {
@@ -1258,10 +1258,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", i18nGlobale.getString(I18n.var_solrId), "2, val).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   }
@@ -1278,10 +1278,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").insertInto(", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ").relateValues(", classeVarClePrimaire, "2, ", classeVarClePrimaire, ", o.get", solrIdCapitalise, "()).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   } else if("array".equals(entiteTypeJson)) {
@@ -1296,10 +1296,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, o.get", StringUtils.capitalize(i18nGlobale.getString(I18n.var_solrId)), "(), val).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   } else if("array".equals(entiteAttribuerTypeJson)) {
@@ -1314,10 +1314,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", i18nGlobale.getString(I18n.var_solrId), "2, val).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   } else {
@@ -1332,10 +1332,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, o.get", StringUtils.capitalize(i18nGlobale.getString(I18n.var_solrId)), "(), val).onSuccess(a -> {");
                     tl(10, "promise2.complete();");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}));");
                   }
@@ -1370,10 +1370,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").insertInto(", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ").relateValues(", classeVarClePrimaire, ", ", classeVarClePrimaire, "2, ", i18nGlobale.getString(I18n.var_solrId), "2).onSuccess(a -> {");
                       tl(10, "promise2.complete();");
                       tl(9, "}).onFailure(ex -> {");
-                      tl(10, "promise2.fail(ex);");
+                      tl(10, "promise2.tryFail(ex);");
                       tl(9, "});");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1387,7 +1387,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(8, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").deleteFrom(", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ").where(", classeVarClePrimaire, ", ", classeVarClePrimaire, "2).onSuccess(a -> {");
                       tl(9, "promise2.complete();");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1405,10 +1405,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").insertInto(", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ").relateValues(", classeVarClePrimaire, ", ", classeVarClePrimaire, "2, ", i18nGlobale.getString(I18n.var_solrId), "2).onSuccess(a -> {");
                       tl(10, "promise2.complete();");
                       tl(9, "}).onFailure(ex -> {");
-                      tl(10, "promise2.fail(ex);");
+                      tl(10, "promise2.tryFail(ex);");
                       tl(9, "});");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1425,10 +1425,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").insertInto(", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ").relateValues(", classeVarClePrimaire, ", ", classeVarClePrimaire, "2, ", i18nGlobale.getString(I18n.var_solrId), "2).onSuccess(a -> {");
                       tl(10, "promise2.complete();");
                       tl(9, "}).onFailure(ex -> {");
-                      tl(10, "promise2.fail(ex);");
+                      tl(10, "promise2.tryFail(ex);");
                       tl(9, "});");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1439,7 +1439,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(8, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").deleteFrom(", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ").where(", classeVarClePrimaire, ", ", classeVarClePrimaire, "2).onSuccess(a -> {");
                       tl(9, "promise2.complete();");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1459,10 +1459,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, o.get", StringUtils.capitalize(i18nGlobale.getString(I18n.var_solrId)), "(), val).onSuccess(a -> {");
                       tl(10, "promise2.complete();");
                       tl(9, "}).onFailure(ex -> {");
-                      tl(10, "promise2.fail(ex);");
+                      tl(10, "promise2.tryFail(ex);");
                       tl(9, "});");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1476,7 +1476,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(8, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).setToNull(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, "2).onSuccess(a -> {");
                       tl(9, "promise2.complete();");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1494,10 +1494,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, o.get", StringUtils.capitalize(i18nGlobale.getString(I18n.var_solrId)), "(), val).onSuccess(a -> {");
                       tl(10, "promise2.complete();");
                       tl(9, "}).onFailure(ex -> {");
-                      tl(10, "promise2.fail(ex);");
+                      tl(10, "promise2.tryFail(ex);");
                       tl(9, "});");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1514,10 +1514,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, o.get", StringUtils.capitalize(i18nGlobale.getString(I18n.var_solrId)), "(), val).onSuccess(a -> {");
                       tl(10, "promise2.complete();");
                       tl(9, "}).onFailure(ex -> {");
-                      tl(10, "promise2.fail(ex);");
+                      tl(10, "promise2.tryFail(ex);");
                       tl(9, "});");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1528,7 +1528,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(8, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).setToNull(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, null).onSuccess(a -> {");
                       tl(9, "promise2.complete();");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1547,10 +1547,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", i18nGlobale.getString(I18n.var_solrId), "2, val).onSuccess(a -> {");
                       tl(10, "promise2.complete();");
                       tl(9, "}).onFailure(ex -> {");
-                      tl(10, "promise2.fail(ex);");
+                      tl(10, "promise2.tryFail(ex);");
                       tl(9, "});");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1561,7 +1561,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(8, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").setToNull(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, null).onSuccess(a -> {");
                       tl(9, "promise2.complete();");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1580,10 +1580,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", i18nGlobale.getString(I18n.var_solrId), "2, val).onSuccess(a -> {");
                       tl(10, "promise2.complete();");
                       tl(9, "}).onFailure(ex -> {");
-                      tl(10, "promise2.fail(ex);");
+                      tl(10, "promise2.tryFail(ex);");
                       tl(9, "});");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1594,7 +1594,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(8, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").setToNull(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, null).onSuccess(a -> {");
                       tl(9, "promise2.complete();");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1616,10 +1616,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").insertInto(", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ").relateValues(", classeVarClePrimaire, ", ", classeVarClePrimaire, "2, ", i18nGlobale.getString(I18n.var_solrId), "2).onSuccess(a -> {");
                       tl(10, "promise2.complete();");
                       tl(9, "}).onFailure(ex -> {");
-                      tl(10, "promise2.fail(ex);");
+                      tl(10, "promise2.tryFail(ex);");
                       tl(9, "});");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1633,7 +1633,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(8, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").deleteFrom(", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ").where(", classeVarClePrimaire, "2, ", classeVarClePrimaire, ").onSuccess(a -> {");
                       tl(9, "promise2.complete();");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1651,10 +1651,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").insertInto(", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ").relateValues(", classeVarClePrimaire, ", ", classeVarClePrimaire, "2, ", i18nGlobale.getString(I18n.var_solrId), "2).onSuccess(a -> {");
                       tl(10, "promise2.complete();");
                       tl(9, "}).onFailure(ex -> {");
-                      tl(10, "promise2.fail(ex);");
+                      tl(10, "promise2.tryFail(ex);");
                       tl(9, "});");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1671,10 +1671,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").insertInto(", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ").relateValues(", classeVarClePrimaire, ", ", classeVarClePrimaire, "2, ", i18nGlobale.getString(I18n.var_solrId), "2).onSuccess(a -> {");
                       tl(10, "promise2.complete();");
                       tl(9, "}).onFailure(ex -> {");
-                      tl(10, "promise2.fail(ex);");
+                      tl(10, "promise2.tryFail(ex);");
                       tl(9, "});");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1685,7 +1685,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(8, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").deleteFrom(", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ").where(", classeVarClePrimaire, "2, ", classeVarClePrimaire, ").onSuccess(a -> {");
                       tl(9, "promise2.complete();");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1705,10 +1705,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, o.get", StringUtils.capitalize(i18nGlobale.getString(I18n.var_solrId)), "(), val).onSuccess(a -> {");
                       tl(10, "promise2.complete();");
                       tl(9, "}).onFailure(ex -> {");
-                      tl(10, "promise2.fail(ex);");
+                      tl(10, "promise2.tryFail(ex);");
                       tl(9, "});");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1722,7 +1722,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(8, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).setToNull(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeVarClePrimaire, "2).onSuccess(a -> {");
                       tl(9, "promise2.complete();");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1740,10 +1740,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, o.get", StringUtils.capitalize(i18nGlobale.getString(I18n.var_solrId)), "(), val).onSuccess(a -> {");
                       tl(10, "promise2.complete();");
                       tl(9, "}).onFailure(ex -> {");
-                      tl(10, "promise2.fail(ex);");
+                      tl(10, "promise2.tryFail(ex);");
                       tl(9, "});");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1760,10 +1760,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, o.get", StringUtils.capitalize(i18nGlobale.getString(I18n.var_solrId)), "(), val).onSuccess(a -> {");
                       tl(10, "promise2.complete();");
                       tl(9, "}).onFailure(ex -> {");
-                      tl(10, "promise2.fail(ex);");
+                      tl(10, "promise2.tryFail(ex);");
                       tl(9, "});");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1774,7 +1774,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(8, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).setToNull(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, null).onSuccess(a -> {");
                       tl(9, "promise2.complete();");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1793,10 +1793,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", i18nGlobale.getString(I18n.var_solrId), "2, val).onSuccess(a -> {");
                       tl(10, "promise2.complete();");
                       tl(9, "}).onFailure(ex -> {");
-                      tl(10, "promise2.fail(ex);");
+                      tl(10, "promise2.tryFail(ex);");
                       tl(9, "});");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1807,7 +1807,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", classeNomSimple, ".class, ", classeVarClePrimaire, ").setToNull(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, null).onSuccess(a -> {");
                       tl(9, "promise2.complete();");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1826,10 +1826,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, o.get", StringUtils.capitalize(i18nGlobale.getString(I18n.var_solrId)), "(), val).onSuccess(a -> {");
                       tl(10, "promise2.complete();");
                       tl(9, "}).onFailure(ex -> {");
-                      tl(10, "promise2.fail(ex);");
+                      tl(10, "promise2.tryFail(ex);");
                       tl(9, "});");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -1840,7 +1840,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(9, "sql(", i18nGlobale.getString(I18n.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, ", classeVarClePrimaire, "2).setToNull(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, null).onSuccess(a -> {");
                       tl(9, "promise2.complete();");
                       tl(8, "}).onFailure(ex -> {");
-                      tl(9, "promise2.fail(ex);");
+                      tl(9, "promise2.tryFail(ex);");
                       tl(8, "});");
                       tl(7, "}));");
                       tl(6, "});");
@@ -2135,7 +2135,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 
               tl(2, "}).onFailure(ex -> {");
               if(activerOpenIdConnect) {
-                tl(3, "if(\"GET\".equals(serviceRequest.getExtra().getString(\"method\")) && (\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\"))) {");
+                tl(3, "if(\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\")) {");
                 tl(4, "try {");
                 tl(5, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture(new ServiceResponse(302, \"Found\", null, MultiMap.caseInsensitiveMultiMap().add(HttpHeaders.LOCATION, \"/", i18nGlobale.getString(I18n.var_deconnexion), "?redirect_uri=\" + URLEncoder.encode(serviceRequest.getExtra().getString(\"uri\"), \"UTF-8\")))));");
                 tl(4, "} catch(Exception ex2) {");
@@ -2640,7 +2640,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 
               tl(2, "}).onFailure(ex -> {");
               if(activerOpenIdConnect) {
-                tl(3, "if(\"GET\".equals(serviceRequest.getExtra().getString(\"method\")) && (\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\"))) {");
+                tl(3, "if(\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\")) {");
                 tl(4, "try {");
                 tl(5, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture(new ServiceResponse(302, \"Found\", null, MultiMap.caseInsensitiveMultiMap().add(HttpHeaders.LOCATION, \"/", i18nGlobale.getString(I18n.var_deconnexion), "?redirect_uri=\" + URLEncoder.encode(serviceRequest.getExtra().getString(\"uri\"), \"UTF-8\")))));");
                 tl(4, "} catch(Exception ex2) {");
@@ -2670,7 +2670,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
               if(!classePublicLire && classeRessourcesAutorisation.size() > 0 && classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageRecherche))) {
                 tl(2, "}).onFailure(ex -> {");
                 if(activerOpenIdConnect) {
-                  tl(3, "if(\"GET\".equals(serviceRequest.getExtra().getString(\"method\")) && (\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\"))) {");
+                  tl(3, "if(\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\")) {");
                   tl(4, "try {");
                   tl(5, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture(new ServiceResponse(302, \"Found\", null, MultiMap.caseInsensitiveMultiMap().add(HttpHeaders.LOCATION, \"/", i18nGlobale.getString(I18n.var_deconnexion), "?redirect_uri=\" + URLEncoder.encode(serviceRequest.getExtra().getString(\"uri\"), \"UTF-8\")))));");
                   tl(4, "} catch(Exception ex2) {");
@@ -2723,7 +2723,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
               tl(5, "promise1.complete();");
               tl(4, "}).onFailure(ex -> {");
               tl(5, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_liste), classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-              tl(5, "promise1.fail(ex);");
+              tl(5, "promise1.tryFail(ex);");
               tl(4, "});");
               tl(3, "}));");
               tl(2, "});");
@@ -2734,18 +2734,18 @@ public class EcrireApiClasse extends EcrireGenClasse {
               tl(6, "promise.complete();");
               tl(5, "}).onFailure(ex -> {");
               tl(6, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_liste), classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-              tl(6, "promise.fail(ex);");
+              tl(6, "promise.tryFail(ex);");
               tl(5, "});");
               tl(4, "} else {");
               tl(5, "promise.complete();");
               tl(4, "}");
               tl(3, "}).onFailure(ex -> {");
               tl(4, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_liste), classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-              tl(4, "promise.fail(ex);");
+              tl(4, "promise.tryFail(ex);");
               tl(3, "});");
               tl(2, "}).onFailure(ex -> {");
               tl(3, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_liste), classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-              tl(3, "promise.fail(ex);");
+              tl(3, "promise.tryFail(ex);");
               tl(2, "});");
               tl(2, "return promise.future();");
               tl(1, "}");
@@ -2790,7 +2790,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
               tl(7, "promise.complete();");
               tl(6, "}).onFailure(ex -> {");
               tl(7, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_liste), classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-              tl(7, "promise.fail(ex);");
+              tl(7, "promise.tryFail(ex);");
               tl(6, "});");
               tl(5, "} else {");
               tl(6, "promise.complete();");
@@ -2838,7 +2838,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
               tl(6, "promise1.complete();");
               tl(5, "}).onFailure(ex -> {");
               tl(6, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_liste), classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-              tl(6, "promise1.fail(ex);");
+              tl(6, "promise1.tryFail(ex);");
               tl(5, "});");
               tl(4, "}));");
               tl(3, "});");
@@ -2847,11 +2847,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
               tl(4, "promise.complete();");
               tl(3, "}).onFailure(ex -> {");
               tl(4, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_liste), classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-              tl(4, "promise.fail(ex);");
+              tl(4, "promise.tryFail(ex);");
               tl(3, "});");
               tl(2, "} catch(Exception ex) {");
               tl(3, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_liste), classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-              tl(3, "promise.fail(ex);");
+              tl(3, "promise.tryFail(ex);");
               tl(2, "}");
               tl(2, "return promise.future();");
               tl(1, "}");
@@ -2893,7 +2893,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
               tl(3, "}");
               tl(2, "}).onFailure(ex -> {");
               if(activerOpenIdConnect) {
-                tl(3, "if(\"GET\".equals(serviceRequest.getExtra().getString(\"method\")) && (\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\"))) {");
+                tl(3, "if(\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\")) {");
                 tl(4, "try {");
                 tl(5, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture(new ServiceResponse(302, \"Found\", null, MultiMap.caseInsensitiveMultiMap().add(HttpHeaders.LOCATION, \"/", i18nGlobale.getString(I18n.var_deconnexion), "?redirect_uri=\" + URLEncoder.encode(serviceRequest.getExtra().getString(\"uri\"), \"UTF-8\")))));");
                 tl(4, "} catch(Exception ex2) {");
@@ -3275,7 +3275,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
               tl(3, "}");
               tl(2, "}).onFailure(ex -> {");
               if(activerOpenIdConnect) {
-                tl(3, "if(\"GET\".equals(serviceRequest.getExtra().getString(\"method\")) && (\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\"))) {");
+                tl(3, "if(\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\")) {");
                 tl(4, "try {");
                 tl(5, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture(new ServiceResponse(302, \"Found\", null, MultiMap.caseInsensitiveMultiMap().add(HttpHeaders.LOCATION, \"/", i18nGlobale.getString(I18n.var_deconnexion), "?redirect_uri=\" + URLEncoder.encode(serviceRequest.getExtra().getString(\"uri\"), \"UTF-8\")))));");
                 tl(4, "} catch(Exception ex2) {");
@@ -3340,29 +3340,29 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   tl(9, i18nGlobale.getString(I18n.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(o2 -> {");
                   tl(10, "promise1.complete(", uncapitalizeClasseNomSimple, ");");
                   tl(9, "}).onFailure(ex -> {");
-                  tl(10, "promise1.fail(ex);");
+                  tl(10, "promise1.tryFail(ex);");
                   tl(9, "});");
                   tl(8, "}).onFailure(ex -> {");
-                  tl(9, "promise1.fail(ex);");
+                  tl(9, "promise1.tryFail(ex);");
                   tl(8, "});");
                   tl(7, "}).onFailure(ex -> {");
-                  tl(8, "promise1.fail(ex);");
+                  tl(8, "promise1.tryFail(ex);");
                   tl(7, "});");
                   tl(6, "}).onFailure(ex -> {");
-                  tl(7, "promise1.fail(ex);");
+                  tl(7, "promise1.tryFail(ex);");
                   tl(6, "});");
                   tl(5, "}).onFailure(ex -> {");
-                  tl(6, "promise1.fail(ex);");
+                  tl(6, "promise1.tryFail(ex);");
                   tl(5, "});");
                   tl(4, "}).onFailure(ex -> {");
-                  tl(5, "promise1.fail(ex);");
+                  tl(5, "promise1.tryFail(ex);");
                   tl(4, "});");
                   tl(4, "return promise1.future();");
                   tl(3, "}).onSuccess(a -> {");
                   tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_ConnexionSql), "(null);");
                   tl(3, "}).onFailure(ex -> {");
                   tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_ConnexionSql), "(null);");
-                  tl(4, "promise.fail(ex);");
+                  tl(4, "promise.tryFail(ex);");
                   tl(3, "}).compose(", uncapitalizeClasseNomSimple, " -> {");
                   tl(4, "Promise<", classeApiClasseNomSimple, "> promise2 = Promise.promise();");
                   tl(4, i18nGlobale.getString(I18n.var_recharger), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(a -> {");
@@ -3376,10 +3376,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   tl(6, "promise2.complete(", uncapitalizeClasseNomSimple, ");");
                   tl(5, "} catch(Exception ex) {");
                   tl(6, "LOG.error(String.format(\"", classeApiOperationIdMethode, "Future ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-                  tl(6, "promise2.fail(ex);");
+                  tl(6, "promise2.tryFail(ex);");
                   tl(5, "}");
                   tl(4, "}).onFailure(ex -> {");
-                  tl(5, "promise2.fail(ex);");
+                  tl(5, "promise2.tryFail(ex);");
                   tl(4, "});");
                   tl(4, "return promise2.future();");
                   tl(3, "}).onSuccess(", uncapitalizeClasseNomSimple, " -> {");
@@ -3393,10 +3393,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   tl(5, "promise.complete(", uncapitalizeClasseNomSimple, ");");
                   tl(4, "} catch(Exception ex) {");
                   tl(5, "LOG.error(String.format(\"", classeApiOperationIdMethode, "Future ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-                  tl(5, "promise.fail(ex);");
+                  tl(5, "promise.tryFail(ex);");
                   tl(4, "}");
                   tl(3, "}).onFailure(ex -> {");
-                  tl(4, "promise.fail(ex);");
+                  tl(4, "promise.tryFail(ex);");
                   tl(3, "});");
                 } else {
                   tl(3, i18nGlobale.getString(I18n.var_creer), classeNomSimple, "(", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(", uncapitalizeClasseNomSimple, " -> {");
@@ -3404,13 +3404,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   tl(5, i18nGlobale.getString(I18n.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(o2 -> {");
                   tl(6, "promise.complete(", uncapitalizeClasseNomSimple, ");");
                   tl(5, "}).onFailure(ex -> {");
-                  tl(6, "promise.fail(ex);");
+                  tl(6, "promise.tryFail(ex);");
                   tl(5, "});");
                   tl(4, "}).onFailure(ex -> {");
-                  tl(5, "promise.fail(ex);");
+                  tl(5, "promise.tryFail(ex);");
                   tl(4, "});");
                   tl(3, "}).onFailure(ex -> {");
-                  tl(4, "promise.fail(ex);");
+                  tl(4, "promise.tryFail(ex);");
                   tl(3, "});");
                 }
               } else if(classeApiMethode.contains("DELETE")) {
@@ -3433,41 +3433,41 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   tl(8, "}");
                   tl(8, "promise1.complete();");
                   tl(7, "}).onFailure(ex -> {");
-                  tl(8, "promise1.fail(ex);");
+                  tl(8, "promise1.tryFail(ex);");
                   tl(7, "});");
                   tl(6, "}).onFailure(ex -> {");
-                  tl(7, "promise1.fail(ex);");
+                  tl(7, "promise1.tryFail(ex);");
                   tl(6, "});");
                   tl(5, "}).onFailure(ex -> {");
-                  tl(6, "promise1.fail(ex);");
+                  tl(6, "promise1.tryFail(ex);");
                   tl(5, "});");
                   tl(4, "}).onFailure(ex -> {");
-                  tl(5, "promise1.fail(ex);");
+                  tl(5, "promise1.tryFail(ex);");
                   tl(4, "});");
                   tl(4, "return promise1.future();");
                   tl(3, "}).onSuccess(a -> {");
                   tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_ConnexionSql), "(null);");
                   tl(3, "}).onFailure(ex -> {");
                   tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_ConnexionSql), "(null);");
-                  tl(4, "promise.fail(ex);");
+                  tl(4, "promise.tryFail(ex);");
                   tl(3, "}).compose(", uncapitalizeClasseNomSimple, " -> {");
                   tl(4, "Promise<", classeApiClasseNomSimple, "> promise2 = Promise.promise();");
                   tl(4, i18nGlobale.getString(I18n.var_recharger), classeNomSimple, "(o).onSuccess(a -> {");
                   tl(5, "promise2.complete(o);");
                   tl(4, "}).onFailure(ex -> {");
-                  tl(5, "promise2.fail(ex);");
+                  tl(5, "promise2.tryFail(ex);");
                   tl(4, "});");
                   tl(4, "return promise2.future();");
                   tl(3, "}).onSuccess(", uncapitalizeClasseNomSimple, " -> {");
                   tl(4, "promise.complete(", uncapitalizeClasseNomSimple, ");");
                   tl(3, "}).onFailure(ex -> {");
-                  tl(4, "promise.fail(ex);");
+                  tl(4, "promise.tryFail(ex);");
                   tl(3, "});");
                 } else {
                   tl(3, i18nGlobale.getString(I18n.var_desindexer), classeNomSimple, "(o).onSuccess(e -> {");
                   tl(4, "promise.complete(o);");
                   tl(3, "}).onFailure(ex -> {");
-                  tl(4, "promise.fail(ex);");
+                  tl(4, "promise.tryFail(ex);");
                   tl(3, "});");
                 }
               }
@@ -3495,19 +3495,19 @@ public class EcrireApiClasse extends EcrireGenClasse {
                 tl(8, i18nGlobale.getString(I18n.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(o2 -> {");
                 tl(9, "promise1.complete(", uncapitalizeClasseNomSimple, ");");
                 tl(8, "}).onFailure(ex -> {");
-                tl(9, "promise1.fail(ex);");
+                tl(9, "promise1.tryFail(ex);");
                 tl(8, "});");
                 tl(7, "}).onFailure(ex -> {");
-                tl(8, "promise1.fail(ex);");
+                tl(8, "promise1.tryFail(ex);");
                 tl(7, "});");
                 tl(6, "}).onFailure(ex -> {");
-                tl(7, "promise1.fail(ex);");
+                tl(7, "promise1.tryFail(ex);");
                 tl(6, "});");
                 tl(5, "}).onFailure(ex -> {");
-                tl(6, "promise1.fail(ex);");
+                tl(6, "promise1.tryFail(ex);");
                 tl(5, "});");
                 tl(4, "}).onFailure(ex -> {");
-                tl(5, "promise1.fail(ex);");
+                tl(5, "promise1.tryFail(ex);");
                 tl(4, "});");
                 tl(4, "return promise1.future();");
                 if(classeModele) {
@@ -3515,7 +3515,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_ConnexionSql), "(null);");
                   tl(3, "}).onFailure(ex -> {");
                   tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_ConnexionSql), "(null);");
-                  tl(4, "promise.fail(ex);");
+                  tl(4, "promise.tryFail(ex);");
                   tl(3, "}).compose(", uncapitalizeClasseNomSimple, " -> {");
                   tl(4, "Promise<", classeApiClasseNomSimple, "> promise2 = Promise.promise();");
                   tl(4, i18nGlobale.getString(I18n.var_recharger), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(a -> {");
@@ -3529,23 +3529,23 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   tl(6, "promise2.complete(", uncapitalizeClasseNomSimple, ");");
                   tl(5, "} catch(Exception ex) {");
                   tl(6, "LOG.error(String.format(\"", classeApiOperationIdMethode, "Future ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-                  tl(6, "promise2.fail(ex);");
+                  tl(6, "promise2.tryFail(ex);");
                   tl(5, "}");
                   tl(4, "}).onFailure(ex -> {");
-                  tl(5, "promise2.fail(ex);");
+                  tl(5, "promise2.tryFail(ex);");
                   tl(4, "});");
                   tl(4, "return promise2.future();");
                   tl(3, "}).onSuccess(", uncapitalizeClasseNomSimple, " -> {");
                   tl(4, "promise.complete(", uncapitalizeClasseNomSimple, ");");
                   tl(3, "}).onFailure(ex -> {");
-                  tl(4, "promise.fail(ex);");
+                  tl(4, "promise.tryFail(ex);");
                 } else {
                   tl(3, "}).onSuccess(a -> {");
                   tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_ConnexionSql), "(null);");
                   tl(4, "promise.complete(o);");
                   tl(3, "}).onFailure(ex -> {");
                   tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_ConnexionSql), "(null);");
-                  tl(4, "promise.fail(ex);");
+                  tl(4, "promise.tryFail(ex);");
                 }
                 tl(3, "});");
               }
@@ -3585,22 +3585,22 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(11, "}");
                     tl(11, "promise2.complete(", uncapitalizeClasseNomSimple, ");");
                     tl(10, "}).onFailure(ex -> {");
-                    tl(11, "promise2.fail(ex);");
+                    tl(11, "promise2.tryFail(ex);");
                     tl(10, "});");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise2.fail(ex);");
+                    tl(10, "promise2.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise2.fail(ex);");
+                    tl(9, "promise2.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}).onFailure(ex -> {");
-                    tl(8, "promise2.fail(ex);");
+                    tl(8, "promise2.tryFail(ex);");
                     tl(7, "});");
                     tl(7, "return promise2.future();");
                     tl(6, "}).onSuccess(o2 -> {");
                     tl(7, "promise1.complete(o2);");
                     tl(6, "}).onFailure(ex -> {");
-                    tl(7, "promise1.fail(ex);");
+                    tl(7, "promise1.tryFail(ex);");
                     tl(6, "});");
                     tl(5, "} else {");
                     tl(6, "sql", classeApiMethode, classeNomSimple, "(o, ", i18nGlobale.getString(I18n.var_inheritClePrimaire), ").onSuccess(", uncapitalizeClasseNomSimple, " -> {");
@@ -3617,16 +3617,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(10, "}");
                     tl(10, "promise1.complete(", uncapitalizeClasseNomSimple, ");");
                     tl(9, "}).onFailure(ex -> {");
-                    tl(10, "promise1.fail(ex);");
+                    tl(10, "promise1.tryFail(ex);");
                     tl(9, "});");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise1.fail(ex);");
+                    tl(9, "promise1.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}).onFailure(ex -> {");
-                    tl(8, "promise1.fail(ex);");
+                    tl(8, "promise1.tryFail(ex);");
                     tl(7, "});");
                     tl(6, "}).onFailure(ex -> {");
-                    tl(7, "promise1.fail(ex);");
+                    tl(7, "promise1.tryFail(ex);");
                     tl(6, "});");
                     tl(5, "}");
                   } else {
@@ -3644,39 +3644,39 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(9, "}");
                     tl(9, "promise1.complete(", uncapitalizeClasseNomSimple, ");");
                     tl(8, "}).onFailure(ex -> {");
-                    tl(9, "promise1.fail(ex);");
+                    tl(9, "promise1.tryFail(ex);");
                     tl(8, "});");
                     tl(7, "}).onFailure(ex -> {");
-                    tl(8, "promise1.fail(ex);");
+                    tl(8, "promise1.tryFail(ex);");
                     tl(7, "});");
                     tl(6, "}).onFailure(ex -> {");
-                    tl(7, "promise1.fail(ex);");
+                    tl(7, "promise1.tryFail(ex);");
                     tl(6, "});");
                     tl(5, "}).onFailure(ex -> {");
-                    tl(6, "promise1.fail(ex);");
+                    tl(6, "promise1.tryFail(ex);");
                     tl(5, "});");
                   }
                   tl(4, "}).onFailure(ex -> {");
-                  tl(5, "promise1.fail(ex);");
+                  tl(5, "promise1.tryFail(ex);");
                   tl(4, "});");
                   tl(4, "return promise1.future();");
                   tl(3, "}).onSuccess(a -> {");
                   tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_ConnexionSql), "(null);");
                   tl(3, "}).onFailure(ex -> {");
                   tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_ConnexionSql), "(null);");
-                  tl(4, "promise.fail(ex);");
+                  tl(4, "promise.tryFail(ex);");
                   tl(3, "}).compose(", uncapitalizeClasseNomSimple, " -> {");
                   tl(4, "Promise<", classeApiClasseNomSimple, "> promise2 = Promise.promise();");
                   tl(4, i18nGlobale.getString(I18n.var_recharger), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(a -> {");
                   tl(5, "promise2.complete(", uncapitalizeClasseNomSimple, ");");
                   tl(4, "}).onFailure(ex -> {");
-                  tl(5, "promise2.fail(ex);");
+                  tl(5, "promise2.tryFail(ex);");
                   tl(4, "});");
                   tl(4, "return promise2.future();");
                   tl(3, "}).onSuccess(", uncapitalizeClasseNomSimple, " -> {");
                   tl(4, "promise.complete(", uncapitalizeClasseNomSimple, ");");
                   tl(3, "}).onFailure(ex -> {");
-                  tl(4, "promise.fail(ex);");
+                  tl(4, "promise.tryFail(ex);");
                   tl(3, "});");
                 } else {
                   tl(3, i18nGlobale.getString(I18n.var_definir), classeNomSimple, "(o, true).onSuccess(c -> {");
@@ -3691,16 +3691,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   tl(5, "}");
                   tl(5, "promise.complete(o);");
                   tl(4, "}).onFailure(ex -> {");
-                  tl(5, "promise.fail(ex);");
+                  tl(5, "promise.tryFail(ex);");
                   tl(4, "});");
                   tl(3, "}).onFailure(ex -> {");
-                  tl(4, "promise.fail(ex);");
+                  tl(4, "promise.tryFail(ex);");
                   tl(3, "});");
                 }
               }
               tl(2, "} catch(Exception ex) {");
               tl(3, "LOG.error(String.format(\"", classeApiOperationIdMethode, "Future ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-              tl(3, "promise.fail(ex);");
+              tl(3, "promise.tryFail(ex);");
               tl(2, "}");
               tl(2, "return promise.future();");
               tl(1, "}");
@@ -3790,15 +3790,15 @@ public class EcrireApiClasse extends EcrireGenClasse {
                 tl(5, "promise.complete(o2);");
                 tl(4, "}).onFailure(ex -> {");
                 tl(5, "LOG.error(String.format(\"sql", classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-                tl(5, "promise.fail(ex);");
+                tl(5, "promise.tryFail(ex);");
                 tl(4, "});");
                 tl(3, "}).onFailure(ex -> {");
                 tl(4, "LOG.error(String.format(\"sql", classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-                tl(4, "promise.fail(ex);");
+                tl(4, "promise.tryFail(ex);");
                 tl(3, "});");
                 tl(2, "} catch(Exception ex) {");
                 tl(3, "LOG.error(String.format(\"sql", classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-                tl(3, "promise.fail(ex);");
+                tl(3, "promise.tryFail(ex);");
                 tl(2, "}");
                 tl(2, "return promise.future();");
                 tl(1, "}");
@@ -3852,7 +3852,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   tl(7, "promise.complete();");
                   tl(6, "}).onFailure(ex -> {");
                   tl(7, "LOG.error(String.format(\"sql", classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-                  tl(7, "promise.fail(ex);");
+                  tl(7, "promise.tryFail(ex);");
                   tl(6, "});");
                   tl(5, "} else {");
                   tl(6, "promise.complete();");
@@ -3862,15 +3862,15 @@ public class EcrireApiClasse extends EcrireGenClasse {
                 }
                 tl(4, "}).onFailure(ex -> {");
                 tl(5, "LOG.error(String.format(\"sql", classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-                tl(5, "promise.fail(ex);");
+                tl(5, "promise.tryFail(ex);");
                 tl(4, "});");
                 tl(3, "}).onFailure(ex -> {");
                 tl(4, "LOG.error(String.format(\"sql", classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-                tl(4, "promise.fail(ex);");
+                tl(4, "promise.tryFail(ex);");
                 tl(3, "});");
                 tl(2, "} catch(Exception ex) {");
                 tl(3, "LOG.error(String.format(\"sql", classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-                tl(3, "promise.fail(ex);");
+                tl(3, "promise.tryFail(ex);");
                 tl(2, "}");
                 tl(2, "return promise.future();");
                 tl(1, "}");
@@ -3924,15 +3924,15 @@ public class EcrireApiClasse extends EcrireGenClasse {
                 tl(5, "promise.complete(o3);");
                 tl(4, "}).onFailure(ex -> {");
                 tl(5, "LOG.error(String.format(\"sql", classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-                tl(5, "promise.fail(ex);");
+                tl(5, "promise.tryFail(ex);");
                 tl(4, "});");
                 tl(3, "}).onFailure(ex -> {");
                 tl(4, "LOG.error(String.format(\"sql", classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-                tl(4, "promise.fail(ex);");
+                tl(4, "promise.tryFail(ex);");
                 tl(3, "});");
                 tl(2, "} catch(Exception ex) {");
                 tl(3, "LOG.error(String.format(\"sql", classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-                tl(3, "promise.fail(ex);");
+                tl(3, "promise.tryFail(ex);");
                 tl(2, "}");
                 tl(2, "return promise.future();");
                 tl(1, "}");
@@ -3990,15 +3990,15 @@ public class EcrireApiClasse extends EcrireGenClasse {
                 tl(5, "promise.complete();");
                 tl(4, "}).onFailure(ex -> {");
                 tl(5, "LOG.error(String.format(\"sql", classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-                tl(5, "promise.fail(ex);");
+                tl(5, "promise.tryFail(ex);");
                 tl(4, "});");
                 tl(3, "}).onFailure(ex -> {");
                 tl(4, "LOG.error(String.format(\"sql", classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-                tl(4, "promise.fail(ex);");
+                tl(4, "promise.tryFail(ex);");
                 tl(3, "});");
                 tl(2, "} catch(Exception ex) {");
                 tl(3, "LOG.error(String.format(\"sql", classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-                tl(3, "promise.fail(ex);");
+                tl(3, "promise.tryFail(ex);");
                 tl(2, "}");
                 tl(2, "return promise.future();");
                 tl(1, "}");
@@ -4229,14 +4229,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
             tl(6, "Buffer buffer = Buffer.buffer(renderedTemplate);");
             tl(6, "promise.complete(new ServiceResponse(200, \"OK\", buffer, ", i18nGlobale.getString(I18n.var_requeteEnTetes), "));");
             tl(5, "}).onFailure(ex -> {");
-            tl(6, "promise.fail(ex);");
+            tl(6, "promise.tryFail(ex);");
             tl(5, "});");
             tl(4, "} catch(Exception ex) {");
             tl(5, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_reponse), "200", classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-            tl(5, "promise.fail(ex);");
+            tl(5, "promise.tryFail(ex);");
             tl(4, "}");
             tl(3, "}).onFailure(ex -> {");
-            tl(4, "promise.fail(ex);");
+            tl(4, "promise.tryFail(ex);");
             tl(3, "});");
           }
           else if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_Telechargement))) {
@@ -4253,7 +4253,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
             tl(5, "promise.complete(new ServiceResponse(200, \"OK\", buffer, headers));");
             tl(4, "}).onFailure(ex -> {");
             tl(5, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.str_Impossible_de_trouver_le_telechargement), "\", ", i18nGlobale.getString(I18n.var_cheminTelechargement), "), ex);");
-            tl(5, "promise.fail(ex);");
+            tl(5, "promise.tryFail(ex);");
             tl(4, "});");
             tl(3, "}");
           } else {
@@ -4274,7 +4274,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
   
           tl(2, "} catch(Exception ex) {");
             tl(3, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_reponse), "200", classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-          tl(3, "promise.fail(ex);");
+          tl(3, "promise.tryFail(ex);");
           tl(2, "}");
           tl(2, "return promise.future();");
           tl(1, "}");
@@ -4394,7 +4394,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
           tl(3, "}).onFailure(ex -> {");
           tl(4, "RuntimeException ex2 = new RuntimeException(ex);");
           tl(4, "LOG.error(\"", i18nGlobale.getString(I18n.var_creer), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \", ex2);");
-          tl(4, "promise.fail(ex2);");
+          tl(4, "promise.tryFail(ex2);");
           tl(3, "});");
         } else {
           tl(3, classeNomSimple, " o = new ", classeNomSimple, "();");
@@ -4404,7 +4404,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
         }
         tl(2, "} catch(Exception ex) {");
         tl(3, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_creer), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-        tl(3, "promise.fail(ex);");
+        tl(3, "promise.tryFail(ex);");
         tl(2, "}");
         tl(2, "return promise.future();");
         tl(1, "}");
@@ -4478,14 +4478,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
       tl(5, "}");
       tl(4, "} catch(Exception ex) {");
       tl(5, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-      tl(5, "promise.fail(ex);");
+      tl(5, "promise.tryFail(ex);");
       tl(4, "}");
 
       tl(3, "});");
       tl(3, "promise.complete();");
       tl(2, "} catch(Exception ex) {");
       tl(3, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-      tl(3, "promise.fail(ex);");
+      tl(3, "promise.tryFail(ex);");
       tl(2, "}");
       tl(2, "return promise.future();");
       tl(1, "}");
@@ -4505,11 +4505,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
         tl(5, "promise.complete(", i18nGlobale.getString(I18n.var_listeRecherche), ");");
         tl(4, "}).onFailure(ex -> {");
         tl(5, "LOG.error(\"", i18nGlobale.getString(I18n.str_Impossible_de_creer_l_utilisateur_du_site), "\", ex);");
-        tl(5, "promise.fail(ex);");
+        tl(5, "promise.tryFail(ex);");
         tl(4, "});");
         tl(3, "}).onFailure(ex -> {");
         tl(4, "LOG.error(\"", i18nGlobale.getString(I18n.str_Impossible_de_creer_l_utilisateur_du_site), "\", ex);");
-        tl(4, "promise.fail(ex);");
+        tl(4, "promise.tryFail(ex);");
         tl(3, "});");
       } else {
         tl(3, "ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "();");
@@ -4770,19 +4770,19 @@ public class EcrireApiClasse extends EcrireGenClasse {
         tl(6, "promise.complete(", i18nGlobale.getString(I18n.var_listeRecherche), ");");
         tl(5, "}).onFailure(ex -> {");
         tl(6, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-        tl(6, "promise.fail(ex);");
+        tl(6, "promise.tryFail(ex);");
         tl(5, "});");
         tl(4, "} else {");
         tl(5, "promise.complete(", i18nGlobale.getString(I18n.var_listeRecherche), ");");
         tl(4, "}");
         tl(3, "}).onFailure(ex -> {");
         tl(4, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-        tl(4, "promise.fail(ex);");
+        tl(4, "promise.tryFail(ex);");
         tl(3, "});");
       }
       tl(2, "} catch(Exception ex) {");
       tl(3, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_rechercher), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-      tl(3, "promise.fail(ex);");
+      tl(3, "promise.tryFail(ex);");
       tl(2, "}");
       tl(2, "return promise.future();");
       tl(1, "}");
@@ -4825,7 +4825,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
           tl(8, "promise.complete();");
           tl(7, "}).onFailure(ex -> {");
           tl(8, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_definir), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-          tl(8, "promise.fail(ex);");
+          tl(8, "promise.tryFail(ex);");
           tl(7, "});");
           tl(6, "} else {");
           tl(7, "promise.complete();");
@@ -4835,16 +4835,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
         }
         tl(5, "}).onFailure(ex -> {");
         tl(6, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_definir), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-        tl(6, "promise.fail(ex);");
+        tl(6, "promise.tryFail(ex);");
         tl(5, "});");
         tl(4, "} catch(Exception ex) {");
         tl(5, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_definir), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-        tl(5, "promise.fail(ex);");
+        tl(5, "promise.tryFail(ex);");
         tl(4, "}");
         tl(3, "}).onFailure(ex -> {");
         tl(4, "RuntimeException ex2 = new RuntimeException(ex);");
         tl(4, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_definir), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex2);");
-        tl(4, "promise.fail(ex2);");
+        tl(4, "promise.tryFail(ex2);");
         tl(3, "});");
       } else {
         tl(1, "public Future<Void> ", i18nGlobale.getString(I18n.var_definir), classeNomSimple, "(", classeNomSimple, " o, Boolean patch) {");
@@ -4877,23 +4877,23 @@ public class EcrireApiClasse extends EcrireGenClasse {
           tl(7, "promise.complete();");
           tl(6, "}).onFailure(ex -> {");
           tl(7, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_definir), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-          tl(7, "promise.fail(ex);");
+          tl(7, "promise.tryFail(ex);");
           tl(6, "});");
         } else {
           tl(6, "promise.complete();");
         }
         tl(5, "}).onFailure(ex -> {");
         tl(6, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_definir), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-        tl(6, "promise.fail(ex);");
+        tl(6, "promise.tryFail(ex);");
         tl(5, "});");
         tl(4, "} catch(Exception ex) {");
         tl(5, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_definir), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-        tl(5, "promise.fail(ex);");
+        tl(5, "promise.tryFail(ex);");
         tl(4, "}");
       }
       tl(2, "} catch(Exception ex) {");
       tl(3, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_definir), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-      tl(3, "promise.fail(ex);");
+      tl(3, "promise.tryFail(ex);");
       tl(2, "}");
       tl(2, "return promise.future();");
       tl(1, "}");
@@ -4961,11 +4961,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
         tl(4, "promise.complete();");
         tl(3, "}).onFailure(ex -> {");
         tl(4, "LOG.error(String.format(\"cbUpsertEntity failed. \"), ex);");
-        tl(4, "promise.fail(ex);");
+        tl(4, "promise.tryFail(ex);");
         tl(3, "});");
         tl(2, "} catch(Throwable ex) {");
         tl(3, "LOG.error(String.format(\"cbUpsertEntity failed. \"), ex);");
-        tl(3, "promise.fail(ex);");
+        tl(3, "promise.tryFail(ex);");
         tl(2, "}");
         tl(2, "return promise.future();");
         tl(1, "}");
@@ -5000,11 +5000,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
         tl(4, "promise.complete(entity);");
         tl(3, "}).onFailure(ex -> {");
         tl(4, "LOG.error(String.format(\"postIotServiceFuture failed. \"), ex);");
-        tl(4, "promise.fail(ex);");
+        tl(4, "promise.tryFail(ex);");
         tl(3, "});");
         tl(2, "} catch(Throwable ex) {");
         tl(3, "LOG.error(String.format(\"postIotServiceFuture failed. \"), ex);");
-        tl(3, "promise.fail(ex);");
+        tl(3, "promise.tryFail(ex);");
         tl(2, "}");
         tl(2, "return promise.future();");
         tl(1, "}");
@@ -5031,12 +5031,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
         tl(5, "promise.complete();");
         tl(4, "} else {");
         tl(5, "LOG.error(String.format(\"cbDeleteEntity failed. \"), ex);");
-        tl(5, "promise.fail(ex);");
+        tl(5, "promise.tryFail(ex);");
         tl(4, "}");
         tl(3, "});");
         tl(2, "} catch(Throwable ex) {");
         tl(3, "LOG.error(String.format(\"cbDeleteEntity failed. \"), ex);");
-        tl(3, "promise.fail(ex);");
+        tl(3, "promise.tryFail(ex);");
         tl(2, "}");
         tl(2, "return promise.future();");
         tl(1, "}");
@@ -5068,16 +5068,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
           tl(5, "promise.complete();");
           tl(4, "} catch(Exception ex) {");
           tl(5, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_attribuer), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-          tl(5, "promise.fail(ex);");
+          tl(5, "promise.tryFail(ex);");
           tl(4, "}");
           tl(3, "}).onFailure(ex -> {");
           tl(4, "RuntimeException ex2 = new RuntimeException(ex);");
           tl(4, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_attribuer), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex2);");
-          tl(4, "promise.fail(ex2);");
+          tl(4, "promise.tryFail(ex2);");
           tl(3, "});");
           tl(2, "} catch(Exception ex) {");
           tl(3, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_attribuer), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-          tl(3, "promise.fail(ex);");
+          tl(3, "promise.tryFail(ex);");
           tl(2, "}");
         }
         tl(2, "return promise.future();");
@@ -5126,11 +5126,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
         tl(4, "promise.complete(o);");
         tl(3, "}).onFailure(ex -> {");
         tl(4, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_indexer), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), new RuntimeException(ex));");
-        tl(4, "promise.fail(ex);");
+        tl(4, "promise.tryFail(ex);");
         tl(3, "});");
         tl(2, "} catch(Exception ex) {");
         tl(3, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_indexer), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-        tl(3, "promise.fail(ex);");
+        tl(3, "promise.tryFail(ex);");
         tl(2, "}");
         tl(2, "return promise.future();");
         tl(1, "}");
@@ -5167,15 +5167,15 @@ public class EcrireApiClasse extends EcrireGenClasse {
         tl(5, "promise.complete(o);");
         tl(4, "}).onFailure(ex -> {");
         tl(5, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_desindexer), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), new RuntimeException(ex));");
-        tl(5, "promise.fail(ex);");
+        tl(5, "promise.tryFail(ex);");
         tl(4, "});");
         tl(3, "}).onFailure(ex -> {");
         tl(4, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_desindexer), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-        tl(4, "promise.fail(ex);");
+        tl(4, "promise.tryFail(ex);");
         tl(3, "});");
         tl(2, "} catch(Exception ex) {");
         tl(3, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_desindexer), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-        tl(3, "promise.fail(ex);");
+        tl(3, "promise.tryFail(ex);");
         tl(2, "}");
         tl(2, "return promise.future();");
         tl(1, "}");
@@ -5233,14 +5233,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
           tl(6, "if(statusCode.equals(200))");
           tl(7, "promise.complete();");
           tl(6, "else");
-          tl(7, "promise.fail(new RuntimeException(responseMessage.getString(\"statusMessage\")));");
+          tl(7, "promise.tryFail(new RuntimeException(responseMessage.getString(\"statusMessage\")));");
           tl(5, "}).onFailure(ex -> {");
           tl(6, "LOG.error(\"", i18nGlobale.getString(I18n.var_Recharger), " ", i18nGlobale.getString(I18n.var_relations), " ", i18nGlobale.getString(I18n.str_a_échoué), ". \", ex);");
-          tl(6, "promise.fail(ex);");
+          tl(6, "promise.tryFail(ex);");
           tl(5, "});");
           tl(4, "}).onFailure(ex -> {");
           tl(5, "LOG.error(\"", i18nGlobale.getString(I18n.var_Recharger), " ", i18nGlobale.getString(I18n.var_relations), " ", i18nGlobale.getString(I18n.str_a_échoué), ". \", ex);");
-          tl(5, "promise.fail(ex);");
+          tl(5, "promise.tryFail(ex);");
           tl(4, "});");
         }
   
@@ -5250,7 +5250,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
         tl(3, "}");
         tl(2, "} catch(Exception ex) {");
         tl(3, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_recharger), classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-        tl(3, "promise.fail(ex);");
+        tl(3, "promise.tryFail(ex);");
         tl(2, "}");
         tl(2, "return promise.future();");
         tl(1, "}");
@@ -5287,15 +5287,15 @@ public class EcrireApiClasse extends EcrireGenClasse {
         tl(5, "promise.complete(data);");
         tl(4, "} catch(Exception ex) {");
         tl(5, "LOG.error(String.format(importModelFail, classSimpleName), ex);");
-        tl(5, "promise.fail(ex);");
+        tl(5, "promise.tryFail(ex);");
         tl(4, "}");
         tl(3, "}).onFailure(ex -> {");
         tl(4, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_genererCorpsPage), " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-        tl(4, "promise.fail(ex);");
+        tl(4, "promise.tryFail(ex);");
         tl(3, "});");
         tl(2, "} catch(Exception ex) {");
         tl(3, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_genererCorpsPage), " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
-        tl(3, "promise.fail(ex);");
+        tl(3, "promise.tryFail(ex);");
         tl(2, "}");
         tl(2, "return promise.future();");
         tl(1, "}");
