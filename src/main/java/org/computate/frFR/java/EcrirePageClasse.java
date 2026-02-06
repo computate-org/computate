@@ -6378,7 +6378,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
       s(" type=\"hidden\"");
       l("/>");
       tl(5, "</form>");
+      tl(0, "{%- if ", varResultat, "Count >= 1 %}");
       tl(5, "{{ htm", i18nClasse.getString(I18n.var_Formulaire), "_", StringUtils.lowerCase(classePageRechercheApiMethode), classeApiClasseNomSimple, "() }}");
+      tl(0, "{% endif -%}");
       tl(0, "{%- endblock htm", i18nClasse.getString(I18n.var_Formulaire), classePageNomSimple, " %}");
       tl(4, "</div>");
 
