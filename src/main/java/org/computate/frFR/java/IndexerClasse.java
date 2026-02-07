@@ -1980,8 +1980,6 @@ public class IndexerClasse extends RegarderClasseBase {
     String classeVarIdSuffixeSolr = null;
     String classeVarNomSuffixeSolr = null;
     String classeVarNom = null;
-    String classeVarTemplatePage = null;
-    String classeVarTemplatePageSuffixeSolr = null;
     String classeVarTitre = null;
     String classeHtmInfobulle = null;
     String classeJsInfobulle = null;
@@ -3507,14 +3505,6 @@ public class IndexerClasse extends RegarderClasseBase {
                 indexerStockerSolr(entiteDoc, "entiteVarNom", entiteVarNom);
               }
             }
-            Boolean entiteVarTemplatePage = regexTrouve("^" + i18nGlobale.getString(I18n.var_VarTemplatePage) + ": (true)$", methodeCommentaire);
-            {
-              if(methodeCommentaireActuelle != null)
-                entiteVarTemplatePage = Optional.ofNullable(regexTrouve("^" + i18nGlobale.getString(I18n.var_VarTemplatePage) + ": (true)$", methodeCommentaireActuelle)).orElse(entiteVarTemplatePage);
-              if(entiteVarTemplatePage != null) {
-                indexerStockerSolr(entiteDoc, "entiteVarTemplatePage", entiteVarTemplatePage);
-              }
-            }
             Boolean entiteVarTitre = indexerStockerSolr(entiteDoc, "entiteVarTitre", regexTrouve("^" + i18nGlobale.getString(I18n.var_VarTitre) + ": (true)$", methodeCommentaire));
             Boolean entiteVarH1 = indexerStockerSolr(entiteDoc, "entiteVarH1", regexTrouve("^VarH1: (true)$", methodeCommentaire));
             Boolean entiteVarH2 = indexerStockerSolr(entiteDoc, "entiteVarH2", regexTrouve("^VarH2: (true)$", methodeCommentaire));
@@ -4759,10 +4749,6 @@ public class IndexerClasse extends RegarderClasseBase {
               classeVarNom = stockerSolr(classeLangueNom, classeDoc, "classeVarNom", entiteVar);
               classeVarNomSuffixeSolr = stockerSolr(classeDoc, "classeVarNomSuffixeSolr", entiteSuffixeSolr);
             }
-            if(entiteVarTemplatePage) {
-              classeVarTemplatePage = stockerSolr(classeDoc, "classeVarTemplatePage", entiteVar);
-              classeVarTemplatePageSuffixeSolr = stockerSolr(classeDoc, "classeVarTemplatePageSuffixeSolr", entiteSuffixeSolr);
-            }
             if(entiteVarTitre) {
               classeVarTitre = stockerSolr(classeLangueNom, classeDoc, "classeVarTitre", entiteVar);
             }
@@ -5983,6 +5969,8 @@ public class IndexerClasse extends RegarderClasseBase {
         classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.reactivestreams.ReactiveReadStream", classeLangueNom), classeLangueNom);
         classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.reactivestreams.ReactiveWriteStream", classeLangueNom), classeLangueNom);
         classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.MultiMap", classeLangueNom), classeLangueNom);
+        classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.computate.i18n.I18n", classeLangueNom), classeLangueNom);
+        classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.yaml.snakeyaml.Yaml", classeLangueNom), classeLangueNom);
         if(activerOpenIdConnect)
           classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.auth.oauth2.OAuth2Auth", classeLangueNom), classeLangueNom);
         classePartsGenApiAjouter(ClasseParts.initClasseParts(this, Logger.class.getCanonicalName(), classeLangueNom), classeLangueNom);
@@ -6063,32 +6051,37 @@ public class IndexerClasse extends RegarderClasseBase {
 
         JsonObject apiMethodeObjet = regexYamlObject(i18nGlobale.getString(I18n.var_ApiMethode), classeCommentaire);
 
-        if(classeUriPageRecherche != null && !apiMethodeObjet.containsKey(i18nGlobale.getString(I18n.var_PageRecherche))) {
-          apiMethodeObjet.put(i18nGlobale.getString(I18n.var_PageRecherche), new JsonObject()
+        if(classeUriPageRecherche != null) {
+          JsonObject objet = Optional.ofNullable(apiMethodeObjet.getJsonObject(i18nGlobale.getString(I18n.var_PageRecherche))).orElse(new JsonObject());
+          apiMethodeObjet.put(i18nGlobale.getString(I18n.var_PageRecherche), objet
               .put(i18nGlobale.getString(I18n.var_ApiUri), classeUriPageRecherche)
               .put(i18nGlobale.getString(I18n.var_Page), classePageNomSimple)
           );
         }
-        if(classeUriPageEdition != null && !apiMethodeObjet.containsKey(i18nGlobale.getString(I18n.var_PageEdition))) {
-          apiMethodeObjet.put(i18nGlobale.getString(I18n.var_PageEdition), new JsonObject()
+        if(classeUriPageEdition != null) {
+          JsonObject objet = Optional.ofNullable(apiMethodeObjet.getJsonObject(i18nGlobale.getString(I18n.var_PageEdition))).orElse(new JsonObject());
+          apiMethodeObjet.put(i18nGlobale.getString(I18n.var_PageEdition), objet
               .put(i18nGlobale.getString(I18n.var_ApiUri), classeUriPageEdition)
               .put(i18nGlobale.getString(I18n.var_Page), classePageNomSimple)
           );
         }
-        if(classeUriPageAffichage != null && !apiMethodeObjet.containsKey(i18nGlobale.getString(I18n.var_PageAffichage))) {
-          apiMethodeObjet.put(i18nGlobale.getString(I18n.var_PageAffichage), new JsonObject()
+        if(classeUriPageAffichage != null) {
+          JsonObject objet = Optional.ofNullable(apiMethodeObjet.getJsonObject(i18nGlobale.getString(I18n.var_PageAffichage))).orElse(new JsonObject());
+          apiMethodeObjet.put(i18nGlobale.getString(I18n.var_PageAffichage), objet
               .put(i18nGlobale.getString(I18n.var_ApiUri), classeUriPageAffichage)
               .put(i18nGlobale.getString(I18n.var_Page), classePageNomSimple)
           );
         }
-        if(classeUriPageUtilisateur != null && !apiMethodeObjet.containsKey(i18nGlobale.getString(I18n.var_PageUtilisateur))) {
-          apiMethodeObjet.put(i18nGlobale.getString(I18n.var_PageUtilisateur), new JsonObject()
+        if(classeUriPageUtilisateur != null) {
+          JsonObject objet = Optional.ofNullable(apiMethodeObjet.getJsonObject(i18nGlobale.getString(I18n.var_PageUtilisateur))).orElse(new JsonObject());
+          apiMethodeObjet.put(i18nGlobale.getString(I18n.var_PageUtilisateur), objet
               .put(i18nGlobale.getString(I18n.var_ApiUri), classeUriPageUtilisateur)
               .put(i18nGlobale.getString(I18n.var_Page), classePageNomSimple)
           );
         }
-        if(classeUriTelechargement != null && !apiMethodeObjet.containsKey(i18nGlobale.getString(I18n.var_Telechargement))) {
-          apiMethodeObjet.put(i18nGlobale.getString(I18n.var_Telechargement), new JsonObject()
+        if(classeUriTelechargement != null) {
+          JsonObject objet = Optional.ofNullable(apiMethodeObjet.getJsonObject(i18nGlobale.getString(I18n.var_Telechargement))).orElse(new JsonObject());
+          apiMethodeObjet.put(i18nGlobale.getString(I18n.var_Telechargement), objet
               .put(i18nGlobale.getString(I18n.var_ApiUri), classeUriTelechargement)
           );
         }
@@ -6193,6 +6186,8 @@ public class IndexerClasse extends RegarderClasseBase {
                   else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageUtilisateur)))
                     classeApiUriMethode = classeApiUri;
                 }
+
+                indexerStockerSolr(classeDoc, "classeVarUriTemplate" + classeApiMethode, apiMethode.getString(i18nGlobale.getString(I18n.var_VarUriTemplate)));
 
                 String classePageRechercheApiMethode = null;
                 String classePageEditionApiMethode = null;

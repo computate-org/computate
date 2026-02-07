@@ -185,7 +185,6 @@ public class EcrireGenClasse extends EcrireClasse {
   protected String classeCommentaire;
   protected String classeCommentaireLangue;
 
-  protected String classeVarTemplatePage;
   protected String classeVarClePrimaire;
   protected String classeVarClePrimaireSuffixeSolr;
 
@@ -358,6 +357,7 @@ public class EcrireGenClasse extends EcrireClasse {
   protected String classeApiTypeMedia200Methode;
   protected String classeApiTypeMediaRequeteMethode;
   protected String classePageTemplateMethode;
+  protected String classeVarUriTemplateMethode;
   protected Boolean classePageAvecTemplateMethode;
   protected String classePageSuperNomSimple;
   protected String classePageSuperNomCanonique;

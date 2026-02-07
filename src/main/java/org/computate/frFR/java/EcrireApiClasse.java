@@ -466,12 +466,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())
                     || entiteEstListe && StringUtils.equals(entiteNomCanoniqueGenerique, ZonedDateTime.class.getCanonicalName()))) {
                   if(classeVarZone != null) {
-                    wPageTemplates.tl(3, "page.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_", entiteVar, "), Optional.ofNullable(page.get", StringUtils.capitalize(classeVarZone), "()).map(v -> ZoneId.of(v)).orElse(Optional.ofNullable(", langueConfigGlobale.getString(I18n.var_requeteSite), ").map(r -> r.get", langueConfigGlobale.getString(I18n.var_Config), "()).map(config -> config.getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfigGlobale.getString(I18n.var_SITE_ZONE), ")).map(z -> ZoneId.of(z)).orElse(ZoneId.of(\"UTC\")))));");
+                    wPageTemplates.tl(3, "o.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_", entiteVar, "), Optional.ofNullable(page.get", StringUtils.capitalize(classeVarZone), "()).map(v -> ZoneId.of(v)).orElse(Optional.ofNullable(", langueConfigGlobale.getString(I18n.var_requeteSite), ").map(r -> r.get", langueConfigGlobale.getString(I18n.var_Config), "()).map(config -> config.getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfigGlobale.getString(I18n.var_SITE_ZONE), ")).map(z -> ZoneId.of(z)).orElse(ZoneId.of(\"UTC\")))));");
                   } else {
-                    wPageTemplates.tl(3, "page.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_", entiteVar, "), Optional.ofNullable(", langueConfigGlobale.getString(I18n.var_requeteSite), ").map(r -> r.get", langueConfigGlobale.getString(I18n.var_Config), "()).map(config -> config.getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfigGlobale.getString(I18n.var_SITE_ZONE), ")).map(z -> ZoneId.of(z)).orElse(ZoneId.of(\"UTC\"))));");
+                    wPageTemplates.tl(3, "o.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_", entiteVar, "), Optional.ofNullable(", langueConfigGlobale.getString(I18n.var_requeteSite), ").map(r -> r.get", langueConfigGlobale.getString(I18n.var_Config), "()).map(config -> config.getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfigGlobale.getString(I18n.var_SITE_ZONE), ")).map(z -> ZoneId.of(z)).orElse(ZoneId.of(\"UTC\"))));");
                   }
                 } else {
-                  wPageTemplates.tl(3, "page.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_", entiteVar, ")));");
+                  wPageTemplates.tl(3, "o.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_", entiteVar, ")));");
                 }
                 
               }
@@ -4048,52 +4048,105 @@ public class EcrireApiClasse extends EcrireGenClasse {
               tl(2, "promise.complete();");
               tl(1, "}");
             }
-            ecrireGenApiServiceImplReponse(classeLangueNom, classeApiMethode);
+            ecrireGenApiServiceImplReponse(classeLangueNom, classeApiMethode, classeApiUriMethode);
           // }
         }
       }
     }
   }
-  public void ecrireGenApiServiceImplReponse(String classeLangueNom, String classeApiMethode) throws Exception {
+  public void ecrireGenApiServiceImplReponse(String classeLangueNom, String classeApiMethode, String classeApiUriMethode) throws Exception {
+          classeVarUriTemplateMethode = classeDoc.getString("classeVarUriTemplate" + classeApiMethode + "_stored_string");
 
           /////////////////
           // Reponse 200 //
           /////////////////
           if(classePageNomCanoniqueMethode != null) {
             l();
-            tl(1, "public String ", i18nGlobale.getString(I18n.var_uriTemplate), classeApiMethode, classeNomSimple, "(ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), ") {");
+            tl(1, "public String ", i18nGlobale.getString(I18n.var_uriTemplate), classeApiMethode, classeNomSimple, "(ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), ", ", classeNomSimple, " ", i18nGlobale.getString(I18n.var_resultat), ") {");
             if(classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageEdition))
                 || classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageRecherche))
                 ) {
-              tl(2, "return \"", classePageTemplateMethode, "\";");
+              if(classeVarUriTemplateMethode != null) {
+                tl(2, "return Optional.ofNullable(", i18nGlobale.getString(I18n.var_resultat), ".get", StringUtils.capitalize(classeVarUriTemplateMethode), "()).orElse(\"", classePageTemplateMethode, "\");");
+                wPageTemplates.tl(3, "if(", i18nGlobale.getString(I18n.var_templateChemin), ".startsWith(String.format(\"%s%s\", config.getString(ComputateConfigKeys.TEMPLATE_PATH), \"", StringUtils.substringBeforeLast(classeApiUriMethode, "/"), "/\"))) {");
+                wPageTemplates.tl(4, "o.persistForClass(", classeNomSimple, ".VAR_", classeVarUriTemplateMethode, ", ", classeNomSimple, ".staticSet", StringUtils.capitalize(classeVarUriTemplateMethode), "(", i18nGlobale.getString(I18n.var_requeteSite), "2, StringUtils.substringAfter(", i18nGlobale.getString(I18n.var_templateChemin), ", config.getString(ComputateConfigKeys.TEMPLATE_PATH))));");
+                wPageTemplates.tl(3, "}");
+              } else {
+                tl(2, "return \"", classePageTemplateMethode, "\";");
+              }
             } else {
-              tl(2, "return String.format(\"", classePageTemplateMethode, "\", StringUtils.substringBefore(", i18nGlobale.getString(I18n.var_requeteService), ".getExtra().getString(\"uri\").substring(1), \"?\"));");
+              if(classeVarUriTemplateMethode != null) {
+                tl(2, "return Optional.ofNullable(", i18nGlobale.getString(I18n.var_resultat), ".get", StringUtils.capitalize(classeVarUriTemplateMethode), "()).orElse(String.format(\"", classePageTemplateMethode, "\", StringUtils.substringBefore(", i18nGlobale.getString(I18n.var_requeteService), ".getExtra().getString(\"uri\").substring(1), \"?\")));");
+                wPageTemplates.tl(3, "if(", i18nGlobale.getString(I18n.var_templateChemin), ".startsWith(String.format(\"%s%s\", config.getString(ComputateConfigKeys.TEMPLATE_PATH), \"", StringUtils.substringBeforeLast(classeApiUriMethode, "/"), "/\"))) {");
+                wPageTemplates.tl(4, "o.persistForClass(", classeNomSimple, ".VAR_", classeVarUriTemplateMethode, ", ", classeNomSimple, ".staticSet", StringUtils.capitalize(classeVarUriTemplateMethode), "(", i18nGlobale.getString(I18n.var_requeteSite), "2, StringUtils.substringAfter(", i18nGlobale.getString(I18n.var_templateChemin), ", config.getString(ComputateConfigKeys.TEMPLATE_PATH))));");
+                wPageTemplates.tl(3, "}");
+              } else {
+                tl(2, "return String.format(\"", classePageTemplateMethode, "\", StringUtils.substringBefore(", i18nGlobale.getString(I18n.var_requeteService), ".getExtra().getString(\"uri\").substring(1), \"?\"));");
+              }
             }
             t(1, "}");
             l();
-            tl(1, "public String ", i18nGlobale.getString(I18n.var_template), classeApiMethode, classeNomSimple, "(ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), ", ", classeNomSimple, " ", i18nGlobale.getString(I18n.var_resultat), ") {");
-            tl(2, "String template = null;");
+            tl(1, "public void ", i18nGlobale.getString(I18n.var_template), classeApiMethode, classeNomSimple, "(JsonObject ctx, ", classePageNomSimpleMethode, " page, ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, "> ", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ", Promise<String> promise) {");
             tl(2, "try {");
-            if(classeVarTemplatePage == null) {
-              tl(3, "String pageTemplateUri = ", i18nGlobale.getString(I18n.var_uriTemplate), classeApiMethode, classeNomSimple, "(", i18nGlobale.getString(I18n.var_requeteService), ");");
-              tl(3, "String siteTemplatePath = config.getString(ComputateConfigKeys.TEMPLATE_PATH);");
-              tl(3, "Path resourceTemplatePath = Path.of(siteTemplatePath, pageTemplateUri);");
-              tl(3, "template = siteTemplatePath == null ? Resources.toString(Resources.getResource(resourceTemplatePath.toString()), StandardCharsets.UTF_8) : Files.readString(resourceTemplatePath, Charset.forName(\"UTF-8\"));");
-            } else {
-              tl(3, "if(", i18nGlobale.getString(I18n.var_resultat), " != null && ", i18nGlobale.getString(I18n.var_resultat), ".get", StringUtils.capitalize(classeVarTemplatePage), "() != null) {");
-              tl(4, "return ", i18nGlobale.getString(I18n.var_resultat), ".get", StringUtils.capitalize(classeVarTemplatePage), "();");
-              tl(3, "} else {");
-              tl(4, "String pageTemplateUri = ", i18nGlobale.getString(I18n.var_uriTemplate), classeApiMethode, classeNomSimple, "(", i18nGlobale.getString(I18n.var_requeteService), ");");
-              tl(4, "String siteTemplatePath = config.getString(ComputateConfigKeys.TEMPLATE_PATH);");
-              tl(4, "Path resourceTemplatePath = Path.of(siteTemplatePath, pageTemplateUri);");
-              tl(4, "template = siteTemplatePath == null ? Resources.toString(Resources.getResource(resourceTemplatePath.toString()), StandardCharsets.UTF_8) : Files.readString(resourceTemplatePath, Charset.forName(\"UTF-8\"));");
-              tl(3, "}");
-            }
+            tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), " = ", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ".get", i18nGlobale.getString(I18n.var_RequeteSite), "_(", classePartsRequeteSite.nomSimple(classeLangueNom), ".class);");
+            tl(3, "ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "();");
+            tl(3, classeNomSimple, " ", i18nGlobale.getString(I18n.var_resultat), " = ", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ".first();");
+            tl(3, "String pageTemplateUri = ", i18nGlobale.getString(I18n.var_uriTemplate), classeApiMethode, classeNomSimple, "(", i18nGlobale.getString(I18n.var_requeteService), ", ", i18nGlobale.getString(I18n.var_resultat), ");");
+            tl(3, "String siteTemplatePath = config.getString(ComputateConfigKeys.TEMPLATE_PATH);");
+            tl(3, "Path resourceTemplatePath = Path.of(siteTemplatePath, pageTemplateUri);");
+            tl(3, "String template = siteTemplatePath == null ? Resources.toString(Resources.getResource(resourceTemplatePath.toString()), StandardCharsets.UTF_8) : Files.readString(resourceTemplatePath, Charset.forName(\"UTF-8\"));");
+            tl(3, "if(pageTemplateUri.endsWith(\".md\")) {");
+            tl(4, "String metaPrefixResult = String.format(\"%s.\", i18n.getString(I18n.var_resultat));");
+            tl(4, "Map<String, Object> data = new HashMap<>();");
+            tl(4, "String body = \"\";");
+            tl(4, "if(template.startsWith(\"---\\n\")) {");
+            tl(5, "Matcher mMeta = Pattern.compile(\"---\\n([\\\\w\\\\W]+?)\\n---\\n([\\\\w\\\\W]+)\", Pattern.MULTILINE).matcher(template);");
+            tl(5, "if(mMeta.find()) {");
+            tl(6, "String meta = mMeta.group(1);");
+            tl(6, "body = mMeta.group(2);");
+            tl(6, "Yaml yaml = new Yaml();");
+            tl(6, "Map<String, Object> map = yaml.load(meta);");
+            tl(6, "map.forEach((resultKey, value) -> {");
+            tl(7, "if(resultKey.startsWith(metaPrefixResult)) {");
+            tl(8, "String key = StringUtils.substringAfter(resultKey, metaPrefixResult);");
+            tl(8, "String val = Optional.ofNullable(value).map(v -> v.toString()).orElse(null);");
+            tl(8, "if(val instanceof String) {");
+            tl(9, "String rendered = jinjava.render(val, ctx.getMap());");
+            tl(9, "data.put(key, rendered);");
+            tl(8, "} else {");
+            tl(9, "data.put(key, val);");
+            tl(8, "}");
+            tl(7, "}");
+            tl(6, "});");
+            tl(6, "map.forEach((resultKey, value) -> {");
+            tl(7, "if(resultKey.startsWith(metaPrefixResult)) {");
+            tl(8, "String key = StringUtils.substringAfter(resultKey, metaPrefixResult);");
+            tl(8, "String val = Optional.ofNullable(value).map(v -> v.toString()).orElse(null);");
+            tl(8, "if(val instanceof String) {");
+            tl(9, "String rendered = jinjava.render(val, ctx.getMap());");
+            tl(9, "data.put(key, rendered);");
+            tl(8, "} else {");
+            tl(9, "data.put(key, val);");
+            tl(8, "}");
+            tl(7, "}");
+            tl(6, "});");
+            tl(5, "}");
+            tl(4, "}");
+            tl(4, "org.commonmark.parser.Parser parser = org.commonmark.parser.Parser.builder().build();");
+            tl(4, "org.commonmark.node.Node document = parser.parse(body);");
+            tl(4, "org.commonmark.renderer.html.HtmlRenderer renderer = org.commonmark.renderer.html.HtmlRenderer.builder().build();");
+            tl(4, "String pageExtends =  Optional.ofNullable((String)data.get(\"extends\")).orElse(\"en-us/Article.htm\");");
+            tl(4, "String htmTemplate = \"{% extends \\\"\" + pageExtends + \"\\\" %}\\n{% block htmBodyMiddleArticle %}\\n\" + renderer.render(document) + \"\\n{% endblock htmBodyMiddleArticle %}\\n\";");
+            tl(4, "String renderedTemplate = jinjava.render(htmTemplate, ctx.getMap());");
+            tl(4, "promise.complete(renderedTemplate);");
+            tl(3, "} else {");
+            tl(4, "String renderedTemplate = jinjava.render(template, ctx.getMap());");
+            tl(4, "promise.complete(renderedTemplate);");
+            tl(3, "}");
             tl(2, "} catch(Exception ex) {");
             tl(3, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_template), classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
             tl(3, "ExceptionUtils.rethrow(ex);");
             tl(2, "}");
-            tl(2, "return template;");
             t(1, "}");
           }
           l();
@@ -4134,7 +4187,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
             if(classePageNomCanoniqueMethode != null) {
               if(classePartsToutEcrivain == null)
                 throw new RuntimeException(String.format("%s %s %s %s %s. ", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_ToutEcrivain), i18nGlobale.getString(I18n.var_manquante), i18nGlobale.getString(I18n.var_dans), cheminSrcMainJava));
-              tl(3, "String template = ", i18nGlobale.getString(I18n.var_template), classeApiMethode, classeNomSimple, "(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "(), ", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ".first());");
               tl(3, classePageNomSimpleMethode, " page = new ", classePageNomSimpleMethode, "();");
               tl(3, "MultiMap ", i18nGlobale.getString(I18n.var_requeteEnTetes), " = MultiMap.caseInsensitiveMultiMap();");
               tl(3, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_RequeteEnTetes), "(", i18nGlobale.getString(I18n.var_requeteEnTetes), ");");
@@ -4225,9 +4277,19 @@ public class EcrireApiClasse extends EcrireGenClasse {
             tl(5, "Promise<Void> promise1 = Promise.promise();");
             tl(5, classeApiOperationIdMethode, i18nGlobale.getString(I18n.var_Page), "Init(ctx, page, ", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ", promise1);");
             tl(5, "promise1.future().onSuccess(b -> {");
-            tl(6, "String renderedTemplate = jinjava.render(template, ctx.getMap());");
-            tl(6, "Buffer buffer = Buffer.buffer(renderedTemplate);");
-            tl(6, "promise.complete(new ServiceResponse(200, \"OK\", buffer, ", i18nGlobale.getString(I18n.var_requeteEnTetes), "));");
+            tl(6, "Promise<String> promise2 = Promise.promise();");
+            tl(6, i18nGlobale.getString(I18n.var_template), classeApiMethode, classeNomSimple, "(ctx, page, ", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ", promise2);");
+            tl(6, "promise2.future().onSuccess(renderedTemplate -> {");
+            tl(7, "try {");
+            tl(8, "Buffer buffer = Buffer.buffer(renderedTemplate);");
+            tl(8, "promise.complete(new ServiceResponse(200, \"OK\", buffer, ", i18nGlobale.getString(I18n.var_requeteEnTetes), "));");
+            tl(7, "} catch(Throwable ex) {");
+            tl(8, "LOG.error(String.format(\"", i18nGlobale.getString(I18n.var_reponse), "200", classeApiMethode, classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+            tl(8, "promise.fail(ex);");
+            tl(7, "}");
+            tl(6, "}).onFailure(ex -> {");
+            tl(7, "promise.fail(ex);");
+            tl(6, "});");
             tl(5, "}).onFailure(ex -> {");
             tl(6, "promise.tryFail(ex);");
             tl(5, "});");
@@ -5268,20 +5330,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
         tl(3, "Map<String, Object> ", i18nGlobale.getString(I18n.var_resultat), " = (Map<String, Object>)ctx.get(\"", i18nGlobale.getString(I18n.var_resultat), "\");");
         tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), "2 = (", classePartsRequeteSite.nomSimple(classeLangueNom), ")", i18nGlobale.getString(I18n.var_requeteSite), ";");
         tl(3, "String siteBaseUrl = config.getString(ComputateConfigKeys.SITE_BASE_URL);");
-        tl(3, classeNomSimple, " page = new ", classeNomSimple, "();");
-        tl(3, "page.set", i18nGlobale.getString(I18n.var_RequeteSite), "_((", i18nGlobale.getString(I18n.var_RequeteSite), ")", i18nGlobale.getString(I18n.var_requeteSite), ");");
+        tl(3, classeNomSimple, " o = new ", classeNomSimple, "();");
+        tl(3, "o.set", i18nGlobale.getString(I18n.var_RequeteSite), "_((", i18nGlobale.getString(I18n.var_RequeteSite), ")", i18nGlobale.getString(I18n.var_requeteSite), ");");
         l();
         s(wPageTemplates);
-        if(classeVarTemplatePage != null) {
-          l();
-          tl(3, "if(", i18nGlobale.getString(I18n.var_templateChemin), ".endsWith(\".md\")) {");
-          tl(4, "page.persistForClass(", classeNomSimple, ".VAR_", classeVarTemplatePage, ", ", classeNomSimple, ".staticSet", StringUtils.capitalize(classeVarTemplatePage), "(", i18nGlobale.getString(I18n.var_requeteSite), "2, ", i18nGlobale.getString(I18n.var_templatePage), "));");
-          tl(3, "}");
-        }
         l();
-        tl(3, "page.promiseDeepForClass((", i18nGlobale.getString(I18n.var_RequeteSite), ")", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(o -> {");
+        tl(3, "o.promiseDeepForClass((", i18nGlobale.getString(I18n.var_RequeteSite), ")", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(o2 -> {");
         tl(4, "try {");
-        tl(5, "JsonObject data = JsonObject.mapFrom(o);");
+        tl(5, "JsonObject data = JsonObject.mapFrom(o2);");
         tl(5, "ctx.put(\"", i18nGlobale.getString(I18n.var_resultat), "\", data.getMap());");
         // tl(5, "data.put(", classeNomSimple, ".VAR_", classeVarId, ", uri);");
         tl(5, "promise.complete(data);");
