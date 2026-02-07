@@ -7144,15 +7144,21 @@ public class EcrireGenClasse extends EcrireClasse {
 
     wClasseDescription.tl(0, "<p>");
     wClasseDescription.tl(0, langueConfig.getString(I18n.str_Supprimer_), langueConfig.getString(I18n.str_la_classe_), classeNomSimple, langueConfig.getString(I18n.str__dans_Solr), ": ");
-    wClasseDescription.tl(0, "curl -k 'https://solr.apps-crc.testing/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
+    wClasseDescription.tl(0, "<pre>");
+    wClasseDescription.tl(0, "curl -k 'https://solr.apps-crc.testing/solr/", solrCollectionComputate, "/update?commitWithin=1000&amp;overwrite=true&amp;wt=json' -X POST -H 'Content-type: text/xml' -u \"admin:$(oc -n solr get secret/solr-solrcloud-security-bootstrap -o jsonpath={.data.admin} | base64 -d)\" --data-raw '&lt;delete&gt;&lt;query&gt;classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&lt;/query&gt;&lt;/delete&gt;'");
+    wClasseDescription.tl(0, "</pre>");
     wClasseDescription.tl(0, "</p>");
     wClasseDescription.tl(0, "<p>");
     wClasseDescription.tl(0, langueConfig.getString(I18n.str_Supprimer_), langueConfig.getString(I18n.str_l_ensemble_), classeNomEnsemble, langueConfig.getString(I18n.str__dans_Solr), ": ");
-    wClasseDescription.tl(0, "curl -k 'https://solr.apps-crc.testing/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomEnsemble_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomEnsemble), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
+    wClasseDescription.tl(0, "<pre>");
+    wClasseDescription.tl(0, "curl -k 'https://solr.apps-crc.testing/solr/", solrCollectionComputate, "/update?commitWithin=1000&amp;overwrite=true&amp;wt=json' -X POST -H 'Content-type: text/xml' -u \"admin:$(oc -n solr get secret/solr-solrcloud-security-bootstrap -o jsonpath={.data.admin} | base64 -d)\" --data-raw '&lt;delete&gt;&lt;query&gt;classeNomEnsemble_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomEnsemble), "&lt;/query&gt;&lt;/delete&gt;'");
+    wClasseDescription.tl(0, "</pre>");
     wClasseDescription.tl(0, "</p>");
     wClasseDescription.tl(0, "<p>");
     wClasseDescription.tl(0, langueConfig.getString(I18n.str_Supprimer_), langueConfig.getString(I18n.str_le_projet_), siteNom, langueConfig.getString(I18n.str__dans_Solr), ": ");
-    wClasseDescription.tl(0, "curl -k 'https://solr.apps-crc.testing/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;siteNom_indexed_string:", ClientUtils.escapeQueryChars(siteNom), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
+    wClasseDescription.tl(0, "<pre>");
+    wClasseDescription.tl(0, "curl -k 'https://solr.apps-crc.testing/solr/", solrCollectionComputate, "/update?commitWithin=1000&amp;overwrite=true&amp;wt=json' -X POST -H 'Content-type: text/xml' -u \"admin:$(oc -n solr get secret/solr-solrcloud-security-bootstrap -o jsonpath={.data.admin} | base64 -d)\" --data-raw '&lt;delete&gt;&lt;query&gt;siteNom_indexed_string:", ClientUtils.escapeQueryChars(siteNom), "&lt;/query&gt;&lt;/delete&gt;'");
+    wClasseDescription.tl(0, "</pre>");
     wClasseDescription.tl(0, "</p>");
     wClasseDescription.l(langueConfig.getString(I18n.str_Genere), ": true");
 
