@@ -4176,11 +4176,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
             auteurPageJsRecherche.tl(5, ");");
             auteurPageJsRecherche.tl(2, "}");
             auteurPageJsRecherche.tl(1, "});");
-          } else {
-            auteurPageJsRecherche.l();
-            auteurPageJsRecherche.tl(1, "document.querySelector('#htm", i18nGlobale.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')?.addEventListener('click', (event) => {");
-            auteurPageJsRecherche.tl(2, "document.querySelector('#", classeApiOperationIdMethode, i18nGlobale.getString(I18n.var_Dialogue), "').open = true;");
-            auteurPageJsRecherche.tl(1, "});");
           }
         }
       }
@@ -4882,6 +4877,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
             if(!classeApiMethode.contains(i18nClasse.getString(I18n.var_PageRecherche))) {
               s("<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", "");
               s(" id=\"htm", i18nGlobale.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "\"");
+              if(!classeApiMethode.equals("DELETE") && !classeApiMethode.equals(i18nClasse.getString(I18n.var_DELETEFiltre))) {
+              s("  data-dialog=\"open ", classeApiOperationIdMethode, i18nGlobale.getString(I18n.var_Dialogue), "\"");
+              }
               s(" data-", classeVarId, "={{ ", i18nClasse.getString(I18n.var_resultat), ".", classeVarId, " | tojson }}");
               s(">");
   
