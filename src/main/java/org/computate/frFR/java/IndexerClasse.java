@@ -6121,14 +6121,22 @@ public class IndexerClasse extends RegarderClasseBase {
             if("GET".equals(classeApiMethodeMethode) && classePublicLire)
               classeApiMethodeSecurite = false;
             
-            if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageAffichage)))
+            String classePageNomSimpleMethode;
+            if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageAffichage))) {
               classeApiMethodeSecurite = false;
-            else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageEdition)))
+              classePageNomSimpleMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_Page), classePageNomSimple);
+            } else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageEdition))) {
               classeApiMethodeSecurite = true;
-            else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageUtilisateur)))
+              classePageNomSimpleMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_Page), classePageNomSimple);
+            } else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_PageUtilisateur))) {
               classeApiMethodeSecurite = true;
-            else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_Telechargement)))
+              classePageNomSimpleMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_Page), classePageNomSimple);
+            } else if(StringUtils.contains(classeApiMethode, i18nGlobale.getString(I18n.var_Telechargement))) {
               classeApiMethodeSecurite = true;
+              classePageNomSimpleMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_Page), classePageNomSimple);
+            } else {
+              classePageNomSimpleMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_Page));
+            }
     
             classeApiMethodeMethode = indexerStockerSolr(classeApiMethodeLangue, classeDoc, "classeApiMethode" + classeApiMethode, apiMethode.getString(i18nGlobale.getString(I18n.var_ApiMethode), classeApiMethodeMethode));
             indexerStockerSolr(classeDoc, "classeApiSecurite" + classeApiMethode, classeApiMethodeSecurite);
@@ -6149,7 +6157,6 @@ public class IndexerClasse extends RegarderClasseBase {
               indexerStockerSolr(classeApiMethodeLangue, classeDoc, "classeSuperApiOperationId" + classeApiMethode + "Reponse", (String)classeSuperDoc.get("classeApiOperationId" + classeApiMethode + "Reponse" + "_" + classeApiMethodeLangue + "_stored_string"));
             }
     
-            String classePageNomSimpleMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_Page));
             String classePageSuperNomSimpleMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_PageSuper), "Object");
             String classeApiTypeMediaRequeteMethode = apiMethode.getString(i18nGlobale.getString(I18n.var_ApiTypeMediaRequete), "application/json");
             String classeApiTypeMedia200Methode = apiMethode.getString(i18nGlobale.getString(I18n.var_ApiTypeMedia) + "200", classePageNomSimpleMethode == null ? "application/json" : "text/html");

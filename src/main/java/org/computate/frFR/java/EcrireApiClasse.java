@@ -466,7 +466,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())
                     || entiteEstListe && StringUtils.equals(entiteNomCanoniqueGenerique, ZonedDateTime.class.getCanonicalName()))) {
                   if(classeVarZone != null) {
-                    wPageTemplates.tl(3, "o.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_", entiteVar, "), Optional.ofNullable(page.get", StringUtils.capitalize(classeVarZone), "()).map(v -> ZoneId.of(v)).orElse(Optional.ofNullable(", langueConfigGlobale.getString(I18n.var_requeteSite), ").map(r -> r.get", langueConfigGlobale.getString(I18n.var_Config), "()).map(config -> config.getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfigGlobale.getString(I18n.var_SITE_ZONE), ")).map(z -> ZoneId.of(z)).orElse(ZoneId.of(\"UTC\")))));");
+                    wPageTemplates.tl(3, "o.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_", entiteVar, "), Optional.ofNullable(o.get", StringUtils.capitalize(classeVarZone), "()).map(v -> ZoneId.of(v)).orElse(Optional.ofNullable(", langueConfigGlobale.getString(I18n.var_requeteSite), ").map(r -> r.get", langueConfigGlobale.getString(I18n.var_Config), "()).map(config -> config.getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfigGlobale.getString(I18n.var_SITE_ZONE), ")).map(z -> ZoneId.of(z)).orElse(ZoneId.of(\"UTC\")))));");
                   } else {
                     wPageTemplates.tl(3, "o.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_", entiteVar, "), Optional.ofNullable(", langueConfigGlobale.getString(I18n.var_requeteSite), ").map(r -> r.get", langueConfigGlobale.getString(I18n.var_Config), "()).map(config -> config.getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfigGlobale.getString(I18n.var_SITE_ZONE), ")).map(z -> ZoneId.of(z)).orElse(ZoneId.of(\"UTC\"))));");
                   }
@@ -4239,23 +4239,23 @@ public class EcrireApiClasse extends EcrireGenClasse {
             }
           }
           else if(classeApiMethode.contains("GET")) {
-            if(classePageNomCanoniqueMethode != null) {
-              tl(3, classePageNomSimpleMethode, " page = new ", classePageNomSimpleMethode, "();");
-              tl(3, "SolrDocument page", i18nGlobale.getString(I18n.var_DocumentSolr), " = new SolrDocument();");
-              tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), " = ", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ".get", i18nGlobale.getString(I18n.var_RequeteSite), "_(", classePartsRequeteSite.nomSimple(classeLangueNom), ".class);");
-              tl(3, "MultiMap ", i18nGlobale.getString(I18n.var_requeteEnTetes), " = MultiMap.caseInsensitiveMultiMap();");
-              tl(3, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_RequeteEnTetes), "(", i18nGlobale.getString(I18n.var_requeteEnTetes), ");");
-              l();
-              tl(3, "page", i18nGlobale.getString(I18n.var_DocumentSolr), ".setField(", q("pageUri_frFR_stored_string"), ", ", q(classeApiUriMethode), ");");
-              tl(3, "page.setPage", i18nGlobale.getString(I18n.var_DocumentSolr), "(page", i18nGlobale.getString(I18n.var_DocumentSolr), ");");
-              tl(3, "page.setW(w);");
-              tl(3, i18nGlobale.getString(I18n.var_requeteSite), ".setW(w);");
-              tl(3, "page.", i18nGlobale.getString(I18n.var_promesseLoin), classePageNomSimpleMethode, "(", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(a -> {");
-              tl(4, "page.html();");
-            }
-            else {
+            // if(classePageNomCanoniqueMethode != null) {
+            //   tl(3, classePageNomSimpleMethode, " page = new ", classePageNomSimpleMethode, "();");
+            //   tl(3, "SolrDocument page", i18nGlobale.getString(I18n.var_DocumentSolr), " = new SolrDocument();");
+            //   tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), " = ", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ".get", i18nGlobale.getString(I18n.var_RequeteSite), "_(", classePartsRequeteSite.nomSimple(classeLangueNom), ".class);");
+            //   tl(3, "MultiMap ", i18nGlobale.getString(I18n.var_requeteEnTetes), " = MultiMap.caseInsensitiveMultiMap();");
+            //   tl(3, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_RequeteEnTetes), "(", i18nGlobale.getString(I18n.var_requeteEnTetes), ");");
+            //   l();
+            //   tl(3, "page", i18nGlobale.getString(I18n.var_DocumentSolr), ".setField(", q("pageUri_frFR_stored_string"), ", ", q(classeApiUriMethode), ");");
+            //   tl(3, "page.setPage", i18nGlobale.getString(I18n.var_DocumentSolr), "(page", i18nGlobale.getString(I18n.var_DocumentSolr), ");");
+            //   tl(3, "page.setW(w);");
+            //   tl(3, i18nGlobale.getString(I18n.var_requeteSite), ".setW(w);");
+            //   tl(3, "page.", i18nGlobale.getString(I18n.var_promesseLoin), classePageNomSimpleMethode, "(", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(a -> {");
+            //   tl(4, "page.html();");
+            // }
+            // else {
               tl(3, "JsonObject json = JsonObject.mapFrom(", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ".getList().stream().findFirst().orElse(null));");
-            }
+            // }
           }
           else if(classeApiMethode.contains("POST")) {
             tl(3, "JsonObject json = JsonObject.mapFrom(o);");
