@@ -5445,6 +5445,8 @@ public class EcrireGenClasse extends EcrireClasse {
             if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePoint)) {
               tl(4, "if(val instanceof String) {");
               tl(5, "set", entiteVarCapitalise, "((String)val);");
+              tl(4, "} else if(val instanceof JsonObject) {");
+              tl(5, "set", entiteVarCapitalise, "((JsonObject)val);");
               tl(4, "} else if(val instanceof Point) {");
               tl(5, "set", entiteVarCapitalise, "((Point)val);");
               tl(4, "} else if(val instanceof ", entiteNomSimple, ") {");
