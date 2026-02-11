@@ -2418,6 +2418,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   tl(7, "JsonObject params = new JsonObject();");
                   tl(7, "params.put(\"body\", ", i18nGlobale.getString(I18n.var_requeteSite), ".getJsonObject());");
                   tl(7, "params.put(\"path\", new JsonObject());");
+                  tl(7, "params.put(\"scopes\", scopes2);");
                   tl(7, "params.put(\"cookie\", ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"cookie\"));");
                   tl(7, "params.put(\"header\", ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"header\"));");
                   tl(7, "params.put(\"form\", new JsonObject());");
@@ -5275,7 +5276,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
           tl(5, "params.put(\"header\", ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"header\"));");
           tl(5, "params.put(\"form\", new JsonObject());");
           tl(5, "params.put(\"path\", new JsonObject());");
-          tl(5, "params.put(\"scopes\", new JsonArray().add(\"GET\").add(\"PATCH\"));");
+          tl(5, "params.put(\"scopes\", ", i18nGlobale.getString(I18n.var_requeteSite), ".getScopes());");
           tl(5, "JsonObject query = new JsonObject();");
           tl(5, "Boolean softCommit = Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(null);");
           tl(5, "Integer commitWithin = Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");

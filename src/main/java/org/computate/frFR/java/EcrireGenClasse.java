@@ -5288,6 +5288,7 @@ public class EcrireGenClasse extends EcrireClasse {
         wIndexerFacetFor.tl(8, "if(o2 != null) {");
         wIndexerFacetFor.tl(9, "JsonObject params = new JsonObject();");
         wIndexerFacetFor.tl(9, "params.put(\"body\", new JsonObject());");
+        wIndexerFacetFor.tl(9, "params.put(\"scopes\", ", i18nGlobale.getString(I18n.var_requeteSite), ".getScopes());");
         wIndexerFacetFor.tl(9, "params.put(\"cookie\", new JsonObject());");
         wIndexerFacetFor.tl(9, "params.put(\"path\", new JsonObject());");
         wIndexerFacetFor.tl(9, "params.put(\"query\", new JsonObject().put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"", i18nGlobale.getString(I18n.var_solrId), ":\" + ", i18nGlobale.getString(I18n.var_solrId), "2)).put(\"var\", new JsonArray().add(\"refresh:false\")));");
