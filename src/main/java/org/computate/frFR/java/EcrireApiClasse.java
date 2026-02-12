@@ -1916,6 +1916,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 
     if(auteurGenApiServiceImpl != null) {
       o = auteurGenApiServiceImpl;
+      classeAuthPortees = Optional.ofNullable(classeDoc.getJsonArray("classeAuthPortees_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
       l();
       l("/**");
       l(" * ", i18nGlobale.getString(I18n.var_Traduire), ": false");
@@ -1949,6 +1950,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
           // classePageLangueNom = classeDoc.getString("classePageLangueNom" + classeApiMethode + "_" + langueNom + "_stored_string");
           classePageTemplateMethode = classeDoc.getString("classe" + classeApiMethode + "Template_" + langueNom + "_stored_string");
           classePageAvecTemplateMethode = classeDoc.getBoolean("classePageAvecTemplate" + classeApiMethode + "_stored_boolean");
+          classeApiPortee = classeDoc.getString("classeApiPortee" + classeApiMethode + "_stored_string");
 
           // if(classePageLangueNom == null || classePageLangueNom.equals(classeLangueNom)) {
 
@@ -1992,19 +1994,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   tl(4, "form.add(\"grant_type\", \"urn:ietf:params:oauth:grant-type:uma-ticket\");");
                   tl(4, "form.add(\"audience\", config.getString(ComputateConfigKeys.AUTH_CLIENT));");
                   tl(4, "form.add(\"response_mode\", \"permissions\");");
-                  tl(4, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_ADMIN), ")));");
-                  tl(4, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), ")));");
-                  tl(4, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", \"GET\"));");
-                  tl(4, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", \"POST\"));");
-                  tl(4, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", \"DELETE\"));");
-                  tl(4, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", \"PATCH\"));");
-                  tl(4, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", \"PUT\"));");
-                  tl(4, "form.add(\"permission\", String.format(\"%s-%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", ", classeVarId, ", \"GET\"));");
+                  for(String classeAuthPortee : classeAuthPortees) {
+                    tl(4, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", \"", classeAuthPortee, "\"));");
+                  }
                   tl(4, "if(", classeVarId, " != null)");
                   if(classeAuthRessource == null) {
-                    tl(5, "form.add(\"permission\", String.format(\"%s-%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", ", classeVarId, ", \"", classeApiMethodeMethode, "\"));");
+                    tl(5, "form.add(\"permission\", String.format(\"%s-%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", ", classeVarId, ", \"", classeApiPortee, "\"));");
                   } else {
-                    tl(5, "form.add(\"permission\", String.format(\"%s#%s\", ", classeVarId, ", \"", classeApiMethodeMethode, "\"));");
+                    tl(5, "form.add(\"permission\", String.format(\"%s#%s\", ", classeVarId, ", \"", classeApiPortee, "\"));");
                   }
                   if(classeRoleUtilisateur) {
                     tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_PublicLire), "(", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), ");");
@@ -2092,7 +2089,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   tl(6, "try {");
                 }
               }
-              tl(7, i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", i18nGlobale.getString(I18n.var_requeteSite), ", false, true, false).onSuccess(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, " -> {");
+              tl(7, i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", i18nGlobale.getString(I18n.var_requeteSite), ", false, true, false, \"", classeApiPortee, "\").onSuccess(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, " -> {");
               tl(8, i18nGlobale.getString(I18n.var_reponse), "200", classeApiMethode, classeNomSimple, "(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ").onSuccess(", i18nGlobale.getString(I18n.var_reponse), " -> {");
               tl(9, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture(", i18nGlobale.getString(I18n.var_reponse), "));");
               tl(9, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_réussi), ". \"));");
@@ -2278,19 +2275,15 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(4, "form.add(\"grant_type\", \"urn:ietf:params:oauth:grant-type:uma-ticket\");");
                     tl(4, "form.add(\"audience\", config.getString(ComputateConfigKeys.AUTH_CLIENT));");
                     tl(4, "form.add(\"response_mode\", \"permissions\");");
-                    tl(4, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_ADMIN), ")));");
-                    tl(4, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", config.getString(ComputateConfigKeys.", i18nGlobale.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), ")));");
-                    tl(4, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", \"GET\"));");
-                    tl(4, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", \"POST\"));");
-                    tl(4, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", \"DELETE\"));");
-                    tl(4, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", \"PATCH\"));");
-                    tl(4, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", \"PUT\"));");
+                    for(String classeAuthPortee : classeAuthPortees) {
+                      tl(4, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", \"", classeAuthPortee, "\"));");
+                    }
                     if(classeVarId != null) {
                       tl(4, "if(", classeVarId, " != null)");
                       if(classeAuthRessource == null) {
-                        tl(5, "form.add(\"permission\", String.format(\"%s-%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", ", classeVarId, ", \"", classeApiMethodeMethode, "\"));");
+                        tl(5, "form.add(\"permission\", String.format(\"%s-%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", ", classeVarId, ", \"", classeApiPortee, "\"));");
                       } else {
-                        tl(5, "form.add(\"permission\", String.format(\"%s#%s\", ", classeVarId, ", \"", classeApiMethodeMethode, "\"));");
+                        tl(5, "form.add(\"permission\", String.format(\"%s#%s\", ", classeVarId, ", \"", classeApiPortee, "\"));");
                       }
                     }
                     if(classeRoleUtilisateur) {
@@ -2447,7 +2440,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   tl(7, "});");
                 }
                 else if(classeApiMethode.contains("DELETE")) {
-                  tl(7, i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", i18nGlobale.getString(I18n.var_requeteSite), ", ", (classeModele ? "false, true" : "true, false"), ", true).onSuccess(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, " -> {");
+                  tl(7, i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", i18nGlobale.getString(I18n.var_requeteSite), ", ", (classeModele ? "false, true" : "true, false"), ", true, \"", classeApiPortee, "\").onSuccess(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, " -> {");
                   tl(8, "try {");
                   Integer tBase;
                   tBase = 0;
@@ -2485,7 +2478,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   tl(7, "});");
                 }
                 else if(classeApiMethode.contains("PATCH")) {
-                  tl(7, i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", i18nGlobale.getString(I18n.var_requeteSite), ", ", (classeModele ? "false, true" : "true, false"), ", true).onSuccess(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, " -> {");
+                  tl(7, i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", i18nGlobale.getString(I18n.var_requeteSite), ", ", (classeModele ? "false, true" : "true, false"), ", true, \"", classeApiPortee, "\").onSuccess(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, " -> {");
                   tl(8, "try {");
                   Integer tBase;
                   tBase = 0;
@@ -2524,7 +2517,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   tl(7, "});");
                 }
                 else if(classePageAvecTemplateMethode || classeApiMethode.contains(i18nGlobale.getString(I18n.var_Recherche))) {
-                  tl(7, i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", i18nGlobale.getString(I18n.var_requeteSite), ", false, true, false).onSuccess(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, " -> {");
+                  tl(7, i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", i18nGlobale.getString(I18n.var_requeteSite), ", false, true, false, \"", classeApiPortee, "\").onSuccess(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, " -> {");
                   tl(8, i18nGlobale.getString(I18n.var_reponse), "200", classeApiMethode, classeNomSimple, "(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ").onSuccess(", i18nGlobale.getString(I18n.var_reponse), " -> {");
                   tl(9, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture(", i18nGlobale.getString(I18n.var_reponse), "));");
                   tl(9, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_réussi), ". \"));");
@@ -2538,7 +2531,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   tl(7, "});");
                 }
                 else if(classeApiMethode.contains("GET")) {
-                  tl(7, i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", i18nGlobale.getString(I18n.var_requeteSite), ", false, true, false).onSuccess(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, " -> {");
+                  tl(7, i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", i18nGlobale.getString(I18n.var_requeteSite), ", false, true, false, \"", classeApiPortee, "\").onSuccess(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, " -> {");
                   tl(8, i18nGlobale.getString(I18n.var_reponse), "200", classeApiMethode, classeNomSimple, "(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ").onSuccess(", i18nGlobale.getString(I18n.var_reponse), " -> {");
                   tl(9, i18nGlobale.getString(I18n.var_gestionnaireEvenements), ".handle(Future.succeededFuture(", i18nGlobale.getString(I18n.var_reponse), "));");
                   tl(9, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", i18nGlobale.getString(I18n.str_a_réussi), ". \"));");
@@ -2552,7 +2545,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   tl(7, "});");
                 }
                 else if(classeApiMethode.equals(i18nGlobale.getString(I18n.var_PUTCopie))) {
-                  tl(7, i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", i18nGlobale.getString(I18n.var_requeteSite), ", false, true, true).onSuccess(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, " -> {");
+                  tl(7, i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", i18nGlobale.getString(I18n.var_requeteSite), ", false, true, true, \"", classeApiPortee, "\").onSuccess(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, " -> {");
                   tl(8, classePartsRequeteApi.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
                   tl(8, i18nGlobale.getString(I18n.var_requeteApi), ".setRows(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".getRequest().getRows());");
                   tl(8, i18nGlobale.getString(I18n.var_requeteApi), ".setNumFound(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".getResponse().getResponse().getNumFound());");
@@ -2937,7 +2930,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
               tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".addScopes(scope);");
               tl(5, "});");
               tl(4, "});");
-              tl(4, i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", i18nGlobale.getString(I18n.var_requeteSite), ", false, true, true).onSuccess(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, " -> {");
+              tl(4, i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", i18nGlobale.getString(I18n.var_requeteSite), ", false, true, true, \"", classeApiPortee, "\").onSuccess(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, " -> {");
               tl(5, "try {");
               tl(6, classeNomSimple, " o = ", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first();");
               tl(6, "if(o != null && ", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".getResponse().getResponse().getNumFound() == 1) {");
@@ -2995,7 +2988,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
               tl(6, i18nGlobale.getString(I18n.var_requeteSite), ".addScopes(scope);");
               tl(5, "});");
               tl(4, "});");
-              tl(4, i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", i18nGlobale.getString(I18n.var_requeteSite), ", false, true, true).onSuccess(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, " -> {");
+              tl(4, i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", i18nGlobale.getString(I18n.var_requeteSite), ", false, true, true, \"", classeApiPortee, "\").onSuccess(", i18nGlobale.getString(I18n.var_liste), classeNomSimple, " -> {");
               tl(5, "try {");
               tl(6, classeNomSimple, " o = ", i18nGlobale.getString(I18n.var_liste), classeNomSimple, ".first();");
               tl(6, classePartsRequeteApi.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
@@ -4556,13 +4549,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
       // recherche //
       ///////////////
       l();
-      tl(1, "public Future<", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, ">> ", i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), ", Boolean ", i18nGlobale.getString(I18n.var_peupler), ", Boolean ", i18nGlobale.getString(I18n.var_stocker), ", Boolean ", i18nGlobale.getString(I18n.var_modifier), ") {");
+      tl(1, "public Future<", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, ">> ", i18nGlobale.getString(I18n.var_rechercher), classeApiClasseNomSimple, i18nGlobale.getString(I18n.var_Liste), "(", classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), ", Boolean ", i18nGlobale.getString(I18n.var_peupler), ", Boolean ", i18nGlobale.getString(I18n.var_stocker), ", Boolean ", i18nGlobale.getString(I18n.var_modifier), ", String ", i18nGlobale.getString(I18n.var_portee), ") {");
       tl(2, "Promise<", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, ">> promise = Promise.promise();");
       tl(2, "try {");
       if(classePartsUtilisateurSite != null && classePartsUtilisateurSite.nomSimple(classeLangueNom).equals(classeNomSimple)) {
         tl(3, classeNomSimple, " ", uncapitalizeClasseNomSimple, " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_UtilisateurSite), "_();");
         tl(3, uncapitalizeClasseNomSimple, ".", i18nGlobale.getString(I18n.var_promesseLoin), i18nGlobale.getString(I18n.var_PourClasse), "(", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(a -> {");
         tl(4, classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, "> ", i18nGlobale.getString(I18n.var_listeRecherche), " = new ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, ">();");
+        tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".setScope(", i18nGlobale.getString(I18n.var_portee), ");");
         tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".addList(", uncapitalizeClasseNomSimple, ");");
         tl(4, i18nGlobale.getString(I18n.var_listeRecherche), ".", i18nGlobale.getString(I18n.var_promesseLoin), i18nGlobale.getString(I18n.var_PourClasse), "(", i18nGlobale.getString(I18n.var_requeteSite), ").onSuccess(", i18nGlobale.getString(I18n.var_listeRecherche), "2 -> {");
         tl(5, "promise.complete(", i18nGlobale.getString(I18n.var_listeRecherche), ");");
@@ -4579,6 +4573,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
         tl(3, "String ", i18nGlobale.getString(I18n.var_entite), i18nGlobale.getString(I18n.var_Liste), "Str = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(", q("query"), ").getString(", q("fl"), ");");
         tl(3, "String[] ", i18nGlobale.getString(I18n.var_entite), i18nGlobale.getString(I18n.var_Liste), " = ", i18nGlobale.getString(I18n.var_entite), i18nGlobale.getString(I18n.var_Liste), "Str == null ? null : ", i18nGlobale.getString(I18n.var_entite), i18nGlobale.getString(I18n.var_Liste), "Str.split(", q(",\\s*"), ");");
         tl(3, classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, "> ", i18nGlobale.getString(I18n.var_listeRecherche), " = new ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, ">();");
+        tl(3, i18nGlobale.getString(I18n.var_listeRecherche), ".setScope(", i18nGlobale.getString(I18n.var_portee), ");");
         tl(3, "String facetRange = null;");
         tl(3, "Date facetRangeStart = null;");
         tl(3, "Date facetRangeEnd = null;");

@@ -363,6 +363,8 @@ public class EcrireGenClasse extends EcrireClasse {
   protected String classePageSuperNomCanonique;
   protected String classeApiClasseNomSimple;
   protected String classeGenPageNomSimple;
+  protected List<String> classeAuthPortees;
+  protected String classeApiPortee;
   protected List<String> classeAttribuerNomSimplePages;
   protected List<String> classeAttribuerPageUriJs;
   protected List<String> classeAttribuerNomSimples;
