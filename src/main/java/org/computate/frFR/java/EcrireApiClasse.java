@@ -1990,6 +1990,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   tl(4, "String ", classeVarId, " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\").getString(\"", classeVarId, "\");");
                   if(classeVarId != null && classeAuthRessource != null && !classeVarId.equals(classeAuthRessource))
                     tl(4, "String ", classeAuthRessource, " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\").getString(\"", classeAuthRessource, "\");");
+                  tl(4, "List<String> groups = Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getGroups()).orElse(new ArrayList<>());");
                   tl(4, "MultiMap form = MultiMap.caseInsensitiveMultiMap();");
                   tl(4, "form.add(\"grant_type\", \"urn:ietf:params:oauth:grant-type:uma-ticket\");");
                   tl(4, "form.add(\"audience\", config.getString(ComputateConfigKeys.AUTH_CLIENT));");
@@ -2002,6 +2003,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(5, "form.add(\"permission\", String.format(\"%s-%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", ", classeVarId, ", \"", classeApiPortee, "\"));");
                   } else {
                     tl(5, "form.add(\"permission\", String.format(\"%s#%s\", ", classeVarId, ", \"", classeApiPortee, "\"));");
+                  }
+                  if(classeRessourcesAutorisation.size() > 0) {
+                    for(String classeRessourceAutorisation : classeRessourcesAutorisation) {
+                      tl(4, "groups.stream().map(group -> {");
+                      tl(7, "Matcher mPermission = Pattern.compile(\"^/(.*-?", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-([a-z0-9\\\\-]+))-(", classeApiPortee, ")$\").matcher(group);");
+                      tl(7, "return mPermission.find() ? mPermission : null;");
+                      tl(6, "}).filter(v -> v != null).forEach(mPermission -> {");
+                      tl(7, "form.add(\"permission\", String.format(\"%s#%s\", mPermission.group(1), mPermission.group(3)));");
+                      tl(6, "});");
+                    }
                   }
                   if(classeRoleUtilisateur) {
                     tl(4, i18nGlobale.getString(I18n.var_requeteSite), ".set", i18nGlobale.getString(I18n.var_PublicLire), "(", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), ");");
@@ -2018,19 +2029,19 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   tl(4, ".onComplete(authorizationDecisionResponse -> {");
                   tl(5, "try {");
                   tl(6, "HttpResponse<Buffer> authorizationDecision = authorizationDecisionResponse.result();");
-                  tl(6, "JsonArray scopes = authorizationDecisionResponse.failed() ? new JsonArray() : authorizationDecision.bodyAsJsonArray().stream().findFirst().map(decision -> ((JsonObject)decision).getJsonArray(\"scopes\")).orElse(new JsonArray());");
+                  tl(6, "JsonArray authorizationDecisionBody = authorizationDecisionResponse.failed() ? new JsonArray() : authorizationDecision.bodyAsJsonArray();");
+                  tl(6, "JsonArray scopes = authorizationDecisionBody.stream().map(o -> (JsonObject)o).filter(o -> \"", classeAuthRessource, "\".equals(o.getString(\"rsname\"))).findFirst().map(decision -> ((JsonObject)decision).getJsonArray(\"scopes\")).orElse(new JsonArray());");
                   if(classeRessourcesAutorisation.size() > 0) {
-                    tl(6, "if(!scopes.contains(\"", classeApiMethodeMethode, "\") && !", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), ") {");
-                    tl(7, "//");
+                    tl(6, "if(!scopes.contains(\"", classeApiPortee, "\") && !", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), ") {");
                     tl(7, "List<String> fqs = new ArrayList<>();");
-                    tl(7, "List<String> groups = Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getGroups()).orElse(new ArrayList<>());");
                     for(String classeRessourceAutorisation : classeRessourcesAutorisation) {
 
-                      tl(7, "groups.stream().map(group -> {");
-                      tl(10, "Matcher mPermission = Pattern.compile(\"^/(.*-?", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-([a-z0-9\\\\-]+))-(", classeApiMethodeMethode, ")$\").matcher(group);");
-                      tl(10, "return mPermission.find() ? mPermission.group(1) : null;");
-                      tl(9, "}).filter(v -> v != null).forEach(", i18nGlobale.getString(I18n.var_valeur), " -> {");
-                      tl(10, "fqs.add(String.format(\"%s:%s\", \"", StringUtils.substringAfter(classeRessourceAutorisation, "-"), "\", ", i18nGlobale.getString(I18n.var_valeur), "));");
+                      tl(7, "authorizationDecisionBody.stream().map(o -> (JsonObject)o).filter(permission -> {");
+                      tl(10, "Matcher mPermission = Pattern.compile(\"^(", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-([a-z0-9\\\\-]+))$\").matcher(permission.getString(\"rsname\"));");
+                      tl(10, "return permission.getJsonArray(\"scopes\").contains(\"", classeApiPortee, "\")");
+                      tl(12, "&& mPermission.find();");
+                      tl(9, "}).forEach(permission -> {");
+                      tl(10, "fqs.add(String.format(\"%s:%s\", \"", StringUtils.substringAfter(classeRessourceAutorisation, "-"), "\", permission.getString(\"rsname\")));");
                       tl(9, "});");
                     }
                     tl(7, "JsonObject authParams = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams();");
@@ -2046,7 +2057,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(7, "}");
                     tl(7, "if(fqs.size() > 0) {");
                     tl(8, "fq.add(fqs.stream().collect(Collectors.joining(\" OR \")));");
-                    tl(8, "scopes.add(\"", classeApiMethodeMethode, "\");");
+                    tl(8, "scopes.add(\"", classeApiPortee, "\");");
                     tl(8, i18nGlobale.getString(I18n.var_requeteSite), ".setFilteredScope(true);");
                     tl(7, "}");
                     tl(6, "}");
@@ -2271,6 +2282,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(4, "String ", classeVarId, " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\").getString(\"", classeVarId, "\");");
                     if(classeVarId != null && classeAuthRessource != null && !classeVarId.equals(classeAuthRessource))
                       tl(4, "String ", classeAuthRessource, " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\").getString(\"", classeAuthRessource, "\");");
+                    tl(4, "List<String> groups = Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getGroups()).orElse(new ArrayList<>());");
                     tl(4, "MultiMap form = MultiMap.caseInsensitiveMultiMap();");
                     tl(4, "form.add(\"grant_type\", \"urn:ietf:params:oauth:grant-type:uma-ticket\");");
                     tl(4, "form.add(\"audience\", config.getString(ComputateConfigKeys.AUTH_CLIENT));");
@@ -2284,6 +2296,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
                         tl(5, "form.add(\"permission\", String.format(\"%s-%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", ", classeVarId, ", \"", classeApiPortee, "\"));");
                       } else {
                         tl(5, "form.add(\"permission\", String.format(\"%s#%s\", ", classeVarId, ", \"", classeApiPortee, "\"));");
+                      }
+                    }
+                    if(classeRessourcesAutorisation.size() > 0) {
+                      for(String classeRessourceAutorisation : classeRessourcesAutorisation) {
+                        tl(4, "groups.stream().map(group -> {");
+                        tl(7, "Matcher mPermission = Pattern.compile(\"^/(.*-?", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-([a-z0-9\\\\-]+))-(", classeApiPortee, ")$\").matcher(group);");
+                        tl(7, "return mPermission.find() ? mPermission : null;");
+                        tl(6, "}).filter(v -> v != null).forEach(mPermission -> {");
+                        tl(7, "form.add(\"permission\", String.format(\"%s#%s\", mPermission.group(1), mPermission.group(3)));");
+                        tl(6, "});");
                       }
                     }
                     if(classeRoleUtilisateur) {
@@ -2301,19 +2323,20 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(4, ".onComplete(authorizationDecisionResponse -> {");
                     tl(5, "try {");
                     tl(6, "HttpResponse<Buffer> authorizationDecision = authorizationDecisionResponse.result();");
-                    tl(6, "JsonArray scopes = authorizationDecisionResponse.failed() ? new JsonArray() : authorizationDecision.bodyAsJsonArray().stream().findFirst().map(decision -> ((JsonObject)decision).getJsonArray(\"scopes\")).orElse(new JsonArray());");
+                    tl(6, "JsonArray authorizationDecisionBody = authorizationDecisionResponse.failed() ? new JsonArray() : authorizationDecision.bodyAsJsonArray();");
+                    tl(6, "JsonArray scopes = authorizationDecisionBody.stream().map(o -> (JsonObject)o).filter(o -> \"", classeAuthRessource, "\".equals(o.getString(\"rsname\"))).findFirst().map(decision -> ((JsonObject)decision).getJsonArray(\"scopes\")).orElse(new JsonArray());");
                     if(classeRessourcesAutorisation.size() > 0) {
                       tl(6, "if(!scopes.contains(\"", classeApiMethodeMethode, "\") && !", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), ") {");
                       tl(7, "//");
                       tl(7, "List<String> fqs = new ArrayList<>();");
-                      tl(7, "List<String> groups = Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteSite), ".getGroups()).orElse(new ArrayList<>());");
                       for(String classeRessourceAutorisation : classeRessourcesAutorisation) {
 
-                        tl(7, "groups.stream().map(group -> {");
-                        tl(10, "Matcher mPermission = Pattern.compile(\"^/(.*-?", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-([a-z0-9\\\\-]+))-(", classeApiMethodeMethode, ")$\").matcher(group);");
-                        tl(10, "return mPermission.find() ? mPermission.group(1) : null;");
-                        tl(9, "}).filter(v -> v != null).forEach(", i18nGlobale.getString(I18n.var_valeur), " -> {");
-                        tl(10, "fqs.add(String.format(\"%s:%s\", \"", StringUtils.substringAfter(classeRessourceAutorisation, "-"), "\", ", i18nGlobale.getString(I18n.var_valeur), "));");
+                        tl(7, "authorizationDecisionBody.stream().map(o -> (JsonObject)o).filter(permission -> {");
+                        tl(10, "Matcher mPermission = Pattern.compile(\"^(", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-([a-z0-9\\\\-]+))$\").matcher(permission.getString(\"rsname\"));");
+                        tl(10, "return permission.getJsonArray(\"scopes\").contains(\"", classeApiPortee, "\")");
+                        tl(12, "&& mPermission.find();");
+                        tl(9, "}).forEach(permission -> {");
+                        tl(10, "fqs.add(String.format(\"%s:%s\", \"", StringUtils.substringAfter(classeRessourceAutorisation, "-"), "\", permission.getString(\"rsname\")));");
                         tl(9, "});");
                       }
                       tl(7, "JsonObject authParams = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams();");
@@ -2329,7 +2352,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(7, "}");
                       tl(7, "if(fqs.size() > 0) {");
                       tl(8, "fq.add(fqs.stream().collect(Collectors.joining(\" OR \")));");
-                      tl(8, "scopes.add(\"", classeApiMethodeMethode, "\");");
+                      tl(8, "scopes.add(\"", classeApiPortee, "\");");
                       tl(8, i18nGlobale.getString(I18n.var_requeteSite), ".setFilteredScope(true);");
                       tl(7, "}");
                       tl(6, "}");
@@ -4061,7 +4084,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                 || classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageRecherche))
                 ) {
               if(classeVarUriTemplateMethode != null) {
-                tl(2, "return Optional.ofNullable(", i18nGlobale.getString(I18n.var_resultat), ".get", StringUtils.capitalize(classeVarUriTemplateMethode), "()).orElse(\"", classePageTemplateMethode, "\");");
+                tl(2, "return Optional.ofNullable(", i18nGlobale.getString(I18n.var_resultat), ").map(r -> r.get", StringUtils.capitalize(classeVarUriTemplateMethode), "()).orElse(\"", classePageTemplateMethode, "\");");
                 wPageTemplates.tl(3, "if(", i18nGlobale.getString(I18n.var_templateChemin), ".startsWith(String.format(\"%s%s\", config.getString(ComputateConfigKeys.TEMPLATE_PATH), \"", StringUtils.substringBeforeLast(classeApiUriMethode, "/"), "/\"))) {");
                 wPageTemplates.tl(4, "o.persistForClass(", classeNomSimple, ".VAR_", classeVarUriTemplateMethode, ", ", classeNomSimple, ".staticSet", StringUtils.capitalize(classeVarUriTemplateMethode), "(", i18nGlobale.getString(I18n.var_requeteSite), "2, StringUtils.substringAfter(", i18nGlobale.getString(I18n.var_templateChemin), ", config.getString(ComputateConfigKeys.TEMPLATE_PATH))));");
                 wPageTemplates.tl(3, "}");
@@ -4070,7 +4093,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
               }
             } else {
               if(classeVarUriTemplateMethode != null) {
-                tl(2, "return Optional.ofNullable(", i18nGlobale.getString(I18n.var_resultat), ".get", StringUtils.capitalize(classeVarUriTemplateMethode), "()).orElse(String.format(\"", classePageTemplateMethode, "\", StringUtils.substringBefore(", i18nGlobale.getString(I18n.var_requeteService), ".getExtra().getString(\"uri\").substring(1), \"?\")));");
+                tl(2, "return Optional.ofNullable(", i18nGlobale.getString(I18n.var_resultat), ").map(r -> r.get", StringUtils.capitalize(classeVarUriTemplateMethode), "()).orElse(String.format(\"", classePageTemplateMethode, "\", StringUtils.substringBefore(", i18nGlobale.getString(I18n.var_requeteService), ".getExtra().getString(\"uri\").substring(1), \"?\")));");
                 wPageTemplates.tl(3, "if(", i18nGlobale.getString(I18n.var_templateChemin), ".startsWith(String.format(\"%s%s\", config.getString(ComputateConfigKeys.TEMPLATE_PATH), \"", StringUtils.substringBeforeLast(classeApiUriMethode, "/"), "/\"))) {");
                 wPageTemplates.tl(4, "o.persistForClass(", classeNomSimple, ".VAR_", classeVarUriTemplateMethode, ", ", classeNomSimple, ".staticSet", StringUtils.capitalize(classeVarUriTemplateMethode), "(", i18nGlobale.getString(I18n.var_requeteSite), "2, StringUtils.substringAfter(", i18nGlobale.getString(I18n.var_templateChemin), ", config.getString(ComputateConfigKeys.TEMPLATE_PATH))));");
                 wPageTemplates.tl(3, "}");
@@ -4088,8 +4111,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
             tl(3, "String pageTemplateUri = ", i18nGlobale.getString(I18n.var_uriTemplate), classeApiMethode, classeNomSimple, "(", i18nGlobale.getString(I18n.var_requeteService), ", ", i18nGlobale.getString(I18n.var_resultat), ");");
             tl(3, "String siteTemplatePath = config.getString(ComputateConfigKeys.TEMPLATE_PATH);");
             tl(3, "Path resourceTemplatePath = Path.of(siteTemplatePath, pageTemplateUri);");
-            tl(3, "String template = siteTemplatePath == null ? Resources.toString(Resources.getResource(resourceTemplatePath.toString()), StandardCharsets.UTF_8) : Files.readString(resourceTemplatePath, Charset.forName(\"UTF-8\"));");
-            tl(3, "if(pageTemplateUri.endsWith(\".md\")) {");
+            tl(3, "if(", i18nGlobale.getString(I18n.var_resultat), " == null || !Files.exists(resourceTemplatePath)) {");
+            tl(4, "String template = Files.readString(Path.of(siteTemplatePath, \"", classePageRechercheTemplate, "\"), Charset.forName(\"UTF-8\"));");
+            tl(4, "String renderedTemplate = jinjava.render(template, ctx.getMap());");
+            tl(4, "promise.complete(renderedTemplate);");
+            tl(3, "} else if(pageTemplateUri.endsWith(\".md\")) {");
+            tl(4, "String template = siteTemplatePath == null ? Resources.toString(Resources.getResource(resourceTemplatePath.toString()), StandardCharsets.UTF_8) : Files.readString(resourceTemplatePath, Charset.forName(\"UTF-8\"));");
             tl(4, "String metaPrefixResult = String.format(\"%s.\", i18n.getString(I18n.var_resultat));");
             tl(4, "Map<String, Object> data = new HashMap<>();");
             tl(4, "String body = \"\";");
@@ -4134,6 +4161,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
             tl(4, "String renderedTemplate = jinjava.render(htmTemplate, ctx.getMap());");
             tl(4, "promise.complete(renderedTemplate);");
             tl(3, "} else {");
+            tl(4, "String template = siteTemplatePath == null ? Resources.toString(Resources.getResource(resourceTemplatePath.toString()), StandardCharsets.UTF_8) : Files.readString(resourceTemplatePath, Charset.forName(\"UTF-8\"));");
             tl(4, "String renderedTemplate = jinjava.render(template, ctx.getMap());");
             tl(4, "promise.complete(renderedTemplate);");
             tl(3, "}");
