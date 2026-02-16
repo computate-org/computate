@@ -6236,8 +6236,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
       tl(8, "</div>");
       tl(0, "{% include ", classePageBoutonsPaginationTemplate, " %}");
       tl(7, "</div>");
-      tl(6, "</div>");
-      tl(5, "</div>");
       tl(0, "{% endif %}");
 
       tl(0, "{%- endblock htmBody", i18nClasse.getString(I18n.var_Milieu), classePageNomSimple, " %}");
@@ -6246,6 +6244,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
       tl(0, "{%- block htmBody", i18nClasse.getString(I18n.var_Fin), classePageSuperNomSimple, " %}");
       tl(0, "{%- block htmBody", i18nClasse.getString(I18n.var_Fin), classePageNomSimple, " %}");
       tl(0, "{%- include ", classePageEmplacementTemplate, " %}");
+      tl(6, "</div>");
+      tl(5, "</div>");
       tl(0, "{%- endblock htmBody", i18nClasse.getString(I18n.var_Fin), classePageNomSimple, " %}");
       tl(1, "{{ super() }}");
       tl(0, "{%- endblock htmBody", i18nClasse.getString(I18n.var_Fin), classePageSuperNomSimple, " %}");
