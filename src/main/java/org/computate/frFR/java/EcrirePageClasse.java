@@ -2491,6 +2491,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
       l();
       if(classePageSuperNomSimple != null)
         tl(1, "@Override");
+      tl(1, "protected void _", i18nPage.getString(I18n.var_classeTousNom), "(", classePartsCouverture.nomSimple(langueNom), "<String> w) {");
+      tl(2, "w.o(", q(classeTousNom), ");");
+      tl(1, "}");
+
+      l();
+      if(classePageSuperNomSimple != null)
+        tl(1, "@Override");
       String classeUriPageRechercheLangue = classeDoc.getString("classeUriPageRecherche_" + classeLangueNom + "_stored_string");
       tl(1, "protected void _pageUri(", classePartsCouverture.nomSimple(langueNom), "<String> w) {");
       tl(2, "if(\"", classeLangueNom, "\".equals(lang))");
