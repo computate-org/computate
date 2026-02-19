@@ -482,6 +482,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
   protected ToutEcrivain wDefinirObjet;
 
+  protected ToutEcrivain wPorteesFiltres;
   protected ToutEcrivain wPageTemplates;
   protected ToutEcrivain wApiGet;
 
@@ -1008,6 +1009,7 @@ public class EcrireGenClasse extends EcrireClasse {
    * Var.enUS: entityDisplayName
    */
   String entiteNomAffichage;
+  String entitePortee;
   String entiteFormatHtm;
   String entiteIcone;
   String entiteCookie;
@@ -1110,6 +1112,7 @@ public class EcrireGenClasse extends EcrireClasse {
   Map<String, Integer> rechercheLigneMap;
   Map<String, String> entiteHtmLigneTitreActuelMap;
   Map<String, Boolean> entiteHtmLigneVerticaleActuelMap;
+  Map<String, String> entitePorteeActuelMap;
   String entiteHtmLigneTitre;
   String entiteHtmLigneTitreOuvert;
   String entiteHtmLigneEnTeteExpression;
@@ -1414,6 +1417,7 @@ public class EcrireGenClasse extends EcrireClasse {
     wMaxMethode = ToutEcrivain.create();
 
     wPageEntites = ToutEcrivain.create();
+    wPorteesFiltres = ToutEcrivain.create();
     wPageTemplates = ToutEcrivain.create();
     wApiGet = ToutEcrivain.create();
     wApiGenererGet = ToutEcrivain.create();

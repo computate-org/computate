@@ -456,11 +456,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
               entiteAttribuerEtendModeleBase = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuerEtendModeleBase_stored_boolean"));
               entiteAttribuerEtendResultatBase = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuerEtendResultatBase_stored_boolean"));
               Boolean entiteEstListe = (StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()));
+              entitePortee = (String)doc.get("entitePortee_stored_string");
 
               /////////////////////////
               // classePageTemplates //
               /////////////////////////
 
+              if(entitePortee != null) {
+                wPorteesFiltres.tl(4, "if(!scopes.contains(\"", entitePortee, "\"))");
+                wPorteesFiltres.tl(5, "json2.remove(", classeNomSimple, ".VAR_", entiteVar, ");");
+              }
               if(classePageAvecTemplate && entiteDefinir) {
                 if((
                     StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())
@@ -4232,6 +4237,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
               tl(3, "List<String> fls = ", i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ".getRequest().getFields();");
               tl(3, "JsonObject json = new JsonObject();");
               tl(3, "JsonArray l = new JsonArray();");
+              tl(3, "List<String> ", i18nGlobale.getString(I18n.var_portees), " = ", i18nGlobale.getString(I18n.var_requeteSite), ".getScopes();");
               tl(3, i18nGlobale.getString(I18n.var_liste), classeApiClasseNomSimple, ".getList().stream().forEach(o -> {");
               tl(4, "JsonObject json2 = JsonObject.mapFrom(o);");
               tl(4, "if(fls.size() > 0) {");
@@ -4254,6 +4260,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
               tl(7, "json2.remove(fieldName);");
               tl(5, "}");
               tl(4, "}");
+              s(wPorteesFiltres);
               tl(4, "l.add(json2);");
               tl(3, "});");
               tl(3, "json.put(", q(i18nGlobale.getString(I18n.var_liste)), ", l);");
@@ -4341,19 +4348,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
             tl(4, "});");
             tl(3, "}");
           } else {
-            tl(3, "if(json == null) {");
-            if(classeVarId == null) {
-              tl(4, "String m = String.format(\"", i18nGlobale.getString(I18n.str_s_s_non_trouve), "\", \"", classeNomAdjectifSingulier, "\", null);");
-            } else {
-              tl(4, "String ", classeVarId, " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams().getJsonObject(\"path\").getString(\"", classeVarId, "\");");
-              tl(4, "String m = String.format(\"", i18nGlobale.getString(I18n.str_s_s_non_trouve), "\", \"", classeNomAdjectifSingulier, "\", ", classeVarId, ");");
-            }
-            tl(4, "promise.complete(new ServiceResponse(404");
-            tl(6, ", m");
-            tl(6, ", Buffer.buffer(new JsonObject().put(\"", i18nGlobale.getString(I18n.var_message), "\", m).encodePrettily()), null));");
-            tl(3, "} else {");
-            tl(4, "promise.complete(ServiceResponse.completedWithJson(Buffer.buffer(Optional.ofNullable(json).orElse(new JsonObject()).encodePrettily())));");
-            tl(3, "}");
+            tl(3, "promise.complete(ServiceResponse.completedWithJson(Buffer.buffer(Optional.ofNullable(json).orElse(new JsonObject()).encodePrettily())));");
           }
   
           tl(2, "} catch(Exception ex) {");

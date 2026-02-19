@@ -3596,6 +3596,8 @@ public class IndexerClasse extends RegarderClasseBase {
               }
             }
 
+            indexerStockerSolr(entiteDoc, "entitePortee", regex("^" + i18nGlobale.getString(I18n.var_Portee) + ": (.*)", methodeCommentaire, 1));
+
             Boolean entiteHighlighting = indexerStockerSolr(entiteDoc, "entiteHighlighting", regexTrouve("^Highlighting: (true)$", methodeCommentaire));
             Boolean entiteHtml = entiteDefinir || regexTrouve("^Html: (true)$", methodeCommentaire);
 
