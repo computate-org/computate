@@ -23,6 +23,7 @@ import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -1347,6 +1348,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
                 entiteIcone = (String)entiteDocumentSolr.get("entiteIcone_stored_string");
                 entiteCookie = (String)entiteDocumentSolr.get("entiteCookie_stored_string");
                 entiteHtml = (Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean");
+                entiteHtmColonne = (Integer)entiteDocumentSolr.get("entiteHtmColonne_stored_int");
                 entiteHtmLigne = (Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int");
                 entiteHtmLigneTitre = (String)entiteDocumentSolr.get("entiteHtmLigneTitre_" + langueNom + "_stored_string");
                 entiteHtmLigneTitreOuvert = (String)entiteDocumentSolr.get("entiteHtmLigneTitreOuvert_" + langueNom + "_stored_string");
@@ -2655,16 +2657,26 @@ public class EcrirePageClasse extends EcrireApiClasse {
           for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=rechercheLignes) {
             List<SolrDocument> resultatsSubstitues = rechercheListe.stream().filter(o -> BooleanUtils.isTrue((Boolean)o.get("entiteEstSubstitue_stored_boolean"))).collect(Collectors.toList());
             List<SolrDocument> resultatsNormales = rechercheListe.stream().filter(o -> BooleanUtils.isFalse((Boolean)o.get("entiteEstSubstitue_stored_boolean"))).collect(Collectors.toList());
+            List<SolrDocument> resultatsCombines = new ArrayList<>();
 
             for(Integer j = 0; j < resultatsNormales.size(); j++) {
-              entiteDocumentSolr = rechercheListe.get(j);
+              entiteDocumentSolr = resultatsNormales.get(j);
               entiteVar = (String)entiteDocumentSolr.get("entiteVar_" + classeLangueNom + "_stored_string");
               SolrDocument resultatSubstitue = resultatsSubstitues.stream().filter(o -> entiteVar.equals(o.get("entiteVar_" + classeLangueNom + "_stored_string"))).findFirst().orElse(null);
               if(resultatSubstitue != null) {
-                if(!entiteDocumentSolr.equals(resultatSubstitue))
-                  continue;
                 entiteDocumentSolr = resultatSubstitue;
               }
+              resultatsCombines.add(entiteDocumentSolr);
+            }
+            for(Integer j = 0; j < resultatsSubstitues.size(); j++) {
+              entiteDocumentSolr = resultatsSubstitues.get(j);
+              if(!resultatsCombines.contains(entiteDocumentSolr))
+                resultatsCombines.add(entiteDocumentSolr);
+            }
+            resultatsCombines.stream().sorted(Comparator.comparing(classApiMethod -> doc.getInteger("entiteHtmColonne_indexed_int")));
+            for(Integer j = 0; j < resultatsCombines.size(); j++) {
+              entiteDocumentSolr = resultatsCombines.get(j);
+              entiteVar = (String)entiteDocumentSolr.get("entiteVar_" + classeLangueNom + "_stored_string");
 
               entiteVarCapitalise = (String)entiteDocumentSolr.get("entiteVarCapitalise_" + classeLangueNom + "_stored_string");
               entiteSolrNomSimple = (String)entiteDocumentSolr.get("entiteSolrNomSimple_stored_string");
@@ -2688,6 +2700,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
               entiteIcone = (String)entiteDocumentSolr.get("entiteIcone_stored_string");
               entiteCookie = (String)entiteDocumentSolr.get("entiteCookie_stored_string");
               entiteHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean"));
+              entiteHtmColonne = (Integer)entiteDocumentSolr.get("entiteHtmColonne_stored_int");
+              entiteHtmLigne = (Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int");
+              entiteHtmLigneTitre = (String)entiteDocumentSolr.get("entiteHtmLigneTitre_" + langueNom + "_stored_string");
+              entiteHtmLigneTitreOuvert = (String)entiteDocumentSolr.get("entiteHtmLigneTitreOuvert_" + langueNom + "_stored_string");
+              entiteHtmLigneVerticale = (Boolean)entiteDocumentSolr.get("entiteHtmLigneVerticale_stored_boolean");
+              entiteHtmLigneEnTeteExpression = (String)entiteDocumentSolr.get("entiteHtmLigneEnTeteExpression_stored_string");
+              entiteHtmCellule = (Integer)entiteDocumentSolr.get("entiteHtmCellule_stored_int");
               entiteFormatHtm = (String)entiteDocumentSolr.get("entiteFormatHtm_stored_string");
               entiteMultiligne = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteMultiligne_stored_boolean"));
               entiteCouleur = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteCouleur_stored_boolean"));
@@ -3968,6 +3987,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
                   entiteDefaut = (String)entiteDocumentSolr.get("entiteDefaut_stored_string");
                   entiteIcone = (String)entiteDocumentSolr.get("entiteIcone_stored_string");
                   entiteCookie = (String)entiteDocumentSolr.get("entiteCookie_stored_string");
+                  entiteHtmColonne = (Integer)entiteDocumentSolr.get("entiteHtmColonne_stored_int");
                   entiteHtmLigne = (Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int");
                   entiteHtmLigneTitre = (String)entiteDocumentSolr.get("entiteHtmLigneTitre_" + langueNom + "_stored_string");
                   entiteHtmLigneTitreOuvert = (String)entiteDocumentSolr.get("entiteHtmLigneTitreOuvert_" + langueNom + "_stored_string");
