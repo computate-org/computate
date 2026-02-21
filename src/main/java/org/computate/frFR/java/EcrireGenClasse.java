@@ -522,6 +522,7 @@ public class EcrireGenClasse extends EcrireClasse {
   protected ToutEcrivain wVarsGamme;
   protected ToutEcrivain wNomAffichageStatic;
   protected ToutEcrivain wNomAffichageMethode;
+  protected ToutEcrivain wVarJsonMethode;
   protected ToutEcrivain wClasseNomSimpleMethode;
   protected ToutEcrivain wDescriptionMethode;
   protected ToutEcrivain wNgsiTypeMethode;
@@ -1402,6 +1403,7 @@ public class EcrireGenClasse extends EcrireClasse {
     wVarsFq = ToutEcrivain.create();
     wVarsGamme = ToutEcrivain.create();
     wNomAffichageMethode = ToutEcrivain.create();
+    wVarJsonMethode = ToutEcrivain.create();
     wNomAffichageStatic = ToutEcrivain.create();
 
     wClasseNomSimpleMethode = ToutEcrivain.create();
@@ -5685,6 +5687,7 @@ public class EcrireGenClasse extends EcrireClasse {
       //////////
 
       wVarsStatic.tl(1, "public static final String VAR_", entiteVar, " = \"", entiteVar, "\";");
+      wVarsStatic.tl(1, "public static final String SET_", entiteVar, " = \"set", entiteVarCapitalise, "\";");
 
       // varsQ //
       if(entiteTexte || entiteSuggere)
@@ -5777,6 +5780,9 @@ public class EcrireGenClasse extends EcrireClasse {
 
       wNomAffichageMethode.tl(2, "case VAR_", entiteVar, ":");
       wNomAffichageMethode.tl(3, "return ", langueConfig.getString(I18n.var_NOM_AFFICHAGE), "_", entiteVar, ";");
+
+      wVarJsonMethode.tl(2, "case VAR_", entiteVar, ":");
+      wVarJsonMethode.tl(3, "return patch ? SET_", entiteVar, " : VAR_", entiteVar, ";");
   
       if(entiteDefinir || entiteAttribuer || entiteIndexe || entiteStocke) {
     
@@ -5945,6 +5951,7 @@ public class EcrireGenClasse extends EcrireClasse {
     wVarsGamme.flushClose();
     wNomAffichageStatic.flushClose();
     wNomAffichageMethode.flushClose();
+    wVarJsonMethode.flushClose();
     wDescriptionMethode.flushClose();
     wNgsiTypeMethode.flushClose();
     wNgsiMethode.flushClose();
@@ -6617,6 +6624,27 @@ public class EcrireGenClasse extends EcrireClasse {
         tl(2, "return ", classeStringFormatUrlTelechargementLangue == null ? "null" : "\"%s" + String.format("%s\"", classeStringFormatUrlTelechargementLangue), ";");
         tl(1, "}");
       }
+    }
+
+    ///////////////////////
+    // varJsonPourClasse //
+    ///////////////////////
+    if(classeEtendModeleBase || classeEtendResultatBase) {
+      l();
+      tl(1, "public static String varJson", langueConfig.getString(I18n.var_PourClasse), "(String var, Boolean patch) {");
+      tl(2, "return ", classeNomSimple, ".varJson", classeNomSimple, "(var, patch);");
+      tl(1, "}");
+      tl(1, "public static String varJson", classeNomSimple, "(String var, Boolean patch) {");
+      tl(2, "switch(var) {");
+      s(wVarJsonMethode.toString());
+      tl(2, "default:");
+
+      if(classeEstBase)
+        tl(3, "return null;");
+      else
+        tl(3, "return ", classeNomSimpleSuperGenerique, ".varJson", classeNomSimpleSuperGenerique, "(var, patch);");
+      tl(2, "}");
+      tl(1, "}");
     }
 
     ////////////////////////////

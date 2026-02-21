@@ -4146,7 +4146,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
                     if("array".equals(entiteAttribuerTypeJson)) {
                       auteurPageJs.tl(4, "var checked = val == null ? false : (val.includes(", classeVarId, ".toString()));");
                     } else {
-                      auteurPageJs.tl(4, "var checked = val == null ? false : (val === ", entiteVar, ".toString());");
+                      auteurPageJs.tl(4, "var checked = val == null ? false : (", entiteVar, " != null && val === ", entiteVar, ".toString());");
                     }
                     auteurPageJs.tl(4, "var $input = document.createElement('", composantsWebPrefixe, "checkbox');");
                     auteurPageJs.tl(4, "$input.setAttribute('id', '", classeApiMethodeMethode, "_", entiteVar, "_' + ", classeVarId, " + '_", entiteAttribuerVar, "_' + o['", entiteAttribuerVar, "']);");
