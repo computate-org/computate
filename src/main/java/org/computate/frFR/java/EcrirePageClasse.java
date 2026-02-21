@@ -4134,6 +4134,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
                     if(entiteAttribuerVarUrlPageEdition != null) {
                       auteurPageJs.tl(4, "var $a = document.createElement('a');");
                       // auteurPageJs.tl(3, "$a.setAttribute('id', o['", entiteAttribuerVar, "']);");
+                      auteurPageJs.tl(4, "$a.setAttribute('target', '_blank');");
                       auteurPageJs.tl(4, "$a.setAttribute('href', o['", entiteAttribuerVarUrlPageEdition, "']);");
                     } else {
                       auteurPageJs.tl(4, "var $a = document.createElement('span');");
@@ -4142,7 +4143,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
                     auteurPageJs.tl(4, "$a.append($i);");
                     auteurPageJs.tl(4, "$a.append($span);");
                     auteurPageJs.tl(4, "var val = o['", entiteAttribuerVar, "'];");
-                    auteurPageJs.tl(4, "var checked = val == null ? false : (Array.isArray(val) ? val.includes(", classeVarId, ".toString()) : val == ", entiteVar, ");");
+                    if("array".equals(entiteAttribuerTypeJson)) {
+                      auteurPageJs.tl(4, "var checked = val == null ? false : (val.includes(", classeVarId, ".toString()));");
+                    } else {
+                      auteurPageJs.tl(4, "var checked = val == null ? false : (val === ", entiteVar, ".toString());");
+                    }
                     auteurPageJs.tl(4, "var $input = document.createElement('", composantsWebPrefixe, "checkbox');");
                     auteurPageJs.tl(4, "$input.setAttribute('id', '", classeApiMethodeMethode, "_", entiteVar, "_' + ", classeVarId, " + '_", entiteAttribuerVar, "_' + o['", entiteAttribuerVar, "']);");
                     auteurPageJs.tl(4, "$input.setAttribute('name', '", entiteAttribuerVar, "');");

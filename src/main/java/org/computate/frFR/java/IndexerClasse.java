@@ -6640,6 +6640,8 @@ public class IndexerClasse extends RegarderClasseBase {
 
     if(classeApi) {
       classePartsGenAjouter(ClasseParts.initClasseParts(this, ApiRequest.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+      classePartsGenAjouter(classePartsListeRecherche, classeLangueNom);
+      classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.computate.search.tool.SearchTool", classeLangueNom), classeLangueNom);
     }
     if(classeIndexe) {
 //			classePartsGenAjouter(classePartsSolrInputDocument, classeLangueNom);
