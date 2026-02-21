@@ -3021,7 +3021,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
                   }
                   else {
                     wPOST.tl(1, "var ", i18nClasse.getString(I18n.var_valeur), entiteVarCapitalise, " = [];");
-                    wPOST.tl(1, "$", i18nClasse.getString(I18n.var_formulaireValeurs), ".querySelector('input.", i18nClasse.getString(I18n.var_valeur), entiteVarCapitalise, ":checked').each(function(index) {");
+                    wPOST.tl(1, "$", i18nClasse.getString(I18n.var_formulaireValeurs), ".querySelectorAll('input.", i18nClasse.getString(I18n.var_valeur), entiteVarCapitalise, ":checked').forEach(function(index) {");
                     wPOST.tl(2, i18nClasse.getString(I18n.var_valeur), entiteVarCapitalise, ".push(this.value);");
                     wPOST.tl(1, "});");
                     wPOST.tl(1, "if(", i18nClasse.getString(I18n.var_valeur), entiteVarCapitalise, ".length > 0)");
