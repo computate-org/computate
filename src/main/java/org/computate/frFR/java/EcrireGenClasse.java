@@ -367,6 +367,7 @@ public class EcrireGenClasse extends EcrireClasse {
   protected String classeApiPortee;
   protected List<String> classeAttribuerNomSimplePages;
   protected List<String> classeAttribuerPageUriJs;
+  protected List<String> classeAttribuerPageUriMacros;
   protected List<String> classeAttribuerNomSimples;
   protected List<String> classePageCheminsGen = new ArrayList<>();
 
@@ -703,6 +704,7 @@ public class EcrireGenClasse extends EcrireClasse {
   protected ToutEcrivain auteurBoutonsRechercheJinja = null;
   protected ToutEcrivain auteurBoutonsPaginationJinja = null;
   protected ToutEcrivain auteurBoutonsFormulaireRechercheJinja = null;
+  protected ToutEcrivain auteurMacrosFormulaireRechercheJinja = null;
   protected ToutEcrivain auteurFormulaireRechercheJinja = null;
   protected ToutEcrivain auteurRechercheSuggereJinja = null;
   protected ToutEcrivain auteurPageRechercheJinja = null;
@@ -1251,6 +1253,9 @@ public class EcrireGenClasse extends EcrireClasse {
 
   String classePageBoutonsPaginationTemplate;
   String classePageBoutonsPaginationCheminJinja;
+
+  String classePageMacrosFormulaireRechercheTemplate;
+  String classePageMacrosFormulaireRechercheCheminJinja;
 
   String classePageBoutonsFormulaireRechercheTemplate;
   String classePageBoutonsFormulaireRechercheCheminJinja;

@@ -912,23 +912,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
         tl(8, "{% if 'Page' == ", i18nClasse.getString(I18n.var_classeApiMethodeMethode), " %}");
         tl(8, "<div>");
-        tl(9, "<button");
+        t(9, "{{ htmForm_post", entiteAttribuerNomSimple, "() }}");
+        tl(9, "<", composantsWebPrefixe, "button");
         tl(11, " id=\"{{", i18nClasse.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "_", i18nClasse.getString(I18n.var_ajouter), "\"");
 
-        if("array".equals(entiteAttribuerTypeJson))
-          t(11, " onclick=\"this.classList.add('w3-disabled'); this.disabled = true; this.innerHTML = '", i18nPage.getString(I18n.str_Envoi), "…'; post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": [ '{{ ", i18nGlobale.getString(I18n.var_resultat), ".", classeVarId, " }}' ] }");
-        else
-          t(11, " onclick=\"this.classList.add('w3-disabled'); this.disabled = true; this.innerHTML = '", i18nPage.getString(I18n.str_Envoi), "…'; post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": '{{ ", i18nGlobale.getString(I18n.var_resultat), ".", classeVarId, " }}' }");
-        s(", this");
-        s(", function(", i18nClasse.getString(I18n.var_reponse), ", target) { ");
-        s("document.querySelector('#{{", i18nClasse.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "_", i18nClasse.getString(I18n.var_ajouter), "').disabled = false; ");
-        s("document.querySelector('#{{", i18nClasse.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "_", i18nClasse.getString(I18n.var_ajouter), "').innerHTML = '", i18nPage.getString(I18n.str_ajouter), " ", entiteAttribuerContexteUnNom, "';");
-        s(" }");
-        s(", this, function(", i18nClasse.getString(I18n.var_reponse), ", target) { ", i18nClasse.getString(I18n.var_ajouterErreur), "(document.querySelector('#{{", i18nClasse.getString(I18n.var_classeApiMethodeMethode), "}}", entiteVar, "')); });");
-        s("\"");
-        l();
-
-        tl(11, ">", i18nPage.getString(I18n.str_ajouter), " ", entiteAttribuerContexteUnNom, "</button>");
+        t(11, " data-dialog=\"open post", entiteAttribuerNomSimple, "Dialog\"");
+        tl(11, ">", i18nPage.getString(I18n.str_ajouter), " ", entiteAttribuerContexteUnNom, "</", composantsWebPrefixe, "button>");
         tl(9, "</div>");
         tl(8, "{%- endif %}");
 
@@ -1000,6 +989,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
     classeGenPageNomSimple = classeDoc.getString("classeGenPageNomSimple"   + "_" + classeLangueNom + "_stored_string");
     classePageNomCanonique = classeDoc.getString("classePageNomCanonique"   + "_" + classeLangueNom + "_stored_string");
     classeAttribuerPageUriJs = Optional.ofNullable(classeDoc.getJsonArray("classeAttribuerPageUriJs_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+    classeAttribuerPageUriMacros = Optional.ofNullable(classeDoc.getJsonArray("classeAttribuerPageUriMacros_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
     classeAttribuerNomSimplePages = Optional.ofNullable(classeDoc.getJsonArray("classeAttribuerNomSimplePages_" + classeLangueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
     classeAttribuerNomSimples = Optional.ofNullable(classeDoc.getJsonArray("classeAttribuerNomSimple_" + classeLangueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 
@@ -1143,6 +1133,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
       classePageBoutonsPaginationTemplate = classeDoc.getString("classePageBoutonsPaginationTemplate" + "_" + langueNom + "_stored_string");
       classePageBoutonsPaginationCheminJinja = classeDoc.getString("classePageBoutonsPaginationCheminJinja" + "_" + langueNom + "_stored_string");
 
+      classePageMacrosFormulaireRechercheTemplate = classeDoc.getString("classePageMacrosFormulaireRechercheTemplate" + "_" + langueNom + "_stored_string");
+      classePageMacrosFormulaireRechercheCheminJinja = classeDoc.getString("classePageMacrosFormulaireRechercheCheminJinja" + "_" + langueNom + "_stored_string");
+
       classePageBoutonsFormulaireRechercheTemplate = classeDoc.getString("classePageBoutonsFormulaireRechercheTemplate" + "_" + langueNom + "_stored_string");
       classePageBoutonsFormulaireRechercheCheminJinja = classeDoc.getString("classePageBoutonsFormulaireRechercheCheminJinja" + "_" + langueNom + "_stored_string");
 
@@ -1176,6 +1169,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
       File classePageBarreLateraleFichierJinja = null;
       File classePageBoutonsRechercheFichierJinja = null;
       File classePageBoutonsPaginationFichierJinja = null;
+      File classePageMacrosFormulaireRechercheFichierJinja = null;
       File classePageBoutonsFormulaireRechercheFichierJinja = null;
       File classePageFormulaireRechercheFichierJinja = null;
       File classePageRechercheSuggereFichierJinja = null;
@@ -1207,6 +1201,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
       if(classePageBoutonsPaginationCheminJinja != null)
         classePageBoutonsPaginationFichierJinja = new File(classePageBoutonsPaginationCheminJinja);
+
+      if(classePageMacrosFormulaireRechercheCheminJinja != null)
+        classePageMacrosFormulaireRechercheFichierJinja = new File(classePageMacrosFormulaireRechercheCheminJinja);
 
       if(classePageBoutonsFormulaireRechercheCheminJinja != null)
         classePageBoutonsFormulaireRechercheFichierJinja = new File(classePageBoutonsFormulaireRechercheCheminJinja);
@@ -1265,6 +1262,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
       if(classePageBoutonsPaginationFichierJinja != null) {
         auteurBoutonsPaginationJinja = ToutEcrivain.create(classePageBoutonsPaginationFichierJinja, "  ");
+      }
+
+      if(classePageMacrosFormulaireRechercheFichierJinja != null) {
+        classePageMacrosFormulaireRechercheFichierJinja.getParentFile().mkdirs();
+        auteurMacrosFormulaireRechercheJinja = ToutEcrivain.create(classePageMacrosFormulaireRechercheFichierJinja, "  ");
       }
 
       if(classePageBoutonsFormulaireRechercheFichierJinja != null) {
@@ -3157,8 +3159,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
         ecrirePageBarreLaterale(langueNom, i18nClasse, i18nPage);
         ecrirePageBoutonsRecherche(langueNom, i18nClasse, i18nPage);
 
-        if(auteurFormulaireRechercheJinja != null)
-          auteurFormulaireRechercheJinja.s(auteurGenPageJinjaEntite);
+        if(auteurMacrosFormulaireRechercheJinja != null)
+          auteurMacrosFormulaireRechercheJinja.s(auteurGenPageJinjaEntite);
         ecrirePageFormulaireRecherche(langueNom, langueNom, i18nClasse, i18nPage);
         if(!classeLangueNom.equals(langueNom))
           ecrirePageFormulaireRecherche(classeLangueNom, langueNom, i18nClasse, i18nPage);
@@ -3193,6 +3195,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
       if(auteurBoutonsPaginationJinja != null) {
         auteurBoutonsPaginationJinja.flushClose();
+      }
+
+      if(auteurMacrosFormulaireRechercheJinja != null) {
+        auteurMacrosFormulaireRechercheJinja.flushClose();
       }
 
       if(auteurBoutonsFormulaireRechercheJinja != null) {
@@ -3600,6 +3606,32 @@ public class EcrirePageClasse extends EcrireApiClasse {
               tl(4, "});");
             }
           }
+        }
+        for(String classeAttribuerNomSimple : classeAttribuerNomSimples) {
+          l();
+          tl(4, "document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_post", classeAttribuerNomSimple, "')?.addEventListener('click', event => {");
+          tl(5, "event.preventDefault();");
+          tl(5, "post", classeAttribuerNomSimple, "(document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_post", classeAttribuerNomSimple, "')");
+          tl(7, ", document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_post", classeAttribuerNomSimple, "')");
+          tl(7, ", (json, target) => {");
+          tl(8, i18nClasse.getString(I18n.var_ajouterLueur), "(target);");
+          tl(7, "});");
+          tl(4, "});");
+          l();
+          tl(4, "function ", i18nGlobale.getString(I18n.var_attribuer), "_", classeAttribuerNomSimple, "(event) {");
+          tl(5, i18nClasse.getString(I18n.var_suggere), classeNomSimple, classeAttribuerNomSimple, "(");
+          tl(7, "event.target.value ? [ { 'name': 'q', 'value': '", entiteAttribuerVarSuggere, ":' + event.target.value }");
+          tl(7, ", { 'name': 'rows', 'value': '10' }");
+          t(7, ", { 'name': 'fl', 'value': '", i18nClasse.getString(I18n.var_classeNomCanonique), ",", entiteAttribuerVar, ",", classeVarClePrimaire, entiteAttribuerVarUrlPageEdition == null ? "" : "," + entiteAttribuerVarUrlPageEdition, entiteAttribuerVarTitre == null ? "" : "," + entiteAttribuerVarTitre, "' } ] : [");
+          l("{%- if ", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, " is defined %}{'name':'fq','value':'", entiteAttribuerVar, ":{{ ", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, " }}'}{%- else %}{%- endif %}]");
+          tl(7, ", document.querySelector('#' + event.target.getAttribute('data-list'))");
+          tl(7, ", window.", varResultat, ".", classeVarId);
+          tl(7, ", window.", varResultat, ".", entiteVar);
+          tl(7, ", true");
+          tl(7, ");");
+          tl(4, "}");
+          tl(4, "document.querySelector('#POST_", classeAttribuerNomSimple, "')?.addEventListener('", "pf-".equals(composantsWebPrefixe) ? "pf-" : "", "input', ", i18nGlobale.getString(I18n.var_attribuer), "_", classeAttribuerNomSimple, ");");
+          tl(4, "document.querySelector('#POST_", classeAttribuerNomSimple, "')?.addEventListener('", "pf-".equals(composantsWebPrefixe) ? "pf-" : "", "focus', ", i18nGlobale.getString(I18n.var_attribuer), "_", classeAttribuerNomSimple, ");");
         }
         tl(0, "{%- block htmScriptInit", classePageNomSimple, " %}{%- endblock htmScriptInit", classePageNomSimple, " %}");
         tl(3, "});");
@@ -4909,9 +4941,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
   public void ecrirePageFormulaireRecherche(String langueNomApi, String langueNom, JsonObject i18nClasse, JsonObject i18nPage) throws Exception {
     ToutEcrivain oAncien = o;
-    o = auteurFormulaireRechercheJinja;
+    o = auteurMacrosFormulaireRechercheJinja;
 
-    if(auteurFormulaireRechercheJinja != null) {
+    if(auteurMacrosFormulaireRechercheJinja != null) {
       List<String> classeApiMethodes = Optional.ofNullable(classeDoc.getJsonArray("classeApiMethodes_" + langueNomApi + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 
       if(classeApiMethodes == null)
@@ -4998,7 +5030,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
             }
             l("{%- endmacro %}");
 
-            o = auteurFormulaireRechercheJinja;
+            o = auteurMacrosFormulaireRechercheJinja;
             l();
             l("{%- macro htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "() %}");
             tl(5, "<", composantsWebPrefixe, "popup  auto-size=\"both\" placement=\"top\" id=\"alert", i18nGlobale.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "\" duration=\"5000\" closable class=\"", composantsWebPrefixe, "header-l \">");
@@ -5065,6 +5097,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
       }
 
       o = auteurFormulaireRechercheJinja;
+      tl(0, "{% include ", classePageMacrosFormulaireRechercheTemplate, " %}");
+      for(String uriMacros : classeAttribuerPageUriMacros) {
+        tl(0, "{% include ", uriMacros, " %}");
+      }
       for(String classeApiMethode : classeApiMethodes) {
         String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + langueNomApi + "_stored_string");
         String classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + langueNomApi + "_stored_string");

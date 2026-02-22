@@ -3718,6 +3718,7 @@ public class IndexerClasse extends RegarderClasseBase {
               String entiteAttribuerNomSimple = entiteAttribuerRecherche.group(1);
               String entiteAttribuerVar = entiteAttribuerRecherche.group(2);
               String entiteAttribuerPageUriJs = null;
+              String entiteAttribuerPageUriMacros = null;
 
               SolrQuery rechercheSolrClasse = new SolrQuery();   
               rechercheSolrClasse.setQuery("*:*");
@@ -3739,6 +3740,7 @@ public class IndexerClasse extends RegarderClasseBase {
                 String entiteAttribuerNomSimpleGenApiServiceImpl = (String)docClasse.get("classeNomSimpleGenApiServiceImpl_" + classeLangueNom + "_stored_string");
                 String entiteAttribuerNomSimpleApiServiceImpl = (String)docClasse.get("classeNomSimpleApiServiceImpl_" + classeLangueNom + "_stored_string");
                 entiteAttribuerPageUriJs = (String)docClasse.get("classePageUriJs_" + classeLangueNom + "_stored_string");
+                entiteAttribuerPageUriMacros = (String)docClasse.get("classePageMacrosFormulaireRechercheTemplate_" + classeLangueNom + "_stored_string");
 
                 classePartsGenAjouter(ClasseParts.initClasseParts(this, entiteAttribuerNomCanonique, classeLangueNom), classeLangueNom);
                 classePartsGenApiAjouter(ClasseParts.initClasseParts(this, entiteAttribuerNomCanonique, classeLangueNom), classeLangueNom);
@@ -3844,6 +3846,8 @@ public class IndexerClasse extends RegarderClasseBase {
                       indexerStockerListeSolr(classeLangueNom, classeDoc, "classeAttribuerNomSimple", entiteAttribuerNomSimple);
                     if(!Optional.ofNullable(classeDoc.getFieldValues("classeAttribuerPageUriJs_" + classeLangueNom + "_indexed_strings")).orElse(Arrays.asList()).contains(entiteAttribuerPageUriJs))
                       indexerStockerListeSolr(classeLangueNom, classeDoc, "classeAttribuerPageUriJs", entiteAttribuerPageUriJs);
+                    if(!Optional.ofNullable(classeDoc.getFieldValues("classeAttribuerPageUriMacros_" + classeLangueNom + "_indexed_strings")).orElse(Arrays.asList()).contains(entiteAttribuerPageUriMacros))
+                      indexerStockerListeSolr(classeLangueNom, classeDoc, "classeAttribuerPageUriMacros", entiteAttribuerPageUriMacros);
                   }
 
                   if(classeTraduire) {
@@ -6234,6 +6238,10 @@ public class IndexerClasse extends RegarderClasseBase {
                 String classePageBoutonsPaginationTemplate = String.format("%s/%s%s.htm", classePageRechercheTemplateRepertoire, classeNomSimple, i18nGlobale.getString(I18n.var_BoutonsPagination));
                 indexerStockerSolr(classeApiMethodeLangue, classeDoc, "classePageBoutonsPaginationTemplate", classePageBoutonsPaginationTemplate);
                 indexerStockerSolr(classeApiMethodeLangue, classeDoc, "classePageBoutonsPaginationCheminJinja", String.format("%s/%s", templateChemin, classePageBoutonsPaginationTemplate));
+
+                String classePageMacrosFormulaireRechercheTemplate = String.format("%s/%s%s.htm", classePageRechercheTemplateRepertoire, classeNomSimple, i18nGlobale.getString(I18n.var_MacrosFormulaireRecherche));
+                indexerStockerSolr(classeApiMethodeLangue, classeDoc, "classePageMacrosFormulaireRechercheTemplate", classePageMacrosFormulaireRechercheTemplate);
+                indexerStockerSolr(classeApiMethodeLangue, classeDoc, "classePageMacrosFormulaireRechercheCheminJinja", String.format("%s/%s", templateChemin, classePageMacrosFormulaireRechercheTemplate));
 
                 String classePageBoutonsFormulaireRechercheTemplate = String.format("%s/%s%s.htm", classePageRechercheTemplateRepertoire, classeNomSimple, i18nGlobale.getString(I18n.var_BoutonsFormulaireRecherche));
                 indexerStockerSolr(classeApiMethodeLangue, classeDoc, "classePageBoutonsFormulaireRechercheTemplate", classePageBoutonsFormulaireRechercheTemplate);
