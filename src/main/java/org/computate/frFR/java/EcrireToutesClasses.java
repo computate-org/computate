@@ -332,7 +332,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
     classesSuperEtMoiSansGen = Optional.ofNullable(doc.getJsonArray("classesSuperEtMoiSansGen_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
     classePromesse = (Boolean)doc.getBoolean("classePromesse_stored_boolean");
     classeEtendGen = (Boolean)doc.getBoolean("classeEtendGen_stored_boolean");
-    classeEstModeleBase = (Boolean)doc.getBoolean("classeEtendModeleBase_stored_boolean");
+    classeEstModeleBase = (Boolean)doc.getBoolean("classeEstModeleBase_stored_boolean");
     classeEstResultatBase = (Boolean)doc.getBoolean("classeEstResultatBase_stored_boolean");
     classeEtendModeleBase = (Boolean)doc.getBoolean("classeEtendModeleBase_stored_boolean");
     classeEtendResultatBase = (Boolean)doc.getBoolean("classeEtendResultatBase_stored_boolean");

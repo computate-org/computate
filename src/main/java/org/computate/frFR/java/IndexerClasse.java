@@ -2452,10 +2452,10 @@ public class IndexerClasse extends RegarderClasseBase {
 
     Boolean classeEstModeleBase = indexerStockerSolr(classeDoc, "classeEstModeleBase"
         , classePartsModeleBase != null 
-        && classeNomSimple.equals(classeNomSimple));
+        && classePartsModeleBase.nomSimple(classeLangueNom).equals(classeNomSimple));
     Boolean classeEstResultatBase = indexerStockerSolr(classeDoc, "classeEstResultatBase"
         , classePartsResultatBase != null 
-        && classeNomSimple.equals(classeNomSimple));
+        && classePartsResultatBase.nomSimple(classeLangueNom).equals(classeNomSimple));
 
     Boolean classeEtendModeleBase = indexerStockerSolr(classeDoc, "classeEtendModeleBase"
         , classePartsModeleBase != null 

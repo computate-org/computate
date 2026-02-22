@@ -1469,7 +1469,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
                   // Attribuer //
                   wJsHtmInit.tl(5, "function ", i18nGlobale.getString(I18n.var_attribuer), "_", entiteVar, "(event) {");
                   wJsHtmInit.tl(6, i18nClasse.getString(I18n.var_suggere), classeNomSimple, entiteVarCapitalise, "(");
-                  wJsHtmInit.tl(8, "event.target.value ? [ { 'name': 'q', 'value': '", entiteAttribuerVarSuggere, ":' + event.target.value ? event.target.value : '' }");
+                  wJsHtmInit.tl(8, "event.target.value ? [ { 'name': 'q', 'value': '", entiteAttribuerVarSuggere, ":' + (event.target.value ? event.target.value : '') }");
                   wJsHtmInit.tl(8, ", { 'name': 'rows', 'value': '10' }");
                   wJsHtmInit.t(8, ", { 'name': 'fl', 'value': '", i18nClasse.getString(I18n.var_classeNomCanonique), ",", entiteAttribuerVar, ",", classeVarClePrimaire, entiteAttribuerVarUrlPageEdition == null ? "" : "," + entiteAttribuerVarUrlPageEdition, entiteAttribuerVarTitre == null ? "" : "," + entiteAttribuerVarTitre, "' } ] : [");
                   wJsHtmInit.l("{%- if ", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, " is defined %}{'name':'fq','value':'", entiteAttribuerVar, ":{{ ", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, " }}'}{%- else %}{%- endif %}]");
@@ -1487,7 +1487,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
                   wJsHtmEditionInit.tl(5, "function ", i18nGlobale.getString(I18n.var_attribuer), "_", entiteVar, "(event) {");
                   wJsHtmEditionInit.tl(6, i18nClasse.getString(I18n.var_suggere), classeNomSimple, entiteVarCapitalise, "(");
-                  wJsHtmEditionInit.tl(8, "[ { 'name': 'q', 'value': '", entiteAttribuerVarSuggere, ":' + event.target.value ? event.target.value : '' }");
+                  wJsHtmEditionInit.tl(8, "[ { 'name': 'q', 'value': '", entiteAttribuerVarSuggere, ":' + (event.target.value ? event.target.value : '') }");
                   wJsHtmEditionInit.tl(8, ", { 'name': 'rows', 'value': '10' }");
                   wJsHtmEditionInit.tl(8, ", { 'name': 'fl', 'value': '", i18nClasse.getString(I18n.var_classeNomCanonique), ",", entiteAttribuerVar, ",", classeVarClePrimaire, entiteAttribuerVarUrlPageEdition == null ? "" : "," + entiteAttribuerVarUrlPageEdition, entiteAttribuerVarTitre == null ? "" : "," + entiteAttribuerVarTitre, "' } ]");
                   wJsHtmEditionInit.tl(8, ", document.querySelector('#' + event.target.getAttribute('data-list'))");
