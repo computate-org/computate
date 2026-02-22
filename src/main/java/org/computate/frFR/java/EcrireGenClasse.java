@@ -6634,7 +6634,7 @@ public class EcrireGenClasse extends EcrireClasse {
     ///////////////////////
     // varJsonPourClasse //
     ///////////////////////
-    if(classeEtendModeleBase || classeEtendResultatBase) {
+    if(classeEtendModeleBase || classeEtendResultatBase || classeEstModeleBase || classeEstResultatBase) {
       l();
       tl(1, "public static String varJson", langueConfig.getString(I18n.var_PourClasse), "(String var, Boolean patch) {");
       tl(2, "return ", classeNomSimple, ".varJson", classeNomSimple, "(var, patch);");
