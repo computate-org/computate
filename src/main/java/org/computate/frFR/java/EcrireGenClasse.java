@@ -6015,7 +6015,7 @@ public class EcrireGenClasse extends EcrireClasse {
       tl(1, "//////////////////");
       if(classeEtendModeleBase || classeEtendResultatBase) {
         l();
-        tl(1, "public static Future<", classeNomSimple, "> fq(",  classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), ", String var, Object val) {");
+        tl(1, "public static Future<", classeNomSimple, "> fq", classeNomSimple, "(",  classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), ", String var, Object val) {");
         tl(2, "Promise<", classeNomSimple, "> promise = Promise.promise();");
         tl(2, "try {");
         tl(3, "if(val == null) {");

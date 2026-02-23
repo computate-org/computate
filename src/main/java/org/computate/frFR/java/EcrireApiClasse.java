@@ -4194,7 +4194,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
             tl(3, "String siteTemplatePath = config.getString(ComputateConfigKeys.TEMPLATE_PATH);");
             tl(3, "Path resourceTemplatePath = Path.of(siteTemplatePath, pageTemplateUri);");
             tl(3, "if(", i18nGlobale.getString(I18n.var_resultat), " == null || !Files.exists(resourceTemplatePath)) {");
-            tl(4, "String template = Files.readString(Path.of(siteTemplatePath, \"", classePageRechercheTemplate, "\"), Charset.forName(\"UTF-8\"));");
+            tl(4, "String template = Files.readString(Path.of(siteTemplatePath, \"", classePageTemplateMethode, "\"), Charset.forName(\"UTF-8\"));");
             tl(4, "String renderedTemplate = jinjava.render(template, ctx.getMap());");
             tl(4, "promise.complete(renderedTemplate);");
             tl(3, "} else if(pageTemplateUri.endsWith(\".md\")) {");
