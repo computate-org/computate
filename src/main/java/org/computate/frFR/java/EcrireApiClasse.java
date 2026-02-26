@@ -2089,7 +2089,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   if(classeRessourcesAutorisation.size() > 0) {
                     for(String classeRessourceAutorisation : classeRessourcesAutorisation) {
                       tl(4, "groups.stream().map(group -> {");
-                      tl(7, "Matcher mPermission = Pattern.compile(\"^/(.*-?", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-([a-z0-9\\\\-]+))-(", classeApiPortee, ")$\").matcher(group);");
+                      tl(7, "Matcher mPermission = Pattern.compile(\"^/(.*-?", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-([a-z0-9\\\\-]+))-(\\\\w+)$\").matcher(group);");
                       tl(7, "return mPermission.find() ? mPermission : null;");
                       tl(6, "}).filter(v -> v != null).forEach(mPermission -> {");
                       tl(7, "form.add(\"permission\", String.format(\"%s#%s\", mPermission.group(1), mPermission.group(3)));");
@@ -2124,6 +2124,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(12, "&& mPermission.find();");
                       tl(9, "}).forEach(permission -> {");
                       tl(10, "fqs.add(String.format(\"%s:%s\", \"", StringUtils.substringAfter(classeRessourceAutorisation, "-"), "\", permission.getString(\"rsname\")));");
+                      tl(10, "permission.getJsonArray(\"scopes\").stream().map(s -> (String)s).forEach(scope -> {");
+                      tl(11, "if(!scopes.contains(scope))");
+                      tl(12, "scopes.add(scope);");
+                      tl(10, "});");
                       tl(9, "});");
                     }
                     tl(7, "JsonObject authParams = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams();");
@@ -2139,7 +2143,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(7, "}");
                     tl(7, "if(fqs.size() > 0) {");
                     tl(8, "fq.add(fqs.stream().collect(Collectors.joining(\" OR \")));");
-                    tl(8, "scopes.add(\"", classeApiPortee, "\");");
+                    tl(8, "if(!scopes.contains(\"", classeApiPortee, "\"))");
+                    tl(9, "scopes.add(\"", classeApiPortee, "\");");
                     tl(8, i18nGlobale.getString(I18n.var_requeteSite), ".setFilteredScope(true);");
                     tl(7, "}");
                     tl(6, "}");
@@ -2383,7 +2388,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     if(classeRessourcesAutorisation.size() > 0) {
                       for(String classeRessourceAutorisation : classeRessourcesAutorisation) {
                         tl(4, "groups.stream().map(group -> {");
-                        tl(7, "Matcher mPermission = Pattern.compile(\"^/(.*-?", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-([a-z0-9\\\\-]+))-(", classeApiPortee, ")$\").matcher(group);");
+                        tl(7, "Matcher mPermission = Pattern.compile(\"^/(.*-?", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-([a-z0-9\\\\-]+))-(\\\\w+)$\").matcher(group);");
                         tl(7, "return mPermission.find() ? mPermission : null;");
                         tl(6, "}).filter(v -> v != null).forEach(mPermission -> {");
                         tl(7, "form.add(\"permission\", String.format(\"%s#%s\", mPermission.group(1), mPermission.group(3)));");
@@ -2419,6 +2424,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
                         tl(12, "&& mPermission.find();");
                         tl(9, "}).forEach(permission -> {");
                         tl(10, "fqs.add(String.format(\"%s:%s\", \"", StringUtils.substringAfter(classeRessourceAutorisation, "-"), "\", permission.getString(\"rsname\")));");
+                        tl(10, "permission.getJsonArray(\"scopes\").stream().map(s -> (String)s).forEach(scope -> {");
+                        tl(11, "if(!scopes.contains(scope))");
+                        tl(12, "scopes.add(scope);");
+                        tl(10, "});");
                         tl(9, "});");
                       }
                       tl(7, "JsonObject authParams = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams();");
@@ -2434,7 +2443,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(7, "}");
                       tl(7, "if(fqs.size() > 0) {");
                       tl(8, "fq.add(fqs.stream().collect(Collectors.joining(\" OR \")));");
-                      tl(8, "scopes.add(\"", classeApiPortee, "\");");
+                      tl(8, "if(!scopes.contains(\"", classeApiPortee, "\"))");
+                      tl(9, "scopes.add(\"", classeApiPortee, "\");");
                       tl(8, i18nGlobale.getString(I18n.var_requeteSite), ".setFilteredScope(true);");
                       tl(7, "}");
                       tl(6, "}");
@@ -3228,13 +3238,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   tl(10, "} else {");
                   tl(11, "o2.", i18nGlobale.getString(I18n.var_definir), i18nGlobale.getString(I18n.var_PourClasse), "(f, bodyVal);");
                   tl(11, "o2.", i18nGlobale.getString(I18n.var_attribuer), i18nGlobale.getString(I18n.var_PourClasse), "(f, bodyVal);");
-                  tl(11, "if(!StringUtils.containsAny(f, \"", classeVarId, "\", \"", i18nGlobale.getString(I18n.var_cree), "\", \"set", i18nGlobale.getString(I18n.var_Cree), "\") && !Objects.equals(o.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(f), o2.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(f)))");
+                  String strImporterNull = classeImporterNull.size() == 0 ? "" : classeImporterNull.stream().collect(Collectors.joining("\", \"", ", \"", "\""));
+                  tl(11, "if(!StringUtils.containsAny(f, \"", classeVarId, "\"", strImporterNull, ", \"", i18nGlobale.getString(I18n.var_cree), "\", \"set", i18nGlobale.getString(I18n.var_Cree), "\") && !Objects.equals(o.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(f), o2.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(f)))");
                   tl(12, "body2.put(\"set\" + StringUtils.capitalize(f), bodyVal);");
                   tl(10, "}");
                   tl(9, "}");
                   tl(9, "for(String f : Optional.ofNullable(o.get", i18nGlobale.getString(I18n.var_Sauvegardes), "()).orElse(new ArrayList<>())) {");
                   tl(10, "if(!body.fieldNames().contains(f)) {");
-                  tl(11, "if(!StringUtils.containsAny(f, \"", classeVarId, "\", \"", i18nGlobale.getString(I18n.var_cree), "\", \"set", i18nGlobale.getString(I18n.var_Cree), "\") && !Objects.equals(o.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(f), o2.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(f)))");
+                  tl(11, "if(!StringUtils.containsAny(f, \"", classeVarId, "\"", strImporterNull, ", \"", i18nGlobale.getString(I18n.var_cree), "\", \"set", i18nGlobale.getString(I18n.var_Cree), "\") && !Objects.equals(o.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(f), o2.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(f)))");
                   tl(12, "body2.putNull(\"set\" + StringUtils.capitalize(f));");
                   tl(10, "}");
                   tl(9, "}");
@@ -3323,13 +3334,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   tl(8, "} else {");
                   tl(9, "o2.", i18nGlobale.getString(I18n.var_definir), i18nGlobale.getString(I18n.var_PourClasse), "(f, bodyVal);");
                   tl(9, "o2.", i18nGlobale.getString(I18n.var_attribuer), i18nGlobale.getString(I18n.var_PourClasse), "(f, bodyVal);");
-                  tl(9, "if(!StringUtils.containsAny(f, \"", classeVarId, "\", \"", i18nGlobale.getString(I18n.var_cree), "\", \"set", i18nGlobale.getString(I18n.var_Cree), "\") && !Objects.equals(o.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(f), o2.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(f)))");
+                  String strImporterNull = classeImporterNull.size() == 0 ? "" : classeImporterNull.stream().collect(Collectors.joining("\", \"", ", \"", "\""));
+                  tl(9, "if(!StringUtils.containsAny(f, \"", classeVarId, "\"", strImporterNull, ", \"", i18nGlobale.getString(I18n.var_cree), "\", \"set", i18nGlobale.getString(I18n.var_Cree), "\") && !Objects.equals(o.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(f), o2.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(f)))");
                   tl(10, "body2.put(\"set\" + StringUtils.capitalize(f), bodyVal);");
                   tl(8, "}");
                   tl(7, "}");
                   tl(7, "for(String f : Optional.ofNullable(o.get", i18nGlobale.getString(I18n.var_Sauvegardes), "()).orElse(new ArrayList<>())) {");
                   tl(8, "if(!body.fieldNames().contains(f)) {");
-                  tl(9, "if(!StringUtils.containsAny(f, \"", classeVarId, "\", \"", i18nGlobale.getString(I18n.var_cree), "\", \"set", i18nGlobale.getString(I18n.var_Cree), "\") && !Objects.equals(o.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(f), o2.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(f)))");
+                  tl(9, "if(!StringUtils.containsAny(f, \"", classeVarId, "\"", strImporterNull, ", \"", i18nGlobale.getString(I18n.var_cree), "\", \"set", i18nGlobale.getString(I18n.var_Cree), "\") && !Objects.equals(o.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(f), o2.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(f)))");
                   tl(10, "body2.putNull(\"set\" + StringUtils.capitalize(f));");
                   tl(8, "}");
                   tl(7, "}");
