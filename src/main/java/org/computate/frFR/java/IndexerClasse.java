@@ -3530,6 +3530,9 @@ public class IndexerClasse extends RegarderClasseBase {
             indexerStockerSolr(entiteDoc, "entiteAjouter", regexTrouve("^" + i18nGlobale.getString(I18n.var_Ajouter) + ": (true)$", methodeCommentaire));
             indexerStockerSolr(entiteDoc, "entiteSupprimer", regexTrouve("^" + i18nGlobale.getString(I18n.var_Supprimer) + ": (true)$", methodeCommentaire));
             Boolean entiteDefinir = indexerStockerSolr(entiteDoc, "entiteDefinir", regexTrouve("^" + i18nGlobale.getString(I18n.var_Definir) + ": (true)$", methodeCommentaire));
+            Boolean entiteImporterNull = indexerStockerSolr(entiteDoc, "entiteImporterNull", !regexTrouve("^" + i18nGlobale.getString(I18n.var_ImporterNull) + ": (false)$", methodeCommentaire));
+            if(!entiteImporterNull)
+              indexerStockerListeSolr(classeDoc, "classeImporterNull", entiteVar);
             indexerStockerSolr(entiteDoc, "entiteModifier", !regexTrouve("^" + i18nGlobale.getString(I18n.var_Modifier) + ": (false)$", methodeCommentaire));
             indexerStockerSolr(entiteDoc, "entiteRecharger", regexTrouve("^" + i18nGlobale.getString(I18n.var_Recharger) + ": (true)$", methodeCommentaire));
             indexerStockerSolr(entiteDoc, "entiteMultiligne", regexTrouve("^" + i18nGlobale.getString(I18n.var_Multiligne) + ": (true)$", methodeCommentaire));
@@ -3596,7 +3599,12 @@ public class IndexerClasse extends RegarderClasseBase {
               }
             }
 
-            indexerStockerSolr(entiteDoc, "entitePortee", regex("^" + i18nGlobale.getString(I18n.var_Portee) + ": (.*)", methodeCommentaire, 1));
+            String entitePortee = regex("^" + i18nGlobale.getString(I18n.var_Portee) + ": (.*)", methodeCommentaire, 1);
+            if(methodeCommentaireActuelle != null)
+              entitePortee = Optional.ofNullable(regex("^" + i18nGlobale.getString(I18n.var_Portee) + ": (.*)", methodeCommentaireActuelle, 1)).orElse(entitePortee);
+            if(entitePortee != null) {
+              indexerStockerSolr(entiteDoc, "entitePortee", entitePortee);
+            }
 
             Boolean entiteHighlighting = indexerStockerSolr(entiteDoc, "entiteHighlighting", regexTrouve("^Highlighting: (true)$", methodeCommentaire));
             Boolean entiteHtml = entiteDefinir || regexTrouve("^Html: (true)$", methodeCommentaire);

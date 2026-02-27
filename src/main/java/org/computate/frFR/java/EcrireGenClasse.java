@@ -416,6 +416,7 @@ public class EcrireGenClasse extends EcrireClasse {
    * Var.enUS: classEntityVars
    */ 
   protected List<String> classeEntiteVars;
+  protected List<String> classeImporterNull;
 
   /**
    * Var.enUS: classMethodVars

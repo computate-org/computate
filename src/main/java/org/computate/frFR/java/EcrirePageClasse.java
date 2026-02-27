@@ -1842,65 +1842,47 @@ public class EcrirePageClasse extends EcrireApiClasse {
           if(resultatFormPOST) {
             wFormPOST.tl(7, "</div>");
             wFormPOST.tl(6, "</", composantsWebPrefixe, "details>");
-            if(entitePorteeActuelMap.get(classeApiMethodeMethode) != null) {
+            if(entitePorteeActuelMap.get("POST") != null) {
               wFormPOST.tl(6, "{%- endif -%}");
             }
           }
           if(resultatFormPUTImport) {
             wFormPUTImport.tl(7, "</div>");
             wFormPUTImport.tl(6, "</", composantsWebPrefixe, "details>");
-            if(entitePorteeActuelMap.get(classeApiMethodeMethode) != null) {
-              wFormPUTImport.tl(6, "{%- endif -%}");
-            }
           }
           if(resultatFormPUTFusion) {
             wFormPUTFusion.tl(7, "</div>");
             wFormPUTFusion.tl(6, "</", composantsWebPrefixe, "details>");
-            if(entitePorteeActuelMap.get(classeApiMethodeMethode) != null) {
-              wFormPUTFusion.tl(6, "{%- endif -%}");
-            }
           }
           if(resultatFormPUTCopie) {
             wFormPUTCopie.tl(7, "</div>");
             wFormPUTCopie.tl(6, "</", composantsWebPrefixe, "details>");
-            if(entitePorteeActuelMap.get(classeApiMethodeMethode) != null) {
-              wFormPUTCopie.tl(6, "{%- endif -%}");
-            }
           }
           if(resultatFormPage) {
             wFormPage.tl(7, "</div>");
             wFormPage.tl(6, "</", composantsWebPrefixe, "details>");
-            if(entitePorteeActuelMap.get(classeApiMethodeMethode) != null) {
+            if(entitePorteeActuelMap.get("Page") != null) {
               wFormPage.tl(6, "{%- endif -%}");
             }
           }
           if(resultatFormPATCH) {
             wFormPATCH.tl(7, "</div>");
             wFormPATCH.tl(6, "</", composantsWebPrefixe, "details>");
-            if(entitePorteeActuelMap.get(classeApiMethodeMethode) != null) {
+            if(entitePorteeActuelMap.get("PATCH") != null) {
               wFormPATCH.tl(6, "{%- endif -%}");
             }
           }
           if(resultatFormDELETE) {
             wFormDELETE.tl(7, "</div>");
             wFormDELETE.tl(6, "</", composantsWebPrefixe, "details>");
-            if(entitePorteeActuelMap.get(classeApiMethodeMethode) != null) {
-              wFormDELETE.tl(6, "{%- endif -%}");
-            }
           }
           if(resultatFormDELETEFiltre) {
             wFormDELETEFiltre.tl(7, "</div>");
             wFormDELETEFiltre.tl(6, "</", composantsWebPrefixe, "details>");
-            if(entitePorteeActuelMap.get(classeApiMethodeMethode) != null) {
-              wFormDELETEFiltre.tl(6, "{%- endif -%}");
-            }
           }
           if(resultatFormRecherche) {
             wFormRecherche.tl(7, "</div>");
             wFormRecherche.tl(6, "</", composantsWebPrefixe, "details>");
-            if(entitePorteeActuelMap.get(classeApiMethodeMethode) != null) {
-              wFormRecherche.tl(6, "{%- endif -%}");
-            }
           }
         }
       }
@@ -2812,6 +2794,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
                 }
 
                 if(entiteLien) {
+                  wTh.tl(10, "{% if item.", entiteVar, " is defined -%}");
+                  wTd.tl(10, "{% if item.", entiteVar, " is defined -%}");
                   wTd.tl(10, "<", composantsWebPrefixe, "button", "wa-".equals(composantsWebPrefixe) ? " variant=\"brand\"" : " variant=\"primary\" outline", "");
                   wTd.tl(11, "id=\"", classeNomSimple, "_{{", i18nClasse.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 
@@ -2838,6 +2822,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
                     wTd.t(12).sx(entiteNomAffichage).l();
                   }
                   wTd.tl(10, "</", composantsWebPrefixe, "button>");
+                  wTh.tl(10, "{% endif -%}");
+                  wTd.tl(10, "{% endif -%}");
                 } else {
                   if(wTd.getEmpty()) {
                     wTd.tl(10, "<a href=\"{{ item.", classeVarUrlPageAffichage, " }}\">");
@@ -5121,7 +5107,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
         } else if(classeApiMethode.equals("PATCH")) {
           tl(0, "{%- if 'DELETE' in ", i18nGlobale.getString(I18n.var_portees), " %}");
           tl(2, "{{ htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "() }}");
-          tl(1, "{%- endif %}");
           tl(0, "{%- endif %}");
         } else if(classeApiMethode.equals(i18nClasse.getString(I18n.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
           tl(0, "{%- if ", i18nClasse.getString(I18n.var_AUTH_PORTEE_SUPER_ADMIN), " in ", i18nGlobale.getString(I18n.var_portees), " %}");
