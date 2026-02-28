@@ -936,6 +936,7 @@ public class EcrireGenClasse extends EcrireClasse {
    */
   Boolean entiteHtml;
   Integer entitePrecision;
+  Integer entiteEchelle;
   String entiteEtape;
   String entiteModeDArrondi;
 
@@ -3188,8 +3189,9 @@ public class EcrireGenClasse extends EcrireClasse {
       entiteRequis = doc.getBoolean("entiteRequis_stored_boolean");
       entiteHtml = doc.getBoolean("entiteHtml_stored_boolean");
       entiteModeDArrondi = doc.getString("entiteModeDArrondi_stored_string", "HALF_UP");
-      entitePrecision = doc.getInteger("entitePrecision_stored_int", 2);
-      entiteEtape = doc.getString("entitePrecision_stored_string");
+      entitePrecision = doc.getInteger("entitePrecision_stored_int", 0);
+      entiteEchelle = doc.getInteger("entiteEchelle_stored_int", 2);
+      entiteEtape = doc.getString("entiteEtape_stored_string");
       Boolean entiteEstListe = (StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()));
 
       Boolean entiteEstZonedDateTime = StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())
@@ -3810,26 +3812,32 @@ public class EcrireGenClasse extends EcrireClasse {
             tl(3, "add", entiteVarCapitalise, "(l);");
           }
           tl(1, "}");
+          tl(1, "public static Integer staticScale", entiteVarCapitalise, "() {");
+          if(entiteEchelle == null)
+            tl(2, "return null;");
+          else
+            tl(2, "return ", entiteEchelle, ";");
+          tl(1, "}");
           tl(1, "public static MathContext staticMathContext", entiteVarCapitalise, "() {");
           tl(2, "return new MathContext(", entitePrecision, ", RoundingMode.valueOf(\"", entiteModeDArrondi, "\"));");
           tl(1, "}");
           tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
           tl(2, "o = StringUtils.removeAll(o, \"[^\\\\d\\\\.-]\");");
           tl(2, "if(NumberUtils.isParsable(o))");
-          tl(3, "return new BigDecimal(o, staticMathContext", entiteVarCapitalise, "());");
+          tl(3, "return new BigDecimal(o, staticMathContext", entiteVarCapitalise, "()).setScale(staticScale", entiteVarCapitalise, "());");
           tl(2, "return null;");
           tl(1, "}");
           tl(1, "@JsonIgnore");
           tl(1, "public void set", entiteVarCapitalise, "(Double o) {");
-          tl(2, entiteEstListe ? "add" : "set", entiteVarCapitalise, "(new BigDecimal(o, staticMathContext", entiteVarCapitalise, "()));");
+          tl(2, entiteEstListe ? "add" : "set", entiteVarCapitalise, "(new BigDecimal(o, staticMathContext", entiteVarCapitalise, "()).setScale(staticScale", entiteVarCapitalise, "()));");
           tl(1, "}");
           tl(1, "@JsonIgnore");
           tl(1, "public void set", entiteVarCapitalise, "(Integer o) {");
-          tl(2, entiteEstListe ? "add" : "set", entiteVarCapitalise, "(new BigDecimal(o, staticMathContext", entiteVarCapitalise, "()));");
+          tl(2, entiteEstListe ? "add" : "set", entiteVarCapitalise, "(new BigDecimal(o, staticMathContext", entiteVarCapitalise, "()).setScale(staticScale", entiteVarCapitalise, "()));");
           tl(1, "}");
           tl(1, "@JsonIgnore");
           tl(1, "public void set", entiteVarCapitalise, "(Number o) {");
-          tl(2, entiteEstListe ? "add" : "set", entiteVarCapitalise, "(new BigDecimal(o.doubleValue(), staticMathContext", entiteVarCapitalise, "()));");
+          tl(2, entiteEstListe ? "add" : "set", entiteVarCapitalise, "(new BigDecimal(o.doubleValue(), staticMathContext", entiteVarCapitalise, "()).setScale(staticScale", entiteVarCapitalise, "()));");
           tl(1, "}");
           staticSet = true;
         }
@@ -4220,6 +4228,12 @@ public class EcrireGenClasse extends EcrireClasse {
     
         // Setter BigDecimal //
         if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, BigDecimal.class.getCanonicalName())) {
+          tl(1, "public static Integer staticScale", entiteVarCapitalise, "() {");
+          if(entiteEchelle == null)
+            tl(2, "return null;");
+          else
+            tl(2, "return ", entiteEchelle, ";");
+          tl(1, "}");
           tl(1, "public static MathContext staticMathContext", entiteVarCapitalise, "() {");
           tl(2, "return new MathContext(", entitePrecision, ", RoundingMode.valueOf(\"", entiteModeDArrondi, "\"));");
           tl(1, "}");
@@ -4230,12 +4244,12 @@ public class EcrireGenClasse extends EcrireClasse {
           tl(3, "return;");
           tl(2, "for(int i = 0; i < objects.size(); i++) {");
           tl(3, entiteListeNomSimpleVertxJson, " o = objects.get", entiteListeNomSimpleVertxJson, "(i);");
-          tl(3, "add", entiteVarCapitalise, "(new BigDecimal(o, staticMathContext", entiteVarCapitalise, "()));");
+          tl(3, "add", entiteVarCapitalise, "(new BigDecimal(o, staticMathContext", entiteVarCapitalise, "()).setScale(staticScale", entiteVarCapitalise, "()));");
           tl(2, "}");
           tl(1, "}");
           tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
           tl(2, "if(NumberUtils.isParsable(o)) {");
-          tl(3, entiteNomSimpleCompletGenerique, " p = new BigDecimal(o, staticMathContext", entiteVarCapitalise, "());");
+          tl(3, entiteNomSimpleCompletGenerique, " p = new BigDecimal(o, staticMathContext", entiteVarCapitalise, "()).setScale(staticScale", entiteVarCapitalise, "());");
           tl(3, "add", entiteVarCapitalise, "(p);");
           tl(2, "}");
           tl(2, "return (", classeNomSimple, ")this;");
@@ -4638,7 +4652,7 @@ public class EcrireGenClasse extends EcrireClasse {
               }
               else if(entiteNomSimpleCompletGenerique.toString().equals("BigDecimal")) {
                 tl(1, "public static ", entiteSolrNomSimple2, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleCompletGenerique, " o) {");
-                tl(2, "return o == null ? null : o.doubleValue();");
+                tl(2, "return o == null ? null : o.toString();");
                 tl(1, "}");
               }
               else {
@@ -4699,7 +4713,7 @@ public class EcrireGenClasse extends EcrireClasse {
               }
               else if(entiteNomSimple.toString().equals("BigDecimal")) {
                 tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
-                tl(2, "return o == null ? null : o.doubleValue();");
+                tl(2, "return o == null ? null : o.toString();");
                 tl(1, "}");
               }
               else if("java.util.List".equals(entiteNomCanonique) || "java.util.ArrayList".equals(entiteNomCanonique)) {
@@ -5139,6 +5153,7 @@ public class EcrireGenClasse extends EcrireClasse {
           }
           else if(entiteNomSimple.toString().equals("BigDecimal")) {
             tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", ", entiteVar, ".toPlainString());");
+            tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), "_double", "\", ", entiteVar, ".doubleValue());");
           }
           else if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList") || entiteNomSimple.equals("Set") || entiteNomSimple.equals("HashSet")) {
             if(entiteNomSimple.toString().equals("Point")) {
@@ -5224,6 +5239,7 @@ public class EcrireGenClasse extends EcrireClasse {
           }
           else if(entiteNomSimple.toString().equals("BigDecimal")) {
             tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\", ", entiteVar, ".toPlainString());");
+            tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_stored")), "_double", "\", ", entiteVar, ".doubleValue());");
           }
           else if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList") || entiteNomSimple.equals("Set") || entiteNomSimple.equals("HashSet")) {
             tl(3, "for(", entiteNomCanoniqueGenerique, " o : ", entiteVar, ") {");

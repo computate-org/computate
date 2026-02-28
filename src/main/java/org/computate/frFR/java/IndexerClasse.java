@@ -3961,6 +3961,7 @@ public class IndexerClasse extends RegarderClasseBase {
             indexerStockerSolr(entiteDoc, "entiteLigneDebut", methodeQdox.getLineNumber() - (methodeCommentaire == null ? 0 : (methodeCommentaire.split(REGEX_LIGNE).length + 1)));
             indexerStockerSolr(entiteDoc, "entiteLigneFin", methodeQdox.getLineNumber() + (entiteCodeSource == null ? 0 : (entiteCodeSource.split(REGEX_LIGNE).length - 1)));
             Integer entitePrecision = null;
+            Integer entiteEchelle = null;
 
             if(activerVertx || activerQuarkus) {
               /////////////////////////
@@ -4039,19 +4040,22 @@ public class IndexerClasse extends RegarderClasseBase {
                 entiteNomCanoniqueVertxJson = VAL_nomCanoniqueString;
                 classePartsGenAjouter(ClasseParts.initClasseParts(this, NumberUtils.class.getCanonicalName(), classeLangueNom), classeLangueNom);
                 indexerStockerSolr(entiteDoc, "entiteModeDArrondi", regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_ModeDArrondi), methodeCommentaire, "HALF_UP"));
-                entitePrecision = indexerStockerSolr(entiteDoc, "entitePrecision", Integer.parseInt(regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_Precision), methodeCommentaire, "2")));
+                entitePrecision = indexerStockerSolr(entiteDoc, "entitePrecision", Optional.ofNullable(regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_Precision), methodeCommentaire)).map(s -> Integer.parseInt(s)).orElse(0));
+                entiteEchelle = indexerStockerSolr(entiteDoc, "entiteEchelle", Integer.parseInt(regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_Echelle), methodeCommentaire, "2")));
               }
               else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueDouble)) {
                 entiteNomSimpleVertxJson = "String";
                 entiteNomCanoniqueVertxJson = VAL_nomCanoniqueString;
                 indexerStockerSolr(entiteDoc, "entiteModeDArrondi", regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_ModeDArrondi), methodeCommentaire, "HALF_UP"));
-                entitePrecision = indexerStockerSolr(entiteDoc, "entitePrecision", Integer.parseInt(regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_Precision), methodeCommentaire, "2")));
+                entitePrecision = indexerStockerSolr(entiteDoc, "entitePrecision", Optional.ofNullable(regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_Precision), methodeCommentaire)).map(s -> Integer.parseInt(s)).orElse(0));
+                entiteEchelle = indexerStockerSolr(entiteDoc, "entiteEchelle", Integer.parseInt(regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_Echelle), methodeCommentaire, "2")));
               }
               else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueFloat)) {
                 entiteNomSimpleVertxJson = "String";
                 entiteNomCanoniqueVertxJson = VAL_nomCanoniqueString;
                 indexerStockerSolr(entiteDoc, "entiteModeDArrondi", regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_ModeDArrondi), methodeCommentaire, "HALF_UP"));
-                entitePrecision = indexerStockerSolr(entiteDoc, "entitePrecision", Integer.parseInt(regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_Precision), methodeCommentaire, "2")));
+                entitePrecision = indexerStockerSolr(entiteDoc, "entitePrecision", Optional.ofNullable(regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_Precision), methodeCommentaire)).map(s -> Integer.parseInt(s)).orElse(0));
+                entiteEchelle = indexerStockerSolr(entiteDoc, "entiteEchelle", Integer.parseInt(regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_Echelle), methodeCommentaire, "2")));
               }
               else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueInteger)) {
                 entiteNomSimpleVertxJson = "String";
@@ -4113,7 +4117,8 @@ public class IndexerClasse extends RegarderClasseBase {
                   entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueString;
                   classePartsGenAjouter(ClasseParts.initClasseParts(this, NumberUtils.class.getCanonicalName(), classeLangueNom), classeLangueNom);
                   indexerStockerSolr(entiteDoc, "entiteModeDArrondi", regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_ModeDArrondi), methodeCommentaire, "HALF_UP"));
-                  entitePrecision = indexerStockerSolr(entiteDoc, "entitePrecision", Integer.parseInt(regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_Precision), methodeCommentaire, "2")));
+                  entitePrecision = indexerStockerSolr(entiteDoc, "entitePrecision", Optional.ofNullable(regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_Precision), methodeCommentaire)).map(s -> Integer.parseInt(s)).orElse(0));
+                  entiteEchelle = indexerStockerSolr(entiteDoc, "entiteEchelle", Integer.parseInt(regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_Echelle), methodeCommentaire, "2")));
                 }
                 else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueDouble)) {
                   entiteNomSimpleVertxJson = "JsonArray";
@@ -4121,7 +4126,8 @@ public class IndexerClasse extends RegarderClasseBase {
                   entiteListeNomSimpleVertxJson = "String";
                   entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueString;
                   indexerStockerSolr(entiteDoc, "entiteModeDArrondi", regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_ModeDArrondi), methodeCommentaire, "HALF_UP"));
-                  entitePrecision = indexerStockerSolr(entiteDoc, "entitePrecision", Integer.parseInt(regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_Precision), methodeCommentaire, "2")));
+                  entitePrecision = indexerStockerSolr(entiteDoc, "entitePrecision", Optional.ofNullable(regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_Precision), methodeCommentaire)).map(s -> Integer.parseInt(s)).orElse(0));
+                  entiteEchelle = indexerStockerSolr(entiteDoc, "entiteEchelle", Integer.parseInt(regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_Echelle), methodeCommentaire, "2")));
                 }
                 else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueFloat)) {
                   entiteNomSimpleVertxJson = "JsonArray";
@@ -4129,7 +4135,8 @@ public class IndexerClasse extends RegarderClasseBase {
                   entiteListeNomSimpleVertxJson = "String";
                   entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueString;
                   indexerStockerSolr(entiteDoc, "entiteModeDArrondi", regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_ModeDArrondi), methodeCommentaire, "HALF_UP"));
-                  entitePrecision = indexerStockerSolr(entiteDoc, "entitePrecision", Integer.parseInt(regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_Precision), methodeCommentaire, "2")));
+                  entitePrecision = indexerStockerSolr(entiteDoc, "entitePrecision", Optional.ofNullable(regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_Precision), methodeCommentaire)).map(s -> Integer.parseInt(s)).orElse(0));
+                  entiteEchelle = indexerStockerSolr(entiteDoc, "entiteEchelle", Integer.parseInt(regexLangue(classeLangueNom, "^" + i18nGlobale.getString(I18n.var_Echelle), methodeCommentaire, "2")));
                 }
                 else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueInteger)) {
                   entiteNomSimpleVertxJson = "JsonArray";
@@ -4213,7 +4220,7 @@ public class IndexerClasse extends RegarderClasseBase {
               entiteSuffixeType = "_string";
             }
             else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBigDecimal)) {
-              entiteSolrNomCanonique = VAL_nomCanoniqueDouble;
+              entiteSolrNomCanonique = VAL_nomCanoniqueString;
               entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
               entiteSuffixeType = "_string";
             }
