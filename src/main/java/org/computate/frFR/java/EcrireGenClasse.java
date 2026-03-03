@@ -580,6 +580,9 @@ public class EcrireGenClasse extends EcrireClasse {
   Boolean entiteAttribuerEtendResultatBase;
   Boolean entiteAttribuerAttribuer;
 
+  String entiteAttribuerAttribuerVarId;
+  String entiteAttribuerAttribuerVar;
+  String entiteAttribuerAttribuerNomSimple;
   String entiteAttribuerNomSimple;
   String entiteAttribuerNomCanonique;
 

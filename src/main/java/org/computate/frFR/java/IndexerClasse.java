@@ -3775,6 +3775,10 @@ public class IndexerClasse extends RegarderClasseBase {
 
                   indexerStockerSolr(entiteDoc, "entiteAttribuer", true);
                   indexerStockerSolr(entiteDoc, "entiteAttribuerAttribuer", BooleanUtils.isTrue((Boolean)docEntite.get("entiteAttribuer_stored_boolean")));
+                  indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerAttribuerNomCanonique", (String)docEntite.get("entiteAttribuerNomCanonique_" + classeLangueNom + "_stored_string"));
+                  indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerAttribuerNomSimple", (String)docEntite.get("entiteAttribuerNomSimple_" + classeLangueNom + "_stored_string"));
+                  indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerAttribuerVar", (String)docEntite.get("entiteAttribuerVar_" + classeLangueNom + "_stored_string"));
+                  indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerAttribuerVarId", (String)docClasse.get("classeVarId_" + classeLangueNom + "_stored_string"));
                   indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomSimple", entiteAttribuerNomSimple);
                   indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomCanonique", entiteAttribuerNomCanonique);
                   indexerStockerSolr(entiteDoc, "entiteAttribuerEtendModeleBase", entiteAttribuerEtendModeleBase);

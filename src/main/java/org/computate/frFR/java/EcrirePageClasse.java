@@ -1424,6 +1424,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
                 entiteAttribuerNomSimple = (String)entiteDocumentSolr.get("entiteAttribuerNomSimple_" + classeLangueNom + "_stored_string");
                 entiteAttribuerNomCanonique = (String)entiteDocumentSolr.get("entiteAttribuerNomCanonique_" + classeLangueNom + "_stored_string");
                 entiteAttribuerVar = (String)entiteDocumentSolr.get("entiteAttribuerVar_" + classeLangueNom + "_stored_string");
+                entiteAttribuerVarId = (String)entiteDocumentSolr.get("entiteAttribuerVarId_" + classeLangueNom + "_stored_string");
                 entiteAttribuerVarSuggere = (String)entiteDocumentSolr.get("entiteAttribuerVarSuggere_" + classeLangueNom + "_stored_string");
                 entiteAttribuerVarUrlPageAffichage = (String)entiteDocumentSolr.get("entiteAttribuerVarUrlPageAffichage_" + langueNom + "_stored_string");
                 entiteAttribuerVarUrlPageEdition = (String)entiteDocumentSolr.get("entiteAttribuerVarUrlPageEdition_" + langueNom + "_stored_string");
@@ -1475,7 +1476,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
                   wJsHtmInit.tl(6, i18nClasse.getString(I18n.var_suggere), classeNomSimple, entiteVarCapitalise, "(");
                   wJsHtmInit.tl(8, "event.target.value ? [ { 'name': 'q', 'value': '", entiteAttribuerVarSuggere, ":' + (event.target.value ? event.target.value : '') }");
                   wJsHtmInit.tl(8, ", { 'name': 'rows', 'value': '10' }");
-                  wJsHtmInit.t(8, ", { 'name': 'fl', 'value': '", i18nClasse.getString(I18n.var_classeNomCanonique), ",", entiteAttribuerVar, ",", classeVarClePrimaire, entiteAttribuerVarUrlPageEdition == null ? "" : "," + entiteAttribuerVarUrlPageEdition, entiteAttribuerVarTitre == null ? "" : "," + entiteAttribuerVarTitre, "' } ] : [");
+                  wJsHtmInit.t(8, ", { 'name': 'fl', 'value': '", i18nClasse.getString(I18n.var_classeNomCanonique), ",", entiteAttribuerVarId, ",", entiteAttribuerVar, ",", classeVarClePrimaire, entiteAttribuerVarUrlPageEdition == null ? "" : "," + entiteAttribuerVarUrlPageEdition, entiteAttribuerVarTitre == null ? "" : "," + entiteAttribuerVarTitre, "' } ] : [");
                   wJsHtmInit.l("{%- if ", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, " is defined %}{'name':'fq','value':'", entiteAttribuerVar, ":{{ ", i18nGlobale.getString(I18n.var_resultat), ".", entiteVar, " }}'}{%- else %}{%- endif %}]");
                   wJsHtmInit.tl(8, ", document.querySelector('#' + event.target.getAttribute('data-list'))");
                   wJsHtmInit.tl(8, ", null");
@@ -1493,11 +1494,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
                   wJsHtmEditionInit.tl(6, i18nClasse.getString(I18n.var_suggere), classeNomSimple, entiteVarCapitalise, "(");
                   wJsHtmEditionInit.tl(8, "[ { 'name': 'q', 'value': '", entiteAttribuerVarSuggere, ":' + (event.target.value ? event.target.value : '') }");
                   wJsHtmEditionInit.tl(8, ", { 'name': 'rows', 'value': '10' }");
-                  wJsHtmEditionInit.tl(8, ", { 'name': 'fl', 'value': '", i18nClasse.getString(I18n.var_classeNomCanonique), ",", entiteAttribuerVar, ",", classeVarClePrimaire, entiteAttribuerVarUrlPageEdition == null ? "" : "," + entiteAttribuerVarUrlPageEdition, entiteAttribuerVarTitre == null ? "" : "," + entiteAttribuerVarTitre, "' } ]");
+                  wJsHtmEditionInit.tl(8, ", { 'name': 'fl', 'value': '", i18nClasse.getString(I18n.var_classeNomCanonique), ",", entiteAttribuerVarId, ",", entiteAttribuerVar, ",", classeVarClePrimaire, entiteAttribuerVarUrlPageEdition == null ? "" : "," + entiteAttribuerVarUrlPageEdition, entiteAttribuerVarTitre == null ? "" : "," + entiteAttribuerVarTitre, "' } ]");
                   wJsHtmEditionInit.tl(8, ", document.querySelector('#' + event.target.getAttribute('data-list'))");
                   wJsHtmEditionInit.tl(8, ", event.target.getAttribute('data-method') === '", i18nClasse.getString(I18n.var_Page), "' ? window.", varResultat, ".", classeVarId, " : null");
                   wJsHtmEditionInit.tl(8, ", event.target.getAttribute('data-method') === '", i18nClasse.getString(I18n.var_Page), "' ? window.", varResultat, ".", entiteVar, " : null");
                   wJsHtmEditionInit.tl(8, ", true");
+                  wJsHtmEditionInit.tl(8, ", event.target");
                   wJsHtmEditionInit.tl(8, ");");
                   wJsHtmEditionInit.tl(5, "}");
                   wJsHtmEditionInit.tl(5, "document.querySelector('#", classeNomSimple, "_POST_", entiteVar, "')?.addEventListener('", "pf-".equals(composantsWebPrefixe) ? "pf-" : "", "input', ", i18nGlobale.getString(I18n.var_attribuer), "_", entiteVar, ");");
@@ -1509,12 +1511,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
                   wJsHtmEditionInit.tl(5, "document.querySelector('#", entiteAttribuerNomSimple, "_POST_", classeVarId, "')?.addEventListener('", "pf-".equals(composantsWebPrefixe) ? "pf-" : "", "input', ", i18nGlobale.getString(I18n.var_attribuer), "_", entiteVar, ");");
                   wJsHtmEditionInit.tl(5, "document.querySelector('#", entiteAttribuerNomSimple, "_POST_", classeVarId, "')?.addEventListener('", "pf-".equals(composantsWebPrefixe) ? "pf-" : "", "focus', ", i18nGlobale.getString(I18n.var_attribuer), "_", entiteVar, ");");
                   wJsHtmEditionInit.tl(5, "{% if \"PATCH\" in ", i18nGlobale.getString(I18n.var_portees), " %}");
-                  wJsHtmEditionInit.tl(5, i18nClasse.getString(I18n.var_suggere), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + window.", varResultat, ".", entiteVar, "}], document.querySelector('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), window.", varResultat, ".", classeVarId, ", window.", varResultat, ".", entiteVar, ", true);");
+                  wJsHtmEditionInit.tl(5, i18nClasse.getString(I18n.var_suggere), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + window.", varResultat, ".", entiteVar, "}], document.querySelector('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), window.", varResultat, ".", classeVarId, ", window.", varResultat, ".", entiteVar, ", true, document.getElementById('", classeNomSimple, "_", i18nClasse.getString(I18n.var_Page), "_", entiteVar, "'));");
                   wJsHtmEditionInit.tl(5, "{% else %}");
                   wJsHtmEditionInit.tl(5, "{% if \"GET\" in ", i18nGlobale.getString(I18n.var_portees), " %}");
-                  wJsHtmEditionInit.tl(5, i18nClasse.getString(I18n.var_suggere), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + window.", varResultat, ".", entiteVar, "}], document.querySelector('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), window.", varResultat, ".", classeVarId, ", window.", varResultat, ".", entiteVar, ", true);");
+                  wJsHtmEditionInit.tl(5, i18nClasse.getString(I18n.var_suggere), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + window.", varResultat, ".", entiteVar, "}], document.querySelector('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), window.", varResultat, ".", classeVarId, ", window.", varResultat, ".", entiteVar, ", true, document.getElementById('", classeNomSimple, "_", i18nClasse.getString(I18n.var_Page), "_", entiteVar, "'));");
                   wJsHtmEditionInit.tl(5, "{% else %}");
-                  wJsHtmEditionInit.tl(5, i18nClasse.getString(I18n.var_suggere), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + window.", varResultat, ".", entiteVar, "}], document.querySelector('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), window.", varResultat, ".", classeVarId, ", window.", varResultat, ".", entiteVar, ", false);");
+                  wJsHtmEditionInit.tl(5, i18nClasse.getString(I18n.var_suggere), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + window.", varResultat, ".", entiteVar, "}], document.querySelector('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), window.", varResultat, ".", classeVarId, ", window.", varResultat, ".", entiteVar, ", false, document.getElementById('", classeNomSimple, "_", i18nClasse.getString(I18n.var_Page), "_", entiteVar, "'));");
                   wJsHtmEditionInit.tl(5, "{% endif %}");
                   wJsHtmEditionInit.tl(5, "{% endif %}");
 
@@ -1560,17 +1562,19 @@ public class EcrirePageClasse extends EcrireApiClasse {
                     wJsHtmEditionInit.tl(6, i18nClasse.getString(I18n.var_suggere), entiteAttribuerNomSimple, entiteVarCapitalise2, "(");
                     wJsHtmEditionInit.tl(8, "[ { 'name': 'q', 'value': '", entiteAttribuerVarSuggere, ":' + (event.target.value ? event.target.value : '') }");
                     wJsHtmEditionInit.tl(8, ", { 'name': 'rows', 'value': '10' }");
-                    wJsHtmEditionInit.tl(8, ", { 'name': 'fl', 'value': '", i18nClasse.getString(I18n.var_classeNomCanonique), ",", entiteAttribuerVar, ",", classeVarClePrimaire, entiteAttribuerVarUrlPageEdition == null ? "" : "," + entiteAttribuerVarUrlPageEdition, entiteAttribuerVarTitre == null ? "" : "," + entiteAttribuerVarTitre, "' } ]");
+                    wJsHtmEditionInit.tl(8, ", { 'name': 'fl', 'value': '", i18nClasse.getString(I18n.var_classeNomCanonique), ",", entiteAttribuerVarId, ",", entiteVar2, ",", classeVarClePrimaire, entiteAttribuerVarUrlPageEdition == null ? "" : "," + entiteAttribuerVarUrlPageEdition, entiteAttribuerVarTitre == null ? "" : "," + entiteAttribuerVarTitre, "' } ]");
                     wJsHtmEditionInit.tl(8, ", document.querySelector('#' + event.target.getAttribute('data-list'))");
                     wJsHtmEditionInit.tl(8, ", event.target.getAttribute('data-method') === '", i18nClasse.getString(I18n.var_Page), "' ? window.", varResultat, ".", classeVarId, " : null");
                     wJsHtmEditionInit.tl(8, ", event.target.getAttribute('data-method') === '", i18nClasse.getString(I18n.var_Page), "' ? window.", varResultat, ".", entiteVar2, " : null");
                     wJsHtmEditionInit.tl(8, ", true");
+                    wJsHtmEditionInit.tl(8, ", document.querySelector('#", entiteAttribuerNomSimple, "_POST_", entiteVar2, "_", classeNomSimple, "_POST_", entiteVar, "')");
                     wJsHtmEditionInit.tl(8, ");");
                     wJsHtmEditionInit.tl(5, "}");
                     wJsHtmEditionInit.tl(5, "document.querySelector('#", entiteAttribuerNomSimple, "_POST_", entiteVar2, "_", classeNomSimple, "_POST_", entiteVar, "')?.addEventListener('", "pf-".equals(composantsWebPrefixe) ? "pf-" : "", "input', ", entiteAttribuerNomSimple, "_POST_", entiteVar2, "_", classeNomSimple, "_POST_", entiteVar, ");");
                     wJsHtmEditionInit.tl(5, "document.querySelector('#", entiteAttribuerNomSimple, "_POST_", entiteVar2, "_", classeNomSimple, "_POST_", entiteVar, "')?.addEventListener('", "pf-".equals(composantsWebPrefixe) ? "pf-" : "", "focus', ", entiteAttribuerNomSimple, "_POST_", entiteVar2, "_", classeNomSimple, "_POST_", entiteVar, ");");
                     wJsHtmEditionInit.tl(5, "{% if \"PATCH\" in ", i18nGlobale.getString(I18n.var_portees), " %}");
-                    wJsHtmEditionInit.tl(5, i18nClasse.getString(I18n.var_suggere), entiteAttribuerNomSimple, entiteVarCapitalise2, "([], document.querySelector('#", "list", classeNomSimple, entiteVarCapitalise2, "_", "Page", "'), window.", varResultat, ".", classeVarId, ", window.", varResultat, ".", entiteVar2, ", true);");
+                    // NEXT STEPS
+                    wJsHtmEditionInit.tl(5, i18nClasse.getString(I18n.var_suggere), entiteAttribuerNomSimple, entiteVarCapitalise2, "([], document.querySelector('#", "list", classeNomSimple, entiteVarCapitalise2, "_", "Page", "'), null, window.", varResultat, ".", entiteVar2, ", true, document.querySelector('#", entiteAttribuerNomSimple, "_POST_", entiteVar2, "_", classeNomSimple, "_POST_", entiteVar, "'));");
                     wJsHtmEditionInit.tl(5, "{% endif %}");
                   }
                   // wJsInit.tl(4, ", event.currentTarget");
@@ -4142,6 +4146,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
                   entiteDefinir = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteDefinir_stored_boolean"));
                   entiteAttribuer = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteAttribuer_stored_boolean"));
                   entiteSuggere = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteSuggere_stored_boolean"));
+                  entiteAttribuerVarId = (String)entiteDocumentSolr.get("entiteAttribuerVarId_" + langueNomApi + "_stored_string");
+                  entiteAttribuerAttribuer = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteAttribuerAttribuer_stored_boolean"));
+                  entiteAttribuerAttribuerNomSimple = (String)entiteDocumentSolr.get("entiteAttribuerAttribuerNomSimple_" + langueNomApi + "_stored_string");
+                  entiteAttribuerAttribuerVar = (String)entiteDocumentSolr.get("entiteAttribuerAttribuerVar_" + langueNomApi + "_stored_string");
+                  entiteAttribuerAttribuerVarId = (String)entiteDocumentSolr.get("entiteAttribuerAttribuerVarId_" + langueNomApi + "_stored_string");
                   entiteAttribuerNomSimple = (String)entiteDocumentSolr.get("entiteAttribuerNomSimple_" + langueNomApi + "_stored_string");
                   entiteAttribuerVar = (String)entiteDocumentSolr.get("entiteAttribuerVar_" + langueNomApi + "_stored_string");
                   entiteAttribuerVarUrlPageAffichage = (String)entiteDocumentSolr.get("entiteAttribuerVarUrlPageAffichage_" + langueNom + "_stored_string");
@@ -4215,36 +4224,52 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
                     auteurPageJs.tl(4, "$a.append($i);");
                     auteurPageJs.tl(4, "$a.append($span);");
-                    auteurPageJs.tl(4, "var val = o['", entiteAttribuerVar, "'];");
+                    if(entiteAttribuerAttribuer && classeNomSimple.equals(entiteAttribuerAttribuerNomSimple) && entiteVar.equals(entiteAttribuerAttribuerVar)) {
+                      auteurPageJs.tl(4, "var inputVar = '", entiteAttribuerVarId, "';");
+                    } else {
+                      auteurPageJs.tl(4, "var inputVar = '", entiteAttribuerVar, "';");
+                    }
+                    auteurPageJs.tl(4, "var val = o[inputVar];");
                     if("array".equals(entiteAttribuerTypeJson)) {
                       auteurPageJs.tl(4, "var checked = val == null ? false : (val.includes(", classeVarId, ".toString()));");
                     } else {
                       auteurPageJs.tl(4, "var checked = val == null ? false : (", entiteVar, " != null && val === ", entiteVar, ".toString());");
                     }
                     auteurPageJs.tl(4, "var $input = document.createElement('", composantsWebPrefixe, "checkbox');");
-                    auteurPageJs.tl(4, "$input.setAttribute('id', '", classeApiMethodeMethode, "_", entiteVar, "_' + ", classeVarId, " + '_", entiteAttribuerVar, "_' + o['", entiteAttribuerVar, "']);");
-                    auteurPageJs.tl(4, "$input.setAttribute('name', '", entiteAttribuerVar, "');");
-                    auteurPageJs.tl(4, "$input.setAttribute('value', o['", entiteAttribuerVar, "']);");
+                    auteurPageJs.tl(4, "$input.setAttribute('id', '", classeApiMethodeMethode, "_", entiteVar, "_' + ", classeVarId, " + '_", entiteAttribuerVar, "_' + o[inputVar]);");
+                    auteurPageJs.tl(4, "$input.setAttribute('name', inputVar);");
+                    auteurPageJs.tl(4, "$input.setAttribute('data-target', target.getAttribute('id'));");
+                    auteurPageJs.tl(4, "$input.value = o[inputVar];");
                     auteurPageJs.tl(4, "$input.setAttribute('class', '", i18nClasse.getString(I18n.var_valeur), entiteVarCapitalise, " ');");
 
                     auteurPageJs.tl(4, "if(", classeVarId, " != null) {");
+                    // NEXT STEPS
                     auteurPageJs.tl(5, "$input.addEventListener('", "pf-".equals(composantsWebPrefixe) ? "pf-" : "", "change', function(event) {");
                     if("array".equals(entiteTypeJson)) {
-                      auteurPageJs.tl(6, entiteOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeVarId, ":' + ", classeVarId, " }], { [(event.target.checked ? 'add' : 'remove') + '", entiteVarCapitalise, "']: o['", entiteAttribuerVar, "'] }");
+                      auteurPageJs.tl(6, entiteOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeVarId, ":' + ", classeVarId, " }], { [(event.target.checked ? 'add' : 'remove') + '", entiteVarCapitalise, "']: o[inputVar] }");
                     }
                     else {
-                      auteurPageJs.tl(6, entiteOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeVarId, ":' + ", classeVarId, " }], { [(event.target.checked ? 'set' : 'remove') + '", entiteVarCapitalise, "']: o['", entiteAttribuerVar, "'] }");
+                      auteurPageJs.tl(6, "document.getElementById(event.target.getAttribute('data-target')).value = o[inputVar];");
+                      auteurPageJs.tl(6, entiteOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeVarId, ":' + ", classeVarId, " }], { [(event.target.checked ? 'set' : 'remove') + '", entiteVarCapitalise, "']: o[inputVar] }");
                     }
                     auteurPageJs.tl(8, ", target");
                     auteurPageJs.tl(8, ", function(", i18nClasse.getString(I18n.var_reponse), ", target) {");
                     auteurPageJs.tl(9, i18nClasse.getString(I18n.var_ajouterLueur), "(target);");
-                    auteurPageJs.tl(9, i18nClasse.getString(I18n.var_suggere), classeApiClasseNomSimple, entiteVarCapitalise, "(", i18nClasse.getString(I18n.var_filtres), ", $list, ", classeVarId, ", o['", entiteAttribuerVar, "'], ", i18nClasse.getString(I18n.var_attribuer), ", target);");
+                    auteurPageJs.tl(9, i18nClasse.getString(I18n.var_suggere), classeApiClasseNomSimple, entiteVarCapitalise, "(", i18nClasse.getString(I18n.var_filtres), ", $list, ", classeVarId, ", o[inputVar], ", i18nClasse.getString(I18n.var_attribuer), ", target);");
                     auteurPageJs.tl(8, "}");
                     auteurPageJs.tl(8, ", function(", i18nClasse.getString(I18n.var_reponse), ", target) { ", i18nClasse.getString(I18n.var_ajouterErreur), "(target); }");
                     auteurPageJs.tl(6, ");");
                     auteurPageJs.tl(5, "});");
 
                     // auteurPageJs.tl(4, "$input.setAttribute('onclick', '", i18nClasse.getString(I18n.var_enleverLueur), "(this); ');");
+                    auteurPageJs.tl(4, "} else {");
+                    auteurPageJs.tl(5, "$input.addEventListener('", "pf-".equals(composantsWebPrefixe) ? "pf-" : "", "change', function(event) {");
+                    auteurPageJs.tl(6, "if(event.target.checked) {");
+                    auteurPageJs.tl(7, "target.value = event.target.value;");
+                    auteurPageJs.tl(6, "} else {");
+                    auteurPageJs.tl(7, "target.value = null;");
+                    auteurPageJs.tl(6, "}");
+                    auteurPageJs.tl(5, "});");
                     auteurPageJs.tl(4, "}");
 
                     auteurPageJs.tl(4, "if(checked)");
