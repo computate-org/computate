@@ -1172,7 +1172,7 @@ public class ConfigSite {
     String str = regexYamlString(champ, texte);
     if(str != null) {
       Map<String, Object> map = yaml.load(str);
-      return new JsonObject(map);
+      return map == null ? new JsonObject() : new JsonObject(map);
     }
     return null;
   }
@@ -1182,7 +1182,7 @@ public class ConfigSite {
     String str = regexYamlString(champ, texte);
     if(str != null) {
       List<Object> list = yaml.load(str);
-      return new JsonArray(list);
+      return list == null ? new JsonArray() : new JsonArray(list);
     }
     return null;
   }
@@ -1190,24 +1190,25 @@ public class ConfigSite {
   public String regexYamlString(String champ, String texte) {
     String o = null;
     if (champ != null && texte != null) {
-      String motif = "^" + champ + ": ?([>|-]{0,2}(\\d*)\\n)?([\\s\\S]*?)(?=\\n^\\w|\\Z)";
+      String motif = "^(" + champ + "): ?([>|-]{0,2}(\\d*)\\n)?([\\s\\S]*?)(?=\\n^\\w|\\Z)";
       Matcher m = Pattern.compile(motif, Pattern.MULTILINE).matcher(texte);
       boolean trouve = m.find();
       if (trouve) {
         String groupe1 = m.group(1);
         String groupe2 = m.group(2);
         String groupe3 = m.group(3);
+        String groupe4 = m.group(4);
         Integer spaces = 2;
-        if(groupe2 != null && groupe2.length() > 0)
-          spaces = Integer.parseInt(groupe2);
-        o = groupe3.replaceAll("^" + String.join("", Collections.nCopies(spaces, " ")), "").replaceAll("\n" + String.join("", Collections.nCopies(spaces, " ")), "\n");
+        if(groupe3 != null && groupe3.length() > 0)
+          spaces = Integer.parseInt(groupe3);
+        o = groupe4.replaceAll("^" + String.join("", Collections.nCopies(spaces, " ")), "").replaceAll("\n" + String.join("", Collections.nCopies(spaces, " ")), "\n");
 
-        if(groupe1 != null && groupe1.contains(">"))
+        if(groupe2 != null && groupe2.contains(">"))
           o = o.replaceAll("\\n([^\\n])", " $1");
 
-        if(groupe1 != null && groupe1.contains("-"))
+        if(groupe2 != null && groupe2.contains("-"))
           o = o.replaceAll("\\n+\\Z", "");
-        else if(groupe1 == null || !groupe1.contains("+"))
+        else if(groupe2 == null || !groupe2.contains("+"))
           o = o.replaceAll("\\n\\Z", "");
       } else {
         motif = "^" + champ + ": (.*)";
@@ -1220,6 +1221,44 @@ public class ConfigSite {
       }
     }
     return o;
+  }
+
+  public JsonObject regexYamlJsonObject(String champ, String texte) {
+    String str = null;
+    if (champ != null && texte != null) {
+      String champActuel = null;
+      String motif = "^(" + champ + "): ?([>|-]{0,2}(\\d*)\\n)?([\\s\\S]*?)(?=\\n^\\w|\\Z)";
+      Matcher m = Pattern.compile(motif, Pattern.MULTILINE).matcher(texte);
+      boolean trouve = m.find();
+      if (trouve) {
+        String groupe1 = m.group(1);
+        String groupe2 = m.group(2);
+        String groupe3 = m.group(3);
+        String groupe4 = m.group(4);
+        Integer spaces = 2;
+        champActuel = groupe1;
+        if(groupe3 != null && groupe3.length() > 0)
+          spaces = Integer.parseInt(groupe3);
+        str = groupe4.replaceAll("^" + String.join("", Collections.nCopies(spaces, " ")), "").replaceAll("\n" + String.join("", Collections.nCopies(spaces, " ")), "\n");
+
+        if(groupe2 != null && groupe2.contains(">"))
+          str = str.replaceAll("\\n([^\\n])", " $1");
+
+        if(groupe2 != null && groupe2.contains("-"))
+          str = str.replaceAll("\\n+\\Z", "");
+        else if(groupe2 == null || !groupe2.contains("+"))
+          str = str.replaceAll("\\n\\Z", "");
+      }
+      if(champActuel != null) {
+        Yaml yaml = new Yaml();
+        Map<String, Object> map = yaml.load(str);
+        JsonObject element = map == null ? new JsonObject() : new JsonObject(map);
+        return new JsonObject().put(champActuel, element);
+      } else {
+        return null;
+      }
+    }
+    return null;
   }
 
   public String regexLangueYamlString(String langueNom, String champ, String texte) {

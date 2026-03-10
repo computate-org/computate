@@ -79,8 +79,19 @@ import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import com.fasterxml.jackson.databind.BeanDescription;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.BeanDeserializerModifier;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.thoughtworks.qdox.model.JavaAnnotation;
 import com.thoughtworks.qdox.model.JavaClass;
@@ -2495,10 +2506,11 @@ public class IndexerClasse extends RegarderClasseBase {
     classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Objects", classeLangueNom), classeLangueNom);
     classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.regex.Matcher", classeLangueNom), classeLangueNom);
     classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.regex.Pattern", classeLangueNom), classeLangueNom);
-    classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.annotation.JsonProperty", classeLangueNom), classeLangueNom);
-    classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.annotation.JsonIgnore", classeLangueNom), classeLangueNom);
+    classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonProperty.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+    classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonIgnore.class.getCanonicalName(), classeLangueNom), classeLangueNom);
     classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonFormat.class.getCanonicalName(), classeLangueNom), classeLangueNom);
     classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonSerialize.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+    classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonDeserializer.class.getCanonicalName(), classeLangueNom), classeLangueNom);
     classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonDeserialize.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 
     if(classePartsLocalDateSerializer != null)
@@ -2516,7 +2528,7 @@ public class IndexerClasse extends RegarderClasseBase {
     if(classePartsZonedDateTimeDeserializer != null)
       classePartsGenAjouter(classePartsZonedDateTimeDeserializer, classeLangueNom);
 
-    classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.annotation.JsonInclude", classeLangueNom), classeLangueNom);
+    classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonInclude.class.getCanonicalName(), classeLangueNom), classeLangueNom);
     classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.annotation.JsonInclude.Include", classeLangueNom), classeLangueNom);
     classePartsGenAjouter(ClasseParts.initClasseParts(this, ToStringSerializer.class.getCanonicalName(), classeLangueNom), classeLangueNom);
     classePartsGenAjouter(ClasseParts.initClasseParts(this, MathContext.class.getCanonicalName(), classeLangueNom), classeLangueNom);
@@ -3119,15 +3131,15 @@ public class IndexerClasse extends RegarderClasseBase {
                 || "Point".equals(entiteNomSimpleGenerique) || "Path".equals(entiteNomSimpleGenerique) || "Polygon".equals(entiteNomSimpleGenerique)
                 ) {
               classePartsGenAjouter(classePartsVertxTool, classeLangueNom);
-              classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.ObjectMapper", classeLangueNom), classeLangueNom);
-              classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.module.SimpleModule", classeLangueNom), classeLangueNom);
-              classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.deser.BeanDeserializerModifier", classeLangueNom), classeLangueNom);
-              classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.JsonDeserializer", classeLangueNom), classeLangueNom);
-              classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.DeserializationConfig", classeLangueNom), classeLangueNom);
-              classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.BeanDescription", classeLangueNom), classeLangueNom);
+              classePartsGenAjouter(ClasseParts.initClasseParts(this, ObjectMapper.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+              classePartsGenAjouter(ClasseParts.initClasseParts(this, SimpleModule.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+              classePartsGenAjouter(ClasseParts.initClasseParts(this, BeanDeserializerModifier.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+              classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonDeserializer.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+              classePartsGenAjouter(ClasseParts.initClasseParts(this, DeserializationConfig.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+              classePartsGenAjouter(ClasseParts.initClasseParts(this, BeanDescription.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+              classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonMapper.class.getCanonicalName(), classeLangueNom), classeLangueNom);
               classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.stream.Collectors", classeLangueNom), classeLangueNom);
               classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.Json", classeLangueNom), classeLangueNom);
-              classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.ObjectMapper", classeLangueNom), classeLangueNom);
               classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.pgclient.data.Point", classeLangueNom), classeLangueNom);
             }
             if("Path".equals(entiteNomSimple) || "Path".equals(entiteNomSimpleGenerique)) {
@@ -3604,6 +3616,25 @@ public class IndexerClasse extends RegarderClasseBase {
               entitePortee = Optional.ofNullable(regex("^" + i18nGlobale.getString(I18n.var_Portee) + ": (.*)", methodeCommentaireActuelle, 1)).orElse(entitePortee);
             if(entitePortee != null) {
               indexerStockerSolr(entiteDoc, "entitePortee", entitePortee);
+            }
+
+            JsonObject entiteWaChart = regexYamlJsonObject("wa-[a-z\\-]+", methodeCommentaire);
+            if(entiteWaChart != null) {
+              String elementNom = entiteWaChart.fieldNames().stream().findFirst().orElse(null);
+              JsonObject element = entiteWaChart.getJsonObject(elementNom);
+              String entiteNomAffichage = Optional.ofNullable(entiteDoc.get("entiteNomAffichage_" + langueNomGlobale + "_stored_string")).map(g -> (String)g.getValue()).orElse(null);
+              String entiteDescription = Optional.ofNullable(entiteDoc.get("entiteDescription_" + langueNomGlobale + "_stored_string")).map(g -> (String)g.getValue()).orElse(null);
+              entiteWaChart.put("name", elementNom);
+              if(element.getString("label") == null && entiteNomAffichage != null)
+                element.put("label", entiteNomAffichage);
+              if(element.getString("description") == null && entiteDescription != null)
+                element.put("description", entiteDescription);
+              indexerStockerSolr(entiteDoc, "entiteWaChart", entiteWaChart.toString());
+            }
+
+            JsonObject entiteDiv = regexYamlObject("div", methodeCommentaire);
+            if(entiteDiv != null) {
+              indexerStockerSolr(entiteDoc, "entiteDiv", entiteDiv.toString());
             }
 
             Boolean entiteHighlighting = indexerStockerSolr(entiteDoc, "entiteHighlighting", regexTrouve("^Highlighting: (true)$", methodeCommentaire));
@@ -5942,7 +5973,6 @@ public class IndexerClasse extends RegarderClasseBase {
         classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.WorkerExecutor", classeLangueNom), classeLangueNom);
         classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.Vertx", classeLangueNom), classeLangueNom);
         classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.eventbus.EventBus", classeLangueNom), classeLangueNom);
-        classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.pgclient.PgPool", classeLangueNom), classeLangueNom);
         classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.computate.vertx.openapi.ComputateOAuth2AuthHandlerImpl", classeLangueNom), classeLangueNom);
         classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.kafka.client.producer.KafkaProducer", classeLangueNom), classeLangueNom);
         classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.mqtt.MqttClient", classeLangueNom), classeLangueNom);
@@ -5964,6 +5994,7 @@ public class IndexerClasse extends RegarderClasseBase {
         classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.stream.Collectors", classeLangueNom), classeLangueNom);
         classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.Json", classeLangueNom), classeLangueNom);
         classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.StringUtils", classeLangueNom), classeLangueNom);
+        classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.Strings", classeLangueNom), classeLangueNom);
         classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.security.Principal", classeLangueNom), classeLangueNom);
         classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.exception.ExceptionUtils", classeLangueNom), classeLangueNom);
         classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.io.PrintWriter", classeLangueNom), classeLangueNom);
@@ -6024,7 +6055,6 @@ public class IndexerClasse extends RegarderClasseBase {
         classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.api.service.ServiceRequest", classeLangueNom), classeLangueNom);
         classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.api.service.ServiceResponse", classeLangueNom), classeLangueNom);
         classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.client.HttpResponse", classeLangueNom), classeLangueNom);
-        classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.client.predicate.ResponsePredicate", classeLangueNom), classeLangueNom);
         classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.HashMap", classeLangueNom), classeLangueNom);
         classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.auth.User", classeLangueNom), classeLangueNom);
         classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.auth.authentication.UsernamePasswordCredentials", classeLangueNom), classeLangueNom);
