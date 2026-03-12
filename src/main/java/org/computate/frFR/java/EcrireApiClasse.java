@@ -2103,6 +2103,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                 || classeApiMethode.contains(i18nGlobale.getString(I18n.var_PageUtilisateur))
                 || classeApiMethode.contains(i18nGlobale.getString(I18n.var_Telechargement))
                 ) {
+              // EditPage, DisplayPage, UserPage, Download
               l();
               tl(1, "@Override");
               t(1, "public void ", classeApiOperationIdMethode, "(");
@@ -2137,7 +2138,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(4, "form.add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", \"", classeAuthPortee, "\"));");
                   }
                   tl(4, "if(", classeVarId, " != null)");
-                  if(classeAuthRessource == null) {
+                  if(classeAuthRessource == null || !classeRessourcesAutorisation.contains(String.format("%s-%s", classeAuthRessource, classeVarId))) {
                     tl(5, "form.add(\"permission\", String.format(\"%s-%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", ", classeVarId, ", \"", classeApiPortee, "\"));");
                   } else {
                     tl(5, "form.add(\"permission\", String.format(\"%s#%s\", ", classeVarId, ", \"", classeApiPortee, "\"));");
@@ -2170,7 +2171,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   tl(6, "JsonArray authorizationDecisionBody = authorizationDecisionResponse.failed() ? new JsonArray() : authorizationDecision.bodyAsJsonArray();");
                   tl(6, "JsonArray scopes = authorizationDecisionBody.stream().map(o -> (JsonObject)o).filter(o -> \"", classeAuthRessource, "\".equals(o.getString(\"rsname\"))).findFirst().map(decision -> ((JsonObject)decision).getJsonArray(\"scopes\")).orElse(new JsonArray());");
                   if(classeRessourcesAutorisation.size() > 0) {
-                    tl(6, "if(!scopes.contains(\"", classeApiPortee, "\") && !", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), ") {");
+                    tl(6, "if(!scopes.contains(\"", classeApiPortee, "\")) {");
                     tl(7, "List<String> fqs = new ArrayList<>();");
                     for(String classeRessourceAutorisation : classeRessourcesAutorisation) {
 
@@ -2181,27 +2182,37 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       tl(9, "}).forEach(permission -> {");
                       tl(10, "fqs.add(String.format(\"%s:%s\", \"", StringUtils.substringAfter(classeRessourceAutorisation, "-"), "\", permission.getString(\"rsname\")));");
                       tl(10, "permission.getJsonArray(\"scopes\").stream().map(s -> (String)s).forEach(scope -> {");
-                      tl(11, "if(!scopes.contains(scope))");
+                      if(classePublicLire) {
+                        if(classeAuthRessource == null || !classeRessourcesAutorisation.contains(String.format("%s-%s", classeAuthRessource, classeVarId))) {
+                          tl(11, "if(!scopes.contains(scope) && String.format(\"%s-%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", ", classeVarId, ").equals(permission.getString(\"rsname\")))");
+                        } else {
+                          tl(11, "if(!scopes.contains(scope) && String.format(\"%s\", ", classeVarId, ").equals(permission.getString(\"rsname\")))");
+                        }
+                      } else {
+                        tl(11, "if(!scopes.contains(scope))");
+                      }
                       tl(12, "scopes.add(scope);");
                       tl(10, "});");
                       tl(9, "});");
                     }
-                    tl(7, "JsonObject authParams = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams();");
-                    tl(7, "JsonObject authQuery = authParams.getJsonObject(\"query\");");
-                    tl(7, "if(authQuery == null) {");
-                    tl(8, "authQuery = new JsonObject();");
-                    tl(8, "authParams.put(\"query\", authQuery);");
-                    tl(7, "}");
-                    tl(7, "JsonArray fq = authQuery.getJsonArray(\"fq\");");
-                    tl(7, "if(fq == null) {");
-                    tl(8, "fq = new JsonArray();");
-                    tl(8, "authQuery.put(\"fq\", fq);");
-                    tl(7, "}");
-                    tl(7, "if(fqs.size() > 0) {");
-                    tl(8, "fq.add(fqs.stream().collect(Collectors.joining(\" OR \")));");
-                    tl(8, "if(!scopes.contains(\"", classeApiPortee, "\"))");
-                    tl(9, "scopes.add(\"", classeApiPortee, "\");");
-                    tl(8, i18nGlobale.getString(I18n.var_requeteSite), ".setFilteredScope(true);");
+                    tl(7, "if(!", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), ") {");
+                    tl(8, "JsonObject authParams = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams();");
+                    tl(8, "JsonObject authQuery = authParams.getJsonObject(\"query\");");
+                    tl(8, "if(authQuery == null) {");
+                    tl(9, "authQuery = new JsonObject();");
+                    tl(9, "authParams.put(\"query\", authQuery);");
+                    tl(8, "}");
+                    tl(8, "JsonArray fq = authQuery.getJsonArray(\"fq\");");
+                    tl(8, "if(fq == null) {");
+                    tl(9, "fq = new JsonArray();");
+                    tl(9, "authQuery.put(\"fq\", fq);");
+                    tl(8, "}");
+                    tl(8, "if(fqs.size() > 0) {");
+                    tl(9, "fq.add(fqs.stream().collect(Collectors.joining(\" OR \")));");
+                    tl(9, "if(!scopes.contains(\"", classeApiPortee, "\"))");
+                    tl(10, "scopes.add(\"", classeApiPortee, "\");");
+                    tl(9, i18nGlobale.getString(I18n.var_requeteSite), ".setFilteredScope(true);");
+                    tl(8, "}");
                     tl(7, "}");
                     tl(6, "}");
                     tl(6, "{");
@@ -2315,6 +2326,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
               tl(2, "});");
               tl(1, "}");
             } else {
+              // Not EditPage, DisplayPage, UserPage, Download
 
               /////////
               // API //
@@ -2435,7 +2447,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     }
                     if(classeVarId != null) {
                       tl(4, "if(", classeVarId, " != null)");
-                      if(classeAuthRessource == null) {
+                      if(classeAuthRessource == null || !classeRessourcesAutorisation.contains(String.format("%s-%s", classeAuthRessource, classeVarId))) {
                         tl(5, "form.add(\"permission\", String.format(\"%s-%s#%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", ", classeVarId, ", \"", classeApiPortee, "\"));");
                       } else {
                         tl(5, "form.add(\"permission\", String.format(\"%s#%s\", ", classeVarId, ", \"", classeApiPortee, "\"));");
@@ -2469,40 +2481,52 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     tl(6, "JsonArray authorizationDecisionBody = authorizationDecisionResponse.failed() ? new JsonArray() : authorizationDecision.bodyAsJsonArray();");
                     tl(6, "JsonArray scopes = authorizationDecisionBody.stream().map(o -> (JsonObject)o).filter(o -> \"", classeAuthRessource, "\".equals(o.getString(\"rsname\"))).findFirst().map(decision -> ((JsonObject)decision).getJsonArray(\"scopes\")).orElse(new JsonArray());");
                     if(classeRessourcesAutorisation.size() > 0) {
-                      tl(6, "if(!scopes.contains(\"", classeApiMethodeMethode, "\") && !", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), ") {");
-                      tl(7, "//");
-                      tl(7, "List<String> fqs = new ArrayList<>();");
+                      Integer tab = "GET".equals(classeApiMethodeMethode) ? 7 : 6;
+                      tl(6, "if(!scopes.contains(\"", classeApiPortee, "\")) {");
+                      tl(tab, "List<String> fqs = new ArrayList<>();");
                       for(String classeRessourceAutorisation : classeRessourcesAutorisation) {
 
-                        tl(7, "authorizationDecisionBody.stream().map(o -> (JsonObject)o).filter(permission -> {");
-                        tl(10, "Matcher mPermission = Pattern.compile(\"^(", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-([a-z0-9\\\\-]+))$\").matcher(permission.getString(\"rsname\"));");
-                        tl(10, "return permission.getJsonArray(\"scopes\").contains(\"", classeApiPortee, "\")");
-                        tl(12, "&& mPermission.find();");
-                        tl(9, "}).forEach(permission -> {");
-                        tl(10, "fqs.add(String.format(\"%s:%s\", \"", StringUtils.substringAfter(classeRessourceAutorisation, "-"), "\", permission.getString(\"rsname\")));");
-                        tl(10, "permission.getJsonArray(\"scopes\").stream().map(s -> (String)s).forEach(scope -> {");
-                        tl(11, "if(!scopes.contains(scope))");
-                        tl(12, "scopes.add(scope);");
-                        tl(10, "});");
-                        tl(9, "});");
+                        tl(tab, "authorizationDecisionBody.stream().map(o -> (JsonObject)o).filter(permission -> {");
+                        tl(tab + 3, "Matcher mPermission = Pattern.compile(\"^(", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-([a-z0-9\\\\-]+))$\").matcher(permission.getString(\"rsname\"));");
+                        tl(tab + 3, "return permission.getJsonArray(\"scopes\").contains(\"", classeApiPortee, "\")");
+                        tl(tab + 5, "&& mPermission.find();");
+                        tl(tab + 2, "}).forEach(permission -> {");
+                        tl(tab + 3, "fqs.add(String.format(\"%s:%s\", \"", StringUtils.substringAfter(classeRessourceAutorisation, "-"), "\", permission.getString(\"rsname\")));");
+                        tl(tab + 3, "permission.getJsonArray(\"scopes\").stream().map(s -> (String)s).forEach(scope -> {");
+                        if(classePublicLire) {
+                          if(classeAuthRessource == null || !classeRessourcesAutorisation.contains(String.format("%s-%s", classeAuthRessource, classeVarId))) {
+                            tl(tab + 4, "if(!scopes.contains(scope) && String.format(\"%s-%s\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_AUTH_RESSOURCE), ", ", classeVarId, ").equals(permission.getString(\"rsname\")))");
+                          } else {
+                            tl(tab + 4, "if(!scopes.contains(scope) && String.format(\"%s\", ", classeVarId, ").equals(permission.getString(\"rsname\")))");
+                          }
+                        } else {
+                          tl(tab + 4, "if(!scopes.contains(scope))");
+                        }
+                        tl(tab + 5, "scopes.add(scope);");
+                        tl(tab + 3, "});");
+                        tl(tab + 2, "});");
                       }
-                      tl(7, "JsonObject authParams = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams();");
-                      tl(7, "JsonObject authQuery = authParams.getJsonObject(\"query\");");
-                      tl(7, "if(authQuery == null) {");
-                      tl(8, "authQuery = new JsonObject();");
-                      tl(8, "authParams.put(\"query\", authQuery);");
-                      tl(7, "}");
-                      tl(7, "JsonArray fq = authQuery.getJsonArray(\"fq\");");
-                      tl(7, "if(fq == null) {");
-                      tl(8, "fq = new JsonArray();");
-                      tl(8, "authQuery.put(\"fq\", fq);");
-                      tl(7, "}");
-                      tl(7, "if(fqs.size() > 0) {");
-                      tl(8, "fq.add(fqs.stream().collect(Collectors.joining(\" OR \")));");
-                      tl(8, "if(!scopes.contains(\"", classeApiPortee, "\"))");
-                      tl(9, "scopes.add(\"", classeApiPortee, "\");");
-                      tl(8, i18nGlobale.getString(I18n.var_requeteSite), ".setFilteredScope(true);");
-                      tl(7, "}");
+                      if("GET".equals(classeApiMethodeMethode))
+                        tl(tab, "if(!", i18nGlobale.getString(I18n.var_classe), i18nGlobale.getString(I18n.var_PublicLire), ") {");
+                      tl(tab + 1, "JsonObject authParams = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "().getParams();");
+                      tl(tab + 1, "JsonObject authQuery = authParams.getJsonObject(\"query\");");
+                      tl(tab + 1, "if(authQuery == null) {");
+                      tl(tab + 2, "authQuery = new JsonObject();");
+                      tl(tab + 2, "authParams.put(\"query\", authQuery);");
+                      tl(tab + 1, "}");
+                      tl(tab + 1, "JsonArray fq = authQuery.getJsonArray(\"fq\");");
+                      tl(tab + 1, "if(fq == null) {");
+                      tl(tab + 2, "fq = new JsonArray();");
+                      tl(tab + 2, "authQuery.put(\"fq\", fq);");
+                      tl(tab + 1, "}");
+                      tl(tab + 1, "if(fqs.size() > 0) {");
+                      tl(tab + 2, "fq.add(fqs.stream().collect(Collectors.joining(\" OR \")));");
+                      tl(tab + 2, "if(!scopes.contains(\"", classeApiPortee, "\"))");
+                      tl(tab + 3, "scopes.add(\"", classeApiPortee, "\");");
+                      tl(tab + 2, i18nGlobale.getString(I18n.var_requeteSite), ".setFilteredScope(true);");
+                      tl(tab + 1, "}");
+                      if("GET".equals(classeApiMethodeMethode))
+                        tl(tab, "}");
                       tl(6, "}");
                     }
                     if(StringUtils.equals(classeApiMethodeMethode, "GET")) {
