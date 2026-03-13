@@ -2176,7 +2176,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                     for(String classeRessourceAutorisation : classeRessourcesAutorisation) {
 
                       tl(7, "authorizationDecisionBody.stream().map(o -> (JsonObject)o).filter(permission -> {");
-                      tl(10, "Matcher mPermission = Pattern.compile(\"^(", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-([a-z0-9\\\\-]+))$\").matcher(permission.getString(\"rsname\"));");
+                      tl(10, "Matcher mPermission = Pattern.compile(\"^(.*-?", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-([a-z0-9\\\\-]+))$\").matcher(permission.getString(\"rsname\"));");
                       tl(10, "return permission.getJsonArray(\"scopes\").contains(\"", classeApiPortee, "\")");
                       tl(12, "&& mPermission.find();");
                       tl(9, "}).forEach(permission -> {");
@@ -2487,7 +2487,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
                       for(String classeRessourceAutorisation : classeRessourcesAutorisation) {
 
                         tl(tab, "authorizationDecisionBody.stream().map(o -> (JsonObject)o).filter(permission -> {");
-                        tl(tab + 3, "Matcher mPermission = Pattern.compile(\"^(", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-([a-z0-9\\\\-]+))$\").matcher(permission.getString(\"rsname\"));");
+                        tl(tab + 3, "Matcher mPermission = Pattern.compile(\"^(.*-?", StringUtils.substringBefore(classeRessourceAutorisation, "-"), "-([a-z0-9\\\\-]+))$\").matcher(permission.getString(\"rsname\"));");
                         tl(tab + 3, "return permission.getJsonArray(\"scopes\").contains(\"", classeApiPortee, "\")");
                         tl(tab + 5, "&& mPermission.find();");
                         tl(tab + 2, "}).forEach(permission -> {");
