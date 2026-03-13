@@ -6,7 +6,7 @@
     <groupId>org.computate</groupId>
     <artifactId>computate-base</artifactId>
     <relativePath>../computate-base/pom.xml</relativePath>
-    <version>4.5.24.0</version>
+    <version>4.5.24.1</version>
   </parent>
 
   <properties>
@@ -15,7 +15,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.computate</groupId>
   <artifactId>computate</artifactId>
-  <version>4.5.24.0</version>
+  <version>4.5.24.1</version>
   <packaging>jar</packaging>
   <name>Computate Vert.x Code Generation Tools</name>
   <description>Code that generates more code as you save. Internationalized. Integrated with Solr search. A new way to write code to make persistence easier. </description>
