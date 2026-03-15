@@ -39,6 +39,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.computate.i18n.I18n;
+import org.computate.vertx.config.ComputateConfigKeys;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -3599,6 +3600,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
         tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "checkbox')");
         tl(4, ", customElements.whenDefined('", composantsWebPrefixe, "dropdown')");
         tl(3, "]).then(() => {");
+        tl(4, "window.FONTAWESOME_STYLE = document.querySelector('.", i18nClasse.getString(I18n.var_page), i18nClasse.getString(I18n.var_Formulaire), " .FONTAWESOME_STYLE')?.value;");
         if(classeVarId != null) {
           l();
           tl(4, "var ", classeVarId, " = {% if ", i18nClasse.getString(I18n.var_resultat), ".", classeVarId, " is defined %}{{ ", i18nClasse.getString(I18n.var_resultat), ".", classeVarId, " | tojson }}{% else %}null{% endif %};");
@@ -4252,7 +4254,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
                     auteurPageJs.tl(3, "$list.innerHTML = '';");
                     auteurPageJs.tl(3, "data['list'].forEach((o, i) => {");
                     auteurPageJs.tl(4, "var iTemplate = document.createElement('template');");
-                    auteurPageJs.tl(4, "iTemplate.innerHTML = '", entiteAttribuerContexteIcone, "';");
+                    auteurPageJs.tl(4, "iTemplate.innerHTML = '", entiteAttribuerContexteIcone.replaceAll("\\{\\{\\s*FONTAWESOME_STYLE\\s*\\}\\}", "' + window.FONTAWESOME_STYLE + '"), "';");
                     auteurPageJs.tl(4, "var $i = iTemplate.content;");
                     auteurPageJs.tl(4, "var $span = document.createElement('span');");
                     auteurPageJs.tl(4, "$span.setAttribute('class', '');");
@@ -4264,6 +4266,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
                     if(entiteAttribuerVarUrlPageEdition != null) {
                       auteurPageJs.tl(4, "var $a = document.createElement('a');");
                       // auteurPageJs.tl(3, "$a.setAttribute('id', o['", entiteAttribuerVar, "']);");
+                      auteurPageJs.tl(4, "$a.setAttribute('class', 'wa-flank wa-gap-xs ');");
                       auteurPageJs.tl(4, "$a.setAttribute('target', '_blank');");
                       auteurPageJs.tl(4, "$a.setAttribute('href', o['", entiteAttribuerVarUrlPageEdition, "']);");
                     } else {
@@ -4327,6 +4330,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
                     auteurPageJs.tl(4, "if(checked)");
                     auteurPageJs.tl(5, "$input.setAttribute('checked', 'checked');");
                     auteurPageJs.tl(4, "var $li = document.createElement('li');");
+                    auteurPageJs.tl(4, "$li.setAttribute('class', 'wa-flank wa-gap-0 ');");
                     if(entiteAttribuerTrisVar != null && entiteAttribuerTrisSuffixeType != null && entiteAttribuerTrisSuffixeType.size() > 0 && "_double".equals(entiteAttribuerTrisSuffixeType.get(0))) {
                       for(String entiteAttribuerTriVar : entiteAttribuerTrisVar) {
                         auteurPageJs.tl(4, "var ", entiteAttribuerTriVar, " = o['", entiteAttribuerTriVar, "'];");
@@ -4464,7 +4468,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
         auteurPageJs.tl(3, "$header.setAttribute('class', 'w3-container fa-", classeCouleur, " ');");
         auteurPageJs.tl(3, "$header.setAttribute('id', 'header-' + ", classeVarId, ");");
         auteurPageJs.tl(3, "var iTemplate = document.createElement('template');");
-        auteurPageJs.tl(3, "iTemplate.innerHTML = '", classeIcone, "';");
+        auteurPageJs.tl(3, "iTemplate.innerHTML = '", classeIcone.replaceAll("\\{\\{\\s*FONTAWESOME_STYLE\\s*\\}\\}", "' + window.FONTAWESOME_STYLE + '"), "';");
         auteurPageJs.tl(3, "var $i = iTemplate.content;");
         auteurPageJs.tl(3, "var $headerSpan = document.createElement('span');");
         auteurPageJs.tl(3, "$headerSpan.setAttribute('class', '');");
@@ -6405,6 +6409,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
       tl(5, "<div class=\"pageContent \">");
       tl(6, "<form action=\"", classeApiUri, "\" id=\"", classeApiClasseNomSimple, "Form\" class=\"", i18nClasse.getString(I18n.var_page), i18nClasse.getString(I18n.var_Formulaire), " \" onsubmit=\"event.preventDefault(); return false; \">");
       t(7, "<input");
+      s(" name=\"FONTAWESOME_STYLE\"");
+      s(" class=\"FONTAWESOME_STYLE\"");
+      s(" type=\"hidden\"");
+      s(" value=\"{{ FONTAWESOME_STYLE }}\"");
+      l("/>");
+      t(7, "<input");
       s(" name=\"focusId\"");
       s(" type=\"hidden\"");
       l("/>");
@@ -6594,6 +6604,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
       tl(0, "{%- block htm", i18nClasse.getString(I18n.var_Formulaire), classePageNomSimple, " %}");
       tl(5, "<form action=\"", classeApiUri, "\" id=\"", classeApiClasseNomSimple, "Form\" class=\"", i18nClasse.getString(I18n.var_page), i18nClasse.getString(I18n.var_Formulaire), " \" onsubmit=\"event.preventDefault(); return false; \">");
+      t(6, "<input");
+      s(" name=\"FONTAWESOME_STYLE\"");
+      s(" class=\"FONTAWESOME_STYLE\"");
+      s(" type=\"hidden\"");
+      s(" value=\"{{ FONTAWESOME_STYLE }}\"");
+      l("/>");
       tl(0, "{% if ", i18nClasse.getString(I18n.var_resultat), ".", classeVarId, " is defined %}");
       t(6, "<input");
       s(" name=\"", classeVarId, "\"");
