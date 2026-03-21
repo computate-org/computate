@@ -3686,27 +3686,197 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
               tl(4, "document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')?.addEventListener('click', event => {");
               tl(5, "event.preventDefault();");
+              tl(5, "event.target.setAttribute('loading', true);");
               if("POST".equals(classeApiMethodeMethode)) {
                 tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "')");
-                tl(5, ", document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')");
-                tl(5, ", (json, target) => {");
+                tl(7, ", document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')");
+                tl(7, ", (json, target) => {");
                 tl(6, "window.location.href = json.", classeVarUrlPageEdition, ";");
+                tl(5, "}, (response, target) => {");
+                tl(6, "event.target.removeAttribute('loading');");
+                tl(6, i18nClasse.getString(I18n.var_ajouterErreur), "Json(event.target);");
+                tl(6, "if(response.ok) {");
+                tl(7, "response.json().then(json => {");
+                tl(8, "document.querySelector('wa-page > wa-toast').create(json?.error?.message, {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(7, "});");
+                tl(6, "} else {");
+                tl(7, "if(response.status === 405 || response.status === 401) {");
+                tl(8, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Vous_n_etes_plus_connecte), "', {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(7, "} else if(response.status === 403) {");
+                tl(8, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Vous_n_etes_pas_autorise), "', {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(7, "} else {");
+                tl(8, "response.json().then(json => {");
+                tl(9, "document.querySelector('wa-page > wa-toast').create(json?.error?.message, {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(8, "}).catch(error => {");
+                tl(9, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Une_erreur_inconnue_est_survenue), "', {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(8, "});");
+                tl(7, "}");
+                tl(6, "}");
                 tl(5, "});");
               }
-              else if("PATCH".equals(classeApiMethode))
-                tl(5, classeApiOperationIdMethode, "(null, document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'), event.target.getAttribute('data-", classeVarId, "'));");
-              else if("DELETE".equals(classeApiMethode))
-                tl(5, classeApiOperationIdMethode, "(event.target, event.target.getAttribute('data-", classeVarId, "'));");
-              else if(classeApiMethode.equals(i18nClasse.getString(I18n.var_DELETEFiltre)))
-                tl(5, classeApiOperationIdMethode, "(event.target);");
-              else if("PUTImport".equals(classeApiMethode))
-                tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'));");
-              else if(i18nClasse.getString(I18n.var_PUTFusion).equals(classeApiMethode))
-                tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), ", classeModele ? "{{ " + classeVarClePrimaire + " }}" : "'{{ " + classeVarCleUnique + " }}', document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'));");
-              else if(i18nClasse.getString(I18n.var_PUTCopie).equals(classeApiMethode))
-                tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "'), ", classeModele ? "{{ " + classeVarClePrimaire + " }}" : "'{{ " + classeVarCleUnique + " }}', document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "'));");
-              else
+              else if("PATCH".equals(classeApiMethode)) {
+                tl(5, classeApiOperationIdMethode, "(null, document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "')");
+                tl(7, ", document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')");
+                tl(7, ", event.target.getAttribute('data-", classeVarId, "')");
+                tl(7, ", (json, target) => {");
+                tl(6, "");
+                tl(5, "}, (response, target) => {");
+                tl(6, "event.target.removeAttribute('loading');");
+                tl(6, i18nClasse.getString(I18n.var_ajouterErreur), "Json(event.target);");
+                tl(6, "if(response.ok) {");
+                tl(7, "response.json().then(json => {");
+                tl(8, "document.querySelector('wa-page > wa-toast').create(json?.error?.message, {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(7, "});");
+                tl(6, "} else {");
+                tl(7, "if(response.status === 405 || response.status === 401) {");
+                tl(8, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Vous_n_etes_plus_connecte), "', {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(7, "} else if(response.status === 403) {");
+                tl(8, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Vous_n_etes_pas_autorise), "', {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(7, "} else {");
+                tl(8, "response.json().then(json => {");
+                tl(9, "document.querySelector('wa-page > wa-toast').create(json?.error?.message, {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(8, "}).catch(error => {");
+                tl(9, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Une_erreur_inconnue_est_survenue), "', {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(8, "});");
+                tl(7, "}");
+                tl(6, "}");
+                tl(5, "});");
+              } else if("DELETE".equals(classeApiMethode)) {
+                tl(5, classeApiOperationIdMethode, "(event.target, event.target.getAttribute('data-", classeVarId, "')");
+                tl(7, ", (json, target) => {");
+                tl(6, "");
+                tl(5, "}, (response, target) => {");
+                tl(6, "event.target.removeAttribute('loading');");
+                tl(6, i18nClasse.getString(I18n.var_ajouterErreur), "Json(event.target);");
+                tl(6, "if(response.ok) {");
+                tl(7, "response.json().then(json => {");
+                tl(8, "document.querySelector('wa-page > wa-toast').create(json?.error?.message, {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(7, "});");
+                tl(6, "} else {");
+                tl(7, "if(response.status === 405 || response.status === 401) {");
+                tl(8, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Vous_n_etes_plus_connecte), "', {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(7, "} else if(response.status === 403) {");
+                tl(8, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Vous_n_etes_pas_autorise), "', {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(7, "} else {");
+                tl(8, "response.json().then(json => {");
+                tl(9, "document.querySelector('wa-page > wa-toast').create(json?.error?.message, {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(8, "}).catch(error => {");
+                tl(9, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Une_erreur_inconnue_est_survenue), "', {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(8, "});");
+                tl(7, "}");
+                tl(6, "}");
+                tl(5, "});");
+              } else if(classeApiMethode.equals(i18nClasse.getString(I18n.var_DELETEFiltre))) {
+                tl(5, classeApiOperationIdMethode, "(event.target");
+                tl(7, ", (json, target) => {");
+                tl(6, "");
+                tl(5, "}, (response, target) => {");
+                tl(6, "event.target.removeAttribute('loading');");
+                tl(6, i18nClasse.getString(I18n.var_ajouterErreur), "Json(event.target);");
+                tl(6, "if(response.ok) {");
+                tl(7, "response.json().then(json => {");
+                tl(8, "document.querySelector('wa-page > wa-toast').create(json?.error?.message, {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(7, "});");
+                tl(6, "} else {");
+                tl(7, "if(response.status === 405 || response.status === 401) {");
+                tl(8, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Vous_n_etes_plus_connecte), "', {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(7, "} else if(response.status === 403) {");
+                tl(8, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Vous_n_etes_pas_autorise), "', {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(7, "} else {");
+                tl(8, "response.json().then(json => {");
+                tl(9, "document.querySelector('wa-page > wa-toast').create(json?.error?.message, {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(8, "}).catch(error => {");
+                tl(9, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Une_erreur_inconnue_est_survenue), "', {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(8, "});");
+                tl(7, "}");
+                tl(6, "}");
+                tl(5, "});");
+              } else if("PUTImport".equals(classeApiMethode)) {
+                tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "')");
+                tl(7, ", document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')");
+                tl(7, ", event.target.getAttribute('data-", classeVarId, "')");
+                tl(7, ", (json, target) => {");
+                tl(6, "");
+                tl(5, "}, (response, target) => {");
+                tl(6, "event.target.removeAttribute('loading');");
+                tl(6, i18nClasse.getString(I18n.var_ajouterErreur), "Json(event.target);");
+                tl(6, "if(response.ok) {");
+                tl(7, "response.json().then(json => {");
+                tl(8, "document.querySelector('wa-page > wa-toast').create(json?.error?.message, {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(7, "});");
+                tl(6, "} else {");
+                tl(7, "if(response.status === 405 || response.status === 401) {");
+                tl(8, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Vous_n_etes_plus_connecte), "', {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(7, "} else if(response.status === 403) {");
+                tl(8, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Vous_n_etes_pas_autorise), "', {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(7, "} else {");
+                tl(8, "response.json().then(json => {");
+                tl(9, "document.querySelector('wa-page > wa-toast').create(json?.error?.message, {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(8, "}).catch(error => {");
+                tl(9, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Une_erreur_inconnue_est_survenue), "', {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(8, "});");
+                tl(7, "}");
+                tl(6, "}");
+                tl(5, "});");
+              } else if(i18nClasse.getString(I18n.var_PUTFusion).equals(classeApiMethode)) {
+                tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "')");
+                tl(5, ", ", classeModele ? "{{ " + classeVarClePrimaire + " }}" : "'{{ " + classeVarCleUnique + " }}'");
+                tl(7, ", document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')");
+                tl(7, ", event.target.getAttribute('data-", classeVarId, "')");
+                tl(7, ", (json, target) => {");
+                tl(6, "");
+                tl(5, "}, (response, target) => {");
+                tl(6, "event.target.removeAttribute('loading');");
+                tl(6, i18nClasse.getString(I18n.var_ajouterErreur), "Json(event.target);");
+                tl(6, "if(response.ok) {");
+                tl(7, "response.json().then(json => {");
+                tl(8, "document.querySelector('wa-page > wa-toast').create(json?.error?.message, {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(7, "});");
+                tl(6, "} else {");
+                tl(7, "if(response.status === 405 || response.status === 401) {");
+                tl(8, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Vous_n_etes_plus_connecte), "', {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(7, "} else if(response.status === 403) {");
+                tl(8, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Vous_n_etes_pas_autorise), "', {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(7, "} else {");
+                tl(8, "response.json().then(json => {");
+                tl(9, "document.querySelector('wa-page > wa-toast').create(json?.error?.message, {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(8, "}).catch(error => {");
+                tl(9, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Une_erreur_inconnue_est_survenue), "', {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(8, "});");
+                tl(7, "}");
+                tl(6, "}");
+                tl(5, "});");
+              } else if(i18nClasse.getString(I18n.var_PUTCopie).equals(classeApiMethode)) {
+                tl(5, classeApiOperationIdMethode, "(document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "')");
+                tl(5, ", ", classeModele ? "{{ " + classeVarClePrimaire + " }}" : "'{{ " + classeVarCleUnique + " }}'");
+                tl(7, ", document.querySelector('#htm", i18nClasse.getString(I18n.var_Formulaire), i18nClasse.getString(I18n.var_Bouton), "_", classeApiOperationIdMethode, "')");
+                tl(7, ", event.target.getAttribute('data-", classeVarId, "')");
+                tl(7, ", (json, target) => {");
+                tl(6, "");
+                tl(5, "}, (response, target) => {");
+                tl(6, "event.target.removeAttribute('loading');");
+                tl(6, i18nClasse.getString(I18n.var_ajouterErreur), "Json(event.target);");
+                tl(6, "if(response.ok) {");
+                tl(7, "response.json().then(json => {");
+                tl(8, "document.querySelector('wa-page > wa-toast').create(json?.error?.message, {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(7, "});");
+                tl(6, "} else {");
+                tl(7, "if(response.status === 405 || response.status === 401) {");
+                tl(8, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Vous_n_etes_plus_connecte), "', {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(7, "} else if(response.status === 403) {");
+                tl(8, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Vous_n_etes_pas_autorise), "', {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(7, "} else {");
+                tl(8, "response.json().then(json => {");
+                tl(9, "document.querySelector('wa-page > wa-toast').create(json?.error?.message, {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(8, "}).catch(error => {");
+                tl(9, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Une_erreur_inconnue_est_survenue), "', {size: 'danger', icon: 'triangle-exclamation'});");
+                tl(8, "});");
+                tl(7, "}");
+                tl(6, "}");
+                tl(5, "});");
+              } else {
                 tl(5, classeApiOperationIdMethode, "();");
+              }
               tl(5, "return false;");
               tl(4, "});");
             }
@@ -3725,7 +3895,27 @@ public class EcrirePageClasse extends EcrireApiClasse {
             tl(8, "if(json['", classeVarUrlPageEdition + "'])");
             tl(9, "window.location.href = json['", classeVarUrlPageEdition + "'];");
           }
+          tl(5, "}, (response, target) => {");
+          tl(6, "event.target.removeAttribute('loading');");
+          tl(6, i18nClasse.getString(I18n.var_ajouterErreur), "Json(event.target);");
+          tl(6, "if(response.ok) {");
+          tl(7, "response.json().then(json => {");
+          tl(8, "document.querySelector('wa-page > wa-toast').create(json?.error?.message, {size: 'danger', icon: 'triangle-exclamation'});");
           tl(7, "});");
+          tl(6, "} else {");
+          tl(7, "if(response.status === 405 || response.status === 401) {");
+          tl(8, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Vous_n_etes_plus_connecte), "', {size: 'danger', icon: 'triangle-exclamation'});");
+          tl(7, "} else if(response.status === 403) {");
+          tl(8, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Vous_n_etes_pas_autorise), "', {size: 'danger', icon: 'triangle-exclamation'});");
+          tl(7, "} else {");
+          tl(8, "response.json().then(json => {");
+          tl(9, "document.querySelector('wa-page > wa-toast').create(json?.error?.message, {size: 'danger', icon: 'triangle-exclamation'});");
+          tl(8, "}).catch(error => {");
+          tl(9, "document.querySelector('wa-page > wa-toast').create('", i18nClasse.getString(I18n.str_Une_erreur_inconnue_est_survenue), "', {size: 'danger', icon: 'triangle-exclamation'});");
+          tl(8, "});");
+          tl(7, "}");
+          tl(6, "}");
+          tl(5, "});");
           tl(4, "});");
         }
         tl(0, "{%- block htmScriptInit", classePageNomSimple, " %}{%- endblock htmScriptInit", classePageNomSimple, " %}");
@@ -5168,7 +5358,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
           l();
           l("{%- macro htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "(idSuffix='') %}");
-          { tl(4, "<", classeApiMethode.contains(i18nClasse.getString(I18n.var_PageRecherche)) ? "div" : composantsWebPrefixe + "dialog", "wa-".equals(composantsWebPrefixe) ? " with-header with-footer style=\"--width: 50vw; \"" : "", " id=\"", classeApiOperationIdMethode, i18nClasse.getString(I18n.var_Dialogue), "\" label=\"", methodeTitreValeurs, "\">");
+          { tl(4, "<", classeApiMethode.contains(i18nClasse.getString(I18n.var_PageRecherche)) ? "div" : composantsWebPrefixe + "dialog", "wa-".equals(composantsWebPrefixe) ? " with-header with-footer style=\"--width: min(64rem, 100vw); \"" : "", " id=\"", classeApiOperationIdMethode, i18nClasse.getString(I18n.var_Dialogue), "\" label=\"", methodeTitreValeurs, "\">");
             { tl(5, "<", classeApiMethode.contains(i18nClasse.getString(I18n.var_PageRecherche)) ? "div" : "form", " id=\"htm", i18nClasse.getString(I18n.var_Formulaire), "_", classeApiOperationIdMethode, "\" class=\"round-row primary-smart-border-radius \">");
               if(!i18nClasse.getString(I18n.var_PageRecherche).equals(classeApiMethode)) {
                 if("POST".equals(classeApiMethode)) {
