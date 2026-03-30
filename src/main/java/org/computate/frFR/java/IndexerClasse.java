@@ -6789,14 +6789,16 @@ public class IndexerClasse extends RegarderClasseBase {
       , Boolean remove
       ) {
     int i = propertiesNames.indexOf(propertyName);
-    properties.add(new JsonObject().put("name", propertyName)
-        .put("description", propertiesDescriptions.get(i))
-        .put("type", propertiesTypes.get(i))
-        );
-    if(remove) {
-      propertiesNames.remove(i);
-      propertiesTypes.remove(i);
-      propertiesDescriptions.remove(i);
+    if(i >= 0) {
+      properties.add(new JsonObject().put("name", propertyName)
+          .put("description", propertiesDescriptions.get(i))
+          .put("type", propertiesTypes.get(i))
+          );
+      if(remove) {
+        propertiesNames.remove(i);
+        propertiesTypes.remove(i);
+        propertiesDescriptions.remove(i);
+      }
     }
   }
 
