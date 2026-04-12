@@ -49,6 +49,8 @@ import org.computate.i18n.I18n;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.hubspot.jinjava.Jinjava;
+
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -6889,7 +6891,9 @@ public class EcrireGenClasse extends EcrireClasse {
       // ObjectMapper jsonWriter = new ObjectMapper();
       // JsonObject langueConfigJson = new JsonObject(jsonWriter.writeValueAsString(obj));
       // // Todo
-      ecrireClasseCommentaire(langueConfigGlobale, siteNom, langueNom);
+      Jinjava jinjava = new Jinjava();
+      HashMap<String, Object> ctxClasse = new HashMap<>();
+      ecrireClasseCommentaire(jinjava, langueConfigGlobale, siteNom, langueNom);
       l(" **/");
     }
 
@@ -6940,7 +6944,7 @@ public class EcrireGenClasse extends EcrireClasse {
         return list.toArray(new String[list.size()]);
     }
 
-    public void ecrireClasseCommentaireChamp(String langueNom, JsonObject jsonObject, String champ1, String champ2, ToutEcrivain w, Boolean condition, Object... formatValues) {
+    public void ecrireClasseCommentaireChamp(Jinjava jinjava, String langueNom, JsonObject jsonObject, String champ1, String champ2, ToutEcrivain w, Boolean condition, Object... formatValues) {
     StringBuilder b = new StringBuilder();
     JsonObject jsonObject2 = jsonObject.getJsonObject(champ1);
     JsonObject jsonObjectLangue = jsonObject.getJsonObject(langueNom);
@@ -6948,29 +6952,79 @@ public class EcrireGenClasse extends EcrireClasse {
       jsonObjectLangue = new JsonObject();
       jsonObject.put(langueNom, jsonObjectLangue);
     }
-    String champ1Langue = Optional.ofNullable(jsonObject2.getString("nom")).orElse(champ1);
+    String champ1Langue = Optional.ofNullable(jsonObject2.getString("commentVar")).orElse(champ1);
     JsonObject jsonObject2Langue = jsonObjectLangue.getJsonObject(champ1Langue);
     if(jsonObject2Langue == null) {
       jsonObject2Langue = new JsonObject();
       jsonObjectLangue.put(champ1Langue, jsonObject2Langue);
-      jsonObject2Langue.put("nom", champ1Langue);
+      jsonObject2Langue.put("commentVar", champ1Langue);
     }
+    Map<String, Object> ctx = new HashMap<>();
+    Map<String, Object> resultatMap = jsonObject2.getMap();
+    ctx.put("result", resultatMap);
+    resultatMap.forEach((key, value) -> {
+      String val = Optional.ofNullable(value).map(v -> v.toString()).orElse(null);
+      if(val instanceof String) {
+        String rendered = jinjava.render(val, ctx);
+        resultatMap.put(key, rendered);
+      } else {
+        resultatMap.put(key, val);
+      }
+    });
 
     Arrays.asList(String.format(jsonObject2.getString(champ2), formatValues).split("\n")).stream().forEach(s -> {
       b.append(s).append("\n");
     });
     if(condition && !"01_commentaire".equals(champ1)) {
-      if("suggere".equals(champ2) || "todo".equals(champ2))
-        w.s("<li>", b.toString(), "</li>");
-      else
-        w.s(b.toString());
+      String rendered = jinjava.render(b.toString(), ctx);
+      if("suggere".equals(champ2) || "todo".equals(champ2)) {
+        w.s("<li>", rendered, "</li>");
+      } else {
+        w.s(rendered);
+      }
     }
     if(!"todo".equals(champ2))
       jsonObject2Langue.put(champ2, b.toString());
     
   }
 
-  public void ecrireClasseCommentaire(JsonObject langueConfig, String siteNom, String langueNom) {
+  public void ecrireClasseCommentaireChamp2(Jinjava jinjava, String langueNom, JsonObject jsonObject, String champ1, ToutEcrivain w, Boolean condition, Object valeur) {
+    StringBuilder b = new StringBuilder();
+    JsonObject jsonObject2 = jsonObject.getJsonObject(champ1);
+    JsonObject jsonObjectLangue = jsonObject.getJsonObject(langueNom);
+    if(jsonObjectLangue == null) {
+      jsonObjectLangue = new JsonObject();
+      jsonObject.put(langueNom, jsonObjectLangue);
+    }
+    String champ1Langue = Optional.ofNullable(jsonObject2.getString("commentVar")).orElse(champ1);
+    JsonObject jsonObject2Langue = jsonObjectLangue.getJsonObject(champ1Langue);
+    if(jsonObject2Langue == null) {
+      jsonObject2Langue = new JsonObject();
+      jsonObjectLangue.put(champ1Langue, jsonObject2Langue);
+      jsonObject2Langue.put("commentVar", champ1Langue);
+    }
+    Map<String, Object> ctx = new HashMap<>();
+    Map<String, Object> resultatMap = jsonObject2.getMap();
+    ctx.put("result", resultatMap);
+    ctx.put("exampleValue", valeur);
+    resultatMap.forEach((key, value) -> {
+      String val = Optional.ofNullable(value).map(v -> v.toString()).orElse(null);
+      if(val instanceof String) {
+        String rendered = jinjava.render(val, ctx);
+        resultatMap.put(key, rendered);
+      } else {
+        resultatMap.put(key, val);
+      }
+    });
+
+    b.append(jsonObject2.getString("commentaire"));
+    b.append(jsonObject2.getString("description"));
+    b.append(jsonObject2.getString("suggere"));
+    String rendered = jinjava.render(b.toString(), ctx);
+    w.s(rendered);
+  }
+
+  public void ecrireClasseCommentaire(Jinjava jinjava, JsonObject langueConfig, String siteNom, String langueNom) {
     ToutEcrivain wClasseTodos = ToutEcrivain.create();
     ToutEcrivain wClasseSuggere = ToutEcrivain.create();
     ToutEcrivain wClasseDescription = ToutEcrivain.create();
@@ -6989,46 +7043,46 @@ public class EcrireGenClasse extends EcrireClasse {
       classe.put("Description", b.toString());
     }
 
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "01_commentaire", "commentaire", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "01_commentaire", "commentaire", wClasseDescription
         , true
         , classeNomSimpleGen
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "01_commentaire", "description", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "01_commentaire", "description", wClasseDescription
         , true
         , strCommentairePart(classeCommentaire, 0).trim(), classeNomSimple, classeNomSimpleGen, classeNomSimpleSuperGenerique
         );
 
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "02_etend", "commentaire", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "02_etend", "commentaire", wClasseDescription
         , true
         , classeNomSimpleGen
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "02_etend", "description", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "02_etend", "description", wClasseDescription
         , classeEtendGen
         , classeNomSimpleGen, "https://solr.apps-crc.testing", langueNom, ClientUtils.escapeQueryChars(classeNomCanonique), classeNomSimple
         );
 
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "03_classeNomSimpleSuperGenerique", "commentaire", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "03_classeNomSimpleSuperGenerique", "commentaire", wClasseDescription
         , true
         , classeNomSimpleGen, classeNomSimpleSuperGenerique
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "03_classeNomSimpleSuperGenerique", "todo", wClasseTodos
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "03_classeNomSimpleSuperGenerique", "todo", wClasseTodos
         , classeNomSimpleSuperGenerique == null
         , classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "03_classeNomSimpleSuperGenerique", "description", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "03_classeNomSimpleSuperGenerique", "description", wClasseDescription
         , classeEtendGen
         , classeNomSimple, classeNomSimpleGen, classeNomSimpleSuperGenerique, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleSuperGenerique, classeNomSimple, classeNomSimpleGen, classeNomSimpleSuperGenerique
         );
 
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "Api", "commentaire", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "Api", "commentaire", wClasseDescription
         , true
         
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "Api", "description", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "Api", "description", wClasseDescription
         , classeApi
         
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "Api", "suggere", wClasseSuggere
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "Api", "suggere", wClasseSuggere
         , classeNomSimpleSuperGenerique != null && !classeApi
         , classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen
         );
@@ -7038,152 +7092,144 @@ public class EcrireGenClasse extends EcrireClasse {
       classeApiMethodes = new ArrayList<>();
     for(Integer i = 0; i < classeApiMethodes.size(); i++) {
       String classeApiMethode = classeApiMethodes.get(i);
-      ecrireClasseCommentaireChamp(langueNom, classeRef, "ApiMethode", "commentaire", wClasseDescription
+      ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "ApiMethode", "commentaire", wClasseDescription
           , true
           , classeApiMethode
           );
-      ecrireClasseCommentaireChamp(langueNom, classeRef, "ApiMethode", "description", wClasseDescription
+      ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "ApiMethode", "description", wClasseDescription
           , true
           , classeApiMethode, classeApiMethode
           );
     }
 
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "ApiTag", "commentaire", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "ApiTag", "commentaire", wClasseDescription
         , true
         , langueNom, true
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "ApiTag", "description", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "ApiTag", "description", wClasseDescription
         , classeApiTag != null
         , classeApiTag, classeNomSimple, classeApiTag
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "ApiTag", "todo", wClasseTodos
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "ApiTag", "todo", wClasseTodos
         , classeApi && classeApiTag == null
         , langueNom, classeNomSimple, langueNom, classeNomSimple
         );
 
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "ApiUri", "commentaire", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "ApiUri", "commentaire", wClasseDescription
         , true
         , langueNom, classeApiUri
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "ApiUri", "description", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "ApiUri", "description", wClasseDescription
         , classeApiUri != null
         , classeApiUri, classeNomSimple, classeApiUri
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "ApiUri", "todo", wClasseTodos
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "ApiUri", "todo", wClasseTodos
         , classeApi && classeApiUri == null
         , langueNom, classeNomSimple
         );
 
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "Couleur", "commentaire", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "Couleur", "commentaire", wClasseDescription
         , true
         , classeCouleur
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "Couleur", "description", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "Couleur", "description", wClasseDescription
         , classeCouleur != null
         , classeCouleur, classeNomSimple, classeCouleur, classeCouleur
         );
 
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "Indexe", "commentaire", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "Indexe", "commentaire", wClasseDescription
         , true
         
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "Indexe", "description", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "Indexe", "description", wClasseDescription
         , classeIndexe
         
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "Indexe", "todo", wClasseTodos
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "Indexe", "todo", wClasseTodos
         , classeApi && !classeIndexe
         , classeNomSimple
         );
 
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "InheritDoc", "commentaire", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "InheritDoc", "commentaire", wClasseDescription
         , true
         
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "InheritDoc", "description", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "InheritDoc", "description", wClasseDescription
         , true
         , classeNomSimple, classeNomSimpleGen
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "InheritDoc", "suggere", wClasseSuggere
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "InheritDoc", "suggere", wClasseSuggere
         , Optional.ofNullable(classeCommentaire).map(commentaire -> !commentaire.contains("{@inheritDoc}")).orElse(false)
         , classeNomSimpleGen, classeNomSimple
         );
 
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "Lignes", "commentaire", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "Lignes", "commentaire", wClasseDescription
         , true
         , classeLignes
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "Lignes", "description", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "Lignes", "description", wClasseDescription
         , classeLignes != null
         , classeLignes, classeNomSimple, classeLignes
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "Lignes", "suggere", wClasseSuggere
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "Lignes", "suggere", wClasseSuggere
         , classeApi && classeLignes == null
         , classeNomSimple
         );
 
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "Ordre", "commentaire", wClasseDescription
+    ecrireClasseCommentaireChamp2(jinjava, langueNom, classeRef, "Ordre", wClasseDescription
         , classeOrdre != null
         , classeOrdre
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "Ordre", "description", wClasseDescription
-        , classeOrdre != null
-        , classeOrdre, classeOrdre
-        );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "Ordre", "suggere", wClasseSuggere
-        , classeApi && classeOrdre == null
-        
-        );
 
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "OrdreSql", "commentaire", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "OrdreSql", "commentaire", wClasseDescription
         , classeOrdreSql != null
         , classeOrdreSql
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "OrdreSql", "description", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "OrdreSql", "description", wClasseDescription
         , classeOrdreSql != null
         , classeOrdreSql, classeOrdreSql
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "OrdreSql", "suggere", wClasseSuggere
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "OrdreSql", "suggere", wClasseSuggere
         , classeModele && classeOrdreSql == null
         
         );
 
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "Modele", "commentaire", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "Modele", "commentaire", wClasseDescription
         , true
         
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "Modele", "description", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "Modele", "description", wClasseDescription
         , classeModele
         
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "Modele", "suggere", wClasseSuggere
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "Modele", "suggere", wClasseSuggere
         , classeApi && !classeModele
         , classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen
         );
 
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "Page", "commentaire", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "Page", "commentaire", wClasseDescription
         , true
         
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "Page", "description", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "Page", "description", wClasseDescription
         , classePage
         , classePageNomCanonique
         );
 
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "PageSuper", "commentaire", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "PageSuper", "commentaire", wClasseDescription
         , true
         , langueNom, classePageSuperNomSimple
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "PageSuper", "description", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "PageSuper", "description", wClasseDescription
         , classePageSuperNomSimple != null
         , classePageSuperNomSimple, classePageSuperNomSimple, classePageNomCanonique, classePageSuperNomCanonique
         );
 
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "Promesse", "commentaire", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "Promesse", "commentaire", wClasseDescription
         , true
         
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "Promesse", "description", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "Promesse", "description", wClasseDescription
         , classePromesse
         , classePromesse, classeNomSimple
         );
@@ -7193,22 +7239,22 @@ public class EcrireGenClasse extends EcrireClasse {
       String classeRoleLangue = classeRolesLangue.get(i);
 
       if(langueNom.equals(classeRoleLangue)) {
-        ecrireClasseCommentaireChamp(langueNom, classeRef, "Role", "commentaire", wClasseDescription
+        ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "Role", "commentaire", wClasseDescription
             , true
             , classeRoleLangue, classeRole
             );
-        ecrireClasseCommentaireChamp(langueNom, classeRef, "Role", "description", wClasseDescription
+        ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "Role", "description", wClasseDescription
             , true
             , classeRoleLangue, classeRole, classeRole, classeNomSimple, classeNomSimple, classeNomSimple, classeRole
             );
       }
     }
 
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "UnNom", "commentaire", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "UnNom", "commentaire", wClasseDescription
         , true
         , langueNom, classeUnNom
         );
-    ecrireClasseCommentaireChamp(langueNom, classeRef, "UnNom", "description", wClasseDescription
+    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "UnNom", "description", wClasseDescription
         , classeUnNom != null
         , langueNom, classeUnNom, classeNomSimple, classeUnNom
         );
