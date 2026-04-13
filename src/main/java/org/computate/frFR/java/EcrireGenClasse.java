@@ -6988,7 +6988,7 @@ public class EcrireGenClasse extends EcrireClasse {
     
   }
 
-  public void ecrireClasseCommentaireChamp2(Jinjava jinjava, String langueNom, JsonObject jsonObject, String champ1, ToutEcrivain w, Boolean condition, Object valeur) {
+  public void ecrireClasseCommentaireChamp2(Jinjava jinjava, String langueNom, JsonObject jsonObject, String champ1, ToutEcrivain w, Object valeur) {
     StringBuilder b = new StringBuilder();
     JsonObject jsonObject2 = jsonObject.getJsonObject(champ1);
     JsonObject jsonObjectLangue = jsonObject.getJsonObject(langueNom);
@@ -7005,6 +7005,10 @@ public class EcrireGenClasse extends EcrireClasse {
     }
     Map<String, Object> ctx = new HashMap<>();
     Map<String, Object> resultatMap = jsonObject2.getMap();
+    ctx.put("classeNomSimple", classeNomSimple);
+    ctx.put("classeNomSimpleGen", classeNomSimpleGen);
+    ctx.put("classeNomSingulier", classeNomSingulier);
+    ctx.put("classeNomPluriel", classeNomPluriel);
     ctx.put("result", resultatMap);
     ctx.put("exampleValue", valeur);
     resultatMap.forEach((key, value) -> {
@@ -7163,10 +7167,7 @@ public class EcrireGenClasse extends EcrireClasse {
         , classeNomSimpleGen, classeNomSimple
         );
 
-    ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "Lignes", "commentaire", wClasseDescription
-        , true
-        , classeLignes
-        );
+    ecrireClasseCommentaireChamp2(jinjava, langueNom, classeRef, "Lignes", wClasseDescription, classeLignes);
     ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "Lignes", "description", wClasseDescription
         , classeLignes != null
         , classeLignes, classeNomSimple, classeLignes
@@ -7176,10 +7177,7 @@ public class EcrireGenClasse extends EcrireClasse {
         , classeNomSimple
         );
 
-    ecrireClasseCommentaireChamp2(jinjava, langueNom, classeRef, "Ordre", wClasseDescription
-        , classeOrdre != null
-        , classeOrdre
-        );
+    ecrireClasseCommentaireChamp2(jinjava, langueNom, classeRef, "Ordre", wClasseDescription, classeOrdre);
 
     ecrireClasseCommentaireChamp(jinjava, langueNom, classeRef, "OrdreSql", "commentaire", wClasseDescription
         , classeOrdreSql != null
