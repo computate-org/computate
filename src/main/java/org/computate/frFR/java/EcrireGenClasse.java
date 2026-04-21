@@ -1507,8 +1507,10 @@ public class EcrireGenClasse extends EcrireClasse {
       wInitLoin.l();
       if(classePromesse) {
         wInitLoin.tl(1, "public Future<", classeNomSimpleSuper, "<DEV>> ", langueConfig.getString(I18n.var_promesseLoin), classeNomSimple, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_) {");
-        if(classeContientRequeteSite)
-          wInitLoin.tl(2, "set", langueConfig.getString(I18n.var_RequeteSite), "_(", langueConfig.getString(I18n.var_requeteSite), "_);");
+        if(classeContientRequeteSite) {
+          wInitLoin.tl(2, "if(this.", langueConfig.getString(I18n.var_requeteSite), "_ == null)");
+          wInitLoin.tl(3, "set", langueConfig.getString(I18n.var_RequeteSite), "_(", langueConfig.getString(I18n.var_requeteSite), "_);");
+        }
         wInitLoin.tl(2, "return ", langueConfig.getString(I18n.var_promesseLoin), classeNomSimple, "();");
         wInitLoin.tl(1, "}");
       } else {
@@ -1526,8 +1528,10 @@ public class EcrireGenClasse extends EcrireClasse {
         wInitLoin.l(" {");
   //						if(contient", classePartsRequeteSite.nomSimple(langueNom), " && !StringUtils.equals(classeNomSimple, "", classePartsRequeteSite.nomSimple(langueNom), ""))
   //							tl(2, "((", classeNomSimple, ")this).setRequeteSite_(requeteSite);");
-        if(classeContientRequeteSite)
-          wInitLoin.tl(2, "set", langueConfig.getString(I18n.var_RequeteSite), "_(", langueConfig.getString(I18n.var_requeteSite), "_);");
+        if(classeContientRequeteSite) {
+          wInitLoin.tl(2, "if(this.", langueConfig.getString(I18n.var_requeteSite), "_ == null)");
+          wInitLoin.tl(3, "set", langueConfig.getString(I18n.var_RequeteSite), "_(", langueConfig.getString(I18n.var_requeteSite), "_);");
+        }
         wInitLoin.tl(2, langueConfig.getString(I18n.var_initLoin), classeNomSimple, "();");
         wInitLoin.tl(2, "return (", classeNomSimple, ")this;");
         wInitLoin.tl(1, "}");
