@@ -6625,7 +6625,7 @@ public class IndexerClasse extends RegarderClasseBase {
           wSmartDataModel.l(" **/");
           wSmartDataModel.l("public class ", classeNomSimple, " extends ", classeNomSimple, "Gen<MapModel> {");
   
-          Integer row = 3;
+          Integer row = 6;
           Integer cell = 0;
           for(int i = 0; i < properties.size(); i++) {
             JsonObject property = properties.get(i);
