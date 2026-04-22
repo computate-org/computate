@@ -3494,6 +3494,10 @@ public class EcrireGenClasse extends EcrireClasse {
               tl(1, "@JsonSerialize(contentUsing = ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".class)");
 
             tl(1, "@JsonFormat(shape=JsonFormat.Shape.ARRAY, pattern=\"yyyy-MM-dd'T'HH:mm:ss.SSSV'['VV']'\")");
+          } else if("BigDecimal".equals(entiteNomSimpleGenerique)) {
+            tl(1, "@JsonDeserialize(contentUsing = ComputateBigDecimalDeserializer.class)");
+            tl(1, "@JsonSerialize(contentUsing = ToStringSerializer.class)");
+            tl(1, "@JsonFormat(shape = JsonFormat.Shape.ARRAY, pattern = \"", entiteModeDArrondi, ",", entitePrecision, ",", entiteEchelle, "\")");
           } else {
             tl(1, "@JsonFormat(shape = JsonFormat.Shape.ARRAY)");
           }
@@ -5468,7 +5472,7 @@ public class EcrireGenClasse extends EcrireClasse {
                 || VAL_nomCanoniqueBigDecimal.equals(entiteNomCanoniqueGenerique)
                 ) {
               tl(4, "} else if(val instanceof Number[]) {");
-              tl(5, "Arrays.asList((Number[])val).stream().forEach(v -> add", entiteVarCapitalise, "(((Number)v).longValue()));");
+              tl(5, "Arrays.asList((Number[])val).stream().forEach(v -> add", entiteVarCapitalise, "(((Number)v).toString()));");
             }
             if(VAL_nomCanoniquePolygon.equals(entiteNomCanoniqueGenerique)) {
               tl(4, "} else if(val instanceof JsonObject) {");
@@ -6658,7 +6662,7 @@ public class EcrireGenClasse extends EcrireClasse {
     ///////////////////////
     if(classeEtendModeleBase || classeEtendResultatBase || classeEstModeleBase || classeEstResultatBase) {
       l();
-      tl(1, "public static String varJson", langueConfig.getString(I18n.var_PourClasse), "(String var, Boolean patch) {");
+      tl(1, "public static String varJson(String var, Boolean patch) {");
       tl(2, "return ", classeNomSimple, ".varJson", classeNomSimple, "(var, patch);");
       tl(1, "}");
       tl(1, "public static String varJson", classeNomSimple, "(String var, Boolean patch) {");

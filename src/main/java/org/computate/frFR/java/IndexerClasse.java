@@ -74,6 +74,7 @@ import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
 import org.computate.i18n.I18n;
 import org.computate.vertx.api.ApiRequest;
+import org.computate.search.serialize.ComputateBigDecimalDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
@@ -2531,6 +2532,7 @@ public class IndexerClasse extends RegarderClasseBase {
     classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonInclude.class.getCanonicalName(), classeLangueNom), classeLangueNom);
     classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.annotation.JsonInclude.Include", classeLangueNom), classeLangueNom);
     classePartsGenAjouter(ClasseParts.initClasseParts(this, ToStringSerializer.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+    classePartsGenAjouter(ClasseParts.initClasseParts(this, ComputateBigDecimalDeserializer.class.getCanonicalName(), classeLangueNom), classeLangueNom);
     classePartsGenAjouter(ClasseParts.initClasseParts(this, MathContext.class.getCanonicalName(), classeLangueNom), classeLangueNom);
     classePartsGenAjouter(ClasseParts.initClasseParts(this, NumberUtils.class.getCanonicalName(), classeLangueNom), classeLangueNom);
     classePartsGenAjouter(ClasseParts.initClasseParts(this, NumberFormat.class.getCanonicalName(), classeLangueNom), classeLangueNom);
