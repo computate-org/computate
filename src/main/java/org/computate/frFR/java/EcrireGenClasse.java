@@ -4238,15 +4238,6 @@ public class EcrireGenClasse extends EcrireClasse {
     
         // Setter BigDecimal //
         if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, BigDecimal.class.getCanonicalName())) {
-          tl(1, "public static Integer staticScale", entiteVarCapitalise, "() {");
-          if(entiteEchelle == null)
-            tl(2, "return null;");
-          else
-            tl(2, "return ", entiteEchelle, ";");
-          tl(1, "}");
-          tl(1, "public static MathContext staticMathContext", entiteVarCapitalise, "() {");
-          tl(2, "return new MathContext(", entitePrecision, ", RoundingMode.valueOf(\"", entiteModeDArrondi, "\"));");
-          tl(1, "}");
           tl(1, "@JsonIgnore");
           tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
           tl(2, entiteVar, ".clear();");
