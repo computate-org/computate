@@ -174,6 +174,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
             else if(BooleanUtils.isTrue(partEstEntite)) {
               try {
                 genCodeEntite(langueNom, i18nClasse);
+                genCodeEntiteInitialise(langueNom, i18nClasse);
               } catch(Exception ex) {
                 throw new RuntimeException(String.format("%s %s %s", classeNomSimple, i18nGlobale.getString(I18n.var_entite), entiteVar), ex);
               }

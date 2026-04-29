@@ -32,7 +32,7 @@ import org.computate.i18n.I18n;
 
 /**
  * NomCanonique.enUS: org.computate.enUS.java.WatchClass
- */     
+ */
 public class RegarderClasse extends EcrireToutesClasses {
 
   public RegarderClasse frFRRegarderClasse;

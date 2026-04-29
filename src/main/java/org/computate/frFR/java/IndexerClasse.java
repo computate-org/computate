@@ -147,6 +147,8 @@ public class IndexerClasse extends RegarderClasseBase {
   public static final String VAL_nomCanoniquePoint = "io.vertx.pgclient.data.Point";
   public static final String VAL_nomCanoniquePath = "io.vertx.pgclient.data.Path";
   public static final String VAL_nomCanoniquePolygon = "io.vertx.pgclient.data.Polygon";
+  public static final String VAL_nomCanoniqueUnit = "javax.measure.Unit";
+  public static final String VAL_nomCanoniqueQuantity = "javax.measure.Quantity";
   /**
    * Var.enUS: VAL_canonicalNameInteger
    */
@@ -215,6 +217,12 @@ public class IndexerClasse extends RegarderClasseBase {
 
   ClasseParts classePartsPolygonSerializer;
   ClasseParts classePartsPolygonDeserializer;
+
+  ClasseParts classePartsUnitSerializer;
+  ClasseParts classePartsUnitDeserializer;
+
+  ClasseParts classePartsQuantitySerializer;
+  ClasseParts classePartsQuantityDeserializer;
 
   ClasseParts classePartsLocalTimeSerializer;
   ClasseParts classePartsLocalTimeDeserializer;
@@ -773,7 +781,6 @@ public class IndexerClasse extends RegarderClasseBase {
         }
       } catch (Throwable ex) {
         LOG.error(String.format(i18nGlobale.getString(I18n.str_Erreur_lors_de_lanalyse_de_la_classe), classeSuper.getCanonicalName()), ex);
-        ExceptionUtils.rethrow(ex);
       }
     }
   }
@@ -1839,6 +1846,32 @@ public class IndexerClasse extends RegarderClasseBase {
     return parts;
   }
 
+  protected ClasseParts classePartsUnitDeserializer(String nomEnsembleDomaine, String langueNom) throws Exception {
+    ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, "UnitDeserializer", langueNom);
+    if(parts == null)
+      parts = ClasseParts.initClasseParts(this, "org.computate.vertx.serialize.unit.UnitDeserializer", langueNom);
+    return parts;
+  }
+  protected ClasseParts classePartsUnitSerializer(String nomEnsembleDomaine, String langueNom) throws Exception {
+    ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, "UnitSerializer", langueNom);
+    if(parts == null)
+      parts = ClasseParts.initClasseParts(this, "org.computate.vertx.serialize.unit.UnitSerializer", langueNom);
+    return parts;
+  }
+
+  protected ClasseParts classePartsQuantityDeserializer(String nomEnsembleDomaine, String langueNom) throws Exception {
+    ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, "QuantityDeserializer", langueNom);
+    if(parts == null)
+      parts = ClasseParts.initClasseParts(this, "org.computate.vertx.serialize.unit.QuantityDeserializer", langueNom);
+    return parts;
+  }
+  protected ClasseParts classePartsQuantitySerializer(String nomEnsembleDomaine, String langueNom) throws Exception {
+    ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, "QuantitySerializer", langueNom);
+    if(parts == null)
+      parts = ClasseParts.initClasseParts(this, "org.computate.vertx.serialize.unit.QuantitySerializer", langueNom);
+    return parts;
+  }
+
   protected ClasseParts classePartsZonedDateTimeDeserializer(String nomEnsembleDomaine, String langueNom) throws Exception {
     ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, "ZonedDateTimeDeserializer", langueNom);
     if(parts == null)
@@ -1969,7 +2002,6 @@ public class IndexerClasse extends RegarderClasseBase {
       classeQdoxSuper = classeQdox.getSuperJavaClass();
     } catch(Throwable ex) {
       LOG.error(String.format(i18nGlobale.getString(I18n.str_Erreur_lors_de_lanalyse_de_la_classe), classeNomCanonique), ex);
-      ExceptionUtils.rethrow(ex);
     }
     JavaClass classeQdoxString = bricoleur.getClassByName(String.class.getCanonicalName());
 
@@ -2220,6 +2252,10 @@ public class IndexerClasse extends RegarderClasseBase {
     classePartsPathSerializer = classePartsPathSerializer(nomEnsembleDomaine, classeLangueNom);
     classePartsPolygonDeserializer = classePartsPolygonDeserializer(nomEnsembleDomaine, classeLangueNom);
     classePartsPolygonSerializer = classePartsPolygonSerializer(nomEnsembleDomaine, classeLangueNom);
+    classePartsUnitDeserializer = classePartsUnitDeserializer(nomEnsembleDomaine, classeLangueNom);
+    classePartsUnitSerializer = classePartsUnitSerializer(nomEnsembleDomaine, classeLangueNom);
+    classePartsQuantityDeserializer = classePartsQuantityDeserializer(nomEnsembleDomaine, classeLangueNom);
+    classePartsQuantitySerializer = classePartsQuantitySerializer(nomEnsembleDomaine, classeLangueNom);
     classePartsLocalTimeDeserializer = classePartsLocalTimeDeserializer(nomEnsembleDomaine, classeLangueNom);
     classePartsLocalTimeSerializer = classePartsLocalTimeSerializer(nomEnsembleDomaine, classeLangueNom);
     classePartsLocalDateDeserializer = classePartsLocalDateDeserializer(nomEnsembleDomaine, classeLangueNom);
@@ -3131,6 +3167,8 @@ public class IndexerClasse extends RegarderClasseBase {
             if(
                 "Point".equals(entiteNomSimple) || "Path".equals(entiteNomSimple) || "Polygon".equals(entiteNomSimple)
                 || "Point".equals(entiteNomSimpleGenerique) || "Path".equals(entiteNomSimpleGenerique) || "Polygon".equals(entiteNomSimpleGenerique)
+                || "Unit".equals(entiteNomSimple) || "Unit".equals(entiteNomSimpleGenerique)
+                || "Quantity".equals(entiteNomSimple) || "Quantity".equals(entiteNomSimpleGenerique)
                 ) {
               classePartsGenAjouter(classePartsVertxTool, classeLangueNom);
               classePartsGenAjouter(ClasseParts.initClasseParts(this, ObjectMapper.class.getCanonicalName(), classeLangueNom), classeLangueNom);
@@ -3143,6 +3181,14 @@ public class IndexerClasse extends RegarderClasseBase {
               classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.stream.Collectors", classeLangueNom), classeLangueNom);
               classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.Json", classeLangueNom), classeLangueNom);
               classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.pgclient.data.Point", classeLangueNom), classeLangueNom);
+              if("Unit".equals(entiteNomSimple) || "Unit".equals(entiteNomSimpleGenerique)) {
+                classePartsGenAjouter(ClasseParts.initClasseParts(this, "tech.units.indriya.format.SimpleUnitFormat", classeLangueNom), classeLangueNom);
+                classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.computate.vertx.tool.GeoTool", classeLangueNom), classeLangueNom);
+              }
+              if("Quantity".equals(entiteNomSimple) || "Quantity".equals(entiteNomSimpleGenerique)) {
+                classePartsGenAjouter(ClasseParts.initClasseParts(this, "tech.units.indriya.format.SimpleUnitFormat", classeLangueNom), classeLangueNom);
+                classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.computate.vertx.tool.GeoTool", classeLangueNom), classeLangueNom);
+              }
             }
             if("Path".equals(entiteNomSimple) || "Path".equals(entiteNomSimpleGenerique)) {
               classePartsGenAjouter(classePartsPathSerializer, classeLangueNom);
@@ -3151,6 +3197,14 @@ public class IndexerClasse extends RegarderClasseBase {
             if("Polygon".equals(entiteNomSimple) || "Polygon".equals(entiteNomSimpleGenerique)) {
               classePartsGenAjouter(classePartsPolygonSerializer, classeLangueNom);
               classePartsGenAjouter(classePartsPolygonDeserializer, classeLangueNom);
+            }
+            if("Unit".equals(entiteNomSimple) || "Unit".equals(entiteNomSimpleGenerique)) {
+              classePartsGenAjouter(classePartsUnitSerializer, classeLangueNom);
+              classePartsGenAjouter(classePartsUnitDeserializer, classeLangueNom);
+            }
+            if("Quantity".equals(entiteNomSimple) || "Quantity".equals(entiteNomSimpleGenerique)) {
+              classePartsGenAjouter(classePartsQuantitySerializer, classeLangueNom);
+              classePartsGenAjouter(classePartsQuantityDeserializer, classeLangueNom);
             }
 
             JavaMethod entiteSetter = null;
@@ -4064,6 +4118,14 @@ public class IndexerClasse extends RegarderClasseBase {
                 entiteNomSimpleVertxJson = "JsonObject";
                 entiteNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonObject;
               }
+              else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueUnit)) {
+                entiteNomSimpleVertxJson = "String";
+                entiteNomCanoniqueVertxJson = "java.lang.String";
+              }
+              else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueQuantity)) {
+                entiteNomSimpleVertxJson = "String";
+                entiteNomCanoniqueVertxJson = "java.lang.String";
+              }
               else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
                 entiteNomSimpleVertxJson = "JsonObject";
                 entiteNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonObject;
@@ -4146,6 +4208,18 @@ public class IndexerClasse extends RegarderClasseBase {
                   entiteNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonObject;
                   entiteListeNomSimpleVertxJson = "JsonObject";
                   entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonObject;
+                }
+                else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueUnit)) {
+                  entiteNomSimpleVertxJson = "String";
+                  entiteNomCanoniqueVertxJson = "java.lang.String";
+                  entiteListeNomSimpleVertxJson = "String";
+                  entiteListeNomCanoniqueVertxJson = "java.lang.String";
+                }
+                else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueQuantity)) {
+                  entiteNomSimpleVertxJson = "String";
+                  entiteNomCanoniqueVertxJson = "java.lang.String";
+                  entiteListeNomSimpleVertxJson = "String";
+                  entiteListeNomCanoniqueVertxJson = "java.lang.String";
                 }
                 else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueBigDecimal)) {
                   entiteNomSimpleVertxJson = "JsonArray";
@@ -4246,6 +4320,16 @@ public class IndexerClasse extends RegarderClasseBase {
               entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
               entiteSuffixeType = "_location";
             }
+            else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueUnit)) {
+              entiteSolrNomCanonique = VAL_nomCanoniqueUnit;
+              entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
+              entiteSuffixeType = "_string";
+            }
+            else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueQuantity)) {
+              entiteSolrNomCanonique = VAL_nomCanoniqueQuantity;
+              entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
+              entiteSuffixeType = "_string";
+            }
             else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
               entiteSolrNomCanonique = VAL_nomCanoniqueString;
               entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
@@ -4311,6 +4395,16 @@ public class IndexerClasse extends RegarderClasseBase {
                 entiteSolrNomCanonique = VAL_nomCanoniqueList + "<" + VAL_nomCanoniquePolygon + ">";
                 entiteSolrNomSimple = "List<" + StringUtils.substringAfterLast(VAL_nomCanoniquePolygon, ".") + ">";
                 entiteSuffixeType = "_location";
+              }
+              else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueUnit)) {
+                entiteSolrNomCanonique = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueUnit + ">";
+                entiteSolrNomSimple = "List<" + StringUtils.substringAfterLast(VAL_nomCanoniqueUnit, ".") + ">";
+                entiteSuffixeType = "_strings";
+              }
+              else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueQuantity)) {
+                entiteSolrNomCanonique = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueQuantity + ">";
+                entiteSolrNomSimple = "List<" + StringUtils.substringAfterLast(VAL_nomCanoniqueQuantity, ".") + ">";
+                entiteSuffixeType = "_strings";
               }
               else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueBigDecimal)) {
                 entiteSolrNomCanonique = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueString + ">";
@@ -4394,6 +4488,12 @@ public class IndexerClasse extends RegarderClasseBase {
             else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniquePolygon)) {
               entiteTypeSql = "polygon";
             }
+            else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueUnit)) {
+              entiteTypeSql = "text";
+            }
+            else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueQuantity)) {
+              entiteTypeSql = "text";
+            }
             else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
               entiteTypeSql = "jsonb";
             }
@@ -4460,6 +4560,10 @@ public class IndexerClasse extends RegarderClasseBase {
               else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniquePolygon)) {
                 entiteTypeSql = "Geometry(Polygon, 4326)";
                 entiteListeTypeSql = "polygon";
+              }
+              else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniquePolygon)) {
+                entiteTypeSql = "text[]";
+                entiteListeTypeSql = "text";
               }
               stockerSolr(entiteDoc, "entiteListeTypeSql", entiteListeTypeSql);
             }
@@ -4562,6 +4666,16 @@ public class IndexerClasse extends RegarderClasseBase {
               entiteNgsiType = "GeoProperty";
               if(entiteFormatHtm == null)
                 entiteFormatHtm = "default";
+            }
+            else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueUnit)) {
+              entiteTypeJson = "string";
+              entiteFiwareType = "string";
+              entiteNgsiType = "Property";
+            }
+            else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueQuantity)) {
+              entiteTypeJson = "string";
+              entiteFiwareType = "string";
+              entiteNgsiType = "Property";
             }
             else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
               entiteTypeJson = "object";
@@ -4683,6 +4797,16 @@ public class IndexerClasse extends RegarderClasseBase {
                 entiteNgsiType = "GeoProperty";
                 if(entiteFormatHtm == null)
                   entiteFormatHtm = "default";
+              }
+              else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueUnit)) {
+                entiteTypeJson = "string";
+                entiteFiwareType = "string";
+                entiteNgsiType = "Property";
+              }
+              else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueQuantity)) {
+                entiteTypeJson = "string";
+                entiteFiwareType = "string";
+                entiteNgsiType = "Property";
               }
               else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueString)) {
                 entiteTypeJson = "array";
