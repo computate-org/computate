@@ -3479,13 +3479,13 @@ public class EcrireGenClasse extends EcrireClasse {
             tl(1, "@JsonFormat(shape = JsonFormat.Shape.ARRAY)");
           }
           else if("Unit".equals(entiteNomSimpleGenerique)) {
-            tl(1, "@JsonDeserialize(using = ", classePartsUnitDeserializer.nomSimple(langueNom), ".class)");
-            tl(1, "@JsonSerialize(using = ", classePartsUnitSerializer.nomSimple(langueNom), ".class)");
+            tl(1, "@JsonDeserialize(contentUsing = ", classePartsUnitDeserializer.nomSimple(langueNom), ".class)");
+            tl(1, "@JsonSerialize(contentUsing = ", classePartsUnitSerializer.nomSimple(langueNom), ".class)");
             tl(1, "@JsonFormat(shape = JsonFormat.Shape.ARRAY)");
           }
           else if("Quantity".equals(entiteNomSimpleGenerique)) {
-            tl(1, "@JsonDeserialize(using = ", classePartsQuantityDeserializer.nomSimple(langueNom), ".class)");
-            tl(1, "@JsonSerialize(using = ", classePartsQuantitySerializer.nomSimple(langueNom), ".class)");
+            tl(1, "@JsonDeserialize(contentUsing = ", classePartsQuantityDeserializer.nomSimple(langueNom), ".class)");
+            tl(1, "@JsonSerialize(contentUsing = ", classePartsQuantitySerializer.nomSimple(langueNom), ".class)");
             tl(1, "@JsonFormat(shape = JsonFormat.Shape.ARRAY)");
           }
           else if("LocalDate".equals(entiteNomSimpleGenerique)) {
@@ -3599,17 +3599,17 @@ public class EcrireGenClasse extends EcrireClasse {
       if(!entiteCouverture) {
         if("java.util.List".equals(entiteNomCanonique)) {
           s(" = new ArrayList<");
-          s(entiteNomSimpleGenerique);
+          s(entiteNomSimpleCompletGenerique);
           s(">()");
         }
         else if("java.util.Map".equals(entiteNomCanonique)) {
           s(" = new HashMap<");
-          s(entiteNomSimpleGenerique);
+          s(entiteNomSimpleCompletGenerique);
           s(">()");
         }
         else if("java.util.Set".equals(entiteNomCanonique)) {
           s(" = new HashSet<");
-          s(entiteNomSimpleGenerique);
+          s(entiteNomSimpleCompletGenerique);
           s(">()");
         }
         else {
@@ -4146,7 +4146,8 @@ public class EcrireGenClasse extends EcrireClasse {
         }
     
         // Setter Unit //
-        if(StringUtils.equals(entiteNomCanonique, Unit.class.getCanonicalName())) {
+        if(StringUtils.equals(entiteNomCanonique, Unit.class.getCanonicalName())
+            || StringUtils.equals(entiteNomCanoniqueGenerique, Unit.class.getCanonicalName())) {
           if(ecrireCommentaire) {
             tl(1, "/** Example: meters, m, feet, ft **/");
           }
@@ -4163,20 +4164,49 @@ public class EcrireGenClasse extends EcrireClasse {
         }
     
         // Setter Quantity //
-        if(StringUtils.equals(entiteNomCanonique, Quantity.class.getCanonicalName())) {
-          if(ecrireCommentaire) {
+        if(StringUtils.equals(entiteNomCanonique, Quantity.class.getCanonicalName()) 
+            || StringUtils.equals(entiteNomCanoniqueGenerique, Quantity.class.getCanonicalName())) {
+          if(StringUtils.equals(entiteNomCanoniqueGenerique, Quantity.class.getCanonicalName())) {
+            tl(1, "@JsonIgnore");
+            tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
+            tl(2, entiteVar, ".clear();");
+            tl(2, "if(objects == null)");
+            tl(3, "return;");
+            tl(2, "for(int i = 0; i < objects.size(); i++) {");
+            tl(3, entiteListeNomSimpleVertxJson, " o = objects.get", entiteListeNomSimpleVertxJson, "(i);");
+            tl(3, "add", entiteVarCapitalise, "(", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ", o));");
+            tl(2, "}");
+            tl(1, "}");
             tl(1, "/** Example: 100 meters, 1 m, 2 feet, 1 ft **/");
+            tl(1, "@JsonIgnore");
+            tl(1, "public void set", entiteVarCapitalise, "(String o) {");
+            tl(2, "set", entiteVarCapitalise, "(new JsonArray(o));");
+            tl(1, "}");
+          } else {
+            tl(1, "/** Example: 100 meters, 1 m, 2 feet, 1 ft **/");
+            tl(1, "@JsonIgnore");
+            tl(1, "public void set", entiteVarCapitalise, "(String o) {");
+            tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ", o);");
+            tl(1, "}");
           }
-          tl(1, "@JsonIgnore");
-          tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-          tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(I18n.var_requeteSite) + "_") : "null", ", o);");
+          tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(String o) {");
+          tl(2, "if(o != null)");
+          if(entiteNomSimpleGenerique != null) {
+            if(entiteNomSimpleGenerique.equals("?"))
+              tl(3, "return GeoTool.parseQuantity(o);");
+            else
+              tl(3, "return GeoTool.parseQuantity(o).asType(", entiteNomCanoniqueGenerique, ".class);");
+          }
+          tl(2, "return null;");
           tl(1, "}");
           tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, String o) {");
           tl(2, "if(o != null)");
-          if(entiteNomSimpleGenerique.equals("?"))
-            tl(3, "return GeoTool.parseQuantity(o);");
-          else
-            tl(3, "return GeoTool.parseQuantity(o).asType(", entiteNomCanoniqueGenerique, ".class);");
+          if(entiteNomSimpleGenerique != null) {
+            if(entiteNomSimpleGenerique.equals("?"))
+              tl(3, "return GeoTool.parseQuantity(o);");
+            else
+              tl(3, "return GeoTool.parseQuantity(o).asType(", entiteNomCanoniqueGenerique, ".class);");
+          }
           tl(2, "return null;");
           tl(1, "}");
           staticSet = true;
@@ -4700,6 +4730,11 @@ public class EcrireGenClasse extends EcrireClasse {
                 tl(2, "return o;");
                 tl(1, "}");
               }
+              else if(entiteNomSimpleGenerique.toString().equals("Unit") || entiteNomSimpleGenerique.toString().equals("Quantity")) {
+                tl(1, "public static ", entiteSolrNomSimple2, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleCompletGenerique, " o) {");
+                tl(2, "return o.toString();");
+                tl(1, "}");
+              }
               else if(entiteNomSimpleCompletGenerique.toString().equals("JsonObject")) {
                 tl(1, "public static ", entiteSolrNomSimple2, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleCompletGenerique, " o) {");
                 tl(2, "return o.toString();");
@@ -4759,6 +4794,11 @@ public class EcrireGenClasse extends EcrireClasse {
               else if(entiteNomSimple.toString().equals("Polygon")) {
                 tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
                 tl(2, "return o;");
+                tl(1, "}");
+              }
+              else if(entiteNomSimple.toString().equals("Unit") || entiteNomSimple.toString().equals("Quantity")) {
+                tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(I18n.var_requeteSite), "_, ", entiteNomSimple, " o) {");
+                tl(2, "return o.toString();");
                 tl(1, "}");
               }
               else if(entiteNomSimple.toString().equals("JsonObject")) {
@@ -4974,7 +5014,7 @@ public class EcrireGenClasse extends EcrireClasse {
             tl(1, "}");
           } else if(VAL_nomCanoniqueUnit.equals(entiteNomCanoniqueGenerique) || VAL_nomCanoniqueQuantity.equals(entiteNomCanoniqueGenerique)) {
             tl(1, "public String[] sql", entiteVarCapitalise, "() {");
-            tl(2, "return ", entiteVar, ".stream().map(v -> v.toString).toArray(String[]::new);");
+            tl(2, "return ", entiteVar, ".stream().map(v -> v.toString()).toArray(String[]::new);");
             tl(1, "}");
           } else if(VAL_nomCanoniqueUnit.equals(entiteNomCanonique) || VAL_nomCanoniqueQuantity.equals(entiteNomCanonique)) {
             tl(1, "public String sql", entiteVarCapitalise, "() {");
@@ -5518,7 +5558,7 @@ public class EcrireGenClasse extends EcrireClasse {
             tl(4, "if(val instanceof ", entiteNomSimple, "<?>) {");
             tl(5, "((", entiteNomSimpleComplet, ")val).stream().forEach(v -> add", entiteVarCapitalise, "(v));");
             tl(4, "} else if(val instanceof ", entiteNomSimpleGenerique, "[]) {");
-            tl(5, "Arrays.asList((", entiteNomSimpleGenerique, "[])val).stream().forEach(v -> add", entiteVarCapitalise, "((", entiteNomSimpleGenerique, ")v));");
+            tl(5, "Arrays.asList((", entiteNomSimpleGenerique, "[])val).stream().forEach(v -> add", entiteVarCapitalise, "((", entiteNomSimpleCompletGenerique, ")v));");
             if(VAL_nomCanoniqueLong.equals(entiteNomCanoniqueGenerique)
                 || VAL_nomCanoniqueInteger.equals(entiteNomCanoniqueGenerique)
                 || VAL_nomCanoniqueDouble.equals(entiteNomCanoniqueGenerique)

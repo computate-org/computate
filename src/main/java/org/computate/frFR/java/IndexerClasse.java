@@ -2849,11 +2849,14 @@ public class IndexerClasse extends RegarderClasseBase {
     
     for(String classeImportation : classeQdox.getSource().getImports()) {
       ClasseParts classeImportationClasseParts = ClasseParts.initClasseParts(this, classeImportation, classeLangueNom);
-      indexerStockerListeSolr(classeLangueNom, classeDoc, "classeImportations", classeImportationClasseParts.nomCanonique(classeLangueNom));
+      String nomCanoniqueImportation = classeImportationClasseParts.nomCanonique(classeLangueNom);
+      indexerStockerListeSolr(classeLangueNom, classeDoc, "classeImportations", nomCanoniqueImportation);
+      indexerStockerListeSolr(classeLangueNom, classeDoc, "classeImportationsGen", nomCanoniqueImportation);
 
       for(String langueNom : autresLangues) {  
-//				ClasseParts classeImportationClassePartsLangue = ClasseParts.initClasseParts(this, classeImportationClasseParts, langueNom);
-        indexerStockerListeSolr(langueNom, classeDoc, "classeImportations", classeImportationClasseParts.nomCanonique(langueNom));
+        String nomCanoniqueImportationLangue = classeImportationClasseParts.nomCanonique(langueNom);
+        indexerStockerListeSolr(langueNom, classeDoc, "classeImportations", nomCanoniqueImportationLangue);
+        indexerStockerListeSolr(langueNom, classeDoc, "classeImportationsGen", nomCanoniqueImportationLangue);
       }
     }
 
@@ -3102,7 +3105,7 @@ public class IndexerClasse extends RegarderClasseBase {
                 entitePromesse = true;
                 classePromesse = true;
               }
-              entiteClasseParts = ClasseParts.initClasseParts(this, entiteClasseParts.nomCanoniqueGenerique(classeLangueNom), classeLangueNom);
+              entiteClasseParts = ClasseParts.initClasseParts(this, entiteClasseParts.nomCanoniqueCompletGenerique(classeLangueNom), classeLangueNom);
               entiteCouverture = true;
               classeContientCouverture = true;
             }
@@ -3111,7 +3114,7 @@ public class IndexerClasse extends RegarderClasseBase {
             classePartsGenPageAjouter(entiteClasseParts, classeLangueNom);
             List<String> entiteNomsCanoniquesSuperEtMoiSansGen = new ArrayList<String>();
             if(entiteClasseParts.getValeurGenerique() != null) {
-              ClasseParts classePartsGenerique = ClasseParts.initClasseParts(this, entiteClasseParts.nomCanoniqueGenerique(classeLangueNom), classeLangueNom);
+              ClasseParts classePartsGenerique = ClasseParts.initClasseParts(this, entiteClasseParts.nomCanoniqueCompletGenerique(classeLangueNom), classeLangueNom);
               classePartsGenAjouter(classePartsGenerique, classeLangueNom);
               classePartsGenPageAjouter(classePartsGenerique, classeLangueNom);
               classePartsGenAjouter(entiteClasseParts, classeLangueNom);
@@ -3145,12 +3148,13 @@ public class IndexerClasse extends RegarderClasseBase {
             String entiteNomSimple = indexerStockerSolr(classeLangueNom, entiteDoc, "entiteNomSimple", entiteClasseParts.nomSimple(classeLangueNom));
             String entiteNomCompletGenerique = indexerStockerSolr(classeLangueNom, entiteDoc, "entiteNomCompletGenerique", entiteClasseParts.nomCanoniqueGenerique(classeLangueNom));
             String entiteNomCanoniqueGenerique = indexerStockerSolr(classeLangueNom, entiteDoc, "entiteNomCanoniqueGenerique", entiteClasseParts.nomCanoniqueGenerique(classeLangueNom));
+            String entiteNomCanoniqueCompletGenerique = indexerStockerSolr(classeLangueNom, entiteDoc, "entiteNomCanoniqueCompletGenerique", entiteClasseParts.nomCanoniqueCompletGenerique(classeLangueNom));
             String entiteNomSimpleGenerique = indexerStockerSolr(classeLangueNom, entiteDoc, "entiteNomSimpleGenerique", entiteClasseParts.nomSimpleGenerique(classeLangueNom));
             String entiteNomCanoniqueActuel = entiteNomCanoniqueGenerique == null ? entiteNomCanonique : entiteNomCanoniqueGenerique;
             String entiteNomSimpleActuel = entiteNomSimpleGenerique == null ? entiteNomSimple : entiteNomSimpleGenerique;
             indexerStockerSolr(classeLangueNom, entiteDoc, "entiteNomCanoniqueComplet", entiteClasseParts.nomCanoniqueComplet(classeLangueNom));
             indexerStockerSolr(classeLangueNom, entiteDoc, "entiteNomSimpleComplet", entiteClasseParts.nomSimpleComplet(classeLangueNom));
-            indexerStockerSolr(classeLangueNom, entiteDoc, "entiteNomSimpleCompletGenerique", entiteClasseParts.nomSimpleGenerique(classeLangueNom));
+            indexerStockerSolr(classeLangueNom, entiteDoc, "entiteNomSimpleCompletGenerique", entiteClasseParts.nomSimpleCompletGenerique(classeLangueNom));
 
             if("JsonObject".equals(entiteNomSimple)) {
               classePartsGenAjouter(classePartsJsonObjectDeserializer, classeLangueNom);
@@ -4210,16 +4214,16 @@ public class IndexerClasse extends RegarderClasseBase {
                   entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonObject;
                 }
                 else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueUnit)) {
-                  entiteNomSimpleVertxJson = "String";
-                  entiteNomCanoniqueVertxJson = "java.lang.String";
+                  entiteNomSimpleVertxJson = "JsonArray";
+                  entiteNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonArray;
                   entiteListeNomSimpleVertxJson = "String";
-                  entiteListeNomCanoniqueVertxJson = "java.lang.String";
+                  entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueString;
                 }
                 else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueQuantity)) {
-                  entiteNomSimpleVertxJson = "String";
-                  entiteNomCanoniqueVertxJson = "java.lang.String";
+                  entiteNomSimpleVertxJson = "JsonArray";
+                  entiteNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonArray;
                   entiteListeNomSimpleVertxJson = "String";
-                  entiteListeNomCanoniqueVertxJson = "java.lang.String";
+                  entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueString;
                 }
                 else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueBigDecimal)) {
                   entiteNomSimpleVertxJson = "JsonArray";
@@ -4321,13 +4325,13 @@ public class IndexerClasse extends RegarderClasseBase {
               entiteSuffixeType = "_location";
             }
             else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueUnit)) {
-              entiteSolrNomCanonique = VAL_nomCanoniqueUnit;
-              entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
+              entiteSolrNomCanonique = VAL_nomCanoniqueString;
+              entiteSolrNomSimple = "String";
               entiteSuffixeType = "_string";
             }
             else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueQuantity)) {
-              entiteSolrNomCanonique = VAL_nomCanoniqueQuantity;
-              entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
+              entiteSolrNomCanonique = VAL_nomCanoniqueString;
+              entiteSolrNomSimple = "String";
               entiteSuffixeType = "_string";
             }
             else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
@@ -4397,13 +4401,13 @@ public class IndexerClasse extends RegarderClasseBase {
                 entiteSuffixeType = "_location";
               }
               else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueUnit)) {
-                entiteSolrNomCanonique = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueUnit + ">";
-                entiteSolrNomSimple = "List<" + StringUtils.substringAfterLast(VAL_nomCanoniqueUnit, ".") + ">";
+                entiteSolrNomCanonique = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueString + ">";
+                entiteSolrNomSimple = "List<String>";
                 entiteSuffixeType = "_strings";
               }
               else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueQuantity)) {
-                entiteSolrNomCanonique = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueQuantity + ">";
-                entiteSolrNomSimple = "List<" + StringUtils.substringAfterLast(VAL_nomCanoniqueQuantity, ".") + ">";
+                entiteSolrNomCanonique = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueString + ">";
+                entiteSolrNomSimple = "List<String>";
                 entiteSuffixeType = "_strings";
               }
               else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueBigDecimal)) {
@@ -4561,7 +4565,11 @@ public class IndexerClasse extends RegarderClasseBase {
                 entiteTypeSql = "Geometry(Polygon, 4326)";
                 entiteListeTypeSql = "polygon";
               }
-              else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniquePolygon)) {
+              else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueUnit)) {
+                entiteTypeSql = "text[]";
+                entiteListeTypeSql = "text";
+              }
+              else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueQuantity)) {
                 entiteTypeSql = "text[]";
                 entiteListeTypeSql = "text";
               }
@@ -4975,7 +4983,7 @@ public class IndexerClasse extends RegarderClasseBase {
                 indexerStockerSolr(langueNom, entiteDoc, "entiteNomSimpleComplet", entiteClasseParts.nomSimpleComplet(langueNom)); 
                 indexerStockerSolr(langueNom, entiteDoc, "entiteNomCanoniqueGenerique", entiteClasseParts.nomCanoniqueGenerique(langueNom)); 
                 indexerStockerSolr(langueNom, entiteDoc, "entiteNomSimpleGenerique", entiteClasseParts.nomSimpleGenerique(langueNom)); 
-                indexerStockerSolr(langueNom, entiteDoc, "entiteNomSimpleCompletGenerique", entiteClasseParts.nomSimpleGenerique(langueNom)); 
+                indexerStockerSolr(langueNom, entiteDoc, "entiteNomSimpleCompletGenerique", entiteClasseParts.nomSimpleCompletGenerique(langueNom)); 
   
                 indexerStockerSolr(langueNom, entiteDoc, "entiteVarParam", entiteVarParam); 
   

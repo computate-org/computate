@@ -122,6 +122,23 @@ public class ClasseParts {
         ClasseParts classePart = classeParts.get(i);
         if(i > 0)
           b.append(", ");
+        b.append(classePart.nomCanonique(langueNom));
+      }
+    }
+
+    return b.toString();
+  }
+
+  /**
+   */
+  public String nomCanoniqueCompletGenerique(String langueNom) {
+    StringBuilder b = new StringBuilder();
+
+    if(valeurGenerique != null) {
+      for(int i = 0; i < classeParts.size(); i++) {
+        ClasseParts classePart = classeParts.get(i);
+        if(i > 0)
+          b.append(", ");
         b.append(classePart.nomCanoniqueComplet(langueNom));
       }
     }
@@ -139,6 +156,23 @@ public class ClasseParts {
         ClasseParts classePart = classeParts.get(i);
         if(i > 0)
           b.append(", ");
+        b.append(classePart.nomSimple(langueNom));
+      }
+    }
+
+    return b.toString();
+  }
+
+  /**
+   */
+  public String nomSimpleCompletGenerique(String langueNom) {
+    StringBuilder b = new StringBuilder();
+
+    if(valeurGenerique != null) {
+      for(int i = 0; i < classeParts.size(); i++) {
+        ClasseParts classePart = classeParts.get(i);
+        if(i > 0)
+          b.append(", ");
         b.append(classePart.nomSimpleComplet(langueNom));
       }
     }
@@ -149,6 +183,10 @@ public class ClasseParts {
   /**
    */
   private String nomCanoniqueGenerique;
+
+  /**
+   */
+  private String nomCanoniqueCompletGenerique;
 
   /**
    */
