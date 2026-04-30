@@ -274,6 +274,12 @@ public class EcrireToutesClasses extends EcrirePageClasse {
     classeVarNomSuffixeSolr = doc.getString("classeVarNomSuffixeSolr_stored_string");
     classeVarCleUnique = doc.getString("classeVarCleUnique_" + langueNom + "_stored_string");
     classeVarZone = doc.getString("classeVarZone_" + langueNom + "_stored_string");
+    classeVarAltitude = doc.getString("classeVarAltitude_" + langueNom + "_stored_string");
+    classeVarTangage = doc.getString("classeVarTangage_" + langueNom + "_stored_string");
+    classeVarLacet = doc.getString("classeVarLacet_" + langueNom + "_stored_string");
+    classeVarRoulis = doc.getString("classeVarRoulis_" + langueNom + "_stored_string");
+    classeVarRotation = doc.getString("classeVarRotation_" + langueNom + "_stored_string");
+    classe3d = classeVarAltitude != null && classeVarTangage != null && classeVarLacet != null && classeVarRoulis != null && classeVarRotation != null;
     classeVarEmplacement = doc.getString("classeVarEmplacement_" + langueNom + "_stored_string");
     classeVarEmplacementCouleur = doc.getString("classeVarEmplacementCouleur_" + classeLangueNom + "_stored_string");
     classeVarEmplacementTitre = doc.getString("classeVarEmplacementTitre_" + classeLangueNom + "_stored_string");

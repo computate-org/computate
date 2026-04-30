@@ -2043,6 +2043,11 @@ public class IndexerClasse extends RegarderClasseBase {
     String classeVarSauvegardes = null;
     String classeVarCleUnique = null;
     String classeVarZone = null;
+    String classeVarAltitude = null;
+    String classeVarTangage = null;
+    String classeVarLacet = null;
+    String classeVarRoulis = null;
+    String classeVarRotation = null;
     String classeVarEmplacement = null;
     String classeVarEmplacementCouleur = null;
     String classeVarEmplacementTitre = null;
@@ -3539,6 +3544,11 @@ public class IndexerClasse extends RegarderClasseBase {
             Boolean entiteSauvegardes = indexerStockerSolr(entiteDoc, "entiteSauvegardes", regexTrouve("^" + i18nGlobale.getString(I18n.var_Sauvegardes) + ": (true)$", methodeCommentaire));
             Boolean entiteCleUnique = indexerStockerSolr(entiteDoc, "entiteCleUnique", regexTrouve("^" + i18nGlobale.getString(I18n.var_CleUnique) + ": (true)$", methodeCommentaire));
             Boolean entiteZone = indexerStockerSolr(entiteDoc, "entiteZone", regexTrouve("^" + i18nGlobale.getString(I18n.var_Zone) + ": (true)$", methodeCommentaire));
+            Boolean entiteAltitude = indexerStockerSolr(entiteDoc, "entiteAltitude", regexTrouve("^" + i18nGlobale.getString(I18n.var_Altitude) + ": (true)$", methodeCommentaire));
+            Boolean entiteTangage = indexerStockerSolr(entiteDoc, "entiteTangage", regexTrouve("^" + i18nGlobale.getString(I18n.var_Tangage) + ": (true)$", methodeCommentaire));
+            Boolean entiteLacet = indexerStockerSolr(entiteDoc, "entiteLacet", regexTrouve("^" + i18nGlobale.getString(I18n.var_Lacet) + ": (true)$", methodeCommentaire));
+            Boolean entiteRoulis = indexerStockerSolr(entiteDoc, "entiteRoulis", regexTrouve("^" + i18nGlobale.getString(I18n.var_Roulis) + ": (true)$", methodeCommentaire));
+            Boolean entiteRotation = indexerStockerSolr(entiteDoc, "entiteRotation", regexTrouve("^" + i18nGlobale.getString(I18n.var_Rotation) + ": (true)$", methodeCommentaire));
             Boolean entiteEmplacement = indexerStockerSolr(entiteDoc, "entiteEmplacement", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + ": (true)$", methodeCommentaire));
             Boolean entiteEmplacementCouleur = indexerStockerSolr(entiteDoc, "entiteEmplacementCouler", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Couleur) + ": (true)$", methodeCommentaire));
             Boolean entiteEmplacementTitre = indexerStockerSolr(entiteDoc, "entiteEmplacementTitre", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Titre) + ": (true)$", methodeCommentaire));
@@ -4880,6 +4890,21 @@ public class IndexerClasse extends RegarderClasseBase {
             if(entiteZone) {
               classeVarZone = stockerSolr(classeLangueNom, classeDoc, "classeVarZone", entiteVar);
             }
+            if(entiteAltitude) {
+              classeVarAltitude = stockerSolr(classeLangueNom, classeDoc, "classeVarAltitude", entiteVar);
+            }
+            if(entiteTangage) {
+              classeVarTangage = stockerSolr(classeLangueNom, classeDoc, "classeVarTangage", entiteVar);
+            }
+            if(entiteLacet) {
+              classeVarLacet = stockerSolr(classeLangueNom, classeDoc, "classeVarLacet", entiteVar);
+            }
+            if(entiteRoulis) {
+              classeVarRoulis = stockerSolr(classeLangueNom, classeDoc, "classeVarRoulis", entiteVar);
+            }
+            if(entiteRotation) {
+              classeVarRotation = stockerSolr(classeLangueNom, classeDoc, "classeVarRotation", entiteVar);
+            }
             if(entiteEmplacement) {
               classeVarEmplacement = stockerSolr(classeLangueNom, classeDoc, "classeVarEmplacement", entiteVar);
             }
@@ -5400,6 +5425,36 @@ public class IndexerClasse extends RegarderClasseBase {
       }
     }
 
+    if(classeVarAltitude == null && classeSuperDoc != null) {
+      classeVarAltitude = (String)classeSuperDoc.get("classeVarAltitude_" + classeLangueNom + "_stored_string");
+      if(classeVarAltitude != null) {
+        stockerSolr(classeLangueNom, classeDoc, "classeVarAltitude", classeVarAltitude);
+      }
+    }
+    if(classeVarTangage == null && classeSuperDoc != null) {
+      classeVarTangage = (String)classeSuperDoc.get("classeVarTangage_" + classeLangueNom + "_stored_string");
+      if(classeVarTangage != null) {
+        stockerSolr(classeLangueNom, classeDoc, "classeVarTangage", classeVarTangage);
+      }
+    }
+    if(classeVarLacet == null && classeSuperDoc != null) {
+      classeVarLacet = (String)classeSuperDoc.get("classeVarLacet_" + classeLangueNom + "_stored_string");
+      if(classeVarLacet != null) {
+        stockerSolr(classeLangueNom, classeDoc, "classeVarLacet", classeVarLacet);
+      }
+    }
+    if(classeVarRoulis == null && classeSuperDoc != null) {
+      classeVarRoulis = (String)classeSuperDoc.get("classeVarRoulis_" + classeLangueNom + "_stored_string");
+      if(classeVarRoulis != null) {
+        stockerSolr(classeLangueNom, classeDoc, "classeVarRoulis", classeVarRoulis);
+      }
+    }
+    if(classeVarRotation == null && classeSuperDoc != null) {
+      classeVarRotation = (String)classeSuperDoc.get("classeVarRotation_" + classeLangueNom + "_stored_string");
+      if(classeVarRotation != null) {
+        stockerSolr(classeLangueNom, classeDoc, "classeVarRotation", classeVarRotation);
+      }
+    }
     if(classeVarEmplacement == null && classeSuperDoc != null) {
       classeVarEmplacement = (String)classeSuperDoc.get("classeVarEmplacement_" + classeLangueNom + "_stored_string");
       if(classeVarEmplacement != null) {

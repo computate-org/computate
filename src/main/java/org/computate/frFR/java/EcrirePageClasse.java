@@ -3367,6 +3367,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
       tl(0, "{%- block htmStyles", classePageSuperNomSimple, " %}");
       tl(0, "{{ super() }}");
       tl(2, "<link rel=\"stylesheet\" href=\"{{ ", i18nClasse.getString(I18n.var_statiqueUrlBase), " }}", classePageUriCss, "\"/>");
+      if(classe3d) {
+        tl(2, "<link href=\"https://api.mapbox.com/mapbox-gl-js/v3.21.0/mapbox-gl.css\" rel=\"stylesheet\">");
+      }
       tl(0, "{%- block htmStyles", classePageNomSimple, " %}");
       tl(0, "{%- endblock htmStyles", classePageNomSimple, " %}");
       tl(0, "{%- endblock htmStyles", classePageSuperNomSimple, " %}");
@@ -3390,6 +3393,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
           for(String classeAttribuerPageUriJs : classeAttribuerPageUriJs) {
             t(2).l("<script src=\"{{", i18nClasse.getString(I18n.var_statiqueUrlBase), "}}", classeAttribuerPageUriJs, "\"></script>");
           }
+        }
+        if(classe3d) {
+          tl(2, "<script src=\"https://api.mapbox.com/mapbox-gl-js/v3.21.0/mapbox-gl.js\"></script>");
+          tl(2, "<script src=\"https://unpkg.com/three@0.126.0/build/three.min.js\"></script>");
+          tl(2, "<script src=\"https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js\"></script>");
         }
       }
       tl(0, "{%- endblock htmScripts", classePageNomSimple, " %}");
@@ -5551,7 +5559,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
     o = auteurEmplacementJinja;
 
     if(auteurEmplacementJinja != null && (classeVarEmplacement != null || classeVarAire != null)) {
-      tl(0, "{%- block htmBody", i18nClasse.getString(I18n.var_Emplacement), "", classePageNomSimple, " %}");
+      tl(4, "{% block htmBody", i18nClasse.getString(I18n.var_Emplacement), "", classePageNomSimple, " -%}");
       tl(4, "<", composantsWebPrefixe, "details open>");
       tl(5, "<div slot=\"summary\">", String.format(i18nPage.getString(I18n.str_Cartes_des), classeNomAdjectifPluriel), "</div>");
 
@@ -5560,23 +5568,23 @@ public class EcrirePageClasse extends EcrireApiClasse {
       /////////////////////////////////
 
       l();
-      tl(0, "{%- block htmBody", i18nClasse.getString(I18n.var_Graphique), i18nClasse.getString(I18n.var_Emplacement), classePageNomSimple, " %}");
-      tl(0, "{% if ", varResultat, "Count > 0 %}");
-      tl(4, "<div id=\"htmBody", i18nClasse.getString(I18n.var_Graphique), i18nClasse.getString(I18n.var_Emplacement), classePageNomSimple, "\" class=\"htmBody", i18nClasse.getString(I18n.var_Graphique), i18nClasse.getString(I18n.var_Emplacement), " \"></div>");
-      tl(0, "{% endif %}");
-      tl(0, "{%- endblock htmBody", i18nClasse.getString(I18n.var_Graphique), i18nClasse.getString(I18n.var_Emplacement), classePageNomSimple, " %}");
+      tl(5, "{% block htmBody", i18nClasse.getString(I18n.var_Graphique), i18nClasse.getString(I18n.var_Emplacement), classePageNomSimple, " -%}");
+      tl(5, "{% if ", varResultat, "Count > 0 -%}");
+      tl(5, "<div id=\"htmBody", i18nClasse.getString(I18n.var_Graphique), i18nClasse.getString(I18n.var_Emplacement), classePageNomSimple, "\" class=\"", classe3d ? "mapbox-div " : "", "htmBody", i18nClasse.getString(I18n.var_Graphique), i18nClasse.getString(I18n.var_Emplacement), " \"></div>");
+      tl(5, "{% endif -%}");
+      tl(5, "{% endblock htmBody", i18nClasse.getString(I18n.var_Graphique), i18nClasse.getString(I18n.var_Emplacement), classePageNomSimple, " -%}");
 
       //////////////////////
       // htmBodyGraphique //
       //////////////////////
 
       l();
-      tl(0, "{%- block htmBody", i18nClasse.getString(I18n.var_Graphique), classePageNomSimple, " %}");
-      tl(4, "<div id=\"htmBody", i18nClasse.getString(I18n.var_Graphique), classePageNomSimple, "\" class=\"htmBody", i18nClasse.getString(I18n.var_Graphique), " \"></div>");
-      tl(0, "{%- endblock htmBody", i18nClasse.getString(I18n.var_Graphique), classePageNomSimple, " %}");
+      tl(5, "{% block htmBody", i18nClasse.getString(I18n.var_Graphique), classePageNomSimple, " -%}");
+      tl(5, "<div id=\"htmBody", i18nClasse.getString(I18n.var_Graphique), classePageNomSimple, "\" class=\"htmBody", i18nClasse.getString(I18n.var_Graphique), " \"></div>");
+      tl(5, "{% endblock htmBody", i18nClasse.getString(I18n.var_Graphique), classePageNomSimple, " -%}");
 
       tl(4, "</", composantsWebPrefixe, "details>");
-      tl(0, "{%- endblock htmBody", i18nClasse.getString(I18n.var_Emplacement), "", classePageNomSimple, " %}");
+      tl(4, "{% endblock htmBody", i18nClasse.getString(I18n.var_Emplacement), "", classePageNomSimple, " -%}");
     }
   }
 
