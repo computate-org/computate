@@ -53,6 +53,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
+import javax.measure.Quantity;
+import javax.measure.quantity.Angle;
+import javax.measure.quantity.Length;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
@@ -2044,10 +2047,12 @@ public class IndexerClasse extends RegarderClasseBase {
     String classeVarCleUnique = null;
     String classeVarZone = null;
     String classeVarAltitude = null;
+    String classeVarAltitudeMetres = null;
     String classeVarTangage = null;
     String classeVarLacet = null;
     String classeVarRoulis = null;
     String classeVarRotation = null;
+    String classeVarGltf = null;
     String classeVarEmplacement = null;
     String classeVarEmplacementCouleur = null;
     String classeVarEmplacementTitre = null;
@@ -3545,10 +3550,12 @@ public class IndexerClasse extends RegarderClasseBase {
             Boolean entiteCleUnique = indexerStockerSolr(entiteDoc, "entiteCleUnique", regexTrouve("^" + i18nGlobale.getString(I18n.var_CleUnique) + ": (true)$", methodeCommentaire));
             Boolean entiteZone = indexerStockerSolr(entiteDoc, "entiteZone", regexTrouve("^" + i18nGlobale.getString(I18n.var_Zone) + ": (true)$", methodeCommentaire));
             Boolean entiteAltitude = indexerStockerSolr(entiteDoc, "entiteAltitude", regexTrouve("^" + i18nGlobale.getString(I18n.var_Altitude) + ": (true)$", methodeCommentaire));
+            Boolean entiteAltitudeMetres = indexerStockerSolr(entiteDoc, "entiteAltitudeMetres", regexTrouve("^" + i18nGlobale.getString(I18n.var_AltitudeMetres) + ": (true)$", methodeCommentaire));
             Boolean entiteTangage = indexerStockerSolr(entiteDoc, "entiteTangage", regexTrouve("^" + i18nGlobale.getString(I18n.var_Tangage) + ": (true)$", methodeCommentaire));
             Boolean entiteLacet = indexerStockerSolr(entiteDoc, "entiteLacet", regexTrouve("^" + i18nGlobale.getString(I18n.var_Lacet) + ": (true)$", methodeCommentaire));
             Boolean entiteRoulis = indexerStockerSolr(entiteDoc, "entiteRoulis", regexTrouve("^" + i18nGlobale.getString(I18n.var_Roulis) + ": (true)$", methodeCommentaire));
             Boolean entiteRotation = indexerStockerSolr(entiteDoc, "entiteRotation", regexTrouve("^" + i18nGlobale.getString(I18n.var_Rotation) + ": (true)$", methodeCommentaire));
+            Boolean entiteGltf = indexerStockerSolr(entiteDoc, "entiteGltf", regexTrouve("^[Gg][Ll][Tt][Ff]: (true)$", methodeCommentaire));
             Boolean entiteEmplacement = indexerStockerSolr(entiteDoc, "entiteEmplacement", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + ": (true)$", methodeCommentaire));
             Boolean entiteEmplacementCouleur = indexerStockerSolr(entiteDoc, "entiteEmplacementCouler", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Couleur) + ": (true)$", methodeCommentaire));
             Boolean entiteEmplacementTitre = indexerStockerSolr(entiteDoc, "entiteEmplacementTitre", regexTrouve("^" + i18nGlobale.getString(I18n.var_Emplacement) + i18nGlobale.getString(I18n.var_Titre) + ": (true)$", methodeCommentaire));
@@ -4893,6 +4900,9 @@ public class IndexerClasse extends RegarderClasseBase {
             if(entiteAltitude) {
               classeVarAltitude = stockerSolr(classeLangueNom, classeDoc, "classeVarAltitude", entiteVar);
             }
+            if(entiteAltitudeMetres) {
+              classeVarAltitudeMetres = stockerSolr(classeLangueNom, classeDoc, "classeVarAltitudeMetres", entiteVar);
+            }
             if(entiteTangage) {
               classeVarTangage = stockerSolr(classeLangueNom, classeDoc, "classeVarTangage", entiteVar);
             }
@@ -4904,6 +4914,9 @@ public class IndexerClasse extends RegarderClasseBase {
             }
             if(entiteRotation) {
               classeVarRotation = stockerSolr(classeLangueNom, classeDoc, "classeVarRotation", entiteVar);
+            }
+            if(entiteGltf) {
+              classeVarGltf = stockerSolr(classeLangueNom, classeDoc, "classeVarGltf", entiteVar);
             }
             if(entiteEmplacement) {
               classeVarEmplacement = stockerSolr(classeLangueNom, classeDoc, "classeVarEmplacement", entiteVar);
@@ -5431,6 +5444,12 @@ public class IndexerClasse extends RegarderClasseBase {
         stockerSolr(classeLangueNom, classeDoc, "classeVarAltitude", classeVarAltitude);
       }
     }
+    if(classeVarAltitudeMetres == null && classeSuperDoc != null) {
+      classeVarAltitudeMetres = (String)classeSuperDoc.get("classeVarAltitudeMetres_" + classeLangueNom + "_stored_string");
+      if(classeVarAltitudeMetres != null) {
+        stockerSolr(classeLangueNom, classeDoc, "classeVarAltitudeMetres", classeVarAltitudeMetres);
+      }
+    }
     if(classeVarTangage == null && classeSuperDoc != null) {
       classeVarTangage = (String)classeSuperDoc.get("classeVarTangage_" + classeLangueNom + "_stored_string");
       if(classeVarTangage != null) {
@@ -5453,6 +5472,12 @@ public class IndexerClasse extends RegarderClasseBase {
       classeVarRotation = (String)classeSuperDoc.get("classeVarRotation_" + classeLangueNom + "_stored_string");
       if(classeVarRotation != null) {
         stockerSolr(classeLangueNom, classeDoc, "classeVarRotation", classeVarRotation);
+      }
+    }
+    if(classeVarGltf == null && classeSuperDoc != null) {
+      classeVarGltf = (String)classeSuperDoc.get("classeVarGltf_" + classeLangueNom + "_stored_string");
+      if(classeVarGltf != null) {
+        stockerSolr(classeLangueNom, classeDoc, "classeVarGltf", classeVarGltf);
       }
     }
     if(classeVarEmplacement == null && classeSuperDoc != null) {
@@ -5840,6 +5865,9 @@ public class IndexerClasse extends RegarderClasseBase {
       classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Stream.class.getCanonicalName(), classeLangueNom), classeLangueNom);
       classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Collectors.class.getCanonicalName(), classeLangueNom), classeLangueNom);
       classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Arrays.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+      classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Quantity.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+      classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Angle.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+      classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Length.class.getCanonicalName(), classeLangueNom), classeLangueNom);
       classePartsGenPageAjouter(ClasseParts.initClasseParts(this, BigDecimal.class.getCanonicalName(), classeLangueNom), classeLangueNom);
       classePartsGenPageAjouter(ClasseParts.initClasseParts(this, RoundingMode.class.getCanonicalName(), classeLangueNom), classeLangueNom);
       classePartsGenPageAjouter(ClasseParts.initClasseParts(this, MathContext.class.getCanonicalName(), classeLangueNom), classeLangueNom);

@@ -199,10 +199,12 @@ public class EcrireGenClasse extends EcrireClasse {
   protected String classeVarZone;
 
   protected String classeVarAltitude;
+  protected String classeVarAltitudeMetres;
   protected String classeVarTangage;
   protected String classeVarLacet;
   protected String classeVarRoulis;
   protected String classeVarRotation;
+  protected String classeVarGltf;
   protected String classeVarEmplacement;
   protected String classeVarEmplacementCouleur;
   protected String classeVarEmplacementTitre;

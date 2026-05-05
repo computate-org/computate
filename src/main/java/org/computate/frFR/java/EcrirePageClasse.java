@@ -578,7 +578,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
         tl(1, "{%- else %}");
         tl(9, "<", composantsWebPrefixe, "select");
         if(entiteDefaut != null)
-          t(11, "value=\"").sx(entiteDefaut).l("\"");
+          tl(11, "value=\"").sx(entiteDefaut).l("\"");
         tl(11, "id=\"", classeNomSimple, "_{{", i18nClasse.getString(I18n.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
         tl(1, "{% endif -%}");
 
@@ -2479,19 +2479,27 @@ public class EcrirePageClasse extends EcrireApiClasse {
           l();
           if(classePageSuperNomSimple != null)
             tl(1, "@Override");
-          tl(1, "protected void _DEFAULT_MAP_LOCATION(", classePartsCouverture.nomSimple(langueNom), "<JsonObject> ", i18nPage.getString(I18n.var_cVar), ") {");
+          tl(1, "protected void _location(", classePartsCouverture.nomSimple(langueNom), "<JsonObject> ", i18nPage.getString(I18n.var_cVar), ") {");
           if(classeVarEmplacement != null) {
-            tl(2, "Point point = ", classeNomSimple, ".staticSet", StringUtils.capitalize(classeVarEmplacement), "(", i18nPage.getString(I18n.var_requeteSite), "_, Optional.ofNullable(", i18nPage.getString(I18n.var_requeteSite), "_.get", i18nPage.getString(I18n.var_Requete), "Vars().get(VAR_DEFAULT_MAP_LOCATION)).orElse(", i18nPage.getString(I18n.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_LOCATION)));");
+            tl(2, "Point point = ", classeNomSimple, ".staticSet", StringUtils.capitalize(classeVarEmplacement), "(", i18nPage.getString(I18n.var_requeteSite), "_, Optional.ofNullable(", i18nPage.getString(I18n.var_requeteSite), "_.get", i18nPage.getString(I18n.var_Requete), "Vars().get(VAR_location)).orElse(", i18nPage.getString(I18n.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_LOCATION)));");
             tl(2, "w.o(new JsonObject().put(\"type\", \"Point\").put(\"coordinates\", new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))));");
           }
           tl(1, "}");
           l();
           if(classePageSuperNomSimple != null)
             tl(1, "@Override");
-          tl(1, "protected void _DEFAULT_MAP_ZOOM(", classePartsCouverture.nomSimple(langueNom), "<BigDecimal> ", i18nPage.getString(I18n.var_cVar), ") {");
-          tl(2, "String s = Optional.ofNullable(", i18nPage.getString(I18n.var_requeteSite), "_.get", i18nPage.getString(I18n.var_Requete), "Vars().get(VAR_DEFAULT_MAP_ZOOM)).orElse(", i18nPage.getString(I18n.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_ZOOM));");
+          tl(1, "protected void _zoom(", classePartsCouverture.nomSimple(langueNom), "<BigDecimal> ", i18nPage.getString(I18n.var_cVar), ") {");
+          tl(2, "String s = Optional.ofNullable(", i18nPage.getString(I18n.var_requeteSite), "_.get", i18nPage.getString(I18n.var_Requete), "Vars().get(VAR_zoom)).orElse(", i18nPage.getString(I18n.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_ZOOM));");
           tl(2, "if(s != null)");
           tl(3, i18nPage.getString(I18n.var_cVar), ".o(new BigDecimal(s));");
+          tl(1, "}");
+          l();
+          if(classePageSuperNomSimple != null)
+            tl(1, "@Override");
+          tl(1, "protected void _pitch(", classePartsCouverture.nomSimple(langueNom), "<Quantity<Angle>> ", i18nPage.getString(I18n.var_cVar), ") {");
+          tl(2, "String s = Optional.ofNullable(", i18nPage.getString(I18n.var_requeteSite), "_.get", i18nPage.getString(I18n.var_Requete), "Vars().get(VAR_pitch)).orElse(", i18nPage.getString(I18n.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_PITCH));");
+          tl(2, "if(s != null)");
+          tl(3, i18nPage.getString(I18n.var_cVar), ".o(staticSetPitch(s));");
           tl(1, "}");
         } else {
           l();
@@ -3593,12 +3601,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
         tl(2, "<script type=\"module\">");
 
         // tl(3, "document.querySelector('#site-calendar-box').accordion({ collapsible: true, active: false });");
-        l("{% if DEFAULT_MAP_LOCATION is defined %}");
-        tl(3, "window.DEFAULT_MAP_LOCATION = { type: 'Point', coordinates: [ {{ DEFAULT_MAP_LOCATION.coordinates[0] }}, {{ DEFAULT_MAP_LOCATION.coordinates[1] }} ]};");
+        l("{% if location is defined %}");
+        tl(3, "window.mapLocation = { type: 'Point', coordinates: [ {{ location.coordinates[0] }}, {{ location.coordinates[1] }} ]};");
         l("{% endif %}");
-        l("{% if DEFAULT_MAP_ZOOM is defined %}");
-        tl(3, "window.DEFAULT_MAP_ZOOM = {{ DEFAULT_MAP_ZOOM }};");
+        l("{% if zoom is defined %}");
+        tl(3, "window.mapZoom = {{ zoom }};");
         l("{% endif %}");
+        l("{% if pitch is defined %}");
+        tl(3, "window.mapPitch = {{ toDegree(pitch) }};");
+        l("{% endif %}");
+        tl(3, "window.STATIC_BASE_URL = '{{ STATIC_BASE_URL }}';");
         tl(3, "window.DEFAULT_ZONE_ID = '{{ defaultZoneId }}';");
         tl(3, "Promise.all([");
         tl(4, "customElements.whenDefined('", composantsWebPrefixe, "button')");
@@ -4833,7 +4845,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
         auteurPageJs.tl(2, "}");
 
         // Maps
-        if(classeVarEmplacement != null || classeVarAire != null) {
+        if(classe3d) {
+          auteurPageJs.l();
+          auteurPageJs.tl(2, "window.", i18nClasse.getString(I18n.var_liste), classeNomSimple, ".forEach((", varResultat, ", index) => {");
+          auteurPageJs.tl(3, "");
+          auteurPageJs.tl(3, "updateMapBoxModel(result, index, '", classeVarId, "', '", classeVarEmplacement, "', '", classeVarAltitudeMetres, "', '", classeVarTangage, "', '", classeVarLacet, "', '", classeVarRoulis, "', '", classeVarRotation, "', '", classeVarGltf, "');");
+          auteurPageJs.tl(2, "});");
+          auteurPageJs.l();
+        } else if(classeVarEmplacement != null || classeVarAire != null) {
           auteurPageJs.l();
           auteurPageJs.tl(2, "// ", i18nClasse.getString(I18n.var_Graphique), " ", i18nClasse.getString(I18n.var_Emplacement));
           auteurPageJs.tl(2, "window.mapLayers = {};");
@@ -5571,6 +5590,18 @@ public class EcrirePageClasse extends EcrireApiClasse {
       tl(5, "{% block htmBody", i18nClasse.getString(I18n.var_Graphique), i18nClasse.getString(I18n.var_Emplacement), classePageNomSimple, " -%}");
       tl(5, "{% if ", varResultat, "Count > 0 -%}");
       tl(5, "<div id=\"htmBody", i18nClasse.getString(I18n.var_Graphique), i18nClasse.getString(I18n.var_Emplacement), classePageNomSimple, "\" class=\"", classe3d ? "mapbox-div " : "", "htmBody", i18nClasse.getString(I18n.var_Graphique), i18nClasse.getString(I18n.var_Emplacement), " \"></div>");
+      if(classe3d) {
+      tl(5, "<script>");
+      tl(6, "const token = '{{ MAPBOX_TOKEN }}';");
+      tl(6, "const zoom = {{ DEFAULT_MAP_ZOOM | default('18') }};");
+      tl(6, "const center = [-75.16784320599977, 40.04582463155066];");
+      tl(6, "const pitch = 60;");
+      tl(6, "const container = document.querySelector('.mapbox-div');");
+      tl(6, "const antialias = true;");
+      tl(6, "const style = 'mapbox://styles/mapbox/standard';");
+      tl(6, "const map = getMapBox(container, token, zoom, center, pitch, antialias, style);");
+      tl(5, "</script>");
+      }
       tl(5, "{% endif -%}");
       tl(5, "{% endblock htmBody", i18nClasse.getString(I18n.var_Graphique), i18nClasse.getString(I18n.var_Emplacement), classePageNomSimple, " -%}");
 
