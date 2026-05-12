@@ -2476,31 +2476,34 @@ public class EcrirePageClasse extends EcrireApiClasse {
           tl(1, "protected void _defaultPivotMinCount(", classePartsCouverture.nomSimple(langueNom), "<Integer> ", i18nPage.getString(I18n.var_cVar), ") {");
           tl(2, i18nPage.getString(I18n.var_cVar), ".o(Optional.ofNullable(", i18nPage.getString(I18n.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetPivotMinCount()).orElse(0));");
           tl(1, "}");
-          l();
-          if(classePageSuperNomSimple != null)
-            tl(1, "@Override");
-          tl(1, "protected void _location(", classePartsCouverture.nomSimple(langueNom), "<JsonObject> ", i18nPage.getString(I18n.var_cVar), ") {");
-          if(classeVarEmplacement != null) {
-            tl(2, "Point point = ", classeNomSimple, ".staticSet", StringUtils.capitalize(classeVarEmplacement), "(", i18nPage.getString(I18n.var_requeteSite), "_, Optional.ofNullable(", i18nPage.getString(I18n.var_requeteSite), "_.get", i18nPage.getString(I18n.var_Requete), "Vars().get(VAR_location)).orElse(", i18nPage.getString(I18n.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_LOCATION)));");
-            tl(2, "w.o(new JsonObject().put(\"type\", \"Point\").put(\"coordinates\", new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))));");
+
+          if(classeVarEmplacement != null || classeVarAire != null) {
+            l();
+            if(classePageSuperNomSimple != null)
+              tl(1, "@Override");
+            tl(1, "protected void _location(", classePartsCouverture.nomSimple(langueNom), "<JsonObject> ", i18nPage.getString(I18n.var_cVar), ") {");
+            if(classeVarEmplacement != null) {
+              tl(2, "Point point = ", classeNomSimple, ".staticSet", StringUtils.capitalize(classeVarEmplacement), "(", i18nPage.getString(I18n.var_requeteSite), "_, Optional.ofNullable(", i18nPage.getString(I18n.var_requeteSite), "_.get", i18nPage.getString(I18n.var_Requete), "Vars().get(VAR_location)).orElse(", i18nPage.getString(I18n.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_LOCATION)));");
+              tl(2, "w.o(new JsonObject().put(\"type\", \"Point\").put(\"coordinates\", new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))));");
+            }
+            tl(1, "}");
+            l();
+            if(classePageSuperNomSimple != null)
+              tl(1, "@Override");
+            tl(1, "protected void _zoom(", classePartsCouverture.nomSimple(langueNom), "<BigDecimal> ", i18nPage.getString(I18n.var_cVar), ") {");
+            tl(2, "String s = Optional.ofNullable(", i18nPage.getString(I18n.var_requeteSite), "_.get", i18nPage.getString(I18n.var_Requete), "Vars().get(VAR_zoom)).orElse(", i18nPage.getString(I18n.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_ZOOM));");
+            tl(2, "if(s != null)");
+            tl(3, i18nPage.getString(I18n.var_cVar), ".o(new BigDecimal(s));");
+            tl(1, "}");
+            l();
+            if(classePageSuperNomSimple != null)
+              tl(1, "@Override");
+            tl(1, "protected void _pitch(", classePartsCouverture.nomSimple(langueNom), "<Quantity<Angle>> ", i18nPage.getString(I18n.var_cVar), ") {");
+            tl(2, "String s = Optional.ofNullable(", i18nPage.getString(I18n.var_requeteSite), "_.get", i18nPage.getString(I18n.var_Requete), "Vars().get(VAR_pitch)).orElse(", i18nPage.getString(I18n.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_PITCH));");
+            tl(2, "if(s != null)");
+            tl(3, i18nPage.getString(I18n.var_cVar), ".o(staticSetPitch(s));");
+            tl(1, "}");
           }
-          tl(1, "}");
-          l();
-          if(classePageSuperNomSimple != null)
-            tl(1, "@Override");
-          tl(1, "protected void _zoom(", classePartsCouverture.nomSimple(langueNom), "<BigDecimal> ", i18nPage.getString(I18n.var_cVar), ") {");
-          tl(2, "String s = Optional.ofNullable(", i18nPage.getString(I18n.var_requeteSite), "_.get", i18nPage.getString(I18n.var_Requete), "Vars().get(VAR_zoom)).orElse(", i18nPage.getString(I18n.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_ZOOM));");
-          tl(2, "if(s != null)");
-          tl(3, i18nPage.getString(I18n.var_cVar), ".o(new BigDecimal(s));");
-          tl(1, "}");
-          l();
-          if(classePageSuperNomSimple != null)
-            tl(1, "@Override");
-          tl(1, "protected void _pitch(", classePartsCouverture.nomSimple(langueNom), "<Quantity<Angle>> ", i18nPage.getString(I18n.var_cVar), ") {");
-          tl(2, "String s = Optional.ofNullable(", i18nPage.getString(I18n.var_requeteSite), "_.get", i18nPage.getString(I18n.var_Requete), "Vars().get(VAR_pitch)).orElse(", i18nPage.getString(I18n.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_PITCH));");
-          tl(2, "if(s != null)");
-          tl(3, i18nPage.getString(I18n.var_cVar), ".o(staticSetPitch(s));");
-          tl(1, "}");
         } else {
           l();
           if(classePageSuperNomSimple != null)
