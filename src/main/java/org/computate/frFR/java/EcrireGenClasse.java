@@ -41,6 +41,7 @@ import javax.measure.Quantity;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.text.translate.AggregateTranslator;
 import org.apache.commons.text.translate.CharSequenceTranslator;
@@ -7073,20 +7074,23 @@ public class EcrireGenClasse extends EcrireClasse {
       }
     });
 
-    Arrays.asList(String.format(jsonObject2.getString(champ2), formatValues).split("\n")).stream().forEach(s -> {
-      b.append(s).append("\n");
-    });
-    if(condition && !"01_commentaire".equals(champ1)) {
-      String rendered = jinjava.render(b.toString(), ctx);
-      if("suggere".equals(champ2) || "todo".equals(champ2)) {
-        w.s("<li>", rendered, "</li>");
-      } else {
-        w.s(rendered);
+    try {
+      Arrays.asList(String.format(jsonObject2.getString(champ2), formatValues).split("\n")).stream().forEach(s -> {
+        b.append(s).append("\n");
+      });
+      if(condition && !"01_commentaire".equals(champ1)) {
+        String rendered = jinjava.render(b.toString(), ctx);
+        if("suggere".equals(champ2) || "todo".equals(champ2)) {
+          w.s("<li>", rendered, "</li>");
+        } else {
+          w.s(rendered);
+        }
       }
+      if(!"todo".equals(champ2))
+        jsonObject2Langue.put(champ2, b.toString());
+    } catch(Throwable ex) {
+      LOG.error(String.format("Error occured while formatting field %s %s data %s with format values %s", champ1, champ2, jsonObject2.getString(champ2), Arrays.toString(formatValues)), ex);
     }
-    if(!"todo".equals(champ2))
-      jsonObject2Langue.put(champ2, b.toString());
-    
   }
 
   public void ecrireClasseCommentaireChamp2(Jinjava jinjava, String langueNom, JsonObject jsonObject, String champ1, ToutEcrivain w, Object valeur) {
