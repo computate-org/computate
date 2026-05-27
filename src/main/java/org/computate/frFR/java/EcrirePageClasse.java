@@ -200,7 +200,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
           entiteHtmLigneVerticaleActuelMap.put(classeApiMethodeMethode, true);
           // wForm.tl(7, "<!-- BooleanUtils.isTrue(entiteHtmLigneVerticale) -->");
           if(!entiteHtmLigneTitreAncien.equals(entiteHtmLigneTitreActuel)) {
-            wForm.t(6, "<", composantsWebPrefixe, "details ", entiteHtmLigneTitreOuvert == null ? "" : "open ", "class=\"", i18nGlobale.getString(I18n.var_HtmLigne), "\" id=\"").sx(genererId(entiteHtmLigneTitre)).l("\">");
+            wForm.t(6, "<", composantsWebPrefixe, "details ", entiteHtmLigneTitreOuvert == null ? "{% if CONTENT_TYPE_PDF is defined and CONTENT_TYPE_PDF %}style=\"display: none; \" {% endif %}" : "open ", "class=\"", entiteHtmLigneTitreOuvert == null ? "{% if CONTENT_TYPE_PDF is defined and CONTENT_TYPE_PDF %}display-none {% endif %}" : "pdf-page-break-after ", i18nGlobale.getString(I18n.var_HtmLigne), "\" id=\"").sx(genererId(entiteHtmLigneTitre)).l("\">");
             wForm.tl(7, "<div slot=\"summary\">");
             wForm.t(8, "<span>");
             wForm.sx(entiteHtmLigneTitre);
@@ -235,7 +235,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
         } else {
           entiteHtmLigneVerticaleActuelMap.put(classeApiMethodeMethode, false);
           if(!entiteHtmLigneTitreAncien.equals(entiteHtmLigneTitreActuel)) {
-            wForm.t(6, "<", composantsWebPrefixe, "details ", entiteHtmLigneTitreOuvert == null ? "" : "open ", "class=\"", i18nGlobale.getString(I18n.var_HtmLigne), "\" id=\"").sx(genererId(entiteHtmLigneTitre)).l("\">");
+            wForm.t(6, "<", composantsWebPrefixe, "details ", entiteHtmLigneTitreOuvert == null ? "" : "open ", "class=\"", entiteHtmLigneTitreOuvert == null ? "{% if CONTENT_TYPE_PDF is defined and CONTENT_TYPE_PDF %}display-none {% endif %}" : "pdf-page-break-after ", entiteHtmLigneTitreOuvert == null ? "{% if CONTENT_TYPE_PDF is defined and CONTENT_TYPE_PDF %}display-none {% endif %}" : "", i18nGlobale.getString(I18n.var_HtmLigne), "\" id=\"").sx(genererId(entiteHtmLigneTitre)).l("\">");
             wForm.tl(7, "<div slot=\"summary\">");
             wForm.t(8, "<span>");
             wForm.sx(entiteHtmLigneTitre);
