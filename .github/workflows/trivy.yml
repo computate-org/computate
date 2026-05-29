@@ -1,0 +1,19 @@
+name: Security Scan
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  trivy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master  # Or use a specific version like v0.28.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          exit-code: '1' # Fails the build if vulnerabilities are found
+          severity: 'CRITICAL,HIGH'
