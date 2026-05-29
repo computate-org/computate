@@ -5,7 +5,6 @@
   <parent>
     <groupId>org.computate</groupId>
     <artifactId>computate-base</artifactId>
-    <relativePath>../computate-base/pom.xml</relativePath>
     <version>4.5.27.1</version>
   </parent>
 
