@@ -5049,6 +5049,62 @@ public class EcrireApiClasse extends EcrireGenClasse {
       /////////////
       l();
       if(classeModele) {
+        tl(1, "public Future<JsonObject> upsert", classeNomSimple, "(", classeNomSimple, " o, Boolean ", i18nGlobale.getString(I18n.var_inheritClePrimaire), ", Boolean patch) {");
+        tl(2, "Promise<JsonObject> promise = Promise.promise();");
+        tl(2, "try {");
+        tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", i18nGlobale.getString(I18n.var_requeteSite), " = o.get", i18nGlobale.getString(I18n.var_RequeteSite), "_();");
+        tl(3, "ServiceRequest ", i18nGlobale.getString(I18n.var_requeteService), " = ", i18nGlobale.getString(I18n.var_requeteSite), ".get", i18nGlobale.getString(I18n.var_RequeteService), "();");
+        tl(3, "if(Optional.ofNullable(", i18nGlobale.getString(I18n.var_requeteService), ".getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getJsonArray(\"var\")).orElse(new JsonArray()).stream().filter(s -> \"refresh:false\".equals(s)).count() > 0L) {");
+        tl(4, "promise.complete();");
+        tl(3, "} else {");
+        tl(4, "JsonObject json = o.getSiteRequest_().getJsonObject();");
+        for(Integer i = 0; i < classeRessourcesAutorisationVar.size(); i++) {
+          Integer iEtape = i * 2;
+          String classeRessourceAutorisationVar = classeRessourcesAutorisationVar.get(i);
+          String classeRessourceAutorisationNomSimple = classeRessourcesAutorisationNomSimple.get(i);
+          tl(4 + iEtape, "String old_", classeRessourceAutorisationVar, " = ", classeNomSimple, ".staticJson", StringUtils.capitalize(classeRessourceAutorisationVar), "(o.get", StringUtils.capitalize(classeRessourceAutorisationVar), "());");
+          tl(4 + iEtape, "String new_", classeRessourceAutorisationVar, " = json.getString(", classeRessourceAutorisationNomSimple, ".varJson(", classeRessourceAutorisationNomSimple, ".VAR_", classeRessourceAutorisationVar, ", patch));");
+          tl(4 + iEtape, "String ", classeRessourceAutorisationVar, " = Optional.ofNullable(new_", classeRessourceAutorisationVar, ").orElse(old_", classeRessourceAutorisationVar, ");");
+          tl(4 + iEtape, classeRessourceAutorisationNomSimple, ".fq", classeRessourceAutorisationNomSimple, "(siteRequest, ", classeRessourceAutorisationNomSimple, ".VAR_", classeRessourceAutorisationVar, ", ", classeRessourceAutorisationVar, ").onSuccess(o", classeRessourceAutorisationNomSimple, " -> {");
+          tl(5 + iEtape, "try {");
+          tl(6 + iEtape, "if(o", classeRessourceAutorisationNomSimple, " == null) {");
+          tl(7 + iEtape, "RuntimeException ex = new RuntimeException(String.format(\"Could not find a matching ", classeRessourceAutorisationNomSimple, " %s\", ", classeRessourceAutorisationVar, "));");
+          tl(7 + iEtape, "LOG.error(ex.getMessage(), ex);");
+          tl(7 + iEtape, "promise.fail(ex);");
+          tl(6 + iEtape, "} else {");
+          tl(7 + iEtape, "json.put(", classeRessourceAutorisationNomSimple, ".varJson(", classeRessourceAutorisationNomSimple, ".VAR_", classeRessourceAutorisationVar, ", patch), ", classeRessourceAutorisationVar, ");");
+        }
+        Integer jEtape = (classeRessourcesAutorisationVar.size() - 1) * 2;
+        for(Integer i = 0; i < classeEntiteDefinirVars.size(); i++) {
+          String classeEntiteDefinirVar = classeEntiteDefinirVars.get(i);
+          String classeEntiteDefinirNomSimpleVertxJson = classeEntiteDefinirNomsSimplesVertxJson.get(i);
+          l();
+          tl(7 + jEtape, classeEntiteDefinirNomSimpleVertxJson, " old_", classeEntiteDefinirVar, " = ", classeNomSimple, ".staticJson", StringUtils.capitalize(classeEntiteDefinirVar), "(o.get", StringUtils.capitalize(classeEntiteDefinirVar), "());");
+          tl(7 + jEtape, classeEntiteDefinirNomSimpleVertxJson, " new_", classeEntiteDefinirVar, " = json.get", classeEntiteDefinirNomSimpleVertxJson, "(", classeNomSimple, ".varJson(", classeNomSimple, ".VAR_", classeEntiteDefinirVar, ", patch));");
+          tl(7 + jEtape, classeEntiteDefinirNomSimpleVertxJson, " ", classeEntiteDefinirVar, " = Optional.ofNullable(Optional.ofNullable(new_", classeEntiteDefinirVar, ").orElse(old_", classeEntiteDefinirVar, ")).orElse(null);");
+          tl(7 + jEtape, "json.put(", classeNomSimple, ".varJson(", classeNomSimple, ".VAR_", classeEntiteDefinirVar, ", patch), ", classeEntiteDefinirVar, ");");
+        }
+        l();
+        tl(7 + jEtape, "promise.complete(json);");
+        for(Integer i = classeRessourcesAutorisationVar.size() - 1; i >= 0; i--) {
+          Integer iEtape = i * 2;
+          tl(6 + iEtape, "}");
+          tl(5 + iEtape, "} catch(Exception ex) {");
+          tl(6 + iEtape, "LOG.error(String.format(\"upsert", classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+          tl(6 + iEtape, "promise.tryFail(ex);");
+          tl(5 + iEtape, "}");
+          tl(4, "}).onFailure(ex -> {");
+          tl(5, "promise.fail(ex);");
+          tl(4, "});");
+        }
+        tl(3, "}");
+        tl(2, "} catch(Exception ex) {");
+        tl(3, "LOG.error(String.format(\"upsert", classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+        tl(3, "promise.tryFail(ex);");
+        tl(2, "}");
+        tl(2, "return promise.future();");
+        tl(1, "}");
+        l();
         tl(1, "public Future<Void> ", i18nGlobale.getString(I18n.var_definir), classeNomSimple, "(", classeNomSimple, " o, Boolean patch) {");
         tl(2, "Promise<Void> promise = Promise.promise();");
         tl(2, "try {");

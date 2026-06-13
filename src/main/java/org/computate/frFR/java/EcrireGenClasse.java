@@ -226,6 +226,9 @@ public class EcrireGenClasse extends EcrireClasse {
   protected String classeVarSauvegardes;
 
   protected List<String> classeRessourcesAutorisation;
+  protected List<String> classeRessourcesAutorisationVar;
+  protected List<String> classeRessourcesAutorisationNomSimple;
+  protected List<String> classeRessourcesAutorisationRessource;
   protected String classeVarId;
   protected String classeVarIdSuffixeSolr;
   protected String classeVarNomSuffixeSolr;
@@ -430,6 +433,8 @@ public class EcrireGenClasse extends EcrireClasse {
    * Var.enUS: classEntityVars
    */ 
   protected List<String> classeEntiteVars;
+  protected List<String> classeEntiteDefinirVars;
+  protected List<String> classeEntiteDefinirNomsSimplesVertxJson;
   protected List<String> classeImporterNull;
 
   /**

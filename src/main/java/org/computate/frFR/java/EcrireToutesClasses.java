@@ -269,6 +269,9 @@ public class EcrireToutesClasses extends EcrirePageClasse {
     classeVarInheritClePrimaireCapitalise = StringUtils.capitalize(classeVarInheritClePrimaire);
     classeVarSauvegardes = doc.getString("classeVarSauvegardes_" + langueNom + "_stored_string");
     classeRessourcesAutorisation = Optional.ofNullable(doc.getJsonArray("classeRessourcesAutorisation_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList()).stream().map(v -> (String)v).collect(Collectors.toList());
+    classeRessourcesAutorisationVar = Optional.ofNullable(doc.getJsonArray("classeRessourcesAutorisationVar_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList()).stream().map(v -> (String)v).collect(Collectors.toList());
+    classeRessourcesAutorisationNomSimple = Optional.ofNullable(doc.getJsonArray("classeRessourcesAutorisationNomSimple_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList()).stream().map(v -> (String)v).collect(Collectors.toList());
+    classeRessourcesAutorisationRessource = Optional.ofNullable(doc.getJsonArray("classeRessourcesAutorisationRessource_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList()).stream().map(v -> (String)v).collect(Collectors.toList());
     classeVarId = doc.getString("classeVarId_" + langueNom + "_stored_string");
     classeVarIdSuffixeSolr = doc.getString("classeVarIdSuffixeSolr_stored_string");
     classeVarNomSuffixeSolr = doc.getString("classeVarNomSuffixeSolr_stored_string");
@@ -407,8 +410,15 @@ public class EcrireToutesClasses extends EcrirePageClasse {
     classeFiltresTrouves = BooleanUtils.isTrue((Boolean)doc.getBoolean("classeFiltresTrouves_stored_boolean"));
     classeFiltres = Optional.ofNullable(doc.getJsonArray("classeFiltres_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
     classeImporterNull = Optional.ofNullable(doc.getJsonArray("classeImporterNull_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+    classeEntiteVars = Optional.ofNullable(doc.getJsonArray("classeEntiteVars_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
     if(classeEntiteVars == null)
       classeEntiteVars = new ArrayList<>();
+    classeEntiteDefinirVars = Optional.ofNullable(doc.getJsonArray("classeEntiteDefinirVars_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+    if(classeEntiteDefinirVars == null)
+      classeEntiteDefinirVars = new ArrayList<>();
+    classeEntiteDefinirNomsSimplesVertxJson = Optional.ofNullable(doc.getJsonArray("classeEntiteDefinirNomsSimplesVertxJson_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+    if(classeEntiteDefinirNomsSimplesVertxJson == null)
+      classeEntiteDefinirNomsSimplesVertxJson = new ArrayList<>();
     classeMethodeVars = Optional.ofNullable(doc.getJsonArray("classeMethodeVars_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
     if(classeMethodeVars == null)
       classeMethodeVars = new ArrayList<>();

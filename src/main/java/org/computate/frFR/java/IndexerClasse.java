@@ -3821,8 +3821,9 @@ public class IndexerClasse extends RegarderClasseBase {
             Matcher classeRessourcesAutorisationRecherche = methodeCommentaire == null ? null : Pattern.compile("^" + i18nGlobale.getString(I18n.var_RessourceAutorisation) + ": (.*)", Pattern.MULTILINE).matcher(methodeCommentaire);
             boolean classeRessourcesAutorisationTrouves = classeRessourcesAutorisationRecherche == null ? false : classeRessourcesAutorisationRecherche.find();
             boolean classeRessourcesAutorisationTrouvesActuel = classeRessourcesAutorisationTrouves;
+            String classeRessourceAutorisation = null;
             while(classeRessourcesAutorisationTrouvesActuel) {
-              String classeRessourceAutorisation = classeRessourcesAutorisationRecherche.group(1);
+              classeRessourceAutorisation = classeRessourcesAutorisationRecherche.group(1);
               stockerListeSolr(classeDoc, "classeRessourcesAutorisation", String.format("%s-%s", classeRessourceAutorisation, entiteVar));
               classeRessourcesAutorisationTrouves = true;
               classeRessourcesAutorisationTrouvesActuel = classeRessourcesAutorisationRecherche.find();
@@ -3895,6 +3896,10 @@ public class IndexerClasse extends RegarderClasseBase {
                   indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomSimpleGenApiServiceImpl", entiteAttribuerNomSimpleGenApiServiceImpl);
                   indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomSimpleApiServiceImpl", entiteAttribuerNomSimpleApiServiceImpl);
                   indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVar", entiteAttribuerVar);
+                  if(classeRessourceAutorisation != null)
+                    stockerListeSolr(classeDoc, "classeRessourcesAutorisationVar", entiteVar);
+                    stockerListeSolr(classeDoc, "classeRessourcesAutorisationNomSimple", entiteAttribuerNomSimple);
+                    stockerListeSolr(classeDoc, "classeRessourcesAutorisationRessource", classeRessourceAutorisation);
                   {
                     List<String> listeVal = Optional.ofNullable((List<String>)docClasse.get("classeTrisVar_" + classeLangueNom + "_stored_strings")).orElse(Collections.emptyList());
                     List<String> listeSuffixeType = Optional.ofNullable((List<String>)docClasse.get("classeTrisSuffixeType_stored_strings")).orElse(Collections.emptyList());
@@ -4296,6 +4301,10 @@ public class IndexerClasse extends RegarderClasseBase {
                 classePartsGenAjouter(ClasseParts.initClasseParts(this, entiteNomCanoniqueVertxJson, classeLangueNom), classeLangueNom);
                 stockerSolr(entiteDoc, "entiteNomSimpleVertxJson", entiteNomSimpleVertxJson);
                 stockerSolr(entiteDoc, "entiteNomCanoniqueVertxJson", entiteNomCanoniqueVertxJson);
+              }
+              if(entiteDefinir && !entiteAttribuerTrouve) {
+                indexerStockerListeSolr(classeDoc, "classeEntiteDefinirVars", entiteVar);
+                indexerStockerListeSolr(classeDoc, "classeEntiteDefinirNomsSimplesVertxJson", entiteNomSimpleVertxJson);
               }
             }
 
