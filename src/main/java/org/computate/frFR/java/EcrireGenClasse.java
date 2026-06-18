@@ -505,6 +505,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
   protected ToutEcrivain wPorteesFiltres;
   protected ToutEcrivain wPageTemplates;
+  protected ToutEcrivain wUpsert;
   protected ToutEcrivain wApiGet;
 
   /**
@@ -917,6 +918,7 @@ public class EcrireGenClasse extends EcrireClasse {
   protected String classeEntiteCouleur;
 
   protected String classeIcone;
+  protected String classeMessage;
 
   protected Integer classeLignes;
   protected Integer classeOrdre;
@@ -1043,6 +1045,7 @@ public class EcrireGenClasse extends EcrireClasse {
   String entiteFormatHtm;
   String entiteIcone;
   String entiteCookie;
+  List<String> entiteVarsMessage;
 
   /**
    * Var.enUS: entityDescription
@@ -1455,6 +1458,7 @@ public class EcrireGenClasse extends EcrireClasse {
     wPageEntites = ToutEcrivain.create();
     wPorteesFiltres = ToutEcrivain.create();
     wPageTemplates = ToutEcrivain.create();
+    wUpsert = ToutEcrivain.create();
     wApiGet = ToutEcrivain.create();
     wApiGenererGet = ToutEcrivain.create();
     wApiAvantPost = ToutEcrivain.create();

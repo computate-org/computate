@@ -438,6 +438,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
               entiteAttribuerPublicLire = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuerPublicLire_stored_boolean"));
               entiteAttribuerClasseRoles = (List<String>)doc.get("entiteAttribuerClasseRoles_stored_strings");
               entiteAttribuerClasseRolesLangue = (List<String>)doc.get("entiteAttribuerClasseRolesLangue_stored_strings");
+              entiteVarsMessage = (List<String>)doc.get("entiteVarsMessage_stored_strings");
               entiteDefinir = (Boolean)doc.get("entiteDefinir_stored_boolean");
               entiteModifier = (Boolean)doc.get("entiteModifier_stored_boolean");
               entiteSuffixeType = (String)doc.get("entiteSuffixeType_stored_string");
@@ -484,6 +485,38 @@ public class EcrireApiClasse extends EcrireGenClasse {
                   wPageTemplates.tl(3, "o.persistForClass(", classeNomSimple, ".VAR_", entiteVar, ", ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", i18nGlobale.getString(I18n.var_requeteSite), "2, (String)", i18nGlobale.getString(I18n.var_resultat), ".get(", classeNomSimple, ".VAR_", entiteVar, ")));");
                 }
                 
+              }
+              //stuff10
+              if(entiteDefinir && !BooleanUtils.isTrue(entiteAttribuer)) {
+                Integer jEtape = (classeRessourcesAutorisationVar.size() - 1) * 2;
+                wUpsert.l();
+                wUpsert.tl(7 + jEtape, entiteNomSimpleVertxJson, " old_", entiteVar, " = ", classeNomSimple, ".staticJson", StringUtils.capitalize(entiteVar), "(o.get", StringUtils.capitalize(entiteVar), "());");
+                wUpsert.tl(7 + jEtape, entiteNomSimpleVertxJson, " new_", entiteVar, " = json.get", entiteNomSimpleVertxJson, "(", classeNomSimple, ".varJson(", classeNomSimple, ".VAR_", entiteVar, ", patch));");
+                wUpsert.tl(7 + jEtape, entiteNomSimpleVertxJson, " ", entiteVar, " = Optional.ofNullable(Optional.ofNullable(new_", entiteVar, ").orElse(old_", entiteVar, ")).orElse(null);");
+                if(classeMessage != null && entiteVarsMessage != null && entiteVarsMessage.size() > 0) {
+                  if(!entitePromesse) {
+                    wUpsert.tl(7 + jEtape, "if(json.containsKey(", classeNomSimple, ".varJson(", classeNomSimple, ".VAR_", entiteVar, ", patch)) && StringUtils.isEmpty(new_", entiteVar, ")) {");
+                    wUpsert.t(8 + jEtape, classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, "> ", entiteVar, classePartsCouverture.nomSimple(langueNom));
+                    wUpsert.l(" = new ", classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, ">().var(", classeNomSimple, ".VAR_", entiteVar, ");");
+                    wUpsert.tl(8 + jEtape, "o._", entiteVar, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ");");
+                    wUpsert.tl(8 + jEtape, "new_", entiteVar, " = ", entiteVar, classePartsCouverture.nomSimple(langueNom), ".getO();");
+                    wUpsert.tl(8 + jEtape, "if(!Objects.equals(old_", entiteVar, ", new_", entiteVar, ")) {");
+                    wUpsert.t(9 + jEtape, "message", classeNomSimple, "(o, ", classeNomSimple, ".VAR_", entiteVar, ", new_", entiteVar);
+                    for(String entiteVarMessage : entiteVarsMessage)
+                      wUpsert.s(", ", classeNomSimple, ".VAR_", entiteVarMessage);
+                    wUpsert.l(");");
+                    wUpsert.tl(8 + jEtape, "}");
+                    wUpsert.tl(8 + jEtape, "json.put(", classeNomSimple, ".varJson(", classeNomSimple, ".VAR_", entiteVar, ", patch), new_", entiteVar, ");");
+                    wUpsert.tl(7 + jEtape, "} else if(!Objects.equals(old_", entiteVar, ", ", entiteVar, ")) {");
+                    wUpsert.t(8 + jEtape, "message", classeNomSimple, "(o, ", classeNomSimple, ".VAR_", entiteVar, ", new_", entiteVar);
+                    for(String entiteVarMessage : entiteVarsMessage)
+                      wUpsert.s(", ", classeNomSimple, ".VAR_", entiteVarMessage);
+                    wUpsert.l(");");
+                    wUpsert.tl(7 + jEtape, "}");
+                  }
+                } else {
+                  wUpsert.tl(7 + jEtape, "// json.put(", classeNomSimple, ".varJson(", classeNomSimple, ".VAR_", entiteVar, ", patch), ", entiteVar, ");");
+                }
               }
   
               /////////////////
@@ -5047,6 +5080,34 @@ public class EcrireApiClasse extends EcrireGenClasse {
       /////////////
       // definir //
       /////////////
+      if(classeMessage != null) {
+        l();
+        tl(1, "public void message", classeNomSimple, "(", classeNomSimple, " o, String upsertVar, String upsertContent, String ... messageVars) {");
+        tl(2, "try {");
+        tl(3, "JsonObject body = new JsonObject()");
+        tl(5, ".put(\"messageContent\", new JsonArray(Arrays.asList(messageVars).stream().map(messageVar -> messageVar.equals(upsertVar) ? upsertContent : o.", i18nGlobale.getString(I18n.var_obtenir), i18nGlobale.getString(I18n.var_PourClasse), "(messageVar)).toList()))");
+        tl(5, ".put(\"messageVars\", new JsonArray(Arrays.asList(messageVars)))");
+        tl(5, ".put(\"messageFilterVar\", ", classeNomSimple, ".VAR_trustResource)");
+        tl(5, ".put(\"messageFilterId\", o.get", StringUtils.capitalize(classeVarId), "())");
+        tl(5, ".put(\"patchApiAddress\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_API_ADDRESSE), "_", classeNomSimple, ")");
+        tl(5, ".put(\"patchApiAction\", String.format(\"patch%sFuture\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), "))");
+        tl(5, ".put(\"classSimpleName\", ", classeNomSimple, ".", i18nGlobale.getString(I18n.var_CLASSE_NOM_SIMPLE), ")");
+        tl(3, ";");
+        tl(3, "JsonObject params = new JsonObject();");
+        tl(3, "params.put(\"body\", body);");
+        tl(3, "params.put(\"path\", new JsonObject());");
+        tl(3, "params.put(\"cookie\", new JsonObject());");
+        tl(3, "params.put(\"header\", new JsonObject());");
+        tl(3, "params.put(\"form\", new JsonObject());");
+        tl(3, "params.put(\"query\", new JsonObject());");
+        tl(3, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", null);");
+        tl(3, "JsonObject json = new JsonObject().put(\"context\", context);");
+        tl(3, "vertx.eventBus().send(\"", classeMessage, "\", json, new DeliveryOptions());");
+        tl(2, "} catch(Exception ex) {");
+        tl(3, "throw new RuntimeException(String.format(\"message", classeNomSimple, " ", i18nGlobale.getString(I18n.str_a_échoué), ". \"), ex);");
+        tl(2, "}");
+        tl(1, "}");
+      }
       l();
       if(classeModele) {
         tl(1, "public Future<JsonObject> upsert", classeNomSimple, "(", classeNomSimple, " o, Boolean ", i18nGlobale.getString(I18n.var_inheritClePrimaire), ", Boolean patch) {");
@@ -5075,15 +5136,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
           tl(7 + iEtape, "json.put(", classeRessourceAutorisationNomSimple, ".varJson(", classeRessourceAutorisationNomSimple, ".VAR_", classeRessourceAutorisationVar, ", patch), ", classeRessourceAutorisationVar, ");");
         }
         Integer jEtape = (classeRessourcesAutorisationVar.size() - 1) * 2;
-        for(Integer i = 0; i < classeEntiteDefinirVars.size(); i++) {
-          String classeEntiteDefinirVar = classeEntiteDefinirVars.get(i);
-          String classeEntiteDefinirNomSimpleVertxJson = classeEntiteDefinirNomsSimplesVertxJson.get(i);
-          l();
-          tl(7 + jEtape, classeEntiteDefinirNomSimpleVertxJson, " old_", classeEntiteDefinirVar, " = ", classeNomSimple, ".staticJson", StringUtils.capitalize(classeEntiteDefinirVar), "(o.get", StringUtils.capitalize(classeEntiteDefinirVar), "());");
-          tl(7 + jEtape, classeEntiteDefinirNomSimpleVertxJson, " new_", classeEntiteDefinirVar, " = json.get", classeEntiteDefinirNomSimpleVertxJson, "(", classeNomSimple, ".varJson(", classeNomSimple, ".VAR_", classeEntiteDefinirVar, ", patch));");
-          tl(7 + jEtape, classeEntiteDefinirNomSimpleVertxJson, " ", classeEntiteDefinirVar, " = Optional.ofNullable(Optional.ofNullable(new_", classeEntiteDefinirVar, ").orElse(old_", classeEntiteDefinirVar, ")).orElse(null);");
-          tl(7 + jEtape, "json.put(", classeNomSimple, ".varJson(", classeNomSimple, ".VAR_", classeEntiteDefinirVar, ", patch), ", classeEntiteDefinirVar, ");");
-        }
+        //stuff10
+        s(wUpsert);
         l();
         tl(7 + jEtape, "promise.complete(json);");
         for(Integer i = classeRessourcesAutorisationVar.size() - 1; i >= 0; i--) {

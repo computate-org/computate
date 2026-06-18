@@ -433,6 +433,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
     classeCouleur = doc.getString("classeCouleur_stored_string");
     classeEntiteCouleur = doc.getString("classeEntiteCouleur_stored_string");
     classeIcone = doc.getString("classeIcone_stored_string");
+    classeMessage = doc.getString("classeMessage_stored_string");
     classeLignes = (Integer)doc.getInteger("classeLignes_stored_int");
     classeOrdre = (Integer)doc.getInteger("classeOrdre_stored_int");
     classeOrdreSql = (Integer)doc.getInteger("classeOrdreSql_stored_int");

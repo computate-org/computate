@@ -712,6 +712,7 @@ public class IndexerClasse extends RegarderClasseBase {
   private String classeCouleur;
 
   private String classeIcone;
+  private String classeMessage;
 
   private Integer classeLignes;
   private Integer classeOrdre;
@@ -3662,6 +3663,10 @@ public class IndexerClasse extends RegarderClasseBase {
             indexerStockerSolr(entiteDoc, "entiteIcone", regex("^" + i18nGlobale.getString(I18n.var_Icone) + ": (.*)", methodeCommentaire, 1));
             indexerStockerSolr(entiteDoc, "entiteLien", regexTrouve("^" + i18nGlobale.getString(I18n.var_Lien) + ": (true)$", methodeCommentaire));
             indexerStockerSolr(entiteDoc, "entiteCookie", regex("^" + i18nGlobale.getString(I18n.var_Cookie) + ": (.*)", methodeCommentaire, 1));
+            List<String> entiteVarsMessage = Arrays.asList(Optional.ofNullable(regex("^" + i18nGlobale.getString(I18n.var_VarsMessage) + ": (.*)", methodeCommentaire, 1)).map(s -> s.replace(" ", "").split(",")).orElse(new String[0]));
+            for(String entiteVarMessage : entiteVarsMessage) {
+              indexerStockerListeSolr(entiteDoc, "entiteVarsMessage", entiteVarMessage);
+            }
             Boolean entiteCouleur = indexerStockerSolr(entiteDoc, "entiteCouleur", regexTrouve("^" + i18nGlobale.getString(I18n.var_Couleur) + ": (true)$", methodeCommentaire));
             if(entiteCouleur)
               indexerStockerSolr(classeDoc, "classeEntiteCouleur", entiteVar);
@@ -5923,6 +5928,14 @@ public class IndexerClasse extends RegarderClasseBase {
       if(NumberUtils.isParsable(classeLignesStr))
         classeLignes = indexerStockerSolr(classeDoc, "classeLignes", Integer.parseInt(classeLignesStr)); 
 
+
+      classePartsGenApi.clear();
+      classeMessage = regex("^" + i18nGlobale.getString(I18n.var_Message) + ": (.*)", classeCommentaire);
+      if(classeMessage != null) {
+        indexerStockerSolr(classeDoc, "classeMessage", classeMessage); 
+        classePartsGenApiAjouter(classePartsCouverture, classeLangueNom);
+      }
+
       for(String langueNom : toutesLangues) {
 
         classeVideoId = regexLangue(langueNom, i18nGlobale.getString(I18n.var_VideoId), classeCommentaire);
@@ -6182,8 +6195,6 @@ public class IndexerClasse extends RegarderClasseBase {
         String classeApiUri = indexerStockerSolrRegex(classeLangueNom, classeDoc, "classeApiUri", "ApiUri", classeCommentaire);
         String classeApiTag = indexerStockerSolrRegex(classeLangueNom, classeDoc, "classeApiTag", "ApiTag", classeCommentaire, classeNomAdjectifPluriel);
 
-        classePartsGenApi.clear();
-    
         if(classePartsRequeteSite.getEtendBase())
           classePartsGenApiAjouter(ClasseParts.initClasseParts(this, classePartsRequeteSite.getNomCanoniqueSuperGenerique(), classeLangueNom), classeLangueNom);
         else
