@@ -1045,6 +1045,7 @@ public class EcrireGenClasse extends EcrireClasse {
   String entiteFormatHtm;
   String entiteIcone;
   String entiteCookie;
+  String entiteFormatChaine;
   List<String> entiteVarsMessage;
 
   /**

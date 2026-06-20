@@ -3663,6 +3663,7 @@ public class IndexerClasse extends RegarderClasseBase {
             indexerStockerSolr(entiteDoc, "entiteIcone", regex("^" + i18nGlobale.getString(I18n.var_Icone) + ": (.*)", methodeCommentaire, 1));
             indexerStockerSolr(entiteDoc, "entiteLien", regexTrouve("^" + i18nGlobale.getString(I18n.var_Lien) + ": (true)$", methodeCommentaire));
             indexerStockerSolr(entiteDoc, "entiteCookie", regex("^" + i18nGlobale.getString(I18n.var_Cookie) + ": (.*)", methodeCommentaire, 1));
+            String entiteFormatChaine = indexerStockerSolr(entiteDoc, "entiteFormatChaine", regex("^" + i18nGlobale.getString(I18n.var_FormatChaine) + ": (.*)", methodeCommentaire, 1));
             List<String> entiteVarsMessage = Arrays.asList(Optional.ofNullable(regex("^" + i18nGlobale.getString(I18n.var_VarsMessage) + ": (.*)", methodeCommentaire, 1)).map(s -> s.replace(" ", "").split(",")).orElse(new String[0]));
             for(String entiteVarMessage : entiteVarsMessage) {
               indexerStockerListeSolr(entiteDoc, "entiteVarsMessage", entiteVarMessage);
